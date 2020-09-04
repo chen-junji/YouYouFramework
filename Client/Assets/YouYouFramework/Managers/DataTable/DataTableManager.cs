@@ -69,7 +69,6 @@ namespace YouYou
 		public Sys_EffectDBModel Sys_EffectDBModel { get; private set; }
 		public LocalizationDBModel LocalizationDBModel { get; private set; }
 		public Sys_PrefabDBModel Sys_PrefabDBModel { get; private set; }
-		public Sys_StorySoundDBModel Sys_StorySoundDBModel { get; private set; }
 		public Sys_UIFormDBModel Sys_UIFormDBModel { get; private set; }
 		public Sys_SceneDBModel Sys_SceneDBModel { get; private set; }
 		public Sys_SceneDetailDBModel Sys_SceneDetailDBModel { get; private set; }
@@ -82,7 +81,6 @@ namespace YouYou
 			Sys_EffectDBModel = new Sys_EffectDBModel();
 			LocalizationDBModel = new LocalizationDBModel();
 			Sys_PrefabDBModel = new Sys_PrefabDBModel();
-			Sys_StorySoundDBModel = new Sys_StorySoundDBModel();
 			Sys_UIFormDBModel = new Sys_UIFormDBModel();
 			Sys_SceneDBModel = new Sys_SceneDBModel();
 			Sys_SceneDetailDBModel = new Sys_SceneDetailDBModel();
@@ -98,7 +96,6 @@ namespace YouYou
 			Sys_EffectDBModel.LoadData();
 			LocalizationDBModel.LoadData();
 			Sys_PrefabDBModel.LoadData();
-			Sys_StorySoundDBModel.LoadData();
 			Sys_UIFormDBModel.LoadData();
 			Sys_SceneDBModel.LoadData();
 			Sys_SceneDetailDBModel.LoadData();
@@ -162,7 +159,6 @@ namespace YouYou
 			Sys_EffectDBModel.Clear();
 			LocalizationDBModel.Clear();
 			Sys_PrefabDBModel.Clear();
-			Sys_StorySoundDBModel.Clear();
 			Sys_UIFormDBModel.Clear();
 			Sys_SceneDBModel.Clear();
 			Sys_SceneDetailDBModel.Clear();

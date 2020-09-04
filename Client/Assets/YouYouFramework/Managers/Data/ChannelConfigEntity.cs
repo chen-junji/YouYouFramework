@@ -21,6 +21,8 @@ public class ChannelConfigEntity
 	/// 资源版本号
 	/// </summary>
 	public string SourceVersion = "1.0.0";
+	
+	public int InnerVersion;
 
 	/// <summary>
 	/// 资源地址

@@ -5,7 +5,7 @@
   <CurrServerId>0</CurrServerId>
   <MongoConnectionString>mongodb://127.0.0.1</MongoConnectionString>
   <RedisConnectionString>127.0.0.1:6379</RedisConnectionString>
-  <DataTablePath>F:\UnityProject\youyouMMO\trunk\Server\Release\DataTable</DataTablePath>
+  <DataTablePath>..\..\..\Release\DataTable</DataTablePath>
 
   <Servers>
     <Item ServerType="0" ServerId="1" Ip="192.168.0.107" Port ="1301" /> <!--中心服务器-->
