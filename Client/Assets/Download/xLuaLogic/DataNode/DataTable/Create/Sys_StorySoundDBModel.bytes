@@ -1,0 +1,41 @@
+--数据访问
+Sys_StorySoundDBModel = { }
+
+local this = Sys_StorySoundDBModel;
+
+local sys_storysoundTable = { }; --定义表格
+
+function Sys_StorySoundDBModel.LoadList()
+    GameInit.AddTotalLoadTableCount();
+    CS.YouYou.GameEntry.Lua:LoadDataTable("Sys_StorySound", this.LoadFormMS);
+end
+
+function Sys_StorySoundDBModel.LoadFormMS(ms)
+    local rows = ms:ReadInt();
+    ms:ReadInt();
+
+    for i = 0, rows, 1 do
+        sys_storysoundTable[#sys_storysoundTable + 1] = Sys_StorySoundEntity.New(
+                ms:ReadInt(),
+                ms:ReadUTF8String(),
+                ms:ReadUTF8String(),
+                ms:ReadUTF8String()
+        );
+    end
+    GameInit.LoadOneTableComplete();
+end
+
+function Sys_StorySoundDBModel.GetList()
+    return sys_storysoundTable;
+end
+
+function Sys_StorySoundDBModel.GetEntity(id)
+    local ret = nil;
+    for i = 1, #sys_storysoundTable, 1 do
+        if (sys_storysoundTable[i].Id == id) then
+            ret = sys_storysoundTable[i];
+            break;
+        end
+    end
+    return ret;
+end

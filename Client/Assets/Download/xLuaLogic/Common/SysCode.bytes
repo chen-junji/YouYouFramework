@@ -1,0 +1,21 @@
+SysCode = {
+
+    --连接超时
+    Connect_TimeOut = 10001,
+
+    --签名错误
+    SignError = 10002,
+
+    --注册失败 账号已存在
+    Reg_UserNameExists = 10003,
+
+    --登录失败 账号错误
+    Login_UnExists = 10004,
+
+    --请输入账号
+    Input_UserNameEmpty = 10005,
+
+    --请输入密码
+    Input_PwdEmpty = 10006,
+
+}

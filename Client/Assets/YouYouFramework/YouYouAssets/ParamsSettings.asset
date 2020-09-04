@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ead1d033e2ed04abcd0fb9eec905eb, type: 3}
+  m_Name: ParamsSettings
+  m_EditorClassIdentifier: 
+  WebAccountUrl: 
+  TestWebAccountUrl: http://localhost:8080/
+  IsTest: 1
+  GeneralParams: []
+  GradeParams:
+  - Key: targetFrameRate
+    LowValue: 30
+    MiddleValue: 60
+    HighValue: 120
+  - Key: Http_Retry
+    LowValue: 2
+    MiddleValue: 5
+    HighValue: 10
+  - Key: Http_RetryInterval
+    LowValue: 2
+    MiddleValue: 5
+    HighValue: 10
+  - Key: Download_Retry
+    LowValue: 2
+    MiddleValue: 5
+    HighValue: 10
+  - Key: Download_RoutineCount
+    LowValue: 3
+    MiddleValue: 5
+    HighValue: 10
+  - Key: Download_FlushSize
+    LowValue: 512
+    MiddleValue: 1024
+    HighValue: 2048
+  - Key: Pool_ReleaseClassObjectInterval
+    LowValue: 30
+    MiddleValue: 60
+    HighValue: 300
+  - Key: Pool_ReleaseAssetBundleInterval
+    LowValue: 30
+    MiddleValue: 60
+    HighValue: 300
+  - Key: Pool_ReleaseAssetInterval
+    LowValue: 60
+    MiddleValue: 120
+    HighValue: 600
+  - Key: UI_PoolMaxCount
+    LowValue: 3
+    MiddleValue: 5
+    HighValue: 10
+  - Key: UI_Expire
+    LowValue: 30
+    MiddleValue: 60
+    HighValue: 120
+  - Key: UI_ClearInterval
+    LowValue: 30
+    MiddleValue: 60
+    HighValue: 120
+  - Key: Lua_DataTableLife
+    LowValue: 30
+    MiddleValue: 60
+    HighValue: 120

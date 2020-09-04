@@ -1,0 +1,47 @@
+--这里要把常用的引擎类型都加入进来
+GameObject = CS.UnityEngine.GameObject;
+Color = CS.UnityEngine.Color;
+Vector3 = CS.UnityEngine.Vector3;
+Vector2 = CS.UnityEngine.Vector2;
+GameEntry = CS.YouYou.GameEntry;
+Time = CS.UnityEngine.Time;
+StringUtil = CS.StringUtil;
+GlobalPB = require 'pb'
+
+--协议分类
+ProtoCategory =
+{
+--客户端->网关服务器
+    Client2GatewayServer = 0,
+--网关服务器->客户端
+    GatewayServer2Client = 1,
+--客户端->中心服务器
+    Client2WorldServer = 2,
+
+--中心服务器->客户端
+    WorldServer2Client = 3,
+
+--客户端->游戏服务器
+    Client2GameServer = 4,
+
+--游戏服务器->客户端
+    GameServer2Client = 5,
+
+--游戏服务器>中心服务器
+    GameServer2WorldServer = 6,
+
+--中心服务器->游戏服务器
+    WorldServer2GameServer = 7,
+
+--网关服务器>中心服务器
+    GatewayServer2WorldServer = 8,
+
+--中心服务器->网关服务器
+    WorldServer2GatewayServer = 9,
+
+--网关服务器>游戏服务器
+    GatewayServer2GameServer = 10,
+
+--游戏服务器->网关服务器
+    GameServer2GatewayServer = 11
+}

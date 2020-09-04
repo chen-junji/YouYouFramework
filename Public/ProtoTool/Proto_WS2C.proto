@@ -1,0 +1,9 @@
+syntax = "proto3";
+package YouYou.Proto;
+
+//服务器返回创建角色消息
+message WS2C_ReturnCreateRole
+{
+    bool Result = 1;//结果
+    int64 RoleId = 2;//角色编号
+}

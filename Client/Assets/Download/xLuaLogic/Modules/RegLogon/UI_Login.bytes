@@ -1,0 +1,63 @@
+function OnInit(transform, userData)
+    btnLogin.onClick:AddListener(function()
+
+        if(StringUtil.IsNullOrEmpty(inputUserName.text)) then
+            GameEntry.UI:OpenDialogFormBySysCode(SysCode.Input_UserNameEmpty);
+            return;
+        end
+        if(StringUtil.IsNullOrEmpty(inputPassword.text)) then
+            GameEntry.UI:OpenDialogFormBySysCode(SysCode.Input_PwdEmpty);
+            return;
+        end
+
+        local dic = {}
+        dic["ChannelId"] = GameEntry.Data.SysDataManager.CurrChannelConfig.ChannelId;
+        dic["Type"] = 1;
+        dic["UserName"] = inputUserName.text;
+        dic["Password"] = inputPassword.text;
+
+        local url = GameEntry.Http.RealWebAccountUrl .. "/account";
+
+        GameEntry.Lua:SendHttpData(url, OnLoginCallBack, dic);
+
+        dic = nil;
+        url = nil;
+    end);
+    btnReg.onClick:AddListener(function()
+        --关闭自己
+        self:Close();
+        GameEntry.UI:OpenUIForm(UIFormId.UI_Reg);
+    end);
+end
+
+function OnLoginCallBack(args)
+    if(args.HasError == false) then
+        local retValue = GameEntry.Lua:GetRetValue(args.Value);
+        if(retValue.HasError == false) then
+            --登录成功
+            local jsonData = GameEntry.Lua:GetJsonData(retValue.Value);
+            ShareUserData.SetAccountId(tonumber(GameEntry.Lua:GetJsonDataValue(jsonData, "YFId")));
+            jsonData = nil;
+
+            self:Close();
+        else
+            --登录失败
+            GameEntry.UI:OpenDialogFormBySysCode(retValue.ErrorCode);
+        end
+        retValue = nil;
+    else
+        GameEntry.UI:OpenDialogFormBySysCode(SysCode.Connect_TimeOut);
+    end
+end
+
+function OnOpen(userData)
+
+end
+
+function OnClose()
+
+end
+
+function OnBeforDestroy()
+
+end

@@ -1,0 +1,15 @@
+function OnInit(userData)
+
+end
+
+function OnOpen(userData)
+
+end
+
+function OnClose()
+
+end
+
+function OnBeforDestroy()
+
+end

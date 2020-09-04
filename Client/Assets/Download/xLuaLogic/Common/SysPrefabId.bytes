@@ -1,0 +1,6 @@
+SysPrefabId = {
+
+    --通用角色控制器
+    RoleCtrl = 1,
+
+}

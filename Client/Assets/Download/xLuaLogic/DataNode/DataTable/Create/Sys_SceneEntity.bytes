@@ -1,0 +1,15 @@
+Sys_SceneEntity = { Id = 0, SceneName = "", BGMId = 0, SceneType = 0 }
+
+Sys_SceneEntity.__index = Sys_SceneEntity;
+
+function Sys_SceneEntity.New(Id, SceneName, BGMId, SceneType)
+    local self = { };
+    setmetatable(self, Sys_SceneEntity);
+
+    self.Id = Id;
+    self.SceneName = SceneName;
+    self.BGMId = BGMId;
+    self.SceneType = SceneType;
+
+    return self;
+end

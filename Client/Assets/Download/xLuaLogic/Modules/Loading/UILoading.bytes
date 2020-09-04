@@ -1,0 +1,25 @@
+function OnInit(userData)
+
+end
+
+function OnOpen(userData)
+    GameEntry.Event.CommonEvent:AddEventListener(SysEventId.LoadingProgressChange, OnLoadingProgressChange);
+end
+
+function OnLoadingProgressChange(userData)
+    local progress = math.min(userData.FloatParam1 * 100, 100);
+
+    if(userData.IntParam1 == 1) then
+        txtTip.text = GameEntry.Localization:GetString("Loading.ChangeScene", math.floor(progress));
+    end
+
+    Scrollbar.size = userData.FloatParam1;
+end
+
+function OnClose()
+    GameEntry.Event.CommonEvent:RemoveEventListener(SysEventId.LoadingProgressChange, OnLoadingProgressChange);
+end
+
+function OnBeforDestroy()
+
+end

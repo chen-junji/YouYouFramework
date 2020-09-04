@@ -1,0 +1,74 @@
+function OnInit(userData)
+    btnOpenLogin.onClick:AddListener(function()
+        GameEntry.UI:OpenUIForm(UIFormId.UI_Login);
+    end);
+    btnOpenReg.onClick:AddListener(function()
+        GameEntry.UI:OpenUIForm(UIFormId.UI_Reg);
+    end);
+
+    btnOpenTask.onClick:AddListener(function()
+        GameEntry.UI:OpenUIForm(UIFormId.UI_Task);
+    end);
+
+    btnReadLuaData.onClick:AddListener(function()
+        TestReadData();
+    end);
+
+    btnSendProto.onClick:AddListener(function()
+        TestSendProto();
+    end);
+
+    btnSetRoleId1.onClick:AddListener(function()
+        ShareUserData.SetCurrRoleId(11);
+    end);
+
+    btnSetRoleId2.onClick:AddListener(function()
+        ShareUserData.SetCurrRoleId(12);
+    end);
+
+    btnGettRoleId.onClick:AddListener(function()
+        print(ShareUserData.GetCurrRoleId())
+    end);
+end
+
+function OnOpen(userData)
+
+end
+
+function OnClose()
+
+end
+
+function OnBeforDestroy()
+
+end
+
+function TestReadData()
+    local chapter = ChapterDBModel.GetEntity(1);
+    GameInit.Log("id="..tostring(chapter.Id));
+    GameInit.Log("ChapterName="..chapter.ChapterName);
+    GameInit.Log("============");
+ 
+    local lstchapter = ChapterDBModel.GetList();
+    for i=1, #lstchapter, 1 do
+     local chapterEntity = lstchapter[i];
+     GameInit.Log("id="..tostring(chapterEntity.Id));
+     GameInit.Log("ChapterName="..chapterEntity.ChapterName);
+ 
+     --打印列表字段数据
+     for j=1, #chapterEntity.BranchLevelId, 1 do
+         GameInit.Log("BranchLevelId="..tostring(chapterEntity.BranchLevelId[j]));
+     end
+     for j=1, #chapterEntity.BranchLevelName, 1 do
+         GameInit.Log("BranchLevelName="..tostring(chapterEntity.BranchLevelName[j]));
+     end
+ 
+    end
+end
+
+function TestSendProto(params)
+    local RegClient = {};
+    RegClient.AccountId=202;
+    local quest = proto_C2GWS_RegClient.New(RegClient);
+    GameInit.SendProto(quest);
+end

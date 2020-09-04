@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Root>
+  <Channel ChannelId="0" InnerVersion="1001" SourceVersion="1.0.7" SourceUrl="http://localhost:8090/" RechargeUrl="" PayServerNo="" TDAppId="" IsOpenTD="" />
+</Root>

@@ -1,0 +1,301 @@
+---
+--- lua 面向对象
+---
+
+---@class OOType @面向对象类型
+OOType = { class = "class", object = "object", const_class = "const_class" }
+
+---@class OOBase @空类申明注释的时候手动注释继承此类
+---@field public Delete fun(self:OOBase):void @释放函数, 注意: 只有收到调用Delete才会触发析构函数__delete
+
+local __clazzs = {}
+local __clazz_names = {}
+
+---@param name string @class name
+---@param super table @super class
+---@return OOBase
+function Class(name, super)
+    -- assert(string.IsNotNilOrEmpty(name), "error: Class() - define class classname is invalid")
+    assert(super == nil or type(super) == "table", "error: Class() - define class super class is invalid")
+    assert(__clazz_names[name] == nil, "error: Class() - define class:" .. name .. " with already defined")
+
+    local clazz = {}
+    clazz.__class_name = name
+    clazz.__oo_type = OOType.class
+    clazz.__init = false
+    clazz.__delete = false
+    clazz.__super = super
+
+    -- new object
+    clazz.New = function(...)
+        local obj = {}
+        obj.__class = clazz
+        obj.__oo_type = OOType.object
+
+        setmetatable(obj, { __index = __clazzs[clazz] })
+
+        do
+            local create
+            create = function(c, ...)
+                if c.__super then
+                    create(c.__super, ...)
+                end
+                if c.__init then
+                    c.__init(obj, ...)
+                end
+            end
+
+            create(clazz, ...)
+        end
+
+        obj.Delete = function(self)
+            if self.__class.__delete then
+                self.__class.__delete(self)
+            end
+
+            local local_super = self.__class.__super
+            while local_super do
+                if local_super.__delete then
+                    local_super.__delete(self)
+                end
+                local_super = local_super.__super
+            end
+        end
+
+        return obj
+    end
+
+    __clazz_names[name] = clazz
+
+    local vtbl = {}
+    __clazzs[clazz] = vtbl
+
+    setmetatable(clazz, {
+        __index = vtbl,
+        __newindex = function(t, k, v)
+            vtbl[k] = v
+        end,
+        __call = clazz.New
+    })
+
+    if super then
+        setmetatable(vtbl, {
+            __index = function(t, k)
+                return __clazzs[super][k]
+            end
+        })
+    end
+
+    return clazz
+end
+
+---@class OOConst @空的静态类申明注释的时候手动注释继承此类
+---@field public __Get fun():table @获取所有数据表
+---@alias OOConstForEachCallback fun(k:string, v:any):boolean
+---@field public __ForEach fun(self:OOConst, callback:OOConstForEachCallback):void @遍历方法
+
+---@param name string @const class name
+---@param tb table @const class table
+---@return OOConst
+function ConstClass(name, tb)
+    assert(string.IsNotNilOrEmpty(name), "error: ConstClass() - define const class classname is invalid")
+    assert(type(tb) == "table", "error: ConstClass() - define const class const table is invalid")
+    assert(__clazz_names[name] == nil, "error: ConstClass() - define const class:" .. name .. " with already defined")
+
+    local clazz = {}
+
+    for k, v in pairs(tb) do
+        clazz[k] = v
+    end
+
+    clazz.__class_name = name
+    clazz.__oo_type = OOType.const_class
+    clazz.__tostring = function(self)
+        return table.dump(self, true, 2)
+    end
+
+    clazz.__Get = function(self)
+        if CommonConfig.IsDeveloper then
+            return getmetatable(self)
+        else
+            return self
+        end
+    end
+
+    clazz.__ForEach = function(self, callback)
+        if not IsFunction(callback) then
+            return
+        end
+        local self_table
+        if CommonConfig.IsDeveloper then
+            self_table = getmetatable(self)
+        else
+            self_table = self
+        end
+        for k, v in pairs(self_table) do
+            if not string.startswith("__") then
+                if callback(k, v) == true then
+                    break
+                end
+            end
+        end
+    end
+
+    local __clazz
+    if CommonConfig.IsDeveloper then
+        ---@private
+        clazz.__index = function(t, k)
+            local v = clazz[k]
+            if v == nil then
+                error(string.format("ConstClass(%s) read error: not found key(%s)", t.__class_name, k), 2)
+                return nil
+            end
+            return v
+        end
+        ---@private
+        clazz.__newindex = function(t, k, v)
+            error(string.format("ConstClass(%s) is const, can not be write key(%s)", t.__class_name, k), 2)
+        end
+        __clazz = setmetatable({}, clazz)
+    else
+        __clazz = clazz
+    end
+    __clazz_names[name] = __clazz
+    return __clazz
+end
+
+---@class OOData @空的数据类申明注释的时候手动注释继承此类
+---@field public __Get fun():table @获取所有数据表
+---@alias OODataForEachCallback fun(k:string, v:any):boolean
+---@field public __ForEach fun(self:OOData, callback:OODataForEachCallback):void @遍历方法
+
+---@param name string @const class name
+---@param tb table @const class table
+---@return OOData
+function DataClass(name, tb)
+    assert(string.IsNotNilOrEmpty(name), "error: ConstClass() - define const class classname is invalid")
+    assert(type(tb) == "table", "error: ConstClass() - define const class const table is invalid")
+    assert(__clazz_names[name] == nil, "error: ConstClass() - define const class:" .. name .. " with already defined")
+
+    local clazz = {}
+
+    for k, v in pairs(tb) do
+        clazz[k] = v
+    end
+
+    clazz.__class_name = name
+    clazz.__oo_type = OOType.class
+
+    clazz.New = function(...)
+        local data = table.deepcopy(clazz)
+        data.New = nil
+        data.__oo_type = OOType.object
+        data.__class = clazz
+
+        data.__Get = function(self)
+            if CommonConfig.IsDeveloper then
+                return getmetatable(self)
+            else
+                return self
+            end
+        end
+
+        data.__ForEach = function(self, callback)
+            if not IsFunction(callback) then
+                return
+            end
+            local self_table
+            if CommonConfig.IsDeveloper then
+                self_table = getmetatable(self)
+            else
+                self_table = self
+            end
+            for k, v in pairs(self_table) do
+                if callback(k, v) == true then
+                    break
+                end
+            end
+        end
+
+        local __data
+        if CommonConfig.IsDeveloper then
+            ---@private
+            data.__index = function(t, k)
+                local v = data[k]
+                if v == nil or k == "__index" or k == "__newindex" then
+                    error(string.format("DataClass(%s) read error: not found key(%s)", t.__class.__class_name, k), 2)
+                    return nil
+                end
+                return v
+            end
+            ---@private
+            data.__newindex = function(t, k, v)
+                if data[k] == nil or k == "__index" or k == "__newindex" then
+                    error(string.format("DataClass(%s) write error: not found key(%s)", t.__class.__class_name, k), 2)
+                    return
+                end
+
+                if v then
+                    rawset(t, k, v)
+                else
+                    rawset(t, k, false)
+                end
+            end
+            __data = setmetatable({}, data)
+        else
+            __data = data
+        end
+        return __data
+    end
+
+    __clazz_names[name] = clazz
+    return clazz
+end
+
+function IsLuaClass(clazz)
+    return type(clazz) == "table" and clazz.__oo_type == OOType.class
+end
+
+function IsLuaObject(clazz)
+    return type(clazz) == "table" and clazz.__oo_type == OOType.object
+end
+
+function IsLuaConst(clazz)
+    return type(clazz) == "table" and clazz.__oo_type == OOType.const_class
+end
+
+---@param c table
+---@param s table
+---@return boolean
+function IsAssignableFrom(c, s)
+    if not IsTable(c) or not IsTable(s) then
+        return false
+    end
+    if s.__oo_type ~= OOType.class then
+        return false
+    end
+    local ct
+    if c.__oo_type == OOType.class then
+        ct = c
+    elseif c.__oo_type == OOType.object then
+        ct = c.__class
+    else
+        return false
+    end
+    if ct == nil then
+        return false
+    end
+
+    if ct == s then
+        return true
+    end
+
+    local sc = ct.__super
+    while sc ~= nil do
+        if sc == s then
+            return true
+        end
+        sc = sc.__super
+    end
+    return false
+end

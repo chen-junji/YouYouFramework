@@ -1,0 +1,3570 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8405564968997840281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YFYouYou/FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637153960626778982
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 1000
+  Exists: 1
+--- !u!114 &-7731939476961795807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/UIClose
+  m_EditorClassIdentifier: 
+  Path: event:/UI/UIClose
+  guid: c4aa804db1069b468ed7a90311cb9f4b
+  Banks:
+  - {fileID: 3746953683664014908}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 339
+--- !u!114 &-6753705232530278313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YFYouYou/FMOD/Build/Desktop/Master.strings.bank
+  SubDir: 
+  lastModified: 637153960626798927
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 828
+  Exists: 1
+--- !u!114 &-1946571438116160108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/UIOpen
+  m_EditorClassIdentifier: 
+  Path: event:/UI/UIOpen
+  guid: cd48c76badde5b4797ccec10eac51f06
+  Banks:
+  - {fileID: 3746953683664014908}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 444
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: -6753705232530278313}
+  - {fileID: -8405564968997840281}
+  - {fileID: 3746953683664014908}
+  EditorEvents:
+  - {fileID: -7731939476961795807}
+  - {fileID: -1946571438116160108}
+  EditorParameters: []
+  MasterBanks:
+  - {fileID: -8405564968997840281}
+  StringsBanks:
+  - {fileID: -6753705232530278313}
+  stringsBankWriteTime: 637153960626798927
+  cacheVersion: 3
+--- !u!114 &114003253219887442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill6
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill6
+  guid: b56634be2a81974891b44b4d33923404
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1776
+--- !u!114 &114007809460033680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_ChangAn
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_ChangAn
+  guid: e31f9646faf0a34f97811405a497968b
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 127477
+--- !u!114 &114009362505033022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/NvYao_die
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/NvYao_die
+  guid: fc6e10dfe222ca4f93fe683a07182c18
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 626
+--- !u!114 &114020924575947044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill1
+  guid: 738f1ad012c080429754ec10b752a051
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1227
+--- !u!114 &114033261026141808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/NvYao_Role_attack
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/NvYao_Role_attack
+  guid: 48ab68e56456ad4ba92aee06fd93f381
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 470
+--- !u!114 &114035391889545150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_Role_attack1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_Role_attack1
+  guid: 6a343103891e464cb0f48126c91e1776
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 496
+--- !u!114 &114045135042246158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/Qinbing_die
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/Qinbing_die
+  guid: f48508a82698a643861e3288a1800a3c
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 548
+--- !u!114 &114048709352679066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/Qinbing_die
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/Qinbing_die
+  guid: f48508a82698a643861e3288a1800a3c
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 548
+--- !u!114 &114054124975156254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill5
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill5
+  guid: a6d9665411d8384d9a2adb901082a224
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 3134
+--- !u!114 &114060688629500744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/ZhuCheng/Project/YFYouYou/FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637153960626778982
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 1000
+  Exists: 1
+--- !u!114 &114062281931963488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_LogOn
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_LogOn
+  guid: c261f1d6e53f6f4c95d16d26425126bc
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 100571
+--- !u!114 &114077821131309736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/BackGround.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYouThis_FMOD/Build/Desktop/BackGround.bank
+  SubDir: 
+  lastModified: 637124432575612209
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 21440160
+  Exists: 1
+--- !u!114 &114084756892561660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYou_FMOD/Build/Desktop/Master.strings.bank
+  SubDir: 
+  lastModified: 637124432491439387
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 2674
+  Exists: 0
+--- !u!114 &114086376723452384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/Qibing_Role_attack
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/Qibing_Role_attack
+  guid: b80dfd3e964996409fbba7679af9acdf
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 470
+--- !u!114 &114091425466320358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_WuYi
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_WuYi
+  guid: c9a18421c86c2645b05686a7690f41ba
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 99291
+--- !u!114 &114093319552387922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/NvYao_Role_attack
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/NvYao_Role_attack
+  guid: 48ab68e56456ad4ba92aee06fd93f381
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 470
+--- !u!114 &114093751780376246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_HuPaoCun
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_HuPaoCun
+  guid: 469adfcb2c5a7a4dadb42eb92227a077
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 97933
+--- !u!114 &114106702110303746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_attack2
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_attack2
+  guid: e388a24f988be444b7561acb28fe667a
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 2716
+--- !u!114 &114107896547156372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/UI.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYouThis_FMOD/Build/Desktop/UI.bank
+  SubDir: 
+  lastModified: 637124432575911408
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 9376
+  Exists: 1
+--- !u!114 &114108274824144558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/ZhuCheng/Project/YFYouYou/FMOD/Build/Desktop/Master.strings.bank
+  SubDir: 
+  lastModified: 637153960626798927
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 828
+  Exists: 1
+--- !u!114 &114112149477509324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_ChangAn
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_ChangAn
+  guid: e31f9646faf0a34f97811405a497968b
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 127477
+--- !u!114 &114119593161856046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/Qibing_attack1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/Qibing_attack1
+  guid: dee24d0ad319be43a6d50b17e1d0635f
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 757
+--- !u!114 &114122776459148012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_HangZhou
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_HangZhou
+  guid: 80810ded810fdc48ad0ec02fb10edfab
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 120058
+--- !u!114 &114123883337009862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_attack1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_attack1
+  guid: 82df1d0869d0d84a86a22c4973fa7914
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 835
+--- !u!114 &114128517598973416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DunHuang
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DunHuang
+  guid: 5f5ad1c1c914a04e80fb7014bac8f6ed
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 93622
+--- !u!114 &114128683689503344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill4
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill4
+  guid: 53b21b1d1d656844ae59ad1bdb4cdaae
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1227
+--- !u!114 &114128740058865780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/women_attack
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/women_attack
+  guid: 1f251c3dfeca8747a5984562de3e7788
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 522
+--- !u!114 &114132842491592454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DiWangMu3
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DiWangMu3
+  guid: adae06ca5fbe1b40a00c2cd7997c0fb0
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 97071
+--- !u!114 &114142237051489968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_HangZhou
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_HangZhou
+  guid: 80810ded810fdc48ad0ec02fb10edfab
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 120058
+--- !u!114 &114170993790905394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill2
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill2
+  guid: 0eea168c1c10344ca8df67edb893ced3
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 992
+--- !u!114 &114175261576437146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DiWangMu5
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DiWangMu5
+  guid: f33257d521f90e4d9b1da3deca367a7d
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 136228
+--- !u!114 &114178483034988998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_attack2
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_attack2
+  guid: 559b359adeae8a4ca9496f177dc743c1
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 470
+--- !u!114 &114180121261359154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/NvYao_die
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/NvYao_die
+  guid: fc6e10dfe222ca4f93fe683a07182c18
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 626
+--- !u!114 &114181949058114940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DiWangMu2
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DiWangMu2
+  guid: 0ee78a71b3c0d54ab5942cb33f849a9f
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 95373
+--- !u!114 &114188360541955352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DiWangMu5
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DiWangMu5
+  guid: f33257d521f90e4d9b1da3deca367a7d
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 136228
+--- !u!114 &114224116657187878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/NvYao_die
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/NvYao_die
+  guid: fc6e10dfe222ca4f93fe683a07182c18
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 626
+--- !u!114 &114235592353858416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYouThis_FMOD/Build/Desktop/Master.strings.bank
+  SubDir: 
+  lastModified: 637121310931347379
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 688
+  Exists: 1
+--- !u!114 &114243909180834934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_GameLevel
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_GameLevel
+  guid: b6ceab2e293ce741ac3f0bd220419a9e
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 93126
+--- !u!114 &114249110565869372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/UIOpen
+  m_EditorClassIdentifier: 
+  Path: event:/UI/UIOpen
+  guid: cd48c76badde5b4797ccec10eac51f06
+  Banks:
+  - {fileID: 114354248913847752}
+  - {fileID: 114771789254722598}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 444
+--- !u!114 &114260460605498274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYouThis_FMOD/Build/Desktop/Master.strings.bank
+  SubDir: 
+  lastModified: 637121290880538307
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 688
+  Exists: 1
+--- !u!114 &114261643373860388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_Role_die
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_Role_die
+  guid: 1104919787986b438db857dd86772dff
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1280
+--- !u!114 &114265968040620758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/UI.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYou_FMOD/Build/Desktop/UI.bank
+  SubDir: 
+  lastModified: 637124432575911408
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 9376
+  Exists: 0
+--- !u!114 &114267769820669470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_Role_die
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_Role_die
+  guid: 1104919787986b438db857dd86772dff
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1280
+--- !u!114 &114276739097704880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill2
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill2
+  guid: 0eea168c1c10344ca8df67edb893ced3
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 992
+--- !u!114 &114283670663763712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/NvYao_attack2
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/NvYao_attack2
+  guid: ee6c3d9fb1d73541baaaf0cba89dc6d9
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 287
+--- !u!114 &114301388984397790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/UIOpen
+  m_EditorClassIdentifier: 
+  Path: event:/UI/UIOpen
+  guid: cd48c76badde5b4797ccec10eac51f06
+  Banks:
+  - {fileID: 114597998520764064}
+  - {fileID: 114107896547156372}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 444
+--- !u!114 &114307615349867564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_attack3
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_attack3
+  guid: 7bb43b6d41403e438258b13343790940
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1097
+--- !u!114 &114314524767284882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill5
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill5
+  guid: a6d9665411d8384d9a2adb901082a224
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 3134
+--- !u!114 &114351503356565052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_ChangBaiShan
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_ChangBaiShan
+  guid: bc82beb7ae144741999714e9e60c43e2
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 94119
+--- !u!114 &114354248913847752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Fight.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYouThis_FMOD/Build/Desktop/Fight.bank
+  SubDir: 
+  lastModified: 637124432577397430
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 257408
+  Exists: 1
+--- !u!114 &114367688989143104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_XueLangHu
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_XueLangHu
+  guid: 3f6ac05a015b0043b8e941cbc31e94b0
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 103053
+--- !u!114 &114371084559156800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_WuYi
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_WuYi
+  guid: c9a18421c86c2645b05686a7690f41ba
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 99291
+--- !u!114 &114373311657628716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/women_die
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/women_die
+  guid: da3b6899354fb940a2ac4db8ac6cee9f
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1645
+--- !u!114 &114383804992988530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill1
+  guid: 738f1ad012c080429754ec10b752a051
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1227
+--- !u!114 &114390738697154118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/NvYao_Role_attack
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/NvYao_Role_attack
+  guid: 48ab68e56456ad4ba92aee06fd93f381
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 470
+--- !u!114 &114401530521165242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_Role_attack1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_Role_attack1
+  guid: 6a343103891e464cb0f48126c91e1776
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 496
+--- !u!114 &114405636042713792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DiWangMu1
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DiWangMu1
+  guid: 4c6a32faac928041910b449326941e76
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 97044
+--- !u!114 &114406314341513812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_ChangAn
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_ChangAn
+  guid: e31f9646faf0a34f97811405a497968b
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 127477
+--- !u!114 &114410569948154624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_GameLevel
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_GameLevel
+  guid: b6ceab2e293ce741ac3f0bd220419a9e
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 93126
+--- !u!114 &114413263340482502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_HuPaoCun
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_HuPaoCun
+  guid: 469adfcb2c5a7a4dadb42eb92227a077
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 97933
+--- !u!114 &114415114147920912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_MeiLing
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_MeiLing
+  guid: 831fa5396072604ab9962f30a6ed9fd0
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 91141
+--- !u!114 &114418496142773600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DiWangMu1
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DiWangMu1
+  guid: 4c6a32faac928041910b449326941e76
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 97044
+--- !u!114 &114424035317953378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_LogOn
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_LogOn
+  guid: c261f1d6e53f6f4c95d16d26425126bc
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 100571
+--- !u!114 &114426424938672896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_XueLangHu
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_XueLangHu
+  guid: 3f6ac05a015b0043b8e941cbc31e94b0
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 103053
+--- !u!114 &114427444090216316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/women_attack
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/women_attack
+  guid: 1f251c3dfeca8747a5984562de3e7788
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 522
+--- !u!114 &114437863056976794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YFYouYou/FMOD/Build/Desktop/Master.strings.bank
+  SubDir: 
+  lastModified: 637153960626798927
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 828
+  Exists: 1
+--- !u!114 &114444519516104480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DunHuang
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DunHuang
+  guid: 5f5ad1c1c914a04e80fb7014bac8f6ed
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 93622
+--- !u!114 &114446273293992198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill5
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill5
+  guid: a6d9665411d8384d9a2adb901082a224
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 3134
+--- !u!114 &114464766077442368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DiWangMu4
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DiWangMu4
+  guid: c9e1b10b8832074b8148f0378e2d8ca6
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 93910
+--- !u!114 &114469957326676420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DiWangMu5
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DiWangMu5
+  guid: f33257d521f90e4d9b1da3deca367a7d
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 136228
+--- !u!114 &114473556893188156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_attack1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_attack1
+  guid: 82df1d0869d0d84a86a22c4973fa7914
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 835
+--- !u!114 &114475946717366260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_JiuQuan
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_JiuQuan
+  guid: f75b46f501408f42aafceaff159ec722
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 125622
+--- !u!114 &114479226929121696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/NvYao_attack2
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/NvYao_attack2
+  guid: ee6c3d9fb1d73541baaaf0cba89dc6d9
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 287
+--- !u!114 &114483071999355146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_MeiLing
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_MeiLing
+  guid: 831fa5396072604ab9962f30a6ed9fd0
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 91141
+--- !u!114 &114485453097603392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_Role_attack2
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_Role_attack2
+  guid: 19d87075c6eb314d94d192a9fe79b735
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1933
+--- !u!114 &114491166212458174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_Role_attack2
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_Role_attack2
+  guid: 19d87075c6eb314d94d192a9fe79b735
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1933
+--- !u!114 &114499552730156396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/Qibing_Role_attack
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/Qibing_Role_attack
+  guid: b80dfd3e964996409fbba7679af9acdf
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 470
+--- !u!114 &114501825315799484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_ChangBaiShan
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_ChangBaiShan
+  guid: bc82beb7ae144741999714e9e60c43e2
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 94119
+--- !u!114 &114507553006229126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_LogOn
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_LogOn
+  guid: c261f1d6e53f6f4c95d16d26425126bc
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 100571
+--- !u!114 &114511866012677366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYou_FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637124432491429039
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 1000
+  Exists: 0
+--- !u!114 &114512642214674918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill6
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill6
+  guid: b56634be2a81974891b44b4d33923404
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1776
+--- !u!114 &114516956678830694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/BackGround.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYou_FMOD/Build/Desktop/BackGround.bank
+  SubDir: 
+  lastModified: 637124432575612209
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 21440160
+  Exists: 0
+--- !u!114 &114521607391879594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/UIClose
+  m_EditorClassIdentifier: 
+  Path: event:/UI/UIClose
+  guid: c4aa804db1069b468ed7a90311cb9f4b
+  Banks:
+  - {fileID: 114640481342596240}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 339
+--- !u!114 &114525365454478866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/UIOpen
+  m_EditorClassIdentifier: 
+  Path: event:/UI/UIOpen
+  guid: cd48c76badde5b4797ccec10eac51f06
+  Banks:
+  - {fileID: 114640481342596240}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 444
+--- !u!114 &114548689715993948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_WuYi
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_WuYi
+  guid: c9a18421c86c2645b05686a7690f41ba
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 99291
+--- !u!114 &114555437517798312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DiWangMu4
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DiWangMu4
+  guid: c9e1b10b8832074b8148f0378e2d8ca6
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 93910
+--- !u!114 &114557123814448404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/BackGround.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYouThis_FMOD/Build/Desktop/BackGround.bank
+  SubDir: 
+  lastModified: 637124432575612209
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 21440160
+  Exists: 1
+--- !u!114 &114558181843410732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/women_die
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/women_die
+  guid: da3b6899354fb940a2ac4db8ac6cee9f
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1645
+--- !u!114 &114577433557122620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DiWangMu2
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DiWangMu2
+  guid: 0ee78a71b3c0d54ab5942cb33f849a9f
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 95373
+--- !u!114 &114577883260217112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_JiuQuan
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_JiuQuan
+  guid: f75b46f501408f42aafceaff159ec722
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 125622
+--- !u!114 &114580517567211912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_attack2
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_attack2
+  guid: 559b359adeae8a4ca9496f177dc743c1
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 470
+--- !u!114 &114584211162178900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_shengli
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_shengli
+  guid: f4bc4151251f114e8d9bbd2e6f4cafd0
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 3265
+--- !u!114 &114584919268294444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_HuPaoCun
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_HuPaoCun
+  guid: 469adfcb2c5a7a4dadb42eb92227a077
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 97933
+--- !u!114 &114596247678646984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YFYouYou/FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637153960626778982
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 1000
+  Exists: 1
+--- !u!114 &114597998520764064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Fight.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYouThis_FMOD/Build/Desktop/Fight.bank
+  SubDir: 
+  lastModified: 637124432577397430
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 257408
+  Exists: 1
+--- !u!114 &114598308845935866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DiWangMu3
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DiWangMu3
+  guid: adae06ca5fbe1b40a00c2cd7997c0fb0
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 97071
+--- !u!114 &114599997042761732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DunHuang
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DunHuang
+  guid: 5f5ad1c1c914a04e80fb7014bac8f6ed
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 93622
+--- !u!114 &114602469739673600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/Qinbing_die
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/Qinbing_die
+  guid: f48508a82698a643861e3288a1800a3c
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 548
+--- !u!114 &114604224195464552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_attack2
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_attack2
+  guid: e388a24f988be444b7561acb28fe667a
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 2716
+--- !u!114 &114609435610795436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/women_die
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/women_die
+  guid: da3b6899354fb940a2ac4db8ac6cee9f
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1645
+--- !u!114 &114626328525682482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill6
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill6
+  guid: b56634be2a81974891b44b4d33923404
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1776
+--- !u!114 &114634838102232282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DiWangMu1
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DiWangMu1
+  guid: 4c6a32faac928041910b449326941e76
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 97044
+--- !u!114 &114640481342596240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/UI.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/ZhuCheng/Project/YFYouYou/FMOD/Build/Desktop/UI.bank
+  SubDir: 
+  lastModified: 637153960627337876
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 9376
+  Exists: 1
+--- !u!114 &114649925610932556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_attack1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_attack1
+  guid: 4da9aabfcc57db4ba9e13a05303f60a5
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 470
+--- !u!114 &114663812480182550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYouThis_FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637124432491429039
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 1000
+  Exists: 1
+--- !u!114 &114676320691453252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Fight.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYou_FMOD/Build/Desktop/Fight.bank
+  SubDir: 
+  lastModified: 637124432577397430
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 257408
+  Exists: 0
+--- !u!114 &114679834088094786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DiWangMu3
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DiWangMu3
+  guid: adae06ca5fbe1b40a00c2cd7997c0fb0
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 97071
+--- !u!114 &114682147493420378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_MeiLing
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_MeiLing
+  guid: 831fa5396072604ab9962f30a6ed9fd0
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 91141
+--- !u!114 &114684544847994606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill4
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill4
+  guid: 53b21b1d1d656844ae59ad1bdb4cdaae
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1227
+--- !u!114 &114688690426225132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill1
+  guid: 738f1ad012c080429754ec10b752a051
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1227
+--- !u!114 &114694936512667108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/women_attack
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/women_attack
+  guid: 1f251c3dfeca8747a5984562de3e7788
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 522
+--- !u!114 &114700879357770602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_ChangBaiShan
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_ChangBaiShan
+  guid: bc82beb7ae144741999714e9e60c43e2
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 94119
+--- !u!114 &114703366042655570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/UIClose
+  m_EditorClassIdentifier: 
+  Path: event:/UI/UIClose
+  guid: c4aa804db1069b468ed7a90311cb9f4b
+  Banks:
+  - {fileID: 114767177272566946}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 339
+--- !u!114 &114704593823887314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_attack2
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_attack2
+  guid: e388a24f988be444b7561acb28fe667a
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 2716
+--- !u!114 &114706912757790794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYouThis_FMOD/Build/Desktop/Master.strings.bank
+  SubDir: 
+  lastModified: 637124432491439387
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 2674
+  Exists: 1
+--- !u!114 &114709058670025612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DiWangMu2
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DiWangMu2
+  guid: 0ee78a71b3c0d54ab5942cb33f849a9f
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 95373
+--- !u!114 &114719708021585218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_DiWangMu4
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_DiWangMu4
+  guid: c9e1b10b8832074b8148f0378e2d8ca6
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 93910
+--- !u!114 &114720700761811816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill3
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill3
+  guid: 130c7217f3d64d4bb4ffa6db462bd5c3
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1515
+--- !u!114 &114743842605205038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/UIOpen
+  m_EditorClassIdentifier: 
+  Path: event:/UI/UIOpen
+  guid: cd48c76badde5b4797ccec10eac51f06
+  Banks:
+  - {fileID: 114767177272566946}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 444
+--- !u!114 &114748371814399016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill4
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill4
+  guid: 53b21b1d1d656844ae59ad1bdb4cdaae
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1227
+--- !u!114 &114754675954430434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_attack1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_attack1
+  guid: 4da9aabfcc57db4ba9e13a05303f60a5
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 470
+--- !u!114 &114756780044900848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_shengli
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_shengli
+  guid: f4bc4151251f114e8d9bbd2e6f4cafd0
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 3265
+--- !u!114 &114756886395448112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_Role_attack2
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_Role_attack2
+  guid: 19d87075c6eb314d94d192a9fe79b735
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1933
+--- !u!114 &114762950848871156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_JiuQuan
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_JiuQuan
+  guid: f75b46f501408f42aafceaff159ec722
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 125622
+--- !u!114 &114767177272566946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/UI.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YFYouYou/FMOD/Build/Desktop/UI.bank
+  SubDir: 
+  lastModified: 637153960627337876
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 9376
+  Exists: 1
+--- !u!114 &114768349987004416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_attack1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_attack1
+  guid: 82df1d0869d0d84a86a22c4973fa7914
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 835
+--- !u!114 &114770193223801256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_attack2
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_attack2
+  guid: 559b359adeae8a4ca9496f177dc743c1
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 470
+--- !u!114 &114771789254722598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/UI.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYouThis_FMOD/Build/Desktop/UI.bank
+  SubDir: 
+  lastModified: 637124432575911408
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 9376
+  Exists: 1
+--- !u!114 &114776386837560378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/Qibing_Role_attack
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/Qibing_Role_attack
+  guid: b80dfd3e964996409fbba7679af9acdf
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 470
+--- !u!114 &114787993612373126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_XueLangHu
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_XueLangHu
+  guid: 3f6ac05a015b0043b8e941cbc31e94b0
+  Banks:
+  - {fileID: 114557123814448404}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 103053
+--- !u!114 &114801028723207090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_GameLevel
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_GameLevel
+  guid: b6ceab2e293ce741ac3f0bd220419a9e
+  Banks: []
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 93126
+--- !u!114 &114814673782318412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill3
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill3
+  guid: 130c7217f3d64d4bb4ffa6db462bd5c3
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1515
+--- !u!114 &114819743491033012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_Role_attack1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_Role_attack1
+  guid: 6a343103891e464cb0f48126c91e1776
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 496
+--- !u!114 &114821271345984136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/UIClose
+  m_EditorClassIdentifier: 
+  Path: event:/UI/UIClose
+  guid: c4aa804db1069b468ed7a90311cb9f4b
+  Banks:
+  - {fileID: 114597998520764064}
+  - {fileID: 114107896547156372}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 339
+--- !u!114 &114824103432734550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_HangZhou
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_HangZhou
+  guid: 80810ded810fdc48ad0ec02fb10edfab
+  Banks:
+  - {fileID: 114077821131309736}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 120058
+--- !u!114 &114824862430043278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_attack1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_attack1
+  guid: 4da9aabfcc57db4ba9e13a05303f60a5
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 470
+--- !u!114 &114831988759591388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_shengli
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_shengli
+  guid: f4bc4151251f114e8d9bbd2e6f4cafd0
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 3265
+--- !u!114 &114843191915670704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill2
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill2
+  guid: 0eea168c1c10344ca8df67edb893ced3
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 992
+--- !u!114 &114853260548232338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/Qibing_attack1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/Qibing_attack1
+  guid: dee24d0ad319be43a6d50b17e1d0635f
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 757
+--- !u!114 &114863043449899636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/UIClose
+  m_EditorClassIdentifier: 
+  Path: event:/UI/UIClose
+  guid: c4aa804db1069b468ed7a90311cb9f4b
+  Banks:
+  - {fileID: 114354248913847752}
+  - {fileID: 114771789254722598}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 339
+--- !u!114 &114869964149771354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_attack3
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_attack3
+  guid: 7bb43b6d41403e438258b13343790940
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1097
+--- !u!114 &114871031498533088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYouThis_FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637121310931327433
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 1000
+  Exists: 1
+--- !u!114 &114871150122813238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/NvYao_attack1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/NvYao_attack1
+  guid: 1dd7c02502ea784a8f33093ecf1e0d5c
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 391
+--- !u!114 &114922104166665054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/NvYao_attack2
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/NvYao_attack2
+  guid: ee6c3d9fb1d73541baaaf0cba89dc6d9
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 287
+--- !u!114 &114929105119306920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_Role_die
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_Role_die
+  guid: 1104919787986b438db857dd86772dff
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1280
+--- !u!114 &114932789127922794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_Role_attack3
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_Role_attack3
+  guid: c0a6fc26b0171049baf668e8b3ecae45
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 496
+--- !u!114 &114935540865959002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/Qibing_attack1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/Qibing_attack1
+  guid: dee24d0ad319be43a6d50b17e1d0635f
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 757
+--- !u!114 &114940015214064224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_skill3
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_skill3
+  guid: 130c7217f3d64d4bb4ffa6db462bd5c3
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1515
+--- !u!114 &114941623660330692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/CK_attack3
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/CK_attack3
+  guid: 7bb43b6d41403e438258b13343790940
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1097
+--- !u!114 &114950986801056462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_Role_attack3
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_Role_attack3
+  guid: c0a6fc26b0171049baf668e8b3ecae45
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 496
+--- !u!114 &114959635920119080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/NvYao_attack1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/NvYao_attack1
+  guid: 1dd7c02502ea784a8f33093ecf1e0d5c
+  Banks:
+  - {fileID: 114597998520764064}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 391
+--- !u!114 &114967712993136790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/JiaKeChong_Role_attack3
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/JiaKeChong_Role_attack3
+  guid: c0a6fc26b0171049baf668e8b3ecae45
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 496
+--- !u!114 &114979232262447022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YouYou_this/YouYouThis_FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637121290880518365
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 1000
+  Exists: 1
+--- !u!114 &114991933311970660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Fight/NvYao_attack1
+  m_EditorClassIdentifier: 
+  Path: event:/Fight/NvYao_attack1
+  guid: 1dd7c02502ea784a8f33093ecf1e0d5c
+  Banks:
+  - {fileID: 114354248913847752}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 391
+--- !u!114 &3746953683664014908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/UI.bank
+  m_EditorClassIdentifier: 
+  Path: D:/Local/YFYouYou/FMOD/Build/Desktop/UI.bank
+  SubDir: 
+  lastModified: 637153960627337876
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 9376
+  Exists: 1

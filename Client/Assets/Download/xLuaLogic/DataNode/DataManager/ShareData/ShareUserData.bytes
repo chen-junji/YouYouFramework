@@ -1,0 +1,37 @@
+ShareUserData = { }
+local this = ShareUserData
+
+local dataArr;
+
+function ShareUserData.Init()
+    dataArr = GameInit.CreateLuaCSharpArr(3);
+    local CSharpAccess = dataArr:GetCSharpAccess()
+    GameEntry.Data.UserDataManager.ShareUserData:InitLuaArrAccess(CSharpAccess);
+end
+
+--获取玩家账号
+function ShareUserData.GetAccountId()
+    return dataArr[1];
+end
+--设置玩家账号
+function ShareUserData.SetAccountId(value)
+    dataArr[1] = value;
+end
+
+--获取角色编号
+function ShareUserData.GetCurrRoleId()
+    return dataArr[2];
+end
+--设置角色编号
+function ShareUserData.SetCurrRoleId(value)
+    dataArr[2] = value;
+end
+
+--获取测试double
+function ShareUserData.GetTestD()
+    return dataArr[3];
+end
+--设置测试double
+function ShareUserData.SetTestD(value)
+    dataArr[3] = value;
+end

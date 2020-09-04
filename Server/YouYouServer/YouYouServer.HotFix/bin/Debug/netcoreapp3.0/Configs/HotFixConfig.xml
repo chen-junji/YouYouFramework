@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Root>
+    <Item Key="HotFixAssemblyName" Value="YouYouServer.HotFix.dll"/> <!--热补丁程序集名称-->
+</Root>

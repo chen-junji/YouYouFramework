@@ -1,0 +1,35 @@
+-- Create By 悠游课堂 http://www.u3dol.com 陈俊基 13288578058
+local ProtoBase = Class("ProtoBase")
+
+function ProtoBase:__init(packet)
+    self.Packet = packet
+end
+
+function ProtoBase:GetID()
+    assert(false, "function ProtoBase:GetID() must override!!!")
+end
+
+function ProtoBase:GetCategory()
+    assert(false, "function ProtoBase:GetCategory() must override!!!")
+end
+
+ProtoIDName = {
+    [10001] = "YouYou.Proto.C2GWS_RegClient",
+    [20001] = "YouYou.Proto.C2WS_CreateRole",
+}
+
+proto_C2GWS_RegClient = Class("proto_C2GWS_RegClient", ProtoBase)
+function proto_C2GWS_RegClient:GetID()
+    return 10001;
+end
+function proto_C2GWS_RegClient:GetCategory()
+    return ProtoCategory.Client2GatewayServer;
+end
+
+proto_C2WS_CreateRole = Class("proto_C2WS_CreateRole", ProtoBase)
+function proto_C2WS_CreateRole:GetID()
+    return 20001;
+end
+function proto_C2WS_CreateRole:GetCategory()
+    return ProtoCategory.Client2WorldServer;
+end

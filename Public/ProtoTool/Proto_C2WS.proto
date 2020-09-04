@@ -1,0 +1,10 @@
+syntax = "proto3";
+package YouYou.Proto;
+
+//玩家向服务器发送创建角色消息
+message C2WS_CreateRole
+{
+    int32 JobId = 1;//职业编号
+    int32 Sex = 2;//性别
+    string NickName = 3;//昵称
+}

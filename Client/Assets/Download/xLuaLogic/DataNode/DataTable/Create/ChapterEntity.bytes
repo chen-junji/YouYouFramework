@@ -1,0 +1,21 @@
+ChapterEntity = { Id = 0, ChapterName = "", GameLevelCount = 0, BG_Pic = "", BranchLevelId_1 = 0, BranchLevelName_1 = "", BranchLevelId_2 = 0, BranchLevelName_2 = "", Uvx = 0, Uvy = 0 }
+
+ChapterEntity.__index = ChapterEntity;
+
+function ChapterEntity.New(Id, ChapterName, GameLevelCount, BG_Pic, BranchLevelId_1, BranchLevelName_1, BranchLevelId_2, BranchLevelName_2, Uvx, Uvy)
+    local self = { };
+    setmetatable(self, ChapterEntity);
+
+    self.Id = Id;
+    self.ChapterName = ChapterName;
+    self.GameLevelCount = GameLevelCount;
+    self.BG_Pic = BG_Pic;
+    self.BranchLevelId_1 = BranchLevelId_1;
+    self.BranchLevelName_1 = BranchLevelName_1;
+    self.BranchLevelId_2 = BranchLevelId_2;
+    self.BranchLevelName_2 = BranchLevelName_2;
+    self.Uvx = Uvx;
+    self.Uvy = Uvy;
+
+    return self;
+end

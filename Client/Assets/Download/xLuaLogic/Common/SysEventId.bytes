@@ -1,0 +1,17 @@
+SysEventId = {
+
+    --加载表格完毕
+    LoadDataTableComplete = 1001,
+
+    --加载单一表格完毕
+    LoadOneDataTableComplete = 1002,
+
+    --加载Lua表格完毕
+    LoadLuaDataTableComplete = 1003,
+
+    --加载进度条更新
+    LoadingProgressChange = 1101,
+
+    --Lua内存释放
+    LuaFullGc = 1208,
+}

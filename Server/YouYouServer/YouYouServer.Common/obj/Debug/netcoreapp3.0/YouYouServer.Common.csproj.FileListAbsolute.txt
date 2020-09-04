@@ -1,0 +1,15 @@
+F:\UnityProject\youyouMMO\trunk\Server\YouYouServer\YouYouServer.Common\bin\Debug\netcoreapp3.0\Configs\ChannelConfig.xml
+F:\UnityProject\youyouMMO\trunk\Server\YouYouServer\YouYouServer.Common\bin\Debug\netcoreapp3.0\Configs\HotFixConfig.xml
+F:\UnityProject\youyouMMO\trunk\Server\YouYouServer\YouYouServer.Common\bin\Debug\netcoreapp3.0\YouYouServer.Common.deps.json
+F:\UnityProject\youyouMMO\trunk\Server\YouYouServer\YouYouServer.Common\bin\Debug\netcoreapp3.0\YouYouServer.Common.dll
+F:\UnityProject\youyouMMO\trunk\Server\YouYouServer\YouYouServer.Common\bin\Debug\netcoreapp3.0\YouYouServer.Common.pdb
+F:\UnityProject\youyouMMO\trunk\Server\YouYouServer\YouYouServer.Common\bin\Debug\netcoreapp3.0\Google.Protobuf.dll
+F:\UnityProject\youyouMMO\trunk\Server\YouYouServer\YouYouServer.Common\bin\Debug\netcoreapp3.0\YouYouServer.Core.dll
+F:\UnityProject\youyouMMO\trunk\Server\YouYouServer\YouYouServer.Common\bin\Debug\netcoreapp3.0\zlib.net.dll
+F:\UnityProject\youyouMMO\trunk\Server\YouYouServer\YouYouServer.Common\bin\Debug\netcoreapp3.0\YouYouServer.Core.pdb
+F:\UnityProject\youyouMMO\trunk\Server\YouYouServer\YouYouServer.Common\obj\Debug\netcoreapp3.0\YouYouServer.Common.csprojAssemblyReference.cache
+F:\UnityProject\youyouMMO\trunk\Server\YouYouServer\YouYouServer.Common\obj\Debug\netcoreapp3.0\YouYouServer.Common.AssemblyInfoInputs.cache
+F:\UnityProject\youyouMMO\trunk\Server\YouYouServer\YouYouServer.Common\obj\Debug\netcoreapp3.0\YouYouServer.Common.AssemblyInfo.cs
+F:\UnityProject\youyouMMO\trunk\Server\YouYouServer\YouYouServer.Common\obj\Debug\netcoreapp3.0\YouYouServer.Common.csproj.CopyComplete
+F:\UnityProject\youyouMMO\trunk\Server\YouYouServer\YouYouServer.Common\obj\Debug\netcoreapp3.0\YouYouServer.Common.dll
+F:\UnityProject\youyouMMO\trunk\Server\YouYouServer\YouYouServer.Common\obj\Debug\netcoreapp3.0\YouYouServer.Common.pdb

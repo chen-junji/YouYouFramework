@@ -1,0 +1,8 @@
+syntax = "proto3";
+package YouYou.Proto;
+
+//网关服务器返回注册客户端结果
+message GWS2C_ReturnRegClient
+{
+    bool Result = 1;//结果
+}

@@ -1,0 +1,6 @@
+﻿..\..\..\Tables
+..\..\..\..\Client\Assets\Resources\DataTable\
+..\..\..\..\Client\Assets\YouYouScript\Data\DataTable\Create\
+..\..\..\..\Client\Assets\Download\xLuaLogic\DataNode\DataTable\Create\
+..\..\..\..\Server\Release\DataTable\
+..\..\..\..\Server\YouYouServer\YouYouServer.Common\DataTable\Create\

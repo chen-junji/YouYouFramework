@@ -1,0 +1,459 @@
+local math = require("math")
+local table = require("table")
+local string = require("string")
+
+json = {}
+json_private = {}
+
+json.EMPTY_ARRAY = {}
+json.EMPTY_OBJECT = {}
+
+function json.null()
+    return json.null
+end
+
+function json.encode(v)
+    if v == nil then
+        return "null"
+    end
+    local vtype = type(v)
+    if vtype == "string" then
+        return '"' .. json_private.encodeString(v) .. '"'
+    end
+    if vtype == "number" or vtype == "boolean" then
+        return tostring(v)
+    end
+
+    if vtype == "table" then
+        return json_private.encodeTable(v)
+    end
+
+    if vtype == "function" and v == json.null then
+        return "null"
+    end
+    --return v:tostring()
+    error("encode unspported type " .. vtype .. ":" .. tostring(v))
+end
+
+function json.decode(s)
+    local startPos = 1
+    return json_private.decode(s, startPos)
+end
+
+function json_private.decode(s, startPos)
+    startPos = startPos or 1
+    startPos = json_private.scanWhiteSpace(s, startPos)
+    assert(startPos<=string.len(s), string.format("Unterminated JSON encoded object found at position %d in [%s]'", startPos, s))
+    local curChar = string.sub(s, startPos, startPos)
+    -- Object
+    if (curChar == '{') then
+        return json_private.scanObject(s, startPos)
+    end
+
+    -- Array
+    if (curChar == '[') then
+        return json_private.scanArray(s, startPos)
+    end
+
+    -- Number
+    if (string.find(json_private.numberChars, curChar, 1, true)) then
+        return json_private.scanNumber(s, startPos)
+    end
+
+    -- String
+    if (curChar == '"') then
+        return json_private.scanString(s, startPos)
+    end
+
+    -- Comment
+    if (string.sub(s, startPos, startPos + 1) == '/*') then
+        assert(false, "do not support scan comment")
+    end
+
+    -- Constant
+    return json_private.scanConstant(s, startPos)
+end
+
+local whiteSpace = " \n\r\t"
+function json_private.scanWhiteSpace(s, startPos)
+    local len = string.len(s)
+    while (string.find(whiteSpace, string.sub(s, startPos, startPos), 1, true) and startPos <= len) do
+        startPos = startPos + 1
+    end
+    --assert(startPos <= len, "JSON string ended unexpectedly")
+    return startPos
+end
+
+local constants = {
+    ["false"] = { value = false, len = 5 },
+    ["true"] = { value = true, len = 4 },
+    ["null"] = { value = nil, len = 4 },
+}
+--for k, v in pairs(constants) do
+--	v.len = string.len(k)
+--end
+function json_private.scanConstant(s, startPos)
+    for k, v in pairs(constants) do
+        if (string.sub(s, startPos, startPos + v.len - 1) == k) then
+            return v.value, startPos + v.len
+        end
+    end
+    assert(false, "unknown constant value at position:" .. startPos)
+end
+
+json_private.numberChars = "0123456789+-.eE"
+function json_private.scanNumber(s, startPos)
+    local endPos = startPos + 1
+    local len = string.len(s)
+    while(string.find(json_private.numberChars, string.sub(s, endPos, endPos), 1, true) and endPos <= len) do
+        endPos = endPos + 1
+    end
+    local numStr = string.sub(s, startPos, endPos - 1)
+
+    --local num = tonumber(numStr, 10)
+    --assert(num, string.format("scan number error, position %s, %s, %s", startPos, endPos, numStr))
+    --return num, endPos
+
+    local numEval = loadstring("return " .. numStr)
+    assert(numEval, string.format("scan number error, position %s, %s, %s", startPos, endPos, numStr))
+    return numEval(), endPos
+end
+
+json_private.escapeSequence = {
+    ["\\\""] = "\"",
+    ["\\\\"] = "\\",
+    ["\\/"] = "/",
+    ["\\t"] = "\t",
+    ["\\f"] = "\f",
+    ["\\r"] = "\r",
+    ["\\n"] = "\n",
+    ["\\b"] = "\b",
+}
+function json_private.scanString(s, startPos)
+    local len = string.len(s)
+    assert(startPos <= len, "scan string error at position " .. startPos)
+    local startChar = string.sub(s, startPos, startPos)
+    --"'" should not be the starting of the string of json string
+    assert(startChar == '"', "scan string error at position " .. startPos)
+    startPos = startPos + 1
+
+    local t = {}
+    local index = string.find(s, startChar, startPos)
+    assert(index, string.format("scan string error, ended unexpectedly at position:%s", startPos))
+    while index ~= startPos do
+        local from, to = string.find(s, "\\.", startPos)
+        if not from or index < from then
+            table.insert(t, string.sub(s, startPos, index - 1))
+            break
+        else
+            table.insert(t, string.sub(s, startPos, from - 1))
+            local escaped = string.sub(s, from, to)
+            if escaped == "\\u" then
+                local unicode = tonumber(string.sub(s, to + 1, to + 4), 16)
+                assert(unicode, "invalid unicode at position " .. to)
+                if unicode < 0x00000080 then
+                    --1 byte
+                    table.insert(t, string.char(unicode))
+                elseif unicode < 0x00000800 then
+                    --2 bytes
+                    table.insert(t, string.char(0xC0 + (math.floor(unicode / 0x40) % 0x20),
+                            0x80 + (unicode % 0x40)))
+                elseif unicode < 0x00010000 then
+                    --3 bytes
+                    table.insert(t, string.char(0xE0 + (math.floor(unicode / 0x1000) % 0x10),
+                            0x80 + (math.floor(unicode / 0x40) % 0x40),
+                            0x80 + (unicode % 0x40)))
+                elseif unicode < 0x00200000 then
+                    --4 bytes
+                    table.insert(t, string.char(0xF0 + (math.floor(unicode / 0x20000) % 0x08),
+                            0x80 + (math.floor(unicode / 0x1000) % 0x40),
+                            0x80 + (math.floor(unicode / 0x40) % 0x40),
+                            0x80 + (unicode % 0x40)))
+                elseif unicode < 0x04000000 then
+                    --5 bytes
+                    table.insert(t, string.insert(0xF8 + (math.floor(unicode / 0x1000000) % 0x04),
+                            0x80 + (math.floor(unicode / 0x20000) % 0x40),
+                            0x80 + (math.floor(unicode / 0x1000) % 0x40),
+                            0x80 + (math.floor(unicode / 0x40) % 0x40),
+                            0x80 + (unicode % 0x40)))
+                elseif unicode < 0x80000000 then
+                    --6 bytes
+                    table.insert(t, string.char(0xFC + (math.floor(unicode / 0x20000000) % 0x02),
+                            0x80 + (math.floor(unicode / 0x1000000) % 0x40),
+                            0x80 + (math.floor(unicode / 0x20000) % 0x40),
+                            0x80 + (math.floor(unicode / 0x1000) % 0x40),
+                            0x80 + (math.floor(unicode / 0x40) % 0x40),
+                            0x80 + (unicode % 0x40)))
+                else
+                    assert(false, "invalid unicode at position " .. to)
+                end
+                startPos = to + 5
+            else
+                if json_private.escapeSequence[escaped] then
+                    table.insert(t, json_private.escapeSequence[escaped])
+                else
+                    table.insert(t, escaped)
+                end
+                startPos = to + 1
+            end
+        end
+        index = string.find(s, startChar, startPos)
+        assert(index, string.format("scan string error, ended unexpectedly at position:%s", startPos))
+    end
+    return table.concat(t), index + 1
+end
+
+function json_private.scanObject(s, startPos)
+    local obj = {}
+    local len = string.len(s)
+    local key, value, curChar
+
+    assert(string.sub(s, startPos, startPos) == '{', string.format('object does not start at position:%d, in json string:%s', startPos, s))
+    startPos = startPos + 1
+
+    repeat
+        startPos = json_private.scanWhiteSpace(s, startPos)
+        assert(startPos <= len, "JSON string ended unexpectedly")
+
+        curChar = string.sub(s, startPos, startPos)
+        if (curChar == '}') then
+            return obj, startPos + 1
+        end
+        if (curChar == ',') then
+            startPos = json_private.scanWhiteSpace(s, startPos + 1)
+            assert(startPos <= len, "JSON string ended unexpectedly")
+        end
+
+        key, startPos = json_private.decode(s, startPos)
+        local parsedKey = tonumber(key)
+        if parsedKey then
+            key = parsedKey
+        end
+
+        startPos = json_private.scanWhiteSpace(s, startPos)
+        assert(startPos <= len, "JSON string ended unexpectedly")
+
+        curChar = string.sub(s, startPos, startPos)
+        assert(curChar == ':', string.format("JSON object key-value assignment mal-formed at %d", startPos))
+
+        startPos = json_private.scanWhiteSpace(s, startPos + 1)
+        assert(startPos <= len, "JSON string ended unexpectedly")
+
+        value, startPos = json_private.decode(s, startPos)
+
+        obj[key] = value
+    until false
+end
+
+function json_private.scanArray(s, startPos)
+    local obj = nil
+    local array = {}
+    local len = string.len(s)
+    local curChar = string.sub(s, startPos, startPos)
+    assert(curChar == "[", string.format("array does not start at position:%d, c:%s, in json string:%s", startPos, curChar, s))
+    startPos = startPos + 1
+    repeat
+        startPos = json_private.scanWhiteSpace(s, startPos)
+        assert(startPos<=len,'JSON string ended unexpectedly')
+        curChar = string.sub(s, startPos, startPos)
+        if curChar == "]" then
+            return array, startPos + 1
+        end
+        if curChar == "," then
+            startPos = json_private.scanWhiteSpace(s, startPos + 1)
+            assert(startPos<=len,'JSON string ended unexpectedly')
+        end
+        obj, startPos = json_private.decode(s, startPos)
+        table.insert(array, obj)
+    until false
+end
+
+local escapeList = {
+    ['"'] = '\\"',
+    ['\\'] = '\\\\',
+    ['/'] = '\\/',
+    ['\b'] = '\\b',
+    ['\f'] = '\\f',
+    ['\n'] = '\\n',
+    ['\r'] = '\\r',
+    ['\t'] = '\\t',
+}
+json_private.decToHex = {
+    [0] = "0",
+    [1] = "1",
+    [2] = "2",
+    [3] = "3",
+    [4] = "4",
+    [5] = "5",
+    [6] = "6",
+    [7] = "7",
+    [8] = "8",
+    [9] = "9",
+    [10] = "A",
+    [11] = "B",
+    [12] = "C",
+    [13] = "D",
+    [14] = "E",
+    [15] = "F"
+}
+function json_private.toHEX(num)
+    local high = math.floor(num / 0x10)
+    local low = math.floor(num % 0x10)
+    --print(string.format("number:%s, high:%s, low:%s", num, high, low))
+    return json_private.decToHex[high] .. json_private.decToHex[low]
+end
+function json_private.toJsonUnicode(unicode)
+    local high = math.floor(unicode / 0x100)
+    local low = unicode % 0x100
+    --print(string.format("unicode:%s, high:%s, low:%s", unicode, high, low))
+    return "\\u" .. json_private.toHEX(high) .. json_private.toHEX(low)
+end
+function json_private.encodeString(s)
+    local t = {}
+    local s = tostring(s)
+    local len = string.len(s)
+    local index = 1
+    while index <= len do
+        local b = string.byte(s, index)
+        if b < 0x80 then
+            --1 byte
+            local c = string.sub(s, index, index)
+            if escapeList[c] then
+                table.insert(t, escapeList[c])
+            else
+                table.insert(t, c)
+            end
+        elseif b < 0xE0 then
+            --2 bytes
+            local u = (b % 0x20) * 0x40
+            index = index + 1
+            b = string.byte(s, index)
+            u = u + (b % 0x40)
+            table.insert(t, json_private.toJsonUnicode(u))
+        elseif b < 0xF0 then
+            --3 bytes
+            local u = (b % 0x10) * 0x1000
+            index = index + 1
+            b = string.byte(s, index)
+            u = u + (b % 0x40) * 0x40
+            index = index + 1
+            b = string.byte(s, index)
+            u = u + (b % 0x40)
+            table.insert(t, json_private.toJsonUnicode(u))
+        elseif b < 0xF8 then
+            --4 bytes
+            local u = (b % 0x80) * 0x20000
+            index = index + 1
+            b = string.byte(s, index)
+            u = u + (b % 0x40) * 0x1000
+            index = index + 1
+            b = string.byte(s, index)
+            u = u + (b % 0x40) * 0x40
+            index = index + 1
+            b = string.byte(s, index)
+            u = u + (b % 0x40)
+            table.insert(t, json_private.toJsonUnicode(u))
+        elseif b < 0xFC then
+            --5 bytes
+            local u = (b % 0x40) * 0x1000000
+            index = index + 1
+            b = string.byte(s, index)
+            u = u + (b % 0x40) * 0x20000
+            index = index + 1
+            b = string.byte(s, index, index)
+            u = u + (b % 0x40) * 0x1000
+            index = index + 1
+            b = string.byte(s, index)
+            u = u + (b % 0x40) * 0x40
+            index = index + 1
+            b = string.byte(s, index)
+            u = u + (b % 0x40)
+            table.insert(t, json_private.toJsonUnicode(u))
+        elseif b <= 0xFE then
+            --6 bytes
+            local u = (b % 0x02) * 0x20000000
+            index = index + 1
+            b = string.byte(s, index)
+            u = u + (b % 0x40) * 0x1000000
+            index = index + 1
+            b = string.byte(s, index)
+            u = u + (b % 0x40) * 0x20000
+            index = index + 1
+            b = string.byte(s, index)
+            u = u + (b % 0x40) * 0x1000
+            index = index + 1
+            b = string.byte(s, index)
+            u = u + (b % 0x40) * 0x40
+            index = index + 1
+            b = string.byte(s, index)
+            u = u + (b % 0x40)
+            table.insert(t, json_private.toJsonUnicode(u))
+        else
+            table.insert(t, string.sub(s, index, index))
+        end
+        index = index + 1
+    end
+    local ret = table.concat(t)
+    return ret
+end
+
+function json_private.encodeTable(t)
+    if (t == json.EMPTY_ARRAY) then return '[]' end
+    if (t == json.EMPTY_OBJECT) then return '{}' end
+    local isArray = true
+    local inx = 1
+    local arr = {}
+    local tbl = {}
+    for k, v in pairs(t) do
+        if (isArray) then
+            if (type(k) == "number" and k == inx) then
+                inx = inx + 1
+            else
+                isArray = false
+            end
+            if (json_private.isEncodable(k) and json_private.isEncodable(v)) then
+                local encodedK = json_private.encodeString(k)
+                local encodedV = json.encode(v)
+                table.insert(arr, encodedV)
+                table.insert(tbl, '"' .. encodedK .. '":' .. encodedV)
+            end
+        else
+            if (json_private.isEncodable(k) and json_private.isEncodable(v)) then
+                local encodedK = json_private.encodeString(k)
+                local encodedV = json.encode(v)
+                table.insert(tbl, '"' .. encodedK .. '":' .. encodedV)
+            end
+        end
+    end
+    if (isArray) then
+        return '[' .. table.concat(arr, ',') .. ']'
+    else
+        return '{' .. table.concat(tbl, ',') .. '}'
+    end
+end
+
+
+function json_private.isArray(t)
+    if (t == json.EMPTY_ARRAY) then return true, 0 end
+    if (t == json.EMPTY_OBJECT) then return false end
+    local inx = 1
+    for k, v in pairs(t) do
+        if (type(k) ~= "number") then
+            return false
+        else
+            if (k ~= inx) then
+                return false
+            else
+                if (not json_private.isEncodable(v)) then return false end
+            end
+        end
+        inx = inx + 1
+    end
+    return true, inx
+end
+
+
+function json_private.isEncodable(o)
+    local t = type(o)
+    return (t == "string" or t  == "number" or t == "boolean" or t == "table" or t == "nil") or (t == "function" and o == json.null)
+end

@@ -1,0 +1,17 @@
+function OnInit(userData)
+    Task1.onClick:AddListener(function()
+        GameEntry.UI:OpenUIForm(UIFormId.UI_TaskDetail);
+    end);
+end
+
+function OnOpen(userData)
+
+end
+
+function OnClose()
+
+end
+
+function OnBeforDestroy()
+
+end
