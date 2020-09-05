@@ -19,66 +19,70 @@ MonoBehaviour:
   IsCanEditor: 1
   Datas:
   - Name: "\u58F0\u97F3"
+    IsCanEditor: 1
     Overall: 1
     IsFirstData: 0
     IsEncrypt: 0
     Path:
     - Download/Audio
   - Name: "\u81EA\u5B9A\u4E49Shader"
+    IsCanEditor: 1
     Overall: 1
     IsFirstData: 1
     IsEncrypt: 1
     Path:
     - Download/CusShaders
   - Name: "\u6570\u636E\u8868"
+    IsCanEditor: 1
     Overall: 1
     IsFirstData: 1
     IsEncrypt: 1
     Path:
     - Download/DataTable
   - Name: "\u7279\u6548"
+    IsCanEditor: 1
     Overall: 0
     IsFirstData: 0
     IsEncrypt: 0
     Path:
     - Download/Effect
-  - Name: Reporter
-    Overall: 1
-    IsFirstData: 1
-    IsEncrypt: 0
-    Path:
-    - Download/Reporter
   - Name: "\u89D2\u8272"
+    IsCanEditor: 1
     Overall: 0
     IsFirstData: 0
     IsEncrypt: 0
     Path:
     - Download/Role
   - Name: "\u521D\u59CB\u573A\u666F"
+    IsCanEditor: 1
     Overall: 0
     IsFirstData: 1
     IsEncrypt: 0
     Path:
     - Download/Scenes/InitScenes
   - Name: "\u5176\u4ED6\u573A\u666F"
+    IsCanEditor: 1
     Overall: 0
     IsFirstData: 0
     IsEncrypt: 0
     Path:
     - Download/Scenes/NormalScenes
   - Name: "UI\u9884\u5236\u4F53"
+    IsCanEditor: 1
     Overall: 1
     IsFirstData: 1
     IsEncrypt: 0
     Path:
     - Download/UI/UIPrefab
   - Name: "UI\u5B57\u4F53"
+    IsCanEditor: 1
     Overall: 1
     IsFirstData: 1
     IsEncrypt: 0
     Path:
     - Download/UI/UIFont
   - Name: "UI\u56FE\u96C6"
+    IsCanEditor: 1
     Overall: 1
     IsFirstData: 1
     IsEncrypt: 0
@@ -87,12 +91,14 @@ MonoBehaviour:
     - Download/UI/UIRes/Frame
     - Download/UI/UIRes/TitleBar
   - Name: "UILoading\u5927\u56FE"
+    IsCanEditor: 1
     Overall: 0
     IsFirstData: 1
     IsEncrypt: 0
     Path:
     - Download/UI/UIRes/Loading
   - Name: "xLua\u4EE3\u7801"
+    IsCanEditor: 1
     Overall: 1
     IsFirstData: 0
     IsEncrypt: 0
