@@ -1,7 +1,7 @@
  **简介** 
 ------------
-YouYou Framework 是一个开源的游戏客户端（基于unity3d）服务端双端的轻量化框架.<br>
-使用C# .net core开发的分布式游戏服务端, Redis做共享缓存, MongoDB做数据存储, 双端支持热更新.<br>
+YouYou Framework 是一个开源的客户端（基于Unity3d）服务端双端的游戏框架.<br>
+使用C# .NET Core开发的分布式游戏服务端, Redis做共享缓存, MongoDB做数据存储, 双端支持热更新.<br>
 在最新的 YouYou Framework 版本中, 包含以下内置模块. 
 
  **YouYouEditor(Odin可视化编辑界面)**
@@ -69,5 +69,25 @@ YouYou Framework 是一个开源的游戏客户端（基于unity3d）服务端�
  **YouYouServer** 
 ------------------------------------
 {
-    
+
+>**YouYouServer.Core-核心基类库**<br>
+引用了CSRedisCore, MongoDB.driver, Google.Protobuf等第三方包,用来存放项目的基类,工具类,核心类等
+
+>**YouYouServer.Common-公共数据类库**<br>
+引用了YouYouServer.Core库, 用来读取项目的配置文件, 常量, Excel数据, Protobuf数据, DB数据等
+
+>**YouYouServer.Model-线程模型库**
+引用了YouYouServer.Core, YouYouServer.Common库, 用来处理分布式服务端和客户端的交互接口, 连接请求, 派发了数据消息事件等
+
+>**YouYouServer.Hofix-服务器热补丁库**
+引用了YouYouServer.Model库, 但是不能被任何库直接引用, 而是通过反射加载程序集的方式被调用, 监听了数据消息事件, 用来处理数据读写以及真正的业务逻辑, 如PVP战斗, 商城, 背包等
+
+>**YouYouServer.WebAccount-Web服务器集群**
+
+>**YouYouServer.GatewayServer-网关服务器,多节点控制台**
+
+>**YouYouServer.GameServer-游戏服务器,多节点控制台**
+
+>**YouYouServer.WorldServer-中心服务器,单节点控制台**
+
 }
