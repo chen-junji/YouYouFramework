@@ -252,26 +252,26 @@ public class PageView : MonoBehaviour
 		}
 	}
 
-	private int index = 0;
-	private void OnTweenComplete()
-	{
-		index++;
-		if (index == PageSize)
-		{
-			while (m_OldItemList.Count > 0)
-			{
-				m_OldItemList[0].gameObject.SetParent(this.itemPool);
-				m_Queue.Enqueue(m_OldItemList[0].gameObject);
-				Button btn = m_OldItemList[0].gameObject.GetComponent<Button>();
-				if (btn != null)
-				{
-					btn.onClick.RemoveAllListeners();
-				}
-				m_OldItemList.RemoveAt(0);
-			}
-			m_OldItemList.Clear();
-			index = 0;
-		}
-		m_IsPlaying = false;
-	}
+    private int index = 0;
+    private void OnTweenComplete()
+    {
+        index++;
+        if (index == PageSize)
+        {
+            while (m_OldItemList.Count > 0)
+            {
+                m_OldItemList[0].gameObject.transform.SetParent(this.itemPool);
+                m_Queue.Enqueue(m_OldItemList[0].gameObject);
+                Button btn = m_OldItemList[0].gameObject.GetComponent<Button>();
+                if (btn != null)
+                {
+                    btn.onClick.RemoveAllListeners();
+                }
+                m_OldItemList.RemoveAt(0);
+            }
+            m_OldItemList.Clear();
+            index = 0;
+            m_IsPlaying = false;
+        }
+    }
 }

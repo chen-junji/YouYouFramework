@@ -183,10 +183,7 @@ namespace YouYou
 		/// <param name="buffer"></param>
 		public void SendMainMsg(IProto proto)
 		{
-#if DEBUG_LOG_PROTO
-			Debug.Log("<color=#ffa200>发送消息:</color><color=#FFFB80>" + proto.ProtoEnName + " " + proto.ProtoId + "</color>");
-			Debug.Log("<color=#ffdeb3>==>>" + JsonUtility.ToJson(proto) + "</color>");
-#endif
+			GameEntry.Log(LogCategory.Proto, "发送消息=={0}{1}", proto.ProtoEnName, proto.ToJson());
 			m_MainSocket.SendMsg(proto);
 		}
 		/// <summary>

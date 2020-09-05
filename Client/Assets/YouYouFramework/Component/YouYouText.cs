@@ -6,18 +6,18 @@ using UnityEngine.UI;
 namespace YouYou
 {
     /// <summary>
-    /// Text自定义子类
+    /// Text脳脭露篓脪氓脳脫脌脿
     /// </summary>
     public class YouYouText : Text
     {
-        [Header("本地化语言的Key")]
+        [Header("鏈湴鍖栬瑷�Key")]
         [SerializeField]
         private string m_Localization;
 
         protected override void Start()
         {
             base.Start();
-            if (GameEntry.Localization != null)
+            if (GameEntry.Localization != null && !string.IsNullOrEmpty(m_Localization))
             {
                 text = GameEntry.Localization.GetString(m_Localization);
             }

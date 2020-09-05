@@ -52,11 +52,8 @@ namespace YouYou
 					Array.Copy(arraySegment.Array, temp, tempResult.Count);
 					json = Encoding.UTF8.GetString(temp, 0, temp.Length);
 				}
-
-
-#if DEBUG_LOG_PROTO && DEBUG_MODEL
 				GameEntry.Log(LogCategory.Proto, "WebSocket接收消息==>>" + json);
-#endif
+
 				if (int.Parse(json.JsonCutApart("Status")) == 1)
 				{
 					string content = json.JsonCutApart("Content");

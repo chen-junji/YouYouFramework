@@ -247,6 +247,11 @@ public class MMO_MemoryStream : MemoryStream
     /// <param name="str"></param>
     public void WriteUTF8String(string str)
     {
+        if (string.IsNullOrEmpty(str))
+        {
+            WriteUShort(0);
+            return;
+        }
         byte[] arr = Encoding.UTF8.GetBytes(str);
         if (arr.Length > 65535)
         {

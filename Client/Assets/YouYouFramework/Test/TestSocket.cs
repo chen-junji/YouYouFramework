@@ -10,50 +10,34 @@ using YouYou.Proto;
 
 public class TestSocket : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
+	void Start()
+	{
 
-    void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.A))
-        {
+	}
+
+	void Update()
+	{
+		if (Input.GetKeyUp(KeyCode.A))
+		{
 			//连接Socket
-            GameEntry.Socket.ConnectToMainSocket("192.168.0.109", 1304);
-        }
-        else if (Input.GetKeyUp(KeyCode.B))
-        {
-			//发送消息
-            C2WS_CreateRole proto = new C2WS_CreateRole();
-            proto.JobId = 1;
-            proto.Sex = 1;
-            proto.NickName = "protoYouyou你好01";
+			GameEntry.Socket.ConnectToMainSocket("127.0.0.1", 1304);
+		}
+		else if (Input.GetKeyUp(KeyCode.B))
+		{
+			//序列化, 发送消息
+			C2GWS_RegClient proto = new C2GWS_RegClient();
+			proto.AccountId = 10;
+			GameEntry.Socket.SendMainMsg(proto);
+		}
+		else if (Input.GetKeyUp(KeyCode.C))
+		{
+			//创建角色消息
+			C2WS_CreateRole proto = new C2WS_CreateRole();
+			proto.JobId = 1;
+			proto.Sex = 1;
+			proto.NickName = "protoYouyou你好01";
 
-            GameEntry.Socket.SendMainMsg(proto);
-
-            //序列化
-            //C2GWS_RegClient proto = new C2GWS_RegClient();
-            //proto.AccountId = 10;
-
-            //byte[] buffer = proto.ToByteArray();
-
-            //GameEntry.Socket.SendMainMsg(proto);
-
-            //反序列化
-            //C2GWS_RegClient proto2 = (C2GWS_RegClient)C2GWS_RegClient.Parser.ParseFrom(buffer);
-
-            //Debug.Log("proto2="+ proto2.AccountId);
-        }
-    }
-
-    void TestA()
-    {
-
-    }
-
-    void TestB()
-    {
-
-    }
+			GameEntry.Socket.SendMainMsg(proto);
+		}
+	}
 }

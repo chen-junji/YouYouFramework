@@ -100,9 +100,7 @@ namespace YouYou
 		/// <param name="url"></param>
 		private void GetUrl(string url)
 		{
-#if DEBUG_LOG_PROTO && DEBUG_MODEL
 			GameEntry.Log(LogCategory.Proto, "Get请求:{0}, {1}次重试", m_Url, m_CurrRetry);
-#endif
 			UnityWebRequest data = UnityWebRequest.Get(url);
 			GameEntry.Instance.StartCoroutine(Request(data));
 		}
@@ -137,10 +135,7 @@ namespace YouYou
 				if (!string.IsNullOrWhiteSpace(GameEntry.ParamsSettings.PostContentType))
 					unityWeb.SetRequestHeader("Content-Type", GameEntry.ParamsSettings.PostContentType);
 			}
-
-#if DEBUG_LOG_PROTO && DEBUG_MODEL
 			GameEntry.Log(LogCategory.Proto, "Post请求:{0}, {1}次重试==>>{2}", m_Url, m_CurrRetry, m_Json);
-#endif
 			GameEntry.Instance.StartCoroutine(Request(unityWeb));
 		}
 		#endregion
@@ -187,9 +182,7 @@ namespace YouYou
 				m_CallBack?.Invoke(m_CallBackArgs);
 			}
 
-#if DEBUG_LOG_PROTO && DEBUG_MODEL
 			if (!string.IsNullOrWhiteSpace(m_CallBackArgs.Value)) GameEntry.Log(LogCategory.Proto, "WebAPI回调:{0}, ==>>{1}", m_Url, m_CallBackArgs.ToJson());
-#endif
 
 			m_CurrRetry = 0;
 			m_Url = null;

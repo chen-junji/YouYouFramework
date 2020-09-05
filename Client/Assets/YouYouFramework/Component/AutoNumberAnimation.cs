@@ -21,6 +21,7 @@ public class AutoNumberAnimation : MonoBehaviour
 
     public void DoNumber(int number)
     {
+        if (!this.isActiveAndEnabled) return;
         m_Queue.Enqueue(number);
         //Debug.Log("加入队列===" + number);
         CheckQueue();

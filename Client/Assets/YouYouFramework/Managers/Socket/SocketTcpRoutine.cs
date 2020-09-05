@@ -21,9 +21,6 @@ namespace YouYou
 		//压缩数组的长度界限
 		private const int m_CompressLen = 200;
 
-		//是否连接成功
-		private bool m_IsConnectedOk;
-
 		/// <summary>
 		/// 当前帧发送数量
 		/// </summary>
@@ -75,15 +72,6 @@ namespace YouYou
 
 		internal void OnUpdate()
 		{
-			if (m_IsConnectedOk)
-			{
-				m_IsConnectedOk = false;
-				if (OnConnectOK != null)
-				{
-					OnConnectOK();
-				}
-			}
-
 			#region 从队列中获取数据
 			while (true)
 			{
@@ -98,10 +86,9 @@ namespace YouYou
 							byte[] buffer = m_ReceiveQueue.Dequeue();
 
 							//异或之后的数组
-							byte[] bufferNew = new byte[buffer.Length - 3];
+							byte[] bufferNew = new byte[buffer.Length - 1];
 
 							bool isCompress = false;
-							ushort crc = 0;
 
 							//1.解析队列中的数据包
 							MMO_MemoryStream ms1 = m_SocketReceiveMS;
@@ -110,43 +97,31 @@ namespace YouYou
 							ms1.Position = 0;
 
 							isCompress = ms1.ReadBool();
-							crc = ms1.ReadUShort();
 							ms1.Read(bufferNew, 0, bufferNew.Length);
 
-							//2.crc校验
-							int newCrc = Crc16.CalculateCrc16(bufferNew);
-
-							if (newCrc == crc)
+							if (isCompress)
 							{
-								//异或 得到原始数据
-								bufferNew = SecurityUtil.Xor(bufferNew);
-
-								if (isCompress)
-								{
-									bufferNew = ZlibHelper.DeCompressBytes(bufferNew);
-								}
-
-								ushort protoCode = 0;
-								ProtoCategory protoCategory;
-								byte[] protoContent = new byte[bufferNew.Length - 3];//这里-3 是减去 protoCode长度+protoCategory长度
-
-								MMO_MemoryStream ms2 = m_SocketReceiveMS;
-								ms2.SetLength(0);
-								ms2.Write(bufferNew, 0, bufferNew.Length);
-								ms2.Position = 0;
-
-								//协议编号
-								protoCode = ms2.ReadUShort();
-								protoCategory = (ProtoCategory)ms2.ReadByte();
-								ms2.Read(protoContent, 0, protoContent.Length);
-
-								GameEntry.Event.SocketEvent.Dispatch(protoCode, protoContent);
+								bufferNew = ZlibHelper.DeCompressBytes(bufferNew);
 							}
-							else
-							{
-								Debug.Log("crc校验错误");
-								break;
-							}
+
+							ushort protoCode = 0;
+							ProtoCategory protoCategory;
+							byte[] protoContent = new byte[bufferNew.Length - 3];//这里-3 是减去 protoCode长度+protoCategory长度
+
+							MMO_MemoryStream ms2 = m_SocketReceiveMS;
+							ms2.SetLength(0);
+							ms2.Write(bufferNew, 0, bufferNew.Length);
+							ms2.Position = 0;
+
+							//协议编号
+							protoCode = ms2.ReadUShort();
+							protoCategory = (ProtoCategory)ms2.ReadByte();
+
+							ms2.Read(protoContent, 0, protoContent.Length);
+
+							//异或 得到原始数据
+							protoContent = SecurityUtil.Xor(protoContent);
+							GameEntry.Event.SocketEvent.Dispatch(protoCode, protoContent);
 						}
 						else
 						{
@@ -207,7 +182,9 @@ namespace YouYou
 				GameEntry.Socket.RegisterSocketTcpRoutine(this);
 
 				ReceiveMsg();
-				m_IsConnectedOk = true;
+
+				GameEntry.Log(LogCategory.Proto, "Socket连接到=={0}==服务器成功!", m_Client.RemoteEndPoint);
+				OnConnectOK?.Invoke();
 			}
 			else
 			{
@@ -225,10 +202,10 @@ namespace YouYou
 		{
 			if (m_Client != null && m_Client.Connected)
 			{
+				GameEntry.Log(LogCategory.Proto, "Socket从=={0}==服务器断开连接!==", m_Client.RemoteEndPoint);
 				m_Client.Shutdown(SocketShutdown.Both);
 				m_Client.Close();
 				GameEntry.Socket.RemoveSocketTcpRoutine(this);
-				Debug.Log("从当前连接的Socket服务器断开");
 			}
 		}
 		#endregion
@@ -426,6 +403,18 @@ namespace YouYou
 		}
 		#endregion
 
+		#region IsSocketConnected 判断socket是否连接
+		/// <summary>
+		/// 判断socket是否连接
+		/// </summary>
+		/// <param name="s"></param>
+		/// <returns></returns>
+		bool IsSocketConnected(Socket s)
+		{
+			return !((s.Poll(1000, SelectMode.SelectRead) && (s.Available == 0)) || !s.Connected);
+		}
+		#endregion
+
 		#region ReceiveCallBack 接收数据回调
 		/// <summary>
 		/// 接收数据回调
@@ -435,89 +424,92 @@ namespace YouYou
 		{
 			try
 			{
-				int len = m_Client.EndReceive(ar);
-
-				if (len > 0)
+				if (IsSocketConnected(m_Client))
 				{
-					//已经接收到数据
+					int len = m_Client.EndReceive(ar);
 
-					//把接收到数据 写入缓冲数据流的尾部
-					m_ReceiveMS.Position = m_ReceiveMS.Length;
-					//把指定长度的字节 写入数据流
-					m_ReceiveMS.Write(m_ReceiveBuffer, 0, len);
-					//如果缓存数据流的长度>2 说明至少有个不完整的包过来了
-					//为什么这里是2 因为我们客户端封装数据包 用的ushort 长度就是2
-					if (m_ReceiveMS.Length > 2)
+					if (len > 0)
 					{
-						//进行循环 拆分数据包
-						while (true)
+						//已经接收到数据
+
+						//把接收到数据 写入缓冲数据流的尾部
+						m_ReceiveMS.Position = m_ReceiveMS.Length;
+						//把指定长度的字节 写入数据流
+						m_ReceiveMS.Write(m_ReceiveBuffer, 0, len);
+						//如果缓存数据流的长度>2 说明至少有个不完整的包过来了
+						//为什么这里是2 因为我们客户端封装数据包 用的ushort 长度就是2
+						if (m_ReceiveMS.Length > 2)
 						{
-							//把数据流指针位置放在0处
-							m_ReceiveMS.Position = 0;
-
-							//currMsgLen = 包体的长度
-							int currMsgLen = m_ReceiveMS.ReadUShort();
-
-							//currFullMsgLen 总包的长度=包头长度+包体长度
-							int currFullMsgLen = 2 + currMsgLen;
-
-							//如果数据流的长度>=整包的长度 说明至少收到了一个完整包
-							if (m_ReceiveMS.Length >= currFullMsgLen)
+							//进行循环 拆分数据包
+							while (true)
 							{
-								//至少收到一个完整包
+								//把数据流指针位置放在0处
+								m_ReceiveMS.Position = 0;
 
-								//定义包体的byte[]数组
-								byte[] buffer = new byte[currMsgLen];
+								//currMsgLen = 包体的长度
+								int currMsgLen = m_ReceiveMS.ReadUShort();
 
-								//把数据流指针放到2的位置 也就是包体的位置
-								m_ReceiveMS.Position = 2;
+								//currFullMsgLen 总包的长度=包头长度+包体长度
+								int currFullMsgLen = 2 + currMsgLen;
 
-								//把包体读到byte[]数组
-								m_ReceiveMS.Read(buffer, 0, currMsgLen);
-
-								lock (m_ReceiveQueue)
+								//如果数据流的长度>=整包的长度 说明至少收到了一个完整包
+								if (m_ReceiveMS.Length >= currFullMsgLen)
 								{
-									m_ReceiveQueue.Enqueue(buffer);
-								}
-								//==============处理剩余字节数组===================
+									//至少收到一个完整包
 
-								//剩余字节长度
-								int remainLen = (int)m_ReceiveMS.Length - currFullMsgLen;
-								if (remainLen > 0)
-								{
-									//把指针放在第一个包的尾部
-									m_ReceiveMS.Position = currFullMsgLen;
+									//定义包体的byte[]数组
+									byte[] buffer = new byte[currMsgLen];
 
-									//定义剩余字节数组
-									byte[] remainBuffer = new byte[remainLen];
+									//把数据流指针放到2的位置 也就是包体的位置
+									m_ReceiveMS.Position = 2;
 
-									//把数据流读到剩余字节数组
-									m_ReceiveMS.Read(remainBuffer, 0, remainLen);
+									//把包体读到byte[]数组
+									m_ReceiveMS.Read(buffer, 0, currMsgLen);
 
-									//清空数据流
-									m_ReceiveMS.Position = 0;
-									m_ReceiveMS.SetLength(0);
+									lock (m_ReceiveQueue)
+									{
+										m_ReceiveQueue.Enqueue(buffer);
+									}
+									//==============处理剩余字节数组===================
 
-									//把剩余字节数组重新写入数据流
-									m_ReceiveMS.Write(remainBuffer, 0, remainBuffer.Length);
+									//剩余字节长度
+									int remainLen = (int)m_ReceiveMS.Length - currFullMsgLen;
+									if (remainLen > 0)
+									{
+										//把指针放在第一个包的尾部
+										m_ReceiveMS.Position = currFullMsgLen;
 
-									remainBuffer = null;
+										//定义剩余字节数组
+										byte[] remainBuffer = new byte[remainLen];
+
+										//把数据流读到剩余字节数组
+										m_ReceiveMS.Read(remainBuffer, 0, remainLen);
+
+										//清空数据流
+										m_ReceiveMS.Position = 0;
+										m_ReceiveMS.SetLength(0);
+
+										//把剩余字节数组重新写入数据流
+										m_ReceiveMS.Write(remainBuffer, 0, remainBuffer.Length);
+
+										remainBuffer = null;
+									}
+									else
+									{
+										//没有剩余字节
+
+										//清空数据流
+										m_ReceiveMS.Position = 0;
+										m_ReceiveMS.SetLength(0);
+
+										break;
+									}
 								}
 								else
 								{
-									//没有剩余字节
-
-									//清空数据流
-									m_ReceiveMS.Position = 0;
-									m_ReceiveMS.SetLength(0);
-
+									//还没有收到完整包
 									break;
 								}
-							}
-							else
-							{
-								//还没有收到完整包
-								break;
 							}
 						}
 					}

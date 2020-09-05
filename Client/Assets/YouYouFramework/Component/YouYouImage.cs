@@ -7,11 +7,11 @@ using UnityEngine.UI;
 namespace YouYou
 {
     /// <summary>
-    /// Image自定义子类
+    /// Image脳脭露篓脪氓脳脫脌脿
     /// </summary>
     public class YouYouImage : Image
     {
-        [Header("本地化语言的Key")]
+        [Header("鏈湴鍖栬瑷�Key")]
         [SerializeField]
         private string m_Localization;
 
@@ -22,13 +22,14 @@ namespace YouYou
             {
                 string path = GameUtil.GetUIResPath(GameEntry.Localization.GetString(m_Localization));
                 Texture2D texture = null;
-#if UNITY_DEITOR
-                texture = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>(path) as Texture2D;
 
+                GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.UIRes, path, onComplete: (ResourceEntity entity) =>
+                {
+                    texture = entity.Target as Texture2D;
                 Sprite obj = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                 sprite = obj;
                 SetNativeSize();
-#endif
+                });
             }
         }
     }

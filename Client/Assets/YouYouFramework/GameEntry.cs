@@ -426,7 +426,6 @@ namespace YouYou
 				case LogCategory.Normal:
 #if DEBUG_LOG_NORMAL && DEBUG_MODEL
                     Debug.Log("[youyou]" + (args.Length == 0 ? message : string.Format(message, args)));
-
 #endif
 					break;
 				case LogCategory.Procedure:

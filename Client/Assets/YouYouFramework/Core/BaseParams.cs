@@ -1,3 +1,8 @@
+//===================================================
+//‰Ωú    ËÄÖÔºöËæπÊ∂Ø  http://www.u3dol.com
+//ÂàõÂª∫Êó∂Èó¥Ôºö
+//Â§á    Ê≥®Ôºö
+//===================================================
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +10,7 @@ using UnityEngine;
 namespace YouYou
 {
     /// <summary>
-    /// ª˘¥°≤Œ ˝
+    /// Âü∫Á°ÄÂèÇÊï∞
     /// </summary>
     public class BaseParams
     {
@@ -15,17 +20,17 @@ namespace YouYou
         public int IntParam4;
         public int IntParam5;
 
-        public float FloatParam1;
-        public float FloatParam2;
-        public float FloatParam3;
-        public float FloatParam4;
-        public float FloatParam5;
-
         public ulong ULongParam1;
         public ulong ULongParam2;
         public ulong ULongParam3;
         public ulong ULongParam4;
         public ulong ULongParam5;
+
+        public float FloatParam1;
+        public float FloatParam2;
+        public float FloatParam3;
+        public float FloatParam4;
+        public float FloatParam5;
 
         public string StringParam1;
         public string StringParam2;
@@ -39,16 +44,16 @@ namespace YouYou
 
 
 
-		/// <summary>
-		/// ÷ÿ÷√
-		/// </summary>
-		public void Reset()
+        /// <summary>
+        /// ÈáçÁΩÆ
+        /// </summary>
+        public void Reset()
         {
             IntParam1 = IntParam2 = IntParam3 = IntParam4 = IntParam5 = 0;
-            FloatParam1 = FloatParam2 = FloatParam3 = FloatParam4 = FloatParam5 = 0;
             ULongParam1 = ULongParam2 = ULongParam3 = ULongParam4 = ULongParam5 = 0;
+            FloatParam1 = FloatParam2 = FloatParam3 = FloatParam4 = FloatParam5 = 0;
             StringParam1 = StringParam2 = StringParam3 = StringParam4 = StringParam5 = null;
 			Vector3Param1 = Vector3.zero;
-		}
+        }
     }
 }
