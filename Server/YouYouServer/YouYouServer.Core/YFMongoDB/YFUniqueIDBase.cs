@@ -2,7 +2,7 @@
 using MongoDB.Driver;
 using System.Threading.Tasks;
 
-namespace YouYouServer.Core.YFMongoDB
+namespace YouYouServer.Core
 {
     /// <summary>
     /// 唯一ID管理基类

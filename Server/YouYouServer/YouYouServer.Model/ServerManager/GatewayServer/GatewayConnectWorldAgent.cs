@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using YouYou.Proto;
 using YouYouServer.Common;
-using YouYouServer.Common.Managers;
-using YouYouServer.Core.Common;
-using YouYouServer.Core.Logger;
+using YouYouServer.Core;
 
-namespace YouYouServer.Model.ServerManager
+namespace YouYouServer.Model
 {
     /// <summary>
     /// 网关服务器连接中心服务器代理

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using YouYou.Proto;
+﻿using YouYou.Proto;
 using YouYouServer.Common;
 using YouYouServer.Core;
-using YouYouServer.Core.Common;
 
-namespace YouYouServer.Model.ServerManager
+namespace YouYouServer.Model
 {
     /// <summary>
     /// 作为中心服务器的网关服务器客户端

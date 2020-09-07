@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using YouYou.Proto;
+﻿using YouYou.Proto;
 using YouYouServer.Common;
-using YouYouServer.Common.Managers;
 using YouYouServer.Core;
-using YouYouServer.Core.Common;
-using YouYouServer.Core.Logger;
 
-namespace YouYouServer.Model.ServerManager
+namespace YouYouServer.Model
 {
     /// <summary>
     /// 网关服务器链接到游戏服务器代理

@@ -1,6 +1,6 @@
-﻿using YouYouServer.Core.YFMongoDB;
+﻿using YouYouServer.Core;
 
-namespace YouYouServer.Common.DBData
+namespace YouYouServer.Common
 {
     /// <summary>
     /// 账号实体
@@ -31,5 +31,7 @@ namespace YouYouServer.Common.DBData
         /// 密码
         /// </summary>
         public string Password;
+		public int LastLogOnServerId { get; set; }
+		public string LastLogOnServerName { get; set; }
     }
 }

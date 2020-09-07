@@ -1,9 +1,9 @@
 ﻿using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using YouYouServer.Core.Utils;
+using YouYouServer.Core;
 
-namespace YouYouServer.Core.Logger
+namespace YouYouServer.Core
 {
     /// <summary>
     /// 日志管理器

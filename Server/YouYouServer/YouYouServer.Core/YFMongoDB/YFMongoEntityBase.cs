@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 using System;
 
-namespace YouYouServer.Core.YFMongoDB
+namespace YouYouServer.Core
 {
     
     [BsonIgnoreExtraElements]

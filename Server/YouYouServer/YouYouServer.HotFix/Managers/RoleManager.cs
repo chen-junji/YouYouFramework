@@ -2,13 +2,10 @@
 using System;
 using System.Threading.Tasks;
 using YouYouServer.Common;
-using YouYouServer.Common.DBData;
-using YouYouServer.Common.Managers;
-using YouYouServer.Core.Logger;
-using YouYouServer.Core.Utils;
-using YouYouServer.Model.Logic.DBModels;
+using YouYouServer.Core;
+using YouYouServer.Model;
 
-namespace YouYouServer.HotFix.Managers
+namespace YouYouServer.HotFix
 {
     public sealed class RoleManager
     {
@@ -44,7 +41,7 @@ namespace YouYouServer.HotFix.Managers
 
             //3.写入MongoDB
             roleEntity = new RoleEntity();
-            roleEntity.YFId = await DBModelMgr.UniqueIDAccount.GetUniqueIDAsync((int)ConstDefine.CollectionType.Role);
+            roleEntity.YFId = await DBModelMgr.UniqueIDGameServer.GetUniqueIDAsync(UniqueIDGameServer.CollectionType.Role.ToInt());
             roleEntity.AccountId = accountId;
             roleEntity.JobId = jobId;
             roleEntity.Sex = sex;

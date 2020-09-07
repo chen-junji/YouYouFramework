@@ -1,10 +1,8 @@
 ﻿using MongoDB.Driver;
 using YouYouServer.Common;
-using YouYouServer.Common.DBData;
-using YouYouServer.Common.Managers;
-using YouYouServer.Core.YFMongoDB;
+using YouYouServer.Core;
 
-namespace YouYouServer.Model.Logic.DBModels
+namespace YouYouServer.Model
 {
     /// <summary>
     /// 角色数据管理器

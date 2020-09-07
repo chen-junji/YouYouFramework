@@ -1,5 +1,5 @@
 ﻿using MongoDB.Driver;
-using YouYouServer.Common.Managers;
+using YouYouServer.Common;
 
 namespace YouYouServer.Common
 {

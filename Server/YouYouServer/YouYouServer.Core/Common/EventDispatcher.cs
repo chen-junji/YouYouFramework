@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YouYouServer.Core.Common
+namespace YouYouServer.Core
 {
     /// <summary>
     /// 观察者模式

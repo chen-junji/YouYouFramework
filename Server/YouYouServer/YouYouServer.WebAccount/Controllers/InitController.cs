@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using YouYouServer.Common.DBData;
-using YouYouServer.Common.Managers;
-using YouYouServer.Core.Common;
-using YouYouServer.Core.Utils;
+using YouYouServer.Common;
+using YouYouServer.Core;
 
 namespace YouYouServer.WebAccount.Controllers
 {

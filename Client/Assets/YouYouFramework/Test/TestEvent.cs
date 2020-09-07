@@ -8,7 +8,7 @@ public class TestEvent : MonoBehaviour
 {
     void Start()
     {
-        GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.RegComplete, OnRegComplete);
+        //GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.RegComplete, OnRegComplete);
     }
 
     private void OnRegComplete(object userData)
@@ -26,6 +26,6 @@ public class TestEvent : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameEntry.Event.CommonEvent.RemoveEventListener(CommonEventId.RegComplete, OnRegComplete);
+        //GameEntry.Event.CommonEvent.RemoveEventListener(CommonEventId.RegComplete, OnRegComplete);
     }
 }

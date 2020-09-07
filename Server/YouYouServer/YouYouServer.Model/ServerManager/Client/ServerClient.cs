@@ -2,11 +2,9 @@
 using System.Net.Sockets;
 using YouYou.Proto;
 using YouYouServer.Common;
-using YouYouServer.Common.Managers;
-using YouYouServer.Core.Common;
-using YouYouServer.Core.Logger;
+using YouYouServer.Core;
 
-namespace YouYouServer.Model.ServerManager
+namespace YouYouServer.Model
 {
     /// <summary>
     /// 服务器客户端

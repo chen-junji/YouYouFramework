@@ -1,6 +1,6 @@
-﻿using YouYouServer.Core.YFMongoDB;
+﻿using YouYouServer.Core;
 
-namespace YouYouServer.Core.Logger
+namespace YouYouServer.Core
 {
     /// <summary>
     /// 日志管理器

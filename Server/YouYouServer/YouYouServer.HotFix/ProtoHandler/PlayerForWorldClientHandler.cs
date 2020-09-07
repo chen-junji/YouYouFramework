@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using YouYou.Proto;
 using YouYouServer.Common;
-using YouYouServer.Core.Common;
-using YouYouServer.HotFix.Managers;
-using YouYouServer.Model.IHandler;
-using YouYouServer.Model.ServerManager;
+using YouYouServer.Core;
+using YouYouServer.Model;
 
-namespace YouYouServer.HotFix.ProtoHandler
+namespace YouYouServer.HotFix
 {
     [Handler(ConstDefine.PlayerForWorldClientHandler)]
     public class PlayerForWorldClientHandler : IPlayerForWorldClientHandler

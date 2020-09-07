@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YouYouServer.Model.ServerManager
+namespace YouYouServer.Model
 {
     //游戏服务器客户端
     public class GameServerClient : ServerClientBase

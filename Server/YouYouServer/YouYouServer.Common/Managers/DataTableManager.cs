@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace YouYouServer.Common.Managers
+namespace YouYouServer.Common
 {
 	/// <summary>
 	/// 数据表管理器

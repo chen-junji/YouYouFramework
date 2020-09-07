@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YouYouServer.Core.Utils
+namespace YouYouServer.Core
 {
     public static class YFStringUtil
     {

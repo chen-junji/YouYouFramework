@@ -1,4 +1,4 @@
-﻿namespace YouYouServer.Common.DBData
+﻿namespace YouYouServer.Common
 {
     /// <summary>
     /// 任务实体

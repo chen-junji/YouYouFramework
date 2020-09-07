@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace YouYouServer.Common.Managers
+namespace YouYouServer.Common
 {
     /// <summary>
     /// 游戏服配置

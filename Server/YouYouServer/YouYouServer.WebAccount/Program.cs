@@ -20,7 +20,7 @@ namespace YouYouServer.WebAccount
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseUrls("http://192.168.0.109:7000").UseStartup<Startup>();
+                    webBuilder.UseUrls("http://127.0.0.1:8004").UseStartup<Startup>();
                 });
     }
 }

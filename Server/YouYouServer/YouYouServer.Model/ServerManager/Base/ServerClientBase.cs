@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YouYouServer.Model.ServerManager
+namespace YouYouServer.Model
 {
     public abstract class ServerClientBase : IDisposable
     {

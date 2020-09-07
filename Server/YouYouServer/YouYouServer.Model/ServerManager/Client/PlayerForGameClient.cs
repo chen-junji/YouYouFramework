@@ -1,9 +1,9 @@
 ﻿using Google.Protobuf;
 using YouYou;
-using YouYouServer.Common.DBData;
-using YouYouServer.Core.Common;
+using YouYouServer.Common;
+using YouYouServer.Core;
 
-namespace YouYouServer.Model.ServerManager
+namespace YouYouServer.Model
 {
     /// <summary>
     /// 游戏服务器上的玩家客户端

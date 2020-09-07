@@ -1,9 +1,9 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Options;
 using System.Collections.Generic;
-using YouYouServer.Core.YFMongoDB;
+using YouYouServer.Core;
 
-namespace YouYouServer.Common.DBData
+namespace YouYouServer.Common
 {
     /// <summary>
     /// 角色实体

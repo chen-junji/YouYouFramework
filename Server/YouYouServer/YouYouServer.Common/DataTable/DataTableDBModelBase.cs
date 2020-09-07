@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using YouYouServer.Common.Managers;
-using YouYouServer.Core.Utils;
+using YouYouServer.Common;
+using YouYouServer.Core;
 
 /// <summary>
 /// 数据表管理基类

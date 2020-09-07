@@ -1,6 +1,6 @@
-﻿using YouYouServer.Model.ServerManager;
+﻿using YouYouServer.Model;
 
-namespace YouYouServer.Model.IHandler
+namespace YouYouServer.Model
 {
     public interface IPlayerForWorldClientHandler
     {

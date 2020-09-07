@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using YouYouServer.Core;
 
-namespace YouYouServer.Core.Common
+namespace YouYouServer.Core
 {
     /// <summary>
     /// 客户端发给网关服务器时使用的中转协议（运载别的协议使用）

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YouYouServer.Model.Logic.DBModels
+namespace YouYouServer.Model
 {
     /// <summary>
     /// 数据模型管理器

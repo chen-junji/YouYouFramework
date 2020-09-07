@@ -2,11 +2,9 @@
 using System;
 using YouYou;
 using YouYouServer.Common;
-using YouYouServer.Common.DBData;
-using YouYouServer.Core.Common;
-using YouYouServer.Model.IHandler;
+using YouYouServer.Core;
 
-namespace YouYouServer.Model.ServerManager
+namespace YouYouServer.Model
 {
     /// <summary>
     /// 中心服务器上的玩家客户端

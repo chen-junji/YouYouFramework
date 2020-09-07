@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using YouYouServer.Common.DBData;
+using YouYouServer.Common;
 
-namespace YouYouServer.Model.IHandler
+namespace YouYouServer.Model
 {
     public interface IAccountControllerHandler
     {

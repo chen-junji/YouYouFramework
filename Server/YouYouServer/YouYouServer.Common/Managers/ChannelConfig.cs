@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using YouYouServer.Common.DBData;
+using YouYouServer.Common;
 
-namespace YouYouServer.Common.Managers
+namespace YouYouServer.Common
 {
     public sealed class ChannelConfig
     {

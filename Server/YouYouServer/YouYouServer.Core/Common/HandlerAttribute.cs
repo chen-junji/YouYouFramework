@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YouYouServer.Core.Common
+namespace YouYouServer.Core
 {
     /// <summary>
     /// 处理协议的标记

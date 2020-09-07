@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
 
-namespace YouYouServer.Common.Managers
+namespace YouYouServer.Common
 {
     /// <summary>
     /// 可以热更新的配置文件

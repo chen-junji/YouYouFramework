@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YouYouServer.Core.Logger
+namespace YouYouServer.Core
 {
     /// <summary>
     /// 日志策略

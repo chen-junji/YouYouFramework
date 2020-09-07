@@ -1,6 +1,6 @@
 ﻿using CSRedis;
 using System;
-using YouYouServer.Common.Managers;
+using YouYouServer.Common;
 
 namespace YouYouServer.Common
 {

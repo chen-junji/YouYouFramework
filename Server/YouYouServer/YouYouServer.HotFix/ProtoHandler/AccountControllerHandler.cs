@@ -1,14 +1,12 @@
 ﻿using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using YouYouServer.Common;
-using YouYouServer.Common.DBData;
-using YouYouServer.Core.Common;
-using YouYouServer.Core.Utils;
-using YouYouServer.Model.IHandler;
-using YouYouServer.Model.Logic.DBModels;
+using YouYouServer.Core;
+using YouYouServer.Model;
 
-namespace YouYouServer.HotFix.ProtoHandler
+namespace YouYouServer.HotFix
 {
     [Handler(ConstDefine.AccountControllerHandler)]
     public class AccountControllerHandler : IAccountControllerHandler

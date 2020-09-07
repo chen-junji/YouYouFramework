@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using YouYouServer.Core.Logger;
+using YouYouServer.Core;
 
-namespace YouYouServer.Core.YFMongoDB
+namespace YouYouServer.Core
 {
     /// <summary>
     /// MongoDBModel基类

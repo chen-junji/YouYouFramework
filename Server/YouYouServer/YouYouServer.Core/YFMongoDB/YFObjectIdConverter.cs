@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace YouYouServer.Core.YFMongoDB
+namespace YouYouServer.Core
 {
     /// <summary>
     /// MongoDB的ObjectId Json转换

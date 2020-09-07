@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using YouYouServer.Common;
+﻿using YouYouServer.Common;
 using YouYouServer.Core;
-using YouYouServer.Core.Common;
 
-namespace YouYouServer.Model.ServerManager
+namespace YouYouServer.Model
 {
     /// <summary>
     /// 作为游戏服务器的网关服务器客户端

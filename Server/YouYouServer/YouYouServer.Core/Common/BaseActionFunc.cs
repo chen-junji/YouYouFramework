@@ -4,7 +4,7 @@
 //备    注：
 //===================================================
 
-namespace YouYouServer.Core.Common
+namespace YouYouServer.Core
 {
     
     public delegate void BaseAction();

@@ -1,12 +1,17 @@
 ﻿using MongoDB.Driver;
 using YouYouServer.Common;
-using YouYouServer.Common.Managers;
-using YouYouServer.Core.YFMongoDB;
+using YouYouServer.Core;
 
-namespace YouYouServer.Model.Logic.DBModels
+namespace YouYouServer.Model
 {
     public class UniqueIDAccount : YFUniqueIDBase
     {
+		public enum CollectionType
+		{
+			None = 0,
+			Account = 1,
+			GameServer = 2,
+		}
         protected override MongoClient Client => MongoDBClient.CurrClient;
 
         protected override string DatabaseName => ServerConfig.AccountDBName;

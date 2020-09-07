@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using Newtonsoft.Json;
 using YouYouServer.Common;
-using YouYouServer.Common.DBData;
-using YouYouServer.Core.Common;
-using YouYouServer.Core.Utils;
-using YouYouServer.Model;
-using YouYouServer.Model.IHandler;
+using YouYouServer.Core;
 
 namespace YouYouServer.WebAccount.Controllers
 {
@@ -21,18 +15,17 @@ namespace YouYouServer.WebAccount.Controllers
         public async Task<string> Post()
         {
             string json = Request.HttpContext.Request.Form["json"];
-            Dictionary<string, object> dic = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
 
             RetValue ret = new RetValue();
 
-            //时间戳
-            long t = dic["t"].ToLong();
-            string deviceIdentifier = dic["deviceIdentifier"].ToString();
-            string deviceModel = dic["deviceModel"].ToString();
-            string sign = dic["sign"].ToString();
+			//时间戳
+			long t = json.JsonCutApart("t").ToLong();
+			string deviceIdentifier = json.JsonCutApart("deviceIdentifier");
+			string deviceModel = json.JsonCutApart("deviceModel");
+			string sign = json.JsonCutApart("sign");
 
-            //1.判断时间戳 如果大于30秒 直接返回错误
-            if (YFDateTimeUtil.GetTimestamp() - t > 30)
+			//1.判断时间戳 如果大于30秒 直接返回错误
+			if (YFDateTimeUtil.GetTimestamp() - t > 30)
             {
                 ret.HasError = true;
                 ret.ErrorCode = SysCode.Connect_TimeOut;
@@ -48,12 +41,13 @@ namespace YouYouServer.WebAccount.Controllers
                 return JsonConvert.SerializeObject(ret);
             }
 
-            int type = dic["Type"].ToInt();
-            string userName = dic["UserName"].ToString();
-            string pwd = dic["Password"].ToString();
-            short channelId = dic["ChannelId"].ToShort();
+			string value = json.JsonCutApart("value");
+			int type = value.JsonCutApart("Type").ToInt();
+			string userName = value.JsonCutApart("UserName").ToString();
+			string pwd = value.JsonCutApart("Pwd").ToString();
+			short channelId = value.JsonCutApart("ChannelId").ToShort();
 
-            if (type == 0)
+			if (type == 0)
             {
                 //注册
                 AccountEntity accountEntity = await HotFixMgr.CurrAccountControllerHandler.RegisterAsync(userName, pwd, channelId, deviceIdentifier, deviceModel);

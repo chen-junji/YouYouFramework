@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YouYouServer.Core.Utils
+namespace YouYouServer.Core
 {
     public class YFRedisHelper : RedisHelper
     {

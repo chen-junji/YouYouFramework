@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace YouYouServer.Core.Utils
+namespace YouYouServer.Core
 {
     public class YFIOUtil
     {

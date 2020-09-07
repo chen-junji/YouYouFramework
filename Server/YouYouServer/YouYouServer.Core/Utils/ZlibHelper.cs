@@ -3,7 +3,7 @@ using System.IO;
 using System;
 using zlib;
 
-namespace YouYouServer.Core.Utils
+namespace YouYouServer.Core
 {
     /// <summary>
     /// 压缩帮助类

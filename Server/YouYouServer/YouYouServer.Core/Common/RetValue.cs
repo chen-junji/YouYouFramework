@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YouYouServer.Core.Common
+namespace YouYouServer.Core
 {
     /// <summary>
     /// Web服务器返回值

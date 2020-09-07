@@ -4,7 +4,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace YouYouServer.Core.Utils
+namespace YouYouServer.Core
 {
     /// <summary>
     /// 加密解密 MD5 SHA1

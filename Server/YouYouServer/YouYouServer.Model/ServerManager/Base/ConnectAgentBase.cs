@@ -1,7 +1,7 @@
 ﻿using System;
-using YouYouServer.Common.Managers;
+using YouYouServer.Common;
 
-namespace YouYouServer.Model.ServerManager
+namespace YouYouServer.Model
 {
     /// <summary>
     /// 连接代理基类

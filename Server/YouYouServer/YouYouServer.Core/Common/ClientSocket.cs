@@ -3,14 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using YouYou;
-using YouYouServer.Core.Common;
-using YouYouServer.Core.Logger;
-using YouYouServer.Core.Utils;
 
-namespace YouYouServer.Core.Common
+namespace YouYouServer.Core
 {
     public class ClientSocket
     {
