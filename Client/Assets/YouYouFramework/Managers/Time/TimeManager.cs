@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace YouYou
 {
 	public class TimeManager : ManagerBase, IDisposable
@@ -18,36 +17,11 @@ namespace YouYou
 			m_TimeActionList = new LinkedList<TimeAction>();
 
 		}
-		public void Dispose()
-		{
-			m_TimeActionList.Clear();
-		}
+
 		public override void Init()
 		{
-		}
-		internal void OnUpdate()
-		{
-			for (LinkedListNode<TimeAction> curr = m_TimeActionList.First; curr != null; curr = curr.Next)
-			{
-				if (curr.Value.OnStarAction.Target == null || curr.Value.OnStarAction.Target.ToString() == "null")
-				{
-					RemoveTimeAction(curr.Value);
-					continue;
-				}
-				if (curr.Value.OnUpdateAction.Target == null || curr.Value.OnUpdateAction.Target.ToString() == "null")
-				{
-					RemoveTimeAction(curr.Value);
-					continue;
-				}
-				if (curr.Value.OnCompleteAction.Target == null || curr.Value.OnCompleteAction.Target.ToString() == "null")
-				{
-					RemoveTimeAction(curr.Value);
-					continue;
-				}
-				curr.Value.OnUpdate();
-			}
-		}
 
+		}
 
 		/// <summary>
 		/// 注册定时器
@@ -57,6 +31,7 @@ namespace YouYou
 		{
 			m_TimeActionList.AddLast(action);
 		}
+
 		/// <summary>
 		/// 移除定时器
 		/// </summary>
@@ -82,6 +57,34 @@ namespace YouYou
 				}
 				curr = curr.Next;
 			}
+		}
+
+		internal void OnUpdate()
+		{
+			for (LinkedListNode<TimeAction> curr = m_TimeActionList.First; curr != null; curr = curr.Next)
+			{
+				if (curr.Value.OnStarAction != null && (curr.Value.OnStarAction.Target == null || curr.Value.OnStarAction.Target.ToString() == "null"))
+				{
+					m_TimeActionList.Remove(curr);
+					continue;
+				}
+				if (curr.Value.OnUpdateAction != null && (curr.Value.OnUpdateAction.Target == null || curr.Value.OnUpdateAction.Target.ToString() == "null"))
+				{
+					m_TimeActionList.Remove(curr);
+					continue;
+				}
+				if (curr.Value.OnCompleteAction != null && (curr.Value.OnCompleteAction.Target == null || curr.Value.OnCompleteAction.Target.ToString() == "null"))
+				{
+					m_TimeActionList.Remove(curr);
+					continue;
+				}
+				curr.Value.OnUpdate();
+			}
+		}
+
+		public void Dispose()
+		{
+			m_TimeActionList.Clear();
 		}
 
 		/// <summary>
