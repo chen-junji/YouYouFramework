@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\YouYouServer.Model\YouYouServer.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Google.Protobuf">
+      <HintPath>..\..\..\Public\Plugins\Google.Protobuf.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\YouYouServer.GatewayServer\bin\Debug\netcoreapp3.0\&quot;&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\YouYouServer.GameServer\bin\Debug\netcoreapp3.0\&quot;&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\YouYouServer.WorldServer\bin\Debug\netcoreapp3.0\&quot;&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\YouYouServer.WebAccount\bin\Debug\netcoreapp3.0\&quot;" />
+  </Target>
+
+</Project>
