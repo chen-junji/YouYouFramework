@@ -1,7 +1,9 @@
 */Temp/
-*/Assets/YouYouScript/Data/DataTable/Create/
-*/Assets/Download/Audio/
 */Library/
 */LuaLib/
 bin/
 obj/
+Client/Assets/Download/Audio/
+FMOD/.unsaved/
+FMOD/Metadata/
+Client/Assembly-CSharp.csproj

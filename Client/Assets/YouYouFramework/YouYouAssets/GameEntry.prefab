@@ -693,7 +693,7 @@ MonoBehaviour:
     BaseOrder: 3000
     Group: {fileID: 8038476314316144840}
   timeScale: 1
-  m_PayPlatform: 0
+  m_PayPlatform: 1
 --- !u!1 &8038476315015285270
 GameObject:
   m_ObjectHideFlags: 0
