@@ -66,26 +66,23 @@ namespace YouYou
 
 
 		public Sys_CodeDBModel Sys_CodeDBModel { get; private set; }
-		public Sys_EffectDBModel Sys_EffectDBModel { get; private set; }
 		public LocalizationDBModel LocalizationDBModel { get; private set; }
 		public Sys_PrefabDBModel Sys_PrefabDBModel { get; private set; }
 		public Sys_UIFormDBModel Sys_UIFormDBModel { get; private set; }
 		public Sys_SceneDBModel Sys_SceneDBModel { get; private set; }
 		public Sys_SceneDetailDBModel Sys_SceneDetailDBModel { get; private set; }
 		public Sys_AudioDBModel Sys_AudioDBModel { get; private set; }
-		public JobDBModel JobDBModel { get; private set; }
+
 
 		internal void InitDBModel()
 		{
 			Sys_CodeDBModel = new Sys_CodeDBModel();
-			Sys_EffectDBModel = new Sys_EffectDBModel();
 			LocalizationDBModel = new LocalizationDBModel();
 			Sys_PrefabDBModel = new Sys_PrefabDBModel();
 			Sys_UIFormDBModel = new Sys_UIFormDBModel();
 			Sys_SceneDBModel = new Sys_SceneDBModel();
 			Sys_SceneDetailDBModel = new Sys_SceneDetailDBModel();
 			Sys_AudioDBModel = new Sys_AudioDBModel();
-			JobDBModel = new JobDBModel();
 		}
 		/// <summary>
 		/// 加载表格
@@ -93,14 +90,12 @@ namespace YouYou
 		public void LoadDataTable()
 		{
 			Sys_CodeDBModel.LoadData();
-			Sys_EffectDBModel.LoadData();
 			LocalizationDBModel.LoadData();
 			Sys_PrefabDBModel.LoadData();
 			Sys_UIFormDBModel.LoadData();
 			Sys_SceneDBModel.LoadData();
 			Sys_SceneDetailDBModel.LoadData();
 			Sys_AudioDBModel.LoadData();
-			JobDBModel.LoadData();
 		}
 
 		/// <summary>
@@ -156,13 +151,11 @@ namespace YouYou
 		public void Dispose()
 		{
 			Sys_CodeDBModel.Clear();
-			Sys_EffectDBModel.Clear();
 			LocalizationDBModel.Clear();
 			Sys_PrefabDBModel.Clear();
 			Sys_UIFormDBModel.Clear();
 			Sys_SceneDBModel.Clear();
 			Sys_SceneDetailDBModel.Clear();
-			JobDBModel.Clear();
 		}
 	}
 }

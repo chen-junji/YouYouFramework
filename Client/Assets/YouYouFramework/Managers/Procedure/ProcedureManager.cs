@@ -22,7 +22,11 @@ namespace YouYou
 		/// <summary>
 		/// 预加载
 		/// </summary>
-		Preload
+		Preload,
+		/// <summary>
+		/// 登录
+		/// </summary>
+		Login
 	}
 	/// <summary>
 	/// 流程管理器
@@ -74,6 +78,7 @@ namespace YouYou
 			states[(byte)ProcedureState.Launch] = new ProcedureLaunch();
 			states[(byte)ProcedureState.CheckVersion] = new ProcedureCheckVersion();
 			states[(byte)ProcedureState.Preload] = new ProcedurePreload();
+			states[(byte)ProcedureState.Login] = new ProcedureLogin();
 
 			m_CurrFsm = GameEntry.Fsm.Create(this, states);
 		}

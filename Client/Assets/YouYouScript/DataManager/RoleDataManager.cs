@@ -16,7 +16,7 @@ public class RoleDataManager : IDisposable
 	public void CreatePlayerByJobId(int jobId, Action<RoleCtrl> onComplete = null)
 	{
 		//Æ¤·ô±àºÅ
-		int skinId = GameEntry.DataTable.JobDBModel.GetDic(jobId).SkinId;
+		int skinId = 10;
 
 		//¼ÓÔØ½ÇÉ«¿ØÖÆÆ÷
 		GameEntry.Pool.GameObjectSpawn(SysPrefabId.RoleCtrl, (Transform trans, bool isNewInstance) =>

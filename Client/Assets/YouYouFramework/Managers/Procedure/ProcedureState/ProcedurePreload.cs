@@ -78,8 +78,7 @@ namespace YouYou
 				GameEntry.Pool.EnqueueClassObject(m_PreloadParams);
 
 				//进入到业务流程
-				Debug.Log("框架内部流程全部加载完毕, 可以进入到业务流程了~");
-				//GameEntry.Procedure.ChangeState(ProcedureState.Login);
+				GameEntry.Procedure.ChangeState(ProcedureState.Login);
 			}
 		}
 		public override void OnLeave()

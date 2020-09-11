@@ -63,6 +63,49 @@ MonoBehaviour:
   - Name: Desktop
     Value: 828
   Exists: 1
+--- !u!114 &-6147303345779032280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: G:/Project/YouYou_MMORPG/YFYouYou/FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637354715986419940
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 1000
+  Exists: 1
+--- !u!114 &-2326155193674211175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/ButtonClick
+  m_EditorClassIdentifier: 
+  Path: event:/UI/ButtonClick
+  guid: cd48c76badde5b4797ccec10eac51f06
+  Banks:
+  - {fileID: 5323744273617199615}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 444
 --- !u!114 &-1946571438116160108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,6 +129,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 444
+--- !u!114 &-1209826937009610869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/UIOpen
+  m_EditorClassIdentifier: 
+  Path: event:/UI/UIOpen
+  guid: cd48c76badde5b4797ccec10eac51f06
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 444
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,18 +164,20 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: -6753705232530278313}
-  - {fileID: -8405564968997840281}
-  - {fileID: 3746953683664014908}
+  - {fileID: 5796786686485671145}
+  - {fileID: -6147303345779032280}
+  - {fileID: 5323744273617199615}
+  - {fileID: 3625527555188414126}
   EditorEvents:
-  - {fileID: -7731939476961795807}
-  - {fileID: -1946571438116160108}
+  - {fileID: 5969318705869442641}
+  - {fileID: -2326155193674211175}
+  - {fileID: 3698769593368346433}
   EditorParameters: []
   MasterBanks:
-  - {fileID: -8405564968997840281}
+  - {fileID: -6147303345779032280}
   StringsBanks:
-  - {fileID: -6753705232530278313}
-  stringsBankWriteTime: 637153960626798927
+  - {fileID: 5796786686485671145}
+  stringsBankWriteTime: 637354715986439565
   cacheVersion: 3
 --- !u!114 &114003253219887442
 MonoBehaviour:
@@ -3548,6 +3615,49 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 391
+--- !u!114 &3625527555188414126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/BackGround.bank
+  m_EditorClassIdentifier: 
+  Path: G:/Project/YouYou_MMORPG/YFYouYou/FMOD/Build/Desktop/BackGround.bank
+  SubDir: 
+  lastModified: 637354716009140065
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 1246624
+  Exists: 1
+--- !u!114 &3698769593368346433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackGround/Audio_Bg_LogOn
+  m_EditorClassIdentifier: 
+  Path: event:/BackGround/Audio_Bg_LogOn
+  guid: 0861e4b2f1b62a4d914803aa7c7863ff
+  Banks:
+  - {fileID: 3625527555188414126}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 100571
 --- !u!114 &3746953683664014908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3568,3 +3678,66 @@ MonoBehaviour:
   - Name: Desktop
     Value: 9376
   Exists: 1
+--- !u!114 &5323744273617199615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/UI.bank
+  m_EditorClassIdentifier: 
+  Path: G:/Project/YouYou_MMORPG/YFYouYou/FMOD/Build/Desktop/UI.bank
+  SubDir: 
+  lastModified: 637354715986639030
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 9376
+  Exists: 1
+--- !u!114 &5796786686485671145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: G:/Project/YouYou_MMORPG/YFYouYou/FMOD/Build/Desktop/Master.strings.bank
+  SubDir: 
+  lastModified: 637354715986439565
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 944
+  Exists: 1
+--- !u!114 &5969318705869442641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/UIClose
+  m_EditorClassIdentifier: 
+  Path: event:/UI/UIClose
+  guid: c4aa804db1069b468ed7a90311cb9f4b
+  Banks:
+  - {fileID: 5323744273617199615}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 339

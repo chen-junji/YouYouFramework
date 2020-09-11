@@ -38,12 +38,8 @@ public class TestUI : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.B))
         {
-            GameEntry.UI.OpenUIForm(UIFormId.UI_Message);
+			GameEntry.UI.OpenDialogForm("HelloWorld!!");
 
-        }
-        else if (Input.GetKeyUp(KeyCode.C))
-        {
-            GameEntry.UI.OpenUIForm(UIFormId.UI_ChooseCount);
         }
         else if (Input.GetKeyUp(KeyCode.T))
         {

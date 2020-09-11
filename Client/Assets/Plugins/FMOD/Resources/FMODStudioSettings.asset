@@ -15,14 +15,14 @@ MonoBehaviour:
   SwitchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: D:/Local/YFYouYou/FMOD/YouYou_FMOD.fspro
-  SourceBankPathUnformatted: D:/Local/YFYouYou/FMOD/Build
+  sourceProjectPath: G:/Project/YouYou_MMORPG/YFYouYou/FMOD/YouYou_FMOD.fspro
+  SourceBankPathUnformatted: G:/Project/YouYou_MMORPG/YFYouYou/FMOD/Build
   AutomaticEventLoading: 1
   BankLoadType: 0
   AutomaticSampleLoading: 0
   EncryptionKey: 
   ImportType: 1
-  TargetAssetPath: Download/Audio
+  TargetAssetPath: Resources/Audio
   LoggingLevel: 2
   SpeakerModeSettings:
   - Platform: 2
@@ -78,6 +78,7 @@ MonoBehaviour:
   MasterBanks:
   - Master
   Banks:
+  - BackGround
   - UI
   BanksToLoad: []
   LiveUpdatePort: 9264
