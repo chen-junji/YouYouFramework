@@ -13,12 +13,7 @@ namespace YouYou
 	/// </summary>
 	public class AudioManager : ManagerBase,IDisposable
 	{
-		public AudioManager()
-		{
-			//m_ReleaseInterval = releaseInterval;
-		}
-
-		public override void Init()
+		internal override void Init()
 		{
 			m_NextReleaseTime = Time.time;
 		}
@@ -275,7 +270,7 @@ namespace YouYou
 		/// <summary>
 		/// 设置音效参数
 		/// </summary>
-		internal void SetParameterForAudio(int serialId, string parameterName, float value)
+		public void SetParameterForAudio(int serialId, string parameterName, float value)
 		{
 			EventInstance eventInstance;
 			if (m_CurrAudioEventsDic.TryGetValue(serialId, out eventInstance))

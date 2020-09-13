@@ -192,7 +192,7 @@ public class DownloadRoutine
 	/// <summary>
 	/// 更新
 	/// </summary>
-	public void OnUpdate()
+	internal void OnUpdate()
 	{
 		if (m_UnityWebRequest == null) return;
 

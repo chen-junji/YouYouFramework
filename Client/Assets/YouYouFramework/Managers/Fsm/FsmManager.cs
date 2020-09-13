@@ -22,7 +22,7 @@ namespace YouYou
 		private int m_TemFsmId = 0;
 
 
-		public FsmManager()
+		internal FsmManager()
 		{
 			m_FsmDic = new Dictionary<int, FsmBase>();
 		}
@@ -35,7 +35,7 @@ namespace YouYou
 			}
 			m_FsmDic.Clear();
 		}
-		public override void Init()
+		internal override void Init()
 		{
 		}
 

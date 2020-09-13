@@ -64,7 +64,7 @@ namespace YouYou
 
 		}
 
-		public override void Init()
+		internal override void Init()
 		{
 			m_WebAccountUrl = GameEntry.ParamsSettings.WebAccountUrl;
 			m_TestWebAccountUrl = GameEntry.ParamsSettings.TestWebAccountUrl;

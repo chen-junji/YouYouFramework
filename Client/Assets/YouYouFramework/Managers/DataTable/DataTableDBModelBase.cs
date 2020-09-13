@@ -46,7 +46,7 @@ namespace YouYou
         /// <summary>
         /// 加载数据表数据
         /// </summary>
-        public void LoadData()
+        internal void LoadData()
         {
             GameEntry.DataTable.TotalTableCount++;
 
@@ -96,7 +96,7 @@ namespace YouYou
         /// <summary>
         /// 清空数据
         /// </summary>
-        public void Clear()
+        internal void Clear()
         {
             m_List.Clear();
             m_Dic.Clear();

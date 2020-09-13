@@ -15,12 +15,12 @@ namespace YouYou
 		private CancellationToken m_Cancellation;
 
 
-		public WebSocketManager()
+		internal WebSocketManager()
 		{
 			m_WebSocket = new ClientWebSocket();
 			m_Cancellation = new CancellationToken();
 		}
-		public override void Init()
+		internal override void Init()
 		{
 
 		}
@@ -29,7 +29,7 @@ namespace YouYou
 
 		}
 
-		public async void ConnectToWebSocket(string url, Action onComplete = null)
+		internal async void ConnectToWebSocket(string url, Action onComplete = null)
 		{
 			if (m_WebSocket.State == WebSocketState.Open) return;
 			await m_WebSocket.ConnectAsync(new Uri(url), m_Cancellation);

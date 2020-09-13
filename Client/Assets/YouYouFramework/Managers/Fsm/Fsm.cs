@@ -65,7 +65,7 @@ namespace YouYou
 			return state;
 		}
 
-		public void OnUpdate()
+		internal void OnUpdate()
 		{
 			if (m_CurrState != null)
 			{

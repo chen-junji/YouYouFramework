@@ -6,12 +6,12 @@ namespace YouYou
 {
 	public class DataTableManager : ManagerBase, IDisposable
 	{
-		public DataTableManager()
+		internal DataTableManager()
 		{
 			AlreadyLoadTable = new Dictionary<string, ushort>();
 		}
 
-		public override void Init()
+		internal override void Init()
 		{
 			InitDBModel();
 		}
@@ -57,12 +57,12 @@ namespace YouYou
 		/// <summary>
 		/// 总共需要加载的表格数量
 		/// </summary>
-		public int TotalTableCount = 0;
+		internal int TotalTableCount = 0;
 
 		/// <summary>
 		/// 当前加载的表格数量
 		/// </summary>
-		public int CurrLoadTableCount = 0;
+		internal int CurrLoadTableCount = 0;
 
 
 		public Sys_CodeDBModel Sys_CodeDBModel { get; private set; }
@@ -87,7 +87,7 @@ namespace YouYou
 		/// <summary>
 		/// 加载表格
 		/// </summary>
-		public void LoadDataTable()
+		private void LoadDataTable()
 		{
 			Sys_CodeDBModel.LoadData();
 			LocalizationDBModel.LoadData();
@@ -106,7 +106,7 @@ namespace YouYou
 		/// <summary>
 		/// 加载表格
 		/// </summary>
-		public void LoadDataAllTable()
+		internal void LoadDataAllTable()
 		{
 #if ASSETBUNDLE
             GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(YFConstDefine.DataTableAssetBundlePath, onComplete: (AssetBundle bundle) =>
@@ -124,7 +124,7 @@ namespace YouYou
 		/// </summary>
 		/// <param name="tableName"></param>
 		/// <returns></returns>
-		public void GetDataTableBuffer(string dataTableName, Action<byte[]> onComplete)
+		internal void GetDataTableBuffer(string dataTableName, Action<byte[]> onComplete)
 		{
 #if EDITORLOAD
 			GameEntry.Time.Yield(() =>
@@ -135,7 +135,7 @@ namespace YouYou
 #elif RESOURCES
 			GameEntry.Time.Yield(() =>
 			{
-                TextAsset asset = Resources.Load<TextAsset>(string.Format("DataTable/{0}", dataTableName));
+				TextAsset asset = Resources.Load<TextAsset>(string.Format("DataTable/{0}", dataTableName));
 				if (onComplete != null) onComplete(asset.bytes);
 			});
 #else

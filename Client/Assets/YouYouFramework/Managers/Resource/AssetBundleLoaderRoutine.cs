@@ -103,10 +103,10 @@ namespace YouYou
             m_CurrAssetBundleCreateRequest = null;
         }
 
-        /// <summary>
-        /// 更新
-        /// </summary>
-        public void OnUpdate()
+		/// <summary>
+		/// 更新
+		/// </summary>
+		internal void OnUpdate()
         {
             UpdateAssetBundleCreateRequest();
         }

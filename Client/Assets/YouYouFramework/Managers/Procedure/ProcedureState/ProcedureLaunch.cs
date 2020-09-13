@@ -11,7 +11,7 @@ namespace YouYou
 	/// </summary>
 	public class ProcedureLaunch : ProcedureBase
 	{
-		public override void OnEnter()
+		internal override void OnEnter()
 		{
 			base.OnEnter();
 #if RESOURCES

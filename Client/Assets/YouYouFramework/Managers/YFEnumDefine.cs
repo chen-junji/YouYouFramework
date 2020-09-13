@@ -84,25 +84,6 @@ namespace YouYou
 		Proto
 	}
 
-	/// <summary>
-	/// 协议分类
-	/// </summary>
-	public enum ProtoCategory : byte
-	{
-		Client2GatewayServer,
-		GatewayServer2Client,
-		Client2WorldServer,
-		WorldServer2Client,
-		Client2GameServer,
-		GameServer2Client,
-		GameServer2WorldServer,
-		WorldServer2GameServer,
-		GatewayServer2WorldServer,
-		WorldServer2GatewayServer,
-		GatewayServer2GameServer,
-		GameServer2GatewayServer,
-	}
-
 	public enum LoadingType
 	{
 		/// <summary>

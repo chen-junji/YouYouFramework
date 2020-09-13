@@ -31,11 +31,11 @@ function GameInit.Init()
     GameEntry.Event.CommonEvent:AddEventListener(SysEventId.LuaFullGc, this.OnLuaFullGc);
 end
 
+--加载数据表
 function GameInit.LoadDataTables()
-    --章表
-    require('DataNode/DataTable/Create/ChapterEntity')
-    require('DataNode/DataTable/Create/ChapterDBModel')
-    ChapterDBModel.LoadList()
+    require('DataNode/DataTable/Sys_UIFormEntity')
+    require('DataNode/DataTable/Sys_UIFormDBModel')
+    Sys_UIFormDBModel.LoadList()
 end
 
 function GameInit.OnLuaFullGc(userData)

@@ -53,7 +53,7 @@ namespace YouYou
 		/// </summary>
 		private float m_CurrScreen = 0;
 
-		public UIManager()
+		internal UIManager()
 		{
 			m_OpenUIFormList = new LinkedList<UIFormBase>();
 			m_ReverseChangeUIStack = new Stack<UIFormBase>();
@@ -67,7 +67,7 @@ namespace YouYou
 		internal void Dispose()
 		{
 		}
-		public override void Init()
+		internal override void Init()
 		{
 			UIPoolMaxCount = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_PoolMaxCount, GameEntry.CurrDeviceGrade);
 			UIExpire = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_Expire, GameEntry.CurrDeviceGrade);
@@ -84,7 +84,7 @@ namespace YouYou
 			}
 			m_UILayer.Init(GameEntry.Instance.UIGroups);
 		}
-		public void OnUpdate()
+		internal void OnUpdate()
 		{
 			if (Time.time > m_NextRunTime + ClearInterval)
 			{

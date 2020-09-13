@@ -25,7 +25,7 @@ namespace YouYou
 		/// </summary>
 		private BaseParams m_PreloadParams;
 
-		public override void OnEnter()
+		internal override void OnEnter()
 		{
 			base.OnEnter();
 			//监听数据表加载
@@ -49,7 +49,7 @@ namespace YouYou
 			GameEntry.DataTable.LoadDataAllTable();
 #endif
 		}
-		public override void OnUpdate()
+		internal override void OnUpdate()
 		{
 			base.OnUpdate();
 
@@ -81,7 +81,7 @@ namespace YouYou
 				GameEntry.Procedure.ChangeState(ProcedureState.Login);
 			}
 		}
-		public override void OnLeave()
+		internal override void OnLeave()
 		{
 			base.OnLeave();
 			GameEntry.Event.CommonEvent.RemoveEventListener(SysEventId.LoadOneDataTableComplete, OnLoadOneDataTableComplete);

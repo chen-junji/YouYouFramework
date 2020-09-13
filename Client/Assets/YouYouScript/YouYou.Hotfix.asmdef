@@ -1,0 +1,16 @@
+{
+    "name": "YouYou.Hotfix",
+    "references": [
+        "GUID:3f15fcbcd7cdd714292127d40a340225",
+        "GUID:6126858964ccc8d4093729629d911081"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

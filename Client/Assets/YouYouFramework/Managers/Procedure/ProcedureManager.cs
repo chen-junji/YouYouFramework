@@ -63,14 +63,14 @@ namespace YouYou
 			}
 		}
 
-		public ProcedureManager()
+		internal ProcedureManager()
 		{
 		}
 		public void Dispose()
 		{
 
 		}
-		public override void Init()
+		internal override void Init()
 		{
 			//得到枚举的长度
 			int count = Enum.GetNames(typeof(ProcedureState)).Length;
@@ -82,7 +82,7 @@ namespace YouYou
 
 			m_CurrFsm = GameEntry.Fsm.Create(this, states);
 		}
-		public void OnUpdate()
+		internal void OnUpdate()
 		{
 			m_CurrFsm.OnUpdate();
 		}

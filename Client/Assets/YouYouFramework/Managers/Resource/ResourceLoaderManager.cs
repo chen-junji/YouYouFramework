@@ -40,7 +40,7 @@ namespace YouYou
 			m_AssetBundleLoaderList = new LinkedList<AssetBundleLoaderRoutine>();
 			m_AssetLoaderList = new LinkedList<AssetLoaderRoutine>();
 		}
-		public void OnUpdate()
+		internal void OnUpdate()
 		{
 			for (LinkedListNode<AssetBundleLoaderRoutine> curr = m_AssetBundleLoaderList.First; curr != null; curr = curr.Next)
 			{
@@ -101,7 +101,7 @@ namespace YouYou
 				}
 				else
 				{
-					Debug.LogError("资源加载失败! assetFullName==" + assetFullName);
+					GameEntry.LogError("资源加载失败! assetFullName==" + assetFullName);
 				}
 			});
 		}

@@ -27,10 +27,8 @@ namespace YouYou
 		/// </summary>
 		public string LocalFilePath { get; private set; }
 
-		public AddressableManager()
+		internal AddressableManager()
 		{
-			//GameEntry.RegisterUpdateComponent(this);
-
 			ResourceManager = new ResourceManager();
 			ResourceLoaderManager = new ResourceLoaderManager();
 		}
@@ -38,10 +36,8 @@ namespace YouYou
 		{
 			ResourceManager.Dispose();
 			ResourceLoaderManager.Dispose();
-
-			//GameEntry.RemoveUpdateComponent(this);
 		}
-		public override void Init()
+		internal override void Init()
 		{
 #if EDITORLOAD
 			LocalFilePath = Application.dataPath;
@@ -53,7 +49,7 @@ namespace YouYou
 
 			Application.backgroundLoadingPriority = ThreadPriority.High;
 		}
-		public void OnUpdate()
+		internal void OnUpdate()
 		{
 			ResourceLoaderManager.OnUpdate();
 		}

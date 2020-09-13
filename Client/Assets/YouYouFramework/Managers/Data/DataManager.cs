@@ -24,7 +24,7 @@ namespace YouYou
 		public RoleDataManager RoleDataManager { get; private set; }
 
 
-		public DataManager()
+		internal DataManager()
 		{
 			SysDataManager = new SysDataManager();
 			UserDataManager = new UserDataManager();
@@ -38,7 +38,7 @@ namespace YouYou
 			RoleDataManager.Dispose();
 		}
 
-		public override void Init()
+		internal override void Init()
 		{
 		}
 	}

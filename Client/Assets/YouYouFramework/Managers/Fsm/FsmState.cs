@@ -19,22 +19,22 @@ namespace YouYou
         /// <summary>
         /// 进入状态
         /// </summary>
-        public virtual void OnEnter() { }
+        internal virtual void OnEnter() { }
 
-        /// <summary>
-        /// 执行状态
-        /// </summary>
-        public virtual void OnUpdate() { }
+		/// <summary>
+		/// 执行状态
+		/// </summary>
+		internal virtual void OnUpdate() { }
 
-        /// <summary>
-        /// 离开状态
-        /// </summary>
-        public virtual void OnLeave() { }
+		/// <summary>
+		/// 离开状态
+		/// </summary>
+		internal virtual void OnLeave() { }
 
-        /// <summary>
-        /// 状态机销毁时调用
-        /// </summary>
-        public virtual void OnDestroy() { }
+		/// <summary>
+		/// 状态机销毁时调用
+		/// </summary>
+		internal virtual void OnDestroy() { }
 
     }
 }

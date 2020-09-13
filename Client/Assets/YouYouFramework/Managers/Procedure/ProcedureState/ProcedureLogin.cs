@@ -11,21 +11,21 @@ namespace YouYou
 	/// </summary>
 	public class ProcedureLogin : ProcedureBase
 	{
-		public override void OnEnter()
+		internal override void OnEnter()
 		{
 			base.OnEnter();
 			GameEntry.UI.OpenDialogForm("框架内部流程全部加载完毕, 可以进入到业务流程了~(假装自己是登录界面)", "登录");
 
 		}
-		public override void OnUpdate()
+		internal override void OnUpdate()
 		{
 			base.OnUpdate();
 		}
-		public override void OnLeave()
+		internal override void OnLeave()
 		{
 			base.OnLeave();
 		}
-		public override void OnDestroy()
+		internal override void OnDestroy()
 		{
 			base.OnDestroy();
 		}

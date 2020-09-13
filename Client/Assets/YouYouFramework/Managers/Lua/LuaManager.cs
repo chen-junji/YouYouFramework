@@ -31,15 +31,6 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// 是否打印日志
-		/// </summary>
-		public bool DebugLog
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
 		/// 是否打印协议日志
 		/// </summary>
 		public bool DebugLogProto
@@ -51,11 +42,8 @@ namespace YouYou
 		/// <summary>
 		/// 初始化
 		/// </summary>
-		public override void Init()
+		internal override void Init()
 		{
-#if DEBUG_MODEL
-			DebugLog = true;
-#endif
 #if DEBUG_LOG_PROTO && DEBUG_MODEL
 			DebugLogProto = true;
 #endif
@@ -70,7 +58,7 @@ namespace YouYou
 #if EDITORLOAD
 			//2.设置xLua的脚本路径
 			luaEnv.DoString(string.Format("package.path = '{0}/?.bytes'", Application.dataPath + "/Download/xLuaLogic/"));
-            DoString("require 'Main'");
+			DoString("require 'Main'");
 #else
 			//1.添加自定义Loader
 			luaEnv.AddLoader(MyLoader);
@@ -119,7 +107,7 @@ namespace YouYou
 		/// 执行Lua脚本
 		/// </summary>
 		/// <param name="str"></param>
-		public void DoString(string str)
+		private void DoString(string str)
 		{
 			luaEnv.DoString(str);
 		}
@@ -154,7 +142,7 @@ namespace YouYou
 		{
 #if EDITORLOAD
 			byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/download/xLuaLogic/PB/{1}.bytes", GameEntry.Resource.LocalFilePath, pbName));
-            onComplete?.Invoke(buffer);
+			onComplete?.Invoke(buffer);
 #else
 			GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.xLuaLogic, string.Format("Assets/Download/xLuaLogic/PB/{0}.bytes", pbName), onComplete: (ResourceEntity res) =>
 			{
@@ -162,6 +150,17 @@ namespace YouYou
 				onComplete?.Invoke(asset.bytes);
 			});
 #endif
+		}
+
+		public void LoadDataTable(string DataTableName, BaseAction<MMO_MemoryStream> onComplete)
+		{
+			GameEntry.DataTable.GetDataTableBuffer(DataTableName, (byte[] buffer) =>
+			{
+				using (MMO_MemoryStream ms = new MMO_MemoryStream(buffer))
+				{
+					onComplete?.Invoke(ms);
+				}
+			});
 		}
 
 		public void Dispose()

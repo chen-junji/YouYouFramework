@@ -22,7 +22,7 @@ namespace YouYou
 		/// </summary>
 		public CommonEvent CommonEvent { get; private set; }
 
-		public EventManager()
+		internal EventManager()
 		{
 			SocketEvent = new SocketEvent();
 			WebSocketEvent = new WebSocketEvent();
@@ -36,7 +36,7 @@ namespace YouYou
 			WebSocketEvent.Dispose();
 		}
 
-		public override void Init()
+		internal override void Init()
 		{
 
 		}

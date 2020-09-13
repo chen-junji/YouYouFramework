@@ -27,7 +27,7 @@ namespace YouYou
 		/// </summary>
 		public Dictionary<AssetCategory, ResourcePool> AssetPool { get; private set; }
 
-		public PoolManager()
+		internal PoolManager()
 		{
 			ClassObjectPool = new ClassObjectPool();
 			GameObjectPool = new GameObjectPool();
@@ -40,7 +40,7 @@ namespace YouYou
 		/// <summary>
 		/// ≥ı ºªØ
 		/// </summary>
-		public override void Init()
+		internal override void Init()
 		{
 			ReleaseClassObjectInterval = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Pool_ReleaseClassObjectInterval, GameEntry.CurrDeviceGrade);
 			ReleaseAssetBundleInterval = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Pool_ReleaseAssetBundleInterval, GameEntry.CurrDeviceGrade);
@@ -288,7 +288,7 @@ namespace YouYou
 			private set;
 		}
 
-		public void OnUpdate()
+		internal void OnUpdate()
 		{
 			if (Time.time > ReleaseClassObjectNextRunTime + ReleaseClassObjectInterval)
 			{

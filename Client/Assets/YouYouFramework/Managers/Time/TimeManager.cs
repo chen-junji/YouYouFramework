@@ -18,7 +18,7 @@ namespace YouYou
 
 		}
 
-		public override void Init()
+		internal override void Init()
 		{
 
 		}

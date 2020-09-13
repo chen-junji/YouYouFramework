@@ -7,6 +7,6 @@ namespace YouYou
 {
 	public abstract class ManagerBase
 	{
-		public abstract void Init();
+		internal abstract void Init();
 	}
 }

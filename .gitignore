@@ -3,7 +3,13 @@
 */LuaLib/
 bin/
 obj/
+.vs/
 Client/Assets/Download/Audio/
 FMOD/.unsaved/
 FMOD/Metadata/
-Client/Assembly-CSharp.csproj
+Client/Client.sln
+Client/Sirenix.OdinInspector.CompatibilityLayer.csproj
+Client/Sirenix.OdinInspector.CompatibilityLayer.Editor.csproj
+Client/YouYou.Hotfix.csproj
+Client/YouYou.Model.csproj
+Client/YouYou.ThirdParty.csproj

@@ -10,7 +10,7 @@ namespace YouYou
     public class ProcedureCheckVersion : ProcedureBase
     {
 
-        public override void OnEnter()
+		internal override void OnEnter()
         {
             base.OnEnter();
 #if ASSETBUNDLE
@@ -20,13 +20,13 @@ namespace YouYou
 #endif
 		}
 
-		public override void OnUpdate()
+		internal override void OnUpdate()
         {
             base.OnUpdate();
 
         }
 
-        public override void OnLeave()
+		internal override void OnLeave()
         {
             base.OnLeave();
 

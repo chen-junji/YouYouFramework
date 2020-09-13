@@ -19,7 +19,7 @@ namespace YouYou
 
 		private int m_LogBufferMaxNumber = 10;
 
-		public override void Init()
+		internal override void Init()
 		{
 			m_LogArray = new List<string>();
 

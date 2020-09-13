@@ -35,7 +35,7 @@ namespace YouYou
             m_LocalAssetsVersionDic = new Dictionary<string, AssetBundleInfoEntity>();
 		}
 
-		public override void Init()
+		internal override void Init()
 		{
 
 		}

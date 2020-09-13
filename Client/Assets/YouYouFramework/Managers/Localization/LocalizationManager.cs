@@ -24,7 +24,7 @@ namespace YouYou
 
 	public class LocalizationManager : ManagerBase, IDisposable
 	{
-		public override void Init()
+		internal override void Init()
 		{
 #if !UNITY_EDITOR
             switch (Application.systemLanguage)

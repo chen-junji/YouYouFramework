@@ -21,7 +21,7 @@ public class DownloadMulitRoutine : IDisposable
 		m_DownloadRoutineList.Clear();
 		m_NeedDownloadList.Clear();
 	}
-	public void OnUpdate()
+	internal void OnUpdate()
 	{
 		var curr = m_DownloadRoutineList.First;
 		while (curr != null)

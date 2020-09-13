@@ -30,7 +30,7 @@ namespace YouYou
 		/// </summary>
 		private LinkedList<DownloadMulitRoutine> m_DownloadMulitRoutineList;
 
-		public DownloadManager()
+		internal DownloadManager()
 		{
 			m_DownloadSingleRoutineList = new LinkedList<DownloadRoutine>();
 			m_DownloadMulitRoutineList = new LinkedList<DownloadMulitRoutine>();
@@ -51,7 +51,7 @@ namespace YouYou
 		/// <summary>
 		/// 更新
 		/// </summary>
-		public void OnUpdate()
+		internal void OnUpdate()
 		{
 			//调用下载单文件器的OnUpdate()
 			var singleRoutine = m_DownloadSingleRoutineList.First;
@@ -69,7 +69,7 @@ namespace YouYou
 				mulitRoutine = mulitRoutine.Next;
 			}
 		}
-		public override void Init()
+		internal override void Init()
 		{
 			Retry = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Download_Retry, GameEntry.CurrDeviceGrade);
 			DownloadRoutineCount = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Download_RoutineCount, GameEntry.CurrDeviceGrade);

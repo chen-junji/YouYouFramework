@@ -75,13 +75,13 @@ namespace YouYou
 		/// </summary>
 		public MMO_MemoryStream SocketReceiveMS { get; private set; }
 
-		public SocketManager()
+		internal SocketManager()
 		{
 			m_SocketTcpRoutineList = new LinkedList<SocketTcpRoutine>();
 			SocketSendMS = new MMO_MemoryStream();
 			SocketReceiveMS = new MMO_MemoryStream();
 		}
-		public override void Init()
+		internal override void Init()
 		{
 			m_MainSocket = CreateSocketTcpRoutine();
 			m_MainSocket.OnConnectOK = () =>

@@ -313,7 +313,6 @@ namespace YouYou
 			Resource.Init();
 			Download.Init();
 			UI.Init();
-			//Lua.Init();
 			Audio.Init();
 			WebSocket.Init();
 

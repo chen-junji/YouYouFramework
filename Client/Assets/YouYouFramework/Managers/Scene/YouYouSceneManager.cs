@@ -65,13 +65,13 @@ namespace YouYou
 		/// </summary>
 		private BaseAction m_OnComplete = null;
 
-		public YouYouSceneManager()
+		internal YouYouSceneManager()
 		{
 			m_SceneLoaderList = new LinkedList<SceneLoaderRoutine>();
 			m_TargetProgressDic = new Dictionary<int, float>();
 		}
 
-		public override void Init()
+		internal override void Init()
 		{
 
 		}
@@ -208,7 +208,7 @@ namespace YouYou
 		/// <summary>
 		/// ¸üÐÂ
 		/// </summary>
-		public void OnUpdate()
+		internal void OnUpdate()
 		{
 			if (m_CurrSceneIsLoading)
 			{
