@@ -1,5 +1,5 @@
 ﻿..\..\..\Tables
-..\..\..\..\Client\Assets\Resources\DataTable\
+..\..\..\..\Client\Assets\Download\DataTable\
 ..\..\..\..\Client\Assets\YouYouFramework\Managers\DataTable\Create\
 ..\..\..\..\Client\Assets\Download\xLuaLogic\DataNode\DataTable\
 ..\..\..\..\Server\Release\DataTable\

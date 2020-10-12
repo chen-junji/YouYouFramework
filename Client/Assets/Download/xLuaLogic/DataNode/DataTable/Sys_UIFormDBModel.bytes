@@ -13,7 +13,7 @@ end
 function Sys_UIFormDBModel.LoadFormMS(ms)
     local rows = ms:ReadInt();
     ms:ReadInt();
-	
+
     for i = 0, rows, 1 do
         sys_uiformTable[#sys_uiformTable + 1] = Sys_UIFormEntity.New(
                 ms:ReadInt(),

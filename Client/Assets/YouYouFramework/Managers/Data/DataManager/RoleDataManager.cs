@@ -13,22 +13,21 @@ public class RoleDataManager : IDisposable
 		m_RoleList = new LinkedList<RoleCtrl>();
 	}
 
-	public void CreatePlayerByJobId(int jobId, Action<RoleCtrl> onComplete = null)
+	public void CreatePlayer(string skinPrefabName, string animFBXPath, Action<RoleCtrl> onComplete = null)
 	{
-		//皮肤编号
-		int skinId = 10;
-
 		//加载角色控制器
 		GameEntry.Pool.GameObjectSpawn(SysPrefabId.RoleCtrl, (Transform trans, bool isNewInstance) =>
 		 {
 			 RoleCtrl roleCtrl = trans.GetComponent<RoleCtrl>();
-			 roleCtrl.Init(skinId);
 
-			 if (!isNewInstance)
+			 //如果是新实例, 执行OnInit();
+			 if (isNewInstance) roleCtrl.OnInit();
+
+			 roleCtrl.LoadSkin(skinPrefabName, (Transform skinTransform) =>
 			 {
-				 //如果不是新实例 在这里执行OnOpen方法
+				 roleCtrl.InitAnim(skinTransform.GetComponent<Animator>(), animFBXPath);
 				 roleCtrl.OnOpen();
-			 }
+			 });
 			 m_RoleList.AddLast(roleCtrl);
 			 onComplete?.Invoke(roleCtrl);
 		 });
@@ -42,13 +41,21 @@ public class RoleDataManager : IDisposable
 		GameEntry.Pool.GameObjectDespawn(roleCtrl.transform);
 		m_RoleList.Remove(roleCtrl);
 	}
-
 	public void DespawnAllRole()
 	{
 		for (LinkedListNode<RoleCtrl> curr = m_RoleList.First; curr != null;)
 		{
 			LinkedListNode<RoleCtrl> next = curr.Next;
 			DespawnRole(curr.Value);
+			curr = next;
+		}
+	}
+	public void CheckUnloadRoleAnimation()
+	{
+		for (LinkedListNode<RoleCtrl> curr = m_RoleList.First; curr != null;)
+		{
+			LinkedListNode<RoleCtrl> next = curr.Next;
+			curr.Value.CheckUnloadRoleAnimation();
 			curr = next;
 		}
 	}

@@ -36,10 +36,12 @@ public class GameUtil
             "雪", "巧", "蕾", "芹", "柔", "灵", "卉", "夏", "岚", "蓉", "萱", "珍", "彤", "蕊", "曼", "凡", "兰", "晴", "珊", "易", "妃", "春", "玉", "瑶", "文", "双", "竹",
             "凝", "桃", "菡", "绿", "枫", "梅", "旋", "山", "松", "之", "亦", "蝶", "莲", "柏", "波", "安", "天", "薇", "海", "翠", "槐", "秋", "雁", "夜"};
 
-    /// <summary>
-    /// 创建角色时随机名字
-    /// </summary>
-    public static string RandomName()
+	
+
+	/// <summary>
+	/// 创建角色时随机名字
+	/// </summary>
+	public static string RandomName()
     {
         string CurName = "";  //当前的名字
 
@@ -237,4 +239,8 @@ public class GameUtil
     {
         return string.Format("Assets/Download/UI/UIRes/{0}.png", path);
     }
+	internal static string GetRoleAnimationPath(string animPath)
+	{
+		return string.Format("Assets/Download/Role/Animation/{0}.anim", animPath);
+	}
 }

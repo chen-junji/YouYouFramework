@@ -10,9 +10,14 @@ namespace YouYou
 	/// <summary>
 	/// 状态机
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="T">FSMManager</typeparam>
 	public class Fsm<T> : FsmBase where T : class
 	{
+		/// <summary>
+		/// 状态机拥有者
+		/// </summary>
+		public T Owner { get; private set; }
+
 		/// <summary>
 		/// 当前状态
 		/// </summary>
@@ -39,6 +44,7 @@ namespace YouYou
 		{
 			m_StateDic = new Dictionary<sbyte, FsmState<T>>();
 			m_ParamDic = new Dictionary<string, VariableBase>();
+			Owner = owner;
 
 			//把状态加入字典
 			int len = states.Length;

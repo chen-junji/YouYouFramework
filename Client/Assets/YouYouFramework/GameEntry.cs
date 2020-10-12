@@ -120,157 +120,27 @@ namespace YouYou
 		[Title("支付平台选择")]
 		public PayPlatform m_PayPlatform;
 		public static PayPlatform PayPaltform { get; private set; }
+
 		#region 管理器属性
-		/// <summary>
-		/// 日志管理器
-		/// </summary>
-		public static LoggerManager Logger
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// 事件管理器
-		/// </summary>
-		public static EventManager Event
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// 时间管理器
-		/// </summary>
-		public static TimeManager Time
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// 状态机管理器
-		/// </summary>
-		public static FsmManager Fsm
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// 流程管理器
-		/// </summary>
-		public static ProcedureManager Procedure
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// 数据表管理器
-		/// </summary>
-		public static DataTableManager DataTable
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// Socket管理器
-		/// </summary>
-		public static SocketManager Socket
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// Http管理器
-		/// </summary>
-		public static HttpManager Http
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// 数据管理器
-		/// </summary>
-		public static DataManager Data
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// 本地化管理器
-		/// </summary>
-		public static LocalizationManager Localization
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// 对象池管理器
-		/// </summary>
-		public static PoolManager Pool
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// 场景管理器
-		/// </summary>
-		public static YouYouSceneManager Scene
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// 可寻址资源管理器
-		/// </summary>
-		public static AddressableManager Resource
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// 下载管理器
-		/// </summary>
-		public static DownloadManager Download
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// UI管理器
-		/// </summary>
-		public static UIManager UI
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// Lua管理器
-		/// </summary>
-		public static LuaManager Lua
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// 声音管理器
-		/// </summary>
-		public static AudioManager Audio;
-
-		public static WebSocketManager WebSocket;
+		public static LoggerManager Logger { get; private set; }
+		public static EventManager Event { get; private set; }
+		public static TimeManager Time { get; private set; }
+		public static FsmManager Fsm { get; private set; }
+		public static ProcedureManager Procedure { get; private set; }
+		public static DataTableManager DataTable { get; private set; }
+		public static SocketManager Socket { get; private set; }
+		public static HttpManager Http { get; private set; }
+		public static DataManager Data { get; private set; }
+		public static LocalizationManager Localization { get; private set; }
+		public static PoolManager Pool { get; private set; }
+		public static YouYouSceneManager Scene { get; private set; }
+		public static AddressableManager Resource { get; private set; }
+		public static DownloadManager Download { get; private set; }
+		public static UIManager UI { get; private set; }
+		public static LuaManager Lua { get; private set; }
+		public static AudioManager Audio { get; private set; }
+		public static InputManager Input { get; private set; }
+		public static WebSocketManager WebSocket { get; private set; }
 		#endregion
 
 		#region InitManagers 初始化管理器
@@ -296,6 +166,7 @@ namespace YouYou
 			UI = new UIManager();
 			Lua = new LuaManager();
 			Audio = new AudioManager();
+			Input = new InputManager();
 			WebSocket = new WebSocketManager();
 
 			Logger.Init();
@@ -314,6 +185,7 @@ namespace YouYou
 			Download.Init();
 			UI.Init();
 			Audio.Init();
+			Input.Init();
 			WebSocket.Init();
 
 			//进入第一个流程
@@ -329,32 +201,21 @@ namespace YouYou
 		/// <summary>
 		/// 全局参数设置
 		/// </summary>
-		public static ParamsSettings ParamsSettings
-		{
-			get;
-			private set;
-		}
+		public static ParamsSettings ParamsSettings { get; private set; }
 
 		/// <summary>
 		/// 当前设备等级
 		/// </summary>
-		public static ParamsSettings.DeviceGrade CurrDeviceGrade
-		{
-			get;
-			private set;
-		}
+		public static ParamsSettings.DeviceGrade CurrDeviceGrade { get; private set; }
 
 		/// <summary>
 		/// 当前语言（要和本地化表的语言字段 一致）
 		/// </summary>
-		public static YouYouLanguage CurrLanguage
-		{
-			get;
-			set;
-		}
+		public static YouYouLanguage CurrLanguage { get; private set; }
 
 		private void Awake()
 		{
+			Log(LogCategory.Procedure, "GameEntry.OnAwake()");
 			Instance = this;
 
 			//此处以后判断如果不是编辑器模式 要根据设备信息判断等级
@@ -362,13 +223,13 @@ namespace YouYou
 			ParamsSettings = m_ParamsSettings;
 			CurrLanguage = m_CurrLanguage;
 			PayPaltform = m_PayPlatform;
+
+			InitManagers();
 		}
 
 		void Start()
 		{
 			Log(LogCategory.Procedure, "GameEntry.OnStart()");
-			InitManagers();
-
 			UnityEngine.Time.timeScale = timeScale = 1;
 			Application.targetFrameRate = ParamsSettings.GetGradeParamData(YFConstDefine.targetFrameRate, CurrDeviceGrade);
 		}
@@ -378,12 +239,14 @@ namespace YouYou
 			Time.OnUpdate();
 			Procedure.OnUpdate();
 			Socket.OnUpdate();
+			Data.OnUpdate();
 			Pool.OnUpdate();
 			Scene.OnUpdate();
 			Resource.OnUpdate();
 			Download.OnUpdate();
 			UI.OnUpdate();
 			Audio.OnUpdate();
+			Input.OnUpdate();
 			WebSocket.OnUpdate();
 		}
 
@@ -410,6 +273,7 @@ namespace YouYou
 			UI.Dispose();
 			Lua.Dispose();
 			Audio.Dispose();
+			Input.Dispose();
 			WebSocket.Dispose();
 		}
 
@@ -424,26 +288,26 @@ namespace YouYou
 				default:
 				case LogCategory.Normal:
 #if DEBUG_LOG_NORMAL && DEBUG_MODEL
-                    Debug.Log("[youyou]" + (args.Length == 0 ? message : string.Format(message, args)));
+					Debug.Log("[youyou]" + (args.Length == 0 ? message : string.Format(message, args)));
 #endif
-					break;
-				case LogCategory.Procedure:
+                    break;
+                case LogCategory.Procedure:
 #if DEBUG_LOG_PROCEDURE && DEBUG_MODEL
-                    Debug.Log("[youyou]" + string.Format("<color=#ffffff>{0}</color>", args.Length == 0 ? message : string.Format(message, args)));
+                    Debug.Log("[youyou]" + string.Format("{0}", args.Length == 0 ? message : string.Format(message, args)));
 #endif
-					break;
-				case LogCategory.Resource:
+                    break;
+                case LogCategory.Resource:
 #if DEBUG_LOG_RESOURCE && DEBUG_MODEL
-                    Debug.Log("[youyou]" + string.Format("<color=#ace44a>{0}</color>", args.Length == 0 ? message : string.Format(message, args)));
+                    Debug.Log("[youyou]" + string.Format("{0}", args.Length == 0 ? message : string.Format(message, args)));
 #endif
-					break;
-				case LogCategory.Proto:
+                    break;
+                case LogCategory.Proto:
 #if DEBUG_LOG_PROTO && DEBUG_MODEL
                     Debug.Log("[youyou]" + (args.Length == 0 ? message : string.Format(message, args)));
 #endif
-					break;
-			}
-		}
+                    break;
+            }
+        }
 
 		/// <summary>
 		/// 打印错误日志

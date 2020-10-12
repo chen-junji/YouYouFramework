@@ -13,6 +13,7 @@ end
 function Sys_AudioDBModel.LoadFormMS(ms)
     local rows = ms:ReadInt();
     ms:ReadInt();
+
     for i = 0, rows, 1 do
         sys_audioTable[#sys_audioTable + 1] = Sys_AudioEntity.New(
                 ms:ReadInt(),

@@ -120,18 +120,10 @@ namespace YouYou
 		/// </summary>
 		/// <param name="prefabId">预设编号</param>
 		/// <param name="onComplete"></param>
-		public void Spawn(int prefabId, BaseAction<Transform, bool> onComplete)
+		public void Spawn(Sys_PrefabEntity entity, BaseAction<Transform, bool> onComplete)
 		{
 			lock (m_PrefabPoolQueue)
 			{
-				//拿到预设表数据
-				Sys_PrefabEntity entity = GameEntry.DataTable.Sys_PrefabDBModel.GetDic(prefabId);
-				if (entity == null)
-				{
-					GameEntry.LogError("预设数据不存在");
-					return;
-				}
-
 				//拿到对象池
 				GameObjectPoolEntity gameObjectPoolEntity = m_SpawnPoolDic[(byte)entity.PoolId];
 
@@ -150,7 +142,7 @@ namespace YouYou
 					}
 				}
 				HashSet<Action<SpawnPool, Transform, ResourceEntity>> lst = null;
-				if (m_LoadingPrefabPoolDic.TryGetValue(prefabId, out lst))
+				if (m_LoadingPrefabPoolDic.TryGetValue(entity.Id, out lst))
 				{
 					//进行拦截
 					//如果存在加载中的Asset 把委托加入对应的链表 然后直接返回
@@ -177,11 +169,12 @@ namespace YouYou
 					m_InstanceIdPoolIdDic[instanceID] = entity.PoolId;
 					onComplete?.Invoke(retTrans, isNewInstance);
 				});
-				m_LoadingPrefabPoolDic[prefabId] = lst;
+				m_LoadingPrefabPoolDic[entity.Id] = lst;
 
-				GameEntry.Resource.ResourceLoaderManager.LoadMainAsset((AssetCategory)entity.AssetCategory, string.Format("{0}.{1}", entity.AssetPath, entity.Suffixes), (ResourceEntity resourceEntity) =>
+				GameEntry.Resource.ResourceLoaderManager.LoadMainAsset((AssetCategory)entity.AssetCategory, entity.AssetFullName, (ResourceEntity resourceEntity) =>
 				{
-					Transform prefab = ((GameObject)resourceEntity.Target).transform;
+					GameObject retObj = resourceEntity.Target as GameObject;
+					Transform prefab = retObj.transform;
 
 					if (prefabPool == null)
 					{
@@ -223,7 +216,7 @@ namespace YouYou
 					{
 						enumerator.Current?.Invoke(gameObjectPoolEntity.Pool, prefab, resourceEntity);
 					}
-					m_LoadingPrefabPoolDic.Remove(prefabId);
+					m_LoadingPrefabPoolDic.Remove(entity.Id);
 					lst.Clear();//一定要清空
 					GameEntry.Pool.EnqueueClassObject(lst);
 				});

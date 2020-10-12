@@ -39,7 +39,7 @@ function GameInit.LoadDataTables()
 end
 
 function GameInit.OnLuaFullGc(userData)
-    ChapterDBModel.CheckGC();
+    --Sys_UIFormDBModel.CheckGC();
 end
 
 local m_TotalTableCount = 0 --总共需要加载的表格数量

@@ -22,6 +22,7 @@ namespace YouYou
 		public UserDataManager UserDataManager { get; private set; }
 
 		public RoleDataManager RoleDataManager { get; private set; }
+		private float m_NextRunTime = 0f;
 
 
 		internal DataManager()
@@ -29,6 +30,14 @@ namespace YouYou
 			SysDataManager = new SysDataManager();
 			UserDataManager = new UserDataManager();
 			RoleDataManager = new RoleDataManager();
+		}
+		public void OnUpdate()
+		{
+			if (Time.time > m_NextRunTime + 30)
+			{
+				m_NextRunTime = Time.time;
+				RoleDataManager.CheckUnloadRoleAnimation();
+			}
 		}
 
 		public void Dispose()

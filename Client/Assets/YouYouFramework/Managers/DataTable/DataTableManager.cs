@@ -72,6 +72,7 @@ namespace YouYou
 		public Sys_SceneDBModel Sys_SceneDBModel { get; private set; }
 		public Sys_SceneDetailDBModel Sys_SceneDetailDBModel { get; private set; }
 		public Sys_AudioDBModel Sys_AudioDBModel { get; private set; }
+		public Sys_AnimationDBModel Sys_AnimationDBModel { get; private set; }
 
 
 		internal void InitDBModel()
@@ -83,6 +84,7 @@ namespace YouYou
 			Sys_SceneDBModel = new Sys_SceneDBModel();
 			Sys_SceneDetailDBModel = new Sys_SceneDetailDBModel();
 			Sys_AudioDBModel = new Sys_AudioDBModel();
+			Sys_AnimationDBModel = new Sys_AnimationDBModel();
 		}
 		/// <summary>
 		/// 加载表格
@@ -96,6 +98,7 @@ namespace YouYou
 			Sys_SceneDBModel.LoadData();
 			Sys_SceneDetailDBModel.LoadData();
 			Sys_AudioDBModel.LoadData();
+			Sys_AnimationDBModel.LoadData();
 		}
 
 		/// <summary>
@@ -156,6 +159,7 @@ namespace YouYou
 			Sys_UIFormDBModel.Clear();
 			Sys_SceneDBModel.Clear();
 			Sys_SceneDetailDBModel.Clear();
+			Sys_AnimationDBModel.Clear();
 		}
 	}
 }

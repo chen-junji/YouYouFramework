@@ -200,7 +200,7 @@ namespace YouYou
 				//加载UI资源并克隆
 				GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.UIPrefab, string.Format("Assets/Download/UI/UIPrefab/{0}.prefab", assetPath), (ResourceEntity resourceEntity) =>
 				{
-					GameObject uiObj = Object.Instantiate((Object)resourceEntity.Target, GameEntry.UI.GetUIGroup(sys_UIForm.UIGroupId).Group) as GameObject;
+					GameObject uiObj = Object.Instantiate((GameObject)resourceEntity.Target, GameEntry.UI.GetUIGroup(sys_UIForm.UIGroupId).Group);
 
 					//把克隆出来的资源 加入实例资源池
 					GameEntry.Pool.RegisterInstanceResource(uiObj.GetInstanceID(), resourceEntity);

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AssetBundleSettings
   m_EditorClassIdentifier: 
   ResourceVersion: 1.0.0
-  CurrBuildTarget: 1
+  CurrBuildTarget: 0
   Options: 272
   AssetBundleSavePath: AssetBundles
   IsCanEditor: 1
@@ -26,7 +26,7 @@ MonoBehaviour:
     Path:
     - Download/Audio
   - Name: "\u81EA\u5B9A\u4E49Shader"
-    IsCanEditor: 1
+    IsCanEditor: 0
     Overall: 1
     IsFirstData: 1
     IsEncrypt: 1
@@ -54,7 +54,7 @@ MonoBehaviour:
     Path:
     - Download/Role
   - Name: "\u521D\u59CB\u573A\u666F"
-    IsCanEditor: 1
+    IsCanEditor: 0
     Overall: 0
     IsFirstData: 1
     IsEncrypt: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
     Path:
     - Download/Scenes/NormalScenes
   - Name: "UI\u9884\u5236\u4F53"
-    IsCanEditor: 1
+    IsCanEditor: 0
     Overall: 1
     IsFirstData: 1
     IsEncrypt: 0
@@ -104,3 +104,10 @@ MonoBehaviour:
     IsEncrypt: 0
     Path:
     - Download/xLuaLogic
+  - Name: Test
+    IsCanEditor: 1
+    Overall: 0
+    IsFirstData: 0
+    IsEncrypt: 0
+    Path:
+    - Download/Test

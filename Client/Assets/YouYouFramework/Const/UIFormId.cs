@@ -8,6 +8,6 @@ public class UIFormId
     /// <summary>
     /// Dialog
     /// </summary>
-    public const int UI_Dialog = 2;
+    public const string UI_Dialog = "UI_Dialog";
 
 }

@@ -144,9 +144,8 @@ namespace YouYou
 			byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/download/xLuaLogic/PB/{1}.bytes", GameEntry.Resource.LocalFilePath, pbName));
 			onComplete?.Invoke(buffer);
 #else
-			GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.xLuaLogic, string.Format("Assets/Download/xLuaLogic/PB/{0}.bytes", pbName), onComplete: (ResourceEntity res) =>
+			GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.xLuaLogic, string.Format("Assets/Download/xLuaLogic/PB/{0}.bytes", pbName), onComplete: (TextAsset asset) =>
 			{
-				TextAsset asset = res.Target as TextAsset;
 				onComplete?.Invoke(asset.bytes);
 			});
 #endif

@@ -345,11 +345,20 @@ namespace YouYou
 		/// <param name="onComplete"></param>
 		public void GameObjectSpawn(int prefabId, BaseAction<Transform, bool> onComplete)
 		{
-			GameObjectPool.Spawn(prefabId, onComplete);
+			GameObjectSpawn(GameEntry.DataTable.Sys_PrefabDBModel.GetDic(prefabId), onComplete);
 		}
 		public void GameObjectSpawn(string prefabName, BaseAction<Transform, bool> onComplete)
 		{
 			GameObjectSpawn(GameEntry.DataTable.Sys_PrefabDBModel.GetPrefabIdByName(prefabName), onComplete);
+		}
+		public void GameObjectSpawn(Sys_PrefabEntity sys_PrefabEntity, BaseAction<Transform, bool> onComplete)
+		{
+			if (sys_PrefabEntity == null)
+			{
+				GameEntry.LogError("预设数据不存在,sys_PrefabEntity==null!");
+				return;
+			}
+			GameObjectPool.Spawn(sys_PrefabEntity, onComplete);
 		}
 
 		/// <summary>

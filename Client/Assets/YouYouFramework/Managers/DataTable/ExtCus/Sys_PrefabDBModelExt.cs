@@ -6,38 +6,36 @@ using UnityEngine;
 
 public partial class Sys_PrefabDBModel
 {
-    private Dictionary<string, Sys_PrefabEntity> m_NameByEntityDic;
+	private Dictionary<string, Sys_PrefabEntity> m_NameByEntityDic;
 
-    private void InitNameByEntityDic()
-    {
-        m_NameByEntityDic = new Dictionary<string, Sys_PrefabEntity>();
+	private void InitNameByEntityDic()
+	{
+		m_NameByEntityDic = new Dictionary<string, Sys_PrefabEntity>();
 
-        int len = m_List.Count;
-        for (int i = 0; i < len; i++)
-        {
-            Sys_PrefabEntity entity = m_List[i];
-            string[] strs = entity.AssetPath.Split('/');//�ָ�path
-            string name = strs[strs.Length - 1];
+		int len = m_List.Count;
+		for (int i = 0; i < len; i++)
+		{
+			Sys_PrefabEntity entity = m_List[i];
+			string[] strs = entity.AssetPath.Split('/');
+			string name = strs[strs.Length - 1];
 
 
 			if (m_NameByEntityDic.ContainsKey(name))
-            {
-                Debug.LogError("Sys_Prefab����,����������ظ����Ƶ���! == " + entity.AssetPath);
-            }
-            else
-            {
-                m_NameByEntityDic.Add(name, entity);
-            }
-        }
-    }
-    public int GetPrefabIdByName(string name)
-    {
-        if (m_NameByEntityDic == null) InitNameByEntityDic();
+			{
+				Debug.LogError("Sys_Prefab有名称重复! == " + entity.AssetPath);
+			}
+			else
+			{
+				m_NameByEntityDic.Add(name, entity);
+			}
+		}
+	}
+	public Sys_PrefabEntity GetPrefabIdByName(string name)
+	{
+		if (m_NameByEntityDic == null) InitNameByEntityDic();
 
-        if (m_NameByEntityDic.ContainsKey(name))
-        {
-            return m_NameByEntityDic[name].Id;
-        }
-        return -1;
-    }
+		Sys_PrefabEntity sys_Prefab = null;
+		m_NameByEntityDic.TryGetValue(name, out sys_Prefab);
+		return sys_Prefab;
+	}
 }

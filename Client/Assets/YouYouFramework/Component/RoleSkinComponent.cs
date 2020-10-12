@@ -4,18 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ��ɫƤ�����
+/// 角色皮肤组件
 /// </summary>
 public class RoleSkinComponent : MonoBehaviour
 {
-	/// <summary>
-	/// �������ڵ�
-	/// </summary>
 	[SerializeField]
 	private Transform m_RootBone;
-	/// <summary>
-	/// ��ǰ��ɫ���ڵ������, ֻ��һ��
-	/// </summary>
 	[SerializeField]
 	private SkinnedMeshRenderer m_CurrSkinnedMeshRenderer;
 
@@ -23,23 +17,10 @@ public class RoleSkinComponent : MonoBehaviour
 	private SkinnedMeshRendererPart[] Parts;
 	private int m_PartsLen;
 
-
-	/// <summary>
-	/// ��ǰ�����Ĳ����б�
-	/// </summary>
 	private List<SkinnedMeshRenderer> m_CurrPartList;
-	/// <summary>
-	/// �ϲ�������󼯺�
-	/// </summary>
 	private List<CombineInstance> m_CombneInstances;
 	private List<Material> m_Materials;
-	/// <summary>
-	/// SkinnedMeshRenderer��Ӧ�Ĺ�����Ϣ
-	/// </summary>
 	private List<Transform> m_Bones;
-	/// <summary>
-	/// ��ɫ���ϵĹ�������
-	/// </summary>
 	private Transform[] m_BoneTransforms;
 
 
@@ -67,7 +48,7 @@ public class RoleSkinComponent : MonoBehaviour
 	private void Start()
 	{
 		m_PartsLen = Parts.Length;
-		m_BoneTransforms = m_RootBone.GetComponentsInChildren<Transform>();//��ȡ��ɫ�͹���
+		m_BoneTransforms = m_RootBone.GetComponentsInChildren<Transform>();
 		m_CurrSkinnedMeshRenderer.sharedMesh = new Mesh();
 		LoadPart(new List<int> { 1, 2 });
 	}
@@ -94,7 +75,6 @@ public class RoleSkinComponent : MonoBehaviour
 			SkinnedMeshRenderer skinnedMeshRenderer = m_CurrPartList[i];
 			m_Materials.AddRange(skinnedMeshRenderer.materials);
 
-			//��Ӻϲ�����
 			for (int sub = 0; sub < skinnedMeshRenderer.sharedMesh.subMeshCount; sub++)
 			{
 				CombineInstance ci = new CombineInstance();
@@ -103,7 +83,6 @@ public class RoleSkinComponent : MonoBehaviour
 				m_CombneInstances.Add(ci);
 			}
 
-			//�˴��Ǽ���SkinnedMeshRenderer��Ӧ�Ĺ��� Ҳ����Bones������ ʵ���ϻ����������Ϲ���������
 			for (int sub = 0; sub < skinnedMeshRenderer.bones.Length; sub++)
 			{
 				int lenBoneTrans = m_BoneTransforms.Length;
@@ -117,9 +96,9 @@ public class RoleSkinComponent : MonoBehaviour
 			}
 		}
 
-		m_CurrSkinnedMeshRenderer.sharedMesh.CombineMeshes(m_CombneInstances.ToArray(), false, false);//�ϲ�ģ��
-		m_CurrSkinnedMeshRenderer.bones = m_Bones.ToArray();//�������
-		m_CurrSkinnedMeshRenderer.materials = m_Materials.ToArray();//�������
+		m_CurrSkinnedMeshRenderer.sharedMesh.CombineMeshes(m_CombneInstances.ToArray(), false, false);
+		m_CurrSkinnedMeshRenderer.bones = m_Bones.ToArray();
+		m_CurrSkinnedMeshRenderer.materials = m_Materials.ToArray();
 	}
 	private SkinnedMeshRenderer GetPartByNo(int no)
 	{
@@ -134,16 +113,9 @@ public class RoleSkinComponent : MonoBehaviour
 		return null;
 	}
 
-
-	/// <summary>
-	/// Ƥ������
-	/// </summary>
 	[Serializable]
 	public class SkinnedMeshRendererPart
 	{
-		/// <summary>
-		/// ���
-		/// </summary>
 		public int No;
 		public SkinnedMeshRenderer part;
 	}

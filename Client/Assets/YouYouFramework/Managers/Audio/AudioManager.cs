@@ -270,7 +270,7 @@ namespace YouYou
 		/// <summary>
 		/// 设置音效参数
 		/// </summary>
-		public void SetParameterForAudio(int serialId, string parameterName, float value)
+		internal void SetParameterForAudio(int serialId, string parameterName, float value)
 		{
 			EventInstance eventInstance;
 			if (m_CurrAudioEventsDic.TryGetValue(serialId, out eventInstance))

@@ -90,6 +90,13 @@ namespace YouYou
 		/// <param name="assetCategory"></param>
 		/// <param name="assetFullName"></param>
 		/// <param name="onComplete"></param>
+		public void LoadMainAsset<T>(AssetCategory assetCategory, string assetFullName, BaseAction<T> onComplete)
+		{
+			LoadMainAsset(assetCategory, assetFullName, (ResourceEntity resEntity) =>
+			{
+				onComplete?.Invoke((T)resEntity.Target);
+			});
+		}
 		public void LoadMainAsset(AssetCategory assetCategory, string assetFullName, BaseAction<ResourceEntity> onComplete)
 		{
 			MainAssetLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<MainAssetLoaderRoutine>();
@@ -97,7 +104,7 @@ namespace YouYou
 			{
 				if (resEntity.Target != null)
 				{
-					if (onComplete != null) onComplete(resEntity);
+					onComplete?.Invoke(resEntity);
 				}
 				else
 				{
@@ -105,6 +112,7 @@ namespace YouYou
 				}
 			});
 		}
+
 		public void UnLoadGameObject(GameObject obj)
 		{
 			GameEntry.Pool.ReleaseInstanceResource(obj.GetInstanceID());
@@ -127,12 +135,12 @@ namespace YouYou
 				 {
 					 if (buff == null)
 					 {
-					 //如果只读区也没有,从CDN读取
-					 string url = string.Format("{0}{1}", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
+						 //如果只读区也没有,从CDN读取
+						 string url = string.Format("{0}{1}", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
 						 GameEntry.Http.Get(url, (HttpCallBackArgs args) =>
 						 {
-								 GameEntry.Log(LogCategory.Normal, "从CDN初始化资源信息");
-								 InitAssetInfo(args.Data);
+							 GameEntry.Log(LogCategory.Normal, "从CDN初始化资源信息");
+							 InitAssetInfo(args.Data);
 						 });
 					 }
 					 else
@@ -246,25 +254,25 @@ namespace YouYou
 			//资源包加载 结束 回调
 			routine.OnLoadAssetBundleComplete = (AssetBundle assetbundle) =>
 			{
-			//资源包取池
-			assetBundleEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
+				//资源包取池
+				assetBundleEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
 				assetBundleEntity.ResourceName = assetbundlePath;
 				assetBundleEntity.IsAssetBundle = true;
 				assetBundleEntity.Target = assetbundle;
-			//资源包注册到资源池
-			GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
+				//资源包注册到资源池
+				GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
 
 				for (LinkedListNode<Action<AssetBundle>> curr = lst.First; curr != null; curr = curr.Next)
 				{
 					if (curr.Value != null) curr.Value(assetbundle);
 				}
-			//资源加载完毕后
-			lst.Clear();//必须清空
-			GameEntry.Pool.EnqueueClassObject(lst);
+				//资源加载完毕后
+				lst.Clear();//必须清空
+				GameEntry.Pool.EnqueueClassObject(lst);
 				m_LoadingAssetBundle.Remove(assetbundlePath);//从加载中的Bundle的Dic 移除
 
-			//结束循环 回池
-			m_AssetBundleLoaderList.Remove(routine);
+				//结束循环 回池
+				m_AssetBundleLoaderList.Remove(routine);
 				GameEntry.Pool.EnqueueClassObject(routine);
 			};
 		}
@@ -322,13 +330,13 @@ namespace YouYou
 				{
 					if (curr.Value != null) curr.Value(obj);
 				}
-			//资源加载完毕后
-			lst.Clear();//必须清空
-			GameEntry.Pool.EnqueueClassObject(lst);
+				//资源加载完毕后
+				lst.Clear();//必须清空
+				GameEntry.Pool.EnqueueClassObject(lst);
 				m_LoadingAsset.Remove(assetName);//从加载中的Asset的Dic 移除
 
-			//结束循环 回池
-			m_AssetLoaderList.Remove(routine);
+				//结束循环 回池
+				m_AssetLoaderList.Remove(routine);
 				GameEntry.Pool.EnqueueClassObject(routine);
 			};
 		}
