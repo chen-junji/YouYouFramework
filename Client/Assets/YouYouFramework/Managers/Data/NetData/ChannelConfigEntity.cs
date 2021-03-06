@@ -10,7 +10,7 @@ public class ChannelConfigEntity
 	/// <summary>
 	/// 渠道号
 	/// </summary>
-	public short ChannelId;
+	public short ChannelId = 146;
 
 	/// <summary>
 	/// 服务器时间
@@ -21,44 +21,44 @@ public class ChannelConfigEntity
 	/// 资源版本号
 	/// </summary>
 	public string SourceVersion = "1.0.0";
-	
-	public int InnerVersion;
+
+	public int InnerVersion = 1001;
 
 	/// <summary>
 	/// 资源地址
 	/// </summary>
 	public string SourceUrl;
 
-    /// <summary>
-    /// TDAppId
-    /// </summary>
-    public string TDAppId;
+	/// <summary>
+	/// TDAppId
+	/// </summary>
+	public string TDAppId;
 
-    /// <summary>
-    /// 是否开启统计
-    /// </summary>
-    public bool IsOpenTD;
+	/// <summary>
+	/// 是否开启统计
+	/// </summary>
+	public bool IsOpenTD;
 
-    /// <summary>
-    /// 充值服务器编号
-    /// </summary>
-    public short PayServerNo;
+	/// <summary>
+	/// 充值服务器编号
+	/// </summary>
+	public short PayServerNo;
 
-    #region RealSourceUrl 真正的资源地址
-    private string m_RealSourceUrl;
-    /// <summary>
-    /// 真正的资源地址
-    /// </summary>
-    public string RealSourceUrl
-    {
-        get
-        {
-            if (string.IsNullOrEmpty(m_RealSourceUrl))
-            {
-                string buildTarget = string.Empty;
+	#region RealSourceUrl 真正的资源地址
+	private string m_RealSourceUrl;
+	/// <summary>
+	/// 真正的资源地址
+	/// </summary>
+	public string RealSourceUrl
+	{
+		get
+		{
+			if (string.IsNullOrEmpty(m_RealSourceUrl))
+			{
+				string buildTarget = string.Empty;
 
 #if UNITY_STANDALONE_WIN
-                buildTarget = "Windows";
+				buildTarget = "Windows";
 #elif UNITY_ANDROID
 				buildTarget = "Android";
 #elif UNITY_IPHONE

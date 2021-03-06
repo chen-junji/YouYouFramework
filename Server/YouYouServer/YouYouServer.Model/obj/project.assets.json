@@ -6353,23 +6353,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\1291631912\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\111\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "G:\\Project\\YouYou_MMORPG\\YFYouYou\\Server\\YouYouServer\\YouYouServer.Model\\YouYouServer.Model.csproj",
+      "projectUniqueName": "G:\\Project\\Demo\\YouYou_MMORPG\\YFYouYou\\Server\\YouYouServer\\YouYouServer.Model\\YouYouServer.Model.csproj",
       "projectName": "YouYouServer.Model",
-      "projectPath": "G:\\Project\\YouYou_MMORPG\\YFYouYou\\Server\\YouYouServer\\YouYouServer.Model\\YouYouServer.Model.csproj",
-      "packagesPath": "C:\\Users\\1291631912\\.nuget\\packages\\",
-      "outputPath": "G:\\Project\\YouYou_MMORPG\\YFYouYou\\Server\\YouYouServer\\YouYouServer.Model\\obj\\",
+      "projectPath": "G:\\Project\\Demo\\YouYou_MMORPG\\YFYouYou\\Server\\YouYouServer\\YouYouServer.Model\\YouYouServer.Model.csproj",
+      "packagesPath": "C:\\Users\\111\\.nuget\\packages\\",
+      "outputPath": "G:\\Project\\Demo\\YouYou_MMORPG\\YFYouYou\\Server\\YouYouServer\\YouYouServer.Model\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\1291631912\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\111\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6381,12 +6377,13 @@
       },
       "frameworks": {
         "netcoreapp3.0": {
+          "targetAlias": "netcoreapp3.0",
           "projectReferences": {
-            "G:\\Project\\YouYou_MMORPG\\YFYouYou\\Server\\YouYouServer\\YouYouServer.Common\\YouYouServer.Common.csproj": {
-              "projectPath": "G:\\Project\\YouYou_MMORPG\\YFYouYou\\Server\\YouYouServer\\YouYouServer.Common\\YouYouServer.Common.csproj"
+            "G:\\Project\\Demo\\YouYou_MMORPG\\YFYouYou\\Server\\YouYouServer\\YouYouServer.Common\\YouYouServer.Common.csproj": {
+              "projectPath": "G:\\Project\\Demo\\YouYou_MMORPG\\YFYouYou\\Server\\YouYouServer\\YouYouServer.Common\\YouYouServer.Common.csproj"
             },
-            "G:\\Project\\YouYou_MMORPG\\YFYouYou\\Server\\YouYouServer\\YouYouServer.Core\\YouYouServer.Core.csproj": {
-              "projectPath": "G:\\Project\\YouYou_MMORPG\\YFYouYou\\Server\\YouYouServer\\YouYouServer.Core\\YouYouServer.Core.csproj"
+            "G:\\Project\\Demo\\YouYou_MMORPG\\YFYouYou\\Server\\YouYouServer\\YouYouServer.Core\\YouYouServer.Core.csproj": {
+              "projectPath": "G:\\Project\\Demo\\YouYou_MMORPG\\YFYouYou\\Server\\YouYouServer\\YouYouServer.Core\\YouYouServer.Core.csproj"
             }
           }
         }
@@ -6399,6 +6396,7 @@
     },
     "frameworks": {
       "netcoreapp3.0": {
+        "targetAlias": "netcoreapp3.0",
         "imports": [
           "net461",
           "net462",
@@ -6413,6 +6411,14 @@
           {
             "name": "Microsoft.AspNetCore.App.Ref",
             "version": "[3.0.1, 3.0.1]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[3.0.0, 3.0.0]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[3.0.0, 3.0.0]"
           }
         ],
         "frameworkReferences": {
@@ -6420,7 +6426,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

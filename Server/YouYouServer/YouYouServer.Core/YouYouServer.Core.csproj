@@ -1,16 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <FileUpgradeFlags>40</FileUpgradeFlags>
+    <UpgradeBackupLocation>G:\Project\Demo\YouYou_MMORPG\YFYouYou\Server\YouYouServer\Backup\YouYouServer.Core\</UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="CSRedisCore" Version="3.1.16" />
     <PackageReference Include="MongoDB.Bson" Version="2.9.2" />
     <PackageReference Include="MongoDB.Driver" Version="2.9.2" />
     <PackageReference Include="MongoDB.Driver.Core" Version="2.9.2" />
   </ItemGroup>
-
   <ItemGroup>
     <Reference Include="Google.Protobuf">
       <HintPath>..\..\..\Public\Plugins\Google.Protobuf.dll</HintPath>
@@ -19,5 +19,4 @@
       <HintPath>..\..\..\Public\Plugins\zlib.net.dll</HintPath>
     </Reference>
   </ItemGroup>
-
 </Project>

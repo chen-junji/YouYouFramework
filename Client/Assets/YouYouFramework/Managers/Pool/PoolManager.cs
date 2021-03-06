@@ -294,7 +294,7 @@ namespace YouYou
 			{
 				ReleaseClassObjectNextRunTime = Time.time;
 				ReleaseClassObjectPool();
-				GameEntry.Log(LogCategory.Normal, "释放类对象池");
+				//GameEntry.Log(LogCategory.Normal, "释放类对象池");
 			}
 
 
@@ -304,7 +304,7 @@ namespace YouYou
 
 #if !EDITORLOAD
 				ReleaseAssetBundlePool();
-				GameEntry.Log(LogCategory.Normal, "释放AssetBundle池");
+				//GameEntry.Log(LogCategory.Normal, "释放AssetBundle池");
 #endif
 			}
 
@@ -314,7 +314,7 @@ namespace YouYou
 
 #if !EDITORLOAD
 				ReleaseAssetPool();
-				GameEntry.Log(LogCategory.Normal, "释放Asset池");
+				//GameEntry.Log(LogCategory.Normal, "释放Asset池");
 #endif
 				GameEntry.Event.CommonEvent.Dispatch(SysEventId.LuaFullGc);
 

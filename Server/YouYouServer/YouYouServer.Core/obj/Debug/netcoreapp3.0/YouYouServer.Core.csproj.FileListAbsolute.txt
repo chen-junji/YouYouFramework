@@ -20,3 +20,15 @@ G:\Project\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\bin\Debu
 G:\Project\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\bin\Debug\netcoreapp3.0\zlib.net.dll
 G:\Project\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\obj\Debug\netcoreapp3.0\YouYouServer.Core.csproj.CopyComplete
 G:\Project\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\obj\Debug\netcoreapp3.0\YouYouServer.Core.csprojAssemblyReference.cache
+G:\Project\Demo\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\bin\Debug\netcoreapp3.0\YouYouServer.Core.deps.json
+G:\Project\Demo\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\bin\Debug\netcoreapp3.0\YouYouServer.Core.dll
+G:\Project\Demo\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\bin\Debug\netcoreapp3.0\YouYouServer.Core.pdb
+G:\Project\Demo\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\bin\Debug\netcoreapp3.0\Google.Protobuf.dll
+G:\Project\Demo\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\bin\Debug\netcoreapp3.0\zlib.net.dll
+G:\Project\Demo\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\obj\Debug\netcoreapp3.0\YouYouServer.Core.csprojAssemblyReference.cache
+G:\Project\Demo\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\obj\Debug\netcoreapp3.0\YouYouServer.Core.AssemblyInfoInputs.cache
+G:\Project\Demo\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\obj\Debug\netcoreapp3.0\YouYouServer.Core.AssemblyInfo.cs
+G:\Project\Demo\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\obj\Debug\netcoreapp3.0\YouYouServer.Core.csproj.CoreCompileInputs.cache
+G:\Project\Demo\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\obj\Debug\netcoreapp3.0\YouYouServer.Core.csproj.CopyComplete
+G:\Project\Demo\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\obj\Debug\netcoreapp3.0\YouYouServer.Core.dll
+G:\Project\Demo\YouYou_MMORPG\YFYouYou\Server\YouYouServer\YouYouServer.Core\obj\Debug\netcoreapp3.0\YouYouServer.Core.pdb

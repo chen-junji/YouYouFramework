@@ -1,24 +1,22 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <FileUpgradeFlags>40</FileUpgradeFlags>
+    <UpgradeBackupLocation>G:\Project\Demo\YouYou_MMORPG\YFYouYou\Server\YouYouServer\Backup\YouYouServer.Model\</UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Proto\**" />
     <EmbeddedResource Remove="Proto\**" />
     <None Remove="Proto\**" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\YouYouServer.Common\YouYouServer.Common.csproj" />
     <ProjectReference Include="..\YouYouServer.Core\YouYouServer.Core.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Reference Include="Google.Protobuf">
       <HintPath>..\..\..\Public\Plugins\Google.Protobuf.dll</HintPath>
     </Reference>
   </ItemGroup>
-
 </Project>

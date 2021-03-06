@@ -251,7 +251,7 @@ public class BaseSprite : MonoBehaviour
 		}
 		LoadRoleAnimation(clips.ToArray(), omComplete);
 #elif RESOURCES
-			string resourcesPath = entity.AssetPath.Replace("Assets/Download/", string.Empty);
+			string resourcesPath = path.Replace("Assets/Download/", string.Empty);
 			LoadRoleAnimation(Resources.LoadAll<AnimationClip>(resourcesPath), omComplete);
 #else
 			GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(path, onComplete: (AssetBundle bundle) =>

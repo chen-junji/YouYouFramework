@@ -68,7 +68,12 @@ namespace YouYou
 		[SerializeField]
 		public UIGroup[] UIGroups;
 
+		[Title("支付平台选择")]
+		public PayPlatform m_PayPlatform;
+		public static PayPlatform PayPaltform { get; private set; }
+
 		#region 时间缩放
+		[Title("时间缩放")]
 		[CustomValueDrawer("SetTimeScale")]
 		public float timeScale;
 
@@ -116,10 +121,6 @@ namespace YouYou
 		}
 #endif
 		#endregion
-
-		[Title("支付平台选择")]
-		public PayPlatform m_PayPlatform;
-		public static PayPlatform PayPaltform { get; private set; }
 
 		#region 管理器属性
 		public static LoggerManager Logger { get; private set; }
@@ -224,14 +225,11 @@ namespace YouYou
 			CurrLanguage = m_CurrLanguage;
 			PayPaltform = m_PayPlatform;
 
-			InitManagers();
-		}
-
-		void Start()
-		{
-			Log(LogCategory.Procedure, "GameEntry.OnStart()");
-			UnityEngine.Time.timeScale = timeScale = 1;
 			Application.targetFrameRate = ParamsSettings.GetGradeParamData(YFConstDefine.targetFrameRate, CurrDeviceGrade);
+
+			UnityEngine.Time.timeScale = timeScale = 1;
+
+			InitManagers();
 		}
 
 		void Update()

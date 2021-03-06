@@ -3,6 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{E1E2B5D5-AE9A-46FA-8BAC-AF44905B6331}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Librarys", "Librarys", "{B45A602F-E70E-4947-83F9-B79ECD5A575F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{6A43380F-73BC-48E1-A035-0162818878EB}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YouYouServer.Core", "YouYouServer.Core\YouYouServer.Core.csproj", "{1898C61E-755B-4EDB-AEB6-2A3223E97536}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YouYouServer.Model", "YouYouServer.Model\YouYouServer.Model.csproj", "{116805C6-2E65-4A4C-A3B6-F6E074BB5013}"
@@ -14,12 +20,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YouYouServer.GameServer", "YouYouServer.GameServer\YouYouServer.GameServer.csproj", "{DA5F21AA-3A38-4B59-8DF9-8391E0C707AF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YouYouServer.WebAccount", "YouYouServer.WebAccount\YouYouServer.WebAccount.csproj", "{B68E7E97-B7A5-4C6A-836E-64D1E3EF24AE}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{E1E2B5D5-AE9A-46FA-8BAC-AF44905B6331}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Librarys", "Librarys", "{B45A602F-E70E-4947-83F9-B79ECD5A575F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{6A43380F-73BC-48E1-A035-0162818878EB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouYouServer.Common", "YouYouServer.Common\YouYouServer.Common.csproj", "{C5C1A756-8FDE-4C2B-940F-6B91672C9630}"
 EndProject
