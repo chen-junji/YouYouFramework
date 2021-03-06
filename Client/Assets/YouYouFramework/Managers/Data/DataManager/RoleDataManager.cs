@@ -16,21 +16,21 @@ public class RoleDataManager : IDisposable
 	public void CreatePlayer(string skinPrefabName, string animFBXPath, Action<RoleCtrl> onComplete = null)
 	{
 		//加载角色控制器
-		GameEntry.Pool.GameObjectSpawn(SysPrefabId.RoleCtrl, (Transform trans, bool isNewInstance) =>
-		 {
-			 RoleCtrl roleCtrl = trans.GetComponent<RoleCtrl>();
+		//GameEntry.Pool.GameObjectSpawn(SysPrefabId.RoleCtrl, (Transform trans, bool isNewInstance) =>
+		// {
+		//	 RoleCtrl roleCtrl = trans.GetComponent<RoleCtrl>();
 
-			 //如果是新实例, 执行OnInit();
-			 if (isNewInstance) roleCtrl.OnInit();
+		//	 //如果是新实例, 执行OnInit();
+		//	 if (isNewInstance) roleCtrl.OnInit();
 
-			 roleCtrl.LoadSkin(skinPrefabName, (Transform skinTransform) =>
-			 {
-				 roleCtrl.InitAnim(skinTransform.GetComponent<Animator>(), animFBXPath);
-				 roleCtrl.OnOpen();
-			 });
-			 m_RoleList.AddLast(roleCtrl);
-			 onComplete?.Invoke(roleCtrl);
-		 });
+		//	 roleCtrl.LoadSkin(skinPrefabName, (Transform skinTransform) =>
+		//	 {
+		//		 roleCtrl.InitAnim(skinTransform.GetComponent<Animator>(), animFBXPath);
+		//		 roleCtrl.OnOpen();
+		//	 });
+		//	 m_RoleList.AddLast(roleCtrl);
+		//	 onComplete?.Invoke(roleCtrl);
+		// });
 	}
 	public void DespawnRole(RoleCtrl roleCtrl)
 	{

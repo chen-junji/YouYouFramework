@@ -56,10 +56,41 @@ public static class GameObjectUtil
 	/// <param name="parent"></param>
 	public static void SetParent(this GameObject obj, Transform parent)
 	{
+		Vector3 pos = obj.transform.localPosition;
+		Vector3 scale = obj.transform.localScale;
+		Vector3 eulerAngles = obj.transform.localEulerAngles;
+
 		obj.transform.SetParent(parent);
-		obj.transform.localPosition = Vector3.zero;
-		obj.transform.localScale = Vector3.one;
-		obj.transform.localEulerAngles = Vector3.zero;
+
+		obj.transform.localPosition = pos;
+		obj.transform.localScale = scale;
+		obj.transform.localEulerAngles = eulerAngles;
+	}
+	#endregion
+
+	#region DeepFindChild 深度递归查找子节点
+	/// <summary>
+	/// 深度递归查找子节点
+	/// </summary>
+	/// <param name="parent"></param>
+	/// <param name="targetName"></param>
+	/// <returns></returns>
+	public static Transform DeepFind(this Transform parent, string targetName)
+	{
+		Transform _result = null;
+		_result = parent.Find(targetName);
+		if (_result == null)
+		{
+			foreach (Transform child in parent)
+			{
+				_result = DeepFind(child, targetName);
+				if (_result != null)
+				{
+					return _result;
+				}
+			}
+		}
+		return _result;
 	}
 	#endregion
 
@@ -175,19 +206,20 @@ public static class GameObjectUtil
 	{
 		if (img != null && !string.IsNullOrEmpty(imgPath))
 		{
-			GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.UIRes, imgPath, (ResourceEntity resEntity) =>
+			GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.UIRes, imgPath, (Object asset) =>
 			{
+				if (asset == null) return;
+
 				Sprite obj = null;
-				if (resEntity.Target is Sprite)
+				if (asset is Sprite)
 				{
-					obj = (Sprite)resEntity.Target;
+					obj = (Sprite)asset;
 				}
 				else
 				{
-					Texture2D texture = (Texture2D)resEntity.Target;
+					Texture2D texture = (Texture2D)asset;
 					obj = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
 				}
-				if (obj == null) return;
 
 				img.overrideSprite = obj;
 				if (isSetNativeSize)
@@ -207,12 +239,11 @@ public static class GameObjectUtil
 	{
 		if (img != null && !string.IsNullOrEmpty(imgPath))
 		{
-			GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.UIRes, imgPath, (ResourceEntity resEntity) =>
+			GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.UIRes, "Assets/Download/UI/UIRes/UITexture/" + imgPath, (Object asset) =>
 			{
-				if (resEntity == null) return;
-				if (resEntity.Target == null) return;
+				if (asset == null) return;
 
-				if (resEntity.Target is Texture2D) img.texture = (Texture2D)resEntity.Target;
+				if (asset is Texture2D) img.texture = (Texture2D)asset;
 				if (isSetNativeSize) img.SetNativeSize();
 			});
 		}

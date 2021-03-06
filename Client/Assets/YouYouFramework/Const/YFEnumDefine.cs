@@ -33,11 +33,7 @@ namespace YouYou
 		/// <summary>
 		/// 角色预设
 		/// </summary>
-		RolePrefab = 5,
-		/// <summary>
-		/// 角色资源
-		/// </summary>
-		RoleSources = 6,
+		Role = 5,
 		/// <summary>
 		/// 场景
 		/// </summary>
@@ -110,7 +106,11 @@ namespace YouYou
 		/// </summary>
 		Noraml
 	}
-
+	public enum UIFormShowAnim
+	{
+		None = 0,
+		DOScale = 1,
+	}
 	/// <summary>
 	/// UI窗口的显示类型
 	/// </summary>

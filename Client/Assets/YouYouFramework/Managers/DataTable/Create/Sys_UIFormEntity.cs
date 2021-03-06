@@ -61,4 +61,9 @@ public partial class Sys_UIFormEntity : DataTableEntityBase
     /// </summary>
     public byte FreezeMode;
 
+    /// <summary>
+    /// 打开动画0=无1=缩放
+    /// </summary>
+    public byte OpenAnim;
+
 }

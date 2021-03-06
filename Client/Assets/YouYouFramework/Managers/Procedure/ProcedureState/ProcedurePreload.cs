@@ -137,16 +137,25 @@ namespace YouYou
 		private void LoadShader()
 		{
 #if ASSETBUNDLE
-			GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(YFConstDefine.CusShadersAssetBundlePath, onComplete: (AssetBundle bundle) =>
+			GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(YFConstDefine.CusShadersAssetBundlePath, onComplete: (ResourceEntity bundleEntity) =>
 			{
+				AssetBundle bundle = bundleEntity.Target as AssetBundle;
 				bundle.LoadAllAssets();
 				Shader.WarmupAllShaders();
 				GameEntry.Log(LogCategory.Normal, "加载资源包中的自定义Shader完毕");
-				m_TargetProgress = 100;
+				InitCircle();
 			});
 #else
-			m_TargetProgress = 100;
+			InitCircle();
 #endif
+		}
+		private void InitCircle()
+		{
+			GameEntry.UI.OpenUIForm(UIFormId.UICircle,onOpen:(UIFormBase uiform)=>
+			{
+				uiform.Close();
+			m_TargetProgress = 100;
+			});
 		}
 	}
 }

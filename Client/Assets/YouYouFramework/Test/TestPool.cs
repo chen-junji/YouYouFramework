@@ -43,9 +43,11 @@ public class TestPool : MonoBehaviour
 
 		if (Input.GetKeyUp(KeyCode.B))
 		{
-			GameEntry.Pool.GameObjectSpawn(UnityEngine.Random.Range(1, 3), (Transform trans, bool isNewInstance) =>
+			GameEntry.Pool.GameObjectSpawn("Effect_EnemyB4_AtkLhand_shouji", transform, (obj, isNew) =>
 			{
-				m_RoleObjList.Enqueue(trans);
+				Debug.LogError(obj.localEulerAngles);
+				GameEntry.Pool.GameObjectDespawn(obj);
+				GameEntry.Pool.GameObjectSpawn("Effect_EnemyB4_AtkLhand_shouji", transform);
 			});
 		}
 		if (Input.GetKeyUp(KeyCode.C))

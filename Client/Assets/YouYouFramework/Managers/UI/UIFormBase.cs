@@ -14,29 +14,7 @@ namespace YouYou
 		/// </summary>
 		protected internal bool IsActive;
 
-		/// <summary>
-		/// UI窗体编号
-		/// </summary>
-		public int CurrUIFormId
-		{
-			get;
-			private set;
-		}
-
-		public Sys_UIFormEntity SysUIForm
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// 分组编号
-		/// </summary>
-		public byte GroupId
-		{
-			get;
-			private set;
-		}
+		public Sys_UIFormEntity SysUIForm { get; private set; }
 
 		/// <summary>
 		/// 当前画布
@@ -51,24 +29,6 @@ namespace YouYou
 		/// 关闭时间
 		/// </summary>
 		public float CloseTime
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// 禁用层级管理
-		/// </summary>
-		public bool DisableUILayer
-		{
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// 是否锁定
-		/// </summary>
-		public bool IsLock
 		{
 			get;
 			private set;
@@ -91,13 +51,9 @@ namespace YouYou
 			CurrCanvas = GetComponent<Canvas>();
 		}
 
-		internal void Init(int uiFormId, Sys_UIFormEntity sysUIForm, byte groupId, bool disableUILayer, bool isLock, object userData, BaseAction initComplate)
+		internal void Init(Sys_UIFormEntity sysUIForm, object userData, BaseAction initComplate)
 		{
-			CurrUIFormId = uiFormId;
 			SysUIForm = sysUIForm;
-			GroupId = groupId;
-			DisableUILayer = disableUILayer;
-			IsLock = isLock;
 			UserData = userData;
 			m_InitComplate = initComplate;
 		}
@@ -111,13 +67,14 @@ namespace YouYou
 
 		internal void Open(object userData, bool isFormInit = false)
 		{
-			GameEntry.Audio.PlayAudio(YFConstDefine.Audio_UIOpen);
+			//GameEntry.Audio.PlayAudio(YFConstDefine.Audio_UIOpen);
 			if (!isFormInit)
 			{
 				UserData = userData;
 			}
 
-			if (!DisableUILayer)
+
+			if (SysUIForm != null && SysUIForm.DisableUILayer != 1)
 			{
 				//进行层级管理 增加层级
 				GameEntry.UI.SetSortingOrder(this, true);
@@ -133,8 +90,8 @@ namespace YouYou
 
 		internal void ToClose()
 		{
-			GameEntry.Audio.PlayAudio(YFConstDefine.Audio_UIClose);
-			if (!DisableUILayer)
+			//GameEntry.Audio.PlayAudio(YFConstDefine.Audio_UIClose);
+			if (SysUIForm != null && SysUIForm.DisableUILayer != 1)
 			{
 				//进行层级管理 减少层级
 				GameEntry.UI.SetSortingOrder(this, false);

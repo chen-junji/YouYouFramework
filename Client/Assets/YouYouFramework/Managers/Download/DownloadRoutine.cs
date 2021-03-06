@@ -144,7 +144,7 @@ public class DownloadRoutine
 		m_FileStream = new FileStream(m_DownloadLocalFilePath, FileMode.Create, FileAccess.Write);
 
 		PlayerPrefs.SetString(m_CurrFileUrl, m_CurrAssetBundleInfo.MD5);
-		Download(string.Format("{0}/{1}", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl, m_CurrFileUrl));
+		Download(string.Format("{0}{1}", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl, m_CurrFileUrl));
 	}
 
 	/// <summary>
@@ -221,8 +221,8 @@ public class DownloadRoutine
 			m_CurrRetry++;
 			if (m_CurrRetry <= GameEntry.Download.Retry)
 			{
-				Reset();
 				GameEntry.Log(LogCategory.Resource, "下载文件URL {0} 出错, 正在进行重试, 当前重试次数{1}", m_UnityWebRequest.url, m_CurrRetry);
+				Reset();
 				DownloadInner();
 				return;
 			}
@@ -248,7 +248,7 @@ public class DownloadRoutine
 			//更新可写区的版本信息
 			GameEntry.Resource.ResourceManager.SaveVersion(m_CurrAssetBundleInfo);
 
-			if (m_OnComplete != null) m_OnComplete(m_CurrFileUrl, this);
+			m_OnComplete?.Invoke(m_CurrFileUrl, this);
 		}
 	}
 

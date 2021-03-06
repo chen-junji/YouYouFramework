@@ -26,20 +26,20 @@ namespace YouYou
 	{
 		internal override void Init()
 		{
-//#if !UNITY_EDITOR
-//            switch (Application.systemLanguage)
-//            {
-//                default:
-//                case SystemLanguage.ChineseSimplified:
-//                case SystemLanguage.ChineseTraditional:
-//                case SystemLanguage.Chinese:
-//                    GameEntry.CurrLanguage = YouYouLanguage.Chinese;
-//                    break;
-//                case SystemLanguage.English:
-//                    GameEntry.CurrLanguage = YouYouLanguage.English;
-//                    break;
-//            }
-//#endif
+#if !UNITY_EDITOR
+            switch (Application.systemLanguage)
+            {
+                default:
+                case SystemLanguage.ChineseSimplified:
+                case SystemLanguage.ChineseTraditional:
+                case SystemLanguage.Chinese:
+                    GameEntry.CurrLanguage = YouYouLanguage.Chinese;
+                    break;
+                case SystemLanguage.English:
+                    GameEntry.CurrLanguage = YouYouLanguage.English;
+                    break;
+            }
+#endif
 		}
 
 		/// <summary>

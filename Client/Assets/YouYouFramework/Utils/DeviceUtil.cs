@@ -27,7 +27,7 @@ public class DeviceUtil
         get
         {
 #if UNITY_IPHONE && !UNITY_EDITOR
-            return Device.generation.ToString();
+            return UnityEngine.iOS.Device.generation.ToString();
 #else
             return SystemInfo.deviceModel;
 #endif

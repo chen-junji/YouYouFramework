@@ -2,37 +2,86 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
-
 
 namespace YouYou
 {
-    /// <summary>
-    /// 资源管理器
-    /// </summary>
-    public class ResourceManager : ManagerBase
-    {
-        public StreamingAssetsManager StreamingAssetsManager { get; private set; }
+	public class ResourceManager : ManagerBase, IDisposable
+	{
+		#region GetAssetBundleVersionList 根据字节数组获取资源包版本信息
+		/// <summary>
+		/// 根据字节数组获取资源包版本信息
+		/// </summary>
+		/// <param name="buffer">字节数组</param>
+		/// <param name="version">版本号</param>
+		/// <returns></returns>
+		public static Dictionary<string, AssetBundleInfoEntity> GetAssetBundleVersionList(byte[] buffer, ref string version)
+		{
+			buffer = ZlibHelper.DeCompressBytes(buffer);
 
-        public LocalAssetsManager LocalAssetsManager { get; private set; }
+			Dictionary<string, AssetBundleInfoEntity> dic = new Dictionary<string, AssetBundleInfoEntity>();
 
-        /// <summary>
-        /// 需要下载的资源包列表
-        /// </summary>
-        private LinkedList<string> m_NeedDownloadList;
-        /// <summary>
-        /// 检查版本更新下载 用到的参数
-        /// </summary>
-        private BaseParams m_DownloadingParams;
+			MMO_MemoryStream ms = new MMO_MemoryStream(buffer);
 
-        public ResourceManager()
-        {
-            StreamingAssetsManager = new StreamingAssetsManager();
-            LocalAssetsManager = new LocalAssetsManager();
-            m_NeedDownloadList = new LinkedList<string>();
-            m_StreamingAssetsVersionDic = new Dictionary<string, AssetBundleInfoEntity>();
-            m_CDNVersionDic = new Dictionary<string, AssetBundleInfoEntity>();
-            m_LocalAssetsVersionDic = new Dictionary<string, AssetBundleInfoEntity>();
+			int len = ms.ReadInt();
+
+			for (int i = 0; i < len; i++)
+			{
+				if (i == 0)
+				{
+					version = ms.ReadUTF8String().Trim();
+				}
+				else
+				{
+					AssetBundleInfoEntity entity = new AssetBundleInfoEntity();
+					entity.AssetBundleName = ms.ReadUTF8String();
+					entity.MD5 = ms.ReadUTF8String();
+					entity.Size = ms.ReadULong();
+					entity.IsFirstData = ms.ReadByte() == 1;
+					entity.IsEncrypt = ms.ReadByte() == 1;
+
+					dic[entity.AssetBundleName] = entity;
+				}
+			}
+			return dic;
+		}
+		#endregion
+
+		/// <summary>
+		/// 只读区管理器
+		/// </summary>
+		public StreamingAssetsManager StreamingAssetsManager
+		{
+			get;
+			private set;
+		}
+
+		/// <summary>
+		/// 可写区管理器
+		/// </summary>
+		public LocalAssetsManager LocalAssetsManager
+		{
+			get;
+			private set;
+		}
+
+		/// <summary>
+		/// 需要下载的资源包列表
+		/// </summary>
+		private LinkedList<string> m_NeedDownloadList;
+
+		/// <summary>
+		/// 检查版本更新下载时候的参数
+		/// </summary>
+		private BaseParams m_DownloadingParams;
+
+		public ResourceManager()
+		{
+			StreamingAssetsManager = new StreamingAssetsManager();
+			LocalAssetsManager = new LocalAssetsManager();
+
+			m_NeedDownloadList = new LinkedList<string>();
 		}
 
 		internal override void Init()
@@ -40,466 +89,440 @@ namespace YouYou
 
 		}
 
-
-		#region GetAssetBundleVersionList 根据字节数组获取资源包版本信息(解析版本文件)
+		#region 只读区
 		/// <summary>
-		/// 根据字节数组获取资源包版本信息
+		/// 只读区资源版本号
 		/// </summary>
-		/// <param name="buffer">解析这个Buffer获取资源包版本信息</param>
-		/// <param name="version">版本号</param>
-		/// <returns>Key:资源包名称;Value:资源包版本信息</returns>
-		public static Dictionary<string, AssetBundleInfoEntity> GetAssetBundleVersionList(byte[] buffer, ref string version)
-        {
-            buffer = ZlibHelper.DeCompressBytes(buffer);
+		private string m_StreamingAssetsVersion;
 
-            Dictionary<string, AssetBundleInfoEntity> dic = new Dictionary<string, AssetBundleInfoEntity>();
+		/// <summary>
+		/// 只读区资源包信息
+		/// </summary>
+		private Dictionary<string, AssetBundleInfoEntity> m_StreamingAssetsVersionDic;
 
-            MMO_MemoryStream ms = new MMO_MemoryStream(buffer);
+		/// <summary>
+		/// 是否存在只读区资源包信息
+		/// </summary>
+		private bool m_IsExistsStreamingAssetsBundleInfo = false;
 
-            int len = ms.ReadInt();
-            for (int i = 0; i < len; i++)
-            {
-                if (i == 0)
-                {
-                    //版本号
-                    version = ms.ReadUTF8String().Trim();
-                }
-                else
-                {
-                    AssetBundleInfoEntity entity = new AssetBundleInfoEntity();
-                    entity.AssetBundleName = ms.ReadUTF8String();
-                    entity.MD5 = ms.ReadUTF8String();
-                    entity.Size = ms.ReadULong();
-                    entity.IsFirstData = ms.ReadByte() == 1;
-                    entity.IsEncrypt = ms.ReadByte() == 1;
+		#region InitStreamingAssetsBundleInfo 初始化只读区资源包信息
+		/// <summary>
+		/// 初始化只读区资源包信息
+		/// </summary>
+		public void InitStreamingAssetsBundleInfo()
+		{
+			ReadStreamingAssetsBundle(YFConstDefine.VersionFileName, (byte[] buffer) =>
+			{
+				if (buffer == null)
+				{
+					InitCDNAssetBundleInfo();
+				}
+				else
+				{
+					m_IsExistsStreamingAssetsBundleInfo = true;
+					m_StreamingAssetsVersionDic = GetAssetBundleVersionList(buffer, ref m_StreamingAssetsVersion);
+					GameEntry.Log(LogCategory.Resource, "读取只读区的资源包成功=>ReadStreamingAssetsBundle=>onComplete()");
+					InitCDNAssetBundleInfo();
+				}
+			});
+		}
+		#endregion
 
-                    dic[entity.AssetBundleName] = entity;
-                }
-            }
-            return dic;
-        }
-        #endregion
+		#region ReadStreamingAssetsBundle 读取只读区的资源包
+		/// <summary>
+		/// 读取只读区的资源包
+		/// </summary>
+		/// <param name="fileUrl"></param>
+		/// <param name="onComplete"></param>
+		internal void ReadStreamingAssetsBundle(string fileUrl, BaseAction<byte[]> onComplete)
+		{
+			StreamingAssetsManager.ReadAssetBundle(fileUrl, onComplete);
+		}
+		#endregion
 
-        #region 只读区
-        /// <summary>
-        /// 只读区资源版本号
-        /// </summary>
-        private string m_StreamingAssetsVersion;
+		#endregion
 
-        /// <summary>
-        /// 只读区资源包信息
-        /// </summary>
-        private Dictionary<string, AssetBundleInfoEntity> m_StreamingAssetsVersionDic;
+		#region CDN
+		/// <summary>
+		/// CDN资源版本号
+		/// </summary>
+		private string m_CDNVersion;
 
-        /// <summary>
-        /// 是否存在只读区资源包信息
-        /// </summary>
-        private bool m_IsExistsStreamingAssetsBundleInfo;
+		/// <summary>
+		/// CDN资源版本号
+		/// </summary>
+		public string CDNVersion { get { return m_CDNVersion; } }
 
-        #region InitStreamingAssetsBundleInfo 初始化只读区资源包信息
-        /// <summary>
-        /// 初始化只读区资源包信息
-        /// </summary>
-        public void InitStreamingAssetsBundleInfo()
-        {
-            ReadStreamingAssetsBundle("VersionFile.bytes", (byte[] buffer) =>
-            {
-                if (buffer == null)
-                {
-                    InitCDNAssetBundleInfo();
-                }
-                else
-                {
-                    m_IsExistsStreamingAssetsBundleInfo = true;
-                    m_StreamingAssetsVersionDic = GetAssetBundleVersionList(buffer, ref m_StreamingAssetsVersion);
+		/// <summary>
+		/// CDN资源包信息
+		/// </summary>
+		private Dictionary<string, AssetBundleInfoEntity> m_CDNVersionDic;
 
-                    GameEntry.Log(LogCategory.Resource, "读取只读区的资源包成功=>ReadStreamingAssetsBundle=>onComplete()");
+		/// <summary>
+		/// 初始化CDN资源包信息
+		/// </summary>
+		private void InitCDNAssetBundleInfo()
+		{
+			StringBuilder sbr = StringHelper.PoolNew();
+			string url = sbr.AppendFormatNoGC("{0}{1}", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl, YFConstDefine.VersionFileName).ToString();
+			StringHelper.PoolDel(ref sbr);
+			GameEntry.Log(LogCategory.Resource, url);
+			GameEntry.Http.Get(url, false, OnInitCDNAssetBundleInfo);
+		}
 
-                    InitCDNAssetBundleInfo();
-                }
-            });
-        }
-        #endregion
+		/// <summary>
+		/// 初始化CDN资源包信息回调
+		/// </summary>
+		/// <param name="args"></param>
+		private void OnInitCDNAssetBundleInfo(HttpCallBackArgs args)
+		{
+			if (!args.HasError)
+			{
+				m_CDNVersionDic = GetAssetBundleVersionList(args.Data, ref m_CDNVersion);
+				GameEntry.Log(LogCategory.Resource, "OnInitCDNAssetBundleInfo");
 
-        #region ReadStreamingAssetsBundle 读取只读区的资源包
-        /// <summary>
-        /// 读取只读区的资源包
-        /// </summary>
-        /// <param name="fileUrl"></param>
-        /// <param name="onComplete"></param>
-        internal void ReadStreamingAssetsBundle(string fileUrl, Action<byte[]> onComplete)
-        {
-            StreamingAssetsManager.ReadAssetBundle(fileUrl, onComplete);
-        }
-        #endregion
+				CheckVersionFileExistsInLocal();
+			}
+		}
+		#endregion
 
+		#region 可写区
 
-        #endregion
+		/// <summary>
+		/// 可写区资源版本号
+		/// </summary>
+		private string m_LocalAssetsVersion;
 
-        #region CDN
-        /// <summary>
-        /// CDN资源版本号
-        /// </summary>
-        private string m_CDNVersion;
+		/// <summary>
+		/// 可写区资源包信息
+		/// </summary>
+		private Dictionary<string, AssetBundleInfoEntity> m_LocalAssetsVersionDic;
 
-        public string CDNVersion { get { return m_CDNVersion; } }
+		/// <summary>
+		/// 检查可写区版本文件是否存在
+		/// </summary>
+		private void CheckVersionFileExistsInLocal()
+		{
+			GameEntry.Log(LogCategory.Resource, "CheckVersionFileExistsInLocal");
 
-        /// <summary>
-        /// CDN资源包信息
-        /// </summary>
-        private Dictionary<string, AssetBundleInfoEntity> m_CDNVersionDic;
+			if (LocalAssetsManager.GetVersionFileExists())
+			{
+				//可写区版本文件存在
+				//加载可写区资源包信息
+				InitLocalAssetsBundleInfo();
+			}
+			else
+			{
+				//可写区版本文件不存在
 
-        /// <summary>
-        /// 初始化CDN资源包信息
-        /// </summary>
-        private void InitCDNAssetBundleInfo()
-        {
-            string url = string.Format("{0}VersionFile.bytes", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl);
-			GameEntry.Http.Get(url, OnInitCDNAssetBundleInfo);
-        }
-        /// <summary>
-        /// 初始化CDN资源包信息回调
-        /// </summary>
-        /// <param name="args"></param>
-        private void OnInitCDNAssetBundleInfo(HttpCallBackArgs args)
-        {
-                m_CDNVersionDic = GetAssetBundleVersionList(args.Data, ref m_CDNVersion);
-                GameEntry.Log(LogCategory.Resource, "初始化CDN资源包信息回调=>OnInitCDNAssetBundleInfo()");
+				//判断只读区版本文件是否存在
+				if (m_IsExistsStreamingAssetsBundleInfo)
+				{
+					//只读区版本文件存在
+					//将只读区版本文件初始化到可写区
+					InitVersionFileFormStreamingAssetsToLocal();
+				}
 
-                //foreach (var item in m_CDNVersionDic)
-                //{
-                //    GameEntry.Log(LogCategory.Normal, "item=>" + item.Key);
-                //}
-                CheckVersionFileExistsInLocal();
-            }
-        #endregion
+				CheckVersionChange();
+			}
+		}
 
-        #region 可写区
-        /// <summary>
-        /// 可写区资源版本号
-        /// </summary>
-        private string m_LocalAssetsVersion;
+		/// <summary>
+		/// 将只读区版本文件初始化到可写区
+		/// </summary>
+		private void InitVersionFileFormStreamingAssetsToLocal()
+		{
+			GameEntry.Log(LogCategory.Resource, "将只读区版本文件初始化到可写区=>InitVersionFileFormStreamingAssetsToLocal()");
 
-        /// <summary>
-        /// 可写区资源包信息
-        /// </summary>
-        private Dictionary<string, AssetBundleInfoEntity> m_LocalAssetsVersionDic;
+			m_LocalAssetsVersionDic = new Dictionary<string, AssetBundleInfoEntity>();
 
-        /// <summary>
-        /// 检查可写区版本文件是否存在
-        /// </summary>
-        public void CheckVersionFileExistsInLocal()
-        {
-            GameEntry.Log(LogCategory.Resource, "检查可写区版本文件是否存在=>CheckVersionFileExistsInLocal()");
+			var enumerator = m_StreamingAssetsVersionDic.GetEnumerator();
+			while (enumerator.MoveNext())
+			{
+				AssetBundleInfoEntity entity = enumerator.Current.Value;
+				m_LocalAssetsVersionDic[enumerator.Current.Key] = new AssetBundleInfoEntity()
+				{
+					AssetBundleName = entity.AssetBundleName,
+					MD5 = entity.MD5,
+					Size = entity.Size,
+					IsFirstData = entity.IsFirstData,
+					IsEncrypt = entity.IsEncrypt
+				};
+			}
 
-            if (LocalAssetsManager.GetVersionFileExists())
-            {
-                //可写区版本文件存在
-                //加载可写区资源包信息
-                InitLocalAssetBundleInfo();
-            }
-            else
-            {
-                //可写区版本文件不存在
+			//保存版本文件
+			LocalAssetsManager.SaveVersionFile(m_LocalAssetsVersionDic);
 
-                //判断只读区版本文件是否存在
-                if (m_IsExistsStreamingAssetsBundleInfo)
-                {
-                    //只读区版本文件存在
-                    //将只读区版本文件初始化到可写区
-                    InitVersionFileFormStreamingAssetsToLocal();
-                }
+			//保存版本号
+			m_LocalAssetsVersion = m_StreamingAssetsVersion;
+			LocalAssetsManager.SetResourceVersion(m_LocalAssetsVersion);
+		}
 
-                CheckVersionChange();
-            }
-        }
+		/// <summary>
+		///初始化可写区资源包信息
+		/// </summary>
+		private void InitLocalAssetsBundleInfo()
+		{
+			GameEntry.Log(LogCategory.Resource, "InitLocalAssetsBundleInfo");
 
-        /// <summary>
-        /// 将只读区版本文件初始化到可写区
-        /// </summary>
-        private void InitVersionFileFormStreamingAssetsToLocal()
-        {
-            GameEntry.Log(LogCategory.Resource, "将只读区版本文件初始化到可写区=>InitVersionFileFormStreamingAssetsToLocal()");
+			m_LocalAssetsVersionDic = LocalAssetsManager.GetAssetBundleVersionList(ref m_LocalAssetsVersion);
 
-            m_LocalAssetsVersionDic = new Dictionary<string, AssetBundleInfoEntity>();
+			CheckVersionChange();
+		}
 
-            var enumerator = m_StreamingAssetsVersionDic.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                AssetBundleInfoEntity entity = enumerator.Current.Value;
-                m_LocalAssetsVersionDic[enumerator.Current.Key] = new AssetBundleInfoEntity()
-                {
-                    AssetBundleName = entity.AssetBundleName,
-                    MD5 = entity.MD5,
-                    Size = entity.Size,
-                    IsFirstData = entity.IsFirstData,
-                    IsEncrypt = entity.IsEncrypt
-                };
-            }
+		/// <summary>
+		/// 保存版本信息
+		/// </summary>
+		/// <param name="entity"></param>
+		public void SaveVersion(AssetBundleInfoEntity entity)
+		{
+			if (m_LocalAssetsVersionDic == null)
+			{
+				m_LocalAssetsVersionDic = new Dictionary<string, AssetBundleInfoEntity>();
+			}
+			m_LocalAssetsVersionDic[entity.AssetBundleName] = entity;
 
-            //保存版本文件
-            LocalAssetsManager.SaveVersionFile(m_LocalAssetsVersionDic);
+			//保存版本文件
+			LocalAssetsManager.SaveVersionFile(m_LocalAssetsVersionDic);
+		}
 
-            //保存版本号
-            m_LocalAssetsVersion = m_StreamingAssetsVersion;
-            LocalAssetsManager.SetResourceVersion(m_LocalAssetsVersion);
-        }
+		/// <summary>
+		/// 保存资源版本号（用于检查版本更新完毕后 保存）
+		/// </summary>
+		public void SetResourceVersion()
+		{
+			m_LocalAssetsVersion = m_CDNVersion;
+			LocalAssetsManager.SetResourceVersion(m_LocalAssetsVersion);
+		}
+		#endregion
 
-        /// <summary>
-        /// 初始化可写区资源包信息
-        /// </summary>
-        private void InitLocalAssetBundleInfo()
-        {
-            GameEntry.Log(LogCategory.Resource, "初始化可写区资源包信息=>InitLocalAssetBundleInfo()");
+		/// <summary>
+		/// 获取CDN上的资源包信息(这个方法一定要能返回资源包信息)
+		/// </summary>
+		/// <param name="assetbundlePath"></param>
+		/// <returns></returns>
+		internal AssetBundleInfoEntity GetAssetBundleInfo(string assetbundlePath)
+		{
+			AssetBundleInfoEntity entity = null;
+			m_CDNVersionDic.TryGetValue(assetbundlePath, out entity);
+			return entity;
+		}
 
-            m_LocalAssetsVersionDic = LocalAssetsManager.GetAssetBundleVersionList(ref m_LocalAssetsVersion);
+		#region 检查更新
 
-            CheckVersionChange();
-        }
-        /// <summary>
-        /// 保存可写区版本信息
-        /// </summary>
-        /// <param name="entity"></param>
-        public void SaveVersion(AssetBundleInfoEntity entity)
-        {
-            if (m_LocalAssetsVersionDic == null)
-            {
-                m_LocalAssetsVersionDic = new Dictionary<string, AssetBundleInfoEntity>();
-            }
-            m_LocalAssetsVersionDic[entity.AssetBundleName] = entity;
-
-            //保存版本文件
-            LocalAssetsManager.SaveVersionFile(m_LocalAssetsVersionDic);
-        }
-        /// <summary>
-        /// 保存资源版本号(用于检测版本更新完毕后 保存)
-        /// </summary>
-        public void SetResourceVersion()
-        {
-            m_LocalAssetsVersion = m_CDNVersion;
-            LocalAssetsManager.SetResourceVersion(m_LocalAssetsVersion);
-        }
-        #endregion
-
-        /// <summary>
-        /// 获取CDN上的资源包信息(这个方法一定要能返回资源包信息)
-        /// </summary>
-        /// <param name="assetBundlePath"></param>
-        /// <returns></returns>
-        internal AssetBundleInfoEntity GetAssetBundleInfo(string assetBundlePath)
-        {
-            AssetBundleInfoEntity entity = null;
-            m_CDNVersionDic.TryGetValue(assetBundlePath, out entity);
-            if (entity == null)
-            {
-                GameEntry.LogError("获取资源包信息失败=>{0}", assetBundlePath);
-            }
-            return entity;
-        }
-
-
-        /// <summary>
-        /// 检查更新
-        /// </summary>
-        private void CheckVersionChange()
-        {
+		/// <summary>
+		/// 检查更新
+		/// </summary>
+		private void CheckVersionChange()
+		{
 			GameEntry.Log(LogCategory.Resource, "检查更新=>CheckVersionChange(), 版本号=>{0}", m_LocalAssetsVersion);
 
-            if (LocalAssetsManager.GetVersionFileExists())
-            {
-                if (!string.IsNullOrEmpty(m_LocalAssetsVersion) && m_LocalAssetsVersion.Equals(m_CDNVersion))
-                {
-                    GameEntry.Log(LogCategory.Resource, "可写区版本号和CDN版本号一致 进入预加载流程");
-                    GameEntry.Procedure.ChangeState(ProcedureState.Preload);
-                }
-                else
-                {
-                    GameEntry.Log(LogCategory.Resource, "可写区版本号和CDN版本号不一致 开始检查更新");
-                    BeginCheckVersionChange();
-                }
-            }
-            else
-            {
-                //下载初始资源
-                DownloadInitResources();
-            }
-        }
+			if (LocalAssetsManager.GetVersionFileExists())
+			{
+				if (!string.IsNullOrEmpty(m_LocalAssetsVersion) && m_LocalAssetsVersion.Equals(m_CDNVersion))
+				{
+					GameEntry.Log(LogCategory.Resource, "可写区版本号和CDN版本号一致 进入预加载流程");
+					GameEntry.Procedure.ChangeState(ProcedureState.Preload);
+				}
+				else
+				{
+					GameEntry.Log(LogCategory.Resource, "可写区版本号和CDN版本号不一致 开始检查更新");
+					BeginCheckVersionChange();
+				}
+			}
+			else
+			{
+				//下载初始资源
+				DownloadInitResources();
+			}
+		}
 
-        #region DownloadInitResources 下载初始资源
-        /// <summary>
-        /// 下载初始资源
-        /// </summary>
-        private void DownloadInitResources()
-        {
-            GameEntry.Event.CommonEvent.Dispatch(SysEventId.CheckVersionBeginDownload);
-            m_DownloadingParams = GameEntry.Pool.DequeueClassObject<BaseParams>();
-            m_NeedDownloadList.Clear();
+		#region DownloadInitResources 下载初始资源
+		/// <summary>
+		/// 下载初始资源
+		/// </summary>
+		private void DownloadInitResources()
+		{
+			GameEntry.Event.CommonEvent.Dispatch(SysEventId.CheckVersionBeginDownload);
+			m_DownloadingParams = GameEntry.Pool.DequeueClassObject<BaseParams>();
+			m_DownloadingParams.Reset();
 
-            var enumerator = m_CDNVersionDic.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                AssetBundleInfoEntity entity = enumerator.Current.Value;
-                if (entity.IsFirstData)
-                {
-                    m_NeedDownloadList.AddLast(entity.AssetBundleName);
-                }
-            }
+			m_NeedDownloadList.Clear();
 
-			GameEntry.Log(LogCategory.Resource, "下载初始资源,文件数量==>>" + m_NeedDownloadList.Count);
-            GameEntry.Download.BeginDownloadMulit(m_NeedDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
-        }
-        #endregion
+			var enumerator = m_CDNVersionDic.GetEnumerator();
+			while (enumerator.MoveNext())
+			{
+				AssetBundleInfoEntity entity = enumerator.Current.Value;
+				if (entity.IsFirstData)
+				{
+					m_NeedDownloadList.AddLast(entity.AssetBundleName);
+				}
+			}
 
-        #region BeginCheckVersionChange 开始检查更新
-        /// <summary>
-        /// 开始检查更新
-        /// </summary>
-        private void BeginCheckVersionChange()
-        {
-            m_DownloadingParams = GameEntry.Pool.DequeueClassObject<BaseParams>();
-            m_DownloadingParams.Reset();
+			//如果没有初始资源 直接检查更新
+			if (m_NeedDownloadList.Count == 0)
+			{
+				BeginCheckVersionChange();
+			}
+			else
+			{
+				//LocalAssetsManager.SetResourceVersion(null);//不检测版本号, 而是直接检测MD5
+				GameEntry.Log(LogCategory.Resource, "下载初始资源,文件数量==>>" + m_NeedDownloadList.Count);
+				GameEntry.Download.BeginDownloadMulit(m_NeedDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
+			}
+		}
+		#endregion
 
-            //需要删除的文件
-            LinkedList<string> delList = new LinkedList<string>();
+		/// <summary>
+		/// 开始检查更新
+		/// </summary>
+		private void BeginCheckVersionChange()
+		{
+			m_DownloadingParams = GameEntry.Pool.DequeueClassObject<BaseParams>();
+			m_DownloadingParams.Reset();
 
-            //可写区资源MD5和CDN资源CD5不一致的文件
-            LinkedList<string> inconformityList = new LinkedList<string>();
-            LinkedList<string> needDownloadList = new LinkedList<string>();
+			//需要删除的文件
+			LinkedList<string> delList = new LinkedList<string>();
 
-            #region 找出需要删除的可写区文件链表 和 需要下载的可写区文件链表
-            var enumerator = m_LocalAssetsVersionDic.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                string assetBundleName = enumerator.Current.Key;
+			//可写区资源MD5和CDN资源MD5不一致的文件
+			LinkedList<string> inconformityList = new LinkedList<string>();
 
-                AssetBundleInfoEntity cdnAssetBundleInfo = null;
-                if (m_CDNVersionDic.TryGetValue(assetBundleName, out cdnAssetBundleInfo))
-                {
-                    //可写区有 CDN也有
-                    if (!cdnAssetBundleInfo.MD5.Equals(enumerator.Current.Value.MD5, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        //如果MD5不一致 加入不一致链表
-                        inconformityList.AddLast(assetBundleName);
-                    }
-                }
-                else
-                {
-                    //可写区有 CDN上没有 加入删除链表
-                    delList.AddLast(assetBundleName);
-                }
-            }
+			LinkedList<string> needDownloadList = new LinkedList<string>();
 
-            //判断这个文件在只读区的MD5和CDN是否一致 一致的要删除 不一致的则重新下载
-            LinkedListNode<string> currInconformity = inconformityList.First;
-            while (currInconformity != null)
-            {
-                AssetBundleInfoEntity cdnAssetBundleInfo = null;
-                m_CDNVersionDic.TryGetValue(currInconformity.Value, out cdnAssetBundleInfo);
+			#region 找出需要删除的文件进行删除
+			var enumerator = m_LocalAssetsVersionDic.GetEnumerator();
+			while (enumerator.MoveNext())
+			{
+				string assetBundleName = enumerator.Current.Key;
 
-                AssetBundleInfoEntity streamingAssetsAssetBundleInfo = null;
-                if (m_StreamingAssetsVersionDic != null)
-                {
-                    m_StreamingAssetsVersionDic.TryGetValue(currInconformity.Value, out streamingAssetsAssetBundleInfo);
-                }
+				AssetBundleInfoEntity cdnAssetBundleInfo = null;
+				if (m_CDNVersionDic.TryGetValue(assetBundleName, out cdnAssetBundleInfo))
+				{
+					//可写区有 CDN也有
+					if (!cdnAssetBundleInfo.MD5.Equals(enumerator.Current.Value.MD5, StringComparison.CurrentCultureIgnoreCase))
+					{
+						//如果MD5不一致 加入不一致链表
+						inconformityList.AddLast(assetBundleName);
+					}
+				}
+				else
+				{
+					//可写区有 CDN上没有 加入删除链表
+					delList.AddLast(assetBundleName);
+				}
+			}
 
-                if (streamingAssetsAssetBundleInfo == null)
-                {
-                    //如果只读区没有,则重新下载
-                    needDownloadList.AddLast(currInconformity.Value);
-                }
-                else
-                {
-                    if (cdnAssetBundleInfo.MD5.Equals(streamingAssetsAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        //一致,则删除
-                        delList.AddLast(currInconformity.Value);
-                    }
-                    else
-                    {
-                        //不一致,则重新下载
-                        needDownloadList.AddLast(currInconformity.Value);
-                    }
-                }
+			//循环判断这个文件在只读区的MD5和CDN是否一致 一致的进行删除 不一致的进行重新下载
+			LinkedListNode<string> currInconformity = inconformityList.First;
+			while (currInconformity != null)
+			{
+				AssetBundleInfoEntity cdnAssetBundleInfo = null;
+				m_CDNVersionDic.TryGetValue(currInconformity.Value, out cdnAssetBundleInfo);
 
-                currInconformity = currInconformity.Next;
-            }
-            #endregion
+				AssetBundleInfoEntity streamingAssetsAssetBundleInfo = null;
+				if (m_StreamingAssetsVersionDic != null)
+				{
+					m_StreamingAssetsVersionDic.TryGetValue(currInconformity.Value, out streamingAssetsAssetBundleInfo);
+				}
 
-            #region 处理需要删除的可写区文件链表
-            LinkedListNode<string> currDel = delList.First;
-            while (currDel != null)
-            {
-                string filePath = string.Format("{0}/{1}", GameEntry.Resource.LocalFilePath, currDel.Value);
+				if (streamingAssetsAssetBundleInfo == null)
+				{
+					//如果只读区没有,则重新下载
+					needDownloadList.AddLast(currInconformity.Value);
+				}
+				else
+				{
+					if (cdnAssetBundleInfo.MD5.Equals(streamingAssetsAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase))
+					{
+						//一致,则删除
+						delList.AddLast(currInconformity.Value);
+					}
+					else
+					{
+						//不一致,则重新下载
+						needDownloadList.AddLast(currInconformity.Value);
+					}
+				}
 
-                if (File.Exists(filePath)) File.Delete(filePath);
+				currInconformity = currInconformity.Next;
+			}
+			#endregion
 
-                LinkedListNode<string> next = currDel.Next;
-                delList.Remove(currDel);
-                currDel = next;
-            }
-            #endregion
+			#region 删除需要删除的
+			GameEntry.Log(LogCategory.Resource, "删除旧资源=>{0}", delList.ToJson());
+			LinkedListNode<string> currDel = delList.First;
+			while (currDel != null)
+			{
+				StringBuilder sbr = StringHelper.PoolNew();
+				string filePath = sbr.AppendFormatNoGC("{0}/{1}", GameEntry.Resource.LocalFilePath, currDel.Value).ToString();
+				StringHelper.PoolDel(ref sbr);
 
-            #region 处理需要下载的可写区文件链表
-            enumerator = m_CDNVersionDic.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                AssetBundleInfoEntity cdnAssetBundleInfo = enumerator.Current.Value;
-                if (cdnAssetBundleInfo.IsFirstData)//是否初始资源
-                {
-                    if (!m_LocalAssetsVersionDic.ContainsKey(cdnAssetBundleInfo.AssetBundleName))
-                    {
-                        //如果可写区没有 则去只读区查找
-                        AssetBundleInfoEntity streamingAssetsAssetBundleInfo = null;
-                        if (m_StreamingAssetsVersionDic != null)
-                        {
-                            m_StreamingAssetsVersionDic.TryGetValue(cdnAssetBundleInfo.AssetBundleName, out streamingAssetsAssetBundleInfo);
-                        }
-                        if (streamingAssetsAssetBundleInfo == null)
-                        {
-                            //如果只读区也没有,则去CDN上下载
-                            needDownloadList.AddLast(cdnAssetBundleInfo.AssetBundleName);
-                        }
-                        else
-                        {
-                            //如果只读区有 验证MD5
-                            if (!cdnAssetBundleInfo.MD5.Equals(streamingAssetsAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase))
-                            {
-                                //MD5不一致,则去CDN上下载
-                                needDownloadList.AddLast(cdnAssetBundleInfo.AssetBundleName);
-                            }
-                        }
-                    }
-                }
-            }
-            #endregion
+				if (File.Exists(filePath)) File.Delete(filePath);
+				LinkedListNode<string> next = currDel.Next;
+				delList.Remove(currDel);
+				currDel = next;
+			}
+			#endregion
 
-            GameEntry.Event.CommonEvent.Dispatch(SysEventId.CheckVersionBeginDownload);
+			#region 检查需要下载的
+			enumerator = m_CDNVersionDic.GetEnumerator();
+			while (enumerator.MoveNext())
+			{
+				AssetBundleInfoEntity cdnAssetBundleInfo = enumerator.Current.Value;
+				if (cdnAssetBundleInfo.IsFirstData)//检查初始资源
+				{
+					if (!m_LocalAssetsVersionDic.ContainsKey(cdnAssetBundleInfo.AssetBundleName))//如果可写区没有 则去只读区判断一次
+					{
+						AssetBundleInfoEntity streamingAssetsAssetBundleInfo = null;
+						if (m_StreamingAssetsVersionDic != null)
+						{
+							m_StreamingAssetsVersionDic.TryGetValue(cdnAssetBundleInfo.AssetBundleName, out streamingAssetsAssetBundleInfo);
+						}
+						if (streamingAssetsAssetBundleInfo == null)//只读区不存在
+						{
+							needDownloadList.AddLast(cdnAssetBundleInfo.AssetBundleName);
+						}
+						else//只读区存在 验证MD5
+						{
+							if (!cdnAssetBundleInfo.MD5.Equals(streamingAssetsAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase))//MD5不一致
+							{
+								needDownloadList.AddLast(cdnAssetBundleInfo.AssetBundleName);
+							}
+						}
+					}
+				}
+			}
+			#endregion
 
-            //进行下载
-			GameEntry.Log(LogCategory.Resource, "下载更新资源,文件数量==>>" + needDownloadList.Count);
-            GameEntry.Download.BeginDownloadMulit(needDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
-        }
-        #endregion
+			GameEntry.Event.CommonEvent.Dispatch(SysEventId.CheckVersionBeginDownload);
 
-        /// <summary>
-        /// 下载进行中
-        /// </summary>
-        private void OnDownloadMulitUpdate(int t1, int t2, ulong t3, ulong t4)
-        {
-            m_DownloadingParams.IntParam1 = t1;
-            m_DownloadingParams.IntParam2 = t2;
+			//进行下载
+			GameEntry.Log(LogCategory.Resource, "下载更新资源,文件数量==>" + needDownloadList.Count + "==>" + needDownloadList.ToJson());
+			GameEntry.Download.BeginDownloadMulit(needDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
+		}
+		#endregion
 
-            m_DownloadingParams.ULongParam1 = t3;
-            m_DownloadingParams.ULongParam2 = t4;
+		/// <summary>
+		/// 下载进行中
+		/// </summary>
+		private void OnDownloadMulitUpdate(int t1, int t2, ulong t3, ulong t4)
+		{
+			m_DownloadingParams.IntParam1 = t1;
+			m_DownloadingParams.IntParam2 = t2;
 
-            GameEntry.Event.CommonEvent.Dispatch(SysEventId.CheckVersionDownloadUpdate, m_DownloadingParams);
-        }
-        /// <summary>
-        /// 下载完毕
-        /// </summary>
-        private void OnDownloadMulitComplete()
-        {
-            SetResourceVersion();
+			m_DownloadingParams.ULongParam1 = t3;
+			m_DownloadingParams.ULongParam2 = t4;
+
+			GameEntry.Event.CommonEvent.Dispatch(SysEventId.CheckVersionDownloadUpdate, m_DownloadingParams);
+		}
+
+		
+		/// <summary>
+		/// 下载完毕
+		/// </summary>
+		private void OnDownloadMulitComplete()
+		{
+			SetResourceVersion();
 
             GameEntry.Event.CommonEvent.Dispatch(SysEventId.CheckVersionDownloadComplete);
             GameEntry.Pool.EnqueueClassObject(m_DownloadingParams);
@@ -509,11 +532,11 @@ namespace YouYou
         }
 
 
-        public void Dispose()
-        {
-            m_StreamingAssetsVersionDic.Clear();
-            m_CDNVersionDic.Clear();
-            m_LocalAssetsVersionDic.Clear();
-        }
+		public void Dispose()
+		{
+			if (m_StreamingAssetsVersionDic != null) m_StreamingAssetsVersionDic.Clear();
+			if (m_CDNVersionDic != null) m_CDNVersionDic.Clear();
+			if (m_LocalAssetsVersionDic != null) m_LocalAssetsVersionDic.Clear();
+		}
 	}
 }

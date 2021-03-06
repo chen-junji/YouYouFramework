@@ -41,6 +41,15 @@ namespace YouYou
 		/// </summary>
 		private BaseAction<ResourceEntity> m_OnComplete;
 
+		/// <summary>
+		/// 是否递增引用计数
+		/// </summary>
+		private bool m_IsAddReferenceCount;
+
+		/// <summary>
+		/// 主资源或依赖资源
+		/// </summary>
+		private bool m_MainOrDepends;
 
 		/// <summary>
 		/// 加载主资源
@@ -48,8 +57,10 @@ namespace YouYou
 		/// <param name="assetCategory"></param>
 		/// <param name="assetFullName"></param>
 		/// <param name="onComplete"></param>
-		internal void Load(AssetCategory assetCategory, string assetFullName, BaseAction<ResourceEntity> onComplete)
+		internal void Load(AssetCategory assetCategory, string assetFullName, bool isAddReferenceCount, bool mainOrDepends, BaseAction<ResourceEntity> onComplete)
 		{
+			m_IsAddReferenceCount = isAddReferenceCount;
+			m_MainOrDepends = mainOrDepends;
 #if EDITORLOAD && UNITY_EDITOR
 			m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
 			m_CurrResourceEntity.Category = assetCategory;
@@ -74,56 +85,61 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// 真正的加载主资源
+		/// 加载当前资源
 		/// </summary>
-		private void LoadMainAsset()
+		private void LoadCurrAsset()
 		{
-			//1.从分类资源池(AssetPool)中查找
-			m_CurrResourceEntity = GameEntry.Pool.AssetPool[m_CurrAssetEnity.Category].Spawn(m_CurrAssetEnity.AssetFullName);
-			if (m_CurrResourceEntity != null)
+			//第一步. 加载Assetbundle
+			GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(m_CurrAssetEnity.AssetBundleName, onComplete: (ResourceEntity bundleEntity) =>
 			{
-				//GameEntry.Log(LogCategory.Resource, "从分类资源池中加载{0}", m_CurrResourceEntity.ResourceName);
-				if (m_OnComplete != null) m_OnComplete(m_CurrResourceEntity);
-				return;
-			}
+				if (!m_MainOrDepends)
+				{
+					m_OnComplete?.Invoke(null);
+					return;
+				}
+				//第二步. 从分类资源池(AssetPool)中查找Asset
+				m_CurrResourceEntity = GameEntry.Pool.AssetPool[m_CurrAssetEnity.Category].Spawn(m_CurrAssetEnity.AssetFullName, m_IsAddReferenceCount);
+				if (m_CurrResourceEntity != null)
+				{
+					//GameEntry.Log(LogCategory.Resource, "从分类资源池中加载{0}=>{1}", m_CurrResourceEntity.Target, m_CurrResourceEntity.ResourceName);
+					m_OnComplete?.Invoke(m_CurrResourceEntity);
+					return;
+				}
 
-			//2.找资源包
-			GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(m_CurrAssetEnity.AssetBundleName, onComplete: (AssetBundle bundle) =>
-			{
-				//3.加载资源
-				GameEntry.Resource.ResourceLoaderManager.LoadAsset(m_CurrAssetEnity.AssetFullName, bundle, onComplete: (UnityEngine.Object obj) =>
-				  {
-					  //4.再次检查 很重要 不检查引用计数会出错
-					  m_CurrResourceEntity = GameEntry.Pool.AssetPool[m_CurrAssetEnity.Category].Spawn(m_CurrAssetEnity.AssetFullName);
-					  if (m_CurrResourceEntity != null)
-					  {
-						  if (m_OnComplete != null) m_OnComplete(m_CurrResourceEntity);
-						  return;
-					  }
+				//如果池中没有, 那么加载Asset
+				GameEntry.Resource.ResourceLoaderManager.LoadAsset(m_CurrAssetEnity.Category, m_CurrAssetEnity.AssetFullName, bundleEntity.Target as AssetBundle, onComplete: (UnityEngine.Object obj, bool isNew) =>
+				{
+					//LoadAsset有高并发,这里处理了ResourceEntity多次Register的情况
+					m_CurrResourceEntity = GameEntry.Pool.AssetPool[m_CurrAssetEnity.Category].Spawn(m_CurrAssetEnity.AssetFullName, m_IsAddReferenceCount);
+					if (m_CurrResourceEntity != null)
+					{
+						m_OnComplete?.Invoke(m_CurrResourceEntity);
+						return;
+					}
 
-					  //资源池注册资源
-					  m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
-					  m_CurrResourceEntity.Category = m_CurrAssetEnity.Category;
-					  m_CurrResourceEntity.IsAssetBundle = false;
-					  m_CurrResourceEntity.ResourceName = m_CurrAssetEnity.AssetFullName;
-					  m_CurrResourceEntity.Target = obj;
-					  GameEntry.Pool.AssetPool[m_CurrAssetEnity.Category].Register(m_CurrResourceEntity);
+					//初始化ResourceEntity,并注册到资源池
+					m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
+					m_CurrResourceEntity.Category = m_CurrAssetEnity.Category;
+					m_CurrResourceEntity.IsAssetBundle = false;
+					m_CurrResourceEntity.ResourceName = m_CurrAssetEnity.AssetFullName;
+					m_CurrResourceEntity.Target = obj;
+					GameEntry.Pool.AssetPool[m_CurrAssetEnity.Category].Register(m_CurrResourceEntity, m_IsAddReferenceCount);
 
-					  //加入到这个资源的依赖资源链表里
-					  var currDependsResource = m_DependResourceList.First;
-					  while (currDependsResource != null)
-					  {
-						  var next = currDependsResource.Next;
-						  m_DependResourceList.Remove(currDependsResource);
-						  m_CurrResourceEntity.DependsResourceList.AddLast(currDependsResource);
-						  currDependsResource = next;
-					  }
+					//加入到这个资源的依赖资源链表里
+					//var currDependsResource = m_DependResourceList.First;
+					//while (currDependsResource != null)
+					//{
+					//	var next = currDependsResource.Next;
+					//	m_DependResourceList.Remove(currDependsResource);
+					//	m_CurrResourceEntity.DependsResourceList.AddLast(currDependsResource);
+					//	currDependsResource = next;
+					//}
 
-					  //当前主资源加载器 加载完毕(类递归)
-					  if (m_OnComplete != null) m_OnComplete(m_CurrResourceEntity);
+					//当前主资源加载器 加载完毕(类递归)
+					m_OnComplete?.Invoke(m_CurrResourceEntity);
 
-					  Reset();
-				  });
+					Reset();
+				});
 			});
 		}
 
@@ -141,35 +157,24 @@ namespace YouYou
 				{
 					AssetDependsEntity entity = lst[i];
 					MainAssetLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<MainAssetLoaderRoutine>();
-					routine.Load(entity.Category, entity.AssetFullName, OnLoadDependAssetComplete);
+					routine.Load(entity.Category, entity.AssetFullName, m_IsAddReferenceCount, false, (ResourceEntity res) =>
+					{
+						//把这个主资源依赖的资源实体 加入临时链表
+						//m_DependResourceList.AddLast(res);
+
+						//把加载出来的资源 加入到池 需要做
+						m_CurrLoadAssetDependCount++;
+
+						//依赖加载完毕了, 加载当前资源
+						if (m_NeedLoadAssetDependCount == m_CurrLoadAssetDependCount) LoadCurrAsset();
+					});
 				}
 			}
 			else
 			{
-				//这个资源没有依赖 直接加载主资源
-				LoadMainAsset();
+				//没有依赖 直接加载当前资源
+				LoadCurrAsset();
 			}
-		}
-
-		/// <summary>
-		/// 加载某个依赖资源完毕
-		/// </summary>
-		/// <param name="res"></param>
-		private void OnLoadDependAssetComplete(ResourceEntity res)
-		{
-			//把这个主资源依赖的资源实体 加入临时链表
-			m_DependResourceList.AddLast(res);
-
-			//把加载出来的资源 加入到池 需要做
-			m_CurrLoadAssetDependCount++;
-
-			//这个主资源的依赖加载完毕了
-			if (m_NeedLoadAssetDependCount == m_CurrLoadAssetDependCount)
-			{
-				//加载这个资源的主资源
-				LoadMainAsset();
-			}
-
 		}
 
 		/// <summary>
@@ -179,9 +184,12 @@ namespace YouYou
 		{
 			m_OnComplete = null;
 			m_CurrAssetEnity = null;
+			m_CurrResourceEntity = null;
 			m_NeedLoadAssetDependCount = 0;
 			m_CurrLoadAssetDependCount = 0;
 			m_DependResourceList.Clear();
+			m_IsAddReferenceCount = false;
+			m_MainOrDepends = false;
 			GameEntry.Pool.EnqueueClassObject(this);
 		}
 

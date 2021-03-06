@@ -44,17 +44,16 @@ public class BaseSprite : MonoBehaviour
 	protected virtual void OnUpdate() { }
 
 
-	public void LoadSkin(string skinPrefabName, BaseAction<Transform> onComplete = null)
+	public void LoadSkin(Sys_PrefabEntity sys_PrefabEntity, BaseAction<Transform> onComplete)
 	{
-		if (skinPrefabName == null) return;
 
 		UnLoadSkin();
 		//加载 角色皮肤
-		GameEntry.Pool.GameObjectSpawn(skinPrefabName, (Transform trans, bool isNewInstance) =>
+		GameEntry.Pool.GameObjectSpawn(sys_PrefabEntity, transform, (Transform trans, bool isNewInstance) =>
 		{
 			m_CurrSkinTransform = trans;
-			m_CurrSkinTransform.SetParent(transform);
-			m_CurrSkinTransform.localPosition = Vector3.zero;
+			//m_CurrSkinTransform.SetParent(transform);
+			//m_CurrSkinTransform.localPosition = Vector3.zero;
 
 			//初始化皮肤组件
 			m_CurrRoleSkinComponent = m_CurrSkinTransform.GetComponent<RoleSkinComponent>();
@@ -75,7 +74,7 @@ public class BaseSprite : MonoBehaviour
 	private void LoadSkinMaterial(string materialName)
 	{
 		if (m_CurrSkinnedMeshRenderer == null) return;
-		GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.RoleSources, materialName, (Material material) =>
+		GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.Role, materialName, (Material material) =>
 		{
 #if UNITY_EDITOR
 			m_CurrSkinnedMeshRenderer.material = material;
@@ -139,19 +138,20 @@ public class BaseSprite : MonoBehaviour
 	private AnimationMixerPlayable m_AnimationMixerPlayable;
 	private static int m_AnimCount = 100;//可以大于实际数量, 不能小于实际数量
 
-	public RoleAnimInfo PlayAnim(string animName)
+	public RoleAnimInfo PlayAnim(string animName, BaseAction onComplete = null)
 	{
 		var enumerator = m_RoleAnimInfoDic.GetEnumerator();
 		while (enumerator.MoveNext())
 		{
 			if (enumerator.Current.Value.AnimClipName.Equals(animName))
 			{
-				return PlayAnim(enumerator.Current.Key);
+				return PlayAnim(enumerator.Current.Key, onComplete);
 			}
 		}
+		onComplete?.Invoke();
 		return null;
 	}
-	public RoleAnimInfo PlayAnim(int animId)
+	public RoleAnimInfo PlayAnim(int animId, BaseAction onComplete = null)
 	{
 		var enumerator = m_RoleAnimInfoDic.GetEnumerator();
 		while (enumerator.MoveNext())
@@ -167,31 +167,35 @@ public class BaseSprite : MonoBehaviour
 
 			if (roleAnimInfo.IsLoad)
 			{
-				PlayAnimByInputPort(roleAnimInfo.inputPort);
+				PlayAnimByInputPort(roleAnimInfo, onComplete);
 			}
 			else
 			{
 				//动画池中不存在, 加载动画
 				LoadRoleAnimation(roleAnimInfo.CurrRoleAnimationData, (retRoleAnimInfo) =>
 				{
-					PlayAnimByInputPort(retRoleAnimInfo.inputPort);
+					PlayAnimByInputPort(retRoleAnimInfo, onComplete);
 				});
 			}
+		}
+		else
+		{
+			onComplete?.Invoke();
 		}
 		return roleAnimInfo;
 	}
 
-	private void PlayAnimByInputPort(int inputPort)
+	private void PlayAnimByInputPort(RoleAnimInfo roleAnimInfo, BaseAction onComplete)
 	{
 		m_PlayableGraph.Play();
 
-		Playable playable = m_AnimationMixerPlayable.GetInput(inputPort);
+		Playable playable = m_AnimationMixerPlayable.GetInput(roleAnimInfo.inputPort);
 		playable.SetTime(0);
 		playable.Play();
 
 		for (int i = 0; i < m_AnimCount; i++)
 		{
-			if (i == inputPort)
+			if (i == roleAnimInfo.inputPort)
 			{
 				m_AnimationMixerPlayable.SetInputWeight(i, 1);
 			}
@@ -199,6 +203,14 @@ public class BaseSprite : MonoBehaviour
 			{
 				m_AnimationMixerPlayable.SetInputWeight(i, 0);
 			}
+		}
+		if (onComplete != null)
+		{
+			GameEntry.Time.CreateTimeAction().Init(delayTime: roleAnimInfo.CurrPlayable.GetAnimationClip().length, onStar: () =>
+			{
+				playable.Pause();
+				onComplete();
+			}).Run();
 		}
 	}
 
@@ -212,7 +224,7 @@ public class BaseSprite : MonoBehaviour
 	public void InitAnim(Animator animator, string animFBXPath = null, int animGroupId = -1, BaseAction onComplete = null)
 	{
 		//初始化Playable
-		if (animFBXPath == null && animGroupId == -1) return;
+		if (string.IsNullOrWhiteSpace(animFBXPath) && animGroupId == -1) return;
 		if (m_PlayableGraph.IsValid()) m_PlayableGraph.Destroy();
 		if (animFBXPath != null)
 		{
@@ -251,11 +263,13 @@ public class BaseSprite : MonoBehaviour
 		}
 		LoadRoleAnimation(clips.ToArray(), omComplete);
 #elif RESOURCES
-			string resourcesPath = path.Replace("Assets/Download/", string.Empty);
+		string resourcesPath = path.Replace("Assets/Download/", string.Empty);
 			LoadRoleAnimation(Resources.LoadAll<AnimationClip>(resourcesPath), omComplete);
 #else
-			GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(path, onComplete: (AssetBundle bundle) =>
+		AssetEntity m_CurrAssetEnity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(AssetCategory.Role, path);
+		GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(m_CurrAssetEnity.AssetBundleName, onComplete: (ResourceEntity bundleEntity) =>
 			{
+			AssetBundle bundle = bundleEntity.Target as AssetBundle;
 				LoadRoleAnimation(bundle.LoadAllAssets<AnimationClip>(), omComplete);
 			});
 #endif
@@ -312,7 +326,7 @@ public class BaseSprite : MonoBehaviour
 	/// <param name="onComplete"></param>
 	private void LoadRoleAnimation(Sys_AnimationEntity sys_Animation, BaseAction<RoleAnimInfo> onComplete = null)
 	{
-		GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.RoleSources, sys_Animation.AnimPath, (AnimationClip animationClip) =>
+		GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.Role, sys_Animation.AnimPath, (AnimationClip animationClip) =>
 		{
 			AnimationClipPlayable animationClipPlayable = AnimationClipPlayable.Create(m_PlayableGraph, animationClip);
 

@@ -1,67 +1,54 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
+using System.Text;
+using System.IO;
+using UnityEngine.Networking;
 
 namespace YouYou
 {
-    /// <summary>
-    /// StreamingAssets¹ÜÀíÆ÷
-    /// </summary>
-    public class StreamingAssetsManager
-    {
-        /// <summary>
-        /// m_StreamingAssets×ÊÔ´Â·¾¶
-        /// </summary>
-        private string m_StreamingAssetsPath;
+	/// <summary>
+	/// StreamingAssetsç®¡ç†å™¨
+	/// </summary>
+	public class StreamingAssetsManager
+	{
+		#region ReadStreamingAsset è¯»å–StreamingAssetsä¸‹çš„èµ„æº
+		/// <summary>
+		/// è¯»å–StreamingAssetsä¸‹çš„èµ„æº
+		/// </summary>
+		/// <param name="url">èµ„æºè·¯å¾„</param>
+		/// <param name="onComplete"></param>
+		/// <returns></returns>
+		private IEnumerator ReadStreamingAsset(string url, BaseAction<byte[]> onComplete)
+		{
+			var uri = new System.Uri(Path.Combine(Application.streamingAssetsPath, url));
+			using (UnityWebRequest request = UnityWebRequest.Get(uri.AbsoluteUri))
+			{
+				yield return request.SendWebRequest();
 
+				if (request.isNetworkError || request.isHttpError)
+				{
+					onComplete?.Invoke(null);
+				}
+				else
+				{
+					onComplete?.Invoke(request.downloadHandler.data);
+				}
+			}
+		}
+		#endregion
 
-        public StreamingAssetsManager()
-        {
-            m_StreamingAssetsPath = "file:///" + Application.streamingAssetsPath;
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-            m_StreamingAssetsPath = Application.streamingAssetsPath;
-#endif
-        }
-
-        #region ReadStreamingAssets ¶ÁÈ¡StreamingAssetsÏÂµÄ×ÊÔ´
-        /// <summary>
-        /// ¶ÁÈ¡StreamingAssetsÏÂµÄ×ÊÔ´
-        /// </summary>
-        /// <param name="url">×ÊÔ´Â·¾¶</param>
-        /// <param name="onComplete"></param>
-        /// <returns></returns>
-        private IEnumerator ReadStreamingAssets(string url, Action<byte[]> onComplete)
-        {
-            //Debug.Log(url);
-            using (WWW www = new WWW(url))
-            {
-                yield return www;
-                if (www.error == null)
-                {
-                    if (onComplete != null) onComplete(www.bytes);
-                }
-                else
-                {
-                    if (onComplete != null) onComplete(null);
-                }
-            }
-        }
-        #endregion
-
-        #region ReadAssetBundle ¶ÁÈ¡Ö»¶ÁÇø×ÊÔ´°ü
-        /// <summary>
-        /// ¶ÁÈ¡Ö»¶ÁÇø×ÊÔ´°ü
-        /// </summary>
-        /// <param name="fileUrl">×ÊÔ´Â·¾¶</param>
-        /// <param name="onComplete"></param>
-        public void ReadAssetBundle(string fileUrl, Action<byte[]> onComplete)
-        {
-            GameEntry.Instance.StartCoroutine(ReadStreamingAssets(string.Format("{0}/AssetBundles/{1}", m_StreamingAssetsPath, fileUrl), onComplete));
-        }
-        #endregion
-
-    }
+		#region ReadAssetBundle è¯»å–åªè¯»åŒºèµ„æºåŒ…
+		/// <summary>
+		/// è¯»å–åªè¯»åŒºèµ„æºåŒ…
+		/// </summary>
+		/// <param name="fileUrl">èµ„æºè·¯å¾„</param>
+		/// <param name="onComplete"></param>
+		public void ReadAssetBundle(string fileUrl, BaseAction<byte[]> onComplete)
+		{
+			GameEntry.Instance.StartCoroutine(ReadStreamingAsset(fileUrl + "AssetBundle", onComplete));
+		}
+		#endregion
+	}
 }

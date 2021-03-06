@@ -241,11 +241,15 @@ namespace XLua
 	internal partial class InternalGlobals
     {
 	    
-		delegate int __GEN_DELEGATE0( string str);
+		delegate bool __GEN_DELEGATE0( string email);
 		
-		delegate long __GEN_DELEGATE1( string str);
+		delegate bool __GEN_DELEGATE1( string strInput);
 		
-		delegate float __GEN_DELEGATE2( string str);
+		delegate int __GEN_DELEGATE2( string str);
+		
+		delegate long __GEN_DELEGATE3( string str);
+		
+		delegate float __GEN_DELEGATE4( string str);
 		
 	    static InternalGlobals()
 		{
@@ -254,21 +258,35 @@ namespace XLua
 			    
 				{typeof(string), new List<MethodInfo>(){
 				
-				  new __GEN_DELEGATE0(StringUtil.ToInt)
+				  new __GEN_DELEGATE0(StringUtil.IsEmail)
 #if UNITY_WSA && !UNITY_EDITOR
                                       .GetMethodInfo(),
 #else
                                       .Method,
 #endif
 				
-				  new __GEN_DELEGATE1(StringUtil.ToLong)
+				  new __GEN_DELEGATE1(StringUtil.IsPhoneNumber)
 #if UNITY_WSA && !UNITY_EDITOR
                                       .GetMethodInfo(),
 #else
                                       .Method,
 #endif
 				
-				  new __GEN_DELEGATE2(StringUtil.ToFloat)
+				  new __GEN_DELEGATE2(StringUtil.ToInt)
+#if UNITY_WSA && !UNITY_EDITOR
+                                      .GetMethodInfo(),
+#else
+                                      .Method,
+#endif
+				
+				  new __GEN_DELEGATE3(StringUtil.ToLong)
+#if UNITY_WSA && !UNITY_EDITOR
+                                      .GetMethodInfo(),
+#else
+                                      .Method,
+#endif
+				
+				  new __GEN_DELEGATE4(StringUtil.ToFloat)
 #if UNITY_WSA && !UNITY_EDITOR
                                       .GetMethodInfo(),
 #else

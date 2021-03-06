@@ -142,6 +142,7 @@ namespace YouYou
 		public static AudioManager Audio { get; private set; }
 		public static InputManager Input { get; private set; }
 		public static WebSocketManager WebSocket { get; private set; }
+		public static YouYouTaskManager Task { get; private set; }
 		#endregion
 
 		#region InitManagers 初始化管理器
@@ -169,6 +170,7 @@ namespace YouYou
 			Audio = new AudioManager();
 			Input = new InputManager();
 			WebSocket = new WebSocketManager();
+			Task = new YouYouTaskManager();
 
 			Logger.Init();
 			Event.Init();
@@ -188,6 +190,7 @@ namespace YouYou
 			Audio.Init();
 			Input.Init();
 			WebSocket.Init();
+			Task.Init();
 
 			//进入第一个流程
 			Procedure.ChangeState(ProcedureState.Launch);
@@ -197,7 +200,7 @@ namespace YouYou
 		/// <summary>
 		/// 单例
 		/// </summary>
-		public static GameEntry Instance;
+		public static GameEntry Instance { get; private set; }
 
 		/// <summary>
 		/// 全局参数设置
@@ -214,11 +217,14 @@ namespace YouYou
 		/// </summary>
 		public static YouYouLanguage CurrLanguage { get; private set; }
 
+		public static CameraCtrl CameraCtrl;
 		private void Awake()
 		{
 			Log(LogCategory.Procedure, "GameEntry.OnAwake()");
 			Instance = this;
 
+			Application.targetFrameRate = 60;
+			Screen.sleepTimeout = SleepTimeout.NeverSleep;
 			//此处以后判断如果不是编辑器模式 要根据设备信息判断等级
 			CurrDeviceGrade = m_CurrDeviceGrade;
 			ParamsSettings = m_ParamsSettings;
@@ -246,6 +252,7 @@ namespace YouYou
 			Audio.OnUpdate();
 			Input.OnUpdate();
 			WebSocket.OnUpdate();
+			Task.OnUpdate();
 		}
 
 		/// <summary>

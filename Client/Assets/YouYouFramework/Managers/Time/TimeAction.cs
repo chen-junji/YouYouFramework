@@ -123,15 +123,25 @@ namespace YouYou
 		/// <summary>
 		/// 运行
 		/// </summary>
-		public void Run()
+		public TimeAction Run()
 		{
 			//1.需要先把自己加入时间管理器的链表中
 			GameEntry.Time.RegisterTimeAction(this);
 
 			//2.设置当前运行的时间
 			m_CurrRunTime = Time.realtimeSinceStartup;
-m_CurrLoop = 0;
+			m_CurrLoop = 0;
 			m_IsPause = false;
+
+			return this;
+		}
+		public TimeAction RunReset()
+		{
+			m_CurrRunTime = Time.realtimeSinceStartup;
+			m_CurrLoop = 0;
+			m_IsPause = false;
+
+			return this;
 		}
 
 		/// <summary>
@@ -183,7 +193,6 @@ m_CurrLoop = 0;
 				}
 				IsRuning = true;
 			}
-
 			if (!IsRuning) return;
 
 			if (Time.realtimeSinceStartup > m_CurrRunTime + m_PauseTime)
@@ -193,7 +202,7 @@ m_CurrLoop = 0;
 				//以下代码 间隔m_Interval 时间 执行一次
 				OnUpdateAction?.Invoke(m_Loop - m_CurrLoop);
 
-				if (m_Loop > -1)
+				if (m_Loop != -1)
 				{
 					if (m_CurrLoop >= m_Loop)
 					{

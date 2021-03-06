@@ -37,21 +37,21 @@ namespace YouYou
         /// <param name="isAdd">true:‘ˆº”  false:ºı…Ÿ</param>
         internal void SetSortingOrder(UIFormBase formBase, bool isAdd)
         {
-            if (!m_UILayerDic.ContainsKey(formBase.GroupId)) return;
+            if (!m_UILayerDic.ContainsKey(formBase.SysUIForm.UIGroupId)) return;
 
             if (isAdd)
             {
-                m_UILayerDic[formBase.GroupId] += 10;
+                m_UILayerDic[formBase.SysUIForm.UIGroupId] += 10;
             }
             else
             {
-                if (formBase.CurrCanvas.sortingOrder == m_UILayerDic[formBase.GroupId])
+                if (formBase.CurrCanvas.sortingOrder == m_UILayerDic[formBase.SysUIForm.UIGroupId])
                 {
-                    m_UILayerDic[formBase.GroupId] -= 10;
+                    m_UILayerDic[formBase.SysUIForm.UIGroupId] -= 10;
                 }
             }
 
-            formBase.CurrCanvas.sortingOrder = m_UILayerDic[formBase.GroupId];
+            formBase.CurrCanvas.sortingOrder = m_UILayerDic[formBase.SysUIForm.UIGroupId];
         }
     }
 }

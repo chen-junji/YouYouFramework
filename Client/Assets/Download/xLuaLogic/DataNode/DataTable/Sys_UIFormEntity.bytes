@@ -1,8 +1,8 @@
-Sys_UIFormEntity = { Id = 0, Desc = "", Name = "", UIGroupId = 0, DisableUILayer = 0, IsLock = 0, AssetPath_Chinese = "", AssetPath_English = "", CanMulit = 0, ShowMode = 0, FreezeMode = 0 }
+Sys_UIFormEntity = { Id = 0, Desc = "", Name = "", UIGroupId = 0, DisableUILayer = 0, IsLock = 0, AssetPath_Chinese = "", AssetPath_English = "", CanMulit = 0, ShowMode = 0, FreezeMode = 0, OpenAnim = 0 }
 
 Sys_UIFormEntity.__index = Sys_UIFormEntity;
 
-function Sys_UIFormEntity.New(Id, Desc, Name, UIGroupId, DisableUILayer, IsLock, AssetPath_Chinese, AssetPath_English, CanMulit, ShowMode, FreezeMode)
+function Sys_UIFormEntity.New(Id, Desc, Name, UIGroupId, DisableUILayer, IsLock, AssetPath_Chinese, AssetPath_English, CanMulit, ShowMode, FreezeMode, OpenAnim)
     local self = { };
     setmetatable(self, Sys_UIFormEntity);
 
@@ -17,6 +17,7 @@ function Sys_UIFormEntity.New(Id, Desc, Name, UIGroupId, DisableUILayer, IsLock,
     self.CanMulit = CanMulit;
     self.ShowMode = ShowMode;
     self.FreezeMode = FreezeMode;
+    self.OpenAnim = OpenAnim;
 
     return self;
 end

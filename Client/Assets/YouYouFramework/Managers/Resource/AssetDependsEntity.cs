@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using YouYou;
-
+namespace YouYou
+{
 /// <summary>
 /// Asset依赖项实体
 /// </summary>
@@ -17,4 +17,5 @@ public class AssetDependsEntity
     /// 资源完整名称
     /// </summary>
     public string AssetFullName;
+    }
 }

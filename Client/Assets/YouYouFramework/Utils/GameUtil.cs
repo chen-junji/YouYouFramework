@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System;
-
+using YouYou;
 
 public class GameUtil
 {
@@ -36,12 +36,10 @@ public class GameUtil
             "雪", "巧", "蕾", "芹", "柔", "灵", "卉", "夏", "岚", "蓉", "萱", "珍", "彤", "蕊", "曼", "凡", "兰", "晴", "珊", "易", "妃", "春", "玉", "瑶", "文", "双", "竹",
             "凝", "桃", "菡", "绿", "枫", "梅", "旋", "山", "松", "之", "亦", "蝶", "莲", "柏", "波", "安", "天", "薇", "海", "翠", "槐", "秋", "雁", "夜"};
 
-	
-
-	/// <summary>
-	/// 创建角色时随机名字
-	/// </summary>
-	public static string RandomName()
+    /// <summary>
+    /// 创建角色时随机名字
+    /// </summary>
+    public static string RandomName()
     {
         string CurName = "";  //当前的名字
 
@@ -237,10 +235,31 @@ public class GameUtil
     /// <returns></returns>
     public static string GetUIResPath(string path)
     {
-        return string.Format("Assets/Download/UI/UIRes/{0}.png", path);
+        return string.Format("Assets/Download/UI/UIRes/UITexture/{0}.png", path);
     }
-	internal static string GetRoleAnimationPath(string animPath)
+
+    public static int GetRangeSceneId()
 	{
-		return string.Format("Assets/Download/Role/Animation/{0}.anim", animPath);
-	}
+        List<Sys_SceneEntity> sys_Scenes = GameEntry.DataTable.Sys_SceneDBModel.GetList();
+        return sys_Scenes[UnityEngine.Random.Range(0, GameEntry.DataTable.Sys_SceneDBModel.Count)].Id;
+    }
+
+    public static void OpenUICurePay()
+	{
+#if UNITY_IOS
+		//if (GameEntry.PayPaltform == PayPlatform.IOS)
+		//{
+		//	GameEntry.UI.OpenUIForm(UIFormId.UICurePayAppleStore);
+		//}
+#elif UNITY_ANDROID || UNITY_EDITOR
+        //if (GameEntry.PayPaltform == PayPlatform.Ali_WX)
+        //{
+        //    GameEntry.UI.OpenUIForm(UIFormId.UICurePayChinaAndroid);
+        //}
+        //if (GameEntry.PayPaltform == PayPlatform.Goggle)
+        //{
+        //    GameEntry.UI.OpenUIForm(UIFormId.UICurePayGoogle);
+        //}
+#endif
+    }
 }

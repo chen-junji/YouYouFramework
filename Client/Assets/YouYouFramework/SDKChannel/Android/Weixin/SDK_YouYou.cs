@@ -33,18 +33,9 @@ public class SDK_YouYou : IAndroidSDK
 		Dictionary<string, string> dic = new Dictionary<string, string>();
 		//dic["userNum"] = GameEntry.Data.UserDataManager.UserNum;
 		dic["itemCode"] = param;
-		GameEntry.Http.Post(GameEntry.Http.RealWebAccountUrl + "PayInfo/AliPayInfo/AliPay", dic.ToJson(), (string retValue, byte[] retData) =>
+		GameEntry.Http.Post(GameEntry.Http.RealWebAccountUrl + "PayInfo/AliPayInfo/AliPay", dic.ToJson(), true, (string retValue) =>
 		 {
-			 int status = int.Parse(retValue.JsonCutApart("Status"));
-			 if (status == 0)
-			 {
-				 Debug.Log(retValue.JsonCutApart("Msg"));
-			 }
-			 else
-			 {
-				 Debug.Log(retValue.JsonCutApart("Content"));
-				 AndroidInterface.Instance.DoAndroidAction("payv2", retValue.JsonCutApart("Content"));
-			 }
+			AndroidInterface.Instance.DoAndroidAction("payv2", retValue);
 		 });
 	}
 	#endregion
@@ -93,26 +84,18 @@ public class SDK_YouYou : IAndroidSDK
 		Dictionary<string, string> dic = new Dictionary<string, string>();
 		//dic["userNum"] = GameEntry.Data.UserDataManager.UserNum;
 		dic["itemCode"] = param;
-		GameEntry.Http.Post(GameEntry.Http.RealWebAccountUrl + "PayInfo/WeChatPay/StartPay", dic.ToJson(),(string retValue, byte[] retData) =>
+		GameEntry.Http.Post(GameEntry.Http.RealWebAccountUrl + "PayInfo/WeChatPay/StartPay", dic.ToJson(), true, (string retValue) =>
 		{
-			int status = int.Parse(retValue.JsonCutApart("Status"));
-			if (status == 0)
-			{
-			}
-			else
-			{
-				string jsonData = retValue.JsonCutApart("Content");
 
-				string partnerId = jsonData.JsonCutApart("partnerId");
-				string prepayId = jsonData.JsonCutApart("prepayId");
-				string nonceStr = jsonData.JsonCutApart("nonceStr");
-				string timeStamp = jsonData.JsonCutApart("timeStamp");
-				string package = jsonData.JsonCutApart("package");
-				string sign = jsonData.JsonCutApart("sign");
+			string partnerId = retValue.JsonCutApart("partnerId");
+			string prepayId = retValue.JsonCutApart("prepayId");
+			string nonceStr = retValue.JsonCutApart("nonceStr");
+			string timeStamp = retValue.JsonCutApart("timeStamp");
+			string package = retValue.JsonCutApart("package");
+			string sign = retValue.JsonCutApart("sign");
 
 				string str = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", partnerId, prepayId, nonceStr, timeStamp, package, sign);
 				AndroidInterface.Instance.DoAndroidAction("pay", str);
-			}
 		});
 	}
 	#endregion

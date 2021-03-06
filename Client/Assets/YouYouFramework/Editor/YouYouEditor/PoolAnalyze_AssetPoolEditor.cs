@@ -35,6 +35,7 @@ public class PoolAnalyze_AssetPoolEditor : Editor
 			GUILayout.BeginHorizontal("box");
 			GUILayout.Label("分类资源-" + assetCategory.ToString());
 			GUILayout.Label("计数", GUILayout.Width(50));
+			GUILayout.Label("剩余时间", GUILayout.Width(50));
 			GUILayout.EndHorizontal();
 
 			if (GameEntry.Pool != null)
@@ -45,7 +46,7 @@ public class PoolAnalyze_AssetPoolEditor : Editor
 					GUILayout.Label(item.Key);
 
 					titleStyle.fixedWidth = 50;
-					GUILayout.Label(item.Value.ToString(), titleStyle);
+					GUILayout.Label(item.Value.ReferenceCount.ToString(), titleStyle);
 
 					float remain = Mathf.Max(0, GameEntry.Pool.ReleaseAssetInterval - (Time.time - item.Value.LastUseTime));
 

@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(UnityEngine.Light);
-			Utils.BeginObjectRegister(type, L, translator, 0, 7, 31, 30);
+			Utils.BeginObjectRegister(type, L, translator, 0, 7, 32, 31);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Reset", _m_Reset);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "AddCommandBuffer", _m_AddCommandBuffer);
@@ -43,6 +43,7 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "bounceIntensity", _g_get_bounceIntensity);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "useBoundingSphereOverride", _g_get_useBoundingSphereOverride);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "boundingSphereOverride", _g_get_boundingSphereOverride);
+            Utils.RegisterFunc(L, Utils.GETTER_IDX, "useViewFrustumForShadowCasterCull", _g_get_useViewFrustumForShadowCasterCull);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "shadowCustomResolution", _g_get_shadowCustomResolution);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "shadowBias", _g_get_shadowBias);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "shadowNormalBias", _g_get_shadowNormalBias);
@@ -75,6 +76,7 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "bounceIntensity", _s_set_bounceIntensity);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "useBoundingSphereOverride", _s_set_useBoundingSphereOverride);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "boundingSphereOverride", _s_set_boundingSphereOverride);
+            Utils.RegisterFunc(L, Utils.SETTER_IDX, "useViewFrustumForShadowCasterCull", _s_set_useViewFrustumForShadowCasterCull);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "shadowCustomResolution", _s_set_shadowCustomResolution);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "shadowBias", _s_set_shadowBias);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "shadowNormalBias", _s_set_shadowNormalBias);
@@ -558,6 +560,20 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_useViewFrustumForShadowCasterCull(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                UnityEngine.Light gen_to_be_invoked = (UnityEngine.Light)translator.FastGetCSObj(L, 1);
+                LuaAPI.lua_pushboolean(L, gen_to_be_invoked.useViewFrustumForShadowCasterCull);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _g_get_shadowCustomResolution(RealStatePtr L)
         {
 		    try {
@@ -1001,6 +1017,21 @@ namespace XLua.CSObjectWrap
                 UnityEngine.Light gen_to_be_invoked = (UnityEngine.Light)translator.FastGetCSObj(L, 1);
                 UnityEngine.Vector4 gen_value;translator.Get(L, 2, out gen_value);
 				gen_to_be_invoked.boundingSphereOverride = gen_value;
+            
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 0;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _s_set_useViewFrustumForShadowCasterCull(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			
+                UnityEngine.Light gen_to_be_invoked = (UnityEngine.Light)translator.FastGetCSObj(L, 1);
+                gen_to_be_invoked.useViewFrustumForShadowCasterCull = LuaAPI.lua_toboolean(L, 2);
             
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);

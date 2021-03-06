@@ -101,16 +101,9 @@ public class AssetBundleSettings : ScriptableObject
 			}
 		}
 
-		if (!Directory.Exists(TempPath))
-		{
-			Directory.CreateDirectory(TempPath);
-		}
+		if (!Directory.Exists(TempPath)) Directory.CreateDirectory(TempPath);
 
-		if (builds.Count == 0)
-		{
-			Debug.Log("未找到需要打包的内容");
-			return;
-		}
+		if (builds.Count == 0) return;
 
 		Debug.Log("builds count=" + builds.Count);
 
@@ -128,11 +121,11 @@ public class AssetBundleSettings : ScriptableObject
 
 		CreateDependenciesFile();
 
-		Debug.Log("生成依赖关系文件完毕");
+		Debug.Log("AssetInfo==生成依赖关系文件完毕");
 
 		CreateVersionFile();
 
-		Debug.Log("生成版本文件完毕");
+		Debug.Log("VersionFile==生成版本文件完毕");
 	}
 
 	#region TempPath OutPath
@@ -297,18 +290,13 @@ public class AssetBundleSettings : ScriptableObject
 
 			AssetEntity newEntity = new AssetEntity();
 			newEntity.Category = entity.Category;
-			newEntity.AssetName = entity.AssetFullName.Substring(entity.AssetFullName.LastIndexOf("/") + 1);
-			newEntity.AssetName = newEntity.AssetName.Substring(0, newEntity.AssetName.LastIndexOf("."));
 			newEntity.AssetFullName = entity.AssetFullName;
 			newEntity.AssetBundleName = entity.AssetBundleName;
 
 			assetList.Add(newEntity);
 
 			//场景不需要检查依赖项
-			if (entity.Category == AssetCategory.Scenes)
-			{
-				continue;
-			}
+			//if (entity.Category == AssetCategory.Scenes) continue;
 
 			newEntity.DependsAssetList = new List<AssetDependsEntity>();
 
@@ -375,7 +363,6 @@ public class AssetBundleSettings : ScriptableObject
 		fs.Write(buffer, 0, buffer.Length);
 		fs.Close();
 		fs.Dispose();
-		Debug.Log("生成 AssetInfo.bytes 完毕");
 	}
 
 	/// <summary>
@@ -417,33 +404,25 @@ public class AssetBundleSettings : ScriptableObject
 		for (int i = 0; i < arrFiles.Length; i++)
 		{
 			FileInfo file = arrFiles[i];
-			if (file.Extension == ".meta")
-			{
-				continue;
-			}
+			if (file.Extension == ".meta") continue;
+			if (file.FullName.IndexOf(".idea") != -1) continue;
 
 			string filePath = file.FullName; //全名 包含路径扩展名
 
 			//Debug.LogError("filePath==" + filePath);
 
 			//Debug.LogError("filePath=" + filePath);
-			int index = filePath.IndexOf("Assets\\", StringComparison.CurrentCultureIgnoreCase);
 
 			//路径
-			string newPath = filePath.Substring(index);
-			if (newPath.IndexOf(".idea") != -1) //过滤掉idea文件
-			{
-				continue;
-			}
 
 			//Debug.LogError("newPath==" + newPath);
 			AssetEntity entity = new AssetEntity();
-			entity.AssetFullName = newPath.Replace("\\", "/");
+			entity.AssetFullName = filePath.Substring(filePath.IndexOf("Assets\\")).Replace("\\", "/");
 
 			//Debug.LogError("AssetFullName==" + entity.AssetFullName);
-			entity.Category = GetAssetCategory(newPath.Replace(file.Name, "")); //去掉文件名，只保留路径
+			entity.Category = GetAssetCategory(entity.AssetFullName);
 																				//Debug.LogError("Category==" + entity.Category);
-			entity.AssetBundleName = (GetAssetBundleName(newPath) + ".assetbundle").ToLower();
+			entity.AssetBundleName = (GetAssetBundleName(entity.AssetFullName) + ".assetbundle").ToLower();
 			tempLst.Add(entity);
 		}
 	}
@@ -544,16 +523,12 @@ public class AssetBundleSettings : ScriptableObject
 
 		string filePath = path + "/VersionFile.bytes"; //版本文件路径
 		byte[] buffer = ms.ToArray();
-		ms.Dispose();
-		ms.Close();
 
 		buffer = ZlibHelper.CompressBytes(buffer);
-		using (FileStream fs = new FileStream(filePath, FileMode.Create))
-		{
+		FileStream fs = new FileStream(filePath, FileMode.Create);
 			fs.Write(buffer, 0, buffer.Length);
 			fs.Close();
 			fs.Dispose();
-		}
 	}
 
 	#endregion
@@ -564,54 +539,51 @@ public class AssetBundleSettings : ScriptableObject
 	/// </summary>
 	/// <param name="filePath"></param>
 	/// <returns></returns>
-	private AssetCategory GetAssetCategory(string filePath)
+	private AssetCategory GetAssetCategory(string assetFullName)
 	{
 		AssetCategory category = AssetCategory.None;
 
-		if (filePath.IndexOf("Audio", StringComparison.CurrentCultureIgnoreCase) != -1)
+		if (assetFullName.IndexOf("Assets/Download/Audio", StringComparison.CurrentCultureIgnoreCase) != -1)
 		{
 			category = AssetCategory.Audio;
 		}
-		else if (filePath.IndexOf("CusShaders", StringComparison.CurrentCultureIgnoreCase) != -1)
+		else if (assetFullName.IndexOf("Assets/Download/CusShaders", StringComparison.CurrentCultureIgnoreCase) != -1)
 		{
 			category = AssetCategory.CusShaders;
 		}
-		else if (filePath.IndexOf("DataTable", StringComparison.CurrentCultureIgnoreCase) != -1)
+		else if (assetFullName.IndexOf("Assets/Download/DataTable", StringComparison.CurrentCultureIgnoreCase) != -1)
 		{
 			category = AssetCategory.DataTable;
 		}
-		else if (filePath.IndexOf("EffectPrefab", StringComparison.CurrentCultureIgnoreCase) != -1)
+		else if (assetFullName.IndexOf("Assets/Download/Effects", StringComparison.CurrentCultureIgnoreCase) != -1)
 		{
 			category = AssetCategory.Effects;
 		}
-		else if (filePath.IndexOf("RolePrefab", StringComparison.CurrentCultureIgnoreCase) != -1)
+		else if (assetFullName.IndexOf("Assets/Download/Role", StringComparison.CurrentCultureIgnoreCase) != -1)
 		{
-			category = AssetCategory.RolePrefab;
+			category = AssetCategory.Role;
 		}
-		else if (filePath.IndexOf("RoleSources", StringComparison.CurrentCultureIgnoreCase) != -1)
-		{
-			category = AssetCategory.RoleSources;
-		}
-		else if (filePath.IndexOf("Scenes", StringComparison.CurrentCultureIgnoreCase) != -1)
+		else if (assetFullName.IndexOf("Assets/Download/Scenes", StringComparison.CurrentCultureIgnoreCase) != -1)
 		{
 			category = AssetCategory.Scenes;
 		}
-		else if (filePath.IndexOf("UIFont", StringComparison.CurrentCultureIgnoreCase) != -1)
+		else if (assetFullName.IndexOf("Assets/Download/UI/UIFont", StringComparison.CurrentCultureIgnoreCase) != -1)
 		{
 			category = AssetCategory.UIFont;
 		}
-		else if (filePath.IndexOf("UIPrefab", StringComparison.CurrentCultureIgnoreCase) != -1)
+		else if (assetFullName.IndexOf("Assets/Download/UI/UIPrefab", StringComparison.CurrentCultureIgnoreCase) != -1)
 		{
 			category = AssetCategory.UIPrefab;
 		}
-		else if (filePath.IndexOf("UIRes", StringComparison.CurrentCultureIgnoreCase) != -1)
+		else if (assetFullName.IndexOf("Assets/Download/UI/UIRes", StringComparison.CurrentCultureIgnoreCase) != -1)
 		{
 			category = AssetCategory.UIRes;
 		}
-		else if (filePath.IndexOf("xLuaLogic", StringComparison.CurrentCultureIgnoreCase) != -1)
+		else if (assetFullName.IndexOf("Assets/Download/xLuaLogic", StringComparison.CurrentCultureIgnoreCase) != -1)
 		{
 			category = AssetCategory.xLuaLogic;
 		}
+		if (category == AssetCategory.None) Debug.LogError(assetFullName);
 		return category;
 	}
 	#endregion
@@ -622,9 +594,8 @@ public class AssetBundleSettings : ScriptableObject
 	/// </summary>
 	/// <param name="newPath"></param>
 	/// <returns></returns>
-	private string GetAssetBundleName(string newPath)
+	private string GetAssetBundleName(string assetFullName)
 	{
-		string path = newPath.Replace("\\", "/");
 
 		int len = Datas.Length;
 		//循环设置文件夹包括子文件里边的项
@@ -633,7 +604,7 @@ public class AssetBundleSettings : ScriptableObject
 			AssetBundleData assetBundleData = Datas[i];
 			for (int j = 0; j < assetBundleData.Path.Length; j++)
 			{
-				if (path.IndexOf(assetBundleData.Path[j], StringComparison.CurrentCultureIgnoreCase) > -1)
+				if (assetFullName.IndexOf(assetBundleData.Path[j], StringComparison.CurrentCultureIgnoreCase) > -1)
 				{
 					if (assetBundleData.Overall)
 					{
@@ -643,7 +614,7 @@ public class AssetBundleSettings : ScriptableObject
 					else
 					{
 						//零散资源
-						return path.Substring(0, path.LastIndexOf('.')).ToLower().Replace("assets/", "");
+						return assetFullName.Substring(0, assetFullName.LastIndexOf('.')).ToLower().Replace("assets/", "");
 					}
 				}
 			}

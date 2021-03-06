@@ -40,6 +40,7 @@ public partial class Sys_UIFormDBModel : DataTableDBModelBase<Sys_UIFormDBModel,
             entity.CanMulit = ms.ReadInt();
             entity.ShowMode = (byte)ms.ReadByte();
             entity.FreezeMode = (byte)ms.ReadByte();
+            entity.OpenAnim = (byte)ms.ReadByte();
 
             m_List.Add(entity);
             m_Dic[entity.Id] = entity;

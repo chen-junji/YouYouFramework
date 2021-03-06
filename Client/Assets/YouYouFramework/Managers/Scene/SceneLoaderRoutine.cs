@@ -58,7 +58,7 @@ namespace YouYou
 			m_CurrAsync.allowSceneActivation = false;
 			if (m_CurrAsync == null) OnLoadSceneComplete?.Invoke(this);
 #else
-			GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(GameEntry.Resource.GetSceneAssetBundlePath(sceneName), onComplete: (AssetBundle bundle2) =>
+			GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.Scenes, GameEntry.Resource.GetSceneAssetBundlePath(sceneName), onComplete: (Object obj) =>
 			{
 				//加载场景的资源包
 				m_CurrAsync = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);

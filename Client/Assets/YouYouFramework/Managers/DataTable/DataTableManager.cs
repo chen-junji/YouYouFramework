@@ -112,11 +112,12 @@ namespace YouYou
 		internal void LoadDataAllTable()
 		{
 #if ASSETBUNDLE
-            GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(YFConstDefine.DataTableAssetBundlePath, onComplete: (AssetBundle bundle) =>
-            {
-                m_DataTableBundle = bundle;
-                LoadDataTable();
-            });
+			GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(YFConstDefine.DataTableAssetBundlePath, onComplete: (ResourceEntity bundleEntity) =>
+			{
+				AssetBundle bundle = bundleEntity.Target as AssetBundle;
+				m_DataTableBundle = bundle;
+				LoadDataTable();
+			});
 #else
 			LoadDataTable();
 #endif
@@ -127,7 +128,7 @@ namespace YouYou
 		/// </summary>
 		/// <param name="tableName"></param>
 		/// <returns></returns>
-		internal void GetDataTableBuffer(string dataTableName, Action<byte[]> onComplete)
+		internal void GetDataTableBuffer(string dataTableName, BaseAction<byte[]> onComplete)
 		{
 #if EDITORLOAD
 			GameEntry.Time.Yield(() =>
@@ -142,12 +143,12 @@ namespace YouYou
 				if (onComplete != null) onComplete(asset.bytes);
 			});
 #else
-            GameEntry.Resource.ResourceLoaderManager.LoadAsset(GameEntry.Resource.GetLastPathName(dataTableName), m_DataTableBundle, onComplete: (UnityEngine.Object obj) =>
-            {
+			GameEntry.Resource.ResourceLoaderManager.LoadAsset(AssetCategory.DataTable, GameEntry.Resource.GetLastPathName(dataTableName), m_DataTableBundle, onComplete: (UnityEngine.Object obj, bool isNew) =>
+			{
 				if (obj == null) return;
-                TextAsset asset = obj as TextAsset;
-                if (onComplete != null) onComplete(asset.bytes);
-            });
+				TextAsset asset = obj as TextAsset;
+				if (onComplete != null) onComplete(asset.bytes);
+			});
 #endif
 		}
 

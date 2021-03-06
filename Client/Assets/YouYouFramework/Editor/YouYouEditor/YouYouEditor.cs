@@ -1,7 +1,6 @@
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -78,15 +77,15 @@ public class YouYouEditor : OdinMenuEditorWindow
 			string fullName = file.FullName.Replace("\\", "/"); //全名 包含路径扩展名
 			string name = fullName.Replace(toPath, "").Replace(".assetbundle", "").Replace(".unity3d", "");
 
-			if (name.Equals("AssetInfo.json", StringComparison.CurrentCultureIgnoreCase)
-				|| name.Equals("Windows", StringComparison.CurrentCultureIgnoreCase)
-				|| name.Equals("Windows.manifest", StringComparison.CurrentCultureIgnoreCase)
+			if (name.Equals("AssetInfo.json", System.StringComparison.CurrentCultureIgnoreCase)
+				|| name.Equals("Windows", System.StringComparison.CurrentCultureIgnoreCase)
+				|| name.Equals("Windows.manifest", System.StringComparison.CurrentCultureIgnoreCase)
 
-				|| name.Equals("Android", StringComparison.CurrentCultureIgnoreCase)
-				|| name.Equals("Android.manifest", StringComparison.CurrentCultureIgnoreCase)
+				|| name.Equals("Android", System.StringComparison.CurrentCultureIgnoreCase)
+				|| name.Equals("Android.manifest", System.StringComparison.CurrentCultureIgnoreCase)
 
-				|| name.Equals("iOS", StringComparison.CurrentCultureIgnoreCase)
-				|| name.Equals("iOS.manifest", StringComparison.CurrentCultureIgnoreCase)
+				|| name.Equals("iOS", System.StringComparison.CurrentCultureIgnoreCase)
+				|| name.Equals("iOS.manifest", System.StringComparison.CurrentCultureIgnoreCase)
 				)
 			{
 				File.Delete(file.FullName);

@@ -91,7 +91,9 @@ public class IOUtil
                 if (File.Exists(destDirName + Path.GetFileName(file)))
                     continue;
                 FileInfo fileInfo = new FileInfo(file);
-                if (fileInfo.Extension.Equals(".meta", StringComparison.CurrentCultureIgnoreCase))
+                if (fileInfo.Extension.Equals(".meta", StringComparison.CurrentCultureIgnoreCase)
+                    || fileInfo.Extension.Equals(".manifest", StringComparison.CurrentCultureIgnoreCase)
+                    )
                     continue;
 
                 File.Copy(file, destDirName + Path.GetFileName(file), true);

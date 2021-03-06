@@ -29,6 +29,10 @@ namespace YouYou
 		/// 加载进度条更新
 		/// </summary>
 		public const ushort LoadingProgressChange = 1101;
+		/// <summary>
+		/// 关闭"转圈圈"
+		/// </summary>
+		public const ushort CloseUICircle = 1102;
 
 		/// <summary>
 		/// 检查更新_开始下载
@@ -55,10 +59,6 @@ namespace YouYou
 		/// 预加载_开始加载
 		/// </summary>
 		public const ushort PreloadComplete = 1206;
-		/// <summary>
-		/// 关闭检查更新UI
-		/// </summary>
-		public const ushort CloseCheckVersionUI = 1207;
 
 		/// <summary>
 		/// Lua内存释放

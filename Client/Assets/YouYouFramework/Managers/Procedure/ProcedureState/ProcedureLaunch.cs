@@ -23,7 +23,7 @@ namespace YouYou
 			dic.Clear();
 			dic["ChannelId"] = GameEntry.Data.SysDataManager.CurrChannelConfig.ChannelId;
 			dic["InnerVersion"] = GameEntry.Data.SysDataManager.CurrChannelConfig.InnerVersion;
-			GameEntry.Http.Post(url, dic.ToJson(), (retJson, retBytes) =>
+			GameEntry.Http.Post(url, dic.ToJson(), false, (retJson) =>
 			{
 				if (!retJson.JsonCutApart<bool>("HasError"))
 				{

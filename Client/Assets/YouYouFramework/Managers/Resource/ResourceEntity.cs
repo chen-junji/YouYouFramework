@@ -5,7 +5,7 @@ using UnityEngine;
 namespace YouYou
 {
 	/// <summary>
-	/// 资源实体(AssetBundle和Asset)
+	/// 资源实体(AssetBundle和Asset实体)
 	/// </summary>
 	public class ResourceEntity
 	{
@@ -15,7 +15,7 @@ namespace YouYou
 		public string ResourceName;
 
 		/// <summary>
-		/// 资源分类(用于Asset)
+		/// 资源分类（用于Asset）
 		/// </summary>
 		public AssetCategory Category;
 
@@ -42,7 +42,8 @@ namespace YouYou
 		/// <summary>
 		/// 依赖的资源实体链表
 		/// </summary>
-		public LinkedList<ResourceEntity> DependsResourceList { get; private set; }
+		public LinkedList<ResourceEntity> DependsResourceList { private set; get; }
+
 
 		public ResourceEntity()
 		{
@@ -52,17 +53,17 @@ namespace YouYou
 		/// <summary>
 		/// 对象取池
 		/// </summary>
-		public void Spawn()
+		public void Spawn(bool reference)
 		{
 			LastUseTime = Time.time;
 
 			if (!IsAssetBundle)
 			{
-				ReferenceCount++;
+				if (reference) ReferenceCount++;
 			}
 			else
 			{
-				//如果是锁定的资源包 不释放
+				//如果是锁定资源包 不释放
 				if (GameEntry.Pool.CheckAssetBundleIsLock(ResourceName))
 				{
 					ReferenceCount = 1;
@@ -77,44 +78,41 @@ namespace YouYou
 		{
 			LastUseTime = Time.time;
 
-			ReferenceCount--;
-			if (ReferenceCount < 0)
+			if (!IsAssetBundle)
 			{
-				ReferenceCount = 0;
+				ReferenceCount--;
+				if (ReferenceCount < 0) ReferenceCount = 0;
 			}
 		}
-
 		/// <summary>
 		/// 对象是否可以释放
 		/// </summary>
 		/// <returns></returns>
 		public bool GetCanRelease()
 		{
-			if (ReferenceCount == 0 && Time.time - LastUseTime > GameEntry.Pool.ReleaseAssetBundleInterval)
+			if (ReferenceCount == 0 && Time.time - LastUseTime > (IsAssetBundle ? GameEntry.Pool.ReleaseAssetBundleInterval : GameEntry.Pool.ReleaseAssetInterval))
 			{
 				return true;
 			}
 			return false;
 		}
-
 		/// <summary>
 		/// 释放资源
 		/// </summary>
 		public void Release()
 		{
-			ResourceName = null;
-			ReferenceCount = 0;
-
 			if (IsAssetBundle)
 			{
 				AssetBundle bundle = Target as AssetBundle;
-				//GameEntry.Log(LogCategory.Resource, "卸载了资源包=>{0}", bundle.name);
 				bundle.Unload(false);
 			}
+
+			ResourceName = null;
+			ReferenceCount = 0;
 			Target = null;
 
-			DependsResourceList.Clear();//把依赖的资源实体链表清空
-			GameEntry.Pool.EnqueueClassObject(this);//当前资源实体回池
+			DependsResourceList.Clear(); //把自己依赖的资源实体清空
+			GameEntry.Pool.EnqueueClassObject(this); //把这个资源实体回池
 		}
 	}
 }

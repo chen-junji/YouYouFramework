@@ -36,6 +36,11 @@ namespace YouYou
 		/// <param name="assetBundle"></param>
 		internal void LoadAsset(string assetName, AssetBundle assetBundle)
 		{
+			if (assetName.LastIndexOf(".unity") != -1)
+			{
+				if (OnLoadAssetComplete != null) OnLoadAssetComplete(null);
+				return;
+			}
 			m_CurrAssetName = assetName;
 			m_CurrAssetBundleRequest = assetBundle.LoadAssetAsync(assetName);
 		}

@@ -11,59 +11,32 @@ namespace YouYou
 		/// 正式账号服务器Url
 		/// </summary>
 		private string m_WebAccountUrl;
-
 		/// <summary>
 		/// 测试账号服务器Url
 		/// </summary>
 		private string m_TestWebAccountUrl;
-
 		/// <summary>
 		/// 是否测试环境
 		/// </summary>
 		private bool m_IsTest;
-
 		/// <summary>
 		/// 真实账号服务器Url
 		/// </summary>
-		public string RealWebAccountUrl
-		{
-			get
-			{
-				return "http://" + RealIpAndPort + "/";
-			}
-		}
-		public string RealIpAndPort
-		{
-			get
-			{
-				return m_IsTest ? m_TestWebAccountUrl : m_WebAccountUrl;
-			}
-		}
-
-
+		public string RealWebAccountUrl { get { return "http://" + RealIpAndPort + "/"; } }
+		public string RealIpAndPort { get { return m_IsTest ? m_TestWebAccountUrl : m_WebAccountUrl; } }
 		/// <summary>
 		/// 连接失败后重试次数
 		/// </summary>
-		public int Retry
-		{
-			get;
-			private set;
-		}
-
+		public int Retry { get; private set; }
 		/// <summary>
 		/// 连接失败后重试间隔（秒）
 		/// </summary>
-		public int RetryInterval
-		{
-			get;
-			private set;
-		}
+		public int RetryInterval { get; private set; }
 
 		public void Dispose()
 		{
 
 		}
-
 		internal override void Init()
 		{
 			m_WebAccountUrl = GameEntry.ParamsSettings.WebAccountUrl;
@@ -75,24 +48,59 @@ namespace YouYou
 		}
 
 		#region Get
-		public void Get(string url, HttpSendDataCallBack callBack)
+		public void Get(string url, bool loadingCircle = false, HttpSendDataCallBack callBack = null)
 		{
 			HttpRoutine http = GameEntry.Pool.DequeueClassObject<HttpRoutine>();
-			http.Get(url, callBack);
+			if (loadingCircle)
+			{
+				GameEntry.Task.Add((Action taskComplete) =>
+				{
+					http.Get(url, (HttpCallBackArgs ret) =>
+					{
+						taskComplete?.Invoke();
+						callBack?.Invoke(ret);
+					});
+				});
+			}
+			else
+			{
+				http.Get(url, callBack);
+			}
 		}
 		#endregion
 
 		#region Post
-		public void PostArgs(string url, string json = null, HttpSendDataCallBack callBack = null)
+		public void PostArgs(string url, string json = null, bool loadingCircle = false, HttpSendDataCallBack callBack = null)
 		{
 			HttpRoutine http = GameEntry.Pool.DequeueClassObject<HttpRoutine>();
-			http.Post(url, json, callBack);
-		}
-		public void Post(string url, string json = null, Action<string, byte[]> callBack = null)
-		{
-			PostArgs(url, json, (args) =>
+			if (loadingCircle)
 			{
-				if (!args.HasError) callBack?.Invoke(args.Value, args.Data);
+				GameEntry.Task.Add((Action taskComplete) =>
+				{
+					http.Post(url, json, (HttpCallBackArgs ret) =>
+					{
+						taskComplete?.Invoke();
+						callBack?.Invoke(ret);
+					});
+				});
+			}
+			else
+			{
+				http.Post(url, json, callBack);
+			}
+		}
+		public void Post(string url, string json = null, bool loadingCircle = false, Action<string> callBack = null)
+		{
+			PostArgs(url, json, loadingCircle, (args) =>
+			{
+				if (!args.HasError && args.Value.JsonCutApart("Status").ToInt() == 1)
+				{
+					callBack?.Invoke(args.Value.JsonCutApart("Content"));
+				}
+				else
+				{
+					Debug.LogError(args.Value.JsonCutApart("Msg"));
+				}
 			});
 		}
 		#endregion

@@ -26,6 +26,7 @@ function Sys_UIFormDBModel.LoadFormMS(ms)
                 ms:ReadUTF8String(),
                 ms:ReadInt(),
                 ms:ReadByte(),
+                ms:ReadByte(),
                 ms:ReadByte()
         );
     end

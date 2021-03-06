@@ -48,11 +48,11 @@ namespace YouYou
 		/// <summary>
 		/// 窗口打开声音
 		/// </summary>
-		public const int Audio_UIOpen = 201;
+		public const int Audio_UIOpen = 10201;
 		/// <summary>
 		/// UI关闭声音
 		/// </summary>
-		public const int Audio_UIClose = 202;
+		public const int Audio_UIClose = 10202;
 
 		/// <summary>
 		/// 帧率

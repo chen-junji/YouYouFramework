@@ -302,7 +302,7 @@ namespace YouYou
 			{
 				ReleaseAssetBundleNextRunTime = Time.time;
 
-#if !EDITORLOAD
+#if ASSETBUNDLE
 				ReleaseAssetBundlePool();
 				//GameEntry.Log(LogCategory.Normal, "释放AssetBundle池");
 #endif
@@ -312,7 +312,7 @@ namespace YouYou
 			{
 				ReleaseAssetNextRunTime = Time.time;
 
-#if !EDITORLOAD
+#if ASSETBUNDLE
 				ReleaseAssetPool();
 				//GameEntry.Log(LogCategory.Normal, "释放Asset池");
 #endif
@@ -343,22 +343,18 @@ namespace YouYou
 		/// </summary>
 		/// <param name="prefabId">预设编号</param>
 		/// <param name="onComplete"></param>
-		public void GameObjectSpawn(int prefabId, BaseAction<Transform, bool> onComplete)
+		public void GameObjectSpawn(int prefabId, Transform panent = null, BaseAction<Transform, bool> onComplete = null)
 		{
-			GameObjectSpawn(GameEntry.DataTable.Sys_PrefabDBModel.GetDic(prefabId), onComplete);
+			GameObjectSpawn(GameEntry.DataTable.Sys_PrefabDBModel.GetDic(prefabId), panent, onComplete);
 		}
-		public void GameObjectSpawn(string prefabName, BaseAction<Transform, bool> onComplete)
+		public void GameObjectSpawn(string prefabName, Transform panent = null, BaseAction<Transform, bool> onComplete = null)
 		{
-			GameObjectSpawn(GameEntry.DataTable.Sys_PrefabDBModel.GetPrefabIdByName(prefabName), onComplete);
+			GameObjectSpawn(GameEntry.DataTable.Sys_PrefabDBModel.GetPrefabIdByName(prefabName), panent, onComplete);
 		}
-		public void GameObjectSpawn(Sys_PrefabEntity sys_PrefabEntity, BaseAction<Transform, bool> onComplete)
+		public void GameObjectSpawn(Sys_PrefabEntity sys_PrefabEntity, Transform panent = null, BaseAction<Transform, bool> onComplete = null)
 		{
-			if (sys_PrefabEntity == null)
-			{
-				GameEntry.LogError("预设数据不存在,sys_PrefabEntity==null!");
-				return;
-			}
-			GameObjectPool.Spawn(sys_PrefabEntity, onComplete);
+			if (sys_PrefabEntity == null) return;
+			GameObjectPool.Spawn(sys_PrefabEntity, panent, onComplete);
 		}
 
 		/// <summary>
@@ -376,6 +372,12 @@ namespace YouYou
 		/// 克隆出来的实例资源字典
 		/// </summary>
 		private Dictionary<int, ResourceEntity> m_InstanceResourceDic;
+		public ResourceEntity GetResourceEntity(int instanceId)
+		{
+			ResourceEntity resourceEntity = null;
+			m_InstanceResourceDic.TryGetValue(instanceId, out resourceEntity);
+			return resourceEntity;
+		}
 
 		/// <summary>
 		/// 注册到实例字典
@@ -398,11 +400,11 @@ namespace YouYou
 			ResourceEntity resourceEntity = null;
 			if (m_InstanceResourceDic.TryGetValue(instanceId, out resourceEntity))
 			{
-#if EDITORLOAD
+#if ASSETBUNDLE
+				UnspawnResourceEntity(resourceEntity);
+#else
 				resourceEntity.Target = null;
 				GameEntry.Pool.EnqueueClassObject(resourceEntity);
-#else
-				UnspawnResourceEntity(resourceEntity);
 #endif
 				m_InstanceResourceDic.Remove(instanceId);
 			}
@@ -414,12 +416,12 @@ namespace YouYou
 		/// <param name="entity"></param>
 		private void UnspawnResourceEntity(ResourceEntity entity)
 		{
-			var curr = entity.DependsResourceList.First;
-			while (curr != null)
-			{
-				UnspawnResourceEntity(curr.Value);
-				curr = curr.Next;
-			}
+			//var curr = entity.DependsResourceList.First;
+			//while (curr != null)
+			//{
+			//	UnspawnResourceEntity(curr.Value);
+			//	curr = curr.Next;
+			//}
 
 			AssetPool[entity.Category].Unspawn(entity.ResourceName);
 		}

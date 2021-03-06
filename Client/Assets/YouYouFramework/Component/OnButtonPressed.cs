@@ -2,6 +2,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 /// <summary>
 /// ʵ�ְ�ť����״̬���ж�
@@ -30,5 +31,10 @@ public class OnButtonPressed : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 	{
 		// ��ǰʱ�� -  ��ť���һ�α����µ�ʱ�� > �ӳ�ʱ��
 		OnDown?.Invoke(Time.time - lastIsDownTime > delay);
+	}
+	public void SetRaycastTarget(bool raycastTarget)
+	{
+		GetComponent<Image>().raycastTarget = raycastTarget;
+		GetComponent<Button>().interactable = raycastTarget;
 	}
 }

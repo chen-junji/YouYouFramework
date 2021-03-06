@@ -114,6 +114,8 @@ namespace YouYou
 		/// <param name="json"></param>
 		private void PostUrl(string url)
 		{
+			UnityWebRequest unityWeb = new UnityWebRequest(url, UnityWebRequest.kHttpVerbPOST);
+			unityWeb.downloadHandler = new DownloadHandlerBuffer();
 			if (!string.IsNullOrWhiteSpace(m_Json))
 			{
 				if (GameEntry.ParamsSettings.PostIsEncrypt && m_CurrRetry == 0)
@@ -125,14 +127,14 @@ namespace YouYou
 					long t = GameEntry.Data.SysDataManager.CurrServerTime;
 					m_Dic["sign"] = EncryptUtil.Md5(string.Format("{0}:{1}", t, DeviceUtil.DeviceIdentifier));
 					m_Dic["t"] = t;
+
+					m_Json = m_Dic.ToJson();
 				}
-				}
-			WWWForm form = new WWWForm();
-			form.AddField("json", m_Dic.ToJson());
-			UnityWebRequest unityWeb = UnityWebRequest.Post(url, form);
+				unityWeb.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(m_Json));
 
 				if (!string.IsNullOrWhiteSpace(GameEntry.ParamsSettings.PostContentType))
 					unityWeb.SetRequestHeader("Content-Type", GameEntry.ParamsSettings.PostContentType);
+			}
 
 			GameEntry.Log(LogCategory.Proto, "Post请求:{0}, {1}次重试==>>{2}", m_Url, m_CurrRetry, m_Json);
 			GameEntry.Instance.StartCoroutine(Request(unityWeb));
@@ -170,7 +172,6 @@ namespace YouYou
 				IsBusy = false;
 				m_CallBackArgs.HasError = true;
 				m_CallBackArgs.Value = data.error;
-				m_CallBack?.Invoke(m_CallBackArgs);
 			}
 			else
 			{
@@ -178,10 +179,10 @@ namespace YouYou
 				m_CallBackArgs.HasError = false;
 				m_CallBackArgs.Value = data.downloadHandler.text;
 				m_CallBackArgs.Data = data.downloadHandler.data;
-				m_CallBack?.Invoke(m_CallBackArgs);
 			}
 
 			if (!string.IsNullOrWhiteSpace(m_CallBackArgs.Value)) GameEntry.Log(LogCategory.Proto, "WebAPI回调:{0}, ==>>{1}", m_Url, m_CallBackArgs.ToJson());
+			m_CallBack?.Invoke(m_CallBackArgs);	
 
 			m_CurrRetry = 0;
 			m_Url = null;

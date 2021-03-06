@@ -1,8 +1,3 @@
-//===================================================
-//作    者：边涯  http://www.u3dol.com
-//创建时间：
-//备    注：
-//===================================================
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,6 +26,15 @@ namespace YouYou
 		}
 
 		/// <summary>
+		/// 是否打印日志
+		/// </summary>
+		public bool DebugLog
+		{
+			get;
+			private set;
+		}
+
+		/// <summary>
 		/// 是否打印协议日志
 		/// </summary>
 		public bool DebugLogProto
@@ -39,11 +43,18 @@ namespace YouYou
 			private set;
 		}
 
+		public void Dispose()
+		{
+
+		}
 		/// <summary>
 		/// 初始化
 		/// </summary>
 		internal override void Init()
 		{
+#if DEBUG_MODEL
+			DebugLog = true;
+#endif
 #if DEBUG_LOG_PROTO && DEBUG_MODEL
 			DebugLogProto = true;
 #endif
@@ -78,8 +89,9 @@ namespace YouYou
 		/// </summary>
 		private void LoadLuaAssetBundle()
 		{
-			GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(YFConstDefine.XLuaAssetBundlePath, onComplete: (AssetBundle bundle) =>
+			GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(YFConstDefine.XLuaAssetBundlePath, onComplete: (ResourceEntity bundleEntity) =>
 			{
+				AssetBundle bundle = bundleEntity.Target as AssetBundle;
 				m_CurrAssetBundle = bundle;
 				DoString("require 'Main'");
 			});
@@ -107,7 +119,7 @@ namespace YouYou
 		/// 执行Lua脚本
 		/// </summary>
 		/// <param name="str"></param>
-		private void DoString(string str)
+		public void DoString(string str)
 		{
 			luaEnv.DoString(str);
 		}
@@ -130,7 +142,7 @@ namespace YouYou
 				dic[key] = luaTable.GetInPath<string>(key);
 			}
 
-			GameEntry.Http.PostArgs(url, dic.ToJson(), callBack);
+			GameEntry.Http.PostArgs(url, dic.ToJson(), false, callBack);
 		}
 
 		/// <summary>
@@ -144,9 +156,9 @@ namespace YouYou
 			byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/download/xLuaLogic/PB/{1}.bytes", GameEntry.Resource.LocalFilePath, pbName));
 			onComplete?.Invoke(buffer);
 #else
-			GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.xLuaLogic, string.Format("Assets/Download/xLuaLogic/PB/{0}.bytes", pbName), onComplete: (TextAsset asset) =>
+			GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.xLuaLogic, string.Format("Assets/Download/xLuaLogic/PB/{0}.bytes", pbName), onComplete: (TextAsset res) =>
 			{
-				onComplete?.Invoke(asset.bytes);
+				onComplete?.Invoke(res.bytes);
 			});
 #endif
 		}
@@ -160,11 +172,6 @@ namespace YouYou
 					onComplete?.Invoke(ms);
 				}
 			});
-		}
-
-		public void Dispose()
-		{
-
 		}
 	}
 }

@@ -24,7 +24,7 @@ public class AboutUs : ScriptableObject
 	[VerticalGroup("AboutUs/Split/Right")]
 	[DisplayAsString]
 	[LabelText("°æ±¾ºÅ")]
-	public string Version = "1.1";
+	public string Version = "1.0.0";
 
 	[VerticalGroup("AboutUs/Split/Right")]
 	[DisplayAsString]

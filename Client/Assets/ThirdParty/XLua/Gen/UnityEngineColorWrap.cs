@@ -368,6 +368,20 @@ namespace XLua.CSObjectWrap
                     
                     return 1;
                 }
+                if(gen_param_count == 3&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& translator.Assignable<System.IFormatProvider>(L, 3)) 
+                {
+                    string _format = LuaAPI.lua_tostring(L, 2);
+                    System.IFormatProvider _formatProvider = (System.IFormatProvider)translator.GetObject(L, 3, typeof(System.IFormatProvider));
+                    
+                        string gen_ret = gen_to_be_invoked.ToString( _format, _formatProvider );
+                        LuaAPI.lua_pushstring(L, gen_ret);
+                    
+                    
+                        translator.UpdateUnityEngineColor(L, 1, gen_to_be_invoked);
+                    
+                    
+                    return 1;
+                }
                 
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);

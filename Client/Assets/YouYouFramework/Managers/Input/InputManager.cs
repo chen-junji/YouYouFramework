@@ -7,6 +7,7 @@ namespace YouYou
 {
 	public class InputManager : ManagerBase, IDisposable
 	{
+		public Joystick Joystick;
 		private InputCtrlBase m_InputCtrl;
 		/// <summary>
 		/// 按下并抬起 光标都在同一位置 则触发一次
@@ -32,13 +33,15 @@ namespace YouYou
 		internal override void Init()
 		{
 #if UNITY_EDITOR || UNITY_STANDALONE
-			m_InputCtrl = new StandalonInputCtrl(t => OnClick?.Invoke(t),
+			m_InputCtrl = new StandalonInputCtrl(
+				t => OnClick?.Invoke(t),
 				t => OnBeginDrag?.Invoke(t),
 				t => OnEndDrag?.Invoke(t),
 				(t1, t2) => OnDrag?.Invoke(t1, t2),
 				t => OnZoom?.Invoke(t));
 #else
-			m_InputCtrl = new MobileInputCtrl(t => OnClick?.Invoke(t),
+			m_InputCtrl = new MobileInputCtrl(
+				t => OnClick?.Invoke(t),
 				t => OnBeginDrag?.Invoke(t),
 				t => OnEndDrag?.Invoke(t),
 				(t1, t2) => OnDrag?.Invoke(t1, t2),

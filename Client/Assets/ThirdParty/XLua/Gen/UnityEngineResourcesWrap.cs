@@ -31,7 +31,7 @@ namespace XLua.CSObjectWrap
 			Utils.EndObjectRegister(type, L, translator, null, null,
 			    null, null, null);
 
-		    Utils.BeginClassRegister(type, L, __CreateInstance, 8, 0, 0);
+		    Utils.BeginClassRegister(type, L, __CreateInstance, 10, 0, 0);
 			Utils.RegisterFunc(L, Utils.CLS_IDX, "FindObjectsOfTypeAll", _m_FindObjectsOfTypeAll_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "Load", _m_Load_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "LoadAsync", _m_LoadAsync_xlua_st_);
@@ -39,6 +39,8 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.CLS_IDX, "GetBuiltinResource", _m_GetBuiltinResource_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "UnloadAsset", _m_UnloadAsset_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "UnloadUnusedAssets", _m_UnloadUnusedAssets_xlua_st_);
+            Utils.RegisterFunc(L, Utils.CLS_IDX, "InstanceIDToObject", _m_InstanceIDToObject_xlua_st_);
+            Utils.RegisterFunc(L, Utils.CLS_IDX, "InstanceIDToObjectList", _m_InstanceIDToObjectList_xlua_st_);
             
 			
             
@@ -306,6 +308,60 @@ namespace XLua.CSObjectWrap
                     
                     
                     return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_InstanceIDToObject_xlua_st_(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+            
+                
+                {
+                    int _instanceID = LuaAPI.xlua_tointeger(L, 1);
+                    
+                        UnityEngine.Object gen_ret = UnityEngine.Resources.InstanceIDToObject( _instanceID );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_InstanceIDToObjectList_xlua_st_(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+            
+                
+                {
+                    Unity.Collections.NativeArray<int> _instanceIDs;translator.Get(L, 1, out _instanceIDs);
+                    System.Collections.Generic.List<UnityEngine.Object> _objects = (System.Collections.Generic.List<UnityEngine.Object>)translator.GetObject(L, 2, typeof(System.Collections.Generic.List<UnityEngine.Object>));
+                    
+                    UnityEngine.Resources.InstanceIDToObjectList( _instanceIDs, _objects );
+                    
+                    
+                    
+                    return 0;
                 }
                 
             } catch(System.Exception gen_e) {

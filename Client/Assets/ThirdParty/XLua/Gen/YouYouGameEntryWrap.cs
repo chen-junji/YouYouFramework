@@ -34,8 +34,8 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "UIRootCanvas", _g_get_UIRootCanvas);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "UIRootCanvasScaler", _g_get_UIRootCanvasScaler);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "UIGroups", _g_get_UIGroups);
-            Utils.RegisterFunc(L, Utils.GETTER_IDX, "timeScale", _g_get_timeScale);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "m_PayPlatform", _g_get_m_PayPlatform);
+            Utils.RegisterFunc(L, Utils.GETTER_IDX, "timeScale", _g_get_timeScale);
             
 			Utils.RegisterFunc(L, Utils.SETTER_IDX, "PoolParent", _s_set_PoolParent);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "GameObjectPoolGroups", _s_set_GameObjectPoolGroups);
@@ -46,14 +46,14 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "UIRootCanvas", _s_set_UIRootCanvas);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "UIRootCanvasScaler", _s_set_UIRootCanvasScaler);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "UIGroups", _s_set_UIGroups);
-            Utils.RegisterFunc(L, Utils.SETTER_IDX, "timeScale", _s_set_timeScale);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "m_PayPlatform", _s_set_m_PayPlatform);
+            Utils.RegisterFunc(L, Utils.SETTER_IDX, "timeScale", _s_set_timeScale);
             
 			
 			Utils.EndObjectRegister(type, L, translator, null, null,
 			    null, null, null);
 
-		    Utils.BeginClassRegister(type, L, __CreateInstance, 3, 24, 1);
+		    Utils.BeginClassRegister(type, L, __CreateInstance, 3, 26, 1);
 			Utils.RegisterFunc(L, Utils.CLS_IDX, "Log", _m_Log_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "LogError", _m_LogError_xlua_st_);
             
@@ -79,12 +79,14 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "Audio", _g_get_Audio);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "Input", _g_get_Input);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "WebSocket", _g_get_WebSocket);
+            Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "Task", _g_get_Task);
+            Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "Instance", _g_get_Instance);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "ParamsSettings", _g_get_ParamsSettings);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "CurrDeviceGrade", _g_get_CurrDeviceGrade);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "CurrLanguage", _g_get_CurrLanguage);
-            Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "Instance", _g_get_Instance);
+            Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "CameraCtrl", _g_get_CameraCtrl);
             
-			Utils.RegisterFunc(L, Utils.CLS_SETTER_IDX, "Instance", _s_set_Instance);
+			Utils.RegisterFunc(L, Utils.CLS_SETTER_IDX, "CameraCtrl", _s_set_CameraCtrl);
             
 			
 			Utils.EndClassRegister(type, L, translator);
@@ -419,6 +421,30 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_Task(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			    translator.Push(L, YouYou.GameEntry.Task);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_Instance(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			    translator.Push(L, YouYou.GameEntry.Instance);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _g_get_ParamsSettings(RealStatePtr L)
         {
 		    try {
@@ -581,20 +607,6 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _g_get_timeScale(RealStatePtr L)
-        {
-		    try {
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			
-                YouYou.GameEntry gen_to_be_invoked = (YouYou.GameEntry)translator.FastGetCSObj(L, 1);
-                LuaAPI.lua_pushnumber(L, gen_to_be_invoked.timeScale);
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            return 1;
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _g_get_m_PayPlatform(RealStatePtr L)
         {
 		    try {
@@ -609,11 +621,25 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _g_get_Instance(RealStatePtr L)
+        static int _g_get_timeScale(RealStatePtr L)
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.Push(L, YouYou.GameEntry.Instance);
+			
+                YouYou.GameEntry gen_to_be_invoked = (YouYou.GameEntry)translator.FastGetCSObj(L, 1);
+                LuaAPI.lua_pushnumber(L, gen_to_be_invoked.timeScale);
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 1;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _g_get_CameraCtrl(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			    translator.Push(L, YouYou.GameEntry.CameraCtrl);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -758,21 +784,6 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _s_set_timeScale(RealStatePtr L)
-        {
-		    try {
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			
-                YouYou.GameEntry gen_to_be_invoked = (YouYou.GameEntry)translator.FastGetCSObj(L, 1);
-                gen_to_be_invoked.timeScale = (float)LuaAPI.lua_tonumber(L, 2);
-            
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            return 0;
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _s_set_m_PayPlatform(RealStatePtr L)
         {
 		    try {
@@ -789,11 +800,26 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _s_set_Instance(RealStatePtr L)
+        static int _s_set_timeScale(RealStatePtr L)
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    YouYou.GameEntry.Instance = (YouYou.GameEntry)translator.GetObject(L, 1, typeof(YouYou.GameEntry));
+			
+                YouYou.GameEntry gen_to_be_invoked = (YouYou.GameEntry)translator.FastGetCSObj(L, 1);
+                gen_to_be_invoked.timeScale = (float)LuaAPI.lua_tonumber(L, 2);
+            
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            return 0;
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _s_set_CameraCtrl(RealStatePtr L)
+        {
+		    try {
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+			    YouYou.GameEntry.CameraCtrl = (CameraCtrl)translator.GetObject(L, 1, typeof(CameraCtrl));
             
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);

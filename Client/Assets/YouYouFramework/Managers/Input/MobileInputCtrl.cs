@@ -73,7 +73,7 @@ namespace YouYou
 
 			for (int i = 0; i < Input.touchCount; i++)
 			{
-				if (Input.GetTouch(1).fingerId == currTouchFingerId)
+				if (Input.GetTouch(i).fingerId == currTouchFingerId)
 				{
 					currTouch = Input.GetTouch(i);
 					break;
@@ -85,6 +85,8 @@ namespace YouYou
 				Vector2 touPos = currTouch.position;
 				TouchEventData.delta = touPos - TouchEventData.lastPosition;
 				TouchEventData.totalDelta = TouchEventData.lastPosition - new Vector2(TouchEventData.startPosition.x, TouchEventData.startPosition.y);
+				TouchEventData.mouseAxis = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+				//TouchEventData.deltaPosition = currTouch.deltaPosition;
 
 				if (TouchEventData.delta.magnitude > 0f)
 				{

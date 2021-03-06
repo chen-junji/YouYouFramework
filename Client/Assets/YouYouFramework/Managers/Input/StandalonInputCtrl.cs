@@ -72,6 +72,7 @@ namespace YouYou
 				{
 					TouchEventData.delta = new Vector2(Input.mousePosition.x, Input.mousePosition.y) - TouchEventData.lastPosition;
 					TouchEventData.totalDelta = TouchEventData.lastPosition - new Vector2(TouchEventData.startPosition.x, TouchEventData.startPosition.y);
+					TouchEventData.mouseAxis = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
 					if (TouchEventData.delta.magnitude > 0f)
 					{
@@ -132,7 +133,7 @@ namespace YouYou
 				OnZoom?.Invoke(ZoomType.Out);
 				return true;
 			}
-			else if(Input.GetAxis("Mouse ScrollWheel") > 0)
+			else if (Input.GetAxis("Mouse ScrollWheel") > 0)
 			{
 				OnZoom?.Invoke(ZoomType.In);
 				return true;

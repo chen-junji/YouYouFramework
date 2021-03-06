@@ -434,7 +434,9 @@ namespace XLua.CSObjectWrap
             
             
             
-                
+			    int gen_param_count = LuaAPI.lua_gettop(L);
+            
+                if(gen_param_count == 1&& translator.Assignable<System.Type>(L, 1)) 
                 {
                     System.Type _type = (System.Type)translator.GetObject(L, 1, typeof(System.Type));
                     
@@ -445,10 +447,24 @@ namespace XLua.CSObjectWrap
                     
                     return 1;
                 }
+                if(gen_param_count == 2&& translator.Assignable<System.Type>(L, 1)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 2)) 
+                {
+                    System.Type _type = (System.Type)translator.GetObject(L, 1, typeof(System.Type));
+                    bool _includeInactive = LuaAPI.lua_toboolean(L, 2);
+                    
+                        UnityEngine.Object[] gen_ret = UnityEngine.Object.FindObjectsOfType( _type, _includeInactive );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
                 
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
+            
+            return LuaAPI.luaL_error(L, "invalid arguments to UnityEngine.Object.FindObjectsOfType!");
             
         }
         
@@ -487,7 +503,9 @@ namespace XLua.CSObjectWrap
             
             
             
-                
+			    int gen_param_count = LuaAPI.lua_gettop(L);
+            
+                if(gen_param_count == 1&& translator.Assignable<System.Type>(L, 1)) 
                 {
                     System.Type _type = (System.Type)translator.GetObject(L, 1, typeof(System.Type));
                     
@@ -498,10 +516,24 @@ namespace XLua.CSObjectWrap
                     
                     return 1;
                 }
+                if(gen_param_count == 2&& translator.Assignable<System.Type>(L, 1)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 2)) 
+                {
+                    System.Type _type = (System.Type)translator.GetObject(L, 1, typeof(System.Type));
+                    bool _includeInactive = LuaAPI.lua_toboolean(L, 2);
+                    
+                        UnityEngine.Object gen_ret = UnityEngine.Object.FindObjectOfType( _type, _includeInactive );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
                 
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
+            
+            return LuaAPI.luaL_error(L, "invalid arguments to UnityEngine.Object.FindObjectOfType!");
             
         }
         

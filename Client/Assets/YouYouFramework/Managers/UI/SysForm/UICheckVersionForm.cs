@@ -17,26 +17,7 @@ public class UICheckVersionForm : UIFormBase
 	[SerializeField]
 	private Scrollbar scrollbar;
 
-	protected override void OnInit(object userData)
-	{
-		base.OnInit(userData);
-		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.CheckVersionBeginDownload, OnCheckVersionBeginDownload);
-		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.CheckVersionDownloadUpdate, OnCheckVersionDownloadUpdate);
-		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.CheckVersionDownloadComplete, OnCheckVersionDownloadComplete);
-		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.PreloadBegin, OnPreloadBegin);
-		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.PreloadUpdate, OnPreloadUpdate);
-		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.PreloadComplete, OnPreloadComplete);
-		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.CloseCheckVersionUI, OnCloseCheckVersionUI);
 
-		txtTip.gameObject.SetActive(false);
-		if (txtSize != null) txtSize.gameObject.SetActive(false);
-		scrollbar.gameObject.SetActive(false);
-	}
-
-	private void OnCloseCheckVersionUI(object userData)
-	{
-		Destroy(gameObject);
-	}
 	protected override void OnBeforDestroy()
 	{
 		base.OnBeforDestroy();
@@ -46,7 +27,20 @@ public class UICheckVersionForm : UIFormBase
 		GameEntry.Event.CommonEvent.RemoveEventListener(SysEventId.PreloadBegin, OnPreloadBegin);
 		GameEntry.Event.CommonEvent.RemoveEventListener(SysEventId.PreloadUpdate, OnPreloadUpdate);
 		GameEntry.Event.CommonEvent.RemoveEventListener(SysEventId.PreloadComplete, OnPreloadComplete);
-		GameEntry.Event.CommonEvent.RemoveEventListener(SysEventId.CloseCheckVersionUI, OnCloseCheckVersionUI);
+	}
+	protected override void OnInit(object userData)
+	{
+		base.OnInit(userData);
+		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.CheckVersionBeginDownload, OnCheckVersionBeginDownload);
+		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.CheckVersionDownloadUpdate, OnCheckVersionDownloadUpdate);
+		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.CheckVersionDownloadComplete, OnCheckVersionDownloadComplete);
+		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.PreloadBegin, OnPreloadBegin);
+		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.PreloadUpdate, OnPreloadUpdate);
+		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.PreloadComplete, OnPreloadComplete);
+
+		txtTip.gameObject.SetActive(false);
+		if (txtSize != null) txtSize.gameObject.SetActive(false);
+		scrollbar.gameObject.SetActive(false);
 	}
 
 	#region 检查更新进度
@@ -69,14 +63,14 @@ public class UICheckVersionForm : UIFormBase
 	}
 	private void OnCheckVersionDownloadComplete(object userData)
 	{
-		Debug.Log("检查更新下载完毕!!!");
+		//Debug.Log("检查更新下载完毕!!!");
 	}
 	#endregion
 
 	#region 预加载进度
 	private void OnPreloadComplete(object userData)
 	{
-
+		Destroy(gameObject);
 	}
 	private void OnPreloadUpdate(object userData)
 	{

@@ -64,7 +64,7 @@ namespace YouYou
 				return null;
 			}
 
-			GameObject obj = UnityEngine.Object.Instantiate(prefab, pos, rot) as GameObject;
+			GameObject obj = UnityEngine.Object.Instantiate(prefab, pos, rot);
 
 			//注册
 			GameEntry.Pool.RegisterInstanceResource(obj.GetInstanceID(), resourceEntity);
@@ -78,7 +78,7 @@ namespace YouYou
 		public void DestroyDelegate(GameObject instance)
 		{
 			UnityEngine.Object.Destroy(instance);
-			GameEntry.Resource.ResourceLoaderManager.UnLoadGameObject(instance);
+			GameEntry.Pool.ReleaseInstanceResource(instance.GetInstanceID());
 		}
 
 		#region Init 初始化
@@ -120,7 +120,7 @@ namespace YouYou
 		/// </summary>
 		/// <param name="prefabId">预设编号</param>
 		/// <param name="onComplete"></param>
-		public void Spawn(Sys_PrefabEntity entity, BaseAction<Transform, bool> onComplete)
+		public void Spawn(Sys_PrefabEntity entity, Transform panent = null, BaseAction<Transform, bool> onComplete = null)
 		{
 			lock (m_PrefabPoolQueue)
 			{
@@ -137,22 +137,24 @@ namespace YouYou
 					{
 						int instanceID = retTrans.gameObject.GetInstanceID();
 						m_InstanceIdPoolIdDic[instanceID] = entity.PoolId;
+						SetPanent(retTrans, panent, GameEntry.Pool.GetResourceEntity(instanceID));
 						onComplete?.Invoke(retTrans, false);
 						return;
 					}
 				}
+
+				//进行拦截, 如果存在加载中的Asset 把委托加入对应的链表 然后直接返回
 				HashSet<Action<SpawnPool, Transform, ResourceEntity>> lst = null;
 				if (m_LoadingPrefabPoolDic.TryGetValue(entity.Id, out lst))
 				{
-					//进行拦截
-					//如果存在加载中的Asset 把委托加入对应的链表 然后直接返回
-					lst.Add((_SpawnPool, _Transform, _ResourceEntity) =>
+					lst.Add((_SpawnPool, _Prefab, _ResourceEntity) =>
 					{
 						//拿到一个实例
 						bool isNewInstance = false;
-						Transform retTrans = _SpawnPool.Spawn(_Transform, ref isNewInstance, _ResourceEntity);
+						Transform retTrans = _SpawnPool.Spawn(_Prefab, ref isNewInstance, _ResourceEntity);
 						int instanceID = retTrans.gameObject.GetInstanceID();
 						m_InstanceIdPoolIdDic[instanceID] = entity.PoolId;
+						SetPanent(retTrans, panent, _ResourceEntity);
 						onComplete?.Invoke(retTrans, isNewInstance);
 					});
 					return;
@@ -160,13 +162,14 @@ namespace YouYou
 
 				//这里说明是加载在第一个
 				lst = GameEntry.Pool.DequeueClassObject<HashSet<Action<SpawnPool, Transform, ResourceEntity>>>();
-				lst.Add((_SpawnPool, _Transform, _ResourceEntity) =>
+				lst.Add((_SpawnPool, _Prefab, _ResourceEntity) =>
 				{
 					//拿到一个实例
 					bool isNewInstance = false;
-					Transform retTrans = _SpawnPool.Spawn(_Transform, ref isNewInstance, _ResourceEntity);
+					Transform retTrans = _SpawnPool.Spawn(_Prefab, ref isNewInstance, _ResourceEntity);
 					int instanceID = retTrans.gameObject.GetInstanceID();
 					m_InstanceIdPoolIdDic[instanceID] = entity.PoolId;
+					SetPanent(retTrans, panent, _ResourceEntity);
 					onComplete?.Invoke(retTrans, isNewInstance);
 				});
 				m_LoadingPrefabPoolDic[entity.Id] = lst;
@@ -222,6 +225,23 @@ namespace YouYou
 				});
 			}
 		}
+		private void SetPanent(Transform retTrans, Transform pannt, ResourceEntity TargetPosEntity)
+		{
+			try
+			{
+				GameObject panentObj = TargetPosEntity.Target as GameObject;
+
+				if (pannt != null) retTrans.SetParent(pannt);
+				retTrans.localPosition = panentObj.transform.localPosition;
+				retTrans.localScale = panentObj.transform.localScale;
+				retTrans.localEulerAngles = panentObj.transform.localEulerAngles;
+			}
+			catch (Exception ex)
+			{
+				Debug.LogError(ex.Message);
+				throw;
+			}
+		}
 		#endregion
 
 		#region Despawn 对象回池
@@ -243,7 +263,11 @@ namespace YouYou
 		/// <param name="instance">实例</param>
 		public void Despawn(Transform instance)
 		{
+			if (instance == null) return;
+
 			int instanceID = instance.gameObject.GetInstanceID();
+			if (!m_InstanceIdPoolIdDic.ContainsKey(instanceID)) return;
+
 			byte poolId = m_InstanceIdPoolIdDic[instanceID];
 			m_InstanceIdPoolIdDic.Remove(instanceID);
 			Despawn(poolId, instance);

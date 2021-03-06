@@ -145,7 +145,7 @@ public class DownloadMulitRoutine : IDisposable
 
 		if (m_DownloadMulitCurrSize > m_DownloadMulitTotalSize) m_DownloadMulitCurrSize = m_DownloadMulitTotalSize;
 
-		if (m_OnDownloadMulitUpdate != null) m_OnDownloadMulitUpdate(m_DownloadMulitCurrCount, m_DownloadMulitNeedCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
+		 m_OnDownloadMulitUpdate?.Invoke(m_DownloadMulitCurrCount, m_DownloadMulitNeedCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
 	}
 	private void OnDownloadMulitComplete(string fileUrl, DownloadRoutine routine)
 	{
@@ -169,12 +169,12 @@ public class DownloadMulitRoutine : IDisposable
 
 		m_DownloadMulitCurrCount++;
 
-		if (m_OnDownloadMulitUpdate != null) m_OnDownloadMulitUpdate(m_DownloadMulitCurrCount, m_DownloadMulitNeedCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
+		 m_OnDownloadMulitUpdate?.Invoke(m_DownloadMulitCurrCount, m_DownloadMulitNeedCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
 
 		if (m_DownloadMulitCurrCount == m_DownloadMulitNeedCount)
 		{
 			m_DownloadMulitCurrSize = m_DownloadMulitTotalSize;
-			if (m_OnDownloadMulitUpdate != null) m_OnDownloadMulitUpdate(m_DownloadMulitCurrCount, m_DownloadMulitNeedCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
+			 m_OnDownloadMulitUpdate?.Invoke(m_DownloadMulitCurrCount, m_DownloadMulitNeedCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
 
 			if (m_OnDownloadMulitComplete != null) m_OnDownloadMulitComplete(this);
 			//Debug.LogError("所有资源下载完毕!!!");
