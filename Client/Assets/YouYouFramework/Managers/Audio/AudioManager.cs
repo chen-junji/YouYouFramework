@@ -33,7 +33,7 @@ namespace YouYou
 
 		internal void LoadBanks(BaseAction onComplete)
 		{
-#if EDITORLOAD
+#if UNITY_EDITOR && EDITORLOAD
 			string[] arr = Directory.GetFiles(Application.dataPath + "/Download/Audio/", "*.bytes");
 			for (int i = 0; i < arr.Length; i++)
 			{

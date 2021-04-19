@@ -42,6 +42,6 @@ public class YouYouTaskManager : ManagerBase
 				Debug.LogError(TaskList[i].Task.Method);
 			}
 		}
-	}
 #endif
+	}
 }

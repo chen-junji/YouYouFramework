@@ -104,10 +104,3 @@ MonoBehaviour:
     IsEncrypt: 0
     Path:
     - Download/xLuaLogic
-  - Name: Test
-    IsCanEditor: 1
-    Overall: 0
-    IsFirstData: 0
-    IsEncrypt: 0
-    Path:
-    - Download/Test

@@ -583,7 +583,7 @@ public class AssetBundleSettings : ScriptableObject
 		{
 			category = AssetCategory.xLuaLogic;
 		}
-		if (category == AssetCategory.None) Debug.LogError(assetFullName);
+		//if (category == AssetCategory.None) Debug.LogError(assetFullName);
 		return category;
 	}
 	#endregion

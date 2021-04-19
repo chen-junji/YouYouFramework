@@ -215,7 +215,7 @@ namespace YouYou
 		/// <summary>
 		/// 当前语言（要和本地化表的语言字段 一致）
 		/// </summary>
-		public static YouYouLanguage CurrLanguage { get; private set; }
+		public static YouYouLanguage CurrLanguage;
 
 		public static CameraCtrl CameraCtrl;
 		private void Awake()
