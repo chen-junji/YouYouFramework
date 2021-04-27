@@ -22,107 +22,57 @@ namespace YouYou
 		private YouYouLanguage m_CurrLanguage;
 
 		[FoldoutGroup("ResourceGroup")]
-		[Header("ÓÎÏ·ÎïÌå¶ÔÏó³Ø¸¸ÎïÌå")]
+		[Header("æ¸¸æˆç‰©ä½“å¯¹è±¡æ± çˆ¶ç‰©ä½“")]
 		public Transform PoolParent;
 
 		[FoldoutGroup("ResourceGroup")]
 		/// <summary>
-		/// ÓÎÏ·ÎïÌå¶ÔÏó³Ø·Ö×é
+		/// æ¸¸æˆç‰©ä½“å¯¹è±¡æ± åˆ†ç»„
 		/// </summary>
 		[SerializeField]
 		public GameObjectPoolEntity[] GameObjectPoolGroups;
 
 		[FoldoutGroup("ResourceGroup")]
-		[Header("Ëø¶¨µÄ×ÊÔ´°ü")]
+		[Header("é”å®šçš„èµ„æºåŒ…")]
 		/// <summary>
-		/// Ëø¶¨µÄ×ÊÔ´°ü£¨²»»áÊÍ·Å£©
+		/// é”å®šçš„èµ„æºåŒ…ï¼ˆä¸ä¼šé‡Šæ”¾ï¼‰
 		/// </summary>
 		public string[] LockedAssetBundle;
 
 		[FoldoutGroup("UIGroup")]
-		[Header("±ê×¼·Ö±æÂÊ¿í¶È")]
+		[Header("æ ‡å‡†åˆ†è¾¨ç‡å®½åº¦")]
 		[SerializeField]
 		public int StandardWidth = 1280;
 
 		[FoldoutGroup("UIGroup")]
-		[Header("±ê×¼·Ö±æÂÊ¸ß¶È")]
+		[Header("æ ‡å‡†åˆ†è¾¨ç‡é«˜åº¦")]
 		[SerializeField]
 		public int StandardHeight = 720;
 
 		[FoldoutGroup("UIGroup")]
-		[Header("UIÉãÏñ»ú")]
+		[Header("UIæ‘„åƒæœº")]
 		public Camera UICamera;
 
 		[FoldoutGroup("UIGroup")]
-		[Header("¸ù»­²¼")]
+		[Header("æ ¹ç”»å¸ƒ")]
 		[SerializeField]
 		public Canvas UIRootCanvas;
 
 		[FoldoutGroup("UIGroup")]
-		[Header("¸ù»­²¼µÄËõ·Å")]
+		[Header("æ ¹ç”»å¸ƒçš„ç¼©æ”¾")]
 		[SerializeField]
 		public CanvasScaler UIRootCanvasScaler;
 
 		[FoldoutGroup("UIGroup")]
-		[Header("UI·Ö×é")]
+		[Header("UIåˆ†ç»„")]
 		[SerializeField]
 		public UIGroup[] UIGroups;
 
-		[Title("Ö§¸¶Æ½Ì¨Ñ¡Ôñ")]
+		[Title("æ”¯ä»˜å¹³å°é€‰æ‹©")]
 		public PayPlatform m_PayPlatform;
 		public static PayPlatform PayPaltform { get; private set; }
 
-		#region Ê±¼äËõ·Å
-		[Title("Ê±¼äËõ·Å")]
-		[CustomValueDrawer("SetTimeScale")]
-		public float timeScale;
-
-#if UNITY_EDITOR
-		[ButtonGroup]
-		[LabelText("0")]
-		private void timeScale0()
-		{
-			timeScale = 0;
-		}
-
-		[ButtonGroup]
-		[LabelText("0.5")]
-		private void timeScale05()
-		{
-			timeScale = 0.5f;
-		}
-
-		[ButtonGroup]
-		[LabelText("1")]
-		private void timeScale1()
-		{
-			timeScale = 1;
-		}
-
-		[ButtonGroup]
-		[LabelText("2")]
-		private void timeScale2()
-		{
-			timeScale = 2;
-		}
-
-		[ButtonGroup]
-		[LabelText("3")]
-		private void timeScale3()
-		{
-			timeScale = 3;
-		}
-
-		private float SetTimeScale(float value, GUIContent label)
-		{
-			float ret = UnityEditor.EditorGUILayout.Slider(label, value, 0f, 3);
-			UnityEngine.Time.timeScale = ret;
-			return ret;
-		}
-#endif
-		#endregion
-
-		#region ¹ÜÀíÆ÷ÊôĞÔ
+		#region ç®¡ç†å™¨å±æ€§
 		public static LoggerManager Logger { get; private set; }
 		public static EventManager Event { get; private set; }
 		public static TimeManager Time { get; private set; }
@@ -145,9 +95,9 @@ namespace YouYou
 		public static YouYouTaskManager Task { get; private set; }
 		#endregion
 
-		#region InitManagers ³õÊ¼»¯¹ÜÀíÆ÷
+		#region InitManagers åˆå§‹åŒ–ç®¡ç†å™¨
 		/// <summary>
-		/// ³õÊ¼»¯¹ÜÀíÆ÷
+		/// åˆå§‹åŒ–ç®¡ç†å™¨
 		/// </summary>
 		private static void InitManagers()
 		{
@@ -192,28 +142,28 @@ namespace YouYou
 			WebSocket.Init();
 			Task.Init();
 
-			//½øÈëµÚÒ»¸öÁ÷³Ì
+			//è¿›å…¥ç¬¬ä¸€ä¸ªæµç¨‹
 			Procedure.ChangeState(ProcedureState.Launch);
 		}
 		#endregion
 
 		/// <summary>
-		/// µ¥Àı
+		/// å•ä¾‹
 		/// </summary>
 		public static GameEntry Instance { get; private set; }
 
 		/// <summary>
-		/// È«¾Ö²ÎÊıÉèÖÃ
+		/// å…¨å±€å‚æ•°è®¾ç½®
 		/// </summary>
 		public static ParamsSettings ParamsSettings { get; private set; }
 
 		/// <summary>
-		/// µ±Ç°Éè±¸µÈ¼¶
+		/// å½“å‰è®¾å¤‡ç­‰çº§
 		/// </summary>
 		public static ParamsSettings.DeviceGrade CurrDeviceGrade { get; private set; }
 
 		/// <summary>
-		/// µ±Ç°ÓïÑÔ£¨ÒªºÍ±¾µØ»¯±íµÄÓïÑÔ×Ö¶Î Ò»ÖÂ£©
+		/// å½“å‰è¯­è¨€ï¼ˆè¦å’Œæœ¬åœ°åŒ–è¡¨çš„è¯­è¨€å­—æ®µ ä¸€è‡´ï¼‰
 		/// </summary>
 		public static YouYouLanguage CurrLanguage;
 
@@ -225,15 +175,13 @@ namespace YouYou
 
 			Application.targetFrameRate = 60;
 			Screen.sleepTimeout = SleepTimeout.NeverSleep;
-			//´Ë´¦ÒÔºóÅĞ¶ÏÈç¹û²»ÊÇ±à¼­Æ÷Ä£Ê½ Òª¸ù¾İÉè±¸ĞÅÏ¢ÅĞ¶ÏµÈ¼¶
+			//æ­¤å¤„ä»¥ååˆ¤æ–­å¦‚æœä¸æ˜¯ç¼–è¾‘å™¨æ¨¡å¼ è¦æ ¹æ®è®¾å¤‡ä¿¡æ¯åˆ¤æ–­ç­‰çº§
 			CurrDeviceGrade = m_CurrDeviceGrade;
 			ParamsSettings = m_ParamsSettings;
 			CurrLanguage = m_CurrLanguage;
 			PayPaltform = m_PayPlatform;
 
 			Application.targetFrameRate = ParamsSettings.GetGradeParamData(YFConstDefine.targetFrameRate, CurrDeviceGrade);
-
-			UnityEngine.Time.timeScale = timeScale = 1;
 
 			InitManagers();
 		}
@@ -256,7 +204,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// Ïú»Ù
+		/// é”€æ¯
 		/// </summary>
 		private void OnDestroy()
 		{
@@ -283,7 +231,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ´òÓ¡ÈÕÖ¾
+		/// æ‰“å°æ—¥å¿—
 		/// </summary>
 		/// <param name="message"></param>
 		public static void Log(LogCategory catetory, string message, params object[] args)
@@ -315,7 +263,7 @@ namespace YouYou
         }
 
 		/// <summary>
-		/// ´òÓ¡´íÎóÈÕÖ¾
+		/// æ‰“å°é”™è¯¯æ—¥å¿—
 		/// </summary>
 		/// <param name="message"></param>
 		/// <param name="args"></param>

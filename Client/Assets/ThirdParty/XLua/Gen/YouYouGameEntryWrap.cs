@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(YouYou.GameEntry);
-			Utils.BeginObjectRegister(type, L, translator, 0, 0, 11, 11);
+			Utils.BeginObjectRegister(type, L, translator, 0, 0, 10, 10);
 			
 			
 			
@@ -35,7 +35,6 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "UIRootCanvasScaler", _g_get_UIRootCanvasScaler);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "UIGroups", _g_get_UIGroups);
             Utils.RegisterFunc(L, Utils.GETTER_IDX, "m_PayPlatform", _g_get_m_PayPlatform);
-            Utils.RegisterFunc(L, Utils.GETTER_IDX, "timeScale", _g_get_timeScale);
             
 			Utils.RegisterFunc(L, Utils.SETTER_IDX, "PoolParent", _s_set_PoolParent);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "GameObjectPoolGroups", _s_set_GameObjectPoolGroups);
@@ -47,13 +46,12 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "UIRootCanvasScaler", _s_set_UIRootCanvasScaler);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "UIGroups", _s_set_UIGroups);
             Utils.RegisterFunc(L, Utils.SETTER_IDX, "m_PayPlatform", _s_set_m_PayPlatform);
-            Utils.RegisterFunc(L, Utils.SETTER_IDX, "timeScale", _s_set_timeScale);
             
 			
 			Utils.EndObjectRegister(type, L, translator, null, null,
 			    null, null, null);
 
-		    Utils.BeginClassRegister(type, L, __CreateInstance, 3, 26, 1);
+		    Utils.BeginClassRegister(type, L, __CreateInstance, 3, 26, 2);
 			Utils.RegisterFunc(L, Utils.CLS_IDX, "Log", _m_Log_xlua_st_);
             Utils.RegisterFunc(L, Utils.CLS_IDX, "LogError", _m_LogError_xlua_st_);
             
@@ -86,7 +84,8 @@ namespace XLua.CSObjectWrap
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "CurrLanguage", _g_get_CurrLanguage);
             Utils.RegisterFunc(L, Utils.CLS_GETTER_IDX, "CameraCtrl", _g_get_CameraCtrl);
             
-			Utils.RegisterFunc(L, Utils.CLS_SETTER_IDX, "CameraCtrl", _s_set_CameraCtrl);
+			Utils.RegisterFunc(L, Utils.CLS_SETTER_IDX, "CurrLanguage", _s_set_CurrLanguage);
+            Utils.RegisterFunc(L, Utils.CLS_SETTER_IDX, "CameraCtrl", _s_set_CameraCtrl);
             
 			
 			Utils.EndClassRegister(type, L, translator);
@@ -469,18 +468,6 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _g_get_CurrLanguage(RealStatePtr L)
-        {
-		    try {
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    translator.Push(L, YouYou.GameEntry.CurrLanguage);
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            return 1;
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _g_get_PoolParent(RealStatePtr L)
         {
 		    try {
@@ -621,13 +608,11 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _g_get_timeScale(RealStatePtr L)
+        static int _g_get_CurrLanguage(RealStatePtr L)
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			
-                YouYou.GameEntry gen_to_be_invoked = (YouYou.GameEntry)translator.FastGetCSObj(L, 1);
-                LuaAPI.lua_pushnumber(L, gen_to_be_invoked.timeScale);
+			    translator.Push(L, YouYou.GameEntry.CurrLanguage);
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
@@ -800,13 +785,12 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _s_set_timeScale(RealStatePtr L)
+        static int _s_set_CurrLanguage(RealStatePtr L)
         {
 		    try {
                 ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			
-                YouYou.GameEntry gen_to_be_invoked = (YouYou.GameEntry)translator.FastGetCSObj(L, 1);
-                gen_to_be_invoked.timeScale = (float)LuaAPI.lua_tonumber(L, 2);
+			YouYou.YouYouLanguage gen_value;translator.Get(L, 1, out gen_value);
+				YouYou.GameEntry.CurrLanguage = gen_value;
             
             } catch(System.Exception gen_e) {
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
