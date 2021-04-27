@@ -7,52 +7,52 @@ using UnityEngine;
 namespace YouYou
 {
 	/// <summary>
-	/// Socket¹ÜÀíÆ÷
+	/// Socketç®¡ç†å™¨
 	/// </summary>
 	public class SocketManager : ManagerBase, IDisposable
 	{
 		/// <summary>
-		/// SocketTcp·ÃÎÊÆ÷Á´±í
+		/// SocketTcpè®¿é—®å™¨é“¾è¡¨
 		/// </summary>
 		private LinkedList<SocketTcpRoutine> m_SocketTcpRoutineList;
 
-		[Header("Ã¿Ö¡×î´ó·¢ËÍÊıÁ¿")]
+		[Header("æ¯å¸§æœ€å¤§å‘é€æ•°é‡")]
 		public int MaxSendCount = 5;
 
-		[Header("Ã¿´Î·¢°ü×î´ó×Ö½ÚÊıÁ¿")]
+		[Header("æ¯æ¬¡å‘åŒ…æœ€å¤§å­—èŠ‚æ•°é‡")]
 		public int MaxSendByteCount = 1024;
 
-		[Header("Ã¿Ö¡×î´ó½ÓÊÕÊıÁ¿")]
+		[Header("æ¯å¸§æœ€å¤§æ¥æ”¶æ•°é‡")]
 		public int MaxReceiveCount = 5;
 
-		[Header("ĞÄÌø¼ä¸ô Ãë")]
+		[Header("å¿ƒè·³é—´éš” ç§’")]
 		public int HeartbeatInterval = 10;
 
 		/// <summary>
-		/// ÉÏ´ÎĞÄÌøÊ±¼ä
+		/// ä¸Šæ¬¡å¿ƒè·³æ—¶é—´
 		/// </summary>
 		private float m_PrevHeartbeatInterval = 0;
 
 		/// <summary>
-		/// PINGÖµ(ºÁÃë)
+		/// PINGå€¼(æ¯«ç§’)
 		/// </summary>
 		[HideInInspector]
 		public int PingValue;
 
 		/// <summary>
-		/// ÓÎÏ··şÎñÆ÷µÄÊ±¼ä
+		/// æ¸¸æˆæœåŠ¡å™¨çš„æ—¶é—´
 		/// </summary>
 		[HideInInspector]
 		public long GameServerTime;
 
 		/// <summary>
-		/// ºÍ·şÎñÆ÷¶Ô±íµÄÊ±¿Ì
+		/// å’ŒæœåŠ¡å™¨å¯¹è¡¨çš„æ—¶åˆ»
 		/// </summary>
 		[HideInInspector]
 		public float CheckServerTime;
 
 		/// <summary>
-		/// »ñÈ¡µ±Ç°µÄSocket·şÎñÆ÷Ê±¼ä
+		/// è·å–å½“å‰çš„SocketæœåŠ¡å™¨æ—¶é—´
 		/// </summary>
 		/// <returns></returns>
 		public long GetCurrServerTime()
@@ -61,17 +61,17 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ÊÇ·ñÒÑÁ¬½Óµ½ÁË·şÎñÆ÷
+		/// æ˜¯å¦å·²è¿æ¥åˆ°äº†æœåŠ¡å™¨
 		/// </summary>
 		private bool m_IsConnectToMainSocket = false;
 
 
 		/// <summary>
-		/// ·¢ËÍÊı¾İµÄMemoryStream
+		/// å‘é€æ•°æ®çš„MemoryStream
 		/// </summary>
 		public MMO_MemoryStream SocketSendMS { get; private set; }
 		/// <summary>
-		/// ½ÓÊÕÊı¾İµÄMemoryStream
+		/// æ¥æ”¶æ•°æ®çš„MemoryStream
 		/// </summary>
 		public MMO_MemoryStream SocketReceiveMS { get; private set; }
 
@@ -86,26 +86,26 @@ namespace YouYou
 			m_MainSocket = CreateSocketTcpRoutine();
 			m_MainSocket.OnConnectOK = () =>
 			{
-				//ÒÑ¾­½¨Á¢ÁËÁ¬½Ó
+				//å·²ç»å»ºç«‹äº†è¿æ¥
 				m_IsConnectToMainSocket = true;
-				GameEntry.Event.CommonEvent.Dispatch(SysEventId.OnConnectOKToMainSocket);
+				GameEntry.Event.CommonEvent.Dispatch(CommonEventId.OnConnectOKToMainSocket);
 			};
 
 			SocketProtoListener.AddProtoListener();
 		}
 
 		/// <summary>
-		/// ´´½¨SocketTcp·ÃÎÊÆ÷
+		/// åˆ›å»ºSocketTcpè®¿é—®å™¨
 		/// </summary>
 		/// <returns></returns>
 		public SocketTcpRoutine CreateSocketTcpRoutine()
 		{
-			//´Ó¶ÔÏó³ØÖĞÈ¡³ö·ÃÎÊÆ÷
+			//ä»å¯¹è±¡æ± ä¸­å–å‡ºè®¿é—®å™¨
 			return GameEntry.Pool.DequeueClassObject<SocketTcpRoutine>();
 		}
 
 		/// <summary>
-		/// ×¢²áSocketTcp·ÃÎÊÆ÷
+		/// æ³¨å†ŒSocketTcpè®¿é—®å™¨
 		/// </summary>
 		/// <param name="routine"></param>
 		internal void RegisterSocketTcpRoutine(SocketTcpRoutine routine)
@@ -114,7 +114,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ÒÆ³ıSocketTcp·ÃÎÊÆ÷
+		/// ç§»é™¤SocketTcpè®¿é—®å™¨
 		/// </summary>
 		/// <param name="routine"></param>
 		internal void RemoveSocketTcpRoutine(SocketTcpRoutine routine)
@@ -133,10 +133,10 @@ namespace YouYou
 			{
 				if (Time.realtimeSinceStartup > m_PrevHeartbeatInterval + HeartbeatInterval)
 				{
-					//Ñ­»·¶¨Ê±
+					//å¾ªç¯å®šæ—¶
 					m_PrevHeartbeatInterval = Time.realtimeSinceStartup;
 
-					//·¢ËÍĞÄÌø
+					//å‘é€å¿ƒè·³
 					//System_HeartbeatProto proto = new System_HeartbeatProto();
 					//proto.LocalTime = Time.realtimeSinceStartup * 1000;
 					//CheckServerTime = Time.realtimeSinceStartup;
@@ -164,12 +164,12 @@ namespace YouYou
 
 		//=====================================
 		/// <summary>
-		/// Ö÷Socket
+		/// ä¸»Socket
 		/// </summary>
 		private SocketTcpRoutine m_MainSocket;
 
 		/// <summary>
-		/// Ö÷SocketÁ¬½Ó·şÎñÆ÷
+		/// ä¸»Socketè¿æ¥æœåŠ¡å™¨
 		/// </summary>
 		/// <param name="ip"></param>
 		/// <param name="port"></param>
@@ -178,20 +178,20 @@ namespace YouYou
 			m_MainSocket.Connect(ip, port);
 		}
 		/// <summary>
-		/// Ö÷Socket·¢ËÍÏûÏ¢
+		/// ä¸»Socketå‘é€æ¶ˆæ¯
 		/// </summary>
 		/// <param name="buffer"></param>
 		public void SendMainMsg(IProto proto)
 		{
-			GameEntry.Log(LogCategory.Proto, "·¢ËÍÏûÏ¢=={0}{1}", proto.ProtoEnName, proto.ToJson());
+			GameEntry.Log(LogCategory.Proto, "å‘é€æ¶ˆæ¯=={0}{1}", proto.ProtoEnName, proto.ToJson());
 			m_MainSocket.SendMsg(proto);
 		}
 		/// <summary>
-		/// LuaÖĞ·¢ËÍÏûÏ¢
+		/// Luaä¸­å‘é€æ¶ˆæ¯
 		/// </summary>
-		/// <param name="protoId">ÏûÏ¢±àºÅ</param>
-		/// <param name="category">·ÖÀà</param>
-		/// <param name="buffer">ÏûÏ¢Ìå</param>
+		/// <param name="protoId">æ¶ˆæ¯ç¼–å·</param>
+		/// <param name="category">åˆ†ç±»</param>
+		/// <param name="buffer">æ¶ˆæ¯ä½“</param>
 		public void SendMainMsgForLua(ushort protoId, byte category, byte[] buffer)
 		{
 			m_MainSocket.SendMsg(protoId, category, buffer);

@@ -4,7 +4,16 @@ using UnityEngine;
 
 public class PrefabId 
 {
-	#region ģ��
+	#region 系统的预设编号
+	/// <summary>
+	/// 通用角色控制器
+	/// </summary>
+	public const string RoleCtrl = "RoleCtrl";
+	#endregion
+
+
+	//=============下面这些是可以删的============
+	#region 模型
 	public const string Role_MainPlayer_Cike = "Role_MainPlayer_Cike";
 
 	public const string Role_MainPlayer_Zhanshi = "Role_MainPlayer_Zhanshi";
@@ -20,7 +29,7 @@ public class PrefabId
 	public const string Role_Monster_JiaKeChong = "Role_Monster_JiaKeChong";
 	#endregion
 
-	#region ��Ч
+	#region 特效
 	public const string Effect_PenXue = "Effect_PenXue";
 
 	public const string Effect_Hurt = "Effect_Hurt";

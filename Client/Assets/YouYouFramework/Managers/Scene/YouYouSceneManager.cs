@@ -6,62 +6,62 @@ using UnityEngine.SceneManagement;
 namespace YouYou
 {
 	/// <summary>
-	/// ³¡¾°¹ÜÀíÆ÷
+	/// åœºæ™¯ç®¡ç†å™¨
 	/// </summary>
 	public class YouYouSceneManager : ManagerBase, IDisposable
 	{
 		/// <summary>
-		/// ³¡¾°¼ÓÔØÆ÷Á´±í
+		/// åœºæ™¯åŠ è½½å™¨é“¾è¡¨
 		/// </summary>
 		private LinkedList<SceneLoaderRoutine> m_SceneLoaderList;
 
 		/// <summary>
-		/// µ±Ç°¼ÓÔØµÄ³¡¾°±àºÅ
+		/// å½“å‰åŠ è½½çš„åœºæ™¯ç¼–å·
 		/// </summary>
 		private int m_CurrLoadSceneId;
 
 		/// <summary>
-		/// µ±Ç°³¡¾°Êı¾İÊµÌå
+		/// å½“å‰åœºæ™¯æ•°æ®å®ä½“
 		/// </summary>
 		public Sys_SceneEntity CurrSceneEntity { get; private set; }
 
 		/// <summary>
-		/// µ±Ç°³¡¾°Ã÷Ï¸
+		/// å½“å‰åœºæ™¯æ˜ç»†
 		/// </summary>
 		private List<Sys_SceneDetailEntity> m_CurrSceneDetailList;
 
 		/// <summary>
-		/// ĞèÒª¼ÓÔØ»òÕßĞ¶ÔØµÄÃ÷Ï¸ÊıÁ¿
+		/// éœ€è¦åŠ è½½æˆ–è€…å¸è½½çš„æ˜ç»†æ•°é‡
 		/// </summary>
 		private int m_NeedLoadOrUnloadSceneDetailCount = 0;
 
 		/// <summary>
-		/// µ±Ç°ÒÑ¾­¼ÓÔØ»òÕßĞ¶ÔØµÄÃ÷Ï¸ÊıÁ¿
+		/// å½“å‰å·²ç»åŠ è½½æˆ–è€…å¸è½½çš„æ˜ç»†æ•°é‡
 		/// </summary>
 		private int m_CurrLoadOrUnloadSceneDetailCount = 0;
 
 		/// <summary>
-		/// ³¡¾°ÊÇ·ñ¼ÓÔØÖĞ
+		/// åœºæ™¯æ˜¯å¦åŠ è½½ä¸­
 		/// </summary>
 		private bool m_CurrSceneIsLoading;
 
 		/// <summary>
-		/// µ±Ç°½ø¶È
+		/// å½“å‰è¿›åº¦
 		/// </summary>
 		private float m_CurrProgress = 0;
 
 		/// <summary>
-		/// Ä¿±êµÄ½ø¶È
+		/// ç›®æ ‡çš„è¿›åº¦
 		/// </summary>
 		private Dictionary<int, float> m_TargetProgressDic;
 
 		/// <summary>
-		/// ¼ÓÔØ³¡¾°µÄ²ÎÊı
+		/// åŠ è½½åœºæ™¯çš„å‚æ•°
 		/// </summary>
 		private BaseParams m_CurrLoadingParam;
 
 		/// <summary>
-		/// ¼ÓÔØÍê±ÏÎ¯ÍĞ
+		/// åŠ è½½å®Œæ¯•å§”æ‰˜
 		/// </summary>
 		private BaseAction m_OnComplete = null;
 
@@ -103,23 +103,23 @@ namespace YouYou
 			}
 		}
 		/// <summary>
-		/// ¼ÓÔØ³¡¾°
+		/// åŠ è½½åœºæ™¯
 		/// </summary>
-		/// <param name="sceneId">³¡¾°±àºÅ</param>
-		/// <param name="showLoadingForm">ÊÇ·ñÏÔÊ¾Loading</param>
-		/// <param name="onComplete">¼ÓÔØÍê±Ï</param>
+		/// <param name="sceneId">åœºæ™¯ç¼–å·</param>
+		/// <param name="showLoadingForm">æ˜¯å¦æ˜¾ç¤ºLoading</param>
+		/// <param name="onComplete">åŠ è½½å®Œæ¯•</param>
 		public void LoadScene(int sceneId, bool showLoadingForm = false, BaseAction onComplete = null)
 		{
 			if (m_CurrSceneIsLoading)
 			{
-				GameEntry.LogError("³¡¾°{0}ÕıÔÚ¼ÓÔØÖĞ", m_CurrLoadSceneId);
+				GameEntry.LogError("åœºæ™¯{0}æ­£åœ¨åŠ è½½ä¸­", m_CurrLoadSceneId);
 				return;
 			}
 
 			m_OnComplete = onComplete;
 			if (m_CurrLoadSceneId == sceneId)
 			{
-				GameEntry.LogError("ÕıÔÚÖØ¸´¼ÓÔØ³¡¾°{0}", sceneId);
+				GameEntry.LogError("æ­£åœ¨é‡å¤åŠ è½½åœºæ™¯{0}", sceneId);
 				m_OnComplete?.Invoke();
 				return;
 			}
@@ -128,7 +128,7 @@ namespace YouYou
 
 			if (showLoadingForm)
 			{
-				//¼ÓÔØLoading
+				//åŠ è½½Loading
 				GameEntry.UI.OpenUIForm(UIFormId.UI_Loading, onOpen: (UIFormBase form) =>
 				{
 					DoLoadScene(sceneId);
@@ -141,7 +141,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// Ö´ĞĞ¼ÓÔØ³¡¾°
+		/// æ‰§è¡ŒåŠ è½½åœºæ™¯
 		/// </summary>
 		/// <param name="sceneId"></param>
 		private void DoLoadScene(int sceneId)
@@ -153,7 +153,7 @@ namespace YouYou
 			UnLoadCurrScene();
 		}
 		/// <summary>
-		/// Ğ¶ÔØµ±Ç°³¡¾°²¢¼ÓÔØĞÂ³¡¾°
+		/// å¸è½½å½“å‰åœºæ™¯å¹¶åŠ è½½æ–°åœºæ™¯
 		/// </summary>
 		private void UnLoadCurrScene()
 		{
@@ -173,7 +173,7 @@ namespace YouYou
 			}
 		}
 		/// <summary>
-		/// ¼ÓÔØĞÂ³¡¾°
+		/// åŠ è½½æ–°åœºæ™¯
 		/// </summary>
 		private void LoadNewScene()
 		{
@@ -190,7 +190,7 @@ namespace YouYou
 				Sys_SceneDetailEntity entity = m_CurrSceneDetailList[i];
 				routine.LoadScene(entity.Id, entity.ScenePath, (int sceneDetailId, float progress) =>
 				{
-					//¼ÇÂ¼Ã¿¸ö³¡¾°Ã÷Ï¸µ±Ç°µÄ½ø¶È
+					//è®°å½•æ¯ä¸ªåœºæ™¯æ˜ç»†å½“å‰çš„è¿›åº¦
 					m_TargetProgressDic[sceneDetailId] = progress;
 				}, (SceneLoaderRoutine retRoutine) =>
 				{
@@ -222,7 +222,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ¸üĞÂ
+		/// æ›´æ–°
 		/// </summary>
 		internal void OnUpdate()
 		{
@@ -248,11 +248,11 @@ namespace YouYou
 					m_CurrLoadingParam.IntParam1 = (int)LoadingType.ChangeScene;
 					m_CurrLoadingParam.FloatParam1 = Math.Min(m_CurrProgress / m_NeedLoadOrUnloadSceneDetailCount, 1);
 
-					GameEntry.Event.CommonEvent.Dispatch(SysEventId.LoadingProgressChange, m_CurrLoadingParam);
+					GameEntry.Event.CommonEvent.Dispatch(CommonEventId.LoadingProgressChange, m_CurrLoadingParam);
 				}
 				else if (m_CurrProgress > m_NeedLoadOrUnloadSceneDetailCount)
 				{
-					GameEntry.Log(LogCategory.Normal, "³¡¾°¼ÓÔØÍê±Ï{0}", CurrSceneEntity.SceneName);
+					GameEntry.Log(LogCategory.Normal, "åœºæ™¯åŠ è½½å®Œæ¯•{0}", CurrSceneEntity.SceneName);
 
 					m_NeedLoadOrUnloadSceneDetailCount = 0;
 					m_CurrLoadOrUnloadSceneDetailCount = 0;
@@ -268,7 +268,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// »ñÈ¡µ±Ç°¼ÓÔØµÄ×Ü½ø¶È
+		/// è·å–å½“å‰åŠ è½½çš„æ€»è¿›åº¦
 		/// </summary>
 		/// <returns></returns>
 		private float GetCurrTotalProgress()

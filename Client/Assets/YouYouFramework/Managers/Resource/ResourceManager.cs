@@ -9,12 +9,12 @@ namespace YouYou
 {
 	public class ResourceManager : ManagerBase, IDisposable
 	{
-		#region GetAssetBundleVersionList ¸ù¾İ×Ö½ÚÊı×é»ñÈ¡×ÊÔ´°ü°æ±¾ĞÅÏ¢
+		#region GetAssetBundleVersionList æ ¹æ®å­—èŠ‚æ•°ç»„è·å–èµ„æºåŒ…ç‰ˆæœ¬ä¿¡æ¯
 		/// <summary>
-		/// ¸ù¾İ×Ö½ÚÊı×é»ñÈ¡×ÊÔ´°ü°æ±¾ĞÅÏ¢
+		/// æ ¹æ®å­—èŠ‚æ•°ç»„è·å–èµ„æºåŒ…ç‰ˆæœ¬ä¿¡æ¯
 		/// </summary>
-		/// <param name="buffer">×Ö½ÚÊı×é</param>
-		/// <param name="version">°æ±¾ºÅ</param>
+		/// <param name="buffer">å­—èŠ‚æ•°ç»„</param>
+		/// <param name="version">ç‰ˆæœ¬å·</param>
 		/// <returns></returns>
 		public static Dictionary<string, AssetBundleInfoEntity> GetAssetBundleVersionList(byte[] buffer, ref string version)
 		{
@@ -49,7 +49,7 @@ namespace YouYou
 		#endregion
 
 		/// <summary>
-		/// Ö»¶ÁÇø¹ÜÀíÆ÷
+		/// åªè¯»åŒºç®¡ç†å™¨
 		/// </summary>
 		public StreamingAssetsManager StreamingAssetsManager
 		{
@@ -58,7 +58,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ¿ÉĞ´Çø¹ÜÀíÆ÷
+		/// å¯å†™åŒºç®¡ç†å™¨
 		/// </summary>
 		public LocalAssetsManager LocalAssetsManager
 		{
@@ -67,12 +67,12 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ĞèÒªÏÂÔØµÄ×ÊÔ´°üÁĞ±í
+		/// éœ€è¦ä¸‹è½½çš„èµ„æºåŒ…åˆ—è¡¨
 		/// </summary>
 		private LinkedList<string> m_NeedDownloadList;
 
 		/// <summary>
-		/// ¼ì²é°æ±¾¸üĞÂÏÂÔØÊ±ºòµÄ²ÎÊı
+		/// æ£€æŸ¥ç‰ˆæœ¬æ›´æ–°ä¸‹è½½æ—¶å€™çš„å‚æ•°
 		/// </summary>
 		private BaseParams m_DownloadingParams;
 
@@ -89,25 +89,25 @@ namespace YouYou
 
 		}
 
-		#region Ö»¶ÁÇø
+		#region åªè¯»åŒº
 		/// <summary>
-		/// Ö»¶ÁÇø×ÊÔ´°æ±¾ºÅ
+		/// åªè¯»åŒºèµ„æºç‰ˆæœ¬å·
 		/// </summary>
 		private string m_StreamingAssetsVersion;
 
 		/// <summary>
-		/// Ö»¶ÁÇø×ÊÔ´°üĞÅÏ¢
+		/// åªè¯»åŒºèµ„æºåŒ…ä¿¡æ¯
 		/// </summary>
 		private Dictionary<string, AssetBundleInfoEntity> m_StreamingAssetsVersionDic;
 
 		/// <summary>
-		/// ÊÇ·ñ´æÔÚÖ»¶ÁÇø×ÊÔ´°üĞÅÏ¢
+		/// æ˜¯å¦å­˜åœ¨åªè¯»åŒºèµ„æºåŒ…ä¿¡æ¯
 		/// </summary>
 		private bool m_IsExistsStreamingAssetsBundleInfo = false;
 
-		#region InitStreamingAssetsBundleInfo ³õÊ¼»¯Ö»¶ÁÇø×ÊÔ´°üĞÅÏ¢
+		#region InitStreamingAssetsBundleInfo åˆå§‹åŒ–åªè¯»åŒºèµ„æºåŒ…ä¿¡æ¯
 		/// <summary>
-		/// ³õÊ¼»¯Ö»¶ÁÇø×ÊÔ´°üĞÅÏ¢
+		/// åˆå§‹åŒ–åªè¯»åŒºèµ„æºåŒ…ä¿¡æ¯
 		/// </summary>
 		public void InitStreamingAssetsBundleInfo()
 		{
@@ -121,16 +121,16 @@ namespace YouYou
 				{
 					m_IsExistsStreamingAssetsBundleInfo = true;
 					m_StreamingAssetsVersionDic = GetAssetBundleVersionList(buffer, ref m_StreamingAssetsVersion);
-					GameEntry.Log(LogCategory.Resource, "¶ÁÈ¡Ö»¶ÁÇøµÄ×ÊÔ´°ü³É¹¦=>ReadStreamingAssetsBundle=>onComplete()");
+					GameEntry.Log(LogCategory.Resource, "è¯»å–åªè¯»åŒºçš„èµ„æºåŒ…æˆåŠŸ=>ReadStreamingAssetsBundle=>onComplete()");
 					InitCDNAssetBundleInfo();
 				}
 			});
 		}
 		#endregion
 
-		#region ReadStreamingAssetsBundle ¶ÁÈ¡Ö»¶ÁÇøµÄ×ÊÔ´°ü
+		#region ReadStreamingAssetsBundle è¯»å–åªè¯»åŒºçš„èµ„æºåŒ…
 		/// <summary>
-		/// ¶ÁÈ¡Ö»¶ÁÇøµÄ×ÊÔ´°ü
+		/// è¯»å–åªè¯»åŒºçš„èµ„æºåŒ…
 		/// </summary>
 		/// <param name="fileUrl"></param>
 		/// <param name="onComplete"></param>
@@ -144,22 +144,22 @@ namespace YouYou
 
 		#region CDN
 		/// <summary>
-		/// CDN×ÊÔ´°æ±¾ºÅ
+		/// CDNèµ„æºç‰ˆæœ¬å·
 		/// </summary>
 		private string m_CDNVersion;
 
 		/// <summary>
-		/// CDN×ÊÔ´°æ±¾ºÅ
+		/// CDNèµ„æºç‰ˆæœ¬å·
 		/// </summary>
 		public string CDNVersion { get { return m_CDNVersion; } }
 
 		/// <summary>
-		/// CDN×ÊÔ´°üĞÅÏ¢
+		/// CDNèµ„æºåŒ…ä¿¡æ¯
 		/// </summary>
 		private Dictionary<string, AssetBundleInfoEntity> m_CDNVersionDic;
 
 		/// <summary>
-		/// ³õÊ¼»¯CDN×ÊÔ´°üĞÅÏ¢
+		/// åˆå§‹åŒ–CDNèµ„æºåŒ…ä¿¡æ¯
 		/// </summary>
 		private void InitCDNAssetBundleInfo()
 		{
@@ -171,7 +171,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ³õÊ¼»¯CDN×ÊÔ´°üĞÅÏ¢»Øµ÷
+		/// åˆå§‹åŒ–CDNèµ„æºåŒ…ä¿¡æ¯å›è°ƒ
 		/// </summary>
 		/// <param name="args"></param>
 		private void OnInitCDNAssetBundleInfo(HttpCallBackArgs args)
@@ -186,20 +186,20 @@ namespace YouYou
 		}
 		#endregion
 
-		#region ¿ÉĞ´Çø
+		#region å¯å†™åŒº
 
 		/// <summary>
-		/// ¿ÉĞ´Çø×ÊÔ´°æ±¾ºÅ
+		/// å¯å†™åŒºèµ„æºç‰ˆæœ¬å·
 		/// </summary>
 		private string m_LocalAssetsVersion;
 
 		/// <summary>
-		/// ¿ÉĞ´Çø×ÊÔ´°üĞÅÏ¢
+		/// å¯å†™åŒºèµ„æºåŒ…ä¿¡æ¯
 		/// </summary>
 		private Dictionary<string, AssetBundleInfoEntity> m_LocalAssetsVersionDic;
 
 		/// <summary>
-		/// ¼ì²é¿ÉĞ´Çø°æ±¾ÎÄ¼şÊÇ·ñ´æÔÚ
+		/// æ£€æŸ¥å¯å†™åŒºç‰ˆæœ¬æ–‡ä»¶æ˜¯å¦å­˜åœ¨
 		/// </summary>
 		private void CheckVersionFileExistsInLocal()
 		{
@@ -207,19 +207,19 @@ namespace YouYou
 
 			if (LocalAssetsManager.GetVersionFileExists())
 			{
-				//¿ÉĞ´Çø°æ±¾ÎÄ¼ş´æÔÚ
-				//¼ÓÔØ¿ÉĞ´Çø×ÊÔ´°üĞÅÏ¢
+				//å¯å†™åŒºç‰ˆæœ¬æ–‡ä»¶å­˜åœ¨
+				//åŠ è½½å¯å†™åŒºèµ„æºåŒ…ä¿¡æ¯
 				InitLocalAssetsBundleInfo();
 			}
 			else
 			{
-				//¿ÉĞ´Çø°æ±¾ÎÄ¼ş²»´æÔÚ
+				//å¯å†™åŒºç‰ˆæœ¬æ–‡ä»¶ä¸å­˜åœ¨
 
-				//ÅĞ¶ÏÖ»¶ÁÇø°æ±¾ÎÄ¼şÊÇ·ñ´æÔÚ
+				//åˆ¤æ–­åªè¯»åŒºç‰ˆæœ¬æ–‡ä»¶æ˜¯å¦å­˜åœ¨
 				if (m_IsExistsStreamingAssetsBundleInfo)
 				{
-					//Ö»¶ÁÇø°æ±¾ÎÄ¼ş´æÔÚ
-					//½«Ö»¶ÁÇø°æ±¾ÎÄ¼ş³õÊ¼»¯µ½¿ÉĞ´Çø
+					//åªè¯»åŒºç‰ˆæœ¬æ–‡ä»¶å­˜åœ¨
+					//å°†åªè¯»åŒºç‰ˆæœ¬æ–‡ä»¶åˆå§‹åŒ–åˆ°å¯å†™åŒº
 					InitVersionFileFormStreamingAssetsToLocal();
 				}
 
@@ -228,11 +228,11 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ½«Ö»¶ÁÇø°æ±¾ÎÄ¼ş³õÊ¼»¯µ½¿ÉĞ´Çø
+		/// å°†åªè¯»åŒºç‰ˆæœ¬æ–‡ä»¶åˆå§‹åŒ–åˆ°å¯å†™åŒº
 		/// </summary>
 		private void InitVersionFileFormStreamingAssetsToLocal()
 		{
-			GameEntry.Log(LogCategory.Resource, "½«Ö»¶ÁÇø°æ±¾ÎÄ¼ş³õÊ¼»¯µ½¿ÉĞ´Çø=>InitVersionFileFormStreamingAssetsToLocal()");
+			GameEntry.Log(LogCategory.Resource, "å°†åªè¯»åŒºç‰ˆæœ¬æ–‡ä»¶åˆå§‹åŒ–åˆ°å¯å†™åŒº=>InitVersionFileFormStreamingAssetsToLocal()");
 
 			m_LocalAssetsVersionDic = new Dictionary<string, AssetBundleInfoEntity>();
 
@@ -250,16 +250,16 @@ namespace YouYou
 				};
 			}
 
-			//±£´æ°æ±¾ÎÄ¼ş
+			//ä¿å­˜ç‰ˆæœ¬æ–‡ä»¶
 			LocalAssetsManager.SaveVersionFile(m_LocalAssetsVersionDic);
 
-			//±£´æ°æ±¾ºÅ
+			//ä¿å­˜ç‰ˆæœ¬å·
 			m_LocalAssetsVersion = m_StreamingAssetsVersion;
 			LocalAssetsManager.SetResourceVersion(m_LocalAssetsVersion);
 		}
 
 		/// <summary>
-		///³õÊ¼»¯¿ÉĞ´Çø×ÊÔ´°üĞÅÏ¢
+		///åˆå§‹åŒ–å¯å†™åŒºèµ„æºåŒ…ä¿¡æ¯
 		/// </summary>
 		private void InitLocalAssetsBundleInfo()
 		{
@@ -271,7 +271,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ±£´æ°æ±¾ĞÅÏ¢
+		/// ä¿å­˜ç‰ˆæœ¬ä¿¡æ¯
 		/// </summary>
 		/// <param name="entity"></param>
 		public void SaveVersion(AssetBundleInfoEntity entity)
@@ -282,12 +282,12 @@ namespace YouYou
 			}
 			m_LocalAssetsVersionDic[entity.AssetBundleName] = entity;
 
-			//±£´æ°æ±¾ÎÄ¼ş
+			//ä¿å­˜ç‰ˆæœ¬æ–‡ä»¶
 			LocalAssetsManager.SaveVersionFile(m_LocalAssetsVersionDic);
 		}
 
 		/// <summary>
-		/// ±£´æ×ÊÔ´°æ±¾ºÅ£¨ÓÃÓÚ¼ì²é°æ±¾¸üĞÂÍê±Ïºó ±£´æ£©
+		/// ä¿å­˜èµ„æºç‰ˆæœ¬å·ï¼ˆç”¨äºæ£€æŸ¥ç‰ˆæœ¬æ›´æ–°å®Œæ¯•å ä¿å­˜ï¼‰
 		/// </summary>
 		public void SetResourceVersion()
 		{
@@ -297,7 +297,7 @@ namespace YouYou
 		#endregion
 
 		/// <summary>
-		/// »ñÈ¡CDNÉÏµÄ×ÊÔ´°üĞÅÏ¢(Õâ¸ö·½·¨Ò»¶¨ÒªÄÜ·µ»Ø×ÊÔ´°üĞÅÏ¢)
+		/// è·å–CDNä¸Šçš„èµ„æºåŒ…ä¿¡æ¯(è¿™ä¸ªæ–¹æ³•ä¸€å®šè¦èƒ½è¿”å›èµ„æºåŒ…ä¿¡æ¯)
 		/// </summary>
 		/// <param name="assetbundlePath"></param>
 		/// <returns></returns>
@@ -308,42 +308,42 @@ namespace YouYou
 			return entity;
 		}
 
-		#region ¼ì²é¸üĞÂ
+		#region æ£€æŸ¥æ›´æ–°
 
 		/// <summary>
-		/// ¼ì²é¸üĞÂ
+		/// æ£€æŸ¥æ›´æ–°
 		/// </summary>
 		private void CheckVersionChange()
 		{
-			GameEntry.Log(LogCategory.Resource, "¼ì²é¸üĞÂ=>CheckVersionChange(), °æ±¾ºÅ=>{0}", m_LocalAssetsVersion);
+			GameEntry.Log(LogCategory.Resource, "æ£€æŸ¥æ›´æ–°=>CheckVersionChange(), ç‰ˆæœ¬å·=>{0}", m_LocalAssetsVersion);
 
 			if (LocalAssetsManager.GetVersionFileExists())
 			{
 				if (!string.IsNullOrEmpty(m_LocalAssetsVersion) && m_LocalAssetsVersion.Equals(m_CDNVersion))
 				{
-					GameEntry.Log(LogCategory.Resource, "¿ÉĞ´Çø°æ±¾ºÅºÍCDN°æ±¾ºÅÒ»ÖÂ ½øÈëÔ¤¼ÓÔØÁ÷³Ì");
+					GameEntry.Log(LogCategory.Resource, "å¯å†™åŒºç‰ˆæœ¬å·å’ŒCDNç‰ˆæœ¬å·ä¸€è‡´ è¿›å…¥é¢„åŠ è½½æµç¨‹");
 					GameEntry.Procedure.ChangeState(ProcedureState.Preload);
 				}
 				else
 				{
-					GameEntry.Log(LogCategory.Resource, "¿ÉĞ´Çø°æ±¾ºÅºÍCDN°æ±¾ºÅ²»Ò»ÖÂ ¿ªÊ¼¼ì²é¸üĞÂ");
+					GameEntry.Log(LogCategory.Resource, "å¯å†™åŒºç‰ˆæœ¬å·å’ŒCDNç‰ˆæœ¬å·ä¸ä¸€è‡´ å¼€å§‹æ£€æŸ¥æ›´æ–°");
 					BeginCheckVersionChange();
 				}
 			}
 			else
 			{
-				//ÏÂÔØ³õÊ¼×ÊÔ´
+				//ä¸‹è½½åˆå§‹èµ„æº
 				DownloadInitResources();
 			}
 		}
 
-		#region DownloadInitResources ÏÂÔØ³õÊ¼×ÊÔ´
+		#region DownloadInitResources ä¸‹è½½åˆå§‹èµ„æº
 		/// <summary>
-		/// ÏÂÔØ³õÊ¼×ÊÔ´
+		/// ä¸‹è½½åˆå§‹èµ„æº
 		/// </summary>
 		private void DownloadInitResources()
 		{
-			GameEntry.Event.CommonEvent.Dispatch(SysEventId.CheckVersionBeginDownload);
+			GameEntry.Event.CommonEvent.Dispatch(CommonEventId.CheckVersionBeginDownload);
 			m_DownloadingParams = GameEntry.Pool.DequeueClassObject<BaseParams>();
 			m_DownloadingParams.Reset();
 
@@ -359,37 +359,37 @@ namespace YouYou
 				}
 			}
 
-			//Èç¹ûÃ»ÓĞ³õÊ¼×ÊÔ´ Ö±½Ó¼ì²é¸üĞÂ
+			//å¦‚æœæ²¡æœ‰åˆå§‹èµ„æº ç›´æ¥æ£€æŸ¥æ›´æ–°
 			if (m_NeedDownloadList.Count == 0)
 			{
 				BeginCheckVersionChange();
 			}
 			else
 			{
-				//LocalAssetsManager.SetResourceVersion(null);//²»¼ì²â°æ±¾ºÅ, ¶øÊÇÖ±½Ó¼ì²âMD5
-				GameEntry.Log(LogCategory.Resource, "ÏÂÔØ³õÊ¼×ÊÔ´,ÎÄ¼şÊıÁ¿==>>" + m_NeedDownloadList.Count);
+				//LocalAssetsManager.SetResourceVersion(null);//ä¸æ£€æµ‹ç‰ˆæœ¬å·, è€Œæ˜¯ç›´æ¥æ£€æµ‹MD5
+				GameEntry.Log(LogCategory.Resource, "ä¸‹è½½åˆå§‹èµ„æº,æ–‡ä»¶æ•°é‡==>>" + m_NeedDownloadList.Count);
 				GameEntry.Download.BeginDownloadMulit(m_NeedDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
 			}
 		}
 		#endregion
 
 		/// <summary>
-		/// ¿ªÊ¼¼ì²é¸üĞÂ
+		/// å¼€å§‹æ£€æŸ¥æ›´æ–°
 		/// </summary>
 		private void BeginCheckVersionChange()
 		{
 			m_DownloadingParams = GameEntry.Pool.DequeueClassObject<BaseParams>();
 			m_DownloadingParams.Reset();
 
-			//ĞèÒªÉ¾³ıµÄÎÄ¼ş
+			//éœ€è¦åˆ é™¤çš„æ–‡ä»¶
 			LinkedList<string> delList = new LinkedList<string>();
 
-			//¿ÉĞ´Çø×ÊÔ´MD5ºÍCDN×ÊÔ´MD5²»Ò»ÖÂµÄÎÄ¼ş
+			//å¯å†™åŒºèµ„æºMD5å’ŒCDNèµ„æºMD5ä¸ä¸€è‡´çš„æ–‡ä»¶
 			LinkedList<string> inconformityList = new LinkedList<string>();
 
 			LinkedList<string> needDownloadList = new LinkedList<string>();
 
-			#region ÕÒ³öĞèÒªÉ¾³ıµÄÎÄ¼ş½øĞĞÉ¾³ı
+			#region æ‰¾å‡ºéœ€è¦åˆ é™¤çš„æ–‡ä»¶è¿›è¡Œåˆ é™¤
 			var enumerator = m_LocalAssetsVersionDic.GetEnumerator();
 			while (enumerator.MoveNext())
 			{
@@ -398,21 +398,21 @@ namespace YouYou
 				AssetBundleInfoEntity cdnAssetBundleInfo = null;
 				if (m_CDNVersionDic.TryGetValue(assetBundleName, out cdnAssetBundleInfo))
 				{
-					//¿ÉĞ´ÇøÓĞ CDNÒ²ÓĞ
+					//å¯å†™åŒºæœ‰ CDNä¹Ÿæœ‰
 					if (!cdnAssetBundleInfo.MD5.Equals(enumerator.Current.Value.MD5, StringComparison.CurrentCultureIgnoreCase))
 					{
-						//Èç¹ûMD5²»Ò»ÖÂ ¼ÓÈë²»Ò»ÖÂÁ´±í
+						//å¦‚æœMD5ä¸ä¸€è‡´ åŠ å…¥ä¸ä¸€è‡´é“¾è¡¨
 						inconformityList.AddLast(assetBundleName);
 					}
 				}
 				else
 				{
-					//¿ÉĞ´ÇøÓĞ CDNÉÏÃ»ÓĞ ¼ÓÈëÉ¾³ıÁ´±í
+					//å¯å†™åŒºæœ‰ CDNä¸Šæ²¡æœ‰ åŠ å…¥åˆ é™¤é“¾è¡¨
 					delList.AddLast(assetBundleName);
 				}
 			}
 
-			//Ñ­»·ÅĞ¶ÏÕâ¸öÎÄ¼şÔÚÖ»¶ÁÇøµÄMD5ºÍCDNÊÇ·ñÒ»ÖÂ Ò»ÖÂµÄ½øĞĞÉ¾³ı ²»Ò»ÖÂµÄ½øĞĞÖØĞÂÏÂÔØ
+			//å¾ªç¯åˆ¤æ–­è¿™ä¸ªæ–‡ä»¶åœ¨åªè¯»åŒºçš„MD5å’ŒCDNæ˜¯å¦ä¸€è‡´ ä¸€è‡´çš„è¿›è¡Œåˆ é™¤ ä¸ä¸€è‡´çš„è¿›è¡Œé‡æ–°ä¸‹è½½
 			LinkedListNode<string> currInconformity = inconformityList.First;
 			while (currInconformity != null)
 			{
@@ -427,19 +427,19 @@ namespace YouYou
 
 				if (streamingAssetsAssetBundleInfo == null)
 				{
-					//Èç¹ûÖ»¶ÁÇøÃ»ÓĞ,ÔòÖØĞÂÏÂÔØ
+					//å¦‚æœåªè¯»åŒºæ²¡æœ‰,åˆ™é‡æ–°ä¸‹è½½
 					needDownloadList.AddLast(currInconformity.Value);
 				}
 				else
 				{
 					if (cdnAssetBundleInfo.MD5.Equals(streamingAssetsAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase))
 					{
-						//Ò»ÖÂ,ÔòÉ¾³ı
+						//ä¸€è‡´,åˆ™åˆ é™¤
 						delList.AddLast(currInconformity.Value);
 					}
 					else
 					{
-						//²»Ò»ÖÂ,ÔòÖØĞÂÏÂÔØ
+						//ä¸ä¸€è‡´,åˆ™é‡æ–°ä¸‹è½½
 						needDownloadList.AddLast(currInconformity.Value);
 					}
 				}
@@ -448,8 +448,8 @@ namespace YouYou
 			}
 			#endregion
 
-			#region É¾³ıĞèÒªÉ¾³ıµÄ
-			GameEntry.Log(LogCategory.Resource, "É¾³ı¾É×ÊÔ´=>{0}", delList.ToJson());
+			#region åˆ é™¤éœ€è¦åˆ é™¤çš„
+			GameEntry.Log(LogCategory.Resource, "åˆ é™¤æ—§èµ„æº=>{0}", delList.ToJson());
 			LinkedListNode<string> currDel = delList.First;
 			while (currDel != null)
 			{
@@ -464,27 +464,27 @@ namespace YouYou
 			}
 			#endregion
 
-			#region ¼ì²éĞèÒªÏÂÔØµÄ
+			#region æ£€æŸ¥éœ€è¦ä¸‹è½½çš„
 			enumerator = m_CDNVersionDic.GetEnumerator();
 			while (enumerator.MoveNext())
 			{
 				AssetBundleInfoEntity cdnAssetBundleInfo = enumerator.Current.Value;
-				if (cdnAssetBundleInfo.IsFirstData)//¼ì²é³õÊ¼×ÊÔ´
+				if (cdnAssetBundleInfo.IsFirstData)//æ£€æŸ¥åˆå§‹èµ„æº
 				{
-					if (!m_LocalAssetsVersionDic.ContainsKey(cdnAssetBundleInfo.AssetBundleName))//Èç¹û¿ÉĞ´ÇøÃ»ÓĞ ÔòÈ¥Ö»¶ÁÇøÅĞ¶ÏÒ»´Î
+					if (!m_LocalAssetsVersionDic.ContainsKey(cdnAssetBundleInfo.AssetBundleName))//å¦‚æœå¯å†™åŒºæ²¡æœ‰ åˆ™å»åªè¯»åŒºåˆ¤æ–­ä¸€æ¬¡
 					{
 						AssetBundleInfoEntity streamingAssetsAssetBundleInfo = null;
 						if (m_StreamingAssetsVersionDic != null)
 						{
 							m_StreamingAssetsVersionDic.TryGetValue(cdnAssetBundleInfo.AssetBundleName, out streamingAssetsAssetBundleInfo);
 						}
-						if (streamingAssetsAssetBundleInfo == null)//Ö»¶ÁÇø²»´æÔÚ
+						if (streamingAssetsAssetBundleInfo == null)//åªè¯»åŒºä¸å­˜åœ¨
 						{
 							needDownloadList.AddLast(cdnAssetBundleInfo.AssetBundleName);
 						}
-						else//Ö»¶ÁÇø´æÔÚ ÑéÖ¤MD5
+						else//åªè¯»åŒºå­˜åœ¨ éªŒè¯MD5
 						{
-							if (!cdnAssetBundleInfo.MD5.Equals(streamingAssetsAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase))//MD5²»Ò»ÖÂ
+							if (!cdnAssetBundleInfo.MD5.Equals(streamingAssetsAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase))//MD5ä¸ä¸€è‡´
 							{
 								needDownloadList.AddLast(cdnAssetBundleInfo.AssetBundleName);
 							}
@@ -494,16 +494,16 @@ namespace YouYou
 			}
 			#endregion
 
-			GameEntry.Event.CommonEvent.Dispatch(SysEventId.CheckVersionBeginDownload);
+			GameEntry.Event.CommonEvent.Dispatch(CommonEventId.CheckVersionBeginDownload);
 
-			//½øĞĞÏÂÔØ
-			GameEntry.Log(LogCategory.Resource, "ÏÂÔØ¸üĞÂ×ÊÔ´,ÎÄ¼şÊıÁ¿==>" + needDownloadList.Count + "==>" + needDownloadList.ToJson());
+			//è¿›è¡Œä¸‹è½½
+			GameEntry.Log(LogCategory.Resource, "ä¸‹è½½æ›´æ–°èµ„æº,æ–‡ä»¶æ•°é‡==>" + needDownloadList.Count + "==>" + needDownloadList.ToJson());
 			GameEntry.Download.BeginDownloadMulit(needDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
 		}
 		#endregion
 
 		/// <summary>
-		/// ÏÂÔØ½øĞĞÖĞ
+		/// ä¸‹è½½è¿›è¡Œä¸­
 		/// </summary>
 		private void OnDownloadMulitUpdate(int t1, int t2, ulong t3, ulong t4)
 		{
@@ -513,21 +513,21 @@ namespace YouYou
 			m_DownloadingParams.ULongParam1 = t3;
 			m_DownloadingParams.ULongParam2 = t4;
 
-			GameEntry.Event.CommonEvent.Dispatch(SysEventId.CheckVersionDownloadUpdate, m_DownloadingParams);
+			GameEntry.Event.CommonEvent.Dispatch(CommonEventId.CheckVersionDownloadUpdate, m_DownloadingParams);
 		}
 
 		
 		/// <summary>
-		/// ÏÂÔØÍê±Ï
+		/// ä¸‹è½½å®Œæ¯•
 		/// </summary>
 		private void OnDownloadMulitComplete()
 		{
 			SetResourceVersion();
 
-            GameEntry.Event.CommonEvent.Dispatch(SysEventId.CheckVersionDownloadComplete);
+            GameEntry.Event.CommonEvent.Dispatch(CommonEventId.CheckVersionDownloadComplete);
             GameEntry.Pool.EnqueueClassObject(m_DownloadingParams);
 
-            //½øÈëÔ¤¼ÓÔØÁ÷³Ì
+            //è¿›å…¥é¢„åŠ è½½æµç¨‹
             GameEntry.Procedure.ChangeState(ProcedureState.Preload);
         }
 

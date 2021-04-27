@@ -7,7 +7,7 @@ using YouYou;
 
 
 /// <summary>
-/// "加载"界面
+/// "鍔犺浇"鐣岄潰
 /// </summary>
 public class UILoadingForm : UIFormBase
 {
@@ -20,7 +20,7 @@ public class UILoadingForm : UIFormBase
 	protected override void OnInit(object userData)
 	{
 		base.OnInit(userData);
-		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.LoadingProgressChange, OnLoadingProgressChange);
+		GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.LoadingProgressChange, OnLoadingProgressChange);
 	}
 	private void OnLoadingProgressChange(object userData)
 	{
@@ -30,7 +30,7 @@ public class UILoadingForm : UIFormBase
 		if (baseParams.IntParam1 == 0)
 		{
 			//txtTip.text = GameEntry.Localization.GetString("Loading.ChangeScene", Math.Floor(progress));
-			txtTip.text = string.Format("正在进入场景, 加载进度 {0}%", Math.Floor(progress));
+			txtTip.text = string.Format("姝ｅ湪杩涘叆鍦烘櫙, 鍔犺浇杩涘害 {0}%", Math.Floor(progress));
 		}
 		m_Scrollbar.size = baseParams.FloatParam1;
 	}
@@ -44,7 +44,7 @@ public class UILoadingForm : UIFormBase
 	protected override void OnClose()
 	{
 		base.OnClose();
-		GameEntry.Event.CommonEvent.RemoveEventListener(SysEventId.LoadingProgressChange, OnLoadingProgressChange);
+		GameEntry.Event.CommonEvent.RemoveEventListener(CommonEventId.LoadingProgressChange, OnLoadingProgressChange);
 	}
 	protected override void OnBeforDestroy()
 	{

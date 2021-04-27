@@ -6,23 +6,23 @@ using UnityEngine;
 namespace YouYou
 {
 	/// <summary>
-	/// Êı¾İ±í¹ÜÀí»ùÀà
+	/// æ•°æ®è¡¨ç®¡ç†åŸºç±»
 	/// </summary>
-	/// <typeparam name="T">Êı¾İ±í¹ÜÀí×ÓÀàµÄÀàĞÍ</typeparam>
-	/// <typeparam name="P">Êı¾İ±íÊµÌå×ÓÀàµÄÀàĞÍ</typeparam>
+	/// <typeparam name="T">æ•°æ®è¡¨ç®¡ç†å­ç±»çš„ç±»å‹</typeparam>
+	/// <typeparam name="P">æ•°æ®è¡¨å®ä½“å­ç±»çš„ç±»å‹</typeparam>
 	public abstract class DataTableDBModelBase<T, P>
 	where T : class, new()
 	where P : DataTableEntityBase
 	{
 		/// <summary>
-		/// Entity¶ÔÏóµÄ¼¯ºÏ
+		/// Entityå¯¹è±¡çš„é›†åˆ
 		/// </summary>
 		protected List<P> m_List;
 		public int Count { get { return m_List.Count; } }
 
 		/// <summary>
-		/// Key:EntityµÄID
-		/// Value:Entity¶ÔÏó
+		/// Key:Entityçš„ID
+		/// Value:Entityå¯¹è±¡
 		/// </summary>
 		protected Dictionary<int, P> m_Dic;
 
@@ -32,27 +32,27 @@ namespace YouYou
 			m_Dic = new Dictionary<int, P>();
 		}
 
-		#region ĞèÒª×ÓÀàÊµÏÖµÄÊôĞÔ,·½·¨
+		#region éœ€è¦å­ç±»å®ç°çš„å±æ€§,æ–¹æ³•
 		/// <summary>
-		/// Êı¾İ±íÃû³Æ
+		/// æ•°æ®è¡¨åç§°
 		/// </summary>
 		public abstract string DataTableName { get; }
 		/// <summary>
-		/// ¼ÓÔØÊı¾İÁĞ±í
+		/// åŠ è½½æ•°æ®åˆ—è¡¨
 		/// </summary>
 		protected abstract void LoadList(MMO_MemoryStream ms);
 		protected virtual void OnLoadListComple() { }
 		#endregion
 
-		#region LoadData ¼ÓÔØÊı¾İ±íÊı¾İ
+		#region LoadData åŠ è½½æ•°æ®è¡¨æ•°æ®
 		/// <summary>
-		/// ¼ÓÔØÊı¾İ±íÊı¾İ
+		/// åŠ è½½æ•°æ®è¡¨æ•°æ®
 		/// </summary>
 		internal void LoadData()
 		{
 			GameEntry.DataTable.TotalTableCount++;
 
-			//1.ÄÃµ½Õâ¸ö±í¸ñµÄbuffer
+			//1.æ‹¿åˆ°è¿™ä¸ªè¡¨æ ¼çš„buffer
 			GameEntry.DataTable.GetDataTableBuffer(DataTableName, (byte[] buffer) =>
 			{
 				using (MMO_MemoryStream ms = new MMO_MemoryStream(buffer))
@@ -61,14 +61,14 @@ namespace YouYou
 				}
 
 				OnLoadListComple();
-				GameEntry.Event.CommonEvent.Dispatch(SysEventId.LoadOneDataTableComplete, DataTableName);
+				GameEntry.Event.CommonEvent.Dispatch(CommonEventId.LoadOneDataTableComplete, DataTableName);
 			});
 		}
 		#endregion
 
-		#region GetList »ñÈ¡×ÓÀà¶ÔÓ¦µÄÊı¾İÊµÌåList
+		#region GetList è·å–å­ç±»å¯¹åº”çš„æ•°æ®å®ä½“List
 		/// <summary>
-		/// »ñÈ¡×ÓÀà¶ÔÓ¦µÄÊı¾İÊµÌåList
+		/// è·å–å­ç±»å¯¹åº”çš„æ•°æ®å®ä½“List
 		/// </summary>
 		/// <returns></returns>
 		public List<P> GetList()
@@ -77,9 +77,9 @@ namespace YouYou
 		}
 		#endregion
 
-        #region GetDic ¸ù¾İID»ñÈ¡ÊµÌå
+        #region GetDic æ ¹æ®IDè·å–å®ä½“
         /// <summary>
-        /// ¸ù¾İID»ñÈ¡ÊµÌå
+        /// æ ¹æ®IDè·å–å®ä½“
         /// </summary>
         public P GetDic(int id)
         {
@@ -90,14 +90,14 @@ namespace YouYou
             }
             else
             {
-                //Debug.Log("¸ÃID¶ÔÓ¦µÄÊı¾İÊµÌå²»´æÔÚ");
+                //Debug.Log("è¯¥IDå¯¹åº”çš„æ•°æ®å®ä½“ä¸å­˜åœ¨");
                 return null;
             }
         }
         #endregion
 
         /// <summary>
-        /// Çå¿ÕÊı¾İ
+        /// æ¸…ç©ºæ•°æ®
         /// </summary>
         internal void Clear()
         {

@@ -7,35 +7,35 @@ using UnityEngine;
 namespace YouYou
 {
 	/// <summary>
-	/// Ô¤¼ÓÔØÁ÷³Ì
+	/// é¢„åŠ è½½æµç¨‹
 	/// </summary>
 	public class ProcedurePreload : ProcedureBase
 	{
 		/// <summary>
-		/// Ä¿±ê½ø¶È
+		/// ç›®æ ‡è¿›åº¦
 		/// </summary>
 		private float m_TargetProgress;
 		/// <summary>
-		/// µ±Ç°½ø¶È
+		/// å½“å‰è¿›åº¦
 		/// </summary>
 		private float m_CurrProgress;
 
 		/// <summary>
-		/// Ô¤¼ÓÔØ²ÎÊı
+		/// é¢„åŠ è½½å‚æ•°
 		/// </summary>
 		private BaseParams m_PreloadParams;
 
 		internal override void OnEnter()
 		{
 			base.OnEnter();
-			//¼àÌıÊı¾İ±í¼ÓÔØ
-			GameEntry.Event.CommonEvent.AddEventListener(SysEventId.LoadOneDataTableComplete, OnLoadOneDataTableComplete);
-			GameEntry.Event.CommonEvent.AddEventListener(SysEventId.LoadDataTableComplete, OnLoadDataTableComplete);
-			GameEntry.Event.CommonEvent.AddEventListener(SysEventId.LoadLuaDataTableComplete, OnLoadLuaDataTableComplete);
+			//ç›‘å¬æ•°æ®è¡¨åŠ è½½
+			GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.LoadOneDataTableComplete, OnLoadOneDataTableComplete);
+			GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.LoadDataTableComplete, OnLoadDataTableComplete);
+			GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.LoadLuaDataTableComplete, OnLoadLuaDataTableComplete);
 
 			m_PreloadParams = GameEntry.Pool.DequeueClassObject<BaseParams>();
 			m_PreloadParams.Reset();
-			GameEntry.Event.CommonEvent.Dispatch(SysEventId.PreloadBegin);
+			GameEntry.Event.CommonEvent.Dispatch(CommonEventId.PreloadBegin);
 
 			m_CurrProgress = 0;
 			m_TargetProgress = 85;
@@ -59,12 +59,12 @@ namespace YouYou
 				LoadAudio();
 			}
 
-			//¼ÓÔØ½ø¶È(Ä£Äâ)
+			//åŠ è½½è¿›åº¦(æ¨¡æ‹Ÿ)
 			if (m_CurrProgress < m_TargetProgress)
 			{
-				m_CurrProgress = Mathf.Min(m_CurrProgress + Time.deltaTime * 100, m_TargetProgress);//¸ù¾İÊµ¼ÊÇé¿öµ÷½ÚËÙ¶È
+				m_CurrProgress = Mathf.Min(m_CurrProgress + Time.deltaTime * 100, m_TargetProgress);//æ ¹æ®å®é™…æƒ…å†µè°ƒèŠ‚é€Ÿåº¦
 				m_PreloadParams.FloatParam1 = m_CurrProgress;
-				GameEntry.Event.CommonEvent.Dispatch(SysEventId.PreloadUpdate, m_PreloadParams);
+				GameEntry.Event.CommonEvent.Dispatch(CommonEventId.PreloadUpdate, m_PreloadParams);
 			}
 
 			if (m_TargetProgress == 100)
@@ -72,50 +72,50 @@ namespace YouYou
 				m_CurrProgress = 100;
 				m_PreloadParams.FloatParam1 = m_CurrProgress;
 
-				GameEntry.Event.CommonEvent.Dispatch(SysEventId.PreloadUpdate, m_PreloadParams);
+				GameEntry.Event.CommonEvent.Dispatch(CommonEventId.PreloadUpdate, m_PreloadParams);
 
-				GameEntry.Event.CommonEvent.Dispatch(SysEventId.PreloadComplete);
+				GameEntry.Event.CommonEvent.Dispatch(CommonEventId.PreloadComplete);
 				GameEntry.Pool.EnqueueClassObject(m_PreloadParams);
 
-				//½øÈëµ½ÒµÎñÁ÷³Ì
+				//è¿›å…¥åˆ°ä¸šåŠ¡æµç¨‹
 				GameEntry.Procedure.ChangeState(ProcedureState.Login);
 			}
 		}
 		internal override void OnLeave()
 		{
 			base.OnLeave();
-			GameEntry.Event.CommonEvent.RemoveEventListener(SysEventId.LoadOneDataTableComplete, OnLoadOneDataTableComplete);
-			GameEntry.Event.CommonEvent.RemoveEventListener(SysEventId.LoadDataTableComplete, OnLoadDataTableComplete);
-			GameEntry.Event.CommonEvent.RemoveEventListener(SysEventId.LoadLuaDataTableComplete, OnLoadLuaDataTableComplete);
+			GameEntry.Event.CommonEvent.RemoveEventListener(CommonEventId.LoadOneDataTableComplete, OnLoadOneDataTableComplete);
+			GameEntry.Event.CommonEvent.RemoveEventListener(CommonEventId.LoadDataTableComplete, OnLoadDataTableComplete);
+			GameEntry.Event.CommonEvent.RemoveEventListener(CommonEventId.LoadLuaDataTableComplete, OnLoadLuaDataTableComplete);
 		}
 
 		private void OnLoadOneDataTableComplete(object userData)
 		{
-			//Debug.Log("Êı¾İ±íµ¥¸ö¼ÓÔØÍê±Ï, TabName = " + userData);
+			//Debug.Log("æ•°æ®è¡¨å•ä¸ªåŠ è½½å®Œæ¯•, TabName = " + userData);
 
 			GameEntry.DataTable.CurrLoadTableCount++;
 			if (GameEntry.DataTable.CurrLoadTableCount == GameEntry.DataTable.TotalTableCount)
 			{
-				GameEntry.Event.CommonEvent.Dispatch(SysEventId.LoadDataTableComplete);
+				GameEntry.Event.CommonEvent.Dispatch(CommonEventId.LoadDataTableComplete);
 			}
 		}
 		/// <summary>
-		/// ¼ÓÔØ±í¸ñ×´Ì¬0=Î´¼ÓÔØ 1=¼ÓÔØÍê±Ï
+		/// åŠ è½½è¡¨æ ¼çŠ¶æ€0=æœªåŠ è½½ 1=åŠ è½½å®Œæ¯•
 		/// </summary>
 		byte m_LoadDataTableStatus = 0;
 		private void OnLoadDataTableComplete(object userData)
 		{
-			GameEntry.Log(LogCategory.Normal, "¼ÓÔØËùÓĞC#±í¸ñÍê±Ï)");
+			GameEntry.Log(LogCategory.Normal, "åŠ è½½æ‰€æœ‰C#è¡¨æ ¼å®Œæ¯•)");
 			m_LoadDataTableStatus = 1;
 		}
 		private void OnLoadLuaDataTableComplete(object userData)
 		{
-			GameEntry.Log(LogCategory.Normal, "¼ÓÔØËùÓĞlua±í¸ñÍê±Ï");
+			GameEntry.Log(LogCategory.Normal, "åŠ è½½æ‰€æœ‰luaè¡¨æ ¼å®Œæ¯•");
 			LoadShader();
 		}
 
 		/// <summary>
-		/// ¼ÓÔØÉùÒô
+		/// åŠ è½½å£°éŸ³
 		/// </summary>
 		private void LoadAudio()
 		{
@@ -124,7 +124,7 @@ namespace YouYou
 #if RESOURCES
 				m_TargetProgress = 100;
 #else
-				//³õÊ¼»¯Xlua
+				//åˆå§‹åŒ–Xlua
 				GameEntry.Lua.Init();
 #endif
 
@@ -132,7 +132,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ¼ÓÔØ×Ô¶¨ÒåShader
+		/// åŠ è½½è‡ªå®šä¹‰Shader
 		/// </summary>
 		private void LoadShader()
 		{
@@ -142,7 +142,7 @@ namespace YouYou
 				AssetBundle bundle = bundleEntity.Target as AssetBundle;
 				bundle.LoadAllAssets();
 				Shader.WarmupAllShaders();
-				GameEntry.Log(LogCategory.Normal, "¼ÓÔØ×ÊÔ´°üÖĞµÄ×Ô¶¨ÒåShaderÍê±Ï");
+				GameEntry.Log(LogCategory.Normal, "åŠ è½½èµ„æºåŒ…ä¸­çš„è‡ªå®šä¹‰Shaderå®Œæ¯•");
 				InitCircle();
 			});
 #else

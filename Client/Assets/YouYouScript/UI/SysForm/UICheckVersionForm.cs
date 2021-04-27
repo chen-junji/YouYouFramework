@@ -21,22 +21,22 @@ public class UICheckVersionForm : UIFormBase
 	protected override void OnBeforDestroy()
 	{
 		base.OnBeforDestroy();
-		GameEntry.Event.CommonEvent.RemoveEventListener(SysEventId.CheckVersionBeginDownload, OnCheckVersionBeginDownload);
-		GameEntry.Event.CommonEvent.RemoveEventListener(SysEventId.CheckVersionDownloadUpdate, OnCheckVersionDownloadUpdate);
-		GameEntry.Event.CommonEvent.RemoveEventListener(SysEventId.CheckVersionDownloadComplete, OnCheckVersionDownloadComplete);
-		GameEntry.Event.CommonEvent.RemoveEventListener(SysEventId.PreloadBegin, OnPreloadBegin);
-		GameEntry.Event.CommonEvent.RemoveEventListener(SysEventId.PreloadUpdate, OnPreloadUpdate);
-		GameEntry.Event.CommonEvent.RemoveEventListener(SysEventId.PreloadComplete, OnPreloadComplete);
+		GameEntry.Event.CommonEvent.RemoveEventListener(CommonEventId.CheckVersionBeginDownload, OnCheckVersionBeginDownload);
+		GameEntry.Event.CommonEvent.RemoveEventListener(CommonEventId.CheckVersionDownloadUpdate, OnCheckVersionDownloadUpdate);
+		GameEntry.Event.CommonEvent.RemoveEventListener(CommonEventId.CheckVersionDownloadComplete, OnCheckVersionDownloadComplete);
+		GameEntry.Event.CommonEvent.RemoveEventListener(CommonEventId.PreloadBegin, OnPreloadBegin);
+		GameEntry.Event.CommonEvent.RemoveEventListener(CommonEventId.PreloadUpdate, OnPreloadUpdate);
+		GameEntry.Event.CommonEvent.RemoveEventListener(CommonEventId.PreloadComplete, OnPreloadComplete);
 	}
 	protected override void OnInit(object userData)
 	{
 		base.OnInit(userData);
-		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.CheckVersionBeginDownload, OnCheckVersionBeginDownload);
-		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.CheckVersionDownloadUpdate, OnCheckVersionDownloadUpdate);
-		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.CheckVersionDownloadComplete, OnCheckVersionDownloadComplete);
-		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.PreloadBegin, OnPreloadBegin);
-		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.PreloadUpdate, OnPreloadUpdate);
-		GameEntry.Event.CommonEvent.AddEventListener(SysEventId.PreloadComplete, OnPreloadComplete);
+		GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.CheckVersionBeginDownload, OnCheckVersionBeginDownload);
+		GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.CheckVersionDownloadUpdate, OnCheckVersionDownloadUpdate);
+		GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.CheckVersionDownloadComplete, OnCheckVersionDownloadComplete);
+		GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.PreloadBegin, OnPreloadBegin);
+		GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.PreloadUpdate, OnPreloadUpdate);
+		GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.PreloadComplete, OnPreloadComplete);
 
 		txtTip.gameObject.SetActive(false);
 		if (txtSize != null) txtSize.gameObject.SetActive(false);

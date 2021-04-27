@@ -6,24 +6,24 @@ using System;
 namespace YouYou
 {
 	/// <summary>
-	/// ³Ø¹ÜÀíÆ÷
+	/// æ± ç®¡ç†å™¨
 	/// </summary>
 	public class PoolManager : ManagerBase, IDisposable
 	{
 		/// <summary>
-		/// Àà¶ÔÏó³Ø
+		/// ç±»å¯¹è±¡æ± 
 		/// </summary>
 		public ClassObjectPool ClassObjectPool { get; private set; }
 		/// <summary>
-		/// ÓÎÏ·ÎïÌå¶ÔÏó³Ø
+		/// æ¸¸æˆç‰©ä½“å¯¹è±¡æ± 
 		/// </summary>
 		private GameObjectPool GameObjectPool;
 		/// <summary>
-		/// ×ÊÔ´°ü³Ø
+		/// èµ„æºåŒ…æ± 
 		/// </summary>
 		public ResourcePool AssetBundlePool { get; private set; }
 		/// <summary>
-		/// ·ÖÀà×ÊÔ´³Ø
+		/// åˆ†ç±»èµ„æºæ± 
 		/// </summary>
 		public Dictionary<AssetCategory, ResourcePool> AssetPool { get; private set; }
 
@@ -38,7 +38,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ³õÊ¼»¯
+		/// åˆå§‹åŒ–
 		/// </summary>
 		internal override void Init()
 		{
@@ -46,7 +46,7 @@ namespace YouYou
 			ReleaseAssetBundleInterval = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Pool_ReleaseAssetBundleInterval, GameEntry.CurrDeviceGrade);
 			ReleaseAssetInterval = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Pool_ReleaseAssetInterval, GameEntry.CurrDeviceGrade);
 
-			//È·±£ÓÎÏ·¸Õ¿ªÊ¼ÔËĞĞµÄÊ±ºò ·ÖÀà×ÊÔ´³ØÒÑ¾­³õÊ¼»¯ºÃÁË
+			//ç¡®ä¿æ¸¸æˆåˆšå¼€å§‹è¿è¡Œçš„æ—¶å€™ åˆ†ç±»èµ„æºæ± å·²ç»åˆå§‹åŒ–å¥½äº†
 			var enumerator = Enum.GetValues(typeof(AssetCategory)).GetEnumerator();
 			while (enumerator.MoveNext())
 			{
@@ -64,7 +64,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ÊÍ·ÅÀà¶ÔÏó³Ø
+		/// é‡Šæ”¾ç±»å¯¹è±¡æ± 
 		/// </summary>
 		public void ReleaseClassObjectPool()
 		{
@@ -72,7 +72,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ÊÍ·Å×ÊÔ´°ü³Ø
+		/// é‡Šæ”¾èµ„æºåŒ…æ± 
 		/// </summary>
 		public void ReleaseAssetBundlePool()
 		{
@@ -80,7 +80,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ÊÍ·Å·ÖÀà×ÊÔ´³ØÖĞËùÓĞ×ÊÔ´
+		/// é‡Šæ”¾åˆ†ç±»èµ„æºæ± ä¸­æ‰€æœ‰èµ„æº
 		/// </summary>
 		public void ReleaseAssetPool()
 		{
@@ -102,14 +102,14 @@ namespace YouYou
 
 
 		/// <summary>
-		/// Ëø¶¨µÄ×ÊÔ´°üÊı×é³¤¶È
+		/// é”å®šçš„èµ„æºåŒ…æ•°ç»„é•¿åº¦
 		/// </summary>
 		private int m_LockedAssetBundleLength;
 
 		/// <summary>
-		/// ¼ì²é×ÊÔ´°üÊÇ·ñËø¶¨
+		/// æ£€æŸ¥èµ„æºåŒ…æ˜¯å¦é”å®š
 		/// </summary>
-		/// <param name="assetBundleName">×ÊÔ´°üÃû³Æ</param>
+		/// <param name="assetBundleName">èµ„æºåŒ…åç§°</param>
 		/// <returns></returns>
 		public bool CheckAssetBundleIsLock(string assetBundleName)
 		{
@@ -124,7 +124,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ³õÊ¼»¯³£ÓÃÀà³£×¤ÊıÁ¿
+		/// åˆå§‹åŒ–å¸¸ç”¨ç±»å¸¸é©»æ•°é‡
 		/// </summary>
 		private void InitClassReside()
 		{
@@ -136,7 +136,7 @@ namespace YouYou
 			SetClassObjectResideCount<MainAssetLoaderRoutine>(30);
 		}
 		/// <summary>
-		/// ÉèÖÃÀà³£×¤ÊıÁ¿
+		/// è®¾ç½®ç±»å¸¸é©»æ•°é‡
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="count"></param>
@@ -145,9 +145,9 @@ namespace YouYou
 			ClassObjectPool.SetResideCount<T>(count);
 		}
 
-		#region DequeueClassObject È¡³öÒ»¸ö¶ÔÏó
+		#region DequeueClassObject å–å‡ºä¸€ä¸ªå¯¹è±¡
 		/// <summary>
-		/// È¡³öÒ»¸ö¶ÔÏó
+		/// å–å‡ºä¸€ä¸ªå¯¹è±¡
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
@@ -157,9 +157,9 @@ namespace YouYou
 		}
 		#endregion
 
-		#region EnqueueClassObject ¶ÔÏó»Ø³Ø
+		#region EnqueueClassObject å¯¹è±¡å›æ± 
 		/// <summary>
-		/// ¶ÔÏó»Ø³Ø
+		/// å¯¹è±¡å›æ± 
 		/// </summary>
 		/// <param name="obj"></param>
 		public void EnqueueClassObject(object obj)
@@ -168,22 +168,22 @@ namespace YouYou
 		}
 		#endregion
 
-		#region ±äÁ¿¶ÔÏó³Ø
+		#region å˜é‡å¯¹è±¡æ± 
 
 		/// <summary>
-		/// ±äÁ¿¶ÔÏó³ØËø
+		/// å˜é‡å¯¹è±¡æ± é”
 		/// </summary>
 		private object m_VarObjectLock = new object();
 
 #if UNITY_EDITOR
 		/// <summary>
-		/// ÔÚ¼àÊÓÃæ°åÏÔÊ¾µÄĞÅÏ¢
+		/// åœ¨ç›‘è§†é¢æ¿æ˜¾ç¤ºçš„ä¿¡æ¯
 		/// </summary>
 		public Dictionary<Type, int> VarObjectInspectorDic = new Dictionary<Type, int>();
 #endif
 
 		/// <summary>
-		/// È¡³öÒ»¸ö±äÁ¿¶ÔÏó
+		/// å–å‡ºä¸€ä¸ªå˜é‡å¯¹è±¡
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
@@ -208,7 +208,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ±äÁ¿¶ÔÏó»Ø³Ø
+		/// å˜é‡å¯¹è±¡å›æ± 
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="item"></param>
@@ -234,7 +234,7 @@ namespace YouYou
 		#endregion
 
 		/// <summary>
-		/// ÊÍ·ÅÀà¶ÔÏó³Ø¼ä¸ô
+		/// é‡Šæ”¾ç±»å¯¹è±¡æ± é—´éš”
 		/// </summary>
 		public int ReleaseClassObjectInterval
 		{
@@ -243,7 +243,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ÏÂ´ÎÊÍ·ÅÀà¶ÔÏóÔËĞĞÊ±¼ä
+		/// ä¸‹æ¬¡é‡Šæ”¾ç±»å¯¹è±¡è¿è¡Œæ—¶é—´
 		/// </summary>
 		public float ReleaseClassObjectNextRunTime
 		{
@@ -253,7 +253,7 @@ namespace YouYou
 
 
 		/// <summary>
-		/// ÊÍ·ÅAssetBundle³Ø¼ä¸ô
+		/// é‡Šæ”¾AssetBundleæ± é—´éš”
 		/// </summary>
 		public int ReleaseAssetBundleInterval
 		{
@@ -262,7 +262,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ÏÂ´ÎÊÍ·ÅAssetBundle³ØÔËĞĞÊ±¼ä
+		/// ä¸‹æ¬¡é‡Šæ”¾AssetBundleæ± è¿è¡Œæ—¶é—´
 		/// </summary>
 		public float ReleaseAssetBundleNextRunTime
 		{
@@ -271,7 +271,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ÊÍ·ÅAsset³Ø¼ä¸ô
+		/// é‡Šæ”¾Assetæ± é—´éš”
 		/// </summary>
 		public int ReleaseAssetInterval
 		{
@@ -280,7 +280,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ÏÂ´ÎÊÍ·ÅAsset³ØÔËĞĞÊ±¼ä
+		/// ä¸‹æ¬¡é‡Šæ”¾Assetæ± è¿è¡Œæ—¶é—´
 		/// </summary>
 		public float ReleaseAssetNextRunTime
 		{
@@ -294,7 +294,7 @@ namespace YouYou
 			{
 				ReleaseClassObjectNextRunTime = Time.time;
 				ReleaseClassObjectPool();
-				//GameEntry.Log(LogCategory.Normal, "ÊÍ·ÅÀà¶ÔÏó³Ø");
+				//GameEntry.Log(LogCategory.Normal, "é‡Šæ”¾ç±»å¯¹è±¡æ± ");
 			}
 
 
@@ -304,7 +304,7 @@ namespace YouYou
 
 #if ASSETBUNDLE
 				ReleaseAssetBundlePool();
-				//GameEntry.Log(LogCategory.Normal, "ÊÍ·ÅAssetBundle³Ø");
+				//GameEntry.Log(LogCategory.Normal, "é‡Šæ”¾AssetBundleæ± ");
 #endif
 			}
 
@@ -314,9 +314,9 @@ namespace YouYou
 
 #if ASSETBUNDLE
 				ReleaseAssetPool();
-				//GameEntry.Log(LogCategory.Normal, "ÊÍ·ÅAsset³Ø");
+				//GameEntry.Log(LogCategory.Normal, "é‡Šæ”¾Assetæ± ");
 #endif
-				GameEntry.Event.CommonEvent.Dispatch(SysEventId.LuaFullGc);
+				GameEntry.Event.CommonEvent.Dispatch(CommonEventId.LuaFullGc);
 
 #if !UNLOADRES_CHANGESCENE
 				if (LuaManager.luaEnv != null)
@@ -328,10 +328,10 @@ namespace YouYou
 			}
 		}
 
-		#region ÓÎÏ·ÎïÌå¶ÔÏó³Ø
+		#region æ¸¸æˆç‰©ä½“å¯¹è±¡æ± 
 
 		/// <summary>
-		/// ³õÊ¼»¯ÓÎÏ·ÎïÌå¶ÔÏó³Ø
+		/// åˆå§‹åŒ–æ¸¸æˆç‰©ä½“å¯¹è±¡æ± 
 		/// </summary>
 		private void InitGameObjectPool()
 		{
@@ -339,9 +339,9 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ´Ó¶ÔÏó³ØÖĞ»ñÈ¡¶ÔÏó
+		/// ä»å¯¹è±¡æ± ä¸­è·å–å¯¹è±¡
 		/// </summary>
-		/// <param name="prefabId">Ô¤Éè±àºÅ</param>
+		/// <param name="prefabId">é¢„è®¾ç¼–å·</param>
 		/// <param name="onComplete"></param>
 		public void GameObjectSpawn(int prefabId, Transform panent = null, BaseAction<Transform, bool> onComplete = null)
 		{
@@ -358,18 +358,18 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ¶ÔÏó»Ø³Ø
+		/// å¯¹è±¡å›æ± 
 		/// </summary>
-		/// <param name="instance">ÊµÀı</param>
+		/// <param name="instance">å®ä¾‹</param>
 		public void GameObjectDespawn(Transform instance)
 		{
 			GameObjectPool.Despawn(instance);
 		}
 		#endregion
 
-		#region ÊµÀı¹ÜÀíºÍ·ÖÀà×ÊÔ´³ØÊÍ·Å
+		#region å®ä¾‹ç®¡ç†å’Œåˆ†ç±»èµ„æºæ± é‡Šæ”¾
 		/// <summary>
-		/// ¿ËÂ¡³öÀ´µÄÊµÀı×ÊÔ´×Öµä
+		/// å…‹éš†å‡ºæ¥çš„å®ä¾‹èµ„æºå­—å…¸
 		/// </summary>
 		private Dictionary<int, ResourceEntity> m_InstanceResourceDic;
 		public ResourceEntity GetResourceEntity(int instanceId)
@@ -380,23 +380,23 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ×¢²áµ½ÊµÀı×Öµä
+		/// æ³¨å†Œåˆ°å®ä¾‹å­—å…¸
 		/// </summary>
 		/// <param name="instanceId"></param>
 		/// <param name="resourceEntity"></param>
 		public void RegisterInstanceResource(int instanceId, ResourceEntity resourceEntity)
 		{
-			//Debug.LogError("×¢²áµ½ÊµÀı×ÖµäinstanceId=" + instanceId);
+			//Debug.LogError("æ³¨å†Œåˆ°å®ä¾‹å­—å…¸instanceId=" + instanceId);
 			m_InstanceResourceDic[instanceId] = resourceEntity;
 		}
 
 		/// <summary>
-		/// ÊÍ·ÅÊµÀı×ÊÔ´
+		/// é‡Šæ”¾å®ä¾‹èµ„æº
 		/// </summary>
 		/// <param name="instanceId"></param>
 		public void ReleaseInstanceResource(int instanceId)
 		{
-			//Debug.LogError("ÊÍ·ÅÊµÀı×ÊÔ´instanceId=" + instanceId);
+			//Debug.LogError("é‡Šæ”¾å®ä¾‹èµ„æºinstanceId=" + instanceId);
 			ResourceEntity resourceEntity = null;
 			if (m_InstanceResourceDic.TryGetValue(instanceId, out resourceEntity))
 			{
@@ -411,7 +411,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ×ÊÔ´ÊµÌå»Ø³Ø
+		/// èµ„æºå®ä½“å›æ± 
 		/// </summary>
 		/// <param name="entity"></param>
 		private void UnspawnResourceEntity(ResourceEntity entity)
