@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dccaba6a977f3e848bbe9940d59c84d1, type: 3}
   m_Name: AboutUs
   m_EditorClassIdentifier: 
-  Icon: {fileID: 2800000, guid: 3070bbecf8c8415498e3b4810a68f4e9, type: 3}
+  Icon: {fileID: 0}
   Name: YouYouFramework
-  Version: 1.1
-  Author: 1.1
-  Contact: "\u8FB9\u6DAF"
-  ParamsSettings: "\u5168\u5C40\u53C2\u6570"
+  Version: 1.0.0
+  Author: "\u8FB9\u6DAF"
+  Contact: http://www.u3dol.com
