@@ -22,30 +22,30 @@ public class YouYouEditor : OdinMenuEditorWindow
 	{
 		var tree = new OdinMenuTree(true);
 
-		//¼ò½é
+		//ç®€ä»‹
 		tree.AddAssetAtPath("YouYouFramework", "Game/YouYouFramework/YouYouAssets/AboutUs.asset");
 
-		//ºêÉèÖÃ
+		//å®è®¾ç½®
 		tree.AddAssetAtPath("MacroSettings", "Game/YouYouFramework/YouYouAssets/MacroSettings.asset");
 
-		//²ÎÊıÉèÖÃ
+		//å‚æ•°è®¾ç½®
 		tree.AddAssetAtPath("ParamsSettings", "Game/YouYouFramework/YouYouAssets/ParamsSettings.asset");
 
-		//AssetBundle´ò°ü¹ÜÀí
+		//AssetBundleæ‰“åŒ…ç®¡ç†
 		tree.AddAssetAtPath("AssetBundleSettings", "Game/YouYouFramework/YouYouAssets/AssetBundleSettings.asset");
 
-		//Àà¶ÔÏó³Ø
+		//ç±»å¯¹è±¡æ± 
 		tree.AddAssetAtPath("PoolAnalyze/ClassObjectPool", "Game/YouYouFramework/YouYouAssets/PoolAnalyze_ClassObjectPool.asset");
-		//AssetBundele³Ø
+		//AssetBundeleæ± 
 		tree.AddAssetAtPath("PoolAnalyze/AssetBundlePool", "Game/YouYouFramework/YouYouAssets/PoolAnalyze_AssetBundlePool.asset");
-		//Asset³Ø
+		//Assetæ± 
 		tree.AddAssetAtPath("PoolAnalyze/AssetPool", "Game/YouYouFramework/YouYouAssets/PoolAnalyze_AssetPool.asset");
 
 		return tree;
 	}
 
-	#region AssetBundleCopyToStreamingAsstes ³õÊ¼×ÊÔ´¿½±´µ½StreamingAsstes
-	[MenuItem("YouYouTools/×ÊÔ´¹ÜÀí/³õÊ¼×ÊÔ´¿½±´µ½StreamingAsstes")]
+	#region AssetBundleCopyToStreamingAsstes åˆå§‹èµ„æºæ‹·è´åˆ°StreamingAsstes
+	[MenuItem("YouYouTools/èµ„æºç®¡ç†/åˆå§‹èµ„æºæ‹·è´åˆ°StreamingAsstes")]
 	public static void AssetBundleCopyToStreamingAsstes()
 	{
 		string toPath = Application.streamingAssetsPath + "/AssetBundles/";
@@ -58,8 +58,8 @@ public class YouYouEditor : OdinMenuEditorWindow
 
 		IOUtil.CopyDirectory(Application.persistentDataPath, toPath);
 
-		//ÖØĞÂÉú³É°æ±¾ÎÄ¼ş
-		//1.ÏÈ¶ÁÈ¡persistentDataPathÀï±ßµÄ°æ±¾ÎÄ¼ş Õâ¸ö°æ±¾ÎÄ¼şÀï ´æ·ÅÁËËùÓĞµÄ×ÊÔ´°üĞÅÏ¢
+		//é‡æ–°ç”Ÿæˆç‰ˆæœ¬æ–‡ä»¶
+		//1.å…ˆè¯»å–persistentDataPathé‡Œè¾¹çš„ç‰ˆæœ¬æ–‡ä»¶ è¿™ä¸ªç‰ˆæœ¬æ–‡ä»¶é‡Œ å­˜æ”¾äº†æ‰€æœ‰çš„èµ„æºåŒ…ä¿¡æ¯
 
 		byte[] buffer = IOUtil.GetFileBuffer(Application.persistentDataPath + "/VersionFile.bytes");
 		string version = "";
@@ -68,13 +68,13 @@ public class YouYouEditor : OdinMenuEditorWindow
 
 		DirectoryInfo directory = new DirectoryInfo(toPath);
 
-		//ÄÃµ½ÎÄ¼ş¼ĞÏÂËùÓĞÎÄ¼ş
+		//æ‹¿åˆ°æ–‡ä»¶å¤¹ä¸‹æ‰€æœ‰æ–‡ä»¶
 		FileInfo[] arrFiles = directory.GetFiles("*", SearchOption.AllDirectories);
 
 		for (int i = 0; i < arrFiles.Length; i++)
 		{
 			FileInfo file = arrFiles[i];
-			string fullName = file.FullName.Replace("\\", "/"); //È«Ãû °üº¬Â·¾¶À©Õ¹Ãû
+			string fullName = file.FullName.Replace("\\", "/"); //å…¨å åŒ…å«è·¯å¾„æ‰©å±•å
 			string name = fullName.Replace(toPath, "").Replace(".assetbundle", "").Replace(".unity3d", "");
 
 			if (name.Equals("AssetInfo.json", System.StringComparison.CurrentCultureIgnoreCase)
@@ -137,7 +137,7 @@ public class YouYouEditor : OdinMenuEditorWindow
 			}
 		}
 
-		string filePath = toPath + "/VersionFile.bytes"; //°æ±¾ÎÄ¼şÂ·¾¶
+		string filePath = toPath + "/VersionFile.bytes"; //ç‰ˆæœ¬æ–‡ä»¶è·¯å¾„
 		buffer = ms.ToArray();
 		buffer = ZlibHelper.CompressBytes(buffer);
 		FileStream fs = new FileStream(filePath, FileMode.Create);
@@ -145,12 +145,12 @@ public class YouYouEditor : OdinMenuEditorWindow
 		fs.Close();
 
 		AssetDatabase.Refresh();
-		Debug.Log("³õÊ¼×ÊÔ´¿½±´µ½StreamingAsstesÍê±Ï");
+		Debug.Log("åˆå§‹èµ„æºæ‹·è´åˆ°StreamingAssteså®Œæ¯•");
 	}
 	#endregion
 
-	#region AssetBundleOpenPersistentDataPath ´ò¿ªpersistentDataPath
-	[MenuItem("YouYouTools/×ÊÔ´¹ÜÀí/´ò¿ªpersistentDataPath")]
+	#region AssetBundleOpenPersistentDataPath æ‰“å¼€persistentDataPath
+	[MenuItem("YouYouTools/èµ„æºç®¡ç†/æ‰“å¼€persistentDataPath")]
 	public static void AssetBundleOpenPersistentDataPath()
 	{
 		string output = Application.persistentDataPath;
@@ -214,7 +214,7 @@ public class YouYouEditor : OdinMenuEditorWindow
 
 	private static GameObject MakeYouYouPrefab(string prefabName, GameObject parent)
 	{
-		GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/YouYouFramework/Editor/YouYouPrefabs/" + prefabName + ".prefab");
+		GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/YouYouFramework/Editor/YouYouPrefabs/" + prefabName + ".prefab");
 		GameObject obj = UnityEngine.Object.Instantiate(prefab);
 
 		obj.name = prefab.name;
