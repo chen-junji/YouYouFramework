@@ -1,6 +1,6 @@
 ﻿..\..\..\Tables
 ..\..\..\..\Client\Assets\Download\DataTable\
-..\..\..\..\Client\Assets\Game\YouYouFramework\Managers\DataTable\Create\
+..\..\..\..\Client\Assets\Game\YouYouScript\Data\DataTable\Create\
 ..\..\..\..\Client\Assets\Download\xLuaLogic\DataNode\DataTable\
 ..\..\..\..\Server\Release\DataTable\
 ..\..\..\..\Server\YouYouServer\YouYouServer.Common\DataTable\Create\
