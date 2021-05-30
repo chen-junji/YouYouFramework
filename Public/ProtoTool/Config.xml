@@ -3,10 +3,10 @@
   <ProtocPath>..\..\Public\ProtoTool</ProtocPath>
 
   
-  <ClientOutProtoPath>..\..\Client\Assets\YouYouFramework\Managers\Data\ProtoData\Proto\</ClientOutProtoPath>
-  <ClientOutProtoHandlerPath>..\..\Client\Assets\YouYouFramework\Managers\Data\ProtoData\ProtoHandler\</ClientOutProtoHandlerPath>
-  <ClientOutProtoIdDefinePath>..\..\Client\Assets\YouYouFramework\Managers\Data\ProtoData\ProtoIdDefine.cs</ClientOutProtoIdDefinePath>
-  <ClientOutSocketProtoListenerPath>..\..\Client\Assets\YouYouFramework\Managers\Data\ProtoData\SocketProtoListener.cs</ClientOutSocketProtoListenerPath>
+  <ClientOutProtoPath>..\..\Client\Assets\Game\YouYouFramework\Managers\Data\ProtoData\Proto\</ClientOutProtoPath>
+  <ClientOutProtoHandlerPath>..\..\Client\Assets\Game\YouYouFramework\Managers\Data\ProtoData\ProtoHandler\</ClientOutProtoHandlerPath>
+  <ClientOutProtoIdDefinePath>..\..\Client\Assets\Game\YouYouFramework\Managers\Data\ProtoData\ProtoIdDefine.cs</ClientOutProtoIdDefinePath>
+  <ClientOutSocketProtoListenerPath>..\..\Client\Assets\Game\YouYouFramework\Managers\Data\ProtoData\SocketProtoListener.cs</ClientOutSocketProtoListenerPath>
 
   <ClientOutLuaPBPath>..\..\Client\Assets\Download\xLuaLogic\PB\</ClientOutLuaPBPath>
   <ClientOutLuaProtoHandlerPath>..\..\Client\Assets\Download\xLuaLogic\DataNode\ProtoHandler\</ClientOutLuaProtoHandlerPath>
