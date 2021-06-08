@@ -17,6 +17,11 @@ public class CommonEventId
 	public const ushort LoadLuaDataTableComplete = 1003;
 
 	/// <summary>
+	/// ILRuntime程序集加载完毕
+	/// </summary>
+	public const ushort LoadILRuntimeComplete = 1004;
+
+	/// <summary>
 	/// 加载进度条更新
 	/// </summary>
 	public const ushort LoadingProgressChange = 1101;

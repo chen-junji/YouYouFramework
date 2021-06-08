@@ -1,15 +1,5 @@
-UIFormId = {
-
-    --Loading
-    UI_Loading = 1,
-
-    --Dialog
-    UI_Dialog = 2,
-
-    --提示
-    UI_Message = 1001,
-
-    --确认数量
-    UI_ChooseCount = 1002,
-
+UIFormId = 
+{
+    UILoading = 1,
+    UIDialog = 2,
 }

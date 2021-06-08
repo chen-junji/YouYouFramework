@@ -32,6 +32,8 @@ namespace YouYou
 		/// XLua的AssetBundle的存储路径
 		/// </summary>
 		public const string XLuaAssetBundlePath = "download/xlualogic.assetbundle";
+
+		public const string ILRuntimeAssetBundlePath = "download/hotfix.assetbundle";
 		/// <summary>
 		/// 自定义Shader的AssetBundle的存储路径
 		/// </summary>

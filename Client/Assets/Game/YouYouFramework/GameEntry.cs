@@ -89,6 +89,7 @@ namespace YouYou
 		public static DownloadManager Download { get; private set; }
 		public static UIManager UI { get; private set; }
 		public static LuaManager Lua { get; private set; }
+		public static ILRuntimeManager ILRuntime { get; private set; }
 		public static AudioManager Audio { get; private set; }
 		public static InputManager Input { get; private set; }
 		public static WebSocketManager WebSocket { get; private set; }
@@ -117,6 +118,7 @@ namespace YouYou
 			Download = new DownloadManager();
 			UI = new UIManager();
 			Lua = new LuaManager();
+			ILRuntime = new ILRuntimeManager();
 			Audio = new AudioManager();
 			Input = new InputManager();
 			WebSocket = new WebSocketManager();
