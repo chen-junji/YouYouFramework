@@ -36,12 +36,7 @@ public class TestUI : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.B))
-        {
-			GameEntry.UI.OpenDialogForm("HelloWorld!!");
-
-        }
-        else if (Input.GetKeyUp(KeyCode.T))
+        if (Input.GetKeyUp(KeyCode.T))
         {
             //Sys_Prefab prefab = GameEntry.DataTable.Sys_PrefabList.GetEntityValue(1);
             //string aa = prefab.AssetPath;

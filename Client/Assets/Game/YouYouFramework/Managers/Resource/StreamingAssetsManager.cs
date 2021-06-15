@@ -20,7 +20,7 @@ namespace YouYou
 		/// <param name="url">资源路径</param>
 		/// <param name="onComplete"></param>
 		/// <returns></returns>
-		private IEnumerator ReadStreamingAsset(string url, BaseAction<byte[]> onComplete)
+		private IEnumerator ReadStreamingAsset(string url, Action<byte[]> onComplete)
 		{
 			var uri = new System.Uri(Path.Combine(Application.streamingAssetsPath, url));
 			using (UnityWebRequest request = UnityWebRequest.Get(uri.AbsoluteUri))
@@ -45,7 +45,7 @@ namespace YouYou
 		/// </summary>
 		/// <param name="fileUrl">资源路径</param>
 		/// <param name="onComplete"></param>
-		public void ReadAssetBundle(string fileUrl, BaseAction<byte[]> onComplete)
+		public void ReadAssetBundle(string fileUrl, Action<byte[]> onComplete)
 		{
 			GameEntry.Instance.StartCoroutine(ReadStreamingAsset(fileUrl + "AssetBundle", onComplete));
 		}

@@ -505,7 +505,7 @@ namespace PathologicalGames
 		/// reached. You DO NOT need to test for null return values unless you 
 		/// used the limit option.
 		/// </returns>
-		public Transform Spawn(Transform prefab, Vector3 pos, Quaternion rot, Transform parent, ref bool isNewInstance, object resourceEntity = null)
+		public Transform Spawn(Transform prefab, Vector3 pos, Quaternion rot, Transform parent, ref bool isNewInstance, object resourceEntity = null, int prefabPoolId=0)
 		{
 			Transform inst;
 			bool worldPositionStays;
@@ -515,7 +515,7 @@ namespace PathologicalGames
 			{
 				// Determine if the prefab was ever used as explained in the docs
 				//   I believe a comparison of two references is processor-cheap.
-				if (this._prefabPools[i].prefabGO == prefab.gameObject)
+				if (this._prefabPools[i].prefabGO.name == prefab.gameObject.name)
 				{
 					// Now we know the prefabPool for this prefab exists. 
 					// Ask the prefab pool to setup and activate an instance.
@@ -553,7 +553,7 @@ namespace PathologicalGames
 
 			#region New PrefabPool
 			// The prefab wasn't found in any PrefabPools above. Make a new one
-			PrefabPool newPrefabPool = new PrefabPool(prefab);
+			PrefabPool newPrefabPool = new PrefabPool(prefab, prefabPoolId);
 			this.CreatePrefabPool(newPrefabPool, resourceEntity);
 
 			// Spawn the new instance (Note: prefab already set in PrefabPool)
@@ -580,9 +580,9 @@ namespace PathologicalGames
 		/// <summary>
 		/// See primary Spawn method for documentation.
 		/// </summary>
-		public Transform Spawn(Transform prefab, Vector3 pos, Quaternion rot, ref bool isNewInstance, object resourceEntity = null)
+		public Transform Spawn(Transform prefab, Vector3 pos, Quaternion rot, ref bool isNewInstance, object resourceEntity = null, int prefabPoolId = 0)
 		{
-			Transform inst = this.Spawn(prefab, pos, rot, null, ref isNewInstance, resourceEntity);
+			Transform inst = this.Spawn(prefab, pos, rot, null, ref isNewInstance, resourceEntity, prefabPoolId);
 
 			// Can happen if limit was used
 			if (inst == null) return null;
@@ -597,9 +597,9 @@ namespace PathologicalGames
 		/// Overload to take only a prefab and instance using an 'empty' 
 		/// position and rotation.
 		/// </summary>
-		public Transform Spawn(Transform prefab, ref bool isNewInstance, object resourceEntity = null)
+		public Transform Spawn(Transform prefab, ref bool isNewInstance, object resourceEntity = null, int prefabPoolId = 0)
 		{
-			return this.Spawn(prefab, Vector3.zero, Quaternion.identity, ref isNewInstance, resourceEntity);
+			return this.Spawn(prefab, Vector3.zero, Quaternion.identity, ref isNewInstance, resourceEntity, prefabPoolId);
 		}
 
 
@@ -800,6 +800,37 @@ namespace PathologicalGames
 			return emitter;
 		}
 
+		/// <summary>
+		/// 直接释放
+		/// </summary>
+		/// <param name="instance"></param>
+		public void Release(Transform instance)
+		{
+            // Find the item and despawn it            
+            for (int i = 0; i < this._prefabPools.Count; i++)
+            {
+                if (this._prefabPools[i]._spawned.Contains(instance))
+                {                    
+					this._prefabPools[i].Release(instance);
+					break;
+                }  // Protection - Already despawned?
+                else if (this._prefabPools[i]._despawned.Contains(instance))
+                {
+                    Debug.LogError(
+                        string.Format("SpawnPool {0}: {1} has already been despawned. " +
+                                       "You cannot despawn something more than once!",
+                                        this.poolName,
+                                        instance.name));
+                    return;
+                }
+            }
+
+            // Remove from the internal list. Only active instances are kept. 
+            // 	 This isn't needed for Pool functionality. It is just done 
+            //	 as a user-friendly feature which has been needed before.
+            this._spawned.Remove(instance);
+        }
+		
 
 
 		/// <summary>
@@ -1482,13 +1513,37 @@ namespace PathologicalGames
 
 
 		/// <summary>
-		/// Move an instance from despawned to spawned, set the position and 
-		/// rotation, activate it and all children and return the transform
+		/// 直接完全释放
 		/// </summary>
-		/// <returns>
-		/// True if successfull, false if xform isn't in the spawned list
-		/// </returns>
-		internal bool DespawnInstance(Transform xform)
+		/// <param name="xform"></param>
+		public void Release(Transform xform)
+		{
+			xform.gameObject.SetActive(false);
+			this._spawned.Remove(xform);            
+            this.spawnPool.DestroyInstance(xform.gameObject);
+            
+            //如果预设池里 没有物体了 从总池字典移除[改造]
+            if (this.totalCount == 0)
+            {
+	            this.spawnPool.prefabs._Remove(prefab.name);
+                this.prefab = null;
+                this.prefabGO = null;
+                if (OnPrefabPoolClear != null)
+                {
+                    OnPrefabPoolClear(this);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Move an instance from despawned to spawned, set the position and 
+        /// rotation, activate it and all children and return the transform
+        /// </summary>
+        /// <returns>
+        /// True if successfull, false if xform isn't in the spawned list
+        /// </returns>
+        internal bool DespawnInstance(Transform xform)
 		{
 			return DespawnInstance(xform, true);
 		}
@@ -1551,12 +1606,13 @@ namespace PathologicalGames
 
 			// First time always pause, then check to see if the condition is
 			//   still true before attempting to cull.
-			yield return new WaitForSeconds(this.cullDelay);
+			//yield return new WaitForSeconds(this.cullDelay);
 
 			while (this.totalCount > this.cullAbove)
 			{
-				// Attempt to delete an amount == this.cullMaxPerPass
-				for (int i = 0; i < this.cullMaxPerPass; i++)
+
+                // Attempt to delete an amount == this.cullMaxPerPass
+                for (int i = 0; i < this.cullMaxPerPass; i++)
 				{
 					// Break if this.cullMaxPerPass would go past this.cullAbove
 					if (this.totalCount <= this.cullAbove)
@@ -1576,7 +1632,19 @@ namespace PathologicalGames
 												this.prefab.name,
 												this.cullAbove,
 												this.totalCount));
-					}
+
+                        //如果预设池里 没有物体了 从总池字典移除[改造]
+                        if (this.totalCount == 0)
+                        {
+                            this.spawnPool.prefabs._Remove(prefab.name);
+                            this.prefab = null;
+                            this.prefabGO = null;
+                            if (OnPrefabPoolClear != null)
+                            {
+                                OnPrefabPoolClear(this);
+                            }
+                        }
+                    }
 					else if (this.logMessages)
 					{
 						Debug.Log(string.Format("SpawnPool {0} ({1}): " +
@@ -1590,11 +1658,11 @@ namespace PathologicalGames
 					}
 				}
 
-				// Check again later
-				yield return new WaitForSeconds(this.cullDelay);
-			}
+                // Check again later
+                yield return new WaitForSeconds(this.cullDelay);
+            }
 
-			if (this.logMessages)
+            if (this.logMessages)
 				Debug.Log(string.Format("SpawnPool {0} ({1}): CULLING FINISHED! Stopping",
 										this.spawnPool.poolName,
 										this.prefab.name));
@@ -1603,17 +1671,6 @@ namespace PathologicalGames
 			this.cullingActive = false;
 			yield return null;
 
-			//如果预设池里 没有物体了 从总池字典移除[改造]
-			if (this.totalCount == 0)
-			{
-				this.spawnPool.prefabs._Remove(prefab.name);
-				this.prefab = null;
-				this.prefabGO = null;
-				if (OnPrefabPoolClear != null)
-				{
-					OnPrefabPoolClear(this);
-				}
-			}
 		}
 
 		/// <summary>
@@ -1691,11 +1748,12 @@ namespace PathologicalGames
 		public Transform TrySpawnInstance()
 		{
 			if (this.limitInstances && this.limitFIFO &&
-	this._spawned.Count >= this.limitAmount)
+			    this._spawned.Count >= this.limitAmount)
 			{
 				Transform firstIn = this._spawned[0];
 
-				this.DespawnInstance(firstIn);
+                this.DespawnInstance(firstIn);
+                // Release(firstIn);
 
 				// Because this is an internal despawn, we need to re-sync the SpawnPool's
 				//  internal list to reflect this
@@ -1703,7 +1761,6 @@ namespace PathologicalGames
 			}
 
 			Transform inst = null;
-
 			if (this._despawned.Count > 0)
 			{
 				inst = this._despawned[0];

@@ -8,17 +8,17 @@ using UnityEngine;
 namespace YouYou
 {
 	/// <summary>
-	/// ÊÂ¼ş¹ÜÀíÆ÷
+	/// äº‹ä»¶ç®¡ç†å™¨
 	/// </summary>
-	public class EventManager : ManagerBase, IDisposable
+	public class EventManager 
 	{
 		/// <summary>
-		/// SocketÊÂ¼ş
+		/// Socketäº‹ä»¶
 		/// </summary>
 		public SocketEvent SocketEvent { get; private set; }
 		public WebSocketEvent WebSocketEvent { get; private set; }
 		/// <summary>
-		/// Í¨ÓÃÊÂ¼ş
+		/// é€šç”¨äº‹ä»¶
 		/// </summary>
 		public CommonEvent CommonEvent { get; private set; }
 
@@ -27,18 +27,6 @@ namespace YouYou
 			SocketEvent = new SocketEvent();
 			WebSocketEvent = new WebSocketEvent();
 			CommonEvent = new CommonEvent();
-		}
-
-		public void Dispose()
-		{
-			SocketEvent.Dispose();
-			CommonEvent.Dispose();
-			WebSocketEvent.Dispose();
-		}
-
-		internal override void Init()
-		{
-
 		}
 	}
 }

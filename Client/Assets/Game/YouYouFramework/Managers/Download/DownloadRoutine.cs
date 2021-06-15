@@ -65,11 +65,11 @@ public class DownloadRoutine
 	/// <summary>
 	/// 下载中委托
 	/// </summary>
-	private BaseAction<string, ulong, float> m_OnUpdate;
+	private Action<string, ulong, float> m_OnUpdate;
 	/// <summary>
 	/// 下载完毕委托
 	/// </summary>
-	private BaseAction<string, DownloadRoutine> m_OnComplete;
+	private Action<string, DownloadRoutine> m_OnComplete;
 
 	/// <summary>
 	/// 开始下载
@@ -77,7 +77,7 @@ public class DownloadRoutine
 	/// <param name="url"></param>
 	/// <param name="onUpdate"></param>
 	/// <param name="onComplete"></param>
-	public void BeginDownload(string url, AssetBundleInfoEntity assetBundleInfo, BaseAction<string, ulong, float> onUpdate, BaseAction<string, DownloadRoutine> onComplete)
+	public void BeginDownload(string url, AssetBundleInfoEntity assetBundleInfo, Action<string, ulong, float> onUpdate, Action<string, DownloadRoutine> onComplete)
 	{
 		m_CurrFileUrl = url;
 		m_CurrAssetBundleInfo = assetBundleInfo;

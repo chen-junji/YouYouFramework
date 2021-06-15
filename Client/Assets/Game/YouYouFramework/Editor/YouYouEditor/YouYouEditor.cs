@@ -163,6 +163,46 @@ public class YouYouEditor : OdinMenuEditorWindow
 	}
 	#endregion
 
+    #region SetFBXAnimationMode 设置文件动画循环为true
+    [MenuItem("YouYouTools/设置文件动画循环为true")]
+    public static void SetFBXAnimationMode()
+    {
+        Object[] objs = Selection.objects;
+        for (int i = 0; i < objs.Length; i++)
+        {
+            string relatepath = AssetDatabase.GetAssetPath(objs[i]);
+            if (relatepath.Length - relatepath.LastIndexOf(".FBX") == 4)
+            {
+                string path = Application.dataPath.Replace("Assets", "") + relatepath + ".meta";
+                path = path.Replace("\\", "/");
+                StreamReader fs = new StreamReader(path);
+                List<string> ret = new List<string>();
+                string line;
+                while ((line = fs.ReadLine()) != null)
+                {
+                    line = line.Replace("\n", "");
+                    if (line.IndexOf("loopTime: 0") != -1)
+                    {
+                        line = "      loopTime: 1";
+                    }
+                    ret.Add(line);
+                }
+                fs.Close();
+                File.Delete(path);
+                StreamWriter writer = new StreamWriter(path + ".tmp");
+                foreach (var each in ret)
+                {
+                    writer.WriteLine(each);
+                }
+                writer.Close();
+                File.Copy(path + ".tmp", path);
+                File.Delete(path + ".tmp");
+            }
+        }
+        AssetDatabase.Refresh();
+    }
+    #endregion
+
 	#region YouYouPrefab
 	[MenuItem("GameObject/UI/YouYouText", false)]
 	private static void MakeYouYouText(MenuCommand menuCommand)
@@ -209,13 +249,13 @@ public class YouYouEditor : OdinMenuEditorWindow
 		youYouImage.color = image.color;
 		youYouImage.raycastTarget = image.raycastTarget;
 
-		UnityEngine.Object.DestroyImmediate(image.gameObject);
+        DestroyImmediate(image.gameObject);
 	}
 
 	private static GameObject MakeYouYouPrefab(string prefabName, GameObject parent)
 	{
 		GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/YouYouFramework/Editor/YouYouPrefabs/" + prefabName + ".prefab");
-		GameObject obj = UnityEngine.Object.Instantiate(prefab);
+        GameObject obj = Instantiate(prefab);
 
 		obj.name = prefab.name;
 		GameObjectUtility.SetParentAndAlign(obj, parent);

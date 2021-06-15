@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,9 +15,9 @@ namespace YouYou
         [SerializeField] bool dynamic = true; // 动态摇杆
         [SerializeField] Transform handle; //摇杆
         [SerializeField] Transform backGround; //背景
-        public BaseAction<Vector2> OnChanged; //事件 ： 摇杆被 拖拽时
-        public BaseAction<Vector2> OnDown; // 事件： 摇杆被按下时
-        public BaseAction<Vector2> OnUp; //事件 ： 摇杆上抬起时
+        public Action<Vector2> OnChanged; //事件 ： 摇杆被 拖拽时
+        public Action<Vector2> OnDown; // 事件： 摇杆被按下时
+        public Action<Vector2> OnUp; //事件 ： 摇杆上抬起时
         public bool IsDraging { get { return fingerId != int.MinValue; } } //摇杆拖拽状态
         public bool DynamicJoystick //运行时代码配置摇杆是否为动态摇杆
         {
@@ -37,7 +38,7 @@ namespace YouYou
         private void Awake()
         {
             //注册摇杆
-            GameEntry.Input.Joystick = this;
+            GameEntry.YouYouInput.Joystick = this;
             backGroundOriginLocalPostion = backGround.localPosition;
         }
 

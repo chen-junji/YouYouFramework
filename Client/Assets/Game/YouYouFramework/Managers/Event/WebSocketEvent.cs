@@ -3,26 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WebSocketEvent : IDisposable
+public class WebSocketEvent 
 {
 	/// <summary>
-	/// Ö÷ÌâÔ­ĞÍ       ËùÓĞ¾ßÌåÖ÷Ìâ¶¼ÊÇÒÔ¸ÃÔ­ĞÍÎªÎ¯ÍĞÀàĞÍ
+	/// ä¸»é¢˜åŸå‹       æ‰€æœ‰å…·ä½“ä¸»é¢˜éƒ½æ˜¯ä»¥è¯¥åŸå‹ä¸ºå§”æ‰˜ç±»å‹
 	/// </summary>
-	/// <param name="P">¾ßÌåÖ÷Ìâ²ÎÊı</param>
+	/// <param name="P">å…·ä½“ä¸»é¢˜å‚æ•°</param>
 	public delegate void OnActionHandler(string jsonData);
 	/// <summary>
-	/// Key: Ö÷ÌâÁĞ±íµÄKey   Í¬¸öÁĞ±íÀïµÄÖ÷Ìâ¶¼ÊÇÍ¬Ò»¸öKey
-	/// Value: Ö÷ÌâÁĞ±í
+	/// Key: ä¸»é¢˜åˆ—è¡¨çš„Key   åŒä¸ªåˆ—è¡¨é‡Œçš„ä¸»é¢˜éƒ½æ˜¯åŒä¸€ä¸ªKey
+	/// Value: ä¸»é¢˜åˆ—è¡¨
 	/// </summary>
 	private Dictionary<string, LinkedList<OnActionHandler>> dic = new Dictionary<string, LinkedList<OnActionHandler>>();
 
 
-	#region AddEventListener ¹Û²ìÕß¼àÌıÊÂ¼ş
+	#region AddEventListener è§‚å¯Ÿè€…ç›‘å¬äº‹ä»¶
 	/// <summary> 
-	/// ¹Û²ìÕß¼àÌıÊÂ¼ş
+	/// è§‚å¯Ÿè€…ç›‘å¬äº‹ä»¶
 	/// </summary>
-	/// <param name="Key">Ö÷ÌâÁĞ±íµÄKey</param>
-	/// <param name="handler">Ö÷Ìâ</param>
+	/// <param name="Key">ä¸»é¢˜åˆ—è¡¨çš„Key</param>
+	/// <param name="handler">ä¸»é¢˜</param>
 	public void AddEventListener(string key, OnActionHandler handler)
 	{
 		LinkedList<OnActionHandler> lstHandler = null;
@@ -36,12 +36,12 @@ public class WebSocketEvent : IDisposable
 	}
 	#endregion
 
-	#region RemoveEventListener ¹Û²ìÕßÒÆ³ı¼àÌıÊÂ¼ş
+	#region RemoveEventListener è§‚å¯Ÿè€…ç§»é™¤ç›‘å¬äº‹ä»¶
 	/// <summary>
-	/// ¹Û²ìÕßÒÆ³ı¼àÌıÊÂ¼ş
+	/// è§‚å¯Ÿè€…ç§»é™¤ç›‘å¬äº‹ä»¶
 	/// </summary>
-	/// <param name="key">Ö÷ÌâÁĞ±íµÄKey</param>
-	/// <param name="handler">Ö÷Ìâ</param>
+	/// <param name="key">ä¸»é¢˜åˆ—è¡¨çš„Key</param>
+	/// <param name="handler">ä¸»é¢˜</param>
 	public void RemoveEventListener(string key, OnActionHandler handler)
 	{
 		LinkedList<OnActionHandler> lstHandler = null;
@@ -57,12 +57,12 @@ public class WebSocketEvent : IDisposable
 	}
 	#endregion
 
-	#region Dispatch ·¢²¼ÕßÅÉ·¢ÊÂ¼ş
+	#region Dispatch å‘å¸ƒè€…æ´¾å‘äº‹ä»¶
 	/// <summary>
-	/// ·¢²¼ÕßÅÉ·¢ÊÂ¼ş
+	/// å‘å¸ƒè€…æ´¾å‘äº‹ä»¶
 	/// </summary>
-	/// <param name="btnKey">Ö÷ÌâÁĞ±íµÄKey</param>
-	/// <param name="jsonData">Ö÷Ìâ²ÎÊı</param>
+	/// <param name="btnKey">ä¸»é¢˜åˆ—è¡¨çš„Key</param>
+	/// <param name="jsonData">ä¸»é¢˜å‚æ•°</param>
 	public void Dispatch(string key, string jsonData)
 	{
 		LinkedList<OnActionHandler> lstHandler = null;
@@ -81,9 +81,4 @@ public class WebSocketEvent : IDisposable
 		Dispatch(key, null);
 	}
 	#endregion
-
-	public void Dispose()
-	{
-		dic.Clear();
-	}
 }

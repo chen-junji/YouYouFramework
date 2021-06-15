@@ -3,11 +3,6 @@ using System.Collections;
 using System;
 
 
-
-/// <summary>
-/// ����������
-/// </summary>
-/// <typeparam name="T"></typeparam>
 public class Singleton<T> : IDisposable where T :new()
 {
     private static T instance;

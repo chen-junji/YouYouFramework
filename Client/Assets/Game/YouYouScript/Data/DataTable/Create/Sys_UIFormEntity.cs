@@ -37,6 +37,11 @@ public partial class Sys_UIFormEntity : DataTableEntityBase
     public int IsLock;
 
     /// <summary>
+    /// 加载方式 零默认;一转圈;二预加载
+    /// </summary>
+    public byte LoadType;
+
+    /// <summary>
     /// 路径
     /// </summary>
     public string AssetPath_Chinese;
@@ -60,10 +65,5 @@ public partial class Sys_UIFormEntity : DataTableEntityBase
     /// 冻结类型0=置空层1=禁用
     /// </summary>
     public byte FreezeMode;
-
-    /// <summary>
-    /// 打开动画0=无1=缩放
-    /// </summary>
-    public byte OpenAnim;
 
 }

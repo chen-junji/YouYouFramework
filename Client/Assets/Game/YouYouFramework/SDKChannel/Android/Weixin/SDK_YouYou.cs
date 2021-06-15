@@ -27,7 +27,7 @@ public class SDK_YouYou : IAndroidSDK
 		}
 	}
 
-	#region Ö§¸¶±¦Ö§¸¶
+	#region æ”¯ä»˜å®æ”¯ä»˜
 	private void PayV2(string param)
 	{
 		Dictionary<string, string> dic = new Dictionary<string, string>();
@@ -40,8 +40,8 @@ public class SDK_YouYou : IAndroidSDK
 	}
 	#endregion
 
-	#region Î¢ĞÅµÇÂ¼
-	private string m_state;//Ëæ»úÊı
+	#region å¾®ä¿¡ç™»å½•
+	private string m_state;//éšæœºæ•°
 	private Action<EventArgs> m_onWeixinLogOn;
 	private void WeixinLogOn(string param, Action<EventArgs> callBack)
 	{
@@ -59,7 +59,7 @@ public class SDK_YouYou : IAndroidSDK
 
 		if (m_state.Equals(state))
 		{
-			//¸øÕË»§·şÎñÆ÷·¢ËÍÇëÇó
+			//ç»™è´¦æˆ·æœåŠ¡å™¨å‘é€è¯·æ±‚
 			Dictionary<string, object> data = new Dictionary<string, object>();
 			data["ChennelId"] = GameEntry.Data.SysDataManager.CurrChannelConfig.ChannelId;
 			data["Code"] = code;
@@ -68,17 +68,12 @@ public class SDK_YouYou : IAndroidSDK
 			dic["SDKName"] = "SDK_Weixin";
 			dic["ActionName"] = "LogOn";
 			dic["UserData"] = data.ToJson();
-
-			GameEntry.UI.OpenDialogForm(dic.ToJson(), "µÇÂ¼³É¹¦!");
-			//GameEntry.Http.SendData(@"http://122.51.39.135:1200/Home/SDKAccount", (HttpCallBackArgs obj) =>
-			//{
-			//	m_onWeixinLogOn?.Invoke(obj);
-			//}, JsonMapper.ToJson(dic));
+			Debug.LogError(dic.ToJson());
 		}
 	}
 	#endregion
 
-	#region Î¢ĞÅÖ§¸¶
+	#region å¾®ä¿¡æ”¯ä»˜
 	private void WeixinPay(string param)
 	{
 		Dictionary<string, string> dic = new Dictionary<string, string>();

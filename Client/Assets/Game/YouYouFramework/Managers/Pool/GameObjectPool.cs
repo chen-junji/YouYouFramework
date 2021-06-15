@@ -1,7 +1,7 @@
 //===================================================
-//×÷    Õß£º±ßÑÄ  http://www.u3dol.com
-//´´½¨Ê±¼ä£º
-//±¸    ×¢£º
+//ä½œ    è€…ï¼šè¾¹æ¶¯  http://www.u3dol.com
+//åˆ›å»ºæ—¶é—´ï¼š
+//å¤‡    æ³¨ï¼š
 //===================================================
 using PathologicalGames;
 using System;
@@ -11,267 +11,287 @@ using UnityEngine;
 
 namespace YouYou
 {
-	/// <summary>
-	/// ÓÎÏ·ÎïÌå¶ÔÏó³Ø
-	/// </summary>
-	public class GameObjectPool : IDisposable
-	{
-		/// <summary>
-		/// ÓÎÏ·ÎïÌå¶ÔÏó³Ø×Öµä
-		/// </summary>
-		private Dictionary<byte, GameObjectPoolEntity> m_SpawnPoolDic;
+    /// <summary>
+    /// æ¸¸æˆç‰©ä½“å¯¹è±¡æ± 
+    /// </summary>
+    public class GameObjectPool : IDisposable
+    {
+        /// <summary>
+        /// æ¸¸æˆç‰©ä½“å¯¹è±¡æ± å­—å…¸
+        /// </summary>
+        private Dictionary<byte, GameObjectPoolEntity> m_SpawnPoolDic;
 
-		/// <summary>
-		/// ÊµÀıID¶ÔÓ¦¶ÔÏó³ØID
-		/// </summary>
-		private Dictionary<int, byte> m_InstanceIdPoolIdDic;
+        /// <summary>
+        /// å®ä¾‹IDå¯¹åº”å¯¹è±¡æ± ID
+        /// </summary>
+        private Dictionary<int, byte> m_InstanceIdPoolIdDic;
 
-		/// <summary>
-		/// ¿ÕÏĞÔ¤Éè³Ø¶ÓÁĞ Ïàµ±ÓÚ¶ÔÕâ¸öÔ¤Éè³ØÔÙ¼ÓÁËÒ»²ã³Ø
-		/// </summary>
-		private Queue<PrefabPool> m_PrefabPoolQueue;
+        /// <summary>
+        /// ç©ºé—²é¢„è®¾æ± é˜Ÿåˆ— ç›¸å½“äºå¯¹è¿™ä¸ªé¢„è®¾æ± å†åŠ äº†ä¸€å±‚æ± 
+        /// </summary>
+        private Queue<PrefabPool> m_PrefabPoolQueue;
 
-		public GameObjectPool()
-		{
-			m_SpawnPoolDic = new Dictionary<byte, GameObjectPoolEntity>();
-			m_InstanceIdPoolIdDic = new Dictionary<int, byte>();
-			m_PrefabPoolQueue = new Queue<PrefabPool>();
+        public GameObjectPool()
+        {
+            m_SpawnPoolDic = new Dictionary<byte, GameObjectPoolEntity>();
+            m_InstanceIdPoolIdDic = new Dictionary<int, byte>();
+            m_PrefabPoolQueue = new Queue<PrefabPool>();
 
-			InstanceHandler.InstantiateDelegates += this.InstantiateDelegate;
-			InstanceHandler.DestroyDelegates += this.DestroyDelegate;
-		}
+            InstanceHandler.InstantiateDelegates += this.InstantiateDelegate;
+            InstanceHandler.DestroyDelegates += this.DestroyDelegate;
+        }
 
-		public void Dispose()
-		{
-			m_SpawnPoolDic.Clear();
-		}
+        public void Dispose()
+        {
+            m_SpawnPoolDic.Clear();
+        }
 
-		/// <summary>
-		/// µ±¶ÔÏó³ØÎïÌå´´½¨Ê±ºò
-		/// </summary>
-		/// <param name="prefab"></param>
-		/// <param name="pos"></param>
-		/// <param name="rot"></param>
-		/// <param name="userData"></param>
-		/// <returns></returns>
-		public GameObject InstantiateDelegate(GameObject prefab, Vector3 pos, Quaternion rot, object userData)
-		{
-			ResourceEntity resourceEntity = userData as ResourceEntity;
+        /// <summary>
+        /// å½“å¯¹è±¡æ± ç‰©ä½“åˆ›å»ºæ—¶å€™
+        /// </summary>
+        /// <param name="prefab"></param>
+        /// <param name="pos"></param>
+        /// <param name="rot"></param>
+        /// <param name="userData"></param>
+        /// <returns></returns>
+        public GameObject InstantiateDelegate(GameObject prefab, Vector3 pos, Quaternion rot, object userData)
+        {
+            ResourceEntity resourceEntity = userData as ResourceEntity;
 
-			if (resourceEntity == null)
-			{
-				Debug.LogError("×ÊÔ´ĞÅÏ¢²»´æÔÚ resourceEntity=" + resourceEntity.ResourceName);
-				return null;
-			}
+            if (resourceEntity == null)
+            {
+                Debug.LogError("èµ„æºä¿¡æ¯ä¸å­˜åœ¨ resourceEntity=" + resourceEntity.ResourceName);
+                return null;
+            }
 
-			GameObject obj = UnityEngine.Object.Instantiate(prefab, pos, rot);
+            GameObject obj = UnityEngine.Object.Instantiate(prefab, pos, rot);
 
-			//×¢²á
-			GameEntry.Pool.RegisterInstanceResource(obj.GetInstanceID(), resourceEntity);
-			return obj;
-		}
+            //æ³¨å†Œ
+            GameEntry.Pool.RegisterInstanceResource(obj.GetInstanceID(), resourceEntity);
+            return obj;
+        }
 
-		/// <summary>
-		/// µ±¶ÔÏó³ØÎïÌåÏú»ÙÊ±ºò
-		/// </summary>
-		/// <param name="instance"></param>
-		public void DestroyDelegate(GameObject instance)
-		{
-			UnityEngine.Object.Destroy(instance);
-			GameEntry.Pool.ReleaseInstanceResource(instance.GetInstanceID());
-		}
+        /// <summary>
+        /// å½“å¯¹è±¡æ± ç‰©ä½“é”€æ¯æ—¶å€™
+        /// </summary>
+        /// <param name="instance"></param>
+        public void DestroyDelegate(GameObject instance)
+        {
+            UnityEngine.Object.Destroy(instance);
+            GameEntry.Pool.ReleaseInstanceResource(instance.GetInstanceID());
+        }
 
-		#region Init ³õÊ¼»¯
-		/// <summary>
-		/// ³õÊ¼»¯
-		/// </summary>
-		/// <param name="arr"></param>
-		/// <param name="parent"></param>
-		/// <returns></returns>
-		public IEnumerator Init(GameObjectPoolEntity[] arr, Transform parent)
-		{
-			int len = arr.Length;
-			for (int i = 0; i < len; i++)
-			{
-				GameObjectPoolEntity entity = arr[i];
+        #region Init åˆå§‹åŒ–
+        /// <summary>
+        /// åˆå§‹åŒ–
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        public IEnumerator Init(GameObjectPoolEntity[] arr, Transform parent)
+        {
+            int len = arr.Length;
+            for (int i = 0; i < len; i++)
+            {
+                GameObjectPoolEntity entity = arr[i];
 
-				if (entity.Pool != null)
-				{
-					UnityEngine.Object.Destroy(entity.Pool.gameObject);
-					yield return null;
-					entity.Pool = null;
-				}
+                if (entity.Pool != null)
+                {
+                    UnityEngine.Object.Destroy(entity.Pool.gameObject);
+                    yield return null;
+                    entity.Pool = null;
+                }
 
-				//´´½¨¶ÔÏó³Ø
-				SpawnPool pool = PathologicalGames.PoolManager.Pools.Create(entity.PoolName);
-				pool.group.parent = parent;
-				pool.group.localPosition = Vector3.zero;
-				entity.Pool = pool;
+                //åˆ›å»ºå¯¹è±¡æ± 
+                SpawnPool pool = PathologicalGames.PoolManager.Pools.Create(entity.PoolName);
+                pool.group.parent = parent;
+                pool.group.localPosition = Vector3.zero;
+                entity.Pool = pool;
 
-				m_SpawnPoolDic[entity.PoolId] = entity;
-			}
-		}
-		#endregion
+                m_SpawnPoolDic[entity.PoolId] = entity;
+            }
+        }
+        #endregion
 
-		#region Spawn ´Ó¶ÔÏó³ØÖĞ»ñÈ¡¶ÔÏó
-		private Dictionary<int, HashSet<Action<SpawnPool, Transform, ResourceEntity>>> m_LoadingPrefabPoolDic = new Dictionary<int, HashSet<Action<SpawnPool, Transform, ResourceEntity>>>();
-		/// <summary>
-		/// ´Ó¶ÔÏó³ØÖĞ»ñÈ¡¶ÔÏó
-		/// </summary>
-		/// <param name="prefabId">Ô¤Éè±àºÅ</param>
-		/// <param name="onComplete"></param>
-		public void Spawn(Sys_PrefabEntity entity, Transform panent = null, BaseAction<Transform, bool> onComplete = null)
-		{
-			lock (m_PrefabPoolQueue)
-			{
-				//ÄÃµ½¶ÔÏó³Ø
-				GameObjectPoolEntity gameObjectPoolEntity = m_SpawnPoolDic[(byte)entity.PoolId];
+        #region Spawn ä»å¯¹è±¡æ± ä¸­è·å–å¯¹è±¡
+        private Dictionary<int, HashSet<Action<SpawnPool, Transform, ResourceEntity>>> m_LoadingPrefabPoolDic = new Dictionary<int, HashSet<Action<SpawnPool, Transform, ResourceEntity>>>();
+        /// <summary>
+        /// ä»å¯¹è±¡æ± ä¸­è·å–å¯¹è±¡
+        /// </summary>
+        /// <param name="prefabId">é¢„è®¾ç¼–å·</param>
+        /// <param name="onComplete"></param>
+        public void Spawn(Sys_PrefabEntity entity, Transform panent = null, Action<Transform, bool> onComplete = null)
+        {
+            lock (m_PrefabPoolQueue)
+            {
+                //æ‹¿åˆ°å¯¹è±¡æ± 
+                GameObjectPoolEntity gameObjectPoolEntity = m_SpawnPoolDic[(byte)entity.PoolId];
 
-				//Ê¹ÓÃÔ¤Éè±àºÅ µ±×ö³ØID
-				PrefabPool prefabPool = gameObjectPoolEntity.Pool.GetPrefabPool(entity.Id);
-				if (prefabPool != null)
-				{
-					//ÄÃµ½Ò»¸öÊµÀı ¼¤»îÒ»¸öÒÑÓĞµÄ
-					Transform retTrans = prefabPool.TrySpawnInstance();
-					if (retTrans != null)
-					{
-						int instanceID = retTrans.gameObject.GetInstanceID();
-						m_InstanceIdPoolIdDic[instanceID] = entity.PoolId;
-						SetPanent(retTrans, panent, GameEntry.Pool.GetResourceEntity(instanceID));
-						onComplete?.Invoke(retTrans, false);
-						return;
-					}
-				}
+                //ä½¿ç”¨é¢„è®¾ç¼–å· å½“åšæ± ID
+                PrefabPool prefabPool = gameObjectPoolEntity.Pool.GetPrefabPool(entity.Id);
+                if (prefabPool != null)
+                {
+                    //æ‹¿åˆ°ä¸€ä¸ªå®ä¾‹ æ¿€æ´»ä¸€ä¸ªå·²æœ‰çš„
+                    Transform retTrans = prefabPool.TrySpawnInstance();
+                    if (retTrans != null)
+                    {
+                        int instanceID = retTrans.gameObject.GetInstanceID();
+                        m_InstanceIdPoolIdDic[instanceID] = entity.PoolId;
+                        SetPanent(retTrans, panent, GameEntry.Pool.GetResourceEntity(instanceID));
+                        onComplete?.Invoke(retTrans, false);
+                        return;
+                    }
+                }
 
-				//½øĞĞÀ¹½Ø, Èç¹û´æÔÚ¼ÓÔØÖĞµÄAsset °ÑÎ¯ÍĞ¼ÓÈë¶ÔÓ¦µÄÁ´±í È»ºóÖ±½Ó·µ»Ø
-				HashSet<Action<SpawnPool, Transform, ResourceEntity>> lst = null;
-				if (m_LoadingPrefabPoolDic.TryGetValue(entity.Id, out lst))
-				{
-					lst.Add((_SpawnPool, _Prefab, _ResourceEntity) =>
-					{
-						//ÄÃµ½Ò»¸öÊµÀı
-						bool isNewInstance = false;
-						Transform retTrans = _SpawnPool.Spawn(_Prefab, ref isNewInstance, _ResourceEntity);
-						int instanceID = retTrans.gameObject.GetInstanceID();
-						m_InstanceIdPoolIdDic[instanceID] = entity.PoolId;
-						SetPanent(retTrans, panent, _ResourceEntity);
-						onComplete?.Invoke(retTrans, isNewInstance);
-					});
-					return;
-				}
+                //è¿›è¡Œæ‹¦æˆª, å¦‚æœå­˜åœ¨åŠ è½½ä¸­çš„Asset æŠŠå§”æ‰˜åŠ å…¥å¯¹åº”çš„é“¾è¡¨ ç„¶åç›´æ¥è¿”å›
+                HashSet<Action<SpawnPool, Transform, ResourceEntity>> lst = null;
+                if (m_LoadingPrefabPoolDic.TryGetValue(entity.Id, out lst))
+                {
+                    lst.Add((_SpawnPool, _Prefab, _ResourceEntity) =>
+                    {
+                        //æ‹¿åˆ°ä¸€ä¸ªå®ä¾‹
+                        bool isNewInstance = false;
+                        Transform retTrans = _SpawnPool.Spawn(_Prefab, ref isNewInstance, _ResourceEntity, entity.PoolId);
+                        int instanceID = retTrans.gameObject.GetInstanceID();
+                        m_InstanceIdPoolIdDic[instanceID] = entity.PoolId;
+                        SetPanent(retTrans, panent, _ResourceEntity);
+                        onComplete?.Invoke(retTrans, isNewInstance);
+                    });
+                    return;
+                }
 
-				//ÕâÀïËµÃ÷ÊÇ¼ÓÔØÔÚµÚÒ»¸ö
-				lst = GameEntry.Pool.DequeueClassObject<HashSet<Action<SpawnPool, Transform, ResourceEntity>>>();
-				lst.Add((_SpawnPool, _Prefab, _ResourceEntity) =>
-				{
-					//ÄÃµ½Ò»¸öÊµÀı
-					bool isNewInstance = false;
-					Transform retTrans = _SpawnPool.Spawn(_Prefab, ref isNewInstance, _ResourceEntity);
-					int instanceID = retTrans.gameObject.GetInstanceID();
-					m_InstanceIdPoolIdDic[instanceID] = entity.PoolId;
-					SetPanent(retTrans, panent, _ResourceEntity);
-					onComplete?.Invoke(retTrans, isNewInstance);
-				});
-				m_LoadingPrefabPoolDic[entity.Id] = lst;
+                //è¿™é‡Œè¯´æ˜æ˜¯åŠ è½½åœ¨ç¬¬ä¸€ä¸ª
+                lst = GameEntry.Pool.DequeueClassObject<HashSet<Action<SpawnPool, Transform, ResourceEntity>>>();
+                lst.Add((_SpawnPool, _Prefab, _ResourceEntity) =>
+                {
+                    //æ‹¿åˆ°ä¸€ä¸ªå®ä¾‹
+                    bool isNewInstance = false;
+                    Transform retTrans = _SpawnPool.Spawn(_Prefab, ref isNewInstance, _ResourceEntity, entity.PoolId);
+                    int instanceID = retTrans.gameObject.GetInstanceID();
+                    m_InstanceIdPoolIdDic[instanceID] = entity.PoolId;
+                    SetPanent(retTrans, panent, _ResourceEntity);
+                    onComplete?.Invoke(retTrans, isNewInstance);
+                });
+                m_LoadingPrefabPoolDic[entity.Id] = lst;
 
-				GameEntry.Resource.ResourceLoaderManager.LoadMainAsset((AssetCategory)entity.AssetCategory, entity.AssetFullName, (ResourceEntity resourceEntity) =>
-				{
-					GameObject retObj = resourceEntity.Target as GameObject;
-					Transform prefab = retObj.transform;
+                GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(entity.AssetFullName, isAddReferenceCount: true, onComplete: (ResourceEntity resourceEntity) =>
+                {
+                    GameObject retObj = resourceEntity.Target as GameObject;
+                    if (retObj == null)
+                    {
+                        Debug.LogError("æ‰¾ä¸åˆ°Prefab, AssetFullName==" + entity.AssetFullName);
+                        m_LoadingPrefabPoolDic.Remove(entity.Id);
+                        lst.Clear();//ä¸€å®šè¦æ¸…ç©º
+                        GameEntry.Pool.EnqueueClassObject(lst);
+                    }
+                    Transform prefab = retObj.transform;
 
-					if (prefabPool == null)
-					{
-						//ÏÈÈ¥¶ÓÁĞÀïÕÒ ¿ÕÏĞµÄ³Ø
-						if (m_PrefabPoolQueue.Count > 0)
-						{
-							prefabPool = m_PrefabPoolQueue.Dequeue();
+                    prefabPool = gameObjectPoolEntity.Pool.GetPrefabPool(entity.Id);
+                    if (prefabPool == null)
+                    {
+                        //å…ˆå»é˜Ÿåˆ—é‡Œæ‰¾ ç©ºé—²çš„æ± 
+                        if (m_PrefabPoolQueue.Count > 0)
+                        {
+                            prefabPool = m_PrefabPoolQueue.Dequeue();
 
-							prefabPool.PrefabPoolId = entity.Id; //ÉèÖÃÔ¤Éè³Ø±àºÅ
-							gameObjectPoolEntity.Pool.AddPrefabPool(prefabPool);
+                            prefabPool.PrefabPoolId = entity.Id; //è®¾ç½®é¢„è®¾æ± ç¼–å·
+                            gameObjectPoolEntity.Pool.AddPrefabPool(prefabPool);
 
-							prefabPool.prefab = prefab;
-							prefabPool.prefabGO = prefab.gameObject;
-							prefabPool.AddPrefabToDic(prefab.name, prefab);
-						}
-						else
-						{
-							prefabPool = new PrefabPool(prefab, entity.Id);
-							gameObjectPoolEntity.Pool.CreatePrefabPool(prefabPool, resourceEntity);
-						}
+                            prefabPool.prefab = prefab;
+                            prefabPool.prefabGO = prefab.gameObject;
+                            prefabPool.AddPrefabToDic(prefab.name, prefab);
+                        }
+                        else
+                        {
+                            prefabPool = new PrefabPool(prefab, entity.Id);
+                            gameObjectPoolEntity.Pool.CreatePrefabPool(prefabPool, resourceEntity);
+                        }
 
-						prefabPool.OnPrefabPoolClear = (PrefabPool pool) =>
-						{
-							//Ô¤Éè³Ø¼ÓÈë¶ÓÁĞ
-							pool.PrefabPoolId = 0;
-							gameObjectPoolEntity.Pool.RemovePrefabPool(pool);
-							m_PrefabPoolQueue.Enqueue(pool);
-						};
+                        prefabPool.OnPrefabPoolClear = (PrefabPool pool) =>
+                        {
+                            //é¢„è®¾æ± åŠ å…¥é˜Ÿåˆ—
+                            pool.PrefabPoolId = 0;
+                            gameObjectPoolEntity.Pool.RemovePrefabPool(pool);
+                            m_PrefabPoolQueue.Enqueue(pool);
+                        };
 
-						//ÕâĞ©ÊôĞÔÒª´Ó±í¸ñÖĞ¶ÁÈ¡
-						prefabPool.cullDespawned = entity.CullDespawned == 1;
-						prefabPool.cullAbove = entity.CullAbove;
-						prefabPool.cullDelay = entity.CullDelay;
-						prefabPool.cullMaxPerPass = entity.CullMaxPerPass;
+                        //è¿™äº›å±æ€§è¦ä»è¡¨æ ¼ä¸­è¯»å–
+                        prefabPool.cullDespawned = entity.CullDespawned == 1;
+                        prefabPool.cullAbove = entity.CullAbove;
+                        prefabPool.cullDelay = entity.CullDelay;
+                        prefabPool.cullMaxPerPass = entity.CullMaxPerPass;
 
-					}
-					var enumerator = lst.GetEnumerator();
-					while (enumerator.MoveNext())
-					{
-						enumerator.Current?.Invoke(gameObjectPoolEntity.Pool, prefab, resourceEntity);
-					}
-					m_LoadingPrefabPoolDic.Remove(entity.Id);
-					lst.Clear();//Ò»¶¨ÒªÇå¿Õ
-					GameEntry.Pool.EnqueueClassObject(lst);
-				});
-			}
-		}
-		private void SetPanent(Transform retTrans, Transform pannt, ResourceEntity TargetPosEntity)
-		{
-			try
-			{
-				GameObject panentObj = TargetPosEntity.Target as GameObject;
+                    }
+                    var enumerator = lst.GetEnumerator();
+                    while (enumerator.MoveNext())
+                    {
+                        enumerator.Current?.Invoke(gameObjectPoolEntity.Pool, prefab, resourceEntity);
+                    }
+                    m_LoadingPrefabPoolDic.Remove(entity.Id);
+                    lst.Clear();//ä¸€å®šè¦æ¸…ç©º
+                    GameEntry.Pool.EnqueueClassObject(lst);
+                });
+            }
+        }
+        private void SetPanent(Transform retTrans, Transform pannt, ResourceEntity TargetPosEntity)
+        {
+            try
+            {
+                GameObject panentObj = TargetPosEntity.Target as GameObject;
 
-				if (pannt != null) retTrans.SetParent(pannt);
-				retTrans.localPosition = panentObj.transform.localPosition;
-				retTrans.localScale = panentObj.transform.localScale;
-				retTrans.localEulerAngles = panentObj.transform.localEulerAngles;
-			}
-			catch (Exception ex)
-			{
-				Debug.LogError(ex.Message);
-				throw;
-			}
-		}
-		#endregion
+                if (pannt != null) retTrans.SetParent(pannt);
+                retTrans.localPosition = panentObj.transform.localPosition;
+                retTrans.localScale = panentObj.transform.localScale;
+                retTrans.localEulerAngles = panentObj.transform.localEulerAngles;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex.Message);
+                throw;
+            }
+        }
+        #endregion
 
-		#region Despawn ¶ÔÏó»Ø³Ø
-		/// <summary>
-		/// ¶ÔÏó»Ø³Ø
-		/// </summary>
-		/// <param name="poolId"></param>
-		/// <param name="instance">ÊµÀı</param>
-		internal void Despawn(byte poolId, Transform instance)
-		{
-			GameObjectPoolEntity entity = m_SpawnPoolDic[poolId];
-			instance.SetParent(entity.Pool.transform);
-			entity.Pool.Despawn(instance);
-		}
+        #region Despawn å¯¹è±¡å›æ± 
+        /// <summary>
+        /// å¯¹è±¡å›æ± 
+        /// </summary>
+        /// <param name="poolId"></param>
+        /// <param name="instance">å®ä¾‹</param>
+        internal void Despawn(byte poolId, Transform instance)
+        {
+            GameObjectPoolEntity entity = m_SpawnPoolDic[poolId];
+            instance.SetParent(entity.Pool.transform);
+            entity.Pool.Despawn(instance);
+        }
 
-		/// <summary>
-		/// ¶ÔÏó»Ø³Ø
-		/// </summary>
-		/// <param name="instance">ÊµÀı</param>
-		public void Despawn(Transform instance)
-		{
-			if (instance == null) return;
+        /// <summary>
+        /// å¯¹è±¡å›æ± 
+        /// </summary>
+        /// <param name="instance">å®ä¾‹</param>
+        public void Despawn(Transform instance)
+        {
+            if (instance == null) return;
 
-			int instanceID = instance.gameObject.GetInstanceID();
-			if (!m_InstanceIdPoolIdDic.ContainsKey(instanceID)) return;
+            int instanceID = instance.gameObject.GetInstanceID();
+            if (!m_InstanceIdPoolIdDic.ContainsKey(instanceID)) return;
 
-			byte poolId = m_InstanceIdPoolIdDic[instanceID];
-			m_InstanceIdPoolIdDic.Remove(instanceID);
-			Despawn(poolId, instance);
-		}
-		#endregion
-	}
+            byte poolId = m_InstanceIdPoolIdDic[instanceID];
+            m_InstanceIdPoolIdDic.Remove(instanceID);
+            Despawn(poolId, instance);
+        }
+        #endregion
+        /// <summary>
+        /// ç›´æ¥é‡Šæ”¾å¯¹è±¡
+        /// </summary>
+        /// <param name="instance"></param>
+        public void Release(Transform instance)
+        {
+            int instanceID = instance.gameObject.GetInstanceID();
+            byte poolId = m_InstanceIdPoolIdDic[instanceID];
+            GameObjectPoolEntity entity = m_SpawnPoolDic[poolId];
+            instance.SetParent(entity.Pool.transform); //é‡ç½®åˆ°åŸå§‹å¯¹è±¡æ± èŠ‚ç‚¹ä¸‹
+            entity.Pool.Release(instance);
+        }
+    }
 }

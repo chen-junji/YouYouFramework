@@ -5,7 +5,7 @@ using UnityEngine;
 using YouYou;
 
 /// <summary>
-/// ÏÂÔØ¶àÎÄ¼şÆ÷
+/// ä¸‹è½½å¤šæ–‡ä»¶å™¨
 /// </summary>
 public class DownloadMulitRoutine : IDisposable
 {
@@ -32,52 +32,52 @@ public class DownloadMulitRoutine : IDisposable
 	}
 
 	/// <summary>
-	/// ÏÂÔØÆ÷Á´±í
+	/// ä¸‹è½½å™¨é“¾è¡¨
 	/// </summary>
 	private LinkedList<DownloadRoutine> m_DownloadRoutineList;
 	/// <summary>
-	/// ĞèÒªÏÂÔØµÄÎÄ¼şÁ´±í
+	/// éœ€è¦ä¸‹è½½çš„æ–‡ä»¶é“¾è¡¨
 	/// </summary>
 	private LinkedList<string> m_NeedDownloadList;
 
-	#region ÏÂÔØ¶à¸öÎÄ¼ş
+	#region ä¸‹è½½å¤šä¸ªæ–‡ä»¶
 	/// <summary>
-	/// ¶à¸öÎÄ¼şÏÂÔØÖĞÎ¯ÍĞ
+	/// å¤šä¸ªæ–‡ä»¶ä¸‹è½½ä¸­å§”æ‰˜
 	/// </summary>
-	private BaseAction<int, int, ulong, ulong> m_OnDownloadMulitUpdate;
+	private Action<int, int, ulong, ulong> m_OnDownloadMulitUpdate;
 	/// <summary>
-	/// ¶à¸öÎÄ¼şÏÂÔØÍê±ÏÎ¯ÍĞ
+	/// å¤šä¸ªæ–‡ä»¶ä¸‹è½½å®Œæ¯•å§”æ‰˜
 	/// </summary>
-	private BaseAction<DownloadMulitRoutine> m_OnDownloadMulitComplete;
+	private Action<DownloadMulitRoutine> m_OnDownloadMulitComplete;
 
 	/// <summary>
-	/// ¶à¸öÎÄ¼şÏÂÔØ_ĞèÒªÏÂÔØµÄÊıÁ¿
+	/// å¤šä¸ªæ–‡ä»¶ä¸‹è½½_éœ€è¦ä¸‹è½½çš„æ•°é‡
 	/// </summary>
 	private int m_DownloadMulitNeedCount = 0;
 	/// <summary>
-	/// ¶à¸öÎÄ¼şÏÂÔØ_µ±Ç°ÏÂÔØµÄÊıÁ¿
+	/// å¤šä¸ªæ–‡ä»¶ä¸‹è½½_å½“å‰ä¸‹è½½çš„æ•°é‡
 	/// </summary>
 	private int m_DownloadMulitCurrCount = 0;
 	/// <summary>
-	/// ¶à¸öÎÄ¼şÏÂÔØ×Ü´óĞ¡(×Ö½Ú)
+	/// å¤šä¸ªæ–‡ä»¶ä¸‹è½½æ€»å¤§å°(å­—èŠ‚)
 	/// </summary>
 	private ulong m_DownloadMulitTotalSize = 0;
 	/// <summary>
-	/// ¶à¸öÎÄ¼şÏÂÔØµ±Ç°´óĞ¡(×Ö½Ú)
+	/// å¤šä¸ªæ–‡ä»¶ä¸‹è½½å½“å‰å¤§å°(å­—èŠ‚)
 	/// </summary>
 	private ulong m_DownloadMulitCurrSize = 0;
 	/// <summary>
-	/// ¶à¸öÎÄ¼şÏÂÔØ µ±Ç°´óĞ¡
+	/// å¤šä¸ªæ–‡ä»¶ä¸‹è½½ å½“å‰å¤§å°
 	/// </summary>
 	private Dictionary<string, ulong> m_DownloadMulitCurrSizeDic;
 
 	/// <summary>
-	/// ÏÂÔØ¶à¸öÎÄ¼ş
+	/// ä¸‹è½½å¤šä¸ªæ–‡ä»¶
 	/// </summary>
 	/// <param name="lstUrl"></param>
 	/// <param name="onDownloadMulitUpdate"></param>
 	/// <param name="onDownloadMulitComplete"></param>
-	internal void BeginDownloadMulit(LinkedList<string> lstUrl, BaseAction<int, int, ulong, ulong> onDownloadMulitUpdate, BaseAction<DownloadMulitRoutine> onDownloadMulitComplete)
+	internal void BeginDownloadMulit(LinkedList<string> lstUrl, Action<int, int, ulong, ulong> onDownloadMulitUpdate, Action<DownloadMulitRoutine> onDownloadMulitComplete)
 	{
 		if (lstUrl.Count < 1)
 		{
@@ -96,7 +96,7 @@ public class DownloadMulitRoutine : IDisposable
 		m_DownloadMulitTotalSize = 0;
 		m_DownloadMulitCurrSize = 0;
 
-		//1.°ÑĞèÒªÏÂÔØµÄ¼ÓÈëÏÂÔØ¶ÓÁĞ
+		//1.æŠŠéœ€è¦ä¸‹è½½çš„åŠ å…¥ä¸‹è½½é˜Ÿåˆ—
 		for (LinkedListNode<string> item = lstUrl.First; item != null; item = item.Next)
 		{
 			string url = item.Value;
@@ -110,11 +110,11 @@ public class DownloadMulitRoutine : IDisposable
 			}
 			else
 			{
-				GameEntry.LogError("ÎŞĞ§×ÊÔ´°ü=>" + url);
+				GameEntry.LogError("æ— æ•ˆèµ„æºåŒ…=>" + url);
 			}
 		}
 
-		//ÏÂÔØÆ÷ÊıÁ¿
+		//ä¸‹è½½å™¨æ•°é‡
 		int routineCount = Mathf.Min(GameEntry.Download.DownloadRoutineCount, m_DownloadMulitNeedCount);
 		for (int i = 0; i < routineCount; i++)
 		{
@@ -149,10 +149,10 @@ public class DownloadMulitRoutine : IDisposable
 	}
 	private void OnDownloadMulitComplete(string fileUrl, DownloadRoutine routine)
 	{
-		//¼ì²é¶ÓÁĞÖĞÊÇ·ñÓĞÒªÏÂÔØµÄÊıÁ¿
+		//æ£€æŸ¥é˜Ÿåˆ—ä¸­æ˜¯å¦æœ‰è¦ä¸‹è½½çš„æ•°é‡
 		if (m_NeedDownloadList.Count > 0)
 		{
-			//ÈÃÏÂÔØÆ÷¼ÌĞø¹¤×÷
+			//è®©ä¸‹è½½å™¨ç»§ç»­å·¥ä½œ
 			string url = m_NeedDownloadList.First.Value;
 
 			AssetBundleInfoEntity entity = GameEntry.Resource.ResourceManager.GetAssetBundleInfo(url);
@@ -162,7 +162,7 @@ public class DownloadMulitRoutine : IDisposable
 		}
 		else
 		{
-			//ÏÂÔØÆ÷»Ø³Ø
+			//ä¸‹è½½å™¨å›æ± 
 			m_DownloadRoutineList.Remove(routine);
 			GameEntry.Pool.EnqueueClassObject(routine);
 		}
@@ -177,7 +177,7 @@ public class DownloadMulitRoutine : IDisposable
 			 m_OnDownloadMulitUpdate?.Invoke(m_DownloadMulitCurrCount, m_DownloadMulitNeedCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
 
 			if (m_OnDownloadMulitComplete != null) m_OnDownloadMulitComplete(this);
-			//Debug.LogError("ËùÓĞ×ÊÔ´ÏÂÔØÍê±Ï!!!");
+			//Debug.LogError("æ‰€æœ‰èµ„æºä¸‹è½½å®Œæ¯•!!!");
 		}
 	}
 	#endregion

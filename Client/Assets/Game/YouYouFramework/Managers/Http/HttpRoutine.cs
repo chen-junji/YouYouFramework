@@ -1,7 +1,7 @@
 //===================================================
-//×÷    Õß£º±ßÑÄ  http://www.u3dol.com
-//´´½¨Ê±¼ä£º
-//±¸    ×¢£º
+//ä½œ    è€…ï¼šè¾¹æ¶¯  http://www.u3dol.com
+//åˆ›å»ºæ—¶é—´ï¼š
+//å¤‡    æ³¨ï¼š
 //===================================================
 using System;
 using System.Collections;
@@ -12,192 +12,193 @@ using UnityEngine.Networking;
 
 namespace YouYou
 {
-	/// <summary>
-	/// Http·¢ËÍÊı¾İµÄ»Øµ÷Î¯ÍĞ
-	/// </summary>
-	/// <param name="args"></param>
-	public delegate void HttpSendDataCallBack(HttpCallBackArgs args);
+    /// <summary>
+    /// Httpå‘é€æ•°æ®çš„å›è°ƒå§”æ‰˜
+    /// </summary>
+    /// <param name="args"></param>
+    public delegate void HttpSendDataCallBack(HttpCallBackArgs args);
 
-	/// <summary>
-	/// Http·ÃÎÊÆ÷
-	/// </summary>
-	public class HttpRoutine
-	{
-		#region ÊôĞÔ
+    /// <summary>
+    /// Httpè®¿é—®å™¨
+    /// </summary>
+    public class HttpRoutine
+    {
+        #region å±æ€§
 
-		/// <summary>
-		/// HttpÇëÇó»Øµ÷
-		/// </summary>
-		private HttpSendDataCallBack m_CallBack;
+        /// <summary>
+        /// Httpè¯·æ±‚å›è°ƒ
+        /// </summary>
+        private HttpSendDataCallBack m_CallBack;
 
-		/// <summary>
-		/// HttpÇëÇó»Øµ÷Êı¾İ
-		/// </summary>
-		private HttpCallBackArgs m_CallBackArgs;
+        /// <summary>
+        /// Httpè¯·æ±‚å›è°ƒæ•°æ®
+        /// </summary>
+        private HttpCallBackArgs m_CallBackArgs;
 
-		/// <summary>
-		/// ÊÇ·ñ·±Ã¦
-		/// </summary>
-		public bool IsBusy { get; private set; }
+        /// <summary>
+        /// æ˜¯å¦ç¹å¿™
+        /// </summary>
+        public bool IsBusy { get; private set; }
 
-		/// <summary>
-		/// µ±Ç°ÖØÊÔ´ÎÊı
-		/// </summary>
-		private int m_CurrRetry = 0;
+        /// <summary>
+        /// å½“å‰é‡è¯•æ¬¡æ•°
+        /// </summary>
+        private int m_CurrRetry = 0;
 
-		private string m_Url;
-		private string m_Json;
+        private string m_Url;
+        private string m_Json;
 
-		/// <summary>
-		/// ·¢ËÍµÄÊı¾İ
-		/// </summary>
-		private Dictionary<string, object> m_Dic;
-		#endregion
+        /// <summary>
+        /// å‘é€çš„æ•°æ®
+        /// </summary>
+        private Dictionary<string, object> m_Dic;
+        #endregion
 
-		public HttpRoutine()
-		{
-			m_CallBackArgs = new HttpCallBackArgs();
-			m_Dic = new Dictionary<string, object>();
-		}
+        public HttpRoutine()
+        {
+            m_CallBackArgs = new HttpCallBackArgs();
+            m_Dic = new Dictionary<string, object>();
+        }
 
-		#region SendData ·¢ËÍwebÊı¾İ
-		/// <summary>
-		/// ·¢ËÍwebÊı¾İ
-		/// </summary>
-		/// <param name="url"></param>
-		/// <param name="callBack"></param>
-		/// <param name="isPost"></param>
-		/// <param name="isGetData">ÊÇ·ñ»ñÈ¡×Ö½ÚÊı¾İ</param>
-		/// <param name="dic"></param>
-		internal void Get(string url, HttpSendDataCallBack callBack = null)
-		{
-			if (IsBusy) return;
-			IsBusy = true;
+        #region SendData å‘é€webæ•°æ®
+        /// <summary>
+        /// å‘é€webæ•°æ®
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="callBack"></param>
+        /// <param name="isPost"></param>
+        /// <param name="isGetData">æ˜¯å¦è·å–å­—èŠ‚æ•°æ®</param>
+        /// <param name="dic"></param>
+        internal void Get(string url, HttpSendDataCallBack callBack = null)
+        {
+            if (IsBusy) return;
+            IsBusy = true;
 
-			m_Url = url;
-			m_CallBack = callBack;
+            m_Url = url;
+            m_CallBack = callBack;
 
-			GetUrl(m_Url);
-		}
+            GetUrl(m_Url);
+        }
 
-		internal void Post(string url, string json = null, HttpSendDataCallBack callBack = null)
-		{
-			if (IsBusy) return;
-			IsBusy = true;
+        internal void Post(string url, string json = null, HttpSendDataCallBack callBack = null)
+        {
+            if (IsBusy) return;
+            IsBusy = true;
 
-			m_Url = url;
-			m_CallBack = callBack;
-			m_Json = json;
+            m_Url = url;
+            m_CallBack = callBack;
+            m_Json = json;
 
-			PostUrl(m_Url);
-		}
-		#endregion
+            PostUrl(m_Url);
+        }
+        #endregion
 
-		#region GetUrl GetÇëÇó
-		/// <summary>
-		/// GetÇëÇó
-		/// </summary>
-		/// <param name="url"></param>
-		private void GetUrl(string url)
-		{
-			GameEntry.Log(LogCategory.Proto, "GetÇëÇó:{0}, {1}´ÎÖØÊÔ", m_Url, m_CurrRetry);
-			UnityWebRequest data = UnityWebRequest.Get(url);
-			GameEntry.Instance.StartCoroutine(Request(data));
-		}
-		#endregion
+        #region GetUrl Getè¯·æ±‚
+        /// <summary>
+        /// Getè¯·æ±‚
+        /// </summary>
+        /// <param name="url"></param>
+        private void GetUrl(string url)
+        {
+            GameEntry.Log(LogCategory.Proto, "Getè¯·æ±‚:{0}, {1}æ¬¡é‡è¯•", m_Url, m_CurrRetry);
+            UnityWebRequest data = UnityWebRequest.Get(url);
+            GameEntry.Instance.StartCoroutine(Request(data));
+        }
+        #endregion
 
-		#region PostUrl PostÇëÇó
-		/// <summary>
-		/// PostÇëÇó
-		/// </summary>
-		/// <param name="url"></param>
-		/// <param name="json"></param>
-		private void PostUrl(string url)
-		{
-			UnityWebRequest unityWeb = new UnityWebRequest(url, UnityWebRequest.kHttpVerbPOST);
-			unityWeb.downloadHandler = new DownloadHandlerBuffer();
-			if (!string.IsNullOrWhiteSpace(m_Json))
-			{
-				if (GameEntry.ParamsSettings.PostIsEncrypt && m_CurrRetry == 0)
-				{
-					m_Dic["value"] = m_Json;
-					//web¼ÓÃÜ
-					m_Dic["deviceIdentifier"] = DeviceUtil.DeviceIdentifier;
-					m_Dic["deviceModel"] = DeviceUtil.DeviceModel;
-					long t = GameEntry.Data.SysDataManager.CurrServerTime;
-					m_Dic["sign"] = EncryptUtil.Md5(string.Format("{0}:{1}", t, DeviceUtil.DeviceIdentifier));
-					m_Dic["t"] = t;
+        #region PostUrl Postè¯·æ±‚
+        /// <summary>
+        /// Postè¯·æ±‚
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="json"></param>
+        private void PostUrl(string url)
+        {
+            UnityWebRequest unityWeb = new UnityWebRequest(url, UnityWebRequest.kHttpVerbPOST);
+            unityWeb.downloadHandler = new DownloadHandlerBuffer();
+            if (!string.IsNullOrWhiteSpace(m_Json))
+            {
+                if (GameEntry.ParamsSettings.PostIsEncrypt && m_CurrRetry == 0)
+                {
+                    m_Dic["value"] = m_Json;
+                    //webåŠ å¯†
+                    m_Dic["deviceIdentifier"] = DeviceUtil.DeviceIdentifier;
+                    m_Dic["deviceModel"] = DeviceUtil.DeviceModel;
+                    long t = GameEntry.Data.SysDataManager.CurrServerTime;
+                    m_Dic["sign"] = EncryptUtil.Md5(string.Format("{0}:{1}", t, DeviceUtil.DeviceIdentifier));
+                    m_Dic["t"] = t;
 
-					m_Json = m_Dic.ToJson();
-				}
-				unityWeb.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(m_Json));
+                    m_Json = m_Dic.ToJson();
+                }
+                unityWeb.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(m_Json));
 
-				if (!string.IsNullOrWhiteSpace(GameEntry.ParamsSettings.PostContentType))
-					unityWeb.SetRequestHeader("Content-Type", GameEntry.ParamsSettings.PostContentType);
-			}
+                if (!string.IsNullOrWhiteSpace(GameEntry.ParamsSettings.PostContentType))
+                    unityWeb.SetRequestHeader("Content-Type", GameEntry.ParamsSettings.PostContentType);
+            }
 
-			GameEntry.Log(LogCategory.Proto, "PostÇëÇó:{0}, {1}´ÎÖØÊÔ==>>{2}", m_Url, m_CurrRetry, m_Json);
-			GameEntry.Instance.StartCoroutine(Request(unityWeb));
-		}
-		#endregion
+            GameEntry.Log(LogCategory.Proto, "Postè¯·æ±‚:{0}, {1}æ¬¡é‡è¯•==>>{2}", m_Url, m_CurrRetry, m_Json);
+            GameEntry.Instance.StartCoroutine(Request(unityWeb));
+        }
+        #endregion
 
-		#region Request ÇëÇó·şÎñÆ÷
-		/// <summary>
-		/// ÇëÇó·şÎñÆ÷
-		/// </summary>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		private IEnumerator Request(UnityWebRequest data)
-		{
-			yield return data.SendWebRequest();
-			if (data.isNetworkError || data.isHttpError)
-			{
-				//±¨´íÁË ½øĞĞÖØÊÔ
-				if (m_CurrRetry > 0) yield return new WaitForSeconds(GameEntry.Http.RetryInterval);
-				m_CurrRetry++;
-				if (m_CurrRetry <= GameEntry.Http.Retry)
-				{
-					switch (data.method)
-					{
-						case UnityWebRequest.kHttpVerbGET:
-							GetUrl(m_Url);
-							break;
-						case UnityWebRequest.kHttpVerbPOST:
-							PostUrl(m_Url);
-							break;
-					}
-					yield break;
-				}
+        #region Request è¯·æ±‚æœåŠ¡å™¨
+        /// <summary>
+        /// è¯·æ±‚æœåŠ¡å™¨
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private IEnumerator Request(UnityWebRequest data)
+        {
+            data.timeout = 5;
+            yield return data.SendWebRequest();
+            if (data.isNetworkError || data.isHttpError)
+            {
+                //æŠ¥é”™äº† è¿›è¡Œé‡è¯•
+                if (m_CurrRetry > 0) yield return new WaitForSeconds(GameEntry.Http.RetryInterval);
+                m_CurrRetry++;
+                if (m_CurrRetry <= GameEntry.Http.Retry)
+                {
+                    switch (data.method)
+                    {
+                        case UnityWebRequest.kHttpVerbGET:
+                            GetUrl(m_Url);
+                            break;
+                        case UnityWebRequest.kHttpVerbPOST:
+                            PostUrl(m_Url);
+                            break;
+                    }
+                    yield break;
+                }
 
-				IsBusy = false;
-				m_CallBackArgs.HasError = true;
-				m_CallBackArgs.Value = data.error;
-			}
-			else
-			{
-				IsBusy = false;
-				m_CallBackArgs.HasError = false;
-				m_CallBackArgs.Value = data.downloadHandler.text;
-				m_CallBackArgs.Data = data.downloadHandler.data;
-			}
+                IsBusy = false;
+                m_CallBackArgs.HasError = true;
+                m_CallBackArgs.Value = data.error;
+            }
+            else
+            {
+                IsBusy = false;
+                m_CallBackArgs.HasError = false;
+                m_CallBackArgs.Value = data.downloadHandler.text;
+                m_CallBackArgs.Data = data.downloadHandler.data;
+            }
 
-			if (!string.IsNullOrWhiteSpace(m_CallBackArgs.Value)) GameEntry.Log(LogCategory.Proto, "WebAPI»Øµ÷:{0}, ==>>{1}", m_Url, m_CallBackArgs.ToJson());
-			m_CallBack?.Invoke(m_CallBackArgs);	
+            if (!string.IsNullOrWhiteSpace(m_CallBackArgs.Value)) GameEntry.Log(LogCategory.Proto, "WebAPIå›è°ƒ:{0}, ==>>{1}", m_Url, m_CallBackArgs.ToJson());
+            m_CallBack?.Invoke(m_CallBackArgs);
 
-			m_CurrRetry = 0;
-			m_Url = null;
-			if (m_Dic != null)
-			{
-				m_Dic.Clear();
-				GameEntry.Pool.EnqueueClassObject(m_Dic);
-			}
-			m_CallBackArgs.Data = null;
-			data.Dispose();
-			data = null;
+            m_CurrRetry = 0;
+            m_Url = null;
+            if (m_Dic != null)
+            {
+                m_Dic.Clear();
+                GameEntry.Pool.EnqueueClassObject(m_Dic);
+            }
+            m_CallBackArgs.Data = null;
+            data.Dispose();
+            data = null;
 
-			//Debug.Log("°Ñhttp·ÃÎÊÆ÷»Ø³Ø");
-			GameEntry.Pool.EnqueueClassObject(this);
-		}
-		#endregion
-	}
+            //Debug.Log("æŠŠhttpè®¿é—®å™¨å›æ± ");
+            GameEntry.Pool.EnqueueClassObject(this);
+        }
+        #endregion
+    }
 }

@@ -35,9 +35,9 @@ public class UIDialogForm : UIFormBase
 	[SerializeField]
 	private Button btnCancel;
 
-	private BaseAction m_OkAction;
+	private Action m_OkAction;
 
-	private BaseAction m_CancelAction;
+	private Action m_CancelAction;
 
 
 	protected override void OnInit(object userData)
@@ -77,7 +77,7 @@ public class UIDialogForm : UIFormBase
 	/// <param name="type"></param>
 	/// <param name="okAction"></param>
 	/// <param name="cancelAction"></param>
-	public void SetUI(string message = "", string title = "提示", DialogFormType type = DialogFormType.Noraml, BaseAction okAction = null, BaseAction cancelAction = null)
+	public void SetUI(string message = "", string title = "提示", DialogFormType type = DialogFormType.Noraml, Action okAction = null, Action cancelAction = null)
 	{
 		//窗口内容
 		lblTitle.text = title;

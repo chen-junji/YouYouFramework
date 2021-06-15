@@ -33,11 +33,11 @@ public class TestTime : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.C))
         {
             TimeAction action = GameEntry.Time.CreateTimeAction();
-            action.Init(time: ref action, delayTime: 1, onComplete: () =>
-             {
-                 Debug.Log("定时器运行完毕");
-                 Debug.LogError(action);
-             }).Run();
+            action.Init(delayTime: 1, onComplete: () =>
+            {
+                Debug.Log("定时器运行完毕");
+                Debug.LogError(action);
+            }).Run();
         }
     }
 }

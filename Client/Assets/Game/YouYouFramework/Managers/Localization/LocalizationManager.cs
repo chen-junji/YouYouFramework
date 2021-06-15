@@ -6,26 +6,26 @@ using UnityEngine;
 
 namespace YouYou
 {
-	/// <summary>
-	/// ¶àÓïÑÔÃ¶¾Ù
-	/// </summary>
-	public enum YouYouLanguage
-	{
-		/// <summary>
-		/// ÖĞÎÄ
-		/// </summary>
-		Chinese = 0,
-		/// <summary>
-		/// Ó¢ÎÄ
-		/// </summary>
-		English = 1
-	}
+    /// <summary>
+    /// å¤šè¯­è¨€æšä¸¾
+    /// </summary>
+    public enum YouYouLanguage
+    {
+        /// <summary>
+        /// ä¸­æ–‡
+        /// </summary>
+        Chinese = 0,
+        /// <summary>
+        /// è‹±æ–‡
+        /// </summary>
+        English = 1
+    }
 
 
-	public class LocalizationManager : ManagerBase, IDisposable
-	{
-		internal override void Init()
-		{
+    public class LocalizationManager : IDisposable
+    {
+        internal void Init()
+        {
 #if !UNITY_EDITOR
             switch (Application.systemLanguage)
             {
@@ -40,29 +40,29 @@ namespace YouYou
                     break;
             }
 #endif
-		}
+        }
 
-		/// <summary>
-		/// »ñÈ¡±¾µØ»¯ÎÄ±¾ÄÚÈİ
-		/// </summary>
-		/// <param name="key"></param>
-		/// <param name="args"></param>
-		/// <returns></returns>
-		public string GetString(string key, params object[] args)
-		{
-			string value = null;
-			if (GameEntry.DataTable.LocalizationDBModel.LocalizationDic.TryGetValue(key, out value))
-			{
-				return string.Format(value, args);
-			}
-			return value;
-		}
+        /// <summary>
+        /// è·å–æœ¬åœ°åŒ–æ–‡æœ¬å†…å®¹
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public string GetString(string key, params object[] args)
+        {
+            string value = null;
+            if (GameEntry.DataTable.LocalizationDBModel.LocalizationDic.TryGetValue(key, out value))
+            {
+                return string.Format(value, args);
+            }
+            return value;
+        }
 
-		public void Dispose()
-		{
+        public void Dispose()
+        {
 
-		}
+        }
 
 
-	}
+    }
 }

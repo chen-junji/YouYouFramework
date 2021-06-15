@@ -34,12 +34,12 @@ public partial class Sys_UIFormDBModel : DataTableDBModelBase<Sys_UIFormDBModel,
             entity.UIGroupId = (byte)ms.ReadByte();
             entity.DisableUILayer = ms.ReadInt();
             entity.IsLock = ms.ReadInt();
+            entity.LoadType = (byte)ms.ReadByte();
             entity.AssetPath_Chinese = ms.ReadUTF8String();
             entity.AssetPath_English = ms.ReadUTF8String();
             entity.CanMulit = ms.ReadInt();
             entity.ShowMode = (byte)ms.ReadByte();
             entity.FreezeMode = (byte)ms.ReadByte();
-            entity.OpenAnim = (byte)ms.ReadByte();
 
             m_List.Add(entity);
             m_Dic[entity.Id] = entity;

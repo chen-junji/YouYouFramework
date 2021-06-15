@@ -1,7 +1,7 @@
 public class UIFormId
 {
-    public const int UI_Loading = 1;
-    public const string UI_Dialog = "UIDialog";
+    public const int UILoading = 1;
+    public const string UIDialog = "UIDialog";
 	public const string UICircle = "UICircle";
 
 }

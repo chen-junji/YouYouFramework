@@ -6,20 +6,20 @@ using UnityEngine;
 namespace YouYou
 {
     /// <summary>
-    /// Í¨ÓÃÊÂ¼ş
+    /// é€šç”¨äº‹ä»¶
     /// </summary>
-    public class CommonEvent : IDisposable
+    public class CommonEvent 
     {
         public delegate void OnActionHandler(object userData);
-        private Dictionary<ushort, LinkedList<OnActionHandler>> dic = new Dictionary<ushort, LinkedList<OnActionHandler>>();
+        private Dictionary<string, LinkedList<OnActionHandler>> dic = new Dictionary<string, LinkedList<OnActionHandler>>();
 
-        #region AddEventListener ¹Û²ìÕß¼àÌıÊÂ¼ş
+        #region AddEventListener è§‚å¯Ÿè€…ç›‘å¬äº‹ä»¶
         /// <summary>
-        /// ¹Û²ìÕß¼àÌıÊÂ¼ş
+        /// è§‚å¯Ÿè€…ç›‘å¬äº‹ä»¶
         /// </summary>
-        /// <param name="Key">Ö÷ÌâÁĞ±íµÄKey</param>
-        /// <param name="handler">Ö÷Ìâ</param>
-        public void AddEventListener(ushort key, OnActionHandler handler)
+        /// <param name="Key">ä¸»é¢˜åˆ—è¡¨çš„Key</param>
+        /// <param name="handler">ä¸»é¢˜</param>
+        public void AddEventListener(string key, OnActionHandler handler)
         {
             LinkedList<OnActionHandler> lstHandler = null;
             dic.TryGetValue(key, out lstHandler);
@@ -32,13 +32,13 @@ namespace YouYou
         }
         #endregion
 
-        #region RemoveEventListener ¹Û²ìÕßÒÆ³ı¼àÌıÊÂ¼ş
+        #region RemoveEventListener è§‚å¯Ÿè€…ç§»é™¤ç›‘å¬äº‹ä»¶
         /// <summary>
-        /// ¹Û²ìÕßÒÆ³ı¼àÌıÊÂ¼ş
+        /// è§‚å¯Ÿè€…ç§»é™¤ç›‘å¬äº‹ä»¶
         /// </summary>
-        /// <param name="key">Ö÷ÌâÁĞ±íµÄKey</param>
-        /// <param name="handler">Ö÷Ìâ</param>
-        public void RemoveEventListener(ushort key, OnActionHandler handler)
+        /// <param name="key">ä¸»é¢˜åˆ—è¡¨çš„Key</param>
+        /// <param name="handler">ä¸»é¢˜</param>
+        public void RemoveEventListener(string key, OnActionHandler handler)
         {
             LinkedList<OnActionHandler> lstHandler = null;
             dic.TryGetValue(key, out lstHandler);
@@ -53,13 +53,13 @@ namespace YouYou
         }
         #endregion
 
-        #region Dispatch ÅÉ·¢
+        #region Dispatch æ´¾å‘
         /// <summary>
-        /// ÅÉ·¢
+        /// æ´¾å‘
         /// </summary>
         /// <param name="key"></param>
         /// <param name="p"></param>
-        public void Dispatch(ushort key, object userData)
+        public void Dispatch(string key, object userData)
         {
             LinkedList<OnActionHandler> lstHandler = null;
             dic.TryGetValue(key, out lstHandler);
@@ -73,15 +73,10 @@ namespace YouYou
             }
         }
 
-        public void Dispatch(ushort key)
+        public void Dispatch(string key)
         {
             Dispatch(key, null);
         }
         #endregion
-
-        public void Dispose()
-        {
-            dic.Clear();
-        }
     }
 }

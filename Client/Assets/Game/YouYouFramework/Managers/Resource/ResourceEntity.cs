@@ -15,11 +15,6 @@ namespace YouYou
 		public string ResourceName;
 
 		/// <summary>
-		/// 资源分类（用于Asset）
-		/// </summary>
-		public AssetCategory Category;
-
-		/// <summary>
 		/// 是否AssetBundle
 		/// </summary>
 		public bool IsAssetBundle;

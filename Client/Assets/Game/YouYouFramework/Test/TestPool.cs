@@ -13,7 +13,7 @@ public class TestPool : MonoBehaviour
 	void Start()
 	{
 		//GameEntry.Pool.SetClassObjectResideCount<CusUserData>(3);
-		GameEntry.Event.CommonEvent.AddEventListener(1, aaa);
+		//GameEntry.Event.CommonEvent.AddEventListener(1, aaa);
 	}
 
 	private void aaa(object userData)

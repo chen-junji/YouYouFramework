@@ -6,64 +6,54 @@ using UnityEngine;
 
 namespace YouYou
 {
-	/// <summary>
-	/// Ö÷×ÊÔ´¼ÓÔØÆ÷
-	/// </summary>
-	public class MainAssetLoaderRoutine
-	{
-		/// <summary>
-		/// µ±Ç°µÄ×ÊÔ´ĞÅÏ¢
-		/// </summary>
-		private AssetEntity m_CurrAssetEnity;
+    /// <summary>
+    /// ä¸»èµ„æºåŠ è½½å™¨
+    /// </summary>
+    public class MainAssetLoaderRoutine
+    {
+        /// <summary>
+        /// å½“å‰çš„èµ„æºä¿¡æ¯å®ä½“
+        /// </summary>
+        private AssetEntity m_CurrAssetEntity;
 
-		/// <summary>
-		/// µ±Ç°µÄ×ÊÔ´ÊµÌå
-		/// </summary>
-		private ResourceEntity m_CurrResourceEntity;
+        /// <summary>
+        /// å½“å‰çš„èµ„æºå®ä½“
+        /// </summary>
+        private ResourceEntity m_CurrResourceEntity;
 
-		/// <summary>
-		/// µ±Ç°×ÊÔ´µÄÒÀÀµÊµÌåÁ´±í(ÁÙÊ±´æ´¢)
-		/// </summary>
-		private LinkedList<ResourceEntity> m_DependResourceList = new LinkedList<ResourceEntity>();
+        /// <summary>
+        /// ä¸»èµ„æºåŠ è½½è¿›åº¦åˆ·æ–°
+        /// </summary>
+        private Action<float> m_OnUpdate;
+        /// <summary>
+        /// ä¸»èµ„æºåŠ è½½å®Œæ¯•
+        /// </summary>
+        private Action<ResourceEntity> m_OnComplete;
 
-		/// <summary>
-		/// ĞèÒª¼ÓÔØµÄÒÀÀµ×ÊÔ´ÊıÁ¿
-		/// </summary>
-		private int m_NeedLoadAssetDependCount = 0;
+        /// <summary>
+        /// ä¸»èµ„æºåŒ…
+        /// </summary>
+        private AssetBundle m_MainAssetBundle;
 
-		/// <summary>
-		/// µ±Ç°ÒÑ¾­¼ÓÔØµÄÒÀÀµ×ÊÔ´ÊıÁ¿
-		/// </summary>
-		private int m_CurrLoadAssetDependCount = 0;
+        /// <summary>
+        /// ä¾èµ–èµ„æºåŒ…åå­—å“ˆå¸Œ
+        /// </summary>
+        private HashSet<string> m_DependsAssetBundleNames = new HashSet<string>();
 
-		/// <summary>
-		/// µ±Ç°Ö÷×ÊÔ´¼ÓÔØÆ÷ ¼ÓÔØÍê±Ï
-		/// </summary>
-		private BaseAction<ResourceEntity> m_OnComplete;
+        /// <summary>
+        /// æ˜¯å¦é€’å¢å¼•ç”¨è®¡æ•°
+        /// </summary>
+        private bool m_IsAddReferenceCount;
 
-		/// <summary>
-		/// ÊÇ·ñµİÔöÒıÓÃ¼ÆÊı
-		/// </summary>
-		private bool m_IsAddReferenceCount;
-
-		/// <summary>
-		/// Ö÷×ÊÔ´»òÒÀÀµ×ÊÔ´
-		/// </summary>
-		private bool m_MainOrDepends;
-
-		/// <summary>
-		/// ¼ÓÔØÖ÷×ÊÔ´
-		/// </summary>
-		/// <param name="assetCategory"></param>
-		/// <param name="assetFullName"></param>
-		/// <param name="onComplete"></param>
-		internal void Load(AssetCategory assetCategory, string assetFullName, bool isAddReferenceCount, bool mainOrDepends, BaseAction<ResourceEntity> onComplete)
-		{
-			m_IsAddReferenceCount = isAddReferenceCount;
-			m_MainOrDepends = mainOrDepends;
+        /// <summary>
+        /// åŠ è½½ä¸»èµ„æº(åŒ…æ‹¬ä¾èµ–)
+        /// </summary>
+        /// <param name="assetFullName"></param>
+        /// <param name="isParallel">Trueå¹¶è¡ŒåŠ è½½, Flaseé€’å½’åŠ è½½</param>
+        internal void Load(string assetFullName, Action<ResourceEntity> onComplete, Action<float> onUpdate, bool isAddReferenceCount)
+        {
 #if EDITORLOAD && UNITY_EDITOR
 			m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
-			m_CurrResourceEntity.Category = assetCategory;
 			m_CurrResourceEntity.IsAssetBundle = false;
 			m_CurrResourceEntity.ResourceName = assetFullName;
 			m_CurrResourceEntity.Target = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetFullName);
@@ -72,126 +62,119 @@ namespace YouYou
 			string resourcesPath = assetFullName.Split('.')[0].Replace("Assets/Download/", string.Empty);
 
 			m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
-			m_CurrResourceEntity.Category = assetCategory;
 			m_CurrResourceEntity.IsAssetBundle = false;
 			m_CurrResourceEntity.ResourceName = assetFullName;
 			m_CurrResourceEntity.Target = Resources.Load(resourcesPath);
 			if (onComplete != null) onComplete(m_CurrResourceEntity);
 #else
-			m_OnComplete = onComplete;
-			m_CurrAssetEnity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(assetCategory, assetFullName);
-			if (m_CurrAssetEnity != null) LoadDependsAsset();
+            m_CurrAssetEntity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(assetFullName);
+            if (m_CurrAssetEntity == null) return;
+            m_OnComplete = onComplete;
+            m_OnUpdate = onUpdate;
+            m_IsAddReferenceCount = isAddReferenceCount;
+
+            LoadMainAsset();
 #endif
-		}
+        }
 
-		/// <summary>
-		/// ¼ÓÔØµ±Ç°×ÊÔ´
-		/// </summary>
-		private void LoadCurrAsset()
-		{
-			//µÚÒ»²½. ¼ÓÔØAssetbundle
-			GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(m_CurrAssetEnity.AssetBundleName, onComplete: (ResourceEntity bundleEntity) =>
-			{
-				if (!m_MainOrDepends)
-				{
-					m_OnComplete?.Invoke(null);
-					return;
-				}
-				//µÚ¶ş²½. ´Ó·ÖÀà×ÊÔ´³Ø(AssetPool)ÖĞ²éÕÒAsset
-				m_CurrResourceEntity = GameEntry.Pool.AssetPool[m_CurrAssetEnity.Category].Spawn(m_CurrAssetEnity.AssetFullName, m_IsAddReferenceCount);
-				if (m_CurrResourceEntity != null)
-				{
-					//GameEntry.Log(LogCategory.Resource, "´Ó·ÖÀà×ÊÔ´³ØÖĞ¼ÓÔØ{0}=>{1}", m_CurrResourceEntity.Target, m_CurrResourceEntity.ResourceName);
-					m_OnComplete?.Invoke(m_CurrResourceEntity);
-					return;
-				}
+        /// <summary>
+        /// çœŸæ­£çš„åŠ è½½ä¸»èµ„æº
+        /// </summary>
+        private void LoadMainAsset()
+        {
+            //1.ä»åˆ†ç±»èµ„æºæ± (AssetPool)ä¸­æŸ¥æ‰¾
+            m_CurrResourceEntity = GameEntry.Pool.AssetPool.Spawn(m_CurrAssetEntity.AssetFullName, m_IsAddReferenceCount);
+            if (m_CurrResourceEntity != null)
+            {
+                //Debug.LogError("ä»åˆ†ç±»èµ„æºæ± åŠ è½½" + assetEntity.ResourceName);
+                //è¯´æ˜èµ„æºåœ¨åˆ†ç±»èµ„æºæ± ä¸­å­˜åœ¨
+                m_OnComplete?.Invoke(m_CurrResourceEntity);
+                return;
+            }
 
-				//Èç¹û³ØÖĞÃ»ÓĞ, ÄÇÃ´¼ÓÔØAsset
-				GameEntry.Resource.ResourceLoaderManager.LoadAsset(m_CurrAssetEnity.Category, m_CurrAssetEnity.AssetFullName, bundleEntity.Target as AssetBundle, onComplete: (UnityEngine.Object obj, bool isNew) =>
-				{
-					//LoadAssetÓĞ¸ß²¢·¢,ÕâÀï´¦ÀíÁËResourceEntity¶à´ÎRegisterµÄÇé¿ö
-					m_CurrResourceEntity = GameEntry.Pool.AssetPool[m_CurrAssetEnity.Category].Spawn(m_CurrAssetEnity.AssetFullName, m_IsAddReferenceCount);
-					if (m_CurrResourceEntity != null)
-					{
-						m_OnComplete?.Invoke(m_CurrResourceEntity);
-						return;
-					}
+            //2.åŠ è½½è¿™ä¸ªèµ„æºæ‰€ä¾èµ–çš„èµ„æºåŒ…
+            List<AssetDependsEntity> dependsAssetList = m_CurrAssetEntity.DependsAssetList;
+            if (dependsAssetList != null)
+            {
+                foreach (AssetDependsEntity assetDependsEntity in dependsAssetList)
+                {
+                    AssetEntity assetEntity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(assetDependsEntity.AssetFullName);
+                    m_DependsAssetBundleNames.Add(assetEntity.AssetBundleName);
+                }
+            }
 
-					//³õÊ¼»¯ResourceEntity,²¢×¢²áµ½×ÊÔ´³Ø
-					m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
-					m_CurrResourceEntity.Category = m_CurrAssetEnity.Category;
-					m_CurrResourceEntity.IsAssetBundle = false;
-					m_CurrResourceEntity.ResourceName = m_CurrAssetEnity.AssetFullName;
-					m_CurrResourceEntity.Target = obj;
-					GameEntry.Pool.AssetPool[m_CurrAssetEnity.Category].Register(m_CurrResourceEntity, m_IsAddReferenceCount);
+            //3.å¾ªç¯ä¾èµ–å“ˆå¸Œ åŠ å…¥ä»»åŠ¡ç»„
+            TaskGroup taskGroup = GameEntry.Task.CreateTaskGroup();
+            foreach (string bundleName in m_DependsAssetBundleNames)
+            {
+                taskGroup.AddTask((taskRoutine) =>
+                {
+                    //ä¾èµ–èµ„æº åªæ˜¯åŠ è½½èµ„æºåŒ…
+                    GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(bundleName, onComplete: (AssetBundle bundle) =>
+                    {
+                        taskRoutine.Leave();
+                    });
+                });
+            }
 
-					//¼ÓÈëµ½Õâ¸ö×ÊÔ´µÄÒÀÀµ×ÊÔ´Á´±íÀï
-					//var currDependsResource = m_DependResourceList.First;
-					//while (currDependsResource != null)
-					//{
-					//	var next = currDependsResource.Next;
-					//	m_DependResourceList.Remove(currDependsResource);
-					//	m_CurrResourceEntity.DependsResourceList.AddLast(currDependsResource);
-					//	currDependsResource = next;
-					//}
+            //4.åŠ è½½ä¸»èµ„æºåŒ…
+            taskGroup.AddTask((taskRoutine) =>
+            {
+                GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(m_CurrAssetEntity.AssetBundleName, m_OnUpdate, onComplete: (AssetBundle bundle) =>
+                {
+                    m_MainAssetBundle = bundle;
+                    taskRoutine.Leave();
+                });
+            });
 
-					//µ±Ç°Ö÷×ÊÔ´¼ÓÔØÆ÷ ¼ÓÔØÍê±Ï(Ààµİ¹é)
-					m_OnComplete?.Invoke(m_CurrResourceEntity);
+            //ä»»åŠ¡ç»„æ‰§è¡Œå®Œæ¯•
+            taskGroup.OnComplete = () =>
+            {
+                if (m_MainAssetBundle == null)
+                {
+                    GameEntry.LogError("MainAssetBundle not exists " + m_CurrAssetEntity.AssetFullName);
+                    m_OnComplete?.Invoke(null);
+                    return;
+                }
+                GameEntry.Resource.ResourceLoaderManager.LoadAsset(m_CurrAssetEntity.AssetFullName, m_MainAssetBundle, onComplete: (UnityEngine.Object obj, bool isNew) =>
+                {
+                    //4.å†æ¬¡æ£€æŸ¥ å¾ˆé‡è¦ ä¸æ£€æŸ¥å¼•ç”¨è®¡æ•°ä¼šå‡ºé”™
+                    m_CurrResourceEntity = GameEntry.Pool.AssetPool.Spawn(m_CurrAssetEntity.AssetFullName, m_IsAddReferenceCount);
+                    if (m_CurrResourceEntity != null)
+                    {
+                        m_OnComplete?.Invoke(m_CurrResourceEntity);
+                        Reset();
+                        return;
+                    }
 
-					Reset();
-				});
-			});
-		}
+                    m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
+                    m_CurrResourceEntity.IsAssetBundle = false;
+                    m_CurrResourceEntity.ResourceName = m_CurrAssetEntity.AssetFullName;
+                    m_CurrResourceEntity.Target = obj;
 
-		/// <summary>
-		/// ¼ÓÔØÒÀÀµ×ÊÔ´
-		/// </summary>
-		private void LoadDependsAsset()
-		{
-			List<AssetDependsEntity> lst = m_CurrAssetEnity.DependsAssetList;
-			if (lst != null)
-			{
-				int len = lst.Count;
-				m_NeedLoadAssetDependCount = len;
-				for (int i = 0; i < len; i++)
-				{
-					AssetDependsEntity entity = lst[i];
-					MainAssetLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<MainAssetLoaderRoutine>();
-					routine.Load(entity.Category, entity.AssetFullName, m_IsAddReferenceCount, false, (ResourceEntity res) =>
-					{
-						//°ÑÕâ¸öÖ÷×ÊÔ´ÒÀÀµµÄ×ÊÔ´ÊµÌå ¼ÓÈëÁÙÊ±Á´±í
-						//m_DependResourceList.AddLast(res);
+                    GameEntry.Pool.AssetPool.Register(m_CurrResourceEntity, m_IsAddReferenceCount);
 
-						//°Ñ¼ÓÔØ³öÀ´µÄ×ÊÔ´ ¼ÓÈëµ½³Ø ĞèÒª×ö
-						m_CurrLoadAssetDependCount++;
+                    m_OnComplete?.Invoke(m_CurrResourceEntity);
+                    Reset();
+                });
+            };
 
-						//ÒÀÀµ¼ÓÔØÍê±ÏÁË, ¼ÓÔØµ±Ç°×ÊÔ´
-						if (m_NeedLoadAssetDependCount == m_CurrLoadAssetDependCount) LoadCurrAsset();
-					});
-				}
-			}
-			else
-			{
-				//Ã»ÓĞÒÀÀµ Ö±½Ó¼ÓÔØµ±Ç°×ÊÔ´
-				LoadCurrAsset();
-			}
-		}
+            //Debug.LogError("ä»»åŠ¡å¼€å§‹è¿è¡Œ");
+            taskGroup.Run(true);
+        }
 
-		/// <summary>
-		/// ÖØÖÃ
-		/// </summary>
-		private void Reset()
-		{
-			m_OnComplete = null;
-			m_CurrAssetEnity = null;
-			m_CurrResourceEntity = null;
-			m_NeedLoadAssetDependCount = 0;
-			m_CurrLoadAssetDependCount = 0;
-			m_DependResourceList.Clear();
-			m_IsAddReferenceCount = false;
-			m_MainOrDepends = false;
-			GameEntry.Pool.EnqueueClassObject(this);
-		}
-
-	}
+        /// <summary>
+        /// é‡ç½®
+        /// </summary>
+        private void Reset()
+        {
+            m_OnComplete = null;
+            m_CurrAssetEntity = null;
+            m_CurrResourceEntity = null;
+            m_MainAssetBundle = null;
+            m_DependsAssetBundleNames.Clear();
+            GameEntry.Pool.EnqueueClassObject(this);
+            m_IsAddReferenceCount = false;
+        }
+    }
 }

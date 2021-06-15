@@ -6,117 +6,117 @@ using UnityEngine;
 
 namespace YouYou
 {
-	/// <summary>
-	/// ÏÂÔØ¹ÜÀíÆ÷
-	/// </summary>
-	public class DownloadManager : ManagerBase
-	{
-		public int FlushSize { get; private set; }
+    /// <summary>
+    /// ä¸‹è½½ç®¡ç†å™¨
+    /// </summary>
+    public class DownloadManager
+    {
+        public int FlushSize { get; private set; }
 
-		public int DownloadRoutineCount { get; private set; }
+        public int DownloadRoutineCount { get; private set; }
 
-		/// <summary>
-		/// Á¬½ÓÊ§°ÜºóµÄÖØÊÔ´ÎÊı
-		/// </summary>
-		public int Retry { get; private set; }
+        /// <summary>
+        /// è¿æ¥å¤±è´¥åçš„é‡è¯•æ¬¡æ•°
+        /// </summary>
+        public int Retry { get; private set; }
 
-		/// <summary>
-		/// ÏÂÔØµ¥ÎÄ¼şÆ÷Á´±í
-		/// </summary>
-		private LinkedList<DownloadRoutine> m_DownloadSingleRoutineList;
+        /// <summary>
+        /// ä¸‹è½½å•æ–‡ä»¶å™¨é“¾è¡¨
+        /// </summary>
+        private LinkedList<DownloadRoutine> m_DownloadSingleRoutineList;
 
-		/// <summary>
-		/// ÏÂÔØ¶àÎÄ¼şÆ÷Á´±í
-		/// </summary>
-		private LinkedList<DownloadMulitRoutine> m_DownloadMulitRoutineList;
+        /// <summary>
+        /// ä¸‹è½½å¤šæ–‡ä»¶å™¨é“¾è¡¨
+        /// </summary>
+        private LinkedList<DownloadMulitRoutine> m_DownloadMulitRoutineList;
 
-		internal DownloadManager()
-		{
-			m_DownloadSingleRoutineList = new LinkedList<DownloadRoutine>();
-			m_DownloadMulitRoutineList = new LinkedList<DownloadMulitRoutine>();
-		}
-		internal void Dispose()
-		{
-			m_DownloadSingleRoutineList.Clear();
+        internal DownloadManager()
+        {
+            m_DownloadSingleRoutineList = new LinkedList<DownloadRoutine>();
+            m_DownloadMulitRoutineList = new LinkedList<DownloadMulitRoutine>();
+        }
+        internal void Dispose()
+        {
+            m_DownloadSingleRoutineList.Clear();
 
-			//µ÷ÓÃÏÂÔØ¶àÎÄ¼şÆ÷µÄDispose()
-			var mulitRoutine = m_DownloadMulitRoutineList.First;
-			while (mulitRoutine != null)
-			{
-				mulitRoutine.Value.Dispose();
-				mulitRoutine = mulitRoutine.Next;
-			}
-			m_DownloadMulitRoutineList.Clear();
-		}
-		/// <summary>
-		/// ¸üĞÂ
-		/// </summary>
-		internal void OnUpdate()
-		{
-			//µ÷ÓÃÏÂÔØµ¥ÎÄ¼şÆ÷µÄOnUpdate()
-			var singleRoutine = m_DownloadSingleRoutineList.First;
-			while (singleRoutine != null)
-			{
-				singleRoutine.Value.OnUpdate();
-				singleRoutine = singleRoutine.Next;
-			}
+            //è°ƒç”¨ä¸‹è½½å¤šæ–‡ä»¶å™¨çš„Dispose()
+            var mulitRoutine = m_DownloadMulitRoutineList.First;
+            while (mulitRoutine != null)
+            {
+                mulitRoutine.Value.Dispose();
+                mulitRoutine = mulitRoutine.Next;
+            }
+            m_DownloadMulitRoutineList.Clear();
+        }
+        /// <summary>
+        /// æ›´æ–°
+        /// </summary>
+        internal void OnUpdate()
+        {
+            //è°ƒç”¨ä¸‹è½½å•æ–‡ä»¶å™¨çš„OnUpdate()
+            var singleRoutine = m_DownloadSingleRoutineList.First;
+            while (singleRoutine != null)
+            {
+                singleRoutine.Value.OnUpdate();
+                singleRoutine = singleRoutine.Next;
+            }
 
-			//µ÷ÓÃÏÂÔØ¶àÎÄ¼şÆ÷µÄOnUpdate()
-			var mulitRoutine = m_DownloadMulitRoutineList.First;
-			while (mulitRoutine != null)
-			{
-				mulitRoutine.Value.OnUpdate();
-				mulitRoutine = mulitRoutine.Next;
-			}
-		}
-		internal override void Init()
-		{
-			Retry = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Download_Retry, GameEntry.CurrDeviceGrade);
-			DownloadRoutineCount = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Download_RoutineCount, GameEntry.CurrDeviceGrade);
-			FlushSize = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Download_FlushSize, GameEntry.CurrDeviceGrade);
-		}
+            //è°ƒç”¨ä¸‹è½½å¤šæ–‡ä»¶å™¨çš„OnUpdate()
+            var mulitRoutine = m_DownloadMulitRoutineList.First;
+            while (mulitRoutine != null)
+            {
+                mulitRoutine.Value.OnUpdate();
+                mulitRoutine = mulitRoutine.Next;
+            }
+        }
+        internal void Init()
+        {
+            Retry = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Download_Retry, GameEntry.CurrDeviceGrade);
+            DownloadRoutineCount = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Download_RoutineCount, GameEntry.CurrDeviceGrade);
+            FlushSize = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Download_FlushSize, GameEntry.CurrDeviceGrade);
+        }
 
-		/// <summary>
-		/// ÏÂÔØµ¥¸öÎÄ¼ş
-		/// </summary>
-		/// <param name="url"></param>
-		/// <param name="onUpdate"></param>
-		public void BeginDownloadSingle(string url, BaseAction<string, ulong, float> onUpdate = null, BaseAction<string> onComplete = null)
-		{
-			AssetBundleInfoEntity entity = GameEntry.Resource.ResourceManager.GetAssetBundleInfo(url);
-			if (entity == null)
-			{
-				GameEntry.LogError("ÎŞĞ§×ÊÔ´°ü=>" + url);
-				return;
-			}
+        /// <summary>
+        /// ä¸‹è½½å•ä¸ªæ–‡ä»¶
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="onUpdate"></param>
+        public void BeginDownloadSingle(string url, Action<string, ulong, float> onUpdate = null, Action<string> onComplete = null)
+        {
+            AssetBundleInfoEntity entity = GameEntry.Resource.ResourceManager.GetAssetBundleInfo(url);
+            if (entity == null)
+            {
+                GameEntry.LogError("æ— æ•ˆèµ„æºåŒ…=>" + url);
+                return;
+            }
 
-			DownloadRoutine routine = GameEntry.Pool.DequeueClassObject<DownloadRoutine>();
-			routine.BeginDownload(url, entity, onUpdate, onComplete: (string fileUrl, DownloadRoutine r) =>
-			{
-				m_DownloadSingleRoutineList.Remove(routine);
-				GameEntry.Pool.EnqueueClassObject(routine);
-				if (onComplete != null) onComplete(fileUrl);
-			});
-			m_DownloadSingleRoutineList.AddLast(routine);
-		}
+            DownloadRoutine routine = GameEntry.Pool.DequeueClassObject<DownloadRoutine>();
+            routine.BeginDownload(url, entity, onUpdate, onComplete: (string fileUrl, DownloadRoutine r) =>
+            {
+                m_DownloadSingleRoutineList.Remove(routine);
+                GameEntry.Pool.EnqueueClassObject(routine);
+                if (onComplete != null) onComplete(fileUrl);
+            });
+            m_DownloadSingleRoutineList.AddLast(routine);
+        }
 
-		/// <summary>
-		/// ÏÂÔØ¶à¸öÎÄ¼ş
-		/// </summary>
-		/// <param name="lstUrl"></param>
-		/// <param name="onDownloadMulitUpdate"></param>
-		/// <param name="onDownloadMulitComplete"></param>
-		public void BeginDownloadMulit(LinkedList<string> lstUrl, BaseAction<int, int, ulong, ulong> onDownloadMulitUpdate = null, BaseAction onDownloadMulitComplete = null)
-		{
-			DownloadMulitRoutine mulitRoutine = GameEntry.Pool.DequeueClassObject<DownloadMulitRoutine>();
-			mulitRoutine.BeginDownloadMulit(lstUrl, onDownloadMulitUpdate, (DownloadMulitRoutine r) =>
-			{
-				m_DownloadMulitRoutineList.Remove(r);
-				GameEntry.Pool.EnqueueClassObject(r);
-				onDownloadMulitComplete?.Invoke();
-			});
-			m_DownloadMulitRoutineList.AddLast(mulitRoutine);
-		}
+        /// <summary>
+        /// ä¸‹è½½å¤šä¸ªæ–‡ä»¶
+        /// </summary>
+        /// <param name="lstUrl"></param>
+        /// <param name="onDownloadMulitUpdate"></param>
+        /// <param name="onDownloadMulitComplete"></param>
+        public void BeginDownloadMulit(LinkedList<string> lstUrl, Action<int, int, ulong, ulong> onDownloadMulitUpdate = null, Action onDownloadMulitComplete = null)
+        {
+            DownloadMulitRoutine mulitRoutine = GameEntry.Pool.DequeueClassObject<DownloadMulitRoutine>();
+            mulitRoutine.BeginDownloadMulit(lstUrl, onDownloadMulitUpdate, (DownloadMulitRoutine r) =>
+            {
+                m_DownloadMulitRoutineList.Remove(r);
+                GameEntry.Pool.EnqueueClassObject(r);
+                onDownloadMulitComplete?.Invoke();
+            });
+            m_DownloadMulitRoutineList.AddLast(mulitRoutine);
+        }
 
-	}
+    }
 }

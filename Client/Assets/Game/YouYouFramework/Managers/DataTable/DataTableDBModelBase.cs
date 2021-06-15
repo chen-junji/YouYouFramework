@@ -48,20 +48,21 @@ namespace YouYou
 		/// <summary>
 		/// 加载数据表数据
 		/// </summary>
-		internal void LoadData()
+		internal void LoadData(TaskGroup taskGroup)
 		{
-			GameEntry.DataTable.TotalTableCount++;
-
-			//1.拿到这个表格的buffer
-			GameEntry.DataTable.GetDataTableBuffer(DataTableName, (byte[] buffer) =>
+			taskGroup.AddTask((taskRoutine) =>
 			{
-				using (MMO_MemoryStream ms = new MMO_MemoryStream(buffer))
+				//1.拿到这个表格的buffer
+				GameEntry.DataTable.GetDataTableBuffer(DataTableName, (byte[] buffer) =>
 				{
-					LoadList(ms);
-				}
+					using (MMO_MemoryStream ms = new MMO_MemoryStream(buffer))
+					{
+						LoadList(ms);
+					}
 
-				OnLoadListComple();
-				GameEntry.Event.CommonEvent.Dispatch(CommonEventId.LoadOneDataTableComplete, DataTableName);
+					OnLoadListComple();
+					taskRoutine.Leave();
+				});
 			});
 		}
 		#endregion

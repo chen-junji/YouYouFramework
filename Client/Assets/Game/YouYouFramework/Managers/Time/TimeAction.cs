@@ -119,21 +119,6 @@ namespace YouYou
 
             return this;
         }
-        TimeAction timeAction1;
-        public TimeAction Init(ref TimeAction time, string timeName = null, float delayTime = 0, float interval = 1, int loop = 0,
-           Action onStar = null, Action<int> onUpdate = null, Action onComplete = null)
-        {
-            timeAction1 = time;
-            TimeName = timeName;
-            m_DelayTime = delayTime;
-            m_Interval = interval;
-            m_Loop = loop;
-            OnStarAction = onStar;
-            OnUpdateAction = onUpdate;
-            OnCompleteAction = onComplete;
-
-            return this;
-        }
 
         /// <summary>
         /// 运行
@@ -141,18 +126,10 @@ namespace YouYou
         public TimeAction Run()
         {
             //1.需要先把自己加入时间管理器的链表中
-            GameEntry.Time.RegisterTimeAction(this);
+            if (!IsRuning) GameEntry.Time.RegisterTimeAction(this);
 
             //2.设置当前运行的时间
-            m_CurrRunTime = Time.realtimeSinceStartup;
-            m_CurrLoop = 0;
-            m_IsPause = false;
-
-            return this;
-        }
-        public TimeAction RunReset()
-        {
-            m_CurrRunTime = Time.realtimeSinceStartup;
+            m_CurrRunTime = Time.time;
             m_CurrLoop = 0;
             m_IsPause = false;
 
@@ -165,6 +142,9 @@ namespace YouYou
         public void Stop()
         {
             IsRuning = false;
+            OnStarAction = null;
+            OnUpdateAction = null;
+            OnCompleteAction = null;
 
             //把自己从定时器链表移除
             GameEntry.Time.RemoveTimeAction(this);
@@ -175,7 +155,7 @@ namespace YouYou
         /// </summary>
         public void Pause()
         {
-            m_LastPauseTime = Time.realtimeSinceStartup;
+            m_LastPauseTime = Time.time;
             m_IsPause = true;
         }
 
@@ -184,11 +164,10 @@ namespace YouYou
         /// </summary>
         public void Resume()
         {
-
             m_IsPause = false;
 
             //计算暂停了多久
-            m_PauseTime = Time.realtimeSinceStartup - m_LastPauseTime;
+            m_PauseTime = Time.time - m_LastPauseTime;
         }
 
 
@@ -197,12 +176,12 @@ namespace YouYou
             if (m_IsPause) return;
 
             //1.等待延迟时间
-            if (Time.realtimeSinceStartup > m_CurrRunTime + m_PauseTime + m_DelayTime)
+            if (Time.time > m_CurrRunTime + m_PauseTime + m_DelayTime)
             {
                 if (!IsRuning)
                 {
                     //开始运行
-                    m_CurrRunTime = Time.realtimeSinceStartup;
+                    m_CurrRunTime = Time.time;
                     m_PauseTime = 0;
                     OnStarAction?.Invoke();
                 }
@@ -210,9 +189,9 @@ namespace YouYou
             }
             if (!IsRuning) return;
 
-            if (Time.realtimeSinceStartup > m_CurrRunTime + m_PauseTime)
+            if (Time.time > m_CurrRunTime + m_PauseTime)
             {
-                m_CurrRunTime = Time.realtimeSinceStartup + m_Interval;
+                m_CurrRunTime = Time.time + m_Interval;
                 m_PauseTime = 0;
                 //以下代码 间隔m_Interval 时间 执行一次
                 OnUpdateAction?.Invoke(m_Loop - m_CurrLoop);
@@ -221,8 +200,8 @@ namespace YouYou
                 {
                     if (m_CurrLoop >= m_Loop)
                     {
-                        Stop();
                         OnCompleteAction?.Invoke();
+                        Stop();
                     }
                     m_CurrLoop++;
                 }

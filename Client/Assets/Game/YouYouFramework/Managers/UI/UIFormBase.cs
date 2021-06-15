@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,19 +6,19 @@ using UnityEngine.UI;
 
 namespace YouYou
 {
-	[RequireComponent(typeof(Canvas))]//脚本依赖
-	[RequireComponent(typeof(GraphicRaycaster))]//脚本依赖
+	[RequireComponent(typeof(Canvas))]//鑴氭湰渚濊禆
+	[RequireComponent(typeof(GraphicRaycaster))]//鑴氭湰渚濊禆
 	public class UIFormBase : MonoBehaviour
 	{
 		/// <summary>
-		/// 是否活跃
+		/// 鏄惁娲昏穬
 		/// </summary>
 		protected internal bool IsActive;
 
 		public Sys_UIFormEntity SysUIForm { get; private set; }
 
 		/// <summary>
-		/// 当前画布
+		/// 褰撳墠鐢诲竷
 		/// </summary>
 		public Canvas CurrCanvas
 		{
@@ -26,7 +27,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// 关闭时间
+		/// 鍏抽棴鏃堕棿
 		/// </summary>
 		public float CloseTime
 		{
@@ -35,7 +36,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// 用户数据
+		/// 鐢ㄦ埛鏁版嵁
 		/// </summary>
 		public object UserData
 		{
@@ -43,7 +44,7 @@ namespace YouYou
 			private set;
 		}
 
-		private BaseAction m_InitComplate;
+		private Action m_InitComplate;
 
 		void Awake()
 		{
@@ -51,7 +52,7 @@ namespace YouYou
 			CurrCanvas = GetComponent<Canvas>();
 		}
 
-		internal void Init(Sys_UIFormEntity sysUIForm, object userData, BaseAction initComplate)
+		internal void Init(Sys_UIFormEntity sysUIForm, object userData, Action initComplate)
 		{
 			SysUIForm = sysUIForm;
 			UserData = userData;
@@ -61,6 +62,7 @@ namespace YouYou
 		void Start()
 		{
 			OnInit(UserData);
+            if (SysUIForm != null && SysUIForm.LoadType == 2) return;
 			m_InitComplate?.Invoke();
 			Open(UserData, true);
 		}
@@ -76,7 +78,7 @@ namespace YouYou
 
 			if (SysUIForm != null && SysUIForm.DisableUILayer != 1)
 			{
-				//进行层级管理 增加层级
+				//杩涜灞傜骇绠＄悊 澧炲姞灞傜骇
 				GameEntry.UI.SetSortingOrder(this, true);
 			}
 			OnOpen(UserData);
@@ -93,7 +95,7 @@ namespace YouYou
 			//GameEntry.Audio.PlayAudio(YFConstDefine.Audio_UIClose);
 			if (SysUIForm != null && SysUIForm.DisableUILayer != 1)
 			{
-				//进行层级管理 减少层级
+				//杩涜灞傜骇绠＄悊 鍑忓皯灞傜骇
 				GameEntry.UI.SetSortingOrder(this, false);
 			}
 

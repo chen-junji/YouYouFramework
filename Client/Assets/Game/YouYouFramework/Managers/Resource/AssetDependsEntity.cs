@@ -3,19 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace YouYou
 {
-/// <summary>
-/// AssetÒÀÀµÏîÊµÌå
-/// </summary>
-public class AssetDependsEntity 
-{
     /// <summary>
-    /// ×ÊÔ´·ÖÀà
+    /// èµ„æºä¾èµ–é¡¹å®ä½“
     /// </summary>
-    public AssetCategory Category;
-
-    /// <summary>
-    /// ×ÊÔ´ÍêÕûÃû³Æ
-    /// </summary>
-    public string AssetFullName;
+    public class AssetDependsEntity
+    {
+        public string AssetFullName;
     }
 }

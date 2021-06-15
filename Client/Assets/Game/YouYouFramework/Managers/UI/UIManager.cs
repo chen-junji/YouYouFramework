@@ -4,447 +4,460 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 
 namespace YouYou
 {
-	public class UIManager : ManagerBase
-	{
-		/// <summary>
-		/// ÒÑ¾­´ò¿ªµÄUI´°¿ÚÁ´±í
-		/// </summary>
-		private LinkedList<UIFormBase> m_OpenUIFormList;
-		/// <summary>
-		/// ·´ÇĞUIÕ»
-		/// </summary>
-		private Stack<UIFormBase> m_ReverseChangeUIStack;
-		/// <summary>
-		/// ÕıÔÚ¼ÓÔØÖĞµÄUI´°¿Ú
-		/// </summary>
-		private LinkedList<int> m_LoadingUIFormList;
+    public class UIManager
+    {
+        /// <summary>
+        /// å·²ç»æ‰“å¼€çš„UIçª—å£é“¾è¡¨
+        /// </summary>
+        private LinkedList<UIFormBase> m_OpenUIFormList;
+        /// <summary>
+        /// ååˆ‡UIæ ˆ
+        /// </summary>
+        private Stack<UIFormBase> m_ReverseChangeUIStack;
+        /// <summary>
+        /// æ­£åœ¨åŠ è½½ä¸­çš„UIçª—å£
+        /// </summary>
+        private LinkedList<int> m_LoadingUIFormList;
 
-		private UILayer m_UILayer;
+        private UILayer m_UILayer;
 
-		private Dictionary<byte, UIGroup> m_UIGroupDic;
+        private Dictionary<byte, UIGroup> m_UIGroupDic;
 
-		private UIPool m_UIPool;
+        private UIPool m_UIPool;
 
-		/// <summary>
-		/// UI¶ÔÏó³ØÖĞ×î´óÊıÁ¿
-		/// </summary>
-		public int UIPoolMaxCount { get; private set; }
-		/// <summary>
-		/// UI»Ø³Øºó¹ıÆÚÊ±¼ä_Ãë
-		/// </summary>
-		public float UIExpire { get; private set; }
-		/// <summary>
-		/// UIÊÍ·Å¼ä¸ô_Ãë
-		/// </summary>
-		public float ClearInterval { get; private set; }
+        /// <summary>
+        /// UIå›æ± åè¿‡æœŸæ—¶é—´_ç§’
+        /// </summary>
+        public float UIExpire { get; private set; }
+        /// <summary>
+        /// UIé‡Šæ”¾é—´éš”_ç§’
+        /// </summary>
+        public float ClearInterval { get; private set; }
 
-		/// <summary>
-		/// ÏÂ´ÎÔËĞĞÊ±¼ä
-		/// </summary>
-		private float m_NextRunTime = 0f;
+        /// <summary>
+        /// ä¸‹æ¬¡è¿è¡Œæ—¶é—´
+        /// </summary>
+        private float m_NextRunTime = 0f;
 
-		/// <summary>
-		/// ±ê×¼·Ö±æÂÊ±ÈÖµ
-		/// </summary>
-		private float m_StandardScreen = 0;
-		/// <summary>
-		/// µ±Ç°·Ö±æÂÊ±ÈÖµ
-		/// </summary>
-		private float m_CurrScreen = 0;
+        /// <summary>
+        /// æ ‡å‡†åˆ†è¾¨ç‡æ¯”å€¼
+        /// </summary>
+        private float m_StandardScreen = 0;
+        /// <summary>
+        /// å½“å‰åˆ†è¾¨ç‡æ¯”å€¼
+        /// </summary>
+        private float m_CurrScreen = 0;
 
-		internal UIManager()
-		{
-			m_OpenUIFormList = new LinkedList<UIFormBase>();
-			m_ReverseChangeUIStack = new Stack<UIFormBase>();
-			m_LoadingUIFormList = new LinkedList<int>();
+        internal UIManager()
+        {
+            m_OpenUIFormList = new LinkedList<UIFormBase>();
+            m_ReverseChangeUIStack = new Stack<UIFormBase>();
+            m_LoadingUIFormList = new LinkedList<int>();
 
-			m_UILayer = new UILayer();
-			m_UIGroupDic = new Dictionary<byte, UIGroup>();
-			m_UIPool = new UIPool();
+            m_UILayer = new UILayer();
+            m_UIGroupDic = new Dictionary<byte, UIGroup>();
+            m_UIPool = new UIPool();
 
-		}
-		internal void Dispose()
-		{
-		}
-		internal override void Init()
-		{
-			UIPoolMaxCount = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_PoolMaxCount, GameEntry.CurrDeviceGrade);
-			UIExpire = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_Expire, GameEntry.CurrDeviceGrade);
-			ClearInterval = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_ClearInterval, GameEntry.CurrDeviceGrade);
+        }
+        internal void Dispose()
+        {
+        }
+        internal void Init()
+        {
+            UIExpire = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_Expire, GameEntry.CurrDeviceGrade);
+            ClearInterval = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_ClearInterval, GameEntry.CurrDeviceGrade);
 
-			m_StandardScreen = GameEntry.Instance.StandardWidth / (float)GameEntry.Instance.StandardHeight;
+            m_StandardScreen = GameEntry.Instance.StandardWidth / (float)GameEntry.Instance.StandardHeight;
 
-			for (int i = 0; i < GameEntry.Instance.UIGroups.Length; i++)
-			{
-				m_UIGroupDic[GameEntry.Instance.UIGroups[i].Id] = GameEntry.Instance.UIGroups[i];
-			}
-			m_UILayer.Init(GameEntry.Instance.UIGroups);
-		}
-		internal void OnUpdate()
-		{
-			if (Time.time > m_NextRunTime + ClearInterval)
-			{
-				m_NextRunTime = Time.time;
+            for (int i = 0; i < GameEntry.Instance.UIGroups.Length; i++)
+            {
+                m_UIGroupDic[GameEntry.Instance.UIGroups[i].Id] = GameEntry.Instance.UIGroups[i];
+            }
+            m_UILayer.Init(GameEntry.Instance.UIGroups);
+        }
+        internal void OnUpdate()
+        {
+            if (Time.time > m_NextRunTime + ClearInterval)
+            {
+                m_NextRunTime = Time.time;
 
-				//ÊÍ·ÅUI¶ÔÏó³Ø
-				m_UIPool.CheckClear();
-			}
+                //é‡Šæ”¾UIå¯¹è±¡æ± 
+                m_UIPool.CheckClear();
+            }
 
-			if (m_CurrScreen != Screen.width / (float)Screen.height)
-			{
-				m_CurrScreen = Screen.width / (float)Screen.height;
-				LoadingFormCanvasScaler();
-			}
-		}
+            if (m_CurrScreen != Screen.width / (float)Screen.height)
+            {
+                m_CurrScreen = Screen.width / (float)Screen.height;
+                LoadingFormCanvasScaler();
+            }
+        }
 
-		#region UIÊÊÅä
-		/// <summary>
-		/// LoadingFormÊÊÅäËõ·Å
-		/// </summary>
-		public void LoadingFormCanvasScaler()
-		{
-			GameEntry.Instance.UIRootCanvasScaler.matchWidthOrHeight = (m_CurrScreen > m_StandardScreen) ? 1 : 0;
-		}
-		/// <summary>
-		/// FullFormÊÊÅäËõ·Å
-		/// </summary>
-		public void FullFormCanvasScaler()
-		{
-			GameEntry.Instance.UIRootCanvasScaler.matchWidthOrHeight = 1;
-		}
-		/// <summary>
-		/// NormalFormÊÊÅäËõ·Å
-		/// </summary>
-		public void NormalFormCanvasScaler()
-		{
-			if (m_CurrScreen > m_StandardScreen)
-			{
-				//ÉèÖÃÎª0
-				GameEntry.Instance.UIRootCanvasScaler.matchWidthOrHeight = 0;
-			}
-			else
-			{
-				GameEntry.Instance.UIRootCanvasScaler.matchWidthOrHeight = m_StandardScreen - m_CurrScreen;
-			}
-		}
+        #region UIé€‚é…
+        /// <summary>
+        /// LoadingFormé€‚é…ç¼©æ”¾
+        /// </summary>
+        public void LoadingFormCanvasScaler()
+        {
+            GameEntry.Instance.UIRootCanvasScaler.matchWidthOrHeight = (m_CurrScreen > m_StandardScreen) ? 1 : 0;
+        }
+        /// <summary>
+        /// FullFormé€‚é…ç¼©æ”¾
+        /// </summary>
+        public void FullFormCanvasScaler()
+        {
+            GameEntry.Instance.UIRootCanvasScaler.matchWidthOrHeight = 1;
+        }
+        /// <summary>
+        /// NormalFormé€‚é…ç¼©æ”¾
+        /// </summary>
+        public void NormalFormCanvasScaler()
+        {
+            if (m_CurrScreen > m_StandardScreen)
+            {
+                //è®¾ç½®ä¸º0
+                GameEntry.Instance.UIRootCanvasScaler.matchWidthOrHeight = 0;
+            }
+            else
+            {
+                GameEntry.Instance.UIRootCanvasScaler.matchWidthOrHeight = m_StandardScreen - m_CurrScreen;
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region GetUIGroup ¸ù¾İUI·Ö×é±àºÅ»ñÈ¡UI·Ö×é
-		/// <summary>
-		/// ¸ù¾İUI·Ö×é±àºÅ»ñÈ¡UI·Ö×é
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
-		public UIGroup GetUIGroup(byte id)
-		{
-			UIGroup group = null;
-			m_UIGroupDic.TryGetValue(id, out group);
-			return group;
-		}
-		#endregion
+        #region GetUIGroup æ ¹æ®UIåˆ†ç»„ç¼–å·è·å–UIåˆ†ç»„
+        /// <summary>
+        /// æ ¹æ®UIåˆ†ç»„ç¼–å·è·å–UIåˆ†ç»„
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public UIGroup GetUIGroup(byte id)
+        {
+            UIGroup group = null;
+            m_UIGroupDic.TryGetValue(id, out group);
+            return group;
+        }
+        #endregion
 
-		#region OpenDialogForm ´ò¿ªÌáÊ¾´°¿Ú
-		/// <summary>
-		/// ´ò¿ªÌáÊ¾´°¿Ú
-		/// </summary>
-		public void OpenDialogForm(int sysCode, string title = "ÌáÊ¾", DialogFormType dialogFormType = DialogFormType.Noraml, BaseAction okAction = null, BaseAction cancelAction = null)
-		{
-			OpenDialogForm(GameEntry.Data.SysDataManager.GetSysCodeContent(sysCode), title, dialogFormType, okAction, cancelAction);
-		}
-		/// <summary>
-		/// ´ò¿ªÌáÊ¾´°¿Ú
-		/// </summary>
-		public void OpenDialogForm(string str, string title = "ÌáÊ¾", DialogFormType dialogFormType = DialogFormType.Noraml, BaseAction okAction = null, BaseAction cancelAction = null)
-		{
-			OpenUIForm(UIFormId.UI_Dialog, onOpen: (UIFormBase uiFormBase) =>
-			  {
-				  UIDialogForm messageForm = uiFormBase as UIDialogForm;
-				  messageForm.SetUI(str, title, dialogFormType, okAction, cancelAction);
-			  });
-		}
-		#endregion
+        #region OpenUIForm æ‰“å¼€UIçª—å£
+        public void OpenUIForm(string uiFormName, object userData = null, Action<UIFormBase> onOpen = null, Action<UIFormBase> onLoadComplete = null)
+        {
+            OpenUIForm<UIFormBase>(GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName), userData, onOpen, onLoadComplete);
+        }
+        public void OpenUIForm(int uiFormId, object userData = null, Action<UIFormBase> onOpen = null, Action<UIFormBase> onLoadComplete = null)
+        {
+            OpenUIForm<UIFormBase>(uiFormId, userData, onOpen, onLoadComplete);
+        }
+        public void OpenUIForm<T>(string uiFormName, object userData = null, Action<T> onOpen = null, Action<UIFormBase> onLoadComplete = null) where T : UIFormBase
+        {
+            OpenUIForm(GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName), userData, onOpen, onLoadComplete);
+        }
+        public void OpenUIForm<T>(int uiFormId, object userData = null, Action<T> onOpen = null, Action<UIFormBase> onLoadComplete = null) where T : UIFormBase
+        {
+            //1,è¯»è¡¨
+            Sys_UIFormEntity sys_UIForm = GameEntry.DataTable.Sys_UIFormDBModel.GetDic(uiFormId);
+            if (sys_UIForm == null) return;
+            if (sys_UIForm.CanMulit == 0 && IsExists(uiFormId)) return;
 
-		#region OpenUIForm ´ò¿ªUI´°¿Ú
-		public void OpenUIForm(string uiFormName, object userData = null, BaseAction<UIFormBase> onOpen = null)
-		{
-			OpenUIForm<UIFormBase>(GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName), userData, onOpen);
-		}
-		public void OpenUIForm(int uiFormId, object userData = null, BaseAction<UIFormBase> onOpen = null)
-		{
-			OpenUIForm<UIFormBase>(uiFormId, userData, onOpen);
-		}
-		public void OpenUIForm<T>(string uiFormName, object userData = null, BaseAction<T> onOpen = null) where T : UIFormBase
-		{
-			OpenUIForm(GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName), userData, onOpen);
-		}
-		public void OpenUIForm<T>(int uiFormId, object userData = null, BaseAction<T> onOpen = null) where T : UIFormBase
-		{
-			//1,¶Á±í
-			Sys_UIFormEntity sys_UIForm = GameEntry.DataTable.Sys_UIFormDBModel.GetDic(uiFormId);
-			if (sys_UIForm == null) return;
+            UIFormBase formBase = GameEntry.UI.Dequeue(uiFormId);
+            if (formBase == null)
+            {
+                GameEntry.Task.AddTaskCommon((taskRoutine) =>
+                {
+                    LoadAssetUI(sys_UIForm, (form) =>
+                    {
+                        taskRoutine.Leave();
+                        m_OpenUIFormList.AddLast(form);
+                        onLoadComplete?.Invoke(form);
+                        form.Init(sys_UIForm, userData, () => OpenUI(sys_UIForm, form, onOpen));
+                    });
+                }, sys_UIForm.LoadType == 1);
+            }
+            else
+            {
+                m_OpenUIFormList.AddLast(formBase);
+                GameEntry.UI.ShowUI(formBase);
+                //Yieldæ˜¯ä¸ºäº†é˜²æ­¢OnInitæ²¡æœ‰è¢«æ‰§è¡Œ
+                GameEntry.Time.Yield(() =>
+                {
+                    OpenUI(sys_UIForm, formBase, onOpen);
+                    formBase.Open(userData);
+                });
+            }
+        }
+        private void LoadAssetUI(Sys_UIFormEntity sys_UIForm, Action<UIFormBase> onComplete = null)
+        {
+            //å¼‚æ­¥åŠ è½½UIéœ€è¦æ—¶é—´ æ­¤å¤„éœ€è¦å¤„ç†è¿‡æ»¤åŠ è½½ä¸­çš„UI
+            if (sys_UIForm.CanMulit == 0 && IsLoading(sys_UIForm.Id))
+            {
+                onComplete?.Invoke(null);
+                return;
+            }
+            m_LoadingUIFormList.AddLast(sys_UIForm.Id);
 
-			if (sys_UIForm.CanMulit == 0 && IsExists(uiFormId))
-			{
-				Debug.LogError("²»ÖØ¸´´ò¿ªÍ¬Ò»¸öUI´°¿Ú");
-				return;
-			}
+            string assetPath = string.Empty;
+            switch (GameEntry.CurrLanguage)
+            {
+                case YouYouLanguage.Chinese:
+                    assetPath = sys_UIForm.AssetPath_Chinese;
+                    break;
+                case YouYouLanguage.English:
+                    assetPath = sys_UIForm.AssetPath_English;
+                    break;
+            }
 
-			UIFormBase formBase = GameEntry.UI.Dequeue(uiFormId);
-			if (formBase == null)
-			{
-				//Òì²½¼ÓÔØUIĞèÒªÊ±¼ä ´Ë´¦ĞèÒª´¦Àí¹ıÂË¼ÓÔØÖĞµÄUI
-				if (IsLoading(uiFormId)) return;
-				m_LoadingUIFormList.AddLast(uiFormId);
+            //åŠ è½½UIèµ„æºå¹¶å…‹éš†
+            StringBuilder sbr = StringHelper.PoolNew();
+            string str = sbr.AppendFormatNoGC("Assets/Download/UI/UIPrefab/{0}.prefab", assetPath).ToString();
+            StringHelper.PoolDel(ref sbr);
+            GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(str, isAddReferenceCount: true, onComplete: (ResourceEntity resourceEntity) =>
+            {
+                GameObject uiObj = UnityEngine.Object.Instantiate((GameObject)resourceEntity.Target, GameEntry.UI.GetUIGroup(sys_UIForm.UIGroupId).Group);
+                //æŠŠå…‹éš†å‡ºæ¥çš„èµ„æº åŠ å…¥å®ä¾‹èµ„æºæ± 
+                GameEntry.Pool.RegisterInstanceResource(uiObj.GetInstanceID(), resourceEntity);
 
-				string assetPath = string.Empty;
-				switch (GameEntry.CurrLanguage)
-				{
-					case YouYouLanguage.Chinese:
-						assetPath = sys_UIForm.AssetPath_Chinese;
-						break;
-					case YouYouLanguage.English:
-						assetPath = sys_UIForm.AssetPath_English;
-						break;
-				}
+                //åˆå§‹åŒ–UI
+                UIFormBase formBase = uiObj.GetComponent<UIFormBase>();
+                if (formBase == null) formBase = uiObj.AddComponent<UIFormBase>();
+                formBase.CurrCanvas.overrideSorting = true;
+                m_LoadingUIFormList.Remove(sys_UIForm.Id);
+                onComplete?.Invoke(formBase);
+            });
+        }
+        private void OpenUI<T>(Sys_UIFormEntity sys_UIFormEntity, UIFormBase formBase, Action<T> onOpen) where T : UIFormBase
+        {
+            //åˆ¤æ–­ååˆ‡UI
+            UIFormShowMode uIFormShowMode = (UIFormShowMode)sys_UIFormEntity.ShowMode;
+            if (uIFormShowMode == UIFormShowMode.ReverseChange)
+            {
+                //å¦‚æœä¹‹å‰æ ˆé‡Œé¢æœ‰UI
+                if (m_ReverseChangeUIStack.Count > 0)
+                {
+                    //ä»æ ˆé¡¶ä¸Š æ‹¿åˆ°UI
+                    UIFormBase topUIForm = m_ReverseChangeUIStack.Peek();
 
-				//¼ÓÔØUI×ÊÔ´²¢¿ËÂ¡
-				StringBuilder sbr = StringHelper.PoolNew();
-				string str = sbr.AppendFormatNoGC("Assets/Download/UI/UIPrefab/{0}.prefab", assetPath).ToString();
-				StringHelper.PoolDel(ref sbr);
-				GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.UIPrefab, str, (ResourceEntity resourceEntity) =>
-				{
-					GameObject uiObj = Object.Instantiate((GameObject)resourceEntity.Target, GameEntry.UI.GetUIGroup(sys_UIForm.UIGroupId).Group);
+                    //ç¦ç”¨ å†»ç»“
+                    GameEntry.UI.HideUI(topUIForm);
+                }
 
-					//°Ñ¿ËÂ¡³öÀ´µÄ×ÊÔ´ ¼ÓÈëÊµÀı×ÊÔ´³Ø
-					GameEntry.Pool.RegisterInstanceResource(uiObj.GetInstanceID(), resourceEntity);
+                //æŠŠè‡ªå·±åŠ å…¥æ ˆ
+                //Debug.LogError("å…¥æ ˆ==" + formBase.gameObject.GetInstanceID());
+                m_ReverseChangeUIStack.Push(formBase);
+            }
+            onOpen?.Invoke(formBase as T);
+        }
+        #endregion
 
-					//RectTransform rectTransform = uiObj.GetComponent<RectTransform>();
-					//rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 0);
-					//rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 0);
-					//rectTransform.anchorMin = Vector2.zero;
-					//rectTransform.anchorMax = Vector2.one;
+        #region CloseUIForm å…³é—­UIçª—å£
+        public void CloseUIForm(int uiFormId)
+        {
+            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
+            {
+                if (curr.Value.SysUIForm.Id == uiFormId)
+                {
+                    CloseUIForm(curr.Value);
+                    break;
+                }
+            }
+        }
+        internal void CloseUIFormByInstanceID(int instanceID)
+        {
+            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
+            {
+                if (curr.Value.gameObject.GetInstanceID() == instanceID)
+                {
+                    CloseUIForm(curr.Value);
+                    break;
+                }
+            }
+        }
+        internal void CloseUIForm(UIFormBase formBase)
+        {
+            if (!m_OpenUIFormList.Remove(formBase)) return;
+            formBase.ToClose();
 
-					//³õÊ¼»¯UI
-					formBase = uiObj.GetComponent<UIFormBase>();
-					formBase.CurrCanvas.overrideSorting = true;
-					formBase.Init(sys_UIForm, userData, () =>
-					{
-						OpenUI(sys_UIForm, formBase, onOpen);
-					});
-					m_OpenUIFormList.AddLast(formBase);
-					m_LoadingUIFormList.Remove(uiFormId);
+            //åˆ¤æ–­ååˆ‡UI
+            UIFormShowMode uIFormShowMode = (UIFormShowMode)formBase.SysUIForm.ShowMode;
+            if (uIFormShowMode == UIFormShowMode.ReverseChange)
+            {
+                m_ReverseChangeUIStack.Pop();
 
-				});
-			}
-			else
-			{
-				formBase.Open(userData);
-				m_OpenUIFormList.AddLast(formBase);
-				GameEntry.UI.ShowUI(formBase);
-				OpenUI(sys_UIForm, formBase, onOpen);
-			}
-		}
-		private void OpenUI<T>(Sys_UIFormEntity sys_UIFormEntity, UIFormBase formBase, BaseAction<T> onOpen) where T : UIFormBase
-		{
-			//ÅĞ¶Ï·´ÇĞUI
-			UIFormShowMode uIFormShowMode = (UIFormShowMode)sys_UIFormEntity.ShowMode;
-			if (uIFormShowMode == UIFormShowMode.ReverseChange)
-			{
-				//Èç¹ûÖ®Ç°Õ»ÀïÃæÓĞUI
-				if (m_ReverseChangeUIStack.Count > 0)
-				{
-					//´ÓÕ»¶¥ÉÏ ÄÃµ½UI
-					UIFormBase topUIForm = m_ReverseChangeUIStack.Peek();
+                if (m_ReverseChangeUIStack.Count > 0)
+                {
+                    UIFormBase topForms = m_ReverseChangeUIStack.Peek();
+                    GameEntry.UI.ShowUI(topForms);
+                }
+            }
+        }
+        /// <summary>
+        /// å…³é—­UIçª—å£
+        /// </summary>
+        /// <param name="uiFormName"></param>
+        public void CloseUIForm(string uiFormName)
+        {
+            CloseUIForm(GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName));
+        }
+        /// <summary>
+        /// å…³é—­æ‰€æœ‰"Default"ç»„çš„UIçª—å£
+        /// </summary>
+        public void CloseAllDefaultUIForm()
+        {
+            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
+            {
+                UIFormBase formBase = curr.Value;
+                if (formBase.SysUIForm.UIGroupId != 2) continue;
+                formBase.ToClose();
+            }
+            m_OpenUIFormList.Clear();
+            m_ReverseChangeUIStack.Clear();
+        }
 
-					//½ûÓÃ ¶³½á
-					GameEntry.UI.HideUI(topUIForm);
-				}
+        #endregion
 
-				//°Ñ×Ô¼º¼ÓÈëÕ»
-				//Debug.LogError("ÈëÕ»==" + formBase.gameObject.GetInstanceID());
-				m_ReverseChangeUIStack.Push(formBase);
-			}
-			switch ((UIFormShowAnim)formBase.SysUIForm.OpenAnim)
-			{
-				case UIFormShowAnim.DOScale:
-					formBase.transform.localScale = Vector3.zero;
-					formBase.transform.DOScale(1, 0.1f);
-					break;
-			}
-			onOpen?.Invoke(formBase as T);
+        /// <summary>
+        /// æ˜¾ç¤º/æ¿€æ´»ä¸€ä¸ªUI
+        /// </summary>
+        /// <param name="uIFormBase"></param>
+        public void ShowUI(UIFormBase uiFormBase)
+        {
+            if (uiFormBase.SysUIForm.FreezeMode == 0 && uiFormBase.SysUIForm.LoadType != 2)
+            {
+                uiFormBase.IsActive = true;
+                uiFormBase.CurrCanvas.enabled = true;
+                uiFormBase.gameObject.layer = 5;
+            }
+            else
+            {
+                uiFormBase.gameObject.SetActive(true);
+            }
+            //Debug.LogError("æ˜¾ç¤º " + uIFormBase.gameObject.GetInstanceID());
+        }
+        /// <summary>
+        /// éšè—/å†»ç»“ä¸€ä¸ªUI
+        /// </summary>
+        /// <param name="uIFormBase"></param>
+        public void HideUI(UIFormBase uiFormBase)
+        {
+            if (uiFormBase.SysUIForm.FreezeMode == 0 && uiFormBase.SysUIForm.LoadType != 2)
+            {
+                uiFormBase.IsActive = false;
+                uiFormBase.CurrCanvas.enabled = false;
+                uiFormBase.gameObject.layer = 0;
+            }
+            else
+            {
+                uiFormBase.gameObject.SetActive(false);
+            }
+            //Debug.LogError("éšè— " + uIFormBase.gameObject.GetInstanceID());
+        }
 
-			//¼ì²é¶ÔÏó³ØÊÍ·Å
-			m_UIPool.CheckByOpenUI();
-		}
-		#endregion
+        /// <summary>
+        /// é¢„åŠ è½½UI
+        /// </summary>
+        public void PreloadUI(Sys_UIFormEntity sys_UIForm, Action onComplete = null)
+        {
+            if (sys_UIForm == null)
+            {
+                onComplete?.Invoke();
+                return;
+            }
+            if (sys_UIForm.CanMulit == 0 && IsExists(sys_UIForm.Id))
+            {
+                onComplete?.Invoke();
+                return;
+            }
+            UIFormBase formBase = GameEntry.UI.Dequeue(sys_UIForm.Id);
+            if (formBase == null)
+            {
+                LoadAssetUI(sys_UIForm, (form) =>
+                {
+                    form.Init(sys_UIForm, null, null);
+                    GameEntry.UI.EnQueue(form);
+                    onComplete?.Invoke();
+                });
+            }
+            else
+            {
+                onComplete?.Invoke();
+            }
+        }
 
-		#region CloseUIForm ¹Ø±ÕUI´°¿Ú
-		public void CloseUIForm(int uiFormId)
-		{
-			for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
-			{
-				if (curr.Value.SysUIForm.Id == uiFormId)
-				{
-					CloseUIForm(curr.Value);
-					break;
-				}
-			}
-		}
-		internal void CloseUIFormByInstanceID(int instanceID)
-		{
-			for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
-			{
-				if (curr.Value.gameObject.GetInstanceID() == instanceID)
-				{
-					CloseUIForm(curr.Value);
-					break;
-				}
-			}
-		}
-		internal void CloseUIForm(UIFormBase formBase)
-		{
-			if (!m_OpenUIFormList.Remove(formBase)) return;
-			formBase.ToClose();
+        public T GetUIForm<T>(string uiFormName) where T : UIFormBase
+        {
+            int uiFormId = GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName);
+            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
+            {
+                if (curr.Value.SysUIForm.Id == uiFormId) return curr.Value as T;
+            }
+            return null;
+        }
 
-			//ÅĞ¶Ï·´ÇĞUI
-			UIFormShowMode uIFormShowMode = (UIFormShowMode)formBase.SysUIForm.ShowMode;
-			if (uIFormShowMode == UIFormShowMode.ReverseChange)
-			{
-				m_ReverseChangeUIStack.Pop();
+        /// <summary>
+        /// è®¾ç½®å±‚çº§
+        /// </summary>
+        /// <param name="formBase">çª—å£</param>
+        /// <param name="isAdd">true:å¢åŠ   false:å‡å°‘</param>
+        internal void SetSortingOrder(UIFormBase formBase, bool isAdd)
+        {
+            m_UILayer.SetSortingOrder(formBase, isAdd);
+        }
 
-				if (m_ReverseChangeUIStack.Count > 0)
-				{
-					UIFormBase topForms = m_ReverseChangeUIStack.Peek();
-					GameEntry.UI.ShowUI(topForms);
-				}
-			}
-		}
-		/// <summary>
-		/// ¹Ø±ÕUI´°¿Ú
-		/// </summary>
-		/// <param name="uiFormName"></param>
-		public void CloseUIForm(string uiFormName)
-		{
-			CloseUIForm(GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName));
-		}
-		/// <summary>
-		/// ¹Ø±ÕËùÓĞ"Default"×éµÄUI´°¿Ú
-		/// </summary>
-		public void CloseAllDefaultUIForm()
-		{
-			UIFormBase[] uIFormBases = m_UIGroupDic[2].Group.GetComponentsInChildren<UIFormBase>();
-			for (int i = 0; i < uIFormBases.Length; i++)
-			{
-				UIFormBase formBase = uIFormBases[i];
-				if (m_OpenUIFormList.Remove(formBase)) formBase.ToClose();
-			}
-		}
+        /// <summary>
+        /// ä»æ± ä¸­è·å–UIçª—å£
+        /// </summary>
+        /// <param name="uiFormId"></param>
+        /// <returns></returns>
+        internal UIFormBase Dequeue(int uiFormId)
+        {
+            return m_UIPool.Dequeue(uiFormId);
+        }
 
-		#endregion
+        /// <summary>
+        /// UIçª—å£å›æ± 
+        /// </summary>
+        /// <param name="form"></param>
+        internal void EnQueue(UIFormBase form)
+        {
+            m_UIPool.EnQueue(form);
+        }
 
-
-		/// <summary>
-		/// ÏÔÊ¾/¼¤»îÒ»¸öUI
-		/// </summary>
-		/// <param name="uIFormBase"></param>
-		public void ShowUI(UIFormBase uiFormBase)
-		{
-			if (uiFormBase.SysUIForm.FreezeMode == 0)
-			{
-				uiFormBase.IsActive = true;
-				uiFormBase.CurrCanvas.enabled = true;
-				uiFormBase.gameObject.layer = 5;
-			}
-			else
-			{
-				uiFormBase.gameObject.SetActive(true);
-			}
-			//Debug.LogError("ÏÔÊ¾ " + uIFormBase.gameObject.GetInstanceID());
-		}
-		/// <summary>
-		/// Òş²Ø/¶³½áÒ»¸öUI
-		/// </summary>
-		/// <param name="uIFormBase"></param>
-		public void HideUI(UIFormBase uiFormBase)
-		{
-			if (uiFormBase.SysUIForm.FreezeMode == 0)
-			{
-				uiFormBase.IsActive = false;
-				uiFormBase.CurrCanvas.enabled = false;
-				uiFormBase.gameObject.layer = 0;
-			}
-			else
-			{
-				uiFormBase.gameObject.SetActive(false);
-			}
-			//Debug.LogError("Òş²Ø " + uIFormBase.gameObject.GetInstanceID());
-		}
-
-		/// <summary>
-		/// ÉèÖÃ²ã¼¶
-		/// </summary>
-		/// <param name="formBase">´°¿Ú</param>
-		/// <param name="isAdd">true:Ôö¼Ó  false:¼õÉÙ</param>
-		internal void SetSortingOrder(UIFormBase formBase, bool isAdd)
-		{
-			m_UILayer.SetSortingOrder(formBase, isAdd);
-		}
-
-		/// <summary>
-		/// ´Ó³ØÖĞ»ñÈ¡UI´°¿Ú
-		/// </summary>
-		/// <param name="uiFormId"></param>
-		/// <returns></returns>
-		internal UIFormBase Dequeue(int uiFormId)
-		{
-			return m_UIPool.Dequeue(uiFormId);
-		}
-
-		/// <summary>
-		/// UI´°¿Ú»Ø³Ø
-		/// </summary>
-		/// <param name="form"></param>
-		internal void EnQueue(UIFormBase form)
-		{
-			m_UIPool.EnQueue(form);
-		}
-
-		/// <summary>
-		/// ¼ì²éUIÊÇ·ñÒÑ¾­´ò¿ª
-		/// </summary>
-		/// <param name="uiFormId"></param>
-		/// <returns></returns>
-		public bool IsExists(int uiFormId)
-		{
-			for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
-			{
-				if (curr.Value.SysUIForm.Id == uiFormId)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-		/// <summary>
-		/// ¼ì²éUIÕıÔÚ¼ÓÔØÖĞ
-		/// </summary>
-		private bool IsLoading(int uiFormId)
-		{
-			for (LinkedListNode<int> curr = m_LoadingUIFormList.First; curr != null; curr = curr.Next)
-			{
-				if (curr.Value == uiFormId)
-				{
-					GameEntry.LogError("UIÕıÔÚ¼ÓÔØÖĞ, ´ò¿ªµÄÆµÂÊ¹ı¸ß");
-					return true;
-				}
-			}
-			return false;
-		}
+        /// <summary>
+        /// æ£€æŸ¥UIæ˜¯å¦å·²ç»æ‰“å¼€
+        /// </summary>
+        /// <param name="uiFormId"></param>
+        /// <returns></returns>
+        private bool IsExists(int uiFormId)
+        {
+            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
+            {
+                if (curr.Value.SysUIForm.Id == uiFormId)
+                {
+                    Debug.LogError("ä¸é‡å¤æ‰“å¼€åŒä¸€ä¸ªUIçª—å£==" + uiFormId);
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// æ£€æŸ¥UIæ­£åœ¨åŠ è½½ä¸­
+        /// </summary>
+        private bool IsLoading(int uiFormId)
+        {
+            for (LinkedListNode<int> curr = m_LoadingUIFormList.First; curr != null; curr = curr.Next)
+            {
+                if (curr.Value == uiFormId)
+                {
+                    GameEntry.LogError("UI=={0}æ­£åœ¨åŠ è½½ä¸­, æ‰“å¼€çš„é¢‘ç‡è¿‡é«˜", uiFormId);
+                    return true;
+                }
+            }
+            return false;
+        }
 
 
-	}
+    }
 }

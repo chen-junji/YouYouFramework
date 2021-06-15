@@ -3,6 +3,7 @@
 //创建时间：
 //备    注：
 //===================================================
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,17 +22,17 @@ namespace YouYou
 		/// <summary>
 		/// 进度更新
 		/// </summary>
-		private BaseAction<int, float> OnProgressUpdate;
+		private Action<int, float> OnProgressUpdate;
 
 		/// <summary>
 		/// 加载场景完毕
 		/// </summary>
-		private BaseAction<SceneLoaderRoutine> OnLoadSceneComplete;
+		private Action<SceneLoaderRoutine> OnLoadSceneComplete;
 
 		/// <summary>
 		/// 卸载场景完毕
 		/// </summary>
-		private BaseAction<SceneLoaderRoutine> OnUnLoadSceneComplete;
+		private Action<SceneLoaderRoutine> OnUnLoadSceneComplete;
 
 		/// <summary>
 		/// 场景明细编号
@@ -45,7 +46,7 @@ namespace YouYou
 		/// <param name="sceneName"></param>
 		/// <param name="onProgressUpdate"></param>
 		/// <param name="onComplete"></param>
-		public void LoadScene(int sceneDetailId, string sceneName, BaseAction<int, float> onProgressUpdate, BaseAction<SceneLoaderRoutine> onLoadSceneComplete)
+		public void LoadScene(int sceneDetailId, string sceneName, Action<int, float> onProgressUpdate, Action<SceneLoaderRoutine> onLoadSceneComplete)
 		{
 			Reset();
 
@@ -73,7 +74,7 @@ namespace YouYou
 		/// </summary>
 		/// <param name="sceneName"></param>
 		/// <param name="onComplete"></param>
-		public void UnLoadScene(string sceneName, BaseAction<SceneLoaderRoutine> onUnLoadSceneComplete)
+		public void UnLoadScene(string sceneName, Action<SceneLoaderRoutine> onUnLoadSceneComplete)
 		{
 			Reset();
 			OnUnLoadSceneComplete = onUnLoadSceneComplete;

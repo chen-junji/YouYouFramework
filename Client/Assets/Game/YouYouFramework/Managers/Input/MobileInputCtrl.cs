@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace YouYou
 		private Vector2 tempFinger2Pos;
 		private Vector2 oldFinger2Pos;
 
-		public MobileInputCtrl(BaseAction<TouchEventData> onClick, BaseAction<TouchEventData> onBeginDrag, BaseAction<TouchEventData> onEndDrag, BaseAction<TouchDirection, TouchEventData> onDrag, BaseAction<ZoomType> onZoom) : base(onClick, onBeginDrag, onEndDrag, onDrag, onZoom)
+		public MobileInputCtrl(Action<TouchEventData> onClick, Action<TouchEventData> onBeginDrag, Action<TouchEventData> onEndDrag, Action<TouchDirection, TouchEventData> onDrag, Action<ZoomType> onZoom) : base(onClick, onBeginDrag, onEndDrag, onDrag, onZoom)
 		{
 		}
 

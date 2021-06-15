@@ -7,27 +7,27 @@ using UnityEngine;
 namespace YouYou
 {
     /// <summary>
-    /// SocketÊÂ¼ş
+    /// Socketäº‹ä»¶
     /// </summary>
-    public class SocketEvent : IDisposable
+    public class SocketEvent 
     {
         /// <summary>
-        /// Ö÷ÌâÔ­ĞÍ       ËùÓĞ¾ßÌåÖ÷Ìâ¶¼ÊÇÒÔ¸ÃÔ­ĞÍÎªÎ¯ÍĞÀàĞÍ
+        /// ä¸»é¢˜åŸå‹       æ‰€æœ‰å…·ä½“ä¸»é¢˜éƒ½æ˜¯ä»¥è¯¥åŸå‹ä¸ºå§”æ‰˜ç±»å‹
         /// </summary>
-        /// <param name="P">¾ßÌåÖ÷Ìâ²ÎÊı</param>
+        /// <param name="P">å…·ä½“ä¸»é¢˜å‚æ•°</param>
         public delegate void OnActionHandler(byte[] buffer);
         /// <summary>
-        /// Key: Ö÷ÌâÁĞ±íµÄKey   Í¬¸öÁĞ±íÀïµÄÖ÷Ìâ¶¼ÊÇÍ¬Ò»¸öKey
-        /// Value: Ö÷ÌâÁĞ±í
+        /// Key: ä¸»é¢˜åˆ—è¡¨çš„Key   åŒä¸ªåˆ—è¡¨é‡Œçš„ä¸»é¢˜éƒ½æ˜¯åŒä¸€ä¸ªKey
+        /// Value: ä¸»é¢˜åˆ—è¡¨
         /// </summary>
         private Dictionary<ushort, LinkedList<OnActionHandler>> dic = new Dictionary<ushort, LinkedList<OnActionHandler>>();
 
-        #region AddEventListener ¹Û²ìÕß¼àÌıÊÂ¼ş
+        #region AddEventListener è§‚å¯Ÿè€…ç›‘å¬äº‹ä»¶
         /// <summary> 
-        /// ¹Û²ìÕß¼àÌıÊÂ¼ş
+        /// è§‚å¯Ÿè€…ç›‘å¬äº‹ä»¶
         /// </summary>
-        /// <param name="Key">Ö÷ÌâÁĞ±íµÄKey</param>
-        /// <param name="handler">Ö÷Ìâ</param>
+        /// <param name="Key">ä¸»é¢˜åˆ—è¡¨çš„Key</param>
+        /// <param name="handler">ä¸»é¢˜</param>
         public void AddEventListener(ushort key, OnActionHandler handler)
         {
             LinkedList<OnActionHandler> lstHandler = null;
@@ -41,12 +41,12 @@ namespace YouYou
         }
         #endregion
 
-        #region RemoveEventListener ¹Û²ìÕßÒÆ³ı¼àÌıÊÂ¼ş
+        #region RemoveEventListener è§‚å¯Ÿè€…ç§»é™¤ç›‘å¬äº‹ä»¶
         /// <summary>
-        /// ¹Û²ìÕßÒÆ³ı¼àÌıÊÂ¼ş
+        /// è§‚å¯Ÿè€…ç§»é™¤ç›‘å¬äº‹ä»¶
         /// </summary>
-        /// <param name="key">Ö÷ÌâÁĞ±íµÄKey</param>
-        /// <param name="handler">Ö÷Ìâ</param>
+        /// <param name="key">ä¸»é¢˜åˆ—è¡¨çš„Key</param>
+        /// <param name="handler">ä¸»é¢˜</param>
         public void RemoveEventListener(ushort key, OnActionHandler handler)
         {
             LinkedList<OnActionHandler> lstHandler = null;
@@ -62,12 +62,12 @@ namespace YouYou
         }
         #endregion
 
-        #region Dispatch ·¢²¼ÕßÅÉ·¢ÊÂ¼ş
+        #region Dispatch å‘å¸ƒè€…æ´¾å‘äº‹ä»¶
         /// <summary>
-        /// ·¢²¼ÕßÅÉ·¢ÊÂ¼ş
+        /// å‘å¸ƒè€…æ´¾å‘äº‹ä»¶
         /// </summary>
-        /// <param name="btnKey">Ö÷ÌâÁĞ±íµÄKey</param>
-        /// <param name="buffer">Ö÷Ìâ²ÎÊı</param>
+        /// <param name="btnKey">ä¸»é¢˜åˆ—è¡¨çš„Key</param>
+        /// <param name="buffer">ä¸»é¢˜å‚æ•°</param>
         public void Dispatch(ushort key, byte[] buffer)
         {
             LinkedList<OnActionHandler> lstHandler = null;
@@ -86,10 +86,5 @@ namespace YouYou
             Dispatch(key, null);
         }
         #endregion
-
-        public void Dispose()
-        {
-            dic.Clear();
-        }
     }
 }

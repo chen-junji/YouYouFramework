@@ -7,17 +7,17 @@ using UnityEngine;
 namespace YouYou
 {
 	/// <summary>
-	/// ×´Ì¬»ú¹ÜÀíÆ÷
+	/// çŠ¶æ€æœºç®¡ç†å™¨
 	/// </summary>
-	public class FsmManager : ManagerBase, IDisposable
+	public class FsmManager :  IDisposable
 	{
 		/// <summary>
-		/// ×´Ì¬»ú×Öµä
+		/// çŠ¶æ€æœºå­—å…¸
 		/// </summary>
 		private Dictionary<int, FsmBase> m_FsmDic;
 
 		/// <summary>
-		/// ×´Ì¬»úµÄÁÙÊ±±àºÅ
+		/// çŠ¶æ€æœºçš„ä¸´æ—¶ç¼–å·
 		/// </summary>
 		private int m_TemFsmId = 0;
 
@@ -35,17 +35,14 @@ namespace YouYou
 			}
 			m_FsmDic.Clear();
 		}
-		internal override void Init()
-		{
-		}
 
 		/// <summary>
-		/// ´´½¨×´Ì¬»ú
+		/// åˆ›å»ºçŠ¶æ€æœº
 		/// </summary>
-		/// <typeparam name="T">ÓµÓĞÕßÀàĞÍ</typeparam>
-		/// <param name="fsmId">×´Ì¬»ú±àºÅ</param>
-		/// <param name="owner">ÓµÓĞÕß</param>
-		/// <param name="states">×´Ì¬Êı×é</param>
+		/// <typeparam name="T">æ‹¥æœ‰è€…ç±»å‹</typeparam>
+		/// <param name="fsmId">çŠ¶æ€æœºç¼–å·</param>
+		/// <param name="owner">æ‹¥æœ‰è€…</param>
+		/// <param name="states">çŠ¶æ€æ•°ç»„</param>
 		/// <returns></returns>
 		public Fsm<T> Create<T>(T owner, FsmState<T>[] states) where T : class
 		{
@@ -55,9 +52,9 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// Ïú»Ù×´Ì¬»ú
+		/// é”€æ¯çŠ¶æ€æœº
 		/// </summary>
-		/// <param name="fsmId">×´Ì¬»ú±àºÅ</param>
+		/// <param name="fsmId">çŠ¶æ€æœºç¼–å·</param>
 		public void DestoryFsm(int fsmId)
 		{
 			FsmBase fsm = null;

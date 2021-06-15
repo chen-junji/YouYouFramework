@@ -206,7 +206,7 @@ public static class GameObjectUtil
     {
         if (img != null && !string.IsNullOrEmpty(imgPath))
         {
-            GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.UIRes, imgPath, (Object asset) =>
+            GameEntry.Resource.ResourceLoaderManager.LoadMainAsset( imgPath, (Object asset) =>
             {
                 if (asset == null) return;
 
@@ -239,7 +239,7 @@ public static class GameObjectUtil
     {
         if (img != null && !string.IsNullOrEmpty(imgPath))
         {
-            GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.UIRes, "Assets/Download/UI/UIRes/UITexture/" + imgPath, (Object asset) =>
+            GameEntry.Resource.ResourceLoaderManager.LoadMainAsset( "Assets/Download/UI/UIRes/UITexture/" + imgPath, (Object asset) =>
             {
                 if (asset == null) return;
 

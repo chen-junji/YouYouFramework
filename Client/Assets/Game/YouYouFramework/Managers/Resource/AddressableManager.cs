@@ -7,40 +7,40 @@ using UnityEngine;
 
 namespace YouYou
 {
-	/// <summary>
-	/// ¿ÉÑ°Ö·×ÊÔ´¹ÜÀíÆ÷
-	/// </summary>
-	public class AddressableManager : ManagerBase, IDisposable
-	{
-		/// <summary>
-		/// ×ÊÔ´¹ÜÀíÆ÷
-		/// </summary>
-		public ResourceManager ResourceManager { get; private set; }
+    /// <summary>
+    /// å¯å¯»å€èµ„æºç®¡ç†å™¨
+    /// </summary>
+    public class AddressableManager : IDisposable
+    {
+        /// <summary>
+        /// èµ„æºç®¡ç†å™¨
+        /// </summary>
+        public ResourceManager ResourceManager { get; private set; }
 
-		/// <summary>
-		/// ×ÊÔ´¼ÓÔØ¹ÜÀíÆ÷
-		/// </summary>
-		public ResourceLoaderManager ResourceLoaderManager { get; private set; }
+        /// <summary>
+        /// èµ„æºåŠ è½½ç®¡ç†å™¨
+        /// </summary>
+        public ResourceLoaderManager ResourceLoaderManager { get; private set; }
 
-		/// <summary>
-		/// ±¾µØÎÄ¼şÂ·¾¶
-		/// </summary>
-		public string LocalFilePath { get; private set; }
+        /// <summary>
+        /// æœ¬åœ°æ–‡ä»¶è·¯å¾„
+        /// </summary>
+        public string LocalFilePath { get; private set; }
 
-		internal AddressableManager()
-		{
-			ResourceManager = new ResourceManager();
-			ResourceLoaderManager = new ResourceLoaderManager();
-		}
-		public void Dispose()
-		{
-			ResourceManager.Dispose();
-			ResourceLoaderManager.Dispose();
-		}
-		internal override void Init()
-		{
+        internal AddressableManager()
+        {
+            ResourceManager = new ResourceManager();
+            ResourceLoaderManager = new ResourceLoaderManager();
+        }
+        public void Dispose()
+        {
+            ResourceManager.Dispose();
+            ResourceLoaderManager.Dispose();
+        }
+        internal void Init()
+        {
 #if EDITORLOAD
-			LocalFilePath = Application.dataPath;
+            LocalFilePath = Application.dataPath;
 #elif ASSETBUNDLE
             LocalFilePath = Application.persistentDataPath;
 #endif
@@ -49,13 +49,13 @@ namespace YouYou
 
             Application.backgroundLoadingPriority = ThreadPriority.High;
         }
-		internal void OnUpdate()
-		{
-			ResourceLoaderManager.OnUpdate();
-		}
+        internal void OnUpdate()
+        {
+            ResourceLoaderManager.OnUpdate();
+        }
 
         /// <summary>
-        /// ³õÊ¼»¯Ö»¶ÁÇø×ÊÔ´°üĞÅÏ¢
+        /// åˆå§‹åŒ–åªè¯»åŒºèµ„æºåŒ…ä¿¡æ¯
         /// </summary>
         public void InitStreamingAssetsBundleInfo()
         {
@@ -63,16 +63,16 @@ namespace YouYou
         }
 
         /// <summary>
-        /// ³õÊ¼»¯×ÊÔ´ĞÅÏ¢
+        /// åˆå§‹åŒ–èµ„æºä¿¡æ¯
         /// </summary>
-        public void InitAssetInfo(BaseAction initAssetInfoComplete)
+        public void InitAssetInfo(Action initAssetInfoComplete)
         {
             ResourceLoaderManager.InitAssetInfo(initAssetInfoComplete);
         }
 
 
         /// <summary>
-        /// »ñÈ¡Â·¾¶µÄ×îºóÃû³Æ
+        /// è·å–è·¯å¾„çš„æœ€ååç§°
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -85,7 +85,7 @@ namespace YouYou
             return path.Substring(path.LastIndexOf('/') + 1);
         }
         /// <summary>
-        /// »ñÈ¡³¡¾°µÄ×ÊÔ´°üÂ·¾¶
+        /// è·å–åœºæ™¯çš„èµ„æºåŒ…è·¯å¾„
         /// </summary>
         /// <param name="sceneName"></param>
         /// <returns></returns>

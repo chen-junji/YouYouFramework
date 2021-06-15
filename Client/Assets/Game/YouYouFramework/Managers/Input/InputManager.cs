@@ -5,40 +5,40 @@ using UnityEngine;
 
 namespace YouYou
 {
-	public class InputManager : ManagerBase, IDisposable
-	{
-		public Joystick Joystick;
-		private InputCtrlBase m_InputCtrl;
-		/// <summary>
-		/// °´ÏÂ²¢Ì§Æğ ¹â±ê¶¼ÔÚÍ¬Ò»Î»ÖÃ Ôò´¥·¢Ò»´Î
-		/// </summary>
-		public event BaseAction<TouchEventData> OnClick;
-		/// <summary>
-		/// °´ÏÂ ´¥·¢Ò»´Î
-		/// </summary>
-		public event BaseAction<TouchEventData> OnBeginDrag;
-		/// <summary>
-		/// Ì§Æğ ´¥·¢Ò»´Î
-		/// </summary>
-		public event BaseAction<TouchEventData> OnEndDrag;
-		/// <summary>
-		/// ÍÏ×§»¬¶¯ Axis!=(0,0)Ê±,Ò²¾ÍÊÇÓĞ·½ÏòµÄ»° ³ÖĞøµ÷ÓÃ
-		/// </summary>
-		public event BaseAction<TouchDirection, TouchEventData> OnDrag;
-		/// <summary>
-		/// ·Å´óËõĞ¡ Axis!=0Ê±, ³ÖĞøµ÷ÓÃ
-		/// </summary>
-		public event BaseAction<ZoomType> OnZoom;
+    public class InputManager : IDisposable
+    {
+        public Joystick Joystick;
+        private InputCtrlBase m_InputCtrl;
+        /// <summary>
+        /// æŒ‰ä¸‹å¹¶æŠ¬èµ· å…‰æ ‡éƒ½åœ¨åŒä¸€ä½ç½® åˆ™è§¦å‘ä¸€æ¬¡
+        /// </summary>
+        public event Action<TouchEventData> OnClick;
+        /// <summary>
+        /// æŒ‰ä¸‹ è§¦å‘ä¸€æ¬¡
+        /// </summary>
+        public event Action<TouchEventData> OnBeginDrag;
+        /// <summary>
+        /// æŠ¬èµ· è§¦å‘ä¸€æ¬¡
+        /// </summary>
+        public event Action<TouchEventData> OnEndDrag;
+        /// <summary>
+        /// æ‹–æ‹½æ»‘åŠ¨ Axis!=(0,0)æ—¶,ä¹Ÿå°±æ˜¯æœ‰æ–¹å‘çš„è¯ æŒç»­è°ƒç”¨
+        /// </summary>
+        public event Action<TouchDirection, TouchEventData> OnDrag;
+        /// <summary>
+        /// æ”¾å¤§ç¼©å° Axis!=0æ—¶, æŒç»­è°ƒç”¨
+        /// </summary>
+        public event Action<ZoomType> OnZoom;
 
-		internal override void Init()
-		{
+        internal void Init()
+        {
 #if UNITY_EDITOR || UNITY_STANDALONE
-			m_InputCtrl = new StandalonInputCtrl(
-				t => OnClick?.Invoke(t),
-				t => OnBeginDrag?.Invoke(t),
-				t => OnEndDrag?.Invoke(t),
-				(t1, t2) => OnDrag?.Invoke(t1, t2),
-				t => OnZoom?.Invoke(t));
+            m_InputCtrl = new StandalonInputCtrl(
+                t => OnClick?.Invoke(t),
+                t => OnBeginDrag?.Invoke(t),
+                t => OnEndDrag?.Invoke(t),
+                (t1, t2) => OnDrag?.Invoke(t1, t2),
+                t => OnZoom?.Invoke(t));
 #else
 			m_InputCtrl = new MobileInputCtrl(
 				t => OnClick?.Invoke(t),
@@ -47,15 +47,15 @@ namespace YouYou
 				(t1, t2) => OnDrag?.Invoke(t1, t2),
 				t => OnZoom?.Invoke(t));
 #endif
-		}
+        }
 
-		internal void OnUpdate()
-		{
-			m_InputCtrl.OnUpdate();
-		}
-		public void Dispose()
-		{
+        internal void OnUpdate()
+        {
+            m_InputCtrl.OnUpdate();
+        }
+        public void Dispose()
+        {
 
-		}
-	}
+        }
+    }
 }

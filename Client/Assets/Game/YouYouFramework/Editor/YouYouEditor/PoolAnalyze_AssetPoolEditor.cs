@@ -8,60 +8,54 @@ using YouYou;
 [CustomEditor(typeof(PoolAnalyze_AssetPool))]
 public class PoolAnalyze_AssetPoolEditor : Editor
 {
-	public override void OnInspectorGUI()
-	{
-		base.OnInspectorGUI();
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
 
-		#region ∑÷¿‡◊ ‘¥≥ÿ
-		GUILayout.Space(10);
+        #region ÂàÜÁ±ªËµÑÊ∫êÊ±†
+        GUILayout.Space(10);
 
-		GUIStyle titleStyle = new GUIStyle();
-		titleStyle.normal.textColor = new Color(102, 232, 255);
+        GUIStyle titleStyle = new GUIStyle();
+        titleStyle.normal.textColor = new Color(102, 232, 255);
 
-		if (GameEntry.Pool != null)
-		{
-			GUILayout.BeginHorizontal("box");
-			GUILayout.Label("œ¬¥Œ Õ∑≈ £”‡ ±º‰: " + Mathf.Abs(Time.time - (GameEntry.Pool.ReleaseAssetNextRunTime + GameEntry.Pool.ReleaseAssetInterval)), titleStyle);
-			GUILayout.EndHorizontal();
-		}
+        if (GameEntry.Pool != null)
+        {
+            GUILayout.BeginHorizontal("box");
+            GUILayout.Label("‰∏ãÊ¨°ÈáäÊîæÂâ©‰ΩôÊó∂Èó¥: " + Mathf.Abs(Time.time - (GameEntry.Pool.ReleaseAssetNextRunTime + GameEntry.Pool.ReleaseAssetInterval)), titleStyle);
+            GUILayout.EndHorizontal();
+        }
 
-		GUILayout.Space(10);
-		var enumerator = Enum.GetValues(typeof(AssetCategory)).GetEnumerator();
-		while (enumerator.MoveNext())
-		{
-			AssetCategory assetCategory = (AssetCategory)enumerator.Current;
+        GUILayout.Space(10);
 
-			GUILayout.BeginVertical("box");
-			GUILayout.BeginHorizontal("box");
-			GUILayout.Label("∑÷¿‡◊ ‘¥-" + assetCategory.ToString());
-			GUILayout.Label("º∆ ˝", GUILayout.Width(50));
-			GUILayout.Label(" £”‡ ±º‰", GUILayout.Width(50));
-			GUILayout.EndHorizontal();
+        GUILayout.BeginVertical("box");
+        GUILayout.BeginHorizontal("box");
+        GUILayout.Label("");
+        GUILayout.Label("ËÆ°Êï∞", GUILayout.Width(50));
+        GUILayout.Label("Ââ©‰ΩôÊó∂Èó¥", GUILayout.Width(50));
+        GUILayout.EndHorizontal();
 
-			if (GameEntry.Pool != null)
-			{
-				foreach (var item in GameEntry.Pool.AssetPool[assetCategory].InspectorDic)
-				{
-					GUILayout.BeginHorizontal("box");
-					GUILayout.Label(item.Key);
+        if (GameEntry.Pool != null)
+        {
+            foreach (var item in GameEntry.Pool.AssetPool.InspectorDic)
+            {
+                GUILayout.BeginHorizontal("box");
+                GUILayout.Label(item.Key);
 
-					titleStyle.fixedWidth = 50;
-					GUILayout.Label(item.Value.ReferenceCount.ToString(), titleStyle);
+                titleStyle.fixedWidth = 50;
+                GUILayout.Label(item.Value.ReferenceCount.ToString(), titleStyle);
 
-					float remain = Mathf.Max(0, GameEntry.Pool.ReleaseAssetInterval - (Time.time - item.Value.LastUseTime));
+                float remain = Mathf.Max(0, GameEntry.Pool.ReleaseAssetInterval - (Time.time - item.Value.LastUseTime));
 
-					GUILayout.Label(remain.ToString(), titleStyle);
-					GUILayout.EndHorizontal();
-				}
-			}
-			GUILayout.EndVertical();
+                GUILayout.Label(remain.ToString(), titleStyle);
+                GUILayout.EndHorizontal();
+            }
+        }
+        GUILayout.EndVertical();
+        GUILayout.Space(30);
+        #endregion
 
-		}
-		GUILayout.Space(30);
-		#endregion
-
-		serializedObject.ApplyModifiedProperties();
-		//÷ÿªÊ
-		Repaint();
-	}
+        serializedObject.ApplyModifiedProperties();
+        //ÈáçÁªò
+        Repaint();
+    }
 }

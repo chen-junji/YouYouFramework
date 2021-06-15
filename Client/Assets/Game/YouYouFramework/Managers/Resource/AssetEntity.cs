@@ -1,31 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 namespace YouYou
 {
-/// <summary>
-/// AssetÊµÌå
-/// </summary>
-public class AssetEntity
-{
-    /// <summary>
-    /// ×ÊÔ´·ÖÀà
-    /// </summary>
-    public AssetCategory Category;
+	/// <summary>
+	/// Assetå®ä½“
+	/// </summary>
+	public class AssetEntity
+	{
+		/// <summary>
+		/// èµ„æºå®Œæ•´åç§°(è·¯å¾„)
+		/// </summary>
+		public string AssetFullName;
 
-    /// <summary>
-    /// ×ÊÔ´ÍêÕûÃû³Æ(Â·¾¶)
-    /// </summary>
-    public string AssetFullName;
+		/// <summary>
+		/// æ‰€å±èµ„æºåŒ…(è¿™ä¸ªèµ„æºåœ¨å“ªä¸€ä¸ªAssetbundleé‡Œ)
+		/// </summary>
+		public string AssetBundleName;
 
-    /// <summary>
-    /// ËùÊô×ÊÔ´°ü(Õâ¸ö×ÊÔ´ÔÚÄÄÒ»¸öAssetbundleÀï)
-    /// </summary>
-    public string AssetBundleName;
-    
-    /// <summary>
-    /// ÒÀÀµ×ÊÔ´
-    /// </summary>
-    public List<AssetDependsEntity> DependsAssetList;
-    }
+		/// <summary>
+		/// ä¾èµ–èµ„æº
+		/// </summary>
+		public List<AssetDependsEntity> DependsAssetList;
+	}
 }

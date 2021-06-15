@@ -5,319 +5,317 @@ using UnityEngine;
 
 namespace YouYou
 {
-	/// <summary>
-	/// ×ÊÔ´¼ÓÔØ¹ÜÀíÆ÷
-	/// </summary>
-	public class ResourceLoaderManager : IDisposable
-	{
-		/// <summary>
-		/// ×ÊÔ´ĞÅÏ¢×Öµä
-		/// </summary>
-		private Dictionary<AssetCategory, Dictionary<string, AssetEntity>> m_AssetInfoDic;
+    /// <summary>
+    /// èµ„æºåŠ è½½ç®¡ç†å™¨
+    /// </summary>
+    public class ResourceLoaderManager : IDisposable
+    {
+        /// <summary>
+        /// èµ„æºä¿¡æ¯å­—å…¸
+        /// </summary>
+        private Dictionary<string, AssetEntity> m_AssetInfoDic;
 
-		/// <summary>
-		/// ×ÊÔ´°ü¼ÓÔØÆ÷Á´±í
-		/// </summary>
-		private LinkedList<AssetBundleLoaderRoutine> m_AssetBundleLoaderList;
+        /// <summary>
+        /// èµ„æºåŒ…åŠ è½½å™¨é“¾è¡¨
+        /// </summary>
+        private LinkedList<AssetBundleLoaderRoutine> m_AssetBundleLoaderList;
 
-		/// <summary>
-		/// ×ÊÔ´¼ÓÔØÆ÷Á´±í
-		/// </summary>
-		private LinkedList<AssetLoaderRoutine> m_AssetLoaderList;
+        /// <summary>
+        /// èµ„æºåŠ è½½å™¨é“¾è¡¨
+        /// </summary>
+        private LinkedList<AssetLoaderRoutine> m_AssetLoaderList;
 
-		public ResourceLoaderManager()
-		{
-			m_AssetInfoDic = new Dictionary<AssetCategory, Dictionary<string, AssetEntity>>();
-			m_AssetBundleLoaderList = new LinkedList<AssetBundleLoaderRoutine>();
-			m_AssetLoaderList = new LinkedList<AssetLoaderRoutine>();
-		}
-		internal void Init()
-		{
-			//È·±£ÓÎÏ·¸Õ¿ªÊ¼ÔËĞĞµÄÊ±ºò ·ÖÀà×ÖµäÒÑ¾­³õÊ¼»¯ºÃÁË
-			var enumerator = Enum.GetValues(typeof(AssetCategory)).GetEnumerator();
-			while (enumerator.MoveNext())
-			{
-				AssetCategory assetCategory = (AssetCategory)enumerator.Current;
-				m_AssetInfoDic[assetCategory] = new Dictionary<string, AssetEntity>();
-			}
-		}
-		internal void OnUpdate()
-		{
-			for (LinkedListNode<AssetBundleLoaderRoutine> curr = m_AssetBundleLoaderList.First; curr != null; curr = curr.Next)
-			{
-				curr.Value.OnUpdate();
-			}
+        public ResourceLoaderManager()
+        {
+            m_AssetInfoDic = new Dictionary<string, AssetEntity>();
+            m_AssetBundleLoaderList = new LinkedList<AssetBundleLoaderRoutine>();
+            m_AssetLoaderList = new LinkedList<AssetLoaderRoutine>();
+        }
+        internal void Init()
+        {
+        }
+        internal void OnUpdate()
+        {
+            for (LinkedListNode<AssetBundleLoaderRoutine> curr = m_AssetBundleLoaderList.First; curr != null; curr = curr.Next)
+            {
+                curr.Value.OnUpdate();
+            }
 
-			for (LinkedListNode<AssetLoaderRoutine> curr = m_AssetLoaderList.First; curr != null; curr = curr.Next)
-			{
-				curr.Value.OnUpdate();
-			}
-		}
-		public void Dispose()
-		{
-			m_AssetInfoDic.Clear();
-			m_AssetLoaderList.Clear();
-		}
+            for (LinkedListNode<AssetLoaderRoutine> curr = m_AssetLoaderList.First; curr != null; curr = curr.Next)
+            {
+                curr.Value.OnUpdate();
+            }
+        }
+        public void Dispose()
+        {
+            m_AssetInfoDic.Clear();
+            m_AssetLoaderList.Clear();
+        }
 
-		#region InitAssetInfo ³õÊ¼»¯×ÊÔ´ĞÅÏ¢
-		private BaseAction m_InitAssetInfoComplete;
-		/// <summary>
-		/// ³õÊ¼»¯×ÊÔ´ĞÅÏ¢
-		/// </summary>
-		internal void InitAssetInfo(BaseAction initAssetInfoComplete)
-		{
-			m_InitAssetInfoComplete = initAssetInfoComplete;
+        #region InitAssetInfo åˆå§‹åŒ–èµ„æºä¿¡æ¯
+        private Action m_InitAssetInfoComplete;
+        /// <summary>
+        /// åˆå§‹åŒ–èµ„æºä¿¡æ¯
+        /// </summary>
+        internal void InitAssetInfo(Action initAssetInfoComplete)
+        {
+            m_InitAssetInfoComplete = initAssetInfoComplete;
 
-			byte[] buffer = GameEntry.Resource.ResourceManager.LocalAssetsManager.GetFileBuffer(YFConstDefine.AssetInfoName);
-			if (buffer == null)
-			{
-				//Èç¹û¿ÉĞ´ÇøÃ»ÓĞ ÄÇÃ´¾Í´ÓÖ»¶ÁÇø»ñÈ¡
-				GameEntry.Resource.ResourceManager.StreamingAssetsManager.ReadAssetBundle(YFConstDefine.AssetInfoName, (byte[] buff) =>
-				 {
-					 if (buff == null)
-					 {
-						 //Èç¹ûÖ»¶ÁÇøÒ²Ã»ÓĞ,´ÓCDN¶ÁÈ¡
-						 string url = string.Format("{0}{1}", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
-						 GameEntry.Http.Get(url, false, (HttpCallBackArgs args) =>
-						  {
-							  if (!args.HasError)
-							  {
-								  GameEntry.Log(LogCategory.Normal, "´ÓCDN³õÊ¼»¯×ÊÔ´ĞÅÏ¢");
-								  InitAssetInfo(args.Data);
-							  }
-						  });
-					 }
-					 else
-					 {
-						 GameEntry.Log(LogCategory.Normal, "´ÓÖ»¶ÁÇø³õÊ¼»¯×ÊÔ´ĞÅÏ¢");
-						 InitAssetInfo(buff);
-					 }
-				 });
-			}
-			else
-			{
-				GameEntry.Log(LogCategory.Normal, "´Ó¿ÉĞ´Çø³õÊ¼»¯×ÊÔ´ĞÅÏ¢");
-				InitAssetInfo(buffer);
-			}
-		}
+            byte[] buffer = GameEntry.Resource.ResourceManager.LocalAssetsManager.GetFileBuffer(YFConstDefine.AssetInfoName);
+            if (buffer == null)
+            {
+                //å¦‚æœå¯å†™åŒºæ²¡æœ‰ é‚£ä¹ˆå°±ä»åªè¯»åŒºè·å–
+                GameEntry.Resource.ResourceManager.StreamingAssetsManager.ReadAssetBundle(YFConstDefine.AssetInfoName, (byte[] buff) =>
+                 {
+                     if (buff == null)
+                     {
+                         //å¦‚æœåªè¯»åŒºä¹Ÿæ²¡æœ‰,ä»CDNè¯»å–
+                         string url = string.Format("{0}{1}", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
+                         GameEntry.Http.GetArgs(url, false, (HttpCallBackArgs args) =>
+                         {
+                             if (!args.HasError)
+                             {
+                                 GameEntry.Log(LogCategory.Normal, "ä»CDNåˆå§‹åŒ–èµ„æºä¿¡æ¯");
+                                 InitAssetInfo(args.Data);
+                             }
+                         });
+                     }
+                     else
+                     {
+                         GameEntry.Log(LogCategory.Normal, "ä»åªè¯»åŒºåˆå§‹åŒ–èµ„æºä¿¡æ¯");
+                         InitAssetInfo(buff);
+                     }
+                 });
+            }
+            else
+            {
+                GameEntry.Log(LogCategory.Normal, "ä»å¯å†™åŒºåˆå§‹åŒ–èµ„æºä¿¡æ¯");
+                InitAssetInfo(buffer);
+            }
+        }
 
-		/// <summary>
-		/// ³õÊ¼»¯×ÊÔ´ĞÅÏ¢
-		/// </summary>
-		/// <param name="buffer"></param>
-		private void InitAssetInfo(byte[] buffer)
-		{
-			buffer = ZlibHelper.DeCompressBytes(buffer);//½âÑ¹
+        /// <summary>
+        /// åˆå§‹åŒ–èµ„æºä¿¡æ¯
+        /// </summary>
+        /// <param name="buffer"></param>
+        private void InitAssetInfo(byte[] buffer)
+        {
+            buffer = ZlibHelper.DeCompressBytes(buffer);//è§£å‹
 
-			MMO_MemoryStream ms = new MMO_MemoryStream(buffer);
-			int len = ms.ReadInt();
-			int depLen = 0;
-			for (int i = 0; i < len; i++)
-			{
-				AssetEntity entity = new AssetEntity();
-				entity.Category = (AssetCategory)ms.ReadByte();
-				entity.AssetFullName = ms.ReadUTF8String();
-				entity.AssetBundleName = ms.ReadUTF8String();
+            MMO_MemoryStream ms = new MMO_MemoryStream(buffer);
+            int len = ms.ReadInt();
+            int depLen = 0;
+            for (int i = 0; i < len; i++)
+            {
+                AssetEntity entity = new AssetEntity();
+                entity.AssetFullName = ms.ReadUTF8String();
+                entity.AssetBundleName = ms.ReadUTF8String();
 
-				//Debug.Log("entity.Category=" + entity.Category);
-				//Debug.Log("entity.AssetBundleName=" + entity.AssetBundleName);
-				//Debug.Log("entity.AssetFullName=" + entity.AssetFullName);
+                //Debug.Log("entity.AssetBundleName=" + entity.AssetBundleName);
+                //Debug.Log("entity.AssetFullName=" + entity.AssetFullName);
 
-				depLen = ms.ReadInt();
-				if (depLen > 0)
-				{
-					entity.DependsAssetList = new List<AssetDependsEntity>(depLen);
-					for (int j = 0; j < depLen; j++)
-					{
-						AssetDependsEntity assetDepends = new AssetDependsEntity();
-						assetDepends.Category = (AssetCategory)ms.ReadByte();
-						assetDepends.AssetFullName = ms.ReadUTF8String();
-						entity.DependsAssetList.Add(assetDepends);
-					}
-				}
+                depLen = ms.ReadInt();
+                if (depLen > 0)
+                {
+                    entity.DependsAssetList = new List<AssetDependsEntity>(depLen);
+                    for (int j = 0; j < depLen; j++)
+                    {
+                        AssetDependsEntity assetDepends = new AssetDependsEntity();
+                        assetDepends.AssetFullName = ms.ReadUTF8String();
+                        entity.DependsAssetList.Add(assetDepends);
+                    }
+                }
 
-				m_AssetInfoDic[entity.Category][entity.AssetFullName] = entity;
-			}
+                m_AssetInfoDic[entity.AssetFullName] = entity;
+            }
 
-			m_InitAssetInfoComplete?.Invoke();
-		}
+            m_InitAssetInfoComplete?.Invoke();
+        }
 
-		/// <summary>
-		/// ¸ù¾İ×ÊÔ´·ÖÀàºÍ×ÊÔ´Â·¾¶»ñÈ¡×ÊÔ´ĞÅÏ¢
-		/// </summary>
-		/// <param name="assetCategory">×ÊÔ´·ÖÀà</param>
-		/// <param name="assetFullName">×ÊÔ´Â·¾¶</param>
-		/// <returns></returns>
-		internal AssetEntity GetAssetEntity(AssetCategory assetCategory, string assetFullName)
-		{
-			Dictionary<string, AssetEntity> dicCategory = null;
-			if (m_AssetInfoDic.TryGetValue(assetCategory, out dicCategory))
-			{
-				AssetEntity entity = null;
-				if (dicCategory.TryGetValue(assetFullName, out entity))
-				{
-					return entity;
-				}
-			}
-			GameEntry.LogError("×ÊÔ´²»´æÔÚ,assetCategory=>{0}, assetFullName=>{1}", assetCategory, assetFullName);
-			return null;
-		}
-		#endregion
+        /// <summary>
+        /// æ ¹æ®èµ„æºè·¯å¾„è·å–èµ„æºä¿¡æ¯
+        /// </summary>
+        /// <param name="assetFullName">èµ„æºè·¯å¾„</param>
+        /// <returns></returns>
+        internal AssetEntity GetAssetEntity(string assetFullName)
+        {
+            AssetEntity entity = null;
+            if (m_AssetInfoDic.TryGetValue(assetFullName, out entity))
+            {
+                return entity;
+            }
+            GameEntry.LogError("èµ„æºä¸å­˜åœ¨, assetFullName=>{0}", assetFullName);
+            return null;
+        }
+        #endregion
 
-		#region LoadAssetBundle ¼ÓÔØ×ÊÔ´°ü
-		/// <summary>
-		/// ¼ÓÔØÖĞµÄBundle
-		/// </summary>
-		private Dictionary<string, LinkedList<Action<ResourceEntity>>> m_LoadingAssetBundle = new Dictionary<string, LinkedList<Action<ResourceEntity>>>();
+        #region LoadAssetBundle åŠ è½½èµ„æºåŒ…
+        public class LoadingAssetBundleTask
+        {
+            public Action<float> OnUpdate;
+            public Action<AssetBundle> OnComplete;
+        }
+        /// <summary>
+        /// åŠ è½½ä¸­çš„Bundle
+        /// </summary>
+        private Dictionary<string, LinkedList<LoadingAssetBundleTask>> m_LoadingAssetBundle = new Dictionary<string, LinkedList<LoadingAssetBundleTask>>();
 
-		/// <summary>
-		/// ¼ÓÔØ×ÊÔ´°ü
-		/// </summary>
-		/// <param name="assetbundlePath"></param>
-		/// <param name="onUpdate"></param>
-		/// <param name="onComplete"></param>
-		public void LoadAssetBundle(string assetbundlePath, Action<float> onUpdate = null, Action<ResourceEntity> onComplete = null)
-		{
-			//1.ÅĞ¶Ï×ÊÔ´°üÊÇ·ñ´æÔÚÓÚAssetBundlePool
-			ResourceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
-			if (assetBundleEntity != null)
-			{
-				//Debug.Log("×ÊÔ´°üÔÚ×ÊÔ´³ØÖĞ´æÔÚ ´Ó×ÊÔ´³ØÖĞ¼ÓÔØAssetBundle");
-				onComplete?.Invoke(assetBundleEntity);
-				return;
-			}
+        /// <summary>
+        /// åŠ è½½èµ„æºåŒ…
+        /// </summary>
+        public void LoadAssetBundle(string assetbundlePath, Action<float> onUpdate = null, Action<AssetBundle> onComplete = null)
+        {
+            //1.åˆ¤æ–­èµ„æºåŒ…æ˜¯å¦å­˜åœ¨äºAssetBundlePool
+            ResourceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
+            if (assetBundleEntity != null)
+            {
+                //Debug.Log("èµ„æºåŒ…åœ¨èµ„æºæ± ä¸­å­˜åœ¨ ä»èµ„æºæ± ä¸­åŠ è½½AssetBundle");
+                onComplete?.Invoke(assetBundleEntity.Target as AssetBundle);
+                return;
+            }
 
-			//2.ÅĞ¶ÏBundleÊÇ·ñ¼ÓÔØµ½Ò»°ë,·ÀÖ¹¸ß²¢·¢µ¼ÖÂÖØ¸´¼ÓÔØ
-			LinkedList<Action<ResourceEntity>> lst = null;
-			if (m_LoadingAssetBundle.TryGetValue(assetbundlePath, out lst))
-			{
-				//Èç¹ûBundleÒÑ¾­ÔÚ¼ÓÔØÖĞ, °ÑÎ¯ÍĞ¼ÓÈë¶ÔÓ¦µÄÁ´±í È»ºóÖ±½Óreturn;
-				lst.AddLast(onComplete);
-				return;
-			}
-			else
-			{
-				//Èç¹ûBundle»¹Ã»ÓĞ¿ªÊ¼¼ÓÔØ, °ÑÎ¯ÍĞ¼ÓÈë¶ÔÓ¦µÄÁ´±í È»ºó¿ªÊ¼¼ÓÔØ
-				lst = GameEntry.Pool.DequeueClassObject<LinkedList<Action<ResourceEntity>>>();
-				lst.AddLast(onComplete);
-				m_LoadingAssetBundle[assetbundlePath] = lst;
-			}
+            //2.åˆ¤æ–­Bundleæ˜¯å¦åŠ è½½åˆ°ä¸€åŠ,é˜²æ­¢é«˜å¹¶å‘å¯¼è‡´é‡å¤åŠ è½½
+            LoadingAssetBundleTask task = GameEntry.Pool.DequeueClassObject<LoadingAssetBundleTask>();
+            task.OnUpdate = onUpdate;
+            task.OnComplete = onComplete;
 
-			AssetBundleLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<AssetBundleLoaderRoutine>();
-			if (routine == null) routine = new AssetBundleLoaderRoutine();
+            LinkedList<LoadingAssetBundleTask> lst = null;
+            if (m_LoadingAssetBundle.TryGetValue(assetbundlePath, out lst))
+            {
+                //å¦‚æœBundleå·²ç»åœ¨åŠ è½½ä¸­, æŠŠå§”æ‰˜åŠ å…¥å¯¹åº”çš„é“¾è¡¨ ç„¶åç›´æ¥return;
+                lst.AddLast(task);
+                return;
+            }
+            else
+            {
+                //å¦‚æœBundleè¿˜æ²¡æœ‰å¼€å§‹åŠ è½½, æŠŠå§”æ‰˜åŠ å…¥å¯¹åº”çš„é“¾è¡¨ ç„¶åå¼€å§‹åŠ è½½
+                lst = GameEntry.Pool.DequeueClassObject<LinkedList<LoadingAssetBundleTask>>();
+                lst.AddLast(task);
+                m_LoadingAssetBundle[assetbundlePath] = lst;
+            }
 
-			//¼ÓÈëÁ´±í¿ªÊ¼Update()
-			m_AssetBundleLoaderList.AddLast(routine);
-			//¼ÓÔØ×ÊÔ´°ü
-			routine.LoadAssetBundle(assetbundlePath);
-			//×ÊÔ´°ü¼ÓÔØ ¼àÌı»Øµ÷
-			routine.OnAssetBundleCreateUpdate = onUpdate;
-			routine.OnLoadAssetBundleComplete = (AssetBundle assetbundle) =>
-			{
-				//×ÊÔ´°ü×¢²áµ½×ÊÔ´³Ø
-				assetBundleEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
-				assetBundleEntity.ResourceName = assetbundlePath;
-				assetBundleEntity.IsAssetBundle = true;
-				assetBundleEntity.Target = assetbundle;
-				GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
+            AssetBundleLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<AssetBundleLoaderRoutine>();
+            if (routine == null) routine = new AssetBundleLoaderRoutine();
 
-				for (LinkedListNode<Action<ResourceEntity>> curr = lst.First; curr != null; curr = curr.Next)
-				{
-					curr.Value?.Invoke(assetBundleEntity);
-				}
+            //åŠ å…¥é“¾è¡¨å¼€å§‹Update()
+            m_AssetBundleLoaderList.AddLast(routine);
+            //èµ„æºåŒ…åŠ è½½ ç›‘å¬å›è°ƒ
+            routine.OnAssetBundleCreateUpdate = (progress) =>
+            {
+                for (LinkedListNode<LoadingAssetBundleTask> curr = lst.First; curr != null; curr = curr.Next)
+                {
+                    curr.Value.OnUpdate?.Invoke(progress);
+                }
+            };
+            routine.OnLoadAssetBundleComplete = (AssetBundle assetbundle) =>
+            {
+                //èµ„æºåŒ…æ³¨å†Œåˆ°èµ„æºæ± 
+                assetBundleEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
+                assetBundleEntity.ResourceName = assetbundlePath;
+                assetBundleEntity.IsAssetBundle = true;
+                assetBundleEntity.Target = assetbundle;
+                GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
 
-				lst.Clear();//×ÊÔ´¼ÓÔØÍê±Ïºó±ØĞëÇå¿Õ
-				GameEntry.Pool.EnqueueClassObject(lst);
-				m_LoadingAssetBundle.Remove(assetbundlePath);//´Ó¼ÓÔØÖĞµÄBundleµÄDic ÒÆ³ı
+                //ç»“æŸå¾ªç¯ å›æ± 
+                for (LinkedListNode<LoadingAssetBundleTask> curr = lst.First; curr != null; curr = curr.Next)
+                {
+                    curr.Value.OnComplete?.Invoke(assetBundleEntity.Target as AssetBundle);
+                    GameEntry.Pool.EnqueueClassObject(curr.Value);
+                }
+                lst.Clear();//èµ„æºåŠ è½½å®Œæ¯•åå¿…é¡»æ¸…ç©º
+                GameEntry.Pool.EnqueueClassObject(lst);
+                m_LoadingAssetBundle.Remove(assetbundlePath);//ä»åŠ è½½ä¸­çš„Bundleçš„Dic ç§»é™¤
+                m_AssetBundleLoaderList.Remove(routine);
+                GameEntry.Pool.EnqueueClassObject(routine);
+            };
+            //åŠ è½½èµ„æºåŒ…
+            routine.LoadAssetBundle(assetbundlePath);
+        }
+        #endregion
 
-				//½áÊøÑ­»· »Ø³Ø
-				m_AssetBundleLoaderList.Remove(routine);
-				GameEntry.Pool.EnqueueClassObject(routine);
-			};
-		}
-		#endregion
-
-		#region LoadAsset ´Ó×ÊÔ´°üÖĞ¼ÓÔØ×ÊÔ´
-		/// <summary>
-		/// ¼ÓÔØÖĞµÄAsset
-		/// </summary>
-		private Dictionary<string, LinkedList<Action<UnityEngine.Object, bool>>> m_LoadingAsset = new Dictionary<string, LinkedList<Action<UnityEngine.Object, bool>>>();
-		/// <summary>
-		/// ´Ó×ÊÔ´°üÖĞ¼ÓÔØ×ÊÔ´
-		/// </summary>
-		/// <param name="assetName"></param>
-		/// <param name="assetBundle"></param>
-		/// <param name="onUpdate"></param>
-		/// <param name="onComplete"></param>
-		public void LoadAsset(AssetCategory assetCategory, string assetName, AssetBundle assetBundle, Action<float> onUpdate = null, Action<UnityEngine.Object, bool> onComplete = null)
-		{
-			//Debug.Log(assetName + "===========================================================");
-			//1.ÅĞ¶ÏAssetÊÇ·ñ¼ÓÔØµ½Ò»°ë,·ÀÖ¹¸ß²¢·¢µ¼ÖÂÖØ¸´¼ÓÔØ
-			LinkedList<Action<UnityEngine.Object, bool>> lst = null;
-			if (m_LoadingAsset.TryGetValue(assetName, out lst))
-			{
-				//Èç¹ûAssetÒÑ¾­ÔÚ¼ÓÔØÖĞ, °ÑÎ¯ÍĞ¼ÓÈë¶ÔÓ¦µÄÁ´±í È»ºóÖ±½Óreturn;
-				lst.AddLast(onComplete);
-				return;
-			}
-			else
-			{
-				//Èç¹ûAsset»¹Ã»ÓĞ¿ªÊ¼¼ÓÔØ, °ÑÎ¯ÍĞ¼ÓÈë¶ÔÓ¦µÄÁ´±í È»ºó¿ªÊ¼¼ÓÔØ
-				lst = GameEntry.Pool.DequeueClassObject<LinkedList<Action<UnityEngine.Object, bool>>>();
-				lst.AddLast(onComplete);
-				m_LoadingAsset[assetName] = lst;
-			}
+        #region LoadAsset ä»èµ„æºåŒ…ä¸­åŠ è½½èµ„æº
+        /// <summary>
+        /// åŠ è½½ä¸­çš„Asset
+        /// </summary>
+        private Dictionary<string, LinkedList<Action<UnityEngine.Object, bool>>> m_LoadingAsset = new Dictionary<string, LinkedList<Action<UnityEngine.Object, bool>>>();
+        /// <summary>
+        /// ä»èµ„æºåŒ…ä¸­åŠ è½½èµ„æº
+        /// </summary>
+        /// <param name="assetName"></param>
+        /// <param name="assetBundle"></param>
+        /// <param name="onUpdate"></param>
+        /// <param name="onComplete"></param>
+        public void LoadAsset(string assetName, AssetBundle assetBundle, Action<float> onUpdate = null, Action<UnityEngine.Object, bool> onComplete = null)
+        {
+            //Debug.Log(assetName + "===========================================================");
+            //1.åˆ¤æ–­Assetæ˜¯å¦åŠ è½½åˆ°ä¸€åŠ,é˜²æ­¢é«˜å¹¶å‘å¯¼è‡´é‡å¤åŠ è½½
+            LinkedList<Action<UnityEngine.Object, bool>> lst = null;
+            if (m_LoadingAsset.TryGetValue(assetName, out lst))
+            {
+                //å¦‚æœAssetå·²ç»åœ¨åŠ è½½ä¸­, æŠŠå§”æ‰˜åŠ å…¥å¯¹åº”çš„é“¾è¡¨ ç„¶åç›´æ¥return;
+                lst.AddLast(onComplete);
+                return;
+            }
+            else
+            {
+                //å¦‚æœAssetè¿˜æ²¡æœ‰å¼€å§‹åŠ è½½, æŠŠå§”æ‰˜åŠ å…¥å¯¹åº”çš„é“¾è¡¨ ç„¶åå¼€å§‹åŠ è½½
+                lst = GameEntry.Pool.DequeueClassObject<LinkedList<Action<UnityEngine.Object, bool>>>();
+                lst.AddLast(onComplete);
+                m_LoadingAsset[assetName] = lst;
+            }
 
 
-			AssetLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<AssetLoaderRoutine>();
-			if (routine == null) routine = new AssetLoaderRoutine();
+            AssetLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<AssetLoaderRoutine>();
+            if (routine == null) routine = new AssetLoaderRoutine();
 
-			//¼ÓÈëÁ´±í¿ªÊ¼Ñ­»·
-			m_AssetLoaderList.AddLast(routine);
+            //åŠ å…¥é“¾è¡¨å¼€å§‹å¾ªç¯
+            m_AssetLoaderList.AddLast(routine);
 
-			//×ÊÔ´¼ÓÔØ ½øĞĞÖĞ »Øµ÷
-			routine.OnAssetUpdate = onUpdate;
-			//×ÊÔ´¼ÓÔØ ½á¹û »Øµ÷
-			routine.OnLoadAssetComplete = (UnityEngine.Object obj) =>
-			{
-				LinkedListNode<Action<UnityEngine.Object, bool>> curr = lst.First;
-				curr.Value?.Invoke(obj, true);
-				for (curr = curr.Next; curr != null; curr = curr.Next)
-				{
-					curr.Value?.Invoke(obj, false);
-				}
-				//×ÊÔ´¼ÓÔØÍê±Ïºó
-				lst.Clear();//±ØĞëÇå¿Õ
-				GameEntry.Pool.EnqueueClassObject(lst);
-				m_LoadingAsset.Remove(assetName);//´Ó¼ÓÔØÖĞµÄAssetµÄDic ÒÆ³ı
+            //èµ„æºåŠ è½½ è¿›è¡Œä¸­ å›è°ƒ
+            routine.OnAssetUpdate = onUpdate;
+            //èµ„æºåŠ è½½ ç»“æœ å›è°ƒ
+            routine.OnLoadAssetComplete = (UnityEngine.Object obj) =>
+            {
+                LinkedListNode<Action<UnityEngine.Object, bool>> curr = lst.First;
+                curr.Value?.Invoke(obj, true);
+                for (curr = curr.Next; curr != null; curr = curr.Next)
+                {
+                    curr.Value?.Invoke(obj, false);
+                }
+                //èµ„æºåŠ è½½å®Œæ¯•å
+                lst.Clear();//å¿…é¡»æ¸…ç©º
+                GameEntry.Pool.EnqueueClassObject(lst);
+                m_LoadingAsset.Remove(assetName);//ä»åŠ è½½ä¸­çš„Assetçš„Dic ç§»é™¤
 
-				//½áÊøÑ­»· »Ø³Ø
-				m_AssetLoaderList.Remove(routine);
-				GameEntry.Pool.EnqueueClassObject(routine);
-			};
-			//¼ÓÔØ×ÊÔ´
-			routine.LoadAsset(assetName, assetBundle);
-		}
-		#endregion
+                //ç»“æŸå¾ªç¯ å›æ± 
+                m_AssetLoaderList.Remove(routine);
+                GameEntry.Pool.EnqueueClassObject(routine);
+            };
+            //åŠ è½½èµ„æº
+            routine.LoadAsset(assetName, assetBundle);
+        }
+        #endregion
 
-		/// <summary>
-		/// ¼ÓÔØÖ÷×ÊÔ´
-		/// </summary>
-		/// <param name="assetCategory"></param>
-		/// <param name="assetFullName"></param>
-		/// <param name="onComplete"></param>
-		public void LoadMainAsset<T>(AssetCategory assetCategory, string assetFullName, BaseAction<T> onComplete)
-		{
-			MainAssetLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<MainAssetLoaderRoutine>();
-			routine.Load(assetCategory, assetFullName, false, true, (ResourceEntity resEntity) =>
-			{
-				onComplete?.Invoke((T)resEntity.Target);
-			});
-		}
-		public void LoadMainAsset(AssetCategory assetCategory, string assetFullName, BaseAction<ResourceEntity> onComplete)
-		{
-			MainAssetLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<MainAssetLoaderRoutine>();
-			routine.Load(assetCategory, assetFullName, true, true, onComplete);
-		}
-	}
+        /// <summary>
+        /// åŠ è½½ä¸»èµ„æº
+        /// </summary>
+        /// <param name="isParallel">Trueå¹¶è¡ŒåŠ è½½, Flaseé€’å½’åŠ è½½</param>
+        public void LoadMainAsset<T>(string assetFullName, Action<T> onComplete, Action<float> onUpdate = null)
+        {
+            LoadMainAsset(assetFullName, (ResourceEntity resEntity) =>
+            {
+                onComplete?.Invoke((T)resEntity.Target);
+            }, onUpdate, false);
+        }
+        /// <summary>
+        /// åŠ è½½ä¸»èµ„æº
+        /// </summary>
+        /// <param name="isParallel">Trueå¹¶è¡ŒåŠ è½½, Flaseé€’å½’åŠ è½½</param>
+        /// <param name="isAddReferenceCount">æ˜¯å¦é€’å¢å¼•ç”¨è®¡æ•°?</param>
+        public void LoadMainAsset(string assetFullName, Action<ResourceEntity> onComplete, Action<float> onUpdate = null, bool isAddReferenceCount = false)
+        {
+            MainAssetLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<MainAssetLoaderRoutine>();
+            routine.Load(assetFullName, onComplete, onUpdate, isAddReferenceCount);
+        }
+    }
 }

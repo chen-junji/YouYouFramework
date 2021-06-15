@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,87 +17,52 @@ namespace YouYou
             m_UIFormList = new LinkedList<UIFormBase>();
         }
 
-		/// <summary>
-		/// UI´°¿Ú³ö³Ø
-		/// </summary>
-		/// <param name="uiFormId"></param>
-		/// <returns></returns>
-		internal UIFormBase Dequeue(int uiFormId)
-		{
-			for (LinkedListNode<UIFormBase> curr = m_UIFormList.First; curr != null; curr = curr.Next)
-			{
-				if (curr.Value.SysUIForm.Id == uiFormId)
-				{
-					m_UIFormList.Remove(curr.Value);
-					//Debug.LogError("³ö³Ø=="  + curr.Value.gameObject.name);
-					return curr.Value;
-				}
-			}
-			return null;
-		}
-
-		/// <summary>
-		/// UI´°¿ÚÈë³Ø
-		/// </summary>
-		/// <param name="form"></param>
-		internal void EnQueue(UIFormBase form)
-		{
-			GameEntry.UI.HideUI(form);
-			m_UIFormList.AddLast(form);
-			//Debug.LogError("Èë³Ø==" + form.gameObject.name);
-		}
-
-		/// <summary>
-		/// ¼ì²éÊÇ·ñ¿ÉÒÔÊÍ·Å
-		/// </summary>
-		internal void CheckClear()
-		{
-			for (LinkedListNode<UIFormBase> curr = m_UIFormList.First; curr != null;)
-			{
-				if (curr.Value.SysUIForm.IsLock != 1 && Time.time > curr.Value.CloseTime + GameEntry.UI.UIExpire)
-				{
-					//Ïú»ÙUI
-					Object.Destroy(curr.Value.gameObject);
-					GameEntry.Pool.ReleaseInstanceResource(curr.Value.gameObject.GetInstanceID());
-
-					LinkedListNode<UIFormBase> next = curr.Next;
-					m_UIFormList.Remove(curr.Value);
-					curr = next;
-				}
-				else
-				{
-					curr = curr.Next;
-				}
-			}
-		}
+        /// <summary>
+        /// 对象获取
+        /// </summary>
+        internal UIFormBase Dequeue(int uiFormId)
+        {
+            for (LinkedListNode<UIFormBase> curr = m_UIFormList.First; curr != null; curr = curr.Next)
+            {
+                if (curr.Value.SysUIForm.Id == uiFormId)
+                {
+                    m_UIFormList.Remove(curr.Value);
+                    return curr.Value;
+                }
+            }
+            return null;
+        }
 
         /// <summary>
-        /// 打开UI时候检查队列
+        /// 对象回池
         /// </summary>
-        internal void CheckByOpenUI()
+        internal void EnQueue(UIFormBase form)
         {
-            if (m_UIFormList.Count <= GameEntry.UI.UIPoolMaxCount) return;
+            GameEntry.UI.HideUI(form);
+            m_UIFormList.AddLast(form);
+        }
 
+        /// <summary>
+        /// 检查对象池释放
+        /// </summary>
+        internal void CheckClear()
+        {
             for (LinkedListNode<UIFormBase> curr = m_UIFormList.First; curr != null;)
             {
-                if (m_UIFormList.Count == GameEntry.UI.UIPoolMaxCount + 1) break;
+                if (curr.Value.SysUIForm.IsLock != 1 && Time.time > curr.Value.CloseTime + GameEntry.UI.UIExpire)
+                {
+                    Object.Destroy(curr.Value.gameObject);
+                    GameEntry.Pool.ReleaseInstanceResource(curr.Value.gameObject.GetInstanceID());
 
-				if (curr.Value.SysUIForm.IsLock != 1)
-				{
-					LinkedListNode<UIFormBase> next = curr.Next;
-					m_UIFormList.Remove(curr.Value);
-
-					//Ïú»ÙUI
-					Object.Destroy(curr.Value.gameObject);
-					GameEntry.Pool.ReleaseInstanceResource(curr.Value.gameObject.GetInstanceID());
-
-					curr = next;
-				}
-				else
-				{
-					curr = curr.Next;
-				}
-			}
-		}
-	}
+                    LinkedListNode<UIFormBase> next = curr.Next;
+                    m_UIFormList.Remove(curr.Value);
+                    curr = next;
+                }
+                else
+                {
+                    curr = curr.Next;
+                }
+            }
+        }
+    }
 }
