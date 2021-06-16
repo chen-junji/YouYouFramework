@@ -4,7 +4,7 @@
 //===================================================
 using System.Collections;
 
-namespace YouYou
+namespace Hotfix
 {
     /// <summary>
       /// Sys_Scene实体

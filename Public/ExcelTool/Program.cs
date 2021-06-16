@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
@@ -22,6 +22,8 @@ namespace ExcelTool
 
         private static string OutBytesFilePath_Server; //服务器端表格文件路径
         private static string OutCSharpFilePath_Server; //服务器端c#脚本路径
+
+        private static string OutHotfixFilePath;//热更层C#脚本路径
 
 
         static void Main(string[] args)
@@ -58,6 +60,7 @@ namespace ExcelTool
                     if (arr.Length > 3) OutLuaFilePath = arr[3].Trim();
                     if (arr.Length > 4) OutBytesFilePath_Server = arr[4].Trim();
                     if (arr.Length > 5) OutCSharpFilePath_Server = arr[5].Trim();
+                    if (arr.Length > 6) OutHotfixFilePath = arr[6].Trim();
                 }
             }
         }
@@ -208,12 +211,250 @@ namespace ExcelTool
                 CreateLuaEntity(fileName, tableHeadArr);
 
                 CreateServerEntity(fileName, tableHeadArr, buffer);
+
+                CreateHotfixEntity(fileName, tableHeadArr);
             }
             catch (Exception ex)
             {
                 Console.WriteLine("表格=>" + fileName + " 处理失败:" + ex.Message);
             }
         }
+
+        /// <summary>
+        /// 创建客户端实体
+        /// </summary>
+        private static void CreateEntity(string fileName, string[,] dataArr, byte[] buffer)
+        {
+            if (dataArr == null) return;
+
+            //生成Byte文件
+            {
+                if (!Directory.Exists(OutBytesFilePath)) Directory.CreateDirectory(OutBytesFilePath);
+                FileStream fs = new FileStream(string.Format("{0}\\{1}", OutBytesFilePath, fileName + ".bytes"), FileMode.Create);
+                fs.Write(buffer, 0, buffer.Length);
+                fs.Close();
+                Console.WriteLine("客户端表格=>" + fileName + " 生成bytes文件完毕");
+            }
+
+            //生成代码Entity
+            StringBuilder sbr = new StringBuilder();
+            sbr.Append("//===================================================\r\n");
+            sbr.Append("//作    者：边涯  http://www.u3dol.com\r\n");
+            sbr.Append("//备    注：此代码为工具生成 请勿手工修改\r\n");
+            sbr.Append("//===================================================\r\n");
+            sbr.Append("using System.Collections;\r\n");
+            sbr.Append("\r\n");
+            sbr.Append("namespace YouYou\r\n");
+            sbr.Append("{\r\n");
+            sbr.Append("    /// <summary>\r\n");
+            sbr.AppendFormat("      /// {0}实体\r\n", fileName);
+            sbr.Append("    /// </summary>\r\n");
+            sbr.AppendFormat("    public partial class {0}Entity : DataTableEntityBase\r\n", fileName);
+            sbr.Append("    {\r\n");
+
+            for (int i = 0; i < dataArr.GetLength(0); i++)
+            {
+                if (i == 0) continue;
+                sbr.Append("        /// <summary>\r\n");
+                sbr.AppendFormat("        /// {0}\r\n", dataArr[i, 2]);
+                sbr.Append("        /// </summary>\r\n");
+                sbr.AppendFormat("        public {0} {1};\r\n", dataArr[i, 1], dataArr[i, 0]);
+                sbr.Append("\r\n");
+            }
+
+            sbr.Append("    }\r\n");
+            sbr.Append("}\r\n");
+
+
+            using (FileStream fs = new FileStream(string.Format("{0}/{1}Entity.cs", OutCSharpFilePath, fileName), FileMode.Create))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.Write(sbr.ToString());
+                }
+            }
+
+            //生成代码DBModel
+            sbr.Clear();
+            sbr.Append("\r\n");
+            sbr.Append("//===================================================\r\n");
+            sbr.Append("//作    者：边涯  http://www.u3dol.com\r\n");
+            sbr.Append("//备    注：此代码为工具生成 请勿手工修改\r\n");
+            sbr.Append("//===================================================\r\n");
+            sbr.Append("using System.Collections;\r\n");
+            sbr.Append("using System.Collections.Generic;\r\n");
+            sbr.Append("using System;\r\n");
+            sbr.Append("\r\n");
+            sbr.Append("namespace YouYou\r\n");
+            sbr.Append("{\r\n");
+            sbr.Append("    /// <summary>\r\n");
+            sbr.AppendFormat("    /// {0}数据管理\r\n", fileName);
+            sbr.Append("    /// </summary>\r\n");
+            sbr.AppendFormat("    public partial class {0}DBModel : DataTableDBModelBase<{0}DBModel, {0}Entity>\r\n", fileName);
+            sbr.Append("    {\r\n");
+
+            sbr.Append("        /// <summary>\r\n");
+            sbr.Append("        /// 文件名称\r\n");
+            sbr.Append("        /// </summary>\r\n");
+            sbr.AppendFormat("        public override string DataTableName {{ get {{ return \"{0}\"; }} }}\r\n", fileName);
+            sbr.Append("\r\n");
+
+
+            sbr.Append("        /// <summary>\r\n");
+            sbr.Append("        /// 加载列表\r\n");
+            sbr.Append("        /// </summary>\r\n");
+            sbr.Append("        protected override void LoadList(MMO_MemoryStream ms)\r\n");
+            sbr.Append("        {\r\n");
+            sbr.Append("            int rows = ms.ReadInt();\r\n");
+            sbr.Append("            int columns = ms.ReadInt();\r\n");
+            sbr.Append("\r\n");
+            sbr.Append("            for (int i = 0; i < rows; i++)\r\n");
+            sbr.Append("            {\r\n");
+            sbr.AppendFormat("                {0}Entity entity = new {0}Entity();\r\n", fileName);
+
+            for (int i = 0; i < dataArr.GetLength(0); i++)
+            {
+                if (dataArr[i, 1].Equals("byte", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    sbr.AppendFormat("                entity.{0} = (byte)ms.Read{1}();\r\n", dataArr[i, 0], ChangeTypeName(dataArr[i, 1]));
+                }
+                else
+                {
+                    sbr.AppendFormat("                entity.{0} = ms.Read{1}();\r\n", dataArr[i, 0], ChangeTypeName(dataArr[i, 1]));
+                }
+            }
+
+            sbr.Append("\r\n");
+            sbr.Append("                m_List.Add(entity);\r\n");
+            sbr.Append("                m_Dic[entity.Id] = entity;\r\n");
+            sbr.Append("            }\r\n");
+            sbr.Append("        }\r\n");
+            sbr.Append("    }\r\n");
+
+            sbr.Append("}");
+            using (FileStream fs = new FileStream(string.Format("{0}/{1}DBModel.cs", OutCSharpFilePath, fileName), FileMode.Create))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.Write(sbr.ToString());
+                }
+            }
+
+            Console.WriteLine("客户端表格=>" + fileName + " 生成实体脚本完毕");
+        }
+
+        private static void CreateHotfixEntity(string fileName, string[,] dataArr)
+        {
+            if (dataArr == null) return;
+            if (string.IsNullOrWhiteSpace(OutHotfixFilePath)) return;
+
+            //生成代码Entity
+            StringBuilder sbr = new StringBuilder();
+            sbr.Append("//===================================================\r\n");
+            sbr.Append("//作    者：边涯  http://www.u3dol.com\r\n");
+            sbr.Append("//备    注：此代码为工具生成 请勿手工修改\r\n");
+            sbr.Append("//===================================================\r\n");
+            sbr.Append("using System.Collections;\r\n");
+            sbr.Append("\r\n");
+            sbr.Append("namespace Hotfix\r\n");
+            sbr.Append("{\r\n");
+            sbr.Append("    /// <summary>\r\n");
+            sbr.AppendFormat("      /// {0}实体\r\n", fileName);
+            sbr.Append("    /// </summary>\r\n");
+            sbr.AppendFormat("    public partial class {0}Entity : DataTableEntityBase\r\n", fileName);
+            sbr.Append("    {\r\n");
+
+            for (int i = 0; i < dataArr.GetLength(0); i++)
+            {
+                if (i == 0) continue;
+                sbr.Append("        /// <summary>\r\n");
+                sbr.AppendFormat("        /// {0}\r\n", dataArr[i, 2]);
+                sbr.Append("        /// </summary>\r\n");
+                sbr.AppendFormat("        public {0} {1};\r\n", dataArr[i, 1], dataArr[i, 0]);
+                sbr.Append("\r\n");
+            }
+
+            sbr.Append("    }\r\n");
+            sbr.Append("}\r\n");
+
+
+            using (FileStream fs = new FileStream(string.Format("{0}/{1}Entity.cs", OutHotfixFilePath, fileName), FileMode.Create))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.Write(sbr.ToString());
+                }
+            }
+
+            //生成代码DBModel
+            sbr.Clear();
+            sbr.Append("\r\n");
+            sbr.Append("//===================================================\r\n");
+            sbr.Append("//作    者：边涯  http://www.u3dol.com\r\n");
+            sbr.Append("//备    注：此代码为工具生成 请勿手工修改\r\n");
+            sbr.Append("//===================================================\r\n");
+            sbr.Append("using System.Collections;\r\n");
+            sbr.Append("using System.Collections.Generic;\r\n");
+            sbr.Append("using System;\r\n");
+            sbr.Append("\r\n");
+            sbr.Append("namespace Hotfix\r\n");
+            sbr.Append("{\r\n");
+            sbr.Append("    /// <summary>\r\n");
+            sbr.AppendFormat("    /// {0}数据管理\r\n", fileName);
+            sbr.Append("    /// </summary>\r\n");
+            sbr.AppendFormat("    public partial class {0}DBModel : DataTableDBModelBase<{0}DBModel, {0}Entity>\r\n", fileName);
+            sbr.Append("    {\r\n");
+
+            sbr.Append("        /// <summary>\r\n");
+            sbr.Append("        /// 文件名称\r\n");
+            sbr.Append("        /// </summary>\r\n");
+            sbr.AppendFormat("        public override string DataTableName {{ get {{ return \"{0}\"; }} }}\r\n", fileName);
+            sbr.Append("\r\n");
+
+
+            sbr.Append("        /// <summary>\r\n");
+            sbr.Append("        /// 加载列表\r\n");
+            sbr.Append("        /// </summary>\r\n");
+            sbr.Append("        protected override void LoadList(MMO_MemoryStream ms)\r\n");
+            sbr.Append("        {\r\n");
+            sbr.Append("            int rows = ms.ReadInt();\r\n");
+            sbr.Append("            int columns = ms.ReadInt();\r\n");
+            sbr.Append("\r\n");
+            sbr.Append("            for (int i = 0; i < rows; i++)\r\n");
+            sbr.Append("            {\r\n");
+            sbr.AppendFormat("                {0}Entity entity = new {0}Entity();\r\n", fileName);
+
+            for (int i = 0; i < dataArr.GetLength(0); i++)
+            {
+                if (dataArr[i, 1].Equals("byte", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    sbr.AppendFormat("                entity.{0} = (byte)ms.Read{1}();\r\n", dataArr[i, 0], ChangeTypeName(dataArr[i, 1]));
+                }
+                else
+                {
+                    sbr.AppendFormat("                entity.{0} = ms.Read{1}();\r\n", dataArr[i, 0], ChangeTypeName(dataArr[i, 1]));
+                }
+            }
+
+            sbr.Append("\r\n");
+            sbr.Append("                m_List.Add(entity);\r\n");
+            sbr.Append("                m_Dic[entity.Id] = entity;\r\n");
+            sbr.Append("            }\r\n");
+            sbr.Append("        }\r\n");
+            sbr.Append("    }\r\n");
+
+            sbr.Append("}");
+            using (FileStream fs = new FileStream(string.Format("{0}/{1}DBModel.cs", OutHotfixFilePath, fileName), FileMode.Create))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.Write(sbr.ToString());
+                }
+            }
+
+            Console.WriteLine("Hotix=>" + fileName + " CreateEntityComplete");
+        }
+
         /// <summary>
         /// 创建Lua的实体
         /// </summary>
@@ -354,126 +595,6 @@ namespace ExcelTool
             }
 
             Console.WriteLine("Lua表格=>" + fileName + " 生成实体脚本完毕");
-        }
-
-        /// <summary>
-        /// 创建客户端实体
-        /// </summary>
-        private static void CreateEntity(string fileName, string[,] dataArr, byte[] buffer)
-        {
-            if (dataArr == null) return;
-
-            //生成Byte文件
-            {
-                if (!Directory.Exists(OutBytesFilePath)) Directory.CreateDirectory(OutBytesFilePath);
-                FileStream fs = new FileStream(string.Format("{0}\\{1}", OutBytesFilePath, fileName + ".bytes"), FileMode.Create);
-                fs.Write(buffer, 0, buffer.Length);
-                fs.Close();
-                Console.WriteLine("客户端表格=>" + fileName + " 生成bytes文件完毕");
-            }
-
-            //生成代码Entity
-            StringBuilder sbr = new StringBuilder();
-            sbr.Append("\r\n");
-            sbr.Append("//===================================================\r\n");
-            sbr.Append("//作    者：边涯  http://www.u3dol.com\r\n");
-            sbr.Append("//备    注：此代码为工具生成 请勿手工修改\r\n");
-            sbr.Append("//===================================================\r\n");
-            sbr.Append("using System.Collections;\r\n");
-            sbr.Append("using YouYou;\r\n");
-            sbr.Append("\r\n");
-            sbr.Append("/// <summary>\r\n");
-            sbr.AppendFormat("/// {0}实体\r\n", fileName);
-            sbr.Append("/// </summary>\r\n");
-            sbr.AppendFormat("public partial class {0}Entity : DataTableEntityBase\r\n", fileName);
-            sbr.Append("{\r\n");
-
-            for (int i = 0; i < dataArr.GetLength(0); i++)
-            {
-                if (i == 0) continue;
-                sbr.Append("    /// <summary>\r\n");
-                sbr.AppendFormat("    /// {0}\r\n", dataArr[i, 2]);
-                sbr.Append("    /// </summary>\r\n");
-                sbr.AppendFormat("    public {0} {1};\r\n", dataArr[i, 1], dataArr[i, 0]);
-                sbr.Append("\r\n");
-            }
-
-            sbr.Append("}\r\n");
-
-
-            using (FileStream fs = new FileStream(string.Format("{0}/{1}Entity.cs", OutCSharpFilePath, fileName), FileMode.Create))
-            {
-                using (StreamWriter sw = new StreamWriter(fs))
-                {
-                    sw.Write(sbr.ToString());
-                }
-            }
-
-            //生成代码DBModel
-            sbr.Clear();
-            sbr.Append("\r\n");
-            sbr.Append("//===================================================\r\n");
-            sbr.Append("//作    者：边涯  http://www.u3dol.com\r\n");
-            sbr.Append("//备    注：此代码为工具生成 请勿手工修改\r\n");
-            sbr.Append("//===================================================\r\n");
-            sbr.Append("using System.Collections;\r\n");
-            sbr.Append("using System.Collections.Generic;\r\n");
-            sbr.Append("using System;\r\n");
-            sbr.Append("using YouYou;\r\n");
-            sbr.Append("\r\n");
-            sbr.Append("/// <summary>\r\n");
-            sbr.AppendFormat("/// {0}数据管理\r\n", fileName);
-            sbr.Append("/// </summary>\r\n");
-            sbr.AppendFormat("public partial class {0}DBModel : DataTableDBModelBase<{0}DBModel, {0}Entity>\r\n", fileName);
-            sbr.Append("{\r\n");
-
-            sbr.Append("    /// <summary>\r\n");
-            sbr.Append("    /// 文件名称\r\n");
-            sbr.Append("    /// </summary>\r\n");
-            sbr.AppendFormat("    public override string DataTableName {{ get {{ return \"{0}\"; }} }}\r\n", fileName);
-            sbr.Append("\r\n");
-
-
-            sbr.Append("    /// <summary>\r\n");
-            sbr.Append("    /// 加载列表\r\n");
-            sbr.Append("    /// </summary>\r\n");
-            sbr.Append("    protected override void LoadList(MMO_MemoryStream ms)\r\n");
-            sbr.Append("    {\r\n");
-            sbr.Append("        int rows = ms.ReadInt();\r\n");
-            sbr.Append("        int columns = ms.ReadInt();\r\n");
-            sbr.Append("\r\n");
-            sbr.Append("        for (int i = 0; i < rows; i++)\r\n");
-            sbr.Append("        {\r\n");
-            sbr.AppendFormat("            {0}Entity entity = new {0}Entity();\r\n", fileName);
-
-            for (int i = 0; i < dataArr.GetLength(0); i++)
-            {
-                if (dataArr[i, 1].Equals("byte", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    sbr.AppendFormat("            entity.{0} = (byte)ms.Read{1}();\r\n", dataArr[i, 0], ChangeTypeName(dataArr[i, 1]));
-                }
-                else
-                {
-                    sbr.AppendFormat("            entity.{0} = ms.Read{1}();\r\n", dataArr[i, 0], ChangeTypeName(dataArr[i, 1]));
-                }
-            }
-
-            sbr.Append("\r\n");
-            sbr.Append("            m_List.Add(entity);\r\n");
-            sbr.Append("            m_Dic[entity.Id] = entity;\r\n");
-            sbr.Append("        }\r\n");
-            sbr.Append("    }\r\n");
-
-            sbr.Append("}");
-            using (FileStream fs = new FileStream(string.Format("{0}/{1}DBModel.cs", OutCSharpFilePath, fileName), FileMode.Create))
-            {
-                using (StreamWriter sw = new StreamWriter(fs))
-                {
-                    sw.Write(sbr.ToString());
-                }
-            }
-
-            Console.WriteLine("客户端表格=>" + fileName + " 生成实体脚本完毕");
         }
 
         /// <summary>
@@ -697,13 +818,5 @@ namespace ExcelTool
             }
         }
         #endregion
-
-        /// <summary>
-        /// 创建UIFormId
-        /// </summary>
-        private static void CreateUIFormId()
-        {
-
-        }
     }
 }

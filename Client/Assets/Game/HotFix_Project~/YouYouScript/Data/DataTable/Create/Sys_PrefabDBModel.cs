@@ -7,17 +7,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-namespace YouYou
+namespace Hotfix
 {
     /// <summary>
-    /// Sys_Audio数据管理
+    /// Sys_Prefab数据管理
     /// </summary>
-    public partial class Sys_AudioDBModel : DataTableDBModelBase<Sys_AudioDBModel, Sys_AudioEntity>
+    public partial class Sys_PrefabDBModel : DataTableDBModelBase<Sys_PrefabDBModel, Sys_PrefabEntity>
     {
         /// <summary>
         /// 文件名称
         /// </summary>
-        public override string DataTableName { get { return "Sys_Audio"; } }
+        public override string DataTableName { get { return "Sys_Prefab"; } }
 
         /// <summary>
         /// 加载列表
@@ -29,12 +29,18 @@ namespace YouYou
 
             for (int i = 0; i < rows; i++)
             {
-                Sys_AudioEntity entity = new Sys_AudioEntity();
+                Sys_PrefabEntity entity = new Sys_PrefabEntity();
                 entity.Id = ms.ReadInt();
                 entity.Desc = ms.ReadUTF8String();
+                entity.Name = ms.ReadUTF8String();
+                entity.AssetCategory = ms.ReadInt();
                 entity.AssetPath = ms.ReadUTF8String();
-                entity.Is3D = ms.ReadInt();
-                entity.Volume = ms.ReadFloat();
+                entity.Suffixes = ms.ReadUTF8String();
+                entity.PoolId = (byte)ms.ReadByte();
+                entity.CullDespawned = (byte)ms.ReadByte();
+                entity.CullAbove = ms.ReadInt();
+                entity.CullDelay = ms.ReadInt();
+                entity.CullMaxPerPass = ms.ReadInt();
 
                 m_List.Add(entity);
                 m_Dic[entity.Id] = entity;

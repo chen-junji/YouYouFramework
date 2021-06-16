@@ -57,23 +57,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game\YouYouScript\Data\DataTable\Create\TestDBModel.cs" />
-    <Compile Include="Game\YouYouScript\Data\DataTable\Create\TestEntity.cs" />
-    <Compile Include="Game\YouYouScript\InstanceClass.cs" />
-    <Compile Include="Game\YouYouFramework\Core\Singleton.cs" />
-    <Compile Include="Game\YouYouFramework\GameEntryIL.cs" />
-    <Compile Include="Game\YouYouFramework\Manager\Event\CommonEvent.cs" />
-    <Compile Include="Game\YouYouFramework\Manager\DataTable\DataTableDBModelBase.cs" />
-    <Compile Include="Game\YouYouFramework\Manager\DataTable\DataTableEntityBase.cs" />
-    <Compile Include="Game\YouYouFramework\Manager\DataTable\DataTableManager.cs" />
-    <Compile Include="Game\YouYouFramework\Manager\Data\DataManager.cs" />
-    <Compile Include="Game\YouYouFramework\Manager\Data\PlayerPrefsManager.cs" />
-    <Compile Include="Game\YouYouFramework\Manager\Data\UserDataManager.cs" />
-    <Compile Include="Game\YouYouFramework\Manager\Event\EventManager.cs" />
-    <Compile Include="Game\YouYouFramework\Manager\UI\UIFormBase.cs" />
-    <Compile Include="Game\YouYouFramework\Manager\UI\UIManager.cs" />
-    <Compile Include="Game\YouYouScript\Const\CommonEventId.cs" />
-    <Compile Include="Game\YouYouScript\UI\UIDialog.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\Sys_AnimationDBModel.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\Sys_AnimationEntity.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\Sys_AudioDBModel.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\Sys_AudioEntity.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\Sys_CodeDBModel.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\Sys_CodeEntity.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\Sys_PrefabDBModel.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\Sys_PrefabEntity.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\Sys_SceneDBModel.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\Sys_SceneDetailDBModel.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\Sys_SceneDetailEntity.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\Sys_SceneEntity.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\Sys_UIFormDBModel.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\Sys_UIFormEntity.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\TestDBModel.cs" />
+    <Compile Include="YouYouScript\Data\DataTable\Create\TestEntity.cs" />
+    <Compile Include="YouYouScript\InstanceClass.cs" />
+    <Compile Include="YouYouFramework\Core\Singleton.cs" />
+    <Compile Include="YouYouFramework\GameEntryIL.cs" />
+    <Compile Include="YouYouFramework\Manager\Event\CommonEvent.cs" />
+    <Compile Include="YouYouFramework\Manager\DataTable\DataTableDBModelBase.cs" />
+    <Compile Include="YouYouFramework\Manager\DataTable\DataTableEntityBase.cs" />
+    <Compile Include="YouYouFramework\Manager\DataTable\DataTableManager.cs" />
+    <Compile Include="YouYouFramework\Manager\Data\DataManager.cs" />
+    <Compile Include="YouYouFramework\Manager\Data\PlayerPrefsManager.cs" />
+    <Compile Include="YouYouFramework\Manager\Data\UserDataManager.cs" />
+    <Compile Include="YouYouFramework\Manager\Event\EventManager.cs" />
+    <Compile Include="YouYouFramework\Manager\UI\UIFormBase.cs" />
+    <Compile Include="YouYouFramework\Manager\UI\UIManager.cs" />
+    <Compile Include="YouYouScript\Const\CommonEventId.cs" />
+    <Compile Include="YouYouScript\UI\UIDialog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -6,34 +6,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using YouYou;
 
-/// <summary>
-/// Test数据管理
-/// </summary>
-public partial class TestDBModel : DataTableDBModelBase<TestDBModel, TestEntity>
+namespace YouYou
 {
     /// <summary>
-    /// 文件名称
+    /// Test数据管理
     /// </summary>
-    public override string DataTableName { get { return "Test"; } }
-
-    /// <summary>
-    /// 加载列表
-    /// </summary>
-    protected override void LoadList(MMO_MemoryStream ms)
+    public partial class TestDBModel : DataTableDBModelBase<TestDBModel, TestEntity>
     {
-        int rows = ms.ReadInt();
-        int columns = ms.ReadInt();
+        /// <summary>
+        /// 文件名称
+        /// </summary>
+        public override string DataTableName { get { return "Test"; } }
 
-        for (int i = 0; i < rows; i++)
+        /// <summary>
+        /// 加载列表
+        /// </summary>
+        protected override void LoadList(MMO_MemoryStream ms)
         {
-            TestEntity entity = new TestEntity();
-            entity.Id = ms.ReadInt();
-            entity.Desc = ms.ReadUTF8String();
+            int rows = ms.ReadInt();
+            int columns = ms.ReadInt();
 
-            m_List.Add(entity);
-            m_Dic[entity.Id] = entity;
+            for (int i = 0; i < rows; i++)
+            {
+                TestEntity entity = new TestEntity();
+                entity.Id = ms.ReadInt();
+                entity.Desc = ms.ReadUTF8String();
+
+                m_List.Add(entity);
+                m_Dic[entity.Id] = entity;
+            }
         }
     }
 }

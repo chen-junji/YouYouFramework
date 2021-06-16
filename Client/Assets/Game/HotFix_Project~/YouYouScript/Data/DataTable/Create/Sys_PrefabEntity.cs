@@ -4,12 +4,12 @@
 //===================================================
 using System.Collections;
 
-namespace YouYou
+namespace Hotfix
 {
     /// <summary>
-      /// Sys_UIForm实体
+      /// Sys_Prefab实体
     /// </summary>
-    public partial class Sys_UIFormEntity : DataTableEntityBase
+    public partial class Sys_PrefabEntity : DataTableEntityBase
     {
         /// <summary>
         /// 描述
@@ -17,54 +17,49 @@ namespace YouYou
         public string Desc;
 
         /// <summary>
-        /// 名称
+        /// Name
         /// </summary>
         public string Name;
 
         /// <summary>
-        /// UI分组编号
+        /// 资源分类
         /// </summary>
-        public byte UIGroupId;
-
-        /// <summary>
-        /// 禁用层级管理
-        /// </summary>
-        public int DisableUILayer;
-
-        /// <summary>
-        /// 是否锁定
-        /// </summary>
-        public int IsLock;
-
-        /// <summary>
-        /// 加载方式 零默认;一转圈;二预加载
-        /// </summary>
-        public byte LoadType;
+        public int AssetCategory;
 
         /// <summary>
         /// 路径
         /// </summary>
-        public string AssetPath_Chinese;
+        public string AssetPath;
 
         /// <summary>
-        /// 路径
+        /// 后缀
         /// </summary>
-        public string AssetPath_English;
+        public string Suffixes;
 
         /// <summary>
-        /// 允许多实例
+        /// 对象池编号
         /// </summary>
-        public int CanMulit;
+        public byte PoolId;
 
         /// <summary>
-        /// 显示类型0=普通1=反切
+        /// 是否开启缓存池自动清理模式
         /// </summary>
-        public byte ShowMode;
+        public byte CullDespawned;
 
         /// <summary>
-        /// 冻结类型0=置空层1=禁用
+        /// 缓存池自动清理但是始终保留几个对象不清理
         /// </summary>
-        public byte FreezeMode;
+        public int CullAbove;
+
+        /// <summary>
+        /// 多长时间清理一次单位是秒
+        /// </summary>
+        public int CullDelay;
+
+        /// <summary>
+        /// 每次清理几个
+        /// </summary>
+        public int CullMaxPerPass;
 
     }
 }

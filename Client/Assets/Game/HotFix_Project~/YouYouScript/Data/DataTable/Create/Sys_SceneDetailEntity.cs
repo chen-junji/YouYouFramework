@@ -4,27 +4,27 @@
 //===================================================
 using System.Collections;
 
-namespace YouYou
+namespace Hotfix
 {
     /// <summary>
-      /// Sys_Scene实体
+      /// Sys_SceneDetail实体
     /// </summary>
-    public partial class Sys_SceneEntity : DataTableEntityBase
+    public partial class Sys_SceneDetailEntity : DataTableEntityBase
     {
         /// <summary>
-        /// 名称
+        /// 场景编号
         /// </summary>
-        public string SceneName;
+        public int SceneId;
 
         /// <summary>
-        /// 背景音乐
+        /// 场景路径
         /// </summary>
-        public int BGMId;
+        public string ScenePath;
 
         /// <summary>
-        /// 场景类型(0=登录1=选人2=PVP)
+        /// 场景等级(0=必须1=重要2=不重要)
         /// </summary>
-        public int SceneType;
+        public int SceneGrade;
 
     }
 }
