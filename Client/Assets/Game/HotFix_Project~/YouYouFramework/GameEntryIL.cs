@@ -22,21 +22,26 @@ namespace Hotfix
 
             DataTable.Init();
 
-            YouYou.GameEntry.ActionOnUpdate = ActionOnUpdate;
+            YouYou.GameEntry.ActionOnUpdate = OnUpdate;
             YouYou.GameEntry.ActionOnApplicationPause = OnApplicationPause;
+            YouYou.GameEntry.ActionOnApplicationQuit = OnApplicationQuit;
+            YouYou.GameEntry.ActionOnGameEnter = OnGameEnter;
         }
-        public static void ProcedureGameOnEnter()
-        {
-            UI.OpenUIForm<UIDialog>(UIFormId.UIDialog);
-        }
-
-        private void ActionOnUpdate()
+        private void OnUpdate()
         {
             Event.CommonEvent.Dispatch(CommonEventId.OnUpdate);
         }
         private void OnApplicationPause(bool pause)
         {
             if (pause) Data.PlayerPrefsManager.SaveDataAll();
+        }
+        private void OnApplicationQuit()
+        {
+            Data.PlayerPrefsManager.SaveDataAll();
+        }
+        public static void OnGameEnter()
+        {
+            UI.OpenUIForm<UIDialog>(UIFormId.UIDialog);
         }
     }
 }

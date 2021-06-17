@@ -169,6 +169,9 @@ namespace YouYou
 
         public static Action ActionOnUpdate;
         public static Action<bool> ActionOnApplicationPause;
+        public static Action ActionOnApplicationQuit;
+        public static Action ActionOnGameEnter;
+
         private void Awake()
         {
             Log(LogCategory.Procedure, "GameEntry.OnAwake()");
@@ -227,6 +230,8 @@ namespace YouYou
             Lua.Dispose();
             Audio.Dispose();
             YouYouInput.Dispose();
+
+            ActionOnApplicationQuit?.Invoke();
         }
         private void OnApplicationPause(bool pause)
         {

@@ -8,18 +8,10 @@ public class TestAnimation : MonoBehaviour
 	private RoleCtrl testRoleCtrl;
 	void Update()
 	{
-		if (Input.GetKeyUp(KeyCode.M))
-		{
-			GameEntry.Data.RoleDataManager.CreatePlayer("zhujiao_cike_animation", "Assets/Download/Role/RoleSources/cike/zhujiao_cike_animation.FBX", (RoleCtrl obj) =>
-			{
-				testRoleCtrl = obj;
-			});
-
-		}
 		if (Input.GetKeyDown(KeyCode.J))
 		{
 			testRoleCtrl.PlayAnim("Skill6");
-			//float animLen = m_RoleAnimInfoDic[GetRoleAnimInfoId("Skill6")].CurrPlayable.GetAnimationClip().length;//¶¯»­µÄ³¤¶È
+			//float animLen = m_RoleAnimInfoDic[GetRoleAnimInfoId("Skill6")].CurrPlayable.GetAnimationClip().length;//åŠ¨ç”»çš„é•¿åº¦
 			//Debug.LogError(animLen);
 		}
 		if (Input.GetKeyDown(KeyCode.K))

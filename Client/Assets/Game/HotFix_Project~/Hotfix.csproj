@@ -55,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="YouYouScript\Data\DataManager\RoleDataManager.cs" />
     <Compile Include="YouYouScript\Data\DataTable\Create\Sys_AnimationDBModel.cs" />
     <Compile Include="YouYouScript\Data\DataTable\Create\Sys_AnimationEntity.cs" />
     <Compile Include="YouYouScript\Data\DataTable\Create\Sys_AudioDBModel.cs" />
@@ -79,8 +80,8 @@
     <Compile Include="YouYouFramework\Manager\DataTable\DataTableEntityBase.cs" />
     <Compile Include="YouYouFramework\Manager\DataTable\DataTableManager.cs" />
     <Compile Include="YouYouFramework\Manager\Data\DataManager.cs" />
-    <Compile Include="YouYouFramework\Manager\Data\PlayerPrefsManager.cs" />
-    <Compile Include="YouYouFramework\Manager\Data\UserDataManager.cs" />
+    <Compile Include="YouYouScript\Data\DataManager\PlayerPrefsManager.cs" />
+    <Compile Include="YouYouScript\Data\DataManager\UserDataManager.cs" />
     <Compile Include="YouYouFramework\Manager\Event\EventManager.cs" />
     <Compile Include="YouYouFramework\Manager\UI\UIFormBase.cs" />
     <Compile Include="YouYouFramework\Manager\UI\UIManager.cs" />

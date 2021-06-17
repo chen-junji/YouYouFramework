@@ -21,29 +21,7 @@ public class SysDataManager : IDisposable
 	{
 		CurrChannelConfig = new ChannelConfigEntity();
 	}
-	/// <summary>
-	/// 清空数据
-	/// </summary>
-	public void Clear()
-	{
-
-	}
 	public void Dispose()
 	{
-	}
-
-	/// <summary>
-	/// 根据系统码获取提示内容
-	/// </summary>
-	/// <param name="sysCode"></param>
-	/// <returns></returns>
-	public string GetSysCodeContent(int sysCode)
-	{
-		Sys_CodeEntity sys_Code = GameEntry.DataTable.Sys_CodeDBModel.GetDic(sysCode);
-		if (sys_Code != null)
-		{
-			return GameEntry.Localization.GetString(sys_Code.Name);
-		}
-		return string.Empty;
 	}
 }
