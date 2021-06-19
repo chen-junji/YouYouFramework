@@ -71,6 +71,18 @@ namespace YouYou
                 if (!args.HasError && args.Value.JsonCutApart("Status").ToInt() == 1) callBack?.Invoke(args.Value.JsonCutApart("Content"));
             });
         }
+        public async ETTask<HttpCallBackArgs> GetArgsAsync(string url, bool loadingCircle = false)
+        {
+            ETTask<HttpCallBackArgs> task = ETTask<HttpCallBackArgs>.Create();
+            GetArgs(url, loadingCircle, (args) => task.SetResult(args));
+            return await task;
+        }
+        public async ETTask<string> GetAsync(string url, bool loadingCircle = false)
+        {
+            ETTask<string> task = ETTask<string>.Create();
+            Get(url, loadingCircle, (retJson) => task.SetResult(retJson));
+            return await task;
+        }
         #endregion
 
         #region Post
@@ -97,13 +109,16 @@ namespace YouYou
                 if (!args.HasError && args.Value.JsonCutApart("Status").ToInt() == 1) callBack?.Invoke(args.Value.JsonCutApart("Content"));
             });
         }
+        public async ETTask<HttpCallBackArgs> PostArgsAsync(string url, string json = null, bool loadingCircle = false)
+        {
+            ETTask<HttpCallBackArgs> task = ETTask<HttpCallBackArgs>.Create();
+            PostArgs(url, json, loadingCircle, (args) => task.SetResult(args));
+            return await task;
+        }
         public async ETTask<string> PostAsync(string url, string json = null, bool loadingCircle = false)
         {
             ETTask<string> task = ETTask<string>.Create();
-            PostArgs(url, json, loadingCircle, (args) =>
-            {
-                if (!args.HasError && args.Value.JsonCutApart("Status").ToInt() == 1) task.SetResult(args.Value.JsonCutApart("Content"));
-            });
+            Post(url, json, loadingCircle, (retJson) => task.SetResult(retJson));
             return await task;
         }
         #endregion

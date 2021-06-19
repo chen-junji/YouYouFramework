@@ -144,9 +144,15 @@ namespace YouYou
         #endregion
 
         #region OpenUIForm 打开UI窗口
-        public void OpenUIForm(string uiFormName, object userData = null, Action<UIFormBase> onOpen = null, Action<UIFormBase> onLoadComplete = null)
+        public async ETTask<T> OpenUIFormAsync<T>(string uiFormName, object userData = null) where T : UIFormBase
         {
-            OpenUIForm<UIFormBase>(GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName), userData, onOpen, onLoadComplete);
+            ETTask<T> task = ETTask<T>.Create();
+            OpenUIForm<T>(uiFormName, userData, (uiForm) => task.SetResult(uiForm));
+            return await task;
+        }
+        public void OpenUIForm(string uiFormName, object userData = null)
+        {
+            OpenUIForm<UIFormBase>(GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName), userData);
         }
         public void OpenUIForm(int uiFormId, object userData = null, Action<UIFormBase> onOpen = null, Action<UIFormBase> onLoadComplete = null)
         {

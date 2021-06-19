@@ -300,12 +300,15 @@ namespace YouYou
         /// 加载主资源
         /// </summary>
         /// <param name="isParallel">True并行加载, Flase递归加载</param>
-        public void LoadMainAsset<T>(string assetFullName, Action<T> onComplete, Action<float> onUpdate = null)
+        public async ETTask<T> LoadMainAssetAsync<T>(string assetFullName, Action<float> onUpdate = null)
         {
-            LoadMainAsset(assetFullName, (ResourceEntity resEntity) =>
-            {
-                onComplete?.Invoke((T)resEntity.Target);
-            }, onUpdate, false);
+            ETTask<T> task = ETTask<T>.Create();
+            LoadMainAsset<T>(assetFullName, (asset) => task.SetResult(asset), onUpdate);
+            return await task;
+        }
+        public void LoadMainAsset<T>(string assetFullName, Action<T> onComplete = null, Action<float> onUpdate = null)
+        {
+            LoadMainAsset(assetFullName, (ResourceEntity resEntity) => onComplete?.Invoke((T)resEntity.Target), onUpdate, false);
         }
         /// <summary>
         /// 加载主资源
