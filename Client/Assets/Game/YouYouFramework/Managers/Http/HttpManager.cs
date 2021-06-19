@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace YouYou
 {
-    public class HttpManager :  IDisposable
+    public class HttpManager : IDisposable
     {
         /// <summary>
         /// 正式账号服务器Url
@@ -96,6 +96,15 @@ namespace YouYou
             {
                 if (!args.HasError && args.Value.JsonCutApart("Status").ToInt() == 1) callBack?.Invoke(args.Value.JsonCutApart("Content"));
             });
+        }
+        public async ETTask<string> PostAsync(string url, string json = null, bool loadingCircle = false)
+        {
+            ETTask<string> task = ETTask<string>.Create();
+            PostArgs(url, json, loadingCircle, (args) =>
+            {
+                if (!args.HasError && args.Value.JsonCutApart("Status").ToInt() == 1) task.SetResult(args.Value.JsonCutApart("Content"));
+            });
+            return await task;
         }
         #endregion
     }

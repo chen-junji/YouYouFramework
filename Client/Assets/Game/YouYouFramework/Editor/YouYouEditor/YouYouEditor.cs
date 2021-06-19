@@ -201,10 +201,34 @@ public class YouYouEditor : OdinMenuEditorWindow
         }
         AssetDatabase.Refresh();
     }
+	#endregion
+
+	#region 复制Hotfix.dll, Hotfix.pdb到Download/Hotfix
+	[InitializeOnLoad]
+	public class Startup
+	{
+		private const string ScriptAssembliesDir = "Assets/Game/HotFix_Project~/bin/Debug";
+		private const string CodeDir = "Assets/Download/Hotfix/";
+		private const string HotfixDll = "Hotfix.dll";
+		private const string HotfixPdb = "Hotfix.pdb";
+
+		static Startup()
+		{
+			CopyHofix();
+		}
+		[MenuItem("YouYouTools/复制Hotfix.dll, Hotfix.pdb")]
+		static void CopyHofix()
+		{
+			File.Copy(Path.Combine(ScriptAssembliesDir, HotfixDll), Path.Combine(CodeDir, "Hotfix.dll.bytes"), true);
+			File.Copy(Path.Combine(ScriptAssembliesDir, HotfixPdb), Path.Combine(CodeDir, "Hotfix.pdb.bytes"), true);
+			Debug.Log($"复制Hotfix.dll, Hotfix.pdb到Download/Hotfix完成");
+			AssetDatabase.Refresh();
+		}
+	}
     #endregion
 
-	#region YouYouPrefab
-	[MenuItem("GameObject/UI/YouYouText", false)]
+    #region YouYouPrefab
+    [MenuItem("GameObject/UI/YouYouText", false)]
 	private static void MakeYouYouText(MenuCommand menuCommand)
 	{
 		GameObject obj = MakeYouYouPrefab("YouYouText", menuCommand.context as GameObject);

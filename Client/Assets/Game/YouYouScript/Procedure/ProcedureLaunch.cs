@@ -6,24 +6,24 @@ using UnityEngine;
 
 namespace YouYou
 {
-	/// <summary>
-	/// Æô¶¯Á÷³Ì
-	/// </summary>
-	public class ProcedureLaunch : ProcedureBase
-	{
-		internal override void OnEnter()
-		{
-			base.OnEnter();
+    /// <summary>
+    /// å¯åŠ¨æµç¨‹
+    /// </summary>
+    public class ProcedureLaunch : ProcedureBase
+    {
+        internal override void OnEnter()
+        {
+            base.OnEnter();
 #if RESOURCES || EDITORLOAD
-			GameEntry.Procedure.ChangeState(ProcedureState.Preload);
+            GameEntry.Procedure.ChangeState(ProcedureState.Preload);
 #elif ASSETBUNDLE
-			//·ÃÎÊÕËºÅ·şÎñÆ÷
-			string url = GameEntry.Http.RealWebAccountUrl + "/init";
-			Dictionary<string, object> dic = GameEntry.Pool.DequeueClassObject<Dictionary<string, object>>();
-			dic.Clear();
-			dic["ChannelId"] = GameEntry.Data.SysDataManager.CurrChannelConfig.ChannelId;
-			dic["InnerVersion"] = GameEntry.Data.SysDataManager.CurrChannelConfig.InnerVersion;
-			GameEntry.Http.Post(url, dic.ToJson(), false, (retJson) =>
+			//è®¿é—®è´¦å·æœåŠ¡å™¨
+			var value = new
+            {
+                ChannelId = GameEntry.Data.SysDataManager.CurrChannelConfig.ChannelId,
+                InnerVersion = GameEntry.Data.SysDataManager.CurrChannelConfig.InnerVersion,
+            };
+			GameEntry.Http.Post(GameEntry.Http.RealWebAccountUrl + "/init", value.ToJson(), false, (retJson) =>
 			{
 				if (!retJson.JsonCutApart<bool>("HasError"))
 				{
@@ -37,6 +37,6 @@ namespace YouYou
 				}
 			});
 #endif
-		}
-	}
+        }
+    }
 }
