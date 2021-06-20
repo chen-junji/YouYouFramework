@@ -1,9 +1,12 @@
-讨论QQ群: 87481002    本人QQ: 2925856889
+作者QQ: 667683    本人QQ: 2925856889
 
  **简介** 
 ------------
 YouYou Framework 是一个开源的客户端（基于Unity3d）服务端双端的游戏框架.<br>
-使用C# .NET Core开发的分布式游戏服务端, Redis做共享缓存, MongoDB做数据存储, 双端支持热更新.<br>
+使用C# .NET Core开发的分布式游戏服务端, 使用Redis+MongoDB, 双端支持热更新.<br>
+
+ **作者: 搜狐畅游-饭饭** 
+
 在最新的 YouYou Framework 版本中, 包含以下内置模块. 
 
  **YouYouEditor(Odin可视化编辑界面)**
@@ -18,8 +21,8 @@ YouYou Framework 是一个开源的客户端（基于Unity3d）服务端双端�
 2.每次启动后会生成日志记录文本,可设置日志缓存数量,单文件最大存储数量
 
 >资源打包配置(AssetBundle) - 支持配置 资源包版本号, 资源包加密:<br>
-1.可以设置把文件夹打成一个整体资源包，还是文件夹内容打散打包,如Excel,Lua脚本,图集等可以打成整包，角色、场景、特效等可以打成散包<br>
-2.打包到【对应版本号/平台】文件夹内,自动生成"依赖关系文件"，加载时可自动读取
+1.设置文件夹内容打整包或散包,如Excel,Lua脚本可以打成整包，角色、场景、特效、UI可以打成散包<br>
+2.打包到【对应版本号/平台】文件夹内,生成"依赖关系文件"和"版本信息文件"，加载时自动读取
 
 >对象池分析(Pool Analyze) - 方便查看项目里各个池中的资源的资源计数和剩余释放时间:<br>
 1.类对象池<br>
@@ -59,11 +62,9 @@ YouYou Framework 是一个开源的客户端（基于Unity3d）服务端双端�
 
 >Web 请求 (Web Request) - 提供使用短连接的功能，可以用 Get 或者 Post 方法向服务器发送请求并获取响应数据，可指定允许几个 Web 请求器进行同时请求。
 
->WebSocket - 提供使用 WebSocket 长连接的功能, 支持 TCP 协议。目前以Json进行监听通讯
+>WebSocket - 提供使用 WebSocket 长连接的功能, 支持 TCP 协议.
 
->SDK接入 - 提供微信SDK,支付宝SDK,苹果SDK,谷歌SDK等渠道的接入, 在服务端Config配置相关的签名以及密钥后可使用
-
->xLua - 提供了基于xLua的框架,绕过了LuaAPI实现CSharp和Lua的共享内存,可调用YouYouFramework的任意模块, 基于xLua的代码热更新.
+>xLua - 提供了基于xLua的框架,绕过了LuaAPI实现CSharp和Lua的共享内存,可调用YouYouFramework的任意模块.
 
 }
 
