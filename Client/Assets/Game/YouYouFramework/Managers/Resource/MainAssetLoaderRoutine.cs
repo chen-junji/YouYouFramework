@@ -82,42 +82,28 @@ namespace YouYou
         /// </summary>
         private void LoadMainAsset()
         {
-            //1.从分类资源池(AssetPool)中查找
-            m_CurrResourceEntity = GameEntry.Pool.AssetPool.Spawn(m_CurrAssetEntity.AssetFullName, m_IsAddReferenceCount);
-            if (m_CurrResourceEntity != null)
-            {
-                //Debug.LogError("从分类资源池加载" + assetEntity.ResourceName);
-                //说明资源在分类资源池中存在
-                m_OnComplete?.Invoke(m_CurrResourceEntity);
-                return;
-            }
+            TaskGroup taskGroup = GameEntry.Task.CreateTaskGroup();
 
-            //2.加载这个资源所依赖的资源包
+            //加载这个资源所依赖的资源包
             List<AssetDependsEntity> dependsAssetList = m_CurrAssetEntity.DependsAssetList;
             if (dependsAssetList != null)
             {
                 foreach (AssetDependsEntity assetDependsEntity in dependsAssetList)
                 {
                     AssetEntity assetEntity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(assetDependsEntity.AssetFullName);
-                    m_DependsAssetBundleNames.Add(assetEntity.AssetBundleName);
+                    if (assetEntity != null)
+                    {
+                        if (!m_DependsAssetBundleNames.Add(assetEntity.AssetBundleName)) continue; //避免加载重复依赖文件
+                        taskGroup.AddTask((taskRoutine) => GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(assetEntity.AssetBundleName, onComplete: (bundle) => taskRoutine.Leave()));
+                    }
+                    else
+                    {
+                        Debug.LogError("assetEntity==null, " + assetDependsEntity.AssetFullName);
+                    }
                 }
             }
 
-            //3.循环依赖哈希 加入任务组
-            TaskGroup taskGroup = GameEntry.Task.CreateTaskGroup();
-            foreach (string bundleName in m_DependsAssetBundleNames)
-            {
-                taskGroup.AddTask((taskRoutine) =>
-                {
-                    //依赖资源 只是加载资源包
-                    GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(bundleName, onComplete: (AssetBundle bundle) =>
-                    {
-                        taskRoutine.Leave();
-                    });
-                });
-            }
-
-            //4.加载主资源包
+            //加载主资源包
             taskGroup.AddTask((taskRoutine) =>
             {
                 GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(m_CurrAssetEntity.AssetBundleName, m_OnUpdate, onComplete: (AssetBundle bundle) =>
