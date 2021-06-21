@@ -3,7 +3,7 @@
  **简介** 
 ------------
 YouYou Framework 是一个开源的客户端（基于Unity3d）服务端双端的游戏框架.<br>
-使用C# .NET Core开发的分布式游戏服务端, 使用Redis+MongoDB, 双端支持热更新.<br>
+C# .NET Core开发的分布式游戏服务端, 使用MongoDB数据库, 双端支持热更新.<br>
 
  **作者: 搜狐畅游-饭饭** 
 
