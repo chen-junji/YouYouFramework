@@ -76,7 +76,7 @@ public class BaseSprite : MonoBehaviour
     private async void LoadSkinMaterial(string materialName)
     {
         if (m_CurrSkinnedMeshRenderer == null) return;
-        Material material = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<Material>(materialName);
+        Material material = await GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<Material>(materialName);
 #if UNITY_EDITOR
            m_CurrSkinnedMeshRenderer.material = material;
 #else
@@ -352,7 +352,7 @@ public class BaseSprite : MonoBehaviour
     /// <param name="onComplete"></param>
     private void LoadRoleAnimation(Sys_AnimationEntity sys_Animation, Action<RoleAnimInfo> onComplete = null)
     {
-        GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(sys_Animation.AnimPath, (AnimationClip animationClip) =>
+        GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAction(sys_Animation.AnimPath, (AnimationClip animationClip) =>
         {
             AnimationClipPlayable animationClipPlayable = AnimationClipPlayable.Create(m_PlayableGraph, animationClip);
 

@@ -300,22 +300,28 @@ namespace YouYou
         }
         #endregion
 
-        public async ETTask<T> LoadMainAssetAsync<T>(string assetFullName, Action<float> onUpdate = null) where T : class
+        public async ETTask<T> LoadMainAsset<T>(string assetFullName, Action<float> onUpdate = null) where T : class
         {
             ETTask<T> task = ETTask<T>.Create();
-            LoadMainAsset<T>(assetFullName, task.SetResult, onUpdate);
+            LoadMainAssetAction<T>(assetFullName, task.SetResult, onUpdate);
             return await task;
         }
-        public void LoadMainAsset<T>(string assetFullName, Action<T> onComplete = null, Action<float> onUpdate = null) where T : class
+        public void LoadMainAssetAction<T>(string assetFullName, Action<T> onComplete = null, Action<float> onUpdate = null) where T : class
         {
-            LoadMainAsset(assetFullName, (ResourceEntity resEntity) => onComplete?.Invoke(resEntity != null ? (T)resEntity.Target : null), onUpdate, false);
+            LoadMainAssetAction(assetFullName, (ResourceEntity resEntity) => onComplete?.Invoke(resEntity != null ? (T)resEntity.Target : null), onUpdate, false);
+        }
+        public async ETTask<ResourceEntity> LoadMainAsset(string assetFullName, Action<float> onUpdate = null, bool isAddReferenceCount = false)
+        {
+            ETTask<ResourceEntity> task = ETTask<ResourceEntity>.Create();
+            LoadMainAssetAction(assetFullName, task.SetResult, onUpdate, isAddReferenceCount);
+            return await task;
         }
         /// <summary>
         /// 加载主资源
         /// </summary>
         /// <param name="isParallel">True并行加载, Flase递归加载</param>
         /// <param name="isAddReferenceCount">是否递增引用计数?</param>
-        public void LoadMainAsset(string assetFullName, Action<ResourceEntity> onComplete, Action<float> onUpdate = null, bool isAddReferenceCount = false)
+        public void LoadMainAssetAction(string assetFullName, Action<ResourceEntity> onComplete, Action<float> onUpdate = null, bool isAddReferenceCount = false)
         {
             MainAssetLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<MainAssetLoaderRoutine>();
             routine.Load(assetFullName, onComplete, onUpdate, isAddReferenceCount);

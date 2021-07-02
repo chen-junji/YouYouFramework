@@ -174,7 +174,7 @@ namespace YouYou
                 });
                 m_LoadingPrefabPoolDic[entity.Id] = lst;
 
-                GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(entity.AssetFullName, isAddReferenceCount: true, onComplete: (ResourceEntity resourceEntity) =>
+                GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAction(entity.AssetFullName, isAddReferenceCount: true, onComplete: (ResourceEntity resourceEntity) =>
                 {
                     GameObject retObj = resourceEntity.Target as GameObject;
                     if (retObj == null)

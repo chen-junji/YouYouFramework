@@ -171,27 +171,18 @@ namespace YouYou
             }
 
             UIFormBase formBase = GameEntry.UI.Dequeue(uiFormId);
-            if (formBase == null)
-            {
-                GameEntry.Task.AddTaskCommon((taskRoutine) =>
-                {
-                    LoadAssetUI(sys_UIForm, (form) =>
-                    {
-                        taskRoutine.Leave();
-                        m_OpenUIFormList.AddLast(form);
-                        onInit?.Invoke(form as T);
-                        form.Init(sys_UIForm, userData, InitComplate);
-                    });
-                }, sys_UIForm.LoadType != 0);
-            }
-            else
+            if (formBase != null)
             {
                 m_OpenUIFormList.AddLast(formBase);
                 GameEntry.UI.ShowUI(formBase);
                 if (!formBase.IsInit)
                 {
                     onInit?.Invoke(formBase as T);
-                    formBase.Init(sys_UIForm, userData, InitComplate);
+                    formBase.Init(sys_UIForm, userData, () =>
+                    {
+                        OpenUI(sys_UIForm, formBase);
+                        onOpen?.Invoke(formBase as T);
+                    });
                     formBase.gameObject.SetActive(true);//预加载调用Start方法只能SetActive,不能CurrCanvas.enabled = false
                 }
                 else
@@ -200,21 +191,27 @@ namespace YouYou
                     onOpen?.Invoke(formBase as T);
                     formBase.Open(userData);
                 }
-            }
-            void InitComplate()
-            {
-                OpenUI(sys_UIForm, formBase);
-                onOpen?.Invoke(formBase as T);
-            }
-        }
-        private void LoadAssetUI(Sys_UIFormEntity sys_UIForm, Action<UIFormBase> onComplete = null)
-        {
-            //异步加载UI需要时间 此处需要处理过滤加载中的UI
-            if (sys_UIForm.CanMulit == 0 && IsLoading(sys_UIForm.Id))
-            {
-                onComplete?.Invoke(null);
                 return;
             }
+
+            GameEntry.Task.AddTaskCommon(async (taskRoutine) =>
+            {
+                UIFormBase form = await LoadAssetUI(sys_UIForm);
+                taskRoutine.Leave();
+
+                m_OpenUIFormList.AddLast(form);
+                onInit?.Invoke(form as T);
+                form.Init(sys_UIForm, userData, () =>
+                {
+                    OpenUI(sys_UIForm, form);
+                    onOpen?.Invoke(form as T);
+                });
+            }, sys_UIForm.LoadType != 0);
+        }
+        private async ETTask<UIFormBase> LoadAssetUI(Sys_UIFormEntity sys_UIForm)
+        {
+            //异步加载UI需要时间 此处需要处理过滤加载中的UI
+            if (sys_UIForm.CanMulit == 0 && IsLoading(sys_UIForm.Id))return null;
             m_LoadingUIFormList.AddLast(sys_UIForm.Id);
 
             string assetPath = string.Empty;
@@ -232,20 +229,21 @@ namespace YouYou
             StringBuilder sbr = StringHelper.PoolNew();
             string str = sbr.AppendFormatNoGC("Assets/Download/UI/UIPrefab/{0}.prefab", assetPath).ToString();
             StringHelper.PoolDel(ref sbr);
-            GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(str, isAddReferenceCount: true, onComplete: (ResourceEntity resourceEntity) =>
-            {
-                if (resourceEntity.Target == null) Debug.LogError(str);
-                GameObject uiObj = Object.Instantiate((GameObject)resourceEntity.Target, GameEntry.UI.GetUIGroup(sys_UIForm.UIGroupId).Group);
-                //把克隆出来的资源 加入实例资源池
-                GameEntry.Pool.RegisterInstanceResource(uiObj.GetInstanceID(), resourceEntity);
 
-                //初始化UI
-                UIFormBase formBase = uiObj.GetComponent<UIFormBase>();
-                if (formBase == null) formBase = uiObj.AddComponent<UIFormBase>();
-                formBase.CurrCanvas.overrideSorting = true;
-                m_LoadingUIFormList.Remove(sys_UIForm.Id);
-                onComplete?.Invoke(formBase);
-            });
+            ResourceEntity resourceEntity = await GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(str, isAddReferenceCount: true);
+            if (resourceEntity.Target == null) Debug.LogError(str);
+
+            GameObject uiObj = Object.Instantiate((GameObject)resourceEntity.Target, GameEntry.UI.GetUIGroup(sys_UIForm.UIGroupId).Group);
+            //把克隆出来的资源 加入实例资源池
+            GameEntry.Pool.RegisterInstanceResource(uiObj.GetInstanceID(), resourceEntity);
+
+            //初始化UI
+            UIFormBase formBase = uiObj.GetComponent<UIFormBase>();
+            if (formBase == null) formBase = uiObj.AddComponent<UIFormBase>();
+            formBase.CurrCanvas.overrideSorting = true;
+            m_LoadingUIFormList.Remove(sys_UIForm.Id);
+
+            return formBase;
         }
         private void OpenUI(Sys_UIFormEntity sys_UIFormEntity, UIFormBase formBase)
         {
@@ -374,15 +372,13 @@ namespace YouYou
         /// <summary>
         /// 预加载UI
         /// </summary>
-        public void PreloadUI(Sys_UIFormEntity sys_UIForm, Action onComplete = null)
+        public async void PreloadUI(Sys_UIFormEntity sys_UIForm, Action onComplete = null)
         {
-            LoadAssetUI(sys_UIForm, (form) =>
-            {
-                form.Init(sys_UIForm, null, null);
-                form.gameObject.SetActive(false);//马上隐藏, 避免调用到Start方法
-                GameEntry.UI.EnQueue(form);
-                onComplete?.Invoke();
-            });
+            UIFormBase form = await LoadAssetUI(sys_UIForm);
+            form.Init(sys_UIForm, null, null);
+            form.gameObject.SetActive(false);//马上隐藏, 避免调用到Start方法
+            GameEntry.UI.EnQueue(form);
+            onComplete?.Invoke();
         }
 
         public T GetUIForm<T>(string uiFormName) where T : UIFormBase

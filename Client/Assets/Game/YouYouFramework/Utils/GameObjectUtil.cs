@@ -206,7 +206,7 @@ public static class GameObjectUtil
     {
         if (img != null && !string.IsNullOrEmpty(imgPath))
         {
-            Object asset = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<Object>(imgPath);
+            Object asset = await GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<Object>(imgPath);
             if (asset == null) return;
             Sprite obj = null;
             if (asset is Sprite)
@@ -236,7 +236,7 @@ public static class GameObjectUtil
     {
         if (img != null && !string.IsNullOrEmpty(imgPath))
         {
-            Object asset = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<Object>("Assets/Download/UI/UIRes/UITexture/" + imgPath);
+            Object asset = await GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<Object>("Assets/Download/UI/UIRes/UITexture/" + imgPath);
             if (asset == null) return;
             if (asset is Texture2D) img.texture = (Texture2D)asset;
             if (isSetNativeSize) img.SetNativeSize();
