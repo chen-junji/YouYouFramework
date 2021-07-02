@@ -31,7 +31,7 @@ namespace Hotfix
             {
                 Sys_SceneDetailEntity entity = new Sys_SceneDetailEntity();
                 entity.Id = ms.ReadInt();
-                entity.SceneId = ms.ReadInt();
+                entity.SceneName = ms.ReadUTF8String();
                 entity.ScenePath = ms.ReadUTF8String();
                 entity.SceneGrade = ms.ReadInt();
 

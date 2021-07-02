@@ -178,41 +178,6 @@ public class GameUtil
     }
     #endregion
 
-    #region AutoNumberAnimation 自动数字动画
-    /// <summary>
-    /// 自动数字动画
-    /// </summary>
-    /// <param name="go"></param>
-    /// <param name="number"></param>
-    public static void AutoNumberAnimation(GameObject go, int number)
-    {
-        if (go != null)
-        {
-            AutoNumberAnimation component = go.GetOrCreatComponent<AutoNumberAnimation>();
-            component.DoNumber(number);
-        }
-    }
-    #endregion
-
-    /// <summary>
-    /// 添加子物体
-    /// </summary>
-    /// <param name="parent"></param>
-    /// <param name="prefab"></param>
-    /// <returns></returns>
-    public static GameObject AddChild(Transform parent, GameObject prefab)
-    {
-        GameObject go = GameObject.Instantiate(prefab) as GameObject;
-
-        if (go != null && parent != null)
-        {
-            Transform t = go.transform;
-            t.SetParent(parent, false);
-            go.layer = parent.gameObject.layer;
-        }
-        return go;
-    }
-
     /// <summary>
     /// 获取资源的路径
     /// </summary>
@@ -236,12 +201,6 @@ public class GameUtil
     public static string GetUIResPath(string path)
     {
         return string.Format("Assets/Download/UI/UIRes/UITexture/{0}.png", path);
-    }
-
-    public static int GetRangeSceneId()
-	{
-        List<Sys_SceneEntity> sys_Scenes = GameEntry.DataTable.Sys_SceneDBModel.GetList();
-        return sys_Scenes[UnityEngine.Random.Range(0, GameEntry.DataTable.Sys_SceneDBModel.Count)].Id;
     }
 
     public static void OpenUICurePay()

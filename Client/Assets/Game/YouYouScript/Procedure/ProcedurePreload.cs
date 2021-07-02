@@ -13,11 +13,11 @@ namespace YouYou
     public class ProcedurePreload : ProcedureBase
     {
         /// <summary>
-        /// 目标进度
+        /// 目标进度(实际进度)
         /// </summary>
         private float m_TargetProgress;
         /// <summary>
-        /// 当前进度
+        /// 当前进度(模拟进度)
         /// </summary>
         private float m_CurrProgress;
 
@@ -37,13 +37,7 @@ namespace YouYou
 
             m_CurrProgress = 0;
 
-#if ASSETBUNDLE
-            //初始化资源信息, 并加载Excel
-            GameEntry.Resource.InitAssetInfo(() => GameEntry.DataTable.LoadDataAllTable(BeginTask));
-#else
-            //加载Excel
-            GameEntry.DataTable.LoadDataAllTable(BeginTask);
-#endif
+            BeginTask();
         }
         internal override void OnUpdate()
         {
@@ -78,10 +72,13 @@ namespace YouYou
         /// <summary>
         /// 开始任务
         /// </summary>
-        private void BeginTask()
+        private async void BeginTask()
         {
             m_TaskGroup = GameEntry.Task.CreateTaskGroup();
 #if ASSETBUNDLE
+            //初始化资源信息
+            await GameEntry.Resource.InitAssetInfo();
+
             //加载自定义Shader
             m_TaskGroup.AddTask((taskRoutine) =>
             {
@@ -93,6 +90,9 @@ namespace YouYou
                 });
             });
 #endif
+            //加载Excel
+            await GameEntry.DataTable.LoadDataAllTableAsync();
+
             //加载初始UI
             List<Sys_UIFormEntity> lst = GameEntry.DataTable.Sys_UIFormDBModel.GetList().FindAll(x => x.LoadType == 2);
             for (int i = 0; i < lst.Count; i++)

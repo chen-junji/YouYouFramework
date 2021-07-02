@@ -1,13 +1,13 @@
-Sys_SceneDetailEntity = { Id = 0, SceneId = 0, ScenePath = "", SceneGrade = 0 }
+Sys_SceneDetailEntity = { Id = 0, SceneName = "", ScenePath = "", SceneGrade = 0 }
 
 Sys_SceneDetailEntity.__index = Sys_SceneDetailEntity;
 
-function Sys_SceneDetailEntity.New(Id, SceneId, ScenePath, SceneGrade)
+function Sys_SceneDetailEntity.New(Id, SceneName, ScenePath, SceneGrade)
     local self = { };
     setmetatable(self, Sys_SceneDetailEntity);
 
     self.Id = Id;
-    self.SceneId = SceneId;
+    self.SceneName = SceneName;
     self.ScenePath = ScenePath;
     self.SceneGrade = SceneGrade;
 

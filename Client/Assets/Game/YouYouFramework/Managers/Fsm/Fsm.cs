@@ -52,6 +52,7 @@ namespace YouYou
 			{
 				FsmState<T> state = states[i];
 				state.CurrFsm = this;
+				state.OnInit();
 				m_StateDic[(sbyte)i] = state;
 			}
 

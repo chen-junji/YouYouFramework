@@ -25,4 +25,14 @@ public partial class Sys_SceneEntity : DataTableEntityBase
     /// </summary>
     public int SceneType;
 
+    /// <summary>
+    /// 场景英文描述
+    /// </summary>
+    public string Content_En;
+
+    /// <summary>
+    /// 场景中文描述
+    /// </summary>
+    public string Content_Chn;
+
 }

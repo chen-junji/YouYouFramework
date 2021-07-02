@@ -17,7 +17,7 @@ function Sys_SceneDetailDBModel.LoadFormMS(ms)
     for i = 0, rows, 1 do
         sys_scenedetailTable[#sys_scenedetailTable + 1] = Sys_SceneDetailEntity.New(
                 ms:ReadInt(),
-                ms:ReadInt(),
+                ms:ReadUTF8String(),
                 ms:ReadUTF8String(),
                 ms:ReadInt()
         );

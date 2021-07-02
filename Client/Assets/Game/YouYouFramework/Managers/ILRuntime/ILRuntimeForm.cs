@@ -12,6 +12,8 @@ namespace YouYou
         public Action onClose;
         public Action onBeforDestroy;
 
+        public object HotfixObj;
+
         protected override void OnInit(object userData)
         {
             base.OnInit(userData);

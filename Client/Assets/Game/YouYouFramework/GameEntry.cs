@@ -214,7 +214,6 @@ namespace YouYou
         {
             Logger.SyncLog();
             Logger.Dispose();
-            Time.Dispose();
             Fsm.Dispose();
             Procedure.Dispose();
             DataTable.Dispose();

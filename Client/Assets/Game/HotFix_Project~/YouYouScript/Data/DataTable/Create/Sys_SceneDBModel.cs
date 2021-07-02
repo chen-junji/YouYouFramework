@@ -34,6 +34,8 @@ namespace Hotfix
                 entity.SceneName = ms.ReadUTF8String();
                 entity.BGMId = ms.ReadInt();
                 entity.SceneType = ms.ReadInt();
+                entity.Content_En = ms.ReadUTF8String();
+                entity.Content_Chn = ms.ReadUTF8String();
 
                 m_List.Add(entity);
                 m_Dic[entity.Id] = entity;

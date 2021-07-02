@@ -9,12 +9,25 @@ namespace Hotfix
 {
     public class UIManager
     {
-        public void OpenUIForm<T>(string uiFormName, object userData = null, Action<YouYou.UIFormBase> onOpen = null) where T : UIFormBase, new()
+        public async ETTask<T> OpenUIForm<T>(string uiFormName, object userData = null) where T : UIFormBase, new()
         {
-            GameEntry.UI.OpenUIForm(GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName), userData, onOpen, (uiFormBase) =>
+            ETTask<T> task = ETTask<T>.Create();
+            OpenUIFormAction<T>(uiFormName, userData, task.SetResult);
+            return await task;
+        }
+        public void OpenUIForm(string uiFormName, object userData = null)
+        {
+            OpenUIFormAction<UIFormBase>(uiFormName, userData);
+        }
+        public void OpenUIFormAction<T>(string uiFormName, object userData = null, Action<T> onOpen = null) where T : UIFormBase, new()
+        {
+            GameEntry.UI.OpenUIFormAction(GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName), userData, (ILRuntimeForm form) =>
+            {
+                onOpen?.Invoke(form.HotfixObj as T);
+            }, (form) =>
             {
                 T obj = new T();
-                obj.Init(uiFormBase as ILRuntimeForm);
+                obj.Init(form);
             });
         }
     }

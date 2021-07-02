@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace YouYou
 {
-    public class WebSocketManager : IDisposable
+    public class WebSocketManager 
     {
         private ClientWebSocket m_WebSocket;
         private CancellationToken m_Cancellation;
@@ -21,17 +21,31 @@ namespace YouYou
         }
         internal void Init()
         {
-            m_WebSocket = new ClientWebSocket();
-            m_Cancellation = new CancellationToken();
         }
         internal void OnUpdate()
         {
 
         }
-
-        internal async void ConnectToWebSocket(string url, Action onComplete = null)
+        public async ETTask ConnectTaskAsync(string userNum)
         {
-            if (m_WebSocket.State == WebSocketState.Open) return;
+            ETTask task = ETTask.Create();
+            ConnectTask(userNum, task.SetResult);
+            await task;
+        }
+        public void ConnectTask(string userNum, Action onComplete = null)
+        {
+            GameEntry.Task.AddTaskCommon((taskRoutine) =>
+            {
+                GameEntry.WebSocket.Connect(string.Format("ws://{0}/WebSocketConn/GetConnect?userNum={1}", GameEntry.Http.RealIpAndPort, userNum), () =>
+                {
+                    taskRoutine.Leave();
+                    onComplete?.Invoke();
+                });
+            });
+        }
+        public async void Connect(string url, Action onComplete = null)
+        {
+            if (m_WebSocket != null && m_WebSocket.State == WebSocketState.Open) return;
             m_WebSocket = new ClientWebSocket();
             m_Cancellation = new CancellationToken();
 
@@ -74,12 +88,9 @@ namespace YouYou
         }
         public void CloseWebSocket()
         {
-            if (m_WebSocket.State != WebSocketState.None) m_WebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "NormalClosure", m_Cancellation);
-        }
+            if (m_WebSocket != null && m_WebSocket.State != WebSocketState.None) m_WebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "NormalClosure", m_Cancellation);
 
-        public void Dispose()
-        {
-            CloseWebSocket();
+            m_WebSocket = null;
         }
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace YouYou
 {
-    public class ResourceManager : IDisposable
+    public class ResourceManager :  IDisposable
     {
         #region GetAssetBundleVersionList 根据字节数组获取资源包版本信息
         /// <summary>
@@ -161,20 +161,13 @@ namespace YouYou
         /// <summary>
         /// 初始化CDN资源包信息
         /// </summary>
-        private void InitCDNAssetBundleInfo()
+        private async void InitCDNAssetBundleInfo()
         {
             StringBuilder sbr = StringHelper.PoolNew();
             string url = sbr.AppendFormatNoGC("{0}{1}", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl, YFConstDefine.VersionFileName).ToString();
             StringHelper.PoolDel(ref sbr);
-            GameEntry.Http.GetArgs(url, false, OnInitCDNAssetBundleInfo);
-        }
 
-        /// <summary>
-        /// 初始化CDN资源包信息回调
-        /// </summary>
-        /// <param name="args"></param>
-        private void OnInitCDNAssetBundleInfo(HttpCallBackArgs args)
-        {
+            HttpCallBackArgs args = await GameEntry.Http.GetArgsAsync(url, false);
             if (!args.HasError)
             {
                 m_CDNVersionDic = GetAssetBundleVersionList(args.Data, ref m_CDNVersion);

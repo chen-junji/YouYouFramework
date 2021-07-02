@@ -1,26 +1,33 @@
-//-------------------------------
-//该Demo由风冻冰痕所写
-//http://icemark.cn/blog
-//转载请说明出处
-//-------------------------------
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using System;
 
+[DisallowMultipleComponent]
+[RequireComponent(typeof(ScrollRect))]//脚本依赖
 public class UIScroller : MonoBehaviour
 {
-    public enum Arrangement { Horizontal, Vertical, }
+    public enum Arrangement
+    {
+        Horizontal,
+        Vertical,
+    }
     public Arrangement _movement = Arrangement.Horizontal;
-    //Item之间的距离
-    [Range(0, 20)]
-    public int cellPadiding = 5;
+
+    /// <summary>
+    /// 行间距
+    /// </summary>
+    [Range(0, 100)] [SerializeField] float cellPadiding = 0;
+
     //Item的宽高
-    public int cellWidth = 500;
-    public int cellHeight = 100;
-    //默认加载的Item个数，一般比可显示个数大2~3个
-    [Range(0, 20)]
-    public int viewCount = 6;
-    public GameObject itemPrefab;
-    public RectTransform _content;
+    private float cellWidth;
+    private float cellHeight;
+    //默认加载的行数，一般比可显示行数大2~3行
+    int viewCount;
+
+    [SerializeField] RectTransform itemPrefab;
+    ScrollRect ScrollRect;
+    RectTransform _content;
 
     private int _index = -1;
     private List<UIScrollIndex> _itemList;
@@ -28,16 +35,78 @@ public class UIScroller : MonoBehaviour
 
     private Queue<UIScrollIndex> _unUsedQueue;  //将未显示出来的Item存入未使用队列里面，等待需要使用的时候直接取出
 
+    //第一步 监听这个委托
+    public Action<int, GameObject> OnItemCreate;
+    /// <summary>
+    /// 第二步 设置 DataCount 总数量 需要提前设置
+    /// </summary>
+    public int DataCount
+    {
+        get { return _dataCount; }
+        set
+        {
+            _dataCount = value;
+            UpdateTotalWidth();
+            ResetScroller();
+        }
+    }
+
     void Start()
     {
         _itemList = new List<UIScrollIndex>();
         _unUsedQueue = new Queue<UIScrollIndex>();
-        DataCount = 100;
+
+        ScrollRect = GetComponent<ScrollRect>();
+        _content = ScrollRect.content;
+
+        cellWidth = itemPrefab.rect.width;
+        cellHeight = itemPrefab.rect.height;
+
+        if (_movement == Arrangement.Horizontal)
+        {
+            viewCount = Mathf.CeilToInt(ScrollRect.viewport.rect.width / cellWidth * 1.2f);
+        }
+        else
+        {
+            viewCount = Mathf.CeilToInt(ScrollRect.viewport.rect.height / cellHeight * 1.2f);
+        }
+
+        ScrollRect.onValueChanged.AddListener(OnValueChange);
+
         OnValueChange(Vector2.zero);
     }
 
+    private void OnDestroy()
+    {
+        itemPrefab = null;
+        _content = null;
+
+        _itemList = null;
+        _unUsedQueue = null;
+        OnItemCreate = null;
+    }
+
+    /// <summary>
+    /// 第三步 刷新视图
+    /// </summary>
+    public void ResetScroller()
+    {
+        _index = -1;
+        UIScrollIndex[] arr = _content.GetComponentsInChildren<UIScrollIndex>();
+        for (int i = 0; i < arr.Length; i++)
+        {
+            DestroyImmediate(arr[i].gameObject);
+        }
+        arr = null;
+
+        if (_itemList != null) _itemList.Clear();
+        if (_unUsedQueue != null) _unUsedQueue.Clear();
+        _content.anchoredPosition = new Vector2(0, 1f);
+        OnValueChange(Vector2.zero);
+    }
     public void OnValueChange(Vector2 pos)
     {
+        if (_itemList == null) return;
         int index = GetPosIndex();
         if (_index != index && index > -1)
         {
@@ -45,14 +114,13 @@ public class UIScroller : MonoBehaviour
             for (int i = _itemList.Count; i > 0; i--)
             {
                 UIScrollIndex item = _itemList[i - 1];
-                if (item.Index < index || (item.Index >= index + viewCount))
+                if (item.Index < index || (item.Index >= (index + viewCount)))
                 {
-                    //GameObject.Destroy(item.gameObject);
                     _itemList.Remove(item);
                     _unUsedQueue.Enqueue(item);
                 }
             }
-            for (int i = _index; i < _index + viewCount; i++)
+            for (int i = _index; i < (_index + viewCount); i++)
             {
                 if (i < 0) continue;
                 if (i > _dataCount - 1) continue;
@@ -67,75 +135,6 @@ public class UIScroller : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 提供给外部的方法，添加指定位置的Item
-    /// </summary>
-    public void AddItem(int index)
-    {
-        if (index > _dataCount)
-        {
-            Debug.LogError("添加错误:" + index);
-            return;
-        }
-        AddItemIntoPanel(index);
-        DataCount += 1;
-    }
-
-    /// <summary>
-    /// 提供给外部的方法，删除指定位置的Item
-    /// </summary>
-    public void DelItem(int index)
-    {
-        if (index < 0 || index > _dataCount - 1)
-        {
-            Debug.LogError("删除错误:" + index);
-            return;
-        }
-        DelItemFromPanel(index);
-        DataCount -= 1;
-    }
-
-    private void AddItemIntoPanel(int index)
-    {
-        for (int i = 0; i < _itemList.Count; i++)
-        {
-            UIScrollIndex item = _itemList[i];
-            if (item.Index >= index) item.Index += 1;
-        }
-        CreateItem(index);
-    }
-
-    private void DelItemFromPanel(int index)
-    {
-        int maxIndex = -1;
-        int minIndex = int.MaxValue;
-        for (int i = _itemList.Count; i > 0; i--)
-        {
-            UIScrollIndex item = _itemList[i - 1];
-            if (item.Index == index)
-            {
-                GameObject.Destroy(item.gameObject);
-                _itemList.Remove(item);
-            }
-            if (item.Index > maxIndex)
-            {
-                maxIndex = item.Index;
-            }
-            if (item.Index < minIndex)
-            {
-                minIndex = item.Index;
-            }
-            if (item.Index > index)
-            {
-                item.Index -= 1;
-            }
-        }
-        if (maxIndex < DataCount - 1)
-        {
-            CreateItem(maxIndex);
-        }
-    }
-
     private void CreateItem(int index)
     {
         UIScrollIndex itemBase;
@@ -145,27 +144,42 @@ public class UIScroller : MonoBehaviour
         }
         else
         {
-            itemBase = GameUtil.AddChild(_content, itemPrefab).GetComponent<UIScrollIndex>();
+            itemBase = Instantiate(itemPrefab.gameObject, _content).AddComponent<UIScrollIndex>();
         }
-
-        itemBase.Scroller = this;
-        itemBase.Index = index;
+        itemBase.SetUI(index, GetPosition(index));
         _itemList.Add(itemBase);
+        OnItemCreate?.Invoke(index, itemBase.gameObject);
     }
 
+    #region GetPosIndex
+    /// <summary>
+    /// 获取最上位置的索引
+    /// </summary>
+    /// <returns></returns>
     private int GetPosIndex()
     {
         switch (_movement)
         {
             case Arrangement.Horizontal:
-                return Mathf.FloorToInt(_content.anchoredPosition.x / -(cellWidth + cellPadiding));
+                {
+                    return Mathf.FloorToInt(_content.anchoredPosition.x / -(cellWidth + cellPadiding));
+                }
             case Arrangement.Vertical:
-                return Mathf.FloorToInt(_content.anchoredPosition.y / (cellHeight + cellPadiding));
+                {
+                    return Mathf.FloorToInt(_content.anchoredPosition.y / (cellHeight + cellPadiding));
+                }
         }
         return 0;
     }
+    #endregion
 
-    public Vector3 GetPosition(int i)
+    #region GetPosition
+    /// <summary>
+    /// 根据索引号 获取当前item的位置
+    /// </summary>
+    /// <param name="i"></param>
+    /// <returns></returns>
+    private Vector3 GetPosition(int i)
     {
         switch (_movement)
         {
@@ -176,17 +190,12 @@ public class UIScroller : MonoBehaviour
         }
         return Vector3.zero;
     }
+    #endregion
 
-    public int DataCount
-    {
-        get { return _dataCount; }
-        set
-        {
-            _dataCount = value;
-            UpdateTotalWidth();
-        }
-    }
-
+    #region UpdateTotalWidth 
+    /// <summary>
+    /// 这个方法的目的 就是根据总数量 行列 来计算content的真正宽度或者高度
+    /// </summary>
     private void UpdateTotalWidth()
     {
         switch (_movement)
@@ -199,4 +208,5 @@ public class UIScroller : MonoBehaviour
                 break;
         }
     }
+    #endregion
 }

@@ -31,11 +31,6 @@ namespace YouYou
         private List<Sys_SceneDetailEntity> m_CurrSceneDetailList;
 
         /// <summary>
-        /// 需要加载或者卸载的明细数量
-        /// </summary>
-        private int m_NeedLoadOrUnloadSceneDetailCount = 0;
-
-        /// <summary>
         /// 当前已经加载或者卸载的明细数量
         /// </summary>
         private int m_CurrLoadOrUnloadSceneDetailCount = 0;
@@ -75,9 +70,24 @@ namespace YouYou
         {
             SceneManager.sceneLoaded += (Scene scene, LoadSceneMode sceneMode) =>
             {
-                if (m_CurrSceneDetailList != null && m_CurrSceneDetailList.Count > 0)
+                if (m_CurrSceneDetailList == null || m_CurrSceneDetailList.Count == 0) return;
+
+                //设置列表里的第一个场景为主场景(激活场景)
+                if (m_CurrLoadOrUnloadSceneDetailCount == 0) SceneManager.SetActiveScene(scene);
+
+                m_CurrLoadOrUnloadSceneDetailCount++;
+                if (m_CurrLoadOrUnloadSceneDetailCount == m_CurrSceneDetailList.Count)
                 {
-                    if (scene.name == m_CurrSceneDetailList[0].ScenePath) SceneManager.SetActiveScene(scene);
+                    GameEntry.Log(LogCategory.Normal, "场景加载完毕{0}", CurrSceneEntity.SceneName);
+
+                    m_CurrLoadOrUnloadSceneDetailCount = 0;
+                    m_CurrSceneIsLoading = false;
+
+                    m_CurrLoadingParam.Reset();
+                    GameEntry.Pool.EnqueueClassObject(m_CurrLoadingParam);
+
+                    m_OnComplete?.Invoke();
+                    //GameEntry.UI.CloseUIForm(UIFormId.UI_Loading);
                 }
             };
         }
@@ -86,8 +96,7 @@ namespace YouYou
         {
             if (CurrSceneEntity != null)
             {
-                m_NeedLoadOrUnloadSceneDetailCount = m_CurrSceneDetailList.Count;
-                for (int i = 0; i < m_NeedLoadOrUnloadSceneDetailCount; i++)
+                for (int i = 0; i < m_CurrSceneDetailList.Count; i++)
                 {
                     SceneLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<SceneLoaderRoutine>();
                     m_SceneLoaderList.AddLast(routine);
@@ -102,13 +111,14 @@ namespace YouYou
                 m_CurrLoadSceneId = 0;
             }
         }
+
         /// <summary>
         /// 加载场景
         /// </summary>
         /// <param name="sceneId">场景编号</param>
         /// <param name="showLoadingForm">是否显示Loading</param>
         /// <param name="onComplete">加载完毕</param>
-        public void LoadScene(int sceneId, bool showLoadingForm = false, Action onComplete = null)
+        public async void LoadScene(int sceneId, bool showLoadingForm = false, Action onComplete = null)
         {
             if (m_CurrSceneIsLoading)
             {
@@ -129,15 +139,19 @@ namespace YouYou
             if (showLoadingForm)
             {
                 //加载Loading
-                GameEntry.UI.OpenUIForm(UIFormId.UILoading, onOpen: (UIFormBase form) =>
-                {
-                    DoLoadScene(sceneId);
-                });
+                await GameEntry.UI.OpenUIForm<UILoadingForm>(UIFormId.UILoading);
+                DoLoadScene(sceneId);
             }
             else
             {
                 DoLoadScene(sceneId);
             }
+        }
+        public async ETTask LoadSceneAsync(int sceneId, bool showLoadingForm = false)
+        {
+            ETTask task = ETTask.Create();
+            LoadScene(sceneId, showLoadingForm, task.SetResult);
+            await task;
         }
 
         /// <summary>
@@ -159,8 +173,7 @@ namespace YouYou
         {
             if (CurrSceneEntity != null)
             {
-                m_NeedLoadOrUnloadSceneDetailCount = m_CurrSceneDetailList.Count;
-                for (int i = 0; i < m_NeedLoadOrUnloadSceneDetailCount; i++)
+                for (int i = 0; i < m_CurrSceneDetailList.Count; i++)
                 {
                     SceneLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<SceneLoaderRoutine>();
                     m_SceneLoaderList.AddLast(routine);
@@ -179,15 +192,14 @@ namespace YouYou
         {
             m_CurrSceneIsLoading = true;
             CurrSceneEntity = GameEntry.DataTable.Sys_SceneDBModel.GetDic(m_CurrLoadSceneId);
-            m_CurrSceneDetailList = GameEntry.DataTable.Sys_SceneDetailDBModel.GetListBySceneId(CurrSceneEntity.Id, 2);
-            m_NeedLoadOrUnloadSceneDetailCount = m_CurrSceneDetailList.Count;
+            m_CurrSceneDetailList = GameEntry.DataTable.Sys_SceneDetailDBModel.GetListBySceneId(CurrSceneEntity.SceneName, 2);
 
-            for (int i = 0; i < m_NeedLoadOrUnloadSceneDetailCount; i++)
+            for (int i = 0; i < m_CurrSceneDetailList.Count; i++)
             {
+                Sys_SceneDetailEntity entity = m_CurrSceneDetailList[i];
+
                 SceneLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<SceneLoaderRoutine>();
                 m_SceneLoaderList.AddLast(routine);
-
-                Sys_SceneDetailEntity entity = m_CurrSceneDetailList[i];
                 routine.LoadScene(entity.Id, entity.ScenePath, (int sceneDetailId, float progress) =>
                 {
                     //记录每个场景明细当前的进度
@@ -199,14 +211,13 @@ namespace YouYou
                 });
             }
         }
-
         private void OnUnLoadSceneComplete(SceneLoaderRoutine routine)
         {
             m_SceneLoaderList.Remove(routine);
             GameEntry.Pool.EnqueueClassObject(routine);
 
             m_CurrLoadOrUnloadSceneDetailCount++;
-            if (m_CurrLoadOrUnloadSceneDetailCount == m_NeedLoadOrUnloadSceneDetailCount)
+            if (m_CurrLoadOrUnloadSceneDetailCount == m_CurrSceneDetailList.Count)
             {
 #if UNLOADRES_CHANGESCENE
                 if (LuaManager.luaEnv != null)
@@ -215,7 +226,6 @@ namespace YouYou
                 }
                 Resources.UnloadUnusedAssets();
 #endif
-                m_NeedLoadOrUnloadSceneDetailCount = 0;
                 m_CurrLoadOrUnloadSceneDetailCount = 0;
                 LoadNewScene();
             }
@@ -236,33 +246,19 @@ namespace YouYou
                 }
 
                 float currTarget = GetCurrTotalProgress();
-                float finalTarget = 0.9f * m_NeedLoadOrUnloadSceneDetailCount;
+                float finalTarget = 0.9f * m_CurrSceneDetailList.Count;
                 if (currTarget >= finalTarget)
                 {
-                    currTarget = m_NeedLoadOrUnloadSceneDetailCount;
+                    currTarget = m_CurrSceneDetailList.Count;
                 }
 
-                if (m_CurrProgress <= m_NeedLoadOrUnloadSceneDetailCount && m_CurrProgress <= currTarget)
+                if (m_CurrProgress <= m_CurrSceneDetailList.Count && m_CurrProgress <= currTarget)
                 {
-                    m_CurrProgress = m_CurrProgress + Time.deltaTime * m_NeedLoadOrUnloadSceneDetailCount * 1;
+                    m_CurrProgress += Time.deltaTime * m_CurrSceneDetailList.Count * 1;
                     m_CurrLoadingParam.IntParam1 = (int)LoadingType.ChangeScene;
-                    m_CurrLoadingParam.FloatParam1 = Math.Min(m_CurrProgress / m_NeedLoadOrUnloadSceneDetailCount, 1);
+                    m_CurrLoadingParam.FloatParam1 = Math.Min(m_CurrProgress / m_CurrSceneDetailList.Count, 1);
 
                     GameEntry.Event.CommonEvent.Dispatch(CommonEventId.LoadingProgressChange, m_CurrLoadingParam);
-                }
-                else if (m_CurrProgress > m_NeedLoadOrUnloadSceneDetailCount)
-                {
-                    GameEntry.Log(LogCategory.Normal, "场景加载完毕{0}", CurrSceneEntity.SceneName);
-
-                    m_NeedLoadOrUnloadSceneDetailCount = 0;
-                    m_CurrLoadOrUnloadSceneDetailCount = 0;
-                    m_CurrSceneIsLoading = false;
-                    GameEntry.UI.CloseUIForm(UIFormId.UILoading);
-
-                    m_CurrLoadingParam.Reset();
-                    GameEntry.Pool.EnqueueClassObject(m_CurrLoadingParam);
-
-                    m_OnComplete?.Invoke();
                 }
             }
         }

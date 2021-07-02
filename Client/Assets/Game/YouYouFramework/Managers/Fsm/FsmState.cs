@@ -16,6 +16,7 @@ namespace YouYou
         /// </summary>
         public Fsm<T> CurrFsm;
 
+        internal virtual void OnInit() { }
         /// <summary>
         /// ½øÈë×´Ì¬
         /// </summary>

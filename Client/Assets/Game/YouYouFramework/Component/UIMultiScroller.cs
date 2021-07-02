@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System;
 
 public class UIMultiScroller : MonoBehaviour
 {
@@ -14,47 +15,32 @@ public class UIMultiScroller : MonoBehaviour
     public int maxPerLine = 5;
 
     /// <summary>
-    /// 行间距X
+    /// 行间距
     /// </summary>
-    [Range(0, 100)]
-    public int spacingX = 5;
 
-    /// <summary>
-    /// 行间距Y
-    /// </summary>
-    [Range(0, 100)]
-    public int spacingY = 5;
-
+    [Range(0, 100)] [SerializeField] int spacingX = 5;
+    [Range(0, 100)] [SerializeField] int spacingY = 5;
 
     //Item的宽高
-    public int cellWidth = 500;
-    public int cellHeight = 100;
-
+    float cellWidth;
+    float cellHeight;
     //默认加载的行数，一般比可显示行数大2~3行
-    [Range(0, 20)]
-    public int viewCount = 6;
-    public GameObject itemPrefab;
-    public RectTransform _content;
+    int viewCount = 6;
+
+    [SerializeField] RectTransform itemPrefab;
+    ScrollRect ScrollRect;
+    RectTransform _content;
 
     private int _index = -1;
-    private List<UIMultiScrollIndex> _itemList;
+    private List<UIScrollIndex> _itemList;
     private int _dataCount;
 
-    private Queue<UIMultiScrollIndex> _unUsedQueue;  //将未显示出来的Item存入未使用队列里面，等待需要使用的时候直接取出
+    private Queue<UIScrollIndex> _unUsedQueue;  //将未显示出来的Item存入未使用队列里面，等待需要使用的时候直接取出
 
+    //第一步 添加监听这个委托
+    public Action<int, GameObject> OnItemCreate;
     /// <summary>
-    /// Item创建
-    /// </summary>
-    /// <param name="index">索引</param>
-    /// <param name="obj">创建的物体</param>
-    public delegate void OnItemCreateHandler(int index, GameObject obj);
-
-    //第二步 在Lua中 添加监听这个委托
-    public OnItemCreateHandler OnItemCreate;
-
-    #region 第一步 设置 DataCount 总数量 需要提前设置
-    /// <summary>
-    /// 总数量
+    /// 第二步 设置 DataCount 总数量 需要提前设置
     /// </summary>
     public int DataCount
     {
@@ -65,12 +51,27 @@ public class UIMultiScroller : MonoBehaviour
             UpdateTotalWidth();
         }
     }
-    #endregion
 
     void Start()
     {
-        _itemList = new List<UIMultiScrollIndex>();
-        _unUsedQueue = new Queue<UIMultiScrollIndex>();
+        _itemList = new List<UIScrollIndex>();
+        _unUsedQueue = new Queue<UIScrollIndex>();
+
+        ScrollRect = GetComponent<ScrollRect>();
+        _content = ScrollRect.content;
+
+        cellWidth = itemPrefab.rect.width;
+        cellHeight = itemPrefab.rect.height;
+
+        if (_movement == Arrangement.Horizontal)
+        {
+            viewCount = Mathf.CeilToInt(ScrollRect.viewport.rect.width / cellWidth * 1.2f);
+        }
+        else
+        {
+            viewCount = Mathf.CeilToInt(ScrollRect.viewport.rect.height / cellHeight * 1.2f);
+        }
+
         OnValueChange(Vector2.zero);
     }
 
@@ -87,7 +88,7 @@ public class UIMultiScroller : MonoBehaviour
     public void ResetScroller()
     {
         _index = -1;
-        UIMultiScrollIndex[] arr = _content.GetComponentsInChildren<UIMultiScrollIndex>();
+        UIScrollIndex[] arr = _content.GetComponentsInChildren<UIScrollIndex>();
         for (int i = 0; i < arr.Length; i++)
         {
             DestroyImmediate(arr[i].gameObject);
@@ -119,7 +120,7 @@ public class UIMultiScroller : MonoBehaviour
             _index = index;
             for (int i = _itemList.Count; i > 0; i--)
             {
-                UIMultiScrollIndex item = _itemList[i - 1];
+                UIScrollIndex item = _itemList[i - 1];
                 if (item.Index < index * maxPerLine || (item.Index >= (index + viewCount) * maxPerLine))
                 {
                     _itemList.Remove(item);
@@ -131,7 +132,7 @@ public class UIMultiScroller : MonoBehaviour
                 if (i < 0) continue;
                 if (i > _dataCount - 1) continue;
                 bool isOk = false;
-                foreach (UIMultiScrollIndex item in _itemList)
+                foreach (UIScrollIndex item in _itemList)
                 {
                     if (item.Index == i) isOk = true;
                 }
@@ -144,26 +145,18 @@ public class UIMultiScroller : MonoBehaviour
 
     private void CreateItem(int index)
     {
-        UIMultiScrollIndex itemBase;
+        UIScrollIndex itemBase;
         if (_unUsedQueue.Count > 0)
         {
             itemBase = _unUsedQueue.Dequeue();
-            itemBase.Scroller = this;
-            itemBase.Index = index;
         }
         else
         {
-            itemBase = GameUtil.AddChild(_content, itemPrefab).GetComponent<UIMultiScrollIndex>();
-            itemBase.Scroller = this;
-            itemBase.Index = index;
+            itemBase = Instantiate(itemPrefab.gameObject, _content).AddComponent<UIScrollIndex>();
         }
-
+        itemBase.SetUI(index, GetPosition(index));
         _itemList.Add(itemBase);
-
-        if (OnItemCreate != null)
-        {
-            OnItemCreate(index, itemBase.gameObject);
-        }
+        OnItemCreate?.Invoke(index, itemBase.gameObject);
     }
 
     #region GetPosIndex

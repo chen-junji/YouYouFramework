@@ -202,31 +202,28 @@ public static class GameObjectUtil
     /// <param name="go"></param>
     /// <param name="imgPath"></param>
     /// <param name="imgName"></param>
-    public static void AutoLoadTexture(this Image img, string imgPath, bool isSetNativeSize = false)
+    public static async void AutoLoadTexture(this Image img, string imgPath, bool isSetNativeSize = false)
     {
         if (img != null && !string.IsNullOrEmpty(imgPath))
         {
-            GameEntry.Resource.ResourceLoaderManager.LoadMainAsset( imgPath, (Object asset) =>
+            Object asset = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<Object>(imgPath);
+            if (asset == null) return;
+            Sprite obj = null;
+            if (asset is Sprite)
             {
-                if (asset == null) return;
+                obj = (Sprite)asset;
+            }
+            else
+            {
+                Texture2D texture = (Texture2D)asset;
+                obj = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            }
 
-                Sprite obj = null;
-                if (asset is Sprite)
-                {
-                    obj = (Sprite)asset;
-                }
-                else
-                {
-                    Texture2D texture = (Texture2D)asset;
-                    obj = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                }
-
-                img.overrideSprite = obj;
-                if (isSetNativeSize)
-                {
-                    img.SetNativeSize();
-                }
-            });
+            img.overrideSprite = obj;
+            if (isSetNativeSize)
+            {
+                img.SetNativeSize();
+            }
         }
     }
     /// <summary>
@@ -235,17 +232,14 @@ public static class GameObjectUtil
     /// <param name="go"></param>
     /// <param name="imgPath"></param>
     /// <param name="imgName"></param>
-    public static void AutoLoadTexture(this RawImage img, string imgPath, bool isSetNativeSize = false)
+    public static async void AutoLoadTexture(this RawImage img, string imgPath, bool isSetNativeSize = false)
     {
         if (img != null && !string.IsNullOrEmpty(imgPath))
         {
-            GameEntry.Resource.ResourceLoaderManager.LoadMainAsset( "Assets/Download/UI/UIRes/UITexture/" + imgPath, (Object asset) =>
-            {
-                if (asset == null) return;
-
-                if (asset is Texture2D) img.texture = (Texture2D)asset;
-                if (isSetNativeSize) img.SetNativeSize();
-            });
+            Object asset = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<Object>("Assets/Download/UI/UIRes/UITexture/" + imgPath);
+            if (asset == null) return;
+            if (asset is Texture2D) img.texture = (Texture2D)asset;
+            if (isSetNativeSize) img.SetNativeSize();
         }
     }
     #endregion

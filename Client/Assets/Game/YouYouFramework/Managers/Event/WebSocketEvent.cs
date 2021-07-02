@@ -55,6 +55,16 @@ public class WebSocketEvent
 			}
 		}
 	}
+    public void RemoveEventListenerAll(string key)
+    {
+        LinkedList<OnActionHandler> lstHandler = null;
+        dic.TryGetValue(key, out lstHandler);
+        if (lstHandler != null)
+        {
+            lstHandler.Clear();
+            dic.Remove(key);
+        }
+    }
 	#endregion
 
 	#region Dispatch 发布者派发事件

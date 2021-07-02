@@ -22,7 +22,6 @@ namespace YouYou
                 typeof(BaseParams),
                 typeof(BaseParams),
                 typeof(HttpCallBackArgs),
-                typeof(RetValue),
                 typeof(StringUtil),
 
                 //typeof(Chapter),

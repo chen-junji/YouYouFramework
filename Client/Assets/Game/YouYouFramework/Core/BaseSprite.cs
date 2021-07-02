@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +5,7 @@ using UnityEngine.Animations;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 using YouYou;
+using System;
 
 public class BaseSprite : MonoBehaviour
 {
@@ -15,6 +15,7 @@ public class BaseSprite : MonoBehaviour
     }
     private void Update()
     {
+        UpdateMix();
         OnUpdate();
     }
     private void OnDestroy()
@@ -72,17 +73,15 @@ public class BaseSprite : MonoBehaviour
     private SkinnedMeshRenderer m_CurrSkinnedMeshRenderer;
 
 
-    private void LoadSkinMaterial(string materialName)
+    private async void LoadSkinMaterial(string materialName)
     {
         if (m_CurrSkinnedMeshRenderer == null) return;
-        GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(materialName, (Material material) =>
-       {
+        Material material = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<Material>(materialName);
 #if UNITY_EDITOR
            m_CurrSkinnedMeshRenderer.material = material;
 #else
 			m_CurrSkinnedMeshRenderer.sharedMaterial = material;
 #endif
-       });
     }
     private void UnLoadSkin()
     {
@@ -139,20 +138,26 @@ public class BaseSprite : MonoBehaviour
     private AnimationMixerPlayable m_AnimationMixerPlayable;
     private static int m_AnimCount = 100;//可以大于实际数量, 不能小于实际数量
 
-    public RoleAnimInfo PlayAnim(string animName, Action onComplete = null)
+    public async ETTask PlayAnimAsync(string animName, bool isLoop = false)
+    {
+        ETTask task = ETTask.Create();
+        PlayAnim(animName, task.SetResult, isLoop);
+        await task;
+    }
+    public RoleAnimInfo PlayAnim(string animName, Action onComplete = null, bool isLoop = false)
     {
         var enumerator = m_RoleAnimInfoDic.GetEnumerator();
         while (enumerator.MoveNext())
         {
             if (enumerator.Current.Value.AnimClipName.Equals(animName))
             {
-                return PlayAnim(enumerator.Current.Key, onComplete);
+                return PlayAnim(enumerator.Current.Key, onComplete, isLoop);
             }
         }
         onComplete?.Invoke();
         return null;
     }
-    public RoleAnimInfo PlayAnim(int animId, Action onComplete = null)
+    public RoleAnimInfo PlayAnim(int animId, Action onComplete = null, bool isLoop = false)
     {
         var enumerator = m_RoleAnimInfoDic.GetEnumerator();
         while (enumerator.MoveNext())
@@ -168,14 +173,14 @@ public class BaseSprite : MonoBehaviour
 
             if (roleAnimInfo.IsLoad)
             {
-                PlayAnimByInputPort(roleAnimInfo, onComplete);
+                PlayAnimByInputPort(roleAnimInfo, onComplete, isLoop);
             }
             else
             {
                 //动画池中不存在, 加载动画
                 LoadRoleAnimation(roleAnimInfo.CurrRoleAnimationData, (retRoleAnimInfo) =>
                 {
-                    PlayAnimByInputPort(retRoleAnimInfo, onComplete);
+                    PlayAnimByInputPort(retRoleAnimInfo, onComplete, isLoop);
                 });
             }
         }
@@ -186,7 +191,7 @@ public class BaseSprite : MonoBehaviour
         return roleAnimInfo;
     }
 
-    private void PlayAnimByInputPort(RoleAnimInfo roleAnimInfo, Action onComplete)
+    private void PlayAnimByInputPort(RoleAnimInfo roleAnimInfo, Action onComplete, bool isLoop)
     {
         m_PlayableGraph.Play();
 
@@ -194,25 +199,46 @@ public class BaseSprite : MonoBehaviour
         playable.SetTime(0);
         playable.Play();
 
-        for (int i = 0; i < m_AnimCount; i++)
-        {
-            if (i == roleAnimInfo.inputPort)
+        //清空原有动画
+        for (int i = 0; i < m_AnimCount; i++) m_AnimationMixerPlayable.SetInputWeight(i, 0);
+        m_OldAnimId = m_CurrAnimId;
+        m_CurrAnimId = roleAnimInfo.inputPort;
+        if (m_CurrAnimId == m_OldAnimId)
             {
-                m_AnimationMixerPlayable.SetInputWeight(i, 1);
+            m_AnimationMixerPlayable.SetInputWeight(m_CurrAnimId, 1);
             }
             else
             {
-                m_AnimationMixerPlayable.SetInputWeight(i, 0);
-            }
+            m_AnimationMixerPlayable.SetInputWeight(m_OldAnimId, 1);
+            m_Mix = 1;
         }
-        if (onComplete != null)
+
+        IEnumerator DelayAnim()
         {
-            GameEntry.Time.CreateTimeAction().Init(delayTime: roleAnimInfo.CurrPlayable.GetAnimationClip().length, onStar: () =>
-            {
-                playable.Pause();
-                onComplete();
-            }).Run();
+            yield return new WaitForSeconds(roleAnimInfo.CurrPlayable.GetAnimationClip().length);
+            if (!isLoop) playable.Pause();
+            onComplete?.Invoke();
         }
+        if (CoroutineDelayAnim != null) StopCoroutine(CoroutineDelayAnim);
+        CoroutineDelayAnim = StartCoroutine(DelayAnim());
+    }
+    private Coroutine CoroutineDelayAnim;
+
+    private float m_Mix;
+    private float m_CurrentMixSpeed = 5;
+    private int m_CurrAnimId;
+    private int m_OldAnimId;
+    /// <summary>
+    /// 混合动画更新
+    /// </summary>
+    private void UpdateMix()
+    {
+        if (m_Mix == 0) return;
+        m_Mix = Mathf.Max(0, m_Mix - Time.deltaTime * m_CurrentMixSpeed);
+
+        //动画过度
+        m_AnimationMixerPlayable.SetInputWeight(m_OldAnimId, m_Mix);
+        m_AnimationMixerPlayable.SetInputWeight(m_CurrAnimId, 1 - m_Mix);
     }
 
     /// <summary>
@@ -267,12 +293,11 @@ public class BaseSprite : MonoBehaviour
 		string resourcesPath = path.Replace("Assets/Download/", string.Empty);
 			LoadRoleAnimation(Resources.LoadAll<AnimationClip>(resourcesPath), omComplete);
 #else
-		AssetEntity m_CurrAssetEnity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(AssetCategory.Role, path);
-		GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(m_CurrAssetEnity.AssetBundleName, onComplete: (ResourceEntity bundleEntity) =>
-			{
-			AssetBundle bundle = bundleEntity.Target as AssetBundle;
-				LoadRoleAnimation(bundle.LoadAllAssets<AnimationClip>(), omComplete);
-			});
+        AssetEntity m_CurrAssetEnity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(path);
+        GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(m_CurrAssetEnity.AssetBundleName, onComplete: (AssetBundle bundle) =>
+        {
+            LoadRoleAnimation(bundle.LoadAllAssets<AnimationClip>(), omComplete);
+        });
 #endif
     }
     private void LoadRoleAnimation(AnimationClip[] clips, Action omComplete)

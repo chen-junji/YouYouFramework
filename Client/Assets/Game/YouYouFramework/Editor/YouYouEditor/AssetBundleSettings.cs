@@ -18,7 +18,7 @@ public class AssetBundleSettings : ScriptableObject
 		IOS
 	}
 
-	[HorizontalGroup("Common", LabelWidth = 70)]
+    [HorizontalGroup("Common", LabelWidth = 75)]
 	[VerticalGroup("Common/Left")]
 	[LabelText("资源版本号")]
 	public string ResourceVersion = "1.0.1";
@@ -48,17 +48,23 @@ public class AssetBundleSettings : ScriptableObject
 	public BuildAssetBundleOptions Options;
 
 	[VerticalGroup("Common/Right")]
+    [LabelText("自动生成依赖")]
+    public bool IsAutoCreateAssetInfo = true;
+    [EnableIf("@IsAutoCreateAssetInfo == false")]
+    [VerticalGroup("Common/Right")]
 	[Button(ButtonSizes.Medium)]
-	[LabelText("更新版本号")]
-	public void UpdateResourceVersion()
+    [LabelText("手动生成依赖")]
+    public void CreateAssetInfo()
 	{
-		string version = ResourceVersion;
-		string[] arr = version.Split('.');
+        //string version = ResourceVersion;
+        //string[] arr = version.Split('.');
 
-		int shortVersion = 0;
-		int.TryParse(arr[2], out shortVersion);
-		version = string.Format("{0}.{1}.{2}", arr[0], arr[1], ++shortVersion);
-		ResourceVersion = version;
+        //int shortVersion = 0;
+        //int.TryParse(arr[2], out shortVersion);
+        //version = string.Format("{0}.{1}.{2}", arr[0], arr[1], ++shortVersion);
+        //ResourceVersion = version;
+        CreateDependenciesFile();
+        Debug.Log("AssetInfo生成依赖关系文件完毕==" + DateTime.Now);
 	}
 
 
@@ -104,22 +110,25 @@ public class AssetBundleSettings : ScriptableObject
 		if (!Directory.Exists(TempPath)) Directory.CreateDirectory(TempPath);
 
 		if (builds.Count == 0) return;
-		Debug.Log("builds count=" + builds.Count);
+        Debug.Log("builds count==" + builds.Count + "==" + DateTime.Now);
 
 		BuildPipeline.BuildAssetBundles(TempPath, builds.ToArray(), Options, GetBuildTarget());
-		Debug.Log("临时资源包打包完毕");
+        Debug.Log("临时资源包打包完毕==" + DateTime.Now);
 
 		CopyFile(TempPath);
-		Debug.Log("拷贝到输出目录完毕");
+        Debug.Log("拷贝到输出目录完毕==" + DateTime.Now);
 
 		AssetBundleEncrypt();
-		Debug.Log("资源包加密完毕");
+        Debug.Log("资源包加密完毕==" + DateTime.Now);
 
+        if (IsAutoCreateAssetInfo)
+        {
 		CreateDependenciesFile();
-		Debug.Log("AssetInfo==生成依赖关系文件完毕");
+            Debug.Log("AssetInfo生成依赖关系文件完毕==" + DateTime.Now);
+        }
 
 		CreateVersionFile();
-		Debug.Log("VersionFile==生成版本文件完毕");
+        Debug.Log("VersionFile生成版本文件完毕==" + DateTime.Now);
 	}
 
 	#region TempPath OutPath
@@ -273,11 +282,10 @@ public class AssetBundleSettings : ScriptableObject
 		}
 
 		//
-		len = tempLst.Count;
 
 		//资源列表
 		List<AssetEntity> assetList = new List<AssetEntity>();
-
+        len = tempLst.Count;
 		for (int i = 0; i < len; i++)
 		{
 			AssetEntity entity = tempLst[i];
@@ -293,7 +301,7 @@ public class AssetBundleSettings : ScriptableObject
 
 			newEntity.DependsAssetList = new List<AssetDependsEntity>();
 
-			string[] arr = AssetDatabase.GetDependencies(entity.AssetFullName);
+            string[] arr = AssetDatabase.GetDependencies(entity.AssetFullName, true);
 			foreach (string str in arr)
 			{
 				if (!str.Equals(newEntity.AssetFullName, StringComparison.CurrentCultureIgnoreCase) && GetIsAsset(tempLst, str))
@@ -309,14 +317,11 @@ public class AssetBundleSettings : ScriptableObject
 
 		//生成一个Json文件
 		string targetPath = OutPath;
-		if (!Directory.Exists(targetPath))
-		{
-			Directory.CreateDirectory(targetPath);
-		}
+        if (!Directory.Exists(targetPath)) Directory.CreateDirectory(targetPath);
 
 		string strJsonFilePath = targetPath + "/AssetInfo.json"; //版本文件路径
 		IOUtil.CreateTextFile(strJsonFilePath, assetList.ToJson());
-		Debug.Log("生成 AssetInfo.json 完毕");
+
 
 		MMO_MemoryStream ms = new MMO_MemoryStream();
 		//生成二进制文件
@@ -363,22 +368,17 @@ public class AssetBundleSettings : ScriptableObject
 	/// <returns></returns>
 	private bool GetIsAsset(List<AssetEntity> tempLst, string assetFullName)
 	{
+        if (assetFullName.IsSuffix(".cs")) return false;
 		int len = tempLst.Count;
 		for (int i = 0; i < len; i++)
 		{
-			AssetEntity entity = tempLst[i];
-			if (entity.AssetFullName.Equals(assetFullName, StringComparison.CurrentCultureIgnoreCase))
-			{
-				return true;
+            if (tempLst[i].AssetFullName.Equals(assetFullName, StringComparison.CurrentCultureIgnoreCase)) return true;
 			}
-		}
 		return false;
 	}
-	#endregion
 
 
 
-	#region CollectFileInfo 收集文件信息
 	/// <summary>
 	/// 收集文件信息
 	/// </summary>

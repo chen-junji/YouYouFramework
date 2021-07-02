@@ -55,11 +55,14 @@ namespace YouYou
                 GameEntry.Pool.DequeueClassObject<HttpRoutine>().Get(url, (HttpCallBackArgs ret) =>
                 {
                     taskRoutine.Leave();
-                    callBack?.Invoke(ret);
                     if (ret.HasError)
                     {
                         Debug.LogError("UITipLogOut");
                         //GameEntry.Instance.UITipLogOut.SetValue(() => GetArgs(url, loadingCircle, callBack));
+                    }
+					else
+                    {
+                        callBack?.Invoke(ret);
                     }
                 });
             }, loadingCircle);
@@ -68,19 +71,19 @@ namespace YouYou
         {
             GetArgs(url, loadingCircle, (args) =>
             {
-                if (!args.HasError && args.Value.JsonCutApart("Status").ToInt() == 1) callBack?.Invoke(args.Value.JsonCutApart("Content"));
+                if (args.Value.JsonCutApart("Status").ToInt() == 1) callBack?.Invoke(args.Value.JsonCutApart("Content"));
             });
         }
         public async ETTask<HttpCallBackArgs> GetArgsAsync(string url, bool loadingCircle = false)
         {
             ETTask<HttpCallBackArgs> task = ETTask<HttpCallBackArgs>.Create();
-            GetArgs(url, loadingCircle, (args) => task.SetResult(args));
+            GetArgs(url, loadingCircle, task.SetResult);
             return await task;
         }
         public async ETTask<string> GetAsync(string url, bool loadingCircle = false)
         {
             ETTask<string> task = ETTask<string>.Create();
-            Get(url, loadingCircle, (retJson) => task.SetResult(retJson));
+            Get(url, loadingCircle, task.SetResult);
             return await task;
         }
         #endregion
@@ -93,11 +96,14 @@ namespace YouYou
                 GameEntry.Pool.DequeueClassObject<HttpRoutine>().Post(url, json, (HttpCallBackArgs ret) =>
                 {
                     taskRoutine.Leave();
-                    callBack?.Invoke(ret);
                     if (ret.HasError)
                     {
                         Debug.LogError("UITipLogOut");
                         //GameEntry.Instance.UITipLogOut.SetValue(() => PostArgs(url, json, loadingCircle, callBack));
+                    }
+					else
+                    {
+                        callBack?.Invoke(ret);
                     }
                 });
             }, loadingCircle);
@@ -106,19 +112,19 @@ namespace YouYou
         {
             PostArgs(url, json, loadingCircle, (args) =>
             {
-                if (!args.HasError && args.Value.JsonCutApart("Status").ToInt() == 1) callBack?.Invoke(args.Value.JsonCutApart("Content"));
+                if (args.Value.JsonCutApart("Status").ToInt() == 1) callBack?.Invoke(args.Value.JsonCutApart("Content"));
             });
         }
         public async ETTask<HttpCallBackArgs> PostArgsAsync(string url, string json = null, bool loadingCircle = false)
         {
             ETTask<HttpCallBackArgs> task = ETTask<HttpCallBackArgs>.Create();
-            PostArgs(url, json, loadingCircle, (args) => task.SetResult(args));
+            PostArgs(url, json, loadingCircle, task.SetResult);
             return await task;
         }
         public async ETTask<string> PostAsync(string url, string json = null, bool loadingCircle = false)
         {
             ETTask<string> task = ETTask<string>.Create();
-            Post(url, json, loadingCircle, (retJson) => task.SetResult(retJson));
+            Post(url, json, loadingCircle, task.SetResult);
             return await task;
         }
         #endregion

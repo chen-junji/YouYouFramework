@@ -2,26 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace YouYou
 {
     public partial class Sys_SceneDetailDBModel
     {
-        private List<Sys_SceneDetailEntity> m_retList = new List<Sys_SceneDetailEntity>();
-
-        public List<Sys_SceneDetailEntity> GetListBySceneId(int sceneId, int sceneGrade)
+        public List<Sys_SceneDetailEntity> GetListBySceneId(string sceneName, int sceneGrade)
         {
-            m_retList.Clear();
-            List<Sys_SceneDetailEntity> lst = this.GetList();
-            int len = lst.Count;
-            for (int i = 0; i < len; i++)
+            List<Sys_SceneDetailEntity> retList = new List<Sys_SceneDetailEntity>();
+
+            for (int i = 0; i < m_List.Count; i++)
             {
-                Sys_SceneDetailEntity entity = lst[i];
-                if (entity.SceneId == sceneId && entity.SceneGrade <= sceneGrade)
+                Sys_SceneDetailEntity entity = m_List[i];
+                if (entity.SceneName == sceneName && entity.SceneGrade <= sceneGrade)
                 {
-                    m_retList.Add(entity);
+                    retList.Add(entity);
                 }
             }
-            return m_retList;
+            return retList;
         }
     }
 }

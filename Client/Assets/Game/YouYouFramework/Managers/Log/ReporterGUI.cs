@@ -3,9 +3,10 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
-public class ReporterGUI : MonoBehaviour {
+public class ReporterGUI : MonoBehaviour
+{
 
-	Reporter reporter ;
+	Reporter reporter;
 	Image ImageMask;
 
 	private void OnDestroy()
@@ -14,8 +15,8 @@ public class ReporterGUI : MonoBehaviour {
 	}
 	void Awake()
 	{
-		reporter = gameObject.GetComponent<Reporter>();
-		ImageMask = transform.Find("Canvas/ImageMask").GetComponent<Image>();
+		reporter = GetComponent<Reporter>();
+		ImageMask = transform.Find("Canvas").GetComponent<Image>();
 		ImageMask.enabled = true;
 	}
 

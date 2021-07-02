@@ -57,7 +57,8 @@ namespace YouYou
 			m_CurrResourceEntity.IsAssetBundle = false;
 			m_CurrResourceEntity.ResourceName = assetFullName;
 			m_CurrResourceEntity.Target = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetFullName);
-			if (onComplete != null) onComplete(m_CurrResourceEntity);
+			onComplete?.Invoke(m_CurrResourceEntity);
+            Reset();
 #elif RESOURCES
 			string resourcesPath = assetFullName.Split('.')[0].Replace("Assets/Download/", string.Empty);
 
@@ -65,11 +66,16 @@ namespace YouYou
 			m_CurrResourceEntity.IsAssetBundle = false;
 			m_CurrResourceEntity.ResourceName = assetFullName;
 			m_CurrResourceEntity.Target = Resources.Load(resourcesPath);
-			if (onComplete != null) onComplete(m_CurrResourceEntity);
+            onComplete?.Invoke(m_CurrResourceEntity);
+            Reset();
 #else
             m_CurrAssetEntity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(assetFullName);
             if (m_CurrAssetEntity == null) return;
-            m_OnComplete = onComplete;
+            m_OnComplete = (retEntity) =>
+            {
+                onComplete?.Invoke(retEntity);
+                Reset();
+            };
             m_OnUpdate = onUpdate;
             m_IsAddReferenceCount = isAddReferenceCount;
 
@@ -83,6 +89,19 @@ namespace YouYou
         private void LoadMainAsset()
         {
             TaskGroup taskGroup = GameEntry.Task.CreateTaskGroup();
+
+            bool IsSuffixScene = m_CurrAssetEntity.AssetFullName.IsSuffix(".unity");
+            if (!IsSuffixScene)
+            {
+                //从分类资源池(AssetPool)中查找
+                m_CurrResourceEntity = GameEntry.Pool.AssetPool.Spawn(m_CurrAssetEntity.AssetFullName, m_IsAddReferenceCount);
+                if (m_CurrResourceEntity != null)
+                {
+                    //Debug.LogError("从分类资源池加载" + assetEntity.ResourceName);
+                    m_OnComplete?.Invoke(m_CurrResourceEntity);
+                    return;
+                }
+            }
 
             //加载这个资源所依赖的资源包
             List<AssetDependsEntity> dependsAssetList = m_CurrAssetEntity.DependsAssetList;
@@ -122,26 +141,25 @@ namespace YouYou
                     m_OnComplete?.Invoke(null);
                     return;
                 }
+                if (IsSuffixScene)
+                {
+                    m_OnComplete?.Invoke(null);
+                    return;
+                }
+                //加载主资源
                 GameEntry.Resource.ResourceLoaderManager.LoadAsset(m_CurrAssetEntity.AssetFullName, m_MainAssetBundle, onComplete: (UnityEngine.Object obj, bool isNew) =>
                 {
-                    //4.再次检查 很重要 不检查引用计数会出错
-                    m_CurrResourceEntity = GameEntry.Pool.AssetPool.Spawn(m_CurrAssetEntity.AssetFullName, m_IsAddReferenceCount);
-                    if (m_CurrResourceEntity != null)
+                    if (!isNew)
                     {
-                        m_OnComplete?.Invoke(m_CurrResourceEntity);
-                        Reset();
+                        m_OnComplete?.Invoke(null);
                         return;
                     }
-
                     m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
                     m_CurrResourceEntity.IsAssetBundle = false;
                     m_CurrResourceEntity.ResourceName = m_CurrAssetEntity.AssetFullName;
                     m_CurrResourceEntity.Target = obj;
-
                     GameEntry.Pool.AssetPool.Register(m_CurrResourceEntity, m_IsAddReferenceCount);
-
                     m_OnComplete?.Invoke(m_CurrResourceEntity);
-                    Reset();
                 });
             };
 

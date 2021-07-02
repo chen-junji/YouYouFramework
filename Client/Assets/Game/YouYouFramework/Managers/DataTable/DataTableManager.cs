@@ -6,14 +6,12 @@ namespace YouYou
 {
     public class DataTableManager : IDisposable
     {
+        internal Action OnLoadDataTableComplete;
         internal void Init()
         {
             InitDBModel();
-            m_TaskGroup = GameEntry.Task.CreateTaskGroup();
         }
 
-        private TaskGroup m_TaskGroup;
-        internal Action OnLoadDataTableComplete;
 
 
         public Sys_CodeDBModel Sys_CodeDBModel { get; private set; }
@@ -42,6 +40,7 @@ namespace YouYou
         /// </summary>
         private void LoadDataTable()
         {
+            TaskGroup m_TaskGroup = GameEntry.Task.CreateTaskGroup();
             Sys_CodeDBModel.LoadData(m_TaskGroup);
             LocalizationDBModel.LoadData(m_TaskGroup);
             Sys_PrefabDBModel.LoadData(m_TaskGroup);
@@ -75,6 +74,12 @@ namespace YouYou
 #else
             LoadDataTable();
 #endif
+        }
+        internal async ETTask LoadDataAllTableAsync()
+        {
+            ETTask task = ETTask.Create();
+            LoadDataAllTable(task.SetResult);
+            await task;
         }
 
         /// <summary>

@@ -13,40 +13,22 @@ namespace YouYou
         /// <summary>
         /// 定时器的名字
         /// </summary>
-        public string TimeName
-        {
-            get;
-            private set;
-        }
+        public string TimeName { get; private set; }
 
         /// <summary>
         /// 是否运行中
         /// </summary>
-        public bool IsRuning
-        {
-            get;
-            private set;
-        }
+        public bool IsStart { get; private set; }
 
         /// <summary>
-        /// 是否暂停
+        /// 临时目标时间点
         /// </summary>
-        public bool m_IsPause = false;
-
-        /// <summary>
-        /// 当前运行的时间
-        /// </summary>
-        private float m_CurrRunTime;
+        private float tillTime;
 
         /// <summary>
         /// 当前循环次数
         /// </summary>
         private int m_CurrLoop;
-
-        /// <summary>
-        /// 延迟时间
-        /// </summary>
-        private float m_DelayTime;
 
         /// <summary>
         /// 间隔（秒）
@@ -64,36 +46,19 @@ namespace YouYou
         private float m_LastPauseTime;
 
         /// <summary>
-        /// 暂停了多久
-        /// </summary>
-        private float m_PauseTime;
-
-        /// <summary>
         /// 开始运行
         /// </summary>
-        public Action OnStarAction
-        {
-            get;
-            private set;
-        }
+        public Action OnStartAction { get; private set; }
 
         /// <summary>
         /// 运行中 回调参数表示剩余次数
         /// </summary>
-        public Action<int> OnUpdateAction
-        {
-            get;
-            private set;
-        }
+        public Action<int> OnUpdateAction { get; private set; }
 
         /// <summary>
         /// 运行完毕
         /// </summary>
-        public Action OnCompleteAction
-        {
-            get;
-            private set;
-        }
+        public Action OnCompleteAction { get; private set; }
 
         /// <summary>
         /// 初始化
@@ -102,52 +67,38 @@ namespace YouYou
         /// <param name="delayTime">延迟时间</param>
         /// <param name="interval">间隔</param>
         /// <param name="loop">循环次数</param>
-        /// <param name="onStar"></param>
-        /// <param name="onUpdate"></param>
-        /// <param name="onComplete"></param>
-        /// <returns></returns>
-        public TimeAction Init(string timeName = null, float delayTime = 0, float interval = 1, int loop = 0,
-            Action onStar = null, Action<int> onUpdate = null, Action onComplete = null)
+        internal TimeAction Init(string timeName = null, float delayTime = 0, float interval = 1, int loop = 0, Action onStar = null, Action<int> onUpdate = null, Action onComplete = null)
         {
+            if (tillTime > 0)
+            {
+                Debug.LogError("定时器正在使用中");
+                return null;
+            }
             TimeName = timeName;
-            m_DelayTime = delayTime;
+            //m_DelayTime = delayTime;
             m_Interval = interval;
             m_Loop = loop;
-            OnStarAction = onStar;
+            OnStartAction = onStar;
             OnUpdateAction = onUpdate;
             OnCompleteAction = onComplete;
 
-            return this;
-        }
-
-        /// <summary>
-        /// 运行
-        /// </summary>
-        public TimeAction Run()
-        {
-            //1.需要先把自己加入时间管理器的链表中
-            if (!IsRuning) GameEntry.Time.RegisterTimeAction(this);
-
-            //2.设置当前运行的时间
-            m_CurrRunTime = Time.time;
+            tillTime = Time.time + delayTime;
             m_CurrLoop = 0;
-            m_IsPause = false;
+            GameEntry.Time.Register(tillTime, this);
 
             return this;
         }
-
         /// <summary>
         /// 停止
         /// </summary>
         public void Stop()
         {
-            IsRuning = false;
-            OnStarAction = null;
+            GameEntry.Time.Remove(tillTime, this);
+            IsStart = false;
+            OnStartAction = null;
             OnUpdateAction = null;
             OnCompleteAction = null;
-
-            //把自己从定时器链表移除
-            GameEntry.Time.RemoveTimeAction(this);
+            tillTime = 0;
         }
 
         /// <summary>
@@ -156,56 +107,48 @@ namespace YouYou
         public void Pause()
         {
             m_LastPauseTime = Time.time;
-            m_IsPause = true;
+            GameEntry.Time.Remove(tillTime, this);
         }
-
         /// <summary>
         /// 恢复
         /// </summary>
         public void Resume()
         {
-            m_IsPause = false;
-
             //计算暂停了多久
-            m_PauseTime = Time.time - m_LastPauseTime;
+            tillTime += Time.time - m_LastPauseTime;
+            GameEntry.Time.Register(tillTime, this);
         }
 
-
-        internal void OnUpdate()
+        /// <summary>
+        /// 时间到达
+        /// </summary>
+        public void TillTimeEnd()
         {
-            if (m_IsPause) return;
-
-            //1.等待延迟时间
-            if (Time.time > m_CurrRunTime + m_PauseTime + m_DelayTime)
+            if (!IsStart)
             {
-                if (!IsRuning)
-                {
-                    //开始运行
-                    m_CurrRunTime = Time.time;
-                    m_PauseTime = 0;
-                    OnStarAction?.Invoke();
-                }
-                IsRuning = true;
+                if (OnStartAction != null && (OnStartAction.Target == null || OnStartAction.Target.ToString() == "null")) return;
+                OnStartAction?.Invoke();
             }
-            if (!IsRuning) return;
-
-            if (Time.time > m_CurrRunTime + m_PauseTime)
+            else
             {
-                m_CurrRunTime = Time.time + m_Interval;
-                m_PauseTime = 0;
-                //以下代码 间隔m_Interval 时间 执行一次
-                OnUpdateAction?.Invoke(m_Loop - m_CurrLoop);
-
-                if (m_Loop != -1)
-                {
-                    if (m_CurrLoop >= m_Loop)
-                    {
-                        OnCompleteAction?.Invoke();
-                        Stop();
-                    }
-                    m_CurrLoop++;
-                }
+                tillTime = Time.time + m_Interval;
             }
+            IsStart = true;
+
+            //以下代码 间隔m_Interval 时间 执行一次
+            if (OnUpdateAction != null && (OnUpdateAction.Target == null || OnUpdateAction.Target.ToString() == "null")) return;
+            OnUpdateAction?.Invoke(m_Loop - m_CurrLoop);
+            if (m_Loop != -1)
+            {
+                if (m_CurrLoop >= m_Loop)
+                {
+                    if (OnCompleteAction != null && (OnCompleteAction.Target == null || OnCompleteAction.Target.ToString() == "null")) return;
+                    OnCompleteAction?.Invoke();
+                    return;
+                }
+                m_CurrLoop++;
+            }
+            GameEntry.Time.Register(tillTime, this);
         }
     }
 }

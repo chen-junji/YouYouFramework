@@ -65,20 +65,18 @@ namespace YouYou
             if (buffer == null)
             {
                 //如果可写区没有 那么就从只读区获取
-                GameEntry.Resource.ResourceManager.StreamingAssetsManager.ReadAssetBundle(YFConstDefine.AssetInfoName, (byte[] buff) =>
+                GameEntry.Resource.ResourceManager.StreamingAssetsManager.ReadAssetBundle(YFConstDefine.AssetInfoName, async (byte[] buff) =>
                  {
                      if (buff == null)
                      {
                          //如果只读区也没有,从CDN读取
                          string url = string.Format("{0}{1}", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
-                         GameEntry.Http.GetArgs(url, false, (HttpCallBackArgs args) =>
+                         HttpCallBackArgs args = await GameEntry.Http.GetArgsAsync(url, false);
+                         if (!args.HasError)
                          {
-                             if (!args.HasError)
-                             {
-                                 GameEntry.Log(LogCategory.Normal, "从CDN初始化资源信息");
-                                 InitAssetInfo(args.Data);
-                             }
-                         });
+                             GameEntry.Log(LogCategory.Normal, "从CDN初始化资源信息");
+                             InitAssetInfo(args.Data);
+                         }
                      }
                      else
                      {
@@ -160,6 +158,12 @@ namespace YouYou
         /// </summary>
         private Dictionary<string, LinkedList<LoadingAssetBundleTask>> m_LoadingAssetBundle = new Dictionary<string, LinkedList<LoadingAssetBundleTask>>();
 
+        public async ETTask<AssetBundle> LoadAssetBundleAsync(string assetbundlePath, Action<float> onUpdate = null)
+        {
+            ETTask<AssetBundle> task = ETTask<AssetBundle>.Create();
+            LoadAssetBundle(assetbundlePath, onUpdate, task.SetResult);
+            return await task;
+        }
         /// <summary>
         /// 加载资源包
         /// </summary>
@@ -296,19 +300,15 @@ namespace YouYou
         }
         #endregion
 
-        /// <summary>
-        /// 加载主资源
-        /// </summary>
-        /// <param name="isParallel">True并行加载, Flase递归加载</param>
-        public async ETTask<T> LoadMainAssetAsync<T>(string assetFullName, Action<float> onUpdate = null)
+        public async ETTask<T> LoadMainAssetAsync<T>(string assetFullName, Action<float> onUpdate = null) where T : class
         {
             ETTask<T> task = ETTask<T>.Create();
-            LoadMainAsset<T>(assetFullName, (asset) => task.SetResult(asset), onUpdate);
+            LoadMainAsset<T>(assetFullName, task.SetResult, onUpdate);
             return await task;
         }
-        public void LoadMainAsset<T>(string assetFullName, Action<T> onComplete = null, Action<float> onUpdate = null)
+        public void LoadMainAsset<T>(string assetFullName, Action<T> onComplete = null, Action<float> onUpdate = null) where T : class
         {
-            LoadMainAsset(assetFullName, (ResourceEntity resEntity) => onComplete?.Invoke((T)resEntity.Target), onUpdate, false);
+            LoadMainAsset(assetFullName, (ResourceEntity resEntity) => onComplete?.Invoke(resEntity != null ? (T)resEntity.Target : null), onUpdate, false);
         }
         /// <summary>
         /// 加载主资源

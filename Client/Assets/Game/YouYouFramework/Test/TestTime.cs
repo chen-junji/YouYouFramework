@@ -9,12 +9,15 @@ public class TestTime : MonoBehaviour
     {
 
     }
+
+    TimeAction action;
+
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.A))
         {
-            Debug.Log("创建了定时器 延迟10秒 间隔1秒 循环100次");
-            GameEntry.Time.CreateTimeAction().Init(timeName: "youyou1", delayTime: 10, 1f, 100, () =>
+            Debug.Log("创建了定时器 延迟1秒 间隔1秒 循环100次");
+            action = GameEntry.Time.Create(null, 1, 1f, 100, () =>
             {
                 Debug.Log("定时器开始运行");
             }, (int loop) =>
@@ -23,21 +26,51 @@ public class TestTime : MonoBehaviour
             }, () =>
             {
                 Debug.Log("定时器运行完毕");
-            }).Run();
-        }
-        if (Input.GetKeyUp(KeyCode.B))
-        {
-            GameEntry.Time.RemoveTimeActionByName("youyou1");
-        }
+            });
 
-        if (Input.GetKeyUp(KeyCode.C))
-        {
-            TimeAction action = GameEntry.Time.CreateTimeAction();
-            action.Init(delayTime: 1, onComplete: () =>
+            GameEntry.Time.Create(timeName: "youyou2", delayTime: 10, 1f, 100, onStar: () =>
             {
-                Debug.Log("定时器运行完毕");
-                Debug.LogError(action);
-            }).Run();
+
+            }, onUpdate: (int loop) =>
+            {
+
+            });
         }
+        else if (Input.GetKeyUp(KeyCode.B))
+        {
+            //GameEntry.Time.RemoveTimeActionByName("youyou2");
+
+            Attack();
+            IEAttack();
+        }
+    }
+
+    private async void Attack()
+    {
+        Debug.Log("怪物SetActive(true)");
+
+        await GameEntry.Time.Delay(1);
+        Debug.Log("怪物出生动画播完");
+
+        await GameEntry.Time.Delay(1);
+        Debug.Log("怪物丢炸弹动画播完");
+
+        await GameEntry.Time.Delay(1);
+        Debug.Log("怪物遁地动画播完");
+        Debug.Log("怪物SetActive(false)");
+    }
+    IEnumerator IEAttack()
+    {
+        Debug.Log("怪物SetActive(true)");
+
+        yield return new WaitForSeconds(1);
+        Debug.Log("怪物出生动画播完");
+
+        yield return new WaitForSeconds(1);
+        Debug.Log("怪物丢炸弹动画播完");
+
+        yield return new WaitForSeconds(1);
+        Debug.Log("怪物遁地动画播完");
+        Debug.Log("怪物SetActive(false)");
     }
 }

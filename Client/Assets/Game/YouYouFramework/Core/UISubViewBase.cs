@@ -6,26 +6,14 @@ namespace YouYou
 {
     public class UISubViewBase : MonoBehaviour
     {
-        void Awake()
-        {
-            OnAwake();
-        }
+        void Awake() { }
 
-        void Start()
-        {
-            OnStart();
-        }
 
-        void OnDestroy()
-        {
-            BeforeOnDestroy();
-        }
 
-        protected virtual void OnAwake() { }
 
-        protected virtual void OnStart() { }
+        protected virtual void Start() { }
 
-        protected virtual void BeforeOnDestroy() { }
+        protected virtual void OnDestroy() { }
 
     }
 }

@@ -43,6 +43,7 @@ namespace YouYou
             private set;
         }
 
+		public Action OnLoadDataTableComplete;
         public void Dispose()
         {
 
@@ -155,7 +156,7 @@ namespace YouYou
             byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/download/xLuaLogic/PB/{1}.bytes", GameEntry.Resource.LocalFilePath, pbName));
             onComplete?.Invoke(buffer);
 #else
-			GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(AssetCategory.xLuaLogic, string.Format("Assets/Download/xLuaLogic/PB/{0}.bytes", pbName), onComplete: (TextAsset res) =>
+			GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(string.Format("Assets/Download/xLuaLogic/PB/{0}.bytes", pbName), onComplete: (TextAsset res) =>
 			{
 				onComplete?.Invoke(res.bytes);
 			});

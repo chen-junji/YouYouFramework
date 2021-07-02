@@ -3,44 +3,30 @@ using System.Collections;
 
 
 /// <summary>
-/// ������(Mono)
+/// 单例(Mono)
 /// </summary>
-/// <typeparam name="T"></typeparam>
 public class SingletonMono<T> : MonoBehaviour
 {
-	#region ����
-	private static T instance;
+    public static T Instance { get; private set; }
 
-	public static T Instance
-	{
-		get
-		{
-			return instance;
-		}
-	}
-	#endregion
+    void Awake()
+    {
+        Instance = GetComponent<T>();
 
-	void Awake()
-	{
-		instance = GetComponent<T>();
+        OnAwake();
+    }
 
-		OnAwake();
-	}
+    void Start()
+    {
+        OnStart();
+    }
 
-	void Start()
-	{
-		OnStart();
-	}
+    void OnDestroy()
+    {
+        BeforeOnDestroy();
+    }
 
-	void OnDestroy()
-	{
-		BeforeOnDestroy();
-	}
-
-	protected virtual void OnAwake() { }
-	protected virtual void OnStart() { }
-	/// <summary>
-	/// ����Destroy
-	/// </summary>
-	protected virtual void BeforeOnDestroy() { }
+    protected virtual void OnAwake() { }
+    protected virtual void OnStart() { }
+    protected virtual void BeforeOnDestroy() { }
 }

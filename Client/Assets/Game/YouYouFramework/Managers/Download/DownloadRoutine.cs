@@ -55,7 +55,7 @@ public class DownloadRoutine
 	/// <summary>
 	/// 当前重试次数
 	/// </summary>
-	private int m_CurrRetry = 0;
+    private int m_CurrRetry;
 
 	/// <summary>
 	/// 下载的本地文件路径
@@ -83,6 +83,7 @@ public class DownloadRoutine
 		m_CurrAssetBundleInfo = assetBundleInfo;
 		m_OnUpdate = onUpdate;
 		m_OnComplete = onComplete;
+        m_CurrRetry = 0;
 
 		m_DownloadLocalFilePath = string.Format("{0}/{1}", GameEntry.Resource.LocalFilePath, m_CurrFileUrl);
 
@@ -114,7 +115,7 @@ public class DownloadRoutine
 					m_FileStream = File.OpenWrite(m_DownloadLocalFilePath);
 					m_FileStream.Seek(0, SeekOrigin.End);
 					m_BeginPos = (uint)m_FileStream.Length;
-					Download(string.Format("{0}/{1}", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl, m_CurrFileUrl), m_BeginPos);
+                    Download(string.Format("{0}{1}", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl, m_CurrFileUrl), m_BeginPos);
 				}
 			}
 			else

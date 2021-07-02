@@ -6,92 +6,87 @@ using UnityEngine;
 
 namespace YouYou
 {
-	/// <summary>
-	/// ×ÊÔ´¼ÓÔØÆ÷
-	/// </summary>
-	public class AssetLoaderRoutine
-	{
-		/// <summary>
-		/// ×ÊÔ´¼ÓÔØÇëÇó
-		/// </summary>
-		private AssetBundleRequest m_CurrAssetBundleRequest;
+    /// <summary>
+    /// èµ„æºåŠ è½½å™¨
+    /// </summary>
+    public class AssetLoaderRoutine
+    {
+        /// <summary>
+        /// èµ„æºåŠ è½½è¯·æ±‚
+        /// </summary>
+        private AssetBundleRequest m_CurrAssetBundleRequest;
 
-		private string m_CurrAssetName;
+        private string m_CurrAssetName;
 
-		/// <summary>
-		/// ×ÊÔ´ÇëÇó¸üĞÂ
-		/// </summary>
-		public Action<float> OnAssetUpdate;
+        /// <summary>
+        /// èµ„æºè¯·æ±‚æ›´æ–°
+        /// </summary>
+        public Action<float> OnAssetUpdate;
 
-		/// <summary>
-		/// ¼ÓÔØ×ÊÔ´Íê±Ï
-		/// </summary>
-		public Action<UnityEngine.Object> OnLoadAssetComplete;
+        /// <summary>
+        /// åŠ è½½èµ„æºå®Œæ¯•
+        /// </summary>
+        public Action<UnityEngine.Object> OnLoadAssetComplete;
 
 
-		/// <summary>
-		/// Òì²½¼ÓÔØ×ÊÔ´
-		/// </summary>
-		/// <param name="assetName"></param>
-		/// <param name="assetBundle"></param>
-		internal void LoadAsset(string assetName, AssetBundle assetBundle)
-		{
-			if (assetName.LastIndexOf(".unity") != -1)
-			{
-				if (OnLoadAssetComplete != null) OnLoadAssetComplete(null);
-				return;
-			}
-			m_CurrAssetName = assetName;
-			m_CurrAssetBundleRequest = assetBundle.LoadAssetAsync(assetName);
-		}
+        /// <summary>
+        /// å¼‚æ­¥åŠ è½½èµ„æº
+        /// </summary>
+        /// <param name="assetName"></param>
+        /// <param name="assetBundle"></param>
+        internal void LoadAsset(string assetName, AssetBundle assetBundle)
+        {
+            m_CurrAssetName = assetName;
+            m_CurrAssetBundleRequest = assetBundle.LoadAssetAsync(assetName);
+        }
 
-		/// <summary>
-		/// ÖØÖÃ
-		/// </summary>
-		public void Reset()
-		{
-			m_CurrAssetBundleRequest = null;
-		}
+        /// <summary>
+        /// é‡ç½®
+        /// </summary>
+        public void Reset()
+        {
+            m_CurrAssetBundleRequest = null;
+        }
 
-		/// <summary>
-		/// ¸üĞÂ
-		/// </summary>
-		internal void OnUpdate()
-		{
-			UpdateAssetBundleRequest();
-		}
+        /// <summary>
+        /// æ›´æ–°
+        /// </summary>
+        internal void OnUpdate()
+        {
+            UpdateAssetBundleRequest();
+        }
 
-		/// <summary>
-		/// ¸üĞÂ ×ÊÔ´¼ÓÔØ ÇëÇó
-		/// </summary>
-		private void UpdateAssetBundleRequest()
-		{
-			if (m_CurrAssetBundleRequest != null)
-			{
-				if (m_CurrAssetBundleRequest.isDone)
-				{
-					UnityEngine.Object obj = m_CurrAssetBundleRequest.asset;
-					if (obj != null)
-					{
-						//GameEntry.Log(LogCategory.Resource, "×ÊÔ´=>{0} ¼ÓÔØÍê±Ï", m_CurrAssetName);
-						Reset();//Ò»¶¨ÒªÔçµãReset
+        /// <summary>
+        /// æ›´æ–° èµ„æºåŠ è½½ è¯·æ±‚
+        /// </summary>
+        private void UpdateAssetBundleRequest()
+        {
+            if (m_CurrAssetBundleRequest != null)
+            {
+                if (m_CurrAssetBundleRequest.isDone)
+                {
+                    UnityEngine.Object obj = m_CurrAssetBundleRequest.asset;
+                    if (obj != null)
+                    {
+                        //GameEntry.Log(LogCategory.Resource, "èµ„æº=>{0} åŠ è½½å®Œæ¯•", m_CurrAssetName);
+                        Reset();//ä¸€å®šè¦æ—©ç‚¹Reset
 
-						if (OnLoadAssetComplete != null) OnLoadAssetComplete(obj);
-					}
-					else
-					{
-						GameEntry.LogError("×ÊÔ´=>{0} ¼ÓÔØÊ§°Ü", m_CurrAssetName);
-						Reset();//Ò»¶¨ÒªÔçµãReset
+                        if (OnLoadAssetComplete != null) OnLoadAssetComplete(obj);
+                    }
+                    else
+                    {
+                        GameEntry.LogError("èµ„æº=>{0} åŠ è½½å¤±è´¥", m_CurrAssetName);
+                        Reset();//ä¸€å®šè¦æ—©ç‚¹Reset
 
-						if (OnLoadAssetComplete != null) OnLoadAssetComplete(null);
-					}
-				}
-				else
-				{
-					//¼ÓÔØ½ø¶È
-					if (OnAssetUpdate != null) OnAssetUpdate(m_CurrAssetBundleRequest.progress);
-				}
-			}
-		}
-	}
+                        if (OnLoadAssetComplete != null) OnLoadAssetComplete(null);
+                    }
+                }
+                else
+                {
+                    //åŠ è½½è¿›åº¦
+                    if (OnAssetUpdate != null) OnAssetUpdate(m_CurrAssetBundleRequest.progress);
+                }
+            }
+        }
+    }
 }

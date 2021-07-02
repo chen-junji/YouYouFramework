@@ -5,7 +5,7 @@ using YouYou;
 
 public class TestAnimation : MonoBehaviour
 {
-	private RoleCtrl testRoleCtrl;
+	private BaseSprite testRoleCtrl;
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.J))

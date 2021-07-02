@@ -50,7 +50,7 @@ namespace ExcelTool
                     }
                 }
 
-                if (!string.IsNullOrEmpty(str))
+                if (!string.IsNullOrWhiteSpace(str))
                 {
                     string[] arr = str.Split('\n');
 
@@ -93,7 +93,7 @@ namespace ExcelTool
         private static void ReadData(bool isXls, string filePath, string fileName)
         {
 
-            if (string.IsNullOrEmpty(filePath)) return;
+            if (string.IsNullOrWhiteSpace(filePath)) return;
 
             //把表格复制一下
             string newPath = filePath + ".temp";
@@ -152,7 +152,26 @@ namespace ExcelTool
                 using (MMO_MemoryStream ms = new MMO_MemoryStream())
                 {
                     int rows = dt.Rows.Count;
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        //防止空行
+                        if (string.IsNullOrWhiteSpace(dt.Rows[i][0].ToString()))
+                        {
+                            rows = i;
+                            break;
+                        }
+                    }
+
                     int columns = dt.Columns.Count;
+                    for (int i = 0; i < dt.Columns.Count; i++)
+                    {
+                        //防止空列
+                        if (string.IsNullOrWhiteSpace(dt.Rows[0][i].ToString()))
+                        {
+                            columns = i;
+                            break;
+                        }
+                    }
 
                     tableHeadArr = new string[columns, 3];
 
@@ -176,25 +195,25 @@ namespace ExcelTool
                                 switch (type.ToLower())
                                 {
                                     case "int":
-                                        ms.WriteInt(string.IsNullOrEmpty(value) ? 0 : int.Parse(value));
+                                        ms.WriteInt(string.IsNullOrWhiteSpace(value) ? 0 : int.Parse(value));
                                         break;
                                     case "long":
-                                        ms.WriteLong(string.IsNullOrEmpty(value) ? 0 : long.Parse(value));
+                                        ms.WriteLong(string.IsNullOrWhiteSpace(value) ? 0 : long.Parse(value));
                                         break;
                                     case "short":
-                                        ms.WriteShort(string.IsNullOrEmpty(value) ? (short)0 : short.Parse(value));
+                                        ms.WriteShort(string.IsNullOrWhiteSpace(value) ? (short)0 : short.Parse(value));
                                         break;
                                     case "float":
-                                        ms.WriteFloat(string.IsNullOrEmpty(value) ? 0 : float.Parse(value));
+                                        ms.WriteFloat(string.IsNullOrWhiteSpace(value) ? 0 : float.Parse(value));
                                         break;
                                     case "byte":
-                                        ms.WriteByte(string.IsNullOrEmpty(value) ? (byte)0 : byte.Parse(value));
+                                        ms.WriteByte(string.IsNullOrWhiteSpace(value) ? (byte)0 : byte.Parse(value));
                                         break;
                                     case "bool":
-                                        ms.WriteBool(string.IsNullOrEmpty(value) ? false : bool.Parse(value));
+                                        ms.WriteBool(string.IsNullOrWhiteSpace(value) ? false : bool.Parse(value));
                                         break;
                                     case "double":
-                                        ms.WriteDouble(string.IsNullOrEmpty(value) ? 0 : double.Parse(value));
+                                        ms.WriteDouble(string.IsNullOrWhiteSpace(value) ? 0 : double.Parse(value));
                                         break;
                                     default:
                                         ms.WriteUTF8String(value);
@@ -754,7 +773,26 @@ namespace ExcelTool
                 if (!Directory.Exists(OutBytesFilePath + "Localization/")) Directory.CreateDirectory(OutBytesFilePath + "Localization/");
 
                 int rows = dt.Rows.Count;
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    //防止空行
+                    if (string.IsNullOrWhiteSpace(dt.Rows[i][0].ToString()))
+                    {
+                        rows = i;
+                        break;
+                    }
+                }
+
                 int columns = dt.Columns.Count;
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    //防止空列
+                    if (string.IsNullOrWhiteSpace(dt.Rows[0][i].ToString()))
+                    {
+                        columns = i;
+                        break;
+                    }
+                }
 
                 int newcolumns = columns - 3; //减去前三列 后面表示有多少种语言
 

@@ -11,9 +11,9 @@ using System.Collections;
 public partial class Sys_SceneDetailEntity : DataTableEntityBase
 {
     /// <summary>
-    /// 场景编号
+    /// 名称
     /// </summary>
-    public int SceneId;
+    public string SceneName;
 
     /// <summary>
     /// 场景路径

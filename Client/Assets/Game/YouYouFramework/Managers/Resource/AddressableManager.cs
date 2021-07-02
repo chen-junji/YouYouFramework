@@ -40,7 +40,7 @@ namespace YouYou
         internal void Init()
         {
 #if EDITORLOAD
-            LocalFilePath = Application.dataPath;
+			LocalFilePath = Application.dataPath;
 #elif ASSETBUNDLE
             LocalFilePath = Application.persistentDataPath;
 #endif
@@ -65,9 +65,11 @@ namespace YouYou
         /// <summary>
         /// 初始化资源信息
         /// </summary>
-        public void InitAssetInfo(Action initAssetInfoComplete)
+        public async ETTask InitAssetInfo()
         {
-            ResourceLoaderManager.InitAssetInfo(initAssetInfoComplete);
+            ETTask task = ETTask.Create();
+            ResourceLoaderManager.InitAssetInfo(task.SetResult);
+            await task;
         }
 
 

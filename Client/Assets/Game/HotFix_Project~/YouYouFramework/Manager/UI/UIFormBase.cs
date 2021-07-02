@@ -18,6 +18,8 @@ namespace Hotfix
             ILRuntimeForm.onOpen = OnOpen;
             ILRuntimeForm.onClose = OnClose;
             ILRuntimeForm.onBeforDestroy = OnBeforDestroy;
+
+            ILRuntimeForm.HotfixObj = this;
         }
 
         protected virtual void OnInit(object userData) { }

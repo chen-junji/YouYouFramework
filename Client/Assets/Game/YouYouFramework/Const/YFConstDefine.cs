@@ -42,10 +42,6 @@ namespace YouYou
 		/// 音频Bank文件的AssetBundle的存储路径
 		/// </summary>
 		public const string AudioAssetBundlePath = "download/audio.assetbundle";
-		/// <summary>
-		/// 日志预设路径
-		/// </summary>
-		public const string ReporterPath = "Assets/Download/Reporter/report.prefab";
 
 		/// <summary>
 		/// 窗口打开声音

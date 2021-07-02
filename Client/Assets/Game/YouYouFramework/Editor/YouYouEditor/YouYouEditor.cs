@@ -171,7 +171,8 @@ public class YouYouEditor : OdinMenuEditorWindow
         for (int i = 0; i < objs.Length; i++)
         {
             string relatepath = AssetDatabase.GetAssetPath(objs[i]);
-            if (relatepath.Length - relatepath.LastIndexOf(".FBX") == 4)
+
+            if (relatepath.IsSuffix(".FBX"))
             {
                 string path = Application.dataPath.Replace("Assets", "") + relatepath + ".meta";
                 path = path.Replace("\\", "/");

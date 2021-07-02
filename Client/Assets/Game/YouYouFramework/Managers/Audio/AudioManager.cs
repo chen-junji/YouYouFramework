@@ -16,7 +16,20 @@ namespace YouYou
         internal void Init()
         {
             m_NextReleaseTime = Time.time;
+            //GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.PlayerAudioVolume, RefreshAudio);
+            //GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.PlayerBGMVolume, RefreshBGM);
+            //RefreshAudio(null);
+            //RefreshBGM(null);
         }
+        //private void RefreshBGM(object userData)
+        //{
+        //    PlayerBGMVolume = GameEntry.Data.PlayerPrefsManager.GetLoggerDic(CommonEventId.PlayerBGMVolume).ToFloat(1);
+        //    SetBGMVolume();
+        //}
+        //private void RefreshAudio(object userData)
+        //{
+        //    PlayerAudioVolume = GameEntry.Data.PlayerPrefsManager.GetLoggerDic(CommonEventId.PlayerAudioVolume).ToFloat(1);
+        //}
         public void Dispose()
         {
             ShopAllAudio();
@@ -43,9 +56,8 @@ namespace YouYou
             }
             if (onComplete != null) onComplete();
 #elif ASSETBUNDLE
-			GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(YFConstDefine.AudioAssetBundlePath, onComplete: (ResourceEntity bundleEntity) =>
+            GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(YFConstDefine.AudioAssetBundlePath, onComplete: (AssetBundle bundle) =>
 			{
-				AssetBundle bundle = bundleEntity.Target as AssetBundle;
 				if (bundle != null)
 				{
 					TextAsset[] arr = bundle.LoadAllAssets<TextAsset>();
@@ -70,27 +82,18 @@ namespace YouYou
 
         #region BGM
 
-        private string m_CurrBGMAudio;
+        /// 可供玩家设置的BGM音量
 
+        public float PlayerBGMVolume { get; private set; }
         private float m_CurrBGMVolume;
 
         private float m_CurrBGMMaxVolume;
 
+        private string m_CurrBGMAudio;
         private EventInstance BGMEvent;
 
-        private TimeAction m_CurrBGMTimeAction;
 
         /// <summary>
-        public float PlayerBGMVolume
-        {
-            get { return m_PlayerBGMVolume; }
-            set
-            {
-                m_PlayerBGMVolume = value;
-                SetBGMVolume(m_CurrBGMVolume);
-            }
-        }
-        private float m_PlayerBGMVolume = 1;
         /// 播放BGM
         /// </summary>
         public void PlayBGM(int audioId)
@@ -126,9 +129,9 @@ namespace YouYou
         /// 设置BGM音量
         /// </summary>
         /// <param name="value"></param>
-        private void SetBGMVolume(float value)
+        private void SetBGMVolume()
         {
-            BGMEvent.setVolume(value * PlayerBGMVolume);
+            if (BGMEvent.isValid()) BGMEvent.setVolume(m_CurrBGMVolume * PlayerBGMVolume);
         }
         /// <summary>
         /// 暂停BGM
@@ -155,18 +158,17 @@ namespace YouYou
                 BGMEvent = RuntimeManager.CreateInstance(m_CurrBGMAudio);
 
                 m_CurrBGMVolume = 0;
-                SetBGMVolume(m_CurrBGMVolume);
+                SetBGMVolume();
 
                 BGMEvent.start();
 
                 //把音量逐渐变成Max
-                m_CurrBGMTimeAction = GameEntry.Time.CreateTimeAction();
-                m_CurrBGMTimeAction.Init(null, 0, 0.05f, 100, null, (int loop) =>
+                GameEntry.Time.Create(null, 0, 0.05f, 100, null, (int loop) =>
                 {
                     m_CurrBGMVolume += m_CurrBGMMaxVolume / 10;
                     m_CurrBGMVolume = Mathf.Min(m_CurrBGMVolume, m_CurrBGMMaxVolume);
-                    SetBGMVolume(m_CurrBGMVolume);
-                }, null).Run();
+                    SetBGMVolume();
+                }, null);
             }
         }
 
@@ -177,22 +179,20 @@ namespace YouYou
         {
             if (BGMEvent.isValid())
             {
-                //把音量逐渐变成0 再停止
-                m_CurrBGMTimeAction = GameEntry.Time.CreateTimeAction();
-                m_CurrBGMTimeAction.Init("StopBGM", 0, 0.05f, 100, null, (int loop) =>
-                {
-                    m_CurrBGMVolume -= m_CurrBGMMaxVolume / 10;
-                    m_CurrBGMVolume = Mathf.Max(m_CurrBGMVolume, 0);
-                    SetBGMVolume(m_CurrBGMVolume);
+                BGMEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 
-                    if (m_CurrBGMVolume == 0)
-                    {
-                        BGMEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-                    }
-                }, () =>
-                {
-                    BGMEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-                }).Run();
+                ////把音量逐渐变成0 再停止
+                //GameEntry.Time.CreateTimeAction().Init("StopBGM", 0, 0.05f, 100, null, (int loop) =>
+                //{
+                //    m_CurrBGMVolume -= m_CurrBGMMaxVolume / 10;
+                //    m_CurrBGMVolume = Mathf.Max(m_CurrBGMVolume, 0);
+                //    SetBGMVolume();
+
+                //    if (m_CurrBGMVolume == 0) BGMEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                //}, () =>
+                //{
+                //    BGMEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                //});
             }
         }
 
@@ -234,7 +234,11 @@ namespace YouYou
         private LinkedList<int> m_NeedRemoveList = new LinkedList<int>();
 
         /// <summary>
-        public float PlayerAudioVolume = 1;
+        /// 可供玩家设置的音效音量
+        /// </summary>
+        public float PlayerAudioVolume { get; private set; }
+
+        /// <summary>
         /// 播放音效
         /// </summary>
         public int PlayAudio(int audioId, string parameterName = null, float parameterValue = 0, Vector3 pos3D = default)

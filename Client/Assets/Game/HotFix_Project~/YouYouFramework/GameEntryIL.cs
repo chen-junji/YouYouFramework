@@ -41,7 +41,7 @@ namespace Hotfix
         }
         public static void OnGameEnter()
         {
-            UI.OpenUIForm<UIDialog>(UIFormId.UIDialog);
+            UI.OpenUIForm(UIFormId.UIDialog);
         }
     }
 }

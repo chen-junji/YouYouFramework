@@ -1758,7 +1758,7 @@ public class Reporter : MonoBehaviour
 		calculateStartIndex();
 		if (!show && isGestureDone())
 		{
-#if DEBUG_MODEL
+#if !UNITY_EDITOR && DEBUG_MODEL
 			doShow();
 #endif
 		}

@@ -142,7 +142,7 @@ namespace YouYou
             scriptEnv.Set("self", this);
             SetLuaComs();
 
-            LuaManager.luaEnv.DoString(luaScript.text, "LuaBehaviour", scriptEnv);
+            LuaManager.luaEnv.DoString(luaScript.text, luaScript.name, scriptEnv);
             onInit = scriptEnv.Get<OnInitHandler>("OnInit");
             onOpen = scriptEnv.Get<OnOpenHandler>("OnOpen");
             onClose = scriptEnv.Get<OnCloseHandler>("OnClose");

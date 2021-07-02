@@ -1,7 +1,7 @@
 //===================================================
-//ï¿½ï¿½    ï¿½ß£ï¿½ï¿½ï¿½ï¿½ï¿½  http://www.u3dol.com  QQÈºï¿½ï¿½87481002
-//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ä£º2020-9-28
-//ï¿½ï¿½    ×¢ï¿½ï¿½
+//×÷    Õß£º±ßÑÄ  http://www.u3dol.com  QQÈº£º87481002
+//´´½¨Ê±¼ä£º2020-9-28
+//±¸    ×¢£º
 //===================================================
 using UnityEngine;
 using System.Collections;
@@ -9,68 +9,68 @@ using DG.Tweening;
 using YouYou;
 
 /// <summary>
-/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+/// ÉãÏñ»ú¿ØÖÆÆ÷
 /// </summary>
 public class CameraCtrl : MonoBehaviour
 {
 	/// <summary>
-	/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	/// ¿ØÖÆÉãÏñ»úÉÏÏÂ
 	/// </summary>
 	[SerializeField]
 	private Transform m_CameraUpAndDown;
 
 	/// <summary>
-	/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ï¿½
+	/// ÉãÏñ»úËõ·Å¸¸ÎïÌå
 	/// </summary>
 	[SerializeField]
 	private Transform m_CameraZoomContainer;
 
 	/// <summary>
-	/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	/// ÉãÏñ»úÈÝÆ÷
 	/// </summary>
 	[SerializeField]
 	private Transform m_CameraContainer;
 
-	[Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½Ù¶ï¿½")]
+	[Header("×óÓÒÐý×ªËÙ¶È")]
 	[SerializeField]
 	private int m_RotateSpeed = 80;
 
 	/// <summary>
-	/// ï¿½ï¿½ï¿½É¿ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½×ªï¿½Ù¶ï¿½
+	/// ÊÖËÉ¿ªºó×Ô¶¯Ðý×ªËÙ¶È
 	/// </summary>
 	private float m_AutoRotateSpeed;
 	private int m_AutoRotateType;
 
 	[HideInInspector]
 	/// <summary>
-	/// ï¿½Ç·ï¿½ï¿½ï¿½×§ï¿½ï¿½
+	/// ÊÇ·ñÍÏ×§ÖÐ
 	/// </summary>
 	public bool IsOnDrag;
 
 	[HideInInspector]
 	/// <summary>
-	/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×§Ö¡ï¿½ï¿½ï¿½ï¿½
+	/// ½áÊøÍÏ×§Ö¡¾àÀë
 	/// </summary>
 	public float OnDragEndDistance;
 
-	[Header("ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½")]
+	[Header("ÉÏÏÂËÙ¶È")]
 	[SerializeField]
 	private int m_UpAndDownSpeed = 60;
 
-	[Header("ï¿½ï¿½ï¿½Â»ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½ï¿½ï¿½ï¿½")]
+	[Header("ÉÏÏÂ»¬¶¯±ß½çÏÞÖÆ")]
 	[SerializeField]
 	private Vector2 m_UpAndDownLimit;
 
-	[Header("ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½")]
+	[Header("Ëõ·ÅËÙ¶È")]
 	[SerializeField]
 	private int m_ZoomSpeed = 10;
 
-	[Header("ï¿½ï¿½ï¿½Å±ß½ï¿½ï¿½ï¿½ï¿½ï¿½")]
+	[Header("Ëõ·Å±ß½çÏÞÖÆ")]
 	[SerializeField]
 	private Vector2 m_ZoomLimit;
 
 	/// <summary>
-	/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	/// Ö÷ÉãÏñ»ú
 	/// </summary>
 	[SerializeField]
 	public Camera MainCamera;
@@ -86,16 +86,16 @@ public class CameraCtrl : MonoBehaviour
 	}
 
 	/// <summary>
-	/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¹Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	/// ¿ªÆô»òÕß¹Ø±ÕÉãÏñ»ú
 	/// </summary>
-	/// <param name="isOpen">ï¿½Ç·ï¿½ï¿½ï¿½</param>
+	/// <param name="isOpen">ÊÇ·ñ¿ªÆô</param>
 	public void SetCameraOpen(bool isOpen)
 	{
 		MainCamera.enabled = isOpen;
 	}
 
 	/// <summary>
-	/// ï¿½ï¿½Ê¼ï¿½ï¿½
+	/// ³õÊ¼»¯
 	/// </summary>
 	public void Init()
 	{
@@ -103,9 +103,9 @@ public class CameraCtrl : MonoBehaviour
 	}
 
 	/// <summary>
-	/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ª
+	/// ÉèÖÃÉãÏñ»úÐý×ª
 	/// </summary>
-	/// <param name="type">0=ï¿½ï¿½ 1=ï¿½ï¿½</param>
+	/// <param name="type">0=×ó 1=ÓÒ</param>
 	public void SetCameraRotate(int type)
 	{
 		m_AutoRotateSpeed = m_RotateSpeed;
@@ -119,7 +119,7 @@ public class CameraCtrl : MonoBehaviour
 	}
 
 	/// <summary>
-	/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0=ï¿½ï¿½ 1=ï¿½ï¿½
+	/// ÉèÖÃÉãÏñ»úÉÏÏÂ 0=ÉÏ 1=ÏÂ
 	/// </summary>
 	/// <param name="type"></param>
 	public void SetCameraUpAndDown(int type)
@@ -129,9 +129,9 @@ public class CameraCtrl : MonoBehaviour
 	}
 
 	/// <summary>
-	/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	/// ÉèÖÃÉãÏñ»ú Ëõ·Å
 	/// </summary>
-	/// <param name="type">0=ï¿½ï¿½ï¿½ï¿½ 1=ï¿½ï¿½Ô¶</param>
+	/// <param name="type">0=À­½ü 1=À­Ô¶</param>
 	public void SetCameraZoom(int type)
 	{
 		m_CameraContainer.Translate(Vector3.forward * m_ZoomSpeed * Time.deltaTime * ((type == 1 ? -1 : 1)));
@@ -139,7 +139,7 @@ public class CameraCtrl : MonoBehaviour
 	}
 
 	/// <summary>
-	/// ÊµÊ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	/// ÊµÊ±¿´×ÅÖ÷½Ç
 	/// </summary>
 	/// <param name="pos"></param>
 	public void AutoLookAt(Vector3 pos)
@@ -148,12 +148,12 @@ public class CameraCtrl : MonoBehaviour
 	}
 
 	/// <summary>
-	/// //ï¿½ï¿½ï¿½ï¿½
+	/// //ÕðÆÁ
 	/// </summary>
-	/// <param name="delay">ï¿½Ó³ï¿½Ê±ï¿½ï¿½</param>
-	/// <param name="duration">ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½</param>
-	/// <param name="strength">Ç¿ï¿½ï¿½</param>
-	/// <param name="vibrato">ï¿½ï¿½ï¿½</param>
+	/// <param name="delay">ÑÓ³ÙÊ±¼ä</param>
+	/// <param name="duration">³ÖÐøÊ±¼ä</param>
+	/// <param name="strength">Ç¿¶È</param>
+	/// <param name="vibrato">Õð·ù</param>
 	/// <returns></returns>
 	public void CameraShake(float delay = 0, float duration = 0.5f, float strength = 1, int vibrato = 10)
 	{
@@ -161,12 +161,12 @@ public class CameraCtrl : MonoBehaviour
 	}
 
 	/// <summary>
-	/// //ï¿½ï¿½ï¿½ï¿½
+	/// //ÕðÆÁ
 	/// </summary>
-	/// <param name="delay">ï¿½Ó³ï¿½Ê±ï¿½ï¿½</param>
-	/// <param name="duration">ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½</param>
-	/// <param name="strength">Ç¿ï¿½ï¿½</param>
-	/// <param name="vibrato">ï¿½ï¿½ï¿½</param>
+	/// <param name="delay">ÑÓ³ÙÊ±¼ä</param>
+	/// <param name="duration">³ÖÐøÊ±¼ä</param>
+	/// <param name="strength">Ç¿¶È</param>
+	/// <param name="vibrato">Õð·ù</param>
 	/// <returns></returns>
 	private IEnumerator DOCameraShake(float delay = 0, float duration = 0.5f, float strength = 1, int vibrato = 10)
 	{

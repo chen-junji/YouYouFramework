@@ -5,32 +5,23 @@ using System;
 using UnityEngine.UI;
 
 /// <summary>
-/// ʵ�ְ�ť����״̬���ж�
+/// 长按按钮判定
 /// </summary>
 public class OnButtonPressed : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-	// �ӳ�ʱ��
 	private float delay = 1f;
-
-	// ��ť���һ���Ǳ���ס״̬ʱ���ʱ��
 	private float lastIsDownTime;
+	public Action<bool> OnBtnUp;
+	public Action OnBtnDown;
 
-	/// <summary>
-	/// ��������
-	/// </summary>
-	public Action<bool> OnDown;
-
-	// ����ť�����º�ϵͳ�Զ����ô˷���
 	public void OnPointerDown(PointerEventData eventData)
 	{
 		lastIsDownTime = Time.time;
+		OnBtnDown?.Invoke();
 	}
-
-	// ����ţ̌���ʱ���Զ����ô˷���
 	public void OnPointerUp(PointerEventData eventData)
 	{
-		// ��ǰʱ�� -  ��ť���һ�α����µ�ʱ�� > �ӳ�ʱ��
-		OnDown?.Invoke(Time.time - lastIsDownTime > delay);
+		OnBtnUp?.Invoke(Time.time - lastIsDownTime > delay);
 	}
 	public void SetRaycastTarget(bool raycastTarget)
 	{
