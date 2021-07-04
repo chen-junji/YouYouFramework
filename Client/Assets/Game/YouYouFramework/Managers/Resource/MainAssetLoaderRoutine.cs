@@ -149,11 +149,14 @@ namespace YouYou
                 //加载主资源
                 GameEntry.Resource.ResourceLoaderManager.LoadAsset(m_CurrAssetEntity.AssetFullName, m_MainAssetBundle, onComplete: (UnityEngine.Object obj, bool isNew) =>
                 {
-                    if (!isNew)
+                    m_CurrResourceEntity = GameEntry.Pool.AssetPool.Spawn(m_CurrAssetEntity.AssetFullName, m_IsAddReferenceCount);
+                    if (m_CurrResourceEntity != null)
                     {
-                        m_OnComplete?.Invoke(null);
+                        //Debug.LogError("从分类资源池加载" + assetEntity.ResourceName);
+                        m_OnComplete?.Invoke(m_CurrResourceEntity);
                         return;
                     }
+
                     m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
                     m_CurrResourceEntity.IsAssetBundle = false;
                     m_CurrResourceEntity.ResourceName = m_CurrAssetEntity.AssetFullName;
