@@ -383,7 +383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CurrDeviceGrade: 0
   m_ParamsSettings: {fileID: 11400000, guid: 31383792df0064f4aac1120ffd378771, type: 2}
-  m_CurrLanguage: 0
+  m_CurrLanguage: 1
   PoolParent: {fileID: 1836584565}
   GameObjectPoolGroups:
   - PoolId: 1
