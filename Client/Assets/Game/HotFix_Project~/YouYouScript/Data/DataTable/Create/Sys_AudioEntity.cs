@@ -24,12 +24,17 @@ namespace Hotfix
         /// <summary>
         /// 是否3d声音
         /// </summary>
-        public int Is3D;
+        public byte Is3D;
 
         /// <summary>
         /// 音量（0-1）
         /// </summary>
         public float Volume;
+
+        /// <summary>
+        /// 是否循环
+        /// </summary>
+        public byte IsLoop;
 
     }
 }

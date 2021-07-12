@@ -33,8 +33,9 @@ namespace Hotfix
                 entity.Id = ms.ReadInt();
                 entity.Desc = ms.ReadUTF8String();
                 entity.AssetPath = ms.ReadUTF8String();
-                entity.Is3D = ms.ReadInt();
+                entity.Is3D = (byte)ms.ReadByte();
                 entity.Volume = ms.ReadFloat();
+                entity.IsLoop = (byte)ms.ReadByte();
 
                 m_List.Add(entity);
                 m_Dic[entity.Id] = entity;

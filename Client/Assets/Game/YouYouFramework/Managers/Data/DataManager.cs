@@ -13,10 +13,14 @@ namespace YouYou
     {
         public SysDataManager SysDataManager { get; private set; }
 
+        public PlayerPrefsManager PlayerPrefs { get; private set; }
 
         internal DataManager()
         {
             SysDataManager = new SysDataManager();
+            PlayerPrefs = new PlayerPrefsManager();
+
+            PlayerPrefs.Init();
         }
         public void OnUpdate()
         {
@@ -24,6 +28,7 @@ namespace YouYou
         public void Dispose()
         {
             SysDataManager.Dispose();
+            PlayerPrefs.Dispose();
         }
     }
 }

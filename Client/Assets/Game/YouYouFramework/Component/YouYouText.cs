@@ -5,21 +5,24 @@ using UnityEngine.UI;
 
 namespace YouYou
 {
-    /// <summary>
-    /// Text×Ô¶¨Òå×ÓÀà
-    /// </summary>
-    public class YouYouText : Text
+    [DisallowMultipleComponent]
+    [RequireComponent(typeof(Text))]//脚本依赖
+    public class YouYouText : MonoBehaviour
     {
-        [Header("本地化语言Key")]
-        [SerializeField]
         private string m_Localization;
+        private Text m_YouYouText;
 
-        protected override void Start()
+        private void Awake()
         {
-            base.Start();
+            m_YouYouText = GetComponent<Text>();
+            m_Localization = m_YouYouText.text;
+        }
+        private void Start()
+        {
             if (GameEntry.Localization != null && !string.IsNullOrEmpty(m_Localization))
             {
-                text = GameEntry.Localization.GetString(m_Localization);
+                string text = GameEntry.Localization.GetString(m_Localization);
+                if (!string.IsNullOrWhiteSpace(text)) m_YouYouText.text = text;
             }
         }
     }

@@ -1,8 +1,8 @@
-Sys_AudioEntity = { Id = 0, Desc = "", AssetPath = "", Is3D = 0, Volume = 0 }
+Sys_AudioEntity = { Id = 0, Desc = "", AssetPath = "", Is3D = 0, Volume = 0, IsLoop = 0 }
 
 Sys_AudioEntity.__index = Sys_AudioEntity;
 
-function Sys_AudioEntity.New(Id, Desc, AssetPath, Is3D, Volume)
+function Sys_AudioEntity.New(Id, Desc, AssetPath, Is3D, Volume, IsLoop)
     local self = { };
     setmetatable(self, Sys_AudioEntity);
 
@@ -11,6 +11,7 @@ function Sys_AudioEntity.New(Id, Desc, AssetPath, Is3D, Volume)
     self.AssetPath = AssetPath;
     self.Is3D = Is3D;
     self.Volume = Volume;
+    self.IsLoop = IsLoop;
 
     return self;
 end

@@ -401,7 +401,7 @@ MonoBehaviour:
   AutomaticSampleLoading: 0
   EncryptionKey: 
   ImportType: 1
-  TargetAssetPath: Download/Audio
+  TargetAssetPath: Download/FMOD
   TargetBankFolder: 
   LoggingLevel: 2
   SpeakerModeSettings: []

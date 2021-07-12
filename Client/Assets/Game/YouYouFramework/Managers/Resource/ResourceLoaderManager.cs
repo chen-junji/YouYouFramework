@@ -158,12 +158,6 @@ namespace YouYou
         /// </summary>
         private Dictionary<string, LinkedList<LoadingAssetBundleTask>> m_LoadingAssetBundle = new Dictionary<string, LinkedList<LoadingAssetBundleTask>>();
 
-        public async ETTask<AssetBundle> LoadAssetBundleAsync(string assetbundlePath, Action<float> onUpdate = null)
-        {
-            ETTask<AssetBundle> task = ETTask<AssetBundle>.Create();
-            LoadAssetBundle(assetbundlePath, onUpdate, task.SetResult);
-            return await task;
-        }
         /// <summary>
         /// 加载资源包
         /// </summary>

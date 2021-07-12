@@ -61,7 +61,7 @@ namespace YouYou
 			if (m_CurrAsync == null) OnLoadSceneComplete?.Invoke(this);
 #else
             //加载场景的资源包
-            Object obj = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<Object>(sceneName);
+            Object obj = await GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<Object>(sceneName);
             m_CurrAsync = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             m_CurrAsync.allowSceneActivation = false;
             if (m_CurrAsync == null) OnLoadSceneComplete?.Invoke(this);

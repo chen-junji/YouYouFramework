@@ -1,38 +1,49 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using YouYou;
 
-[DisallowMultipleComponent]
-[RequireComponent(typeof(Toggle))]//脚本依赖
-public class YouYouToggle : MonoBehaviour
+namespace YouYou
 {
-    [SerializeField] private bool IsOffPlay;
-
-    [SerializeField] private int[] AudioId = new int[] { };
-    private int id;
-    void Start()
+    [DisallowMultipleComponent]
+    [RequireComponent(typeof(Toggle))]//脚本依赖
+    public class YouYouToggle : MonoBehaviour
     {
-        if (AudioId.Length == 0)
+        [SerializeField] private bool IsOffPlay;
+
+        [SerializeField] private string[] AudioId = new string[] { };
+        private string id;
+
+        private Toggle m_Toggle;
+        void Start()
         {
-            id = CommonConst.SoundClick;
-        }
-        else
-        {
-            id = AudioId[Random.Range(0, AudioId.Length)];
-            if (GameEntry.DataTable.Sys_AudioDBModel.GetDic(id) == null) id = CommonConst.SoundClick;
-        }
-        GetComponent<Toggle>().onValueChanged.AddListener((isOn) =>
-        {
-            if (IsOffPlay)
+            m_Toggle = GetComponent<Toggle>();
+
+            if (AudioId.Length == 0)
             {
-                GameEntry.Audio.PlayAudio(id);
+                id = CommonConst.button_sound;
             }
             else
             {
-                if (isOn) GameEntry.Audio.PlayAudio(id);
+                id = AudioId[Random.Range(0, AudioId.Length)];
             }
-        });
+            m_Toggle.onValueChanged.AddListener((isOn) =>
+            {
+                if (IsOffPlay)
+                {
+                    transform.DOScale(0.9f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(1.1f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(1, 0.05f).SetUpdate(true)));
+                    GameEntry.Audio.PlayAudio(id);
+                }
+                else
+                {
+                    if (isOn)
+                    {
+                        transform.DOScale(0.9f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(1.1f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(1, 0.05f).SetUpdate(true)));
+                        GameEntry.Audio.PlayAudio(id);
+                    }
+                }
+            });
+        }
     }
 }

@@ -6,29 +6,31 @@ using UnityEngine.UI;
 
 namespace YouYou
 {
-	/// <summary>
-	/// Image×Ô¶¨Òå×ÓÀà
-	/// </summary>
-	public class YouYouImage : Image
-	{
-		[Header("本地化语言Key")]
-		[SerializeField]
-		private string m_Localization;
+    [DisallowMultipleComponent]
+    [RequireComponent(typeof(Image))]//脚本依赖
+    public class YouYouImage : MonoBehaviour
+    {
+        [Header("本地化语言Key")]
+        [SerializeField]
+        private string m_Localization;
 
-		protected override void Start()
-		{
-			base.Start();
-			if (GameEntry.Localization != null)
-			{
-				string path = GameUtil.GetUIResPath(GameEntry.Localization.GetString(m_Localization));
+        private Image m_Image;
 
-				GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAction(path, onComplete: (Texture2D texture) =>
-				{
-					Sprite obj = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-					sprite = obj;
-					SetNativeSize();
-				});
-			}
-		}
-	}
+        private void Start()
+        {
+            m_Image = GetComponent<Image>();
+
+            if (GameEntry.Localization != null)
+            {
+                string path = GameUtil.GetUIResPath(GameEntry.Localization.GetString(m_Localization));
+
+                GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAction(path, onComplete: (Texture2D texture) =>
+                {
+                    Sprite obj = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                    m_Image.sprite = obj;
+                    m_Image.SetNativeSize();
+                });
+            }
+        }
+    }
 }

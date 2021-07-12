@@ -48,6 +48,7 @@ public class CommonEventId
 
     public const string PlayerBGMVolume = "PlayerBGMVolume";
     public const string PlayerAudioVolume = "PlayerAudioVolume";
+    public const string IsShake = "IsShake";
     #endregion
 
 }

@@ -221,7 +221,10 @@ namespace YouYou
                     assetPath = sys_UIForm.AssetPath_Chinese;
                     break;
                 case YouYouLanguage.English:
-                    assetPath = sys_UIForm.AssetPath_English;
+                    assetPath = string.IsNullOrWhiteSpace(sys_UIForm.AssetPath_English) ? sys_UIForm.AssetPath_Chinese : sys_UIForm.AssetPath_English;
+                    break;
+                default:
+                    assetPath = sys_UIForm.AssetPath_Chinese;
                     break;
             }
 

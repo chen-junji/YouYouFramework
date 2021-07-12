@@ -41,7 +41,7 @@ namespace YouYou
 		/// <summary>
 		/// 音频Bank文件的AssetBundle的存储路径
 		/// </summary>
-		public const string AudioAssetBundlePath = "download/audio.assetbundle";
+		public const string AudioAssetBundlePath = "download/fmod.assetbundle";
 
 		/// <summary>
 		/// 窗口打开声音

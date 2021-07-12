@@ -19,8 +19,9 @@ function Sys_AudioDBModel.LoadFormMS(ms)
                 ms:ReadInt(),
                 ms:ReadUTF8String(),
                 ms:ReadUTF8String(),
-                ms:ReadInt(),
-                ms:ReadFloat()
+                ms:ReadByte(),
+                ms:ReadFloat(),
+                ms:ReadByte()
         );
     end
     GameInit.LoadOneTableComplete();

@@ -26,8 +26,6 @@ namespace YouYou
         /// </summary>
         private BaseParams m_PreloadParams;
 
-        private TaskGroup m_TaskGroup;
-
         internal override void OnEnter()
         {
             base.OnEnter();
@@ -74,13 +72,13 @@ namespace YouYou
         /// </summary>
         private async void BeginTask()
         {
-            m_TaskGroup = GameEntry.Task.CreateTaskGroup();
+            TaskGroup taskGroup = GameEntry.Task.CreateTaskGroup();
 #if ASSETBUNDLE
             //初始化资源信息
             await GameEntry.Resource.InitAssetInfo();
 
             //加载自定义Shader
-            m_TaskGroup.AddTask((taskRoutine) =>
+            taskGroup.AddTask((taskRoutine) =>
             {
                 GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(YFConstDefine.CusShadersAssetBundlePath, onComplete: (AssetBundle bundle) =>
                 {
@@ -98,34 +96,34 @@ namespace YouYou
             for (int i = 0; i < lst.Count; i++)
             {
                 Sys_UIFormEntity entity = lst[i];
-                m_TaskGroup.AddTask((taskRoutine) => GameEntry.UI.PreloadUI(entity, taskRoutine.Leave));
+                taskGroup.AddTask((taskRoutine) => GameEntry.UI.PreloadUI(entity, taskRoutine.Leave));
             }
 
             //加载初始声音
-            m_TaskGroup.AddTask((taskRoutine) =>
+            taskGroup.AddTask((taskRoutine) =>
             {
-                GameEntry.Audio.LoadBanks(taskRoutine.Leave);
+                GameEntry.Audio.FMOD.LoadBanks(taskRoutine.Leave);
             });
 
             //初始化Xlua
-            //m_TaskGroup.AddTask((taskRoutine) =>
+            //taskGroup.AddTask((taskRoutine) =>
             //{
             //    GameEntry.Lua.Init();
             //    GameEntry.Lua.OnLoadDataTableComplete = () => taskRoutine.Leave();
             //});
 
             //初始化ILRuntime
-            m_TaskGroup.AddTask((taskRoutine) =>
-            {
-                GameEntry.ILRuntime.Init();
-                GameEntry.ILRuntime.OnLoadDataTableComplete = () => taskRoutine.Leave();
-            });
+            //taskGroup.AddTask((taskRoutine) =>
+            //{
+            //    GameEntry.ILRuntime.Init();
+            //    GameEntry.ILRuntime.OnLoadDataTableComplete = () => taskRoutine.Leave();
+            //});
 
-            m_TaskGroup.OnCompleteOne = () =>
+            taskGroup.OnCompleteOne = () =>
             {
-                m_TargetProgress = m_TaskGroup.CurrCount / (float)m_TaskGroup.TotalCount * 100;
+                m_TargetProgress = taskGroup.CurrCount / (float)taskGroup.TotalCount * 100;
             };
-            m_TaskGroup.Run();
+            taskGroup.Run();
         }
     }
 }

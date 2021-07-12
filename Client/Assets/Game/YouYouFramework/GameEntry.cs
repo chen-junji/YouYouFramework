@@ -188,7 +188,10 @@ namespace YouYou
 
             //限制游戏帧数,FPS
             Application.targetFrameRate = ParamsSettings.GetGradeParamData(YFConstDefine.targetFrameRate, CurrDeviceGrade);
-
+        }
+        private void Start()
+        {
+            Log(LogCategory.Procedure, "GameEntry.OnStart()");
             InitManagers();
         }
 
@@ -227,13 +230,14 @@ namespace YouYou
             Download.Dispose();
             UI.Dispose();
             Lua.Dispose();
-            Audio.Dispose();
             YouYouInput.Dispose();
 
             ActionOnApplicationQuit?.Invoke();
         }
         private void OnApplicationPause(bool pause)
         {
+            if (pause) Data.PlayerPrefs.SaveDataAll();
+
             ActionOnApplicationPause?.Invoke(pause);
         }
 
