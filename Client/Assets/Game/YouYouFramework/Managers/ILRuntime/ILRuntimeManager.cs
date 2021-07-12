@@ -92,7 +92,8 @@ namespace YouYou
             AppDomain.DelegateManager.RegisterMethodDelegate<string, Object, object, object, object>();
             AppDomain.DelegateManager.RegisterMethodDelegate<int, GameObject>();
             AppDomain.DelegateManager.RegisterMethodDelegate<UIFormBase>();
-            AppDomain.DelegateManager.RegisterMethodDelegate<YouYou.TaskRoutine>();
+            AppDomain.DelegateManager.RegisterMethodDelegate<TaskRoutine>();
+            AppDomain.DelegateManager.RegisterMethodDelegate<ILRuntimeForm>();
 
             //AppDomain.DelegateManager.RegisterFunctionDelegate<int, string>();
 

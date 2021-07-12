@@ -113,11 +113,11 @@ namespace YouYou
             //});
 
             //初始化ILRuntime
-            //taskGroup.AddTask((taskRoutine) =>
-            //{
-            //    GameEntry.ILRuntime.Init();
-            //    GameEntry.ILRuntime.OnLoadDataTableComplete = () => taskRoutine.Leave();
-            //});
+            taskGroup.AddTask((taskRoutine) =>
+            {
+                GameEntry.ILRuntime.Init();
+                GameEntry.ILRuntime.OnLoadDataTableComplete = () => taskRoutine.Leave();
+            });
 
             taskGroup.OnCompleteOne = () =>
             {
