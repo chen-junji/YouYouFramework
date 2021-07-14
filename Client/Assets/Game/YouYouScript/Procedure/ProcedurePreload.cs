@@ -105,13 +105,6 @@ namespace YouYou
                 GameEntry.Audio.FMOD.LoadBanks(taskRoutine.Leave);
             });
 
-            //初始化Xlua
-            //taskGroup.AddTask((taskRoutine) =>
-            //{
-            //    GameEntry.Lua.Init();
-            //    GameEntry.Lua.OnLoadDataTableComplete = () => taskRoutine.Leave();
-            //});
-
             //初始化ILRuntime
             taskGroup.AddTask((taskRoutine) =>
             {

@@ -1,6 +1,0 @@
-UserDataManager = {}
-local this = UserDataManager
-
-function UserDataManager.Init()
-    ShareUserData.Init();
-end

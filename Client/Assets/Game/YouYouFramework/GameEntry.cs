@@ -88,7 +88,6 @@ namespace YouYou
         public static AddressableManager Resource { get; private set; }
         public static DownloadManager Download { get; private set; }
         public static UIManager UI { get; private set; }
-        public static LuaManager Lua { get; private set; }
         public static AudioManager Audio { get; private set; }
         public static InputManager YouYouInput { get; private set; }
         public static WebSocketManager WebSocket { get; private set; }
@@ -117,7 +116,6 @@ namespace YouYou
             Resource = new AddressableManager();
             Download = new DownloadManager();
             UI = new UIManager();
-            Lua = new LuaManager();
             Audio = new AudioManager();
             YouYouInput = new InputManager();
             WebSocket = new WebSocketManager();
@@ -229,7 +227,6 @@ namespace YouYou
             Resource.Dispose();
             Download.Dispose();
             UI.Dispose();
-            Lua.Dispose();
             YouYouInput.Dispose();
 
             ActionOnApplicationQuit?.Invoke();
