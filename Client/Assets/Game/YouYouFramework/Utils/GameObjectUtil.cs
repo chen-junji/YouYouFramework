@@ -142,59 +142,6 @@ public static class GameObjectUtil
     }
     #endregion
 
-
-    #region UI相关
-    /// <summary>
-    /// 设置Text值
-    /// </summary>
-    /// <param name="text">内容</param>
-    public static void SetText(this Text txtObj, string text)
-    {
-        if (txtObj != null)
-        {
-            txtObj.text = text;
-        }
-    }
-    public static void SetText(this Text txtObj, string text, bool isAnimation = false, ScrambleMode scramblMode = ScrambleMode.None)
-    {
-        if (txtObj != null)
-        {
-            if (isAnimation)
-            {
-                txtObj.text = "";
-                txtObj.DOText(text, 0.5f, scrambleMode: scramblMode);
-            }
-            else
-            {
-                txtObj.text = text;
-            }
-        }
-    }
-    /// <summary>
-    /// 设置滑动条Sliderd的值
-    /// </summary>
-    /// <param name="sliderObj"></param>
-    /// <param name="value"></param>
-    public static void SetSliderValue(this Slider sliderObj, float value)
-    {
-        if (sliderObj != null)
-        {
-            sliderObj.value = value;
-        }
-    }
-    /// <summary>
-    /// 设置Image的图片
-    /// </summary>
-    /// <param name="imgObj"></param>
-    /// <param name="sprite"></param>
-    public static void SetImage(this Image imgObj, Sprite sprite)
-    {
-        if (imgObj != null)
-        {
-            imgObj.sprite = sprite;
-        }
-    }
-    #endregion
     #region AutoLoadTexture 自动加载图片
     /// <summary>
     /// 自动加载图片

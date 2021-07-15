@@ -47,11 +47,11 @@ namespace YouYou
                 //根据实际情况调节速度, 加载已完成和未完成, 模拟进度增值速度分开计算!
                 if (m_TargetProgress < 100)
                 {
-                    m_CurrProgress = Mathf.Min(m_CurrProgress + Time.deltaTime * 15, m_TargetProgress - 1);//-1是为了防止模拟加载比实际加载快
+                    m_CurrProgress = Mathf.Min(m_CurrProgress + Time.deltaTime * 30, m_TargetProgress - 1);//-1是为了防止模拟加载比实际加载快
                 }
                 else
                 {
-                    m_CurrProgress = Mathf.Min(m_CurrProgress + Time.deltaTime * 30, m_TargetProgress);
+                    m_CurrProgress = Mathf.Min(m_CurrProgress + Time.deltaTime * 60, m_TargetProgress);
                 }
                 m_PreloadParams.FloatParam1 = m_CurrProgress;
                 GameEntry.Event.CommonEvent.Dispatch(CommonEventId.PreloadUpdate, m_PreloadParams);
