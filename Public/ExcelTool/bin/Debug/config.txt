@@ -1,7 +1,7 @@
 ﻿..\..\..\Tables
 ..\..\..\..\Client\Assets\Download\DataTable\
 ..\..\..\..\Client\Assets\Game\YouYouScript\Data\DataTable\Create\
-
+OutLua\
 ..\..\..\..\Server\Release\DataTable\
 ..\..\..\..\Server\YouYouServer\YouYouServer.Common\DataTable\Create\
 ..\..\..\..\Client\Assets\Game\HotFix_Project~\YouYouScript\Data\DataTable\Create\
