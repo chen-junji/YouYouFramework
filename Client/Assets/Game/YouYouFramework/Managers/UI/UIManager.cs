@@ -230,7 +230,7 @@ namespace YouYou
 
             //加载UI资源并克隆
             StringBuilder sbr = StringHelper.PoolNew();
-            string str = sbr.AppendFormatNoGC("Assets/Download/UI/UIPrefab/{0}.prefab", assetPath).ToString();
+            string str = sbr.AppendFormatNoGC("UI/UIPrefab/{0}.prefab", assetPath).ToString();
             StringHelper.PoolDel(ref sbr);
 
             ResourceEntity resourceEntity = await GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(str, isAddReferenceCount: true);
@@ -343,9 +343,9 @@ namespace YouYou
         /// </summary>
         public void ShowUI(UIFormBase uiFormBase)
         {
+            uiFormBase.IsActive = true;
             if (uiFormBase.SysUIForm.FreezeMode == 0)
             {
-                uiFormBase.IsActive = true;
                 uiFormBase.CurrCanvas.enabled = true;
                 uiFormBase.gameObject.layer = 5;
             }
@@ -359,9 +359,9 @@ namespace YouYou
         /// </summary>
         public void HideUI(UIFormBase uiFormBase)
         {
+            uiFormBase.IsActive = false;
             if (uiFormBase.SysUIForm.FreezeMode == 0)
             {
-                uiFormBase.IsActive = false;
                 uiFormBase.CurrCanvas.enabled = false;
                 uiFormBase.gameObject.layer = 0;
             }

@@ -11,24 +11,17 @@ namespace YouYou
     /// </summary>
     public class DataManager : IDisposable
     {
-        public SysDataManager SysDataManager { get; private set; }
-
-        public PlayerPrefsManager PlayerPrefs { get; private set; }
+        public SysDataManager SysData { get; private set; }
 
         internal DataManager()
         {
-            SysDataManager = new SysDataManager();
-            PlayerPrefs = new PlayerPrefsManager();
-
-            PlayerPrefs.Init();
+            SysData = new SysDataManager();
         }
         public void OnUpdate()
         {
         }
         public void Dispose()
         {
-            SysDataManager.Dispose();
-            PlayerPrefs.Dispose();
         }
     }
 }

@@ -95,38 +95,35 @@ namespace YouYou
             AppDomain.DelegateManager.RegisterMethodDelegate<TaskRoutine>();
             AppDomain.DelegateManager.RegisterMethodDelegate<ILRuntimeForm>();
 
-            //AppDomain.DelegateManager.RegisterFunctionDelegate<int, string>();
-
-
-            ////自定义委托或Unity委托注册
-            //m_AppDomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction<bool>>((action) =>
-            //{
-            //	return new UnityEngine.Events.UnityAction<bool>((a) =>
-            //	{
-            //		((System.Action<bool>)action)(a);
-            //	});
-            //});
-            //m_AppDomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction>((action) =>
-            //{
-            //	return new UnityEngine.Events.UnityAction(() =>
-            //	{
-            //		((System.Action)action)();
-            //	});
-            //});
-            //m_AppDomain.DelegateManager.RegisterDelegateConvertor<SocketEvent.OnActionHandler>((act) =>
-            //{
-            //	return new YouYou.SocketEvent.OnActionHandler((buffer) =>
-            //	{
-            //		((System.Action<byte[]>)act)(buffer);
-            //	});
-            //});
-            //m_AppDomain.DelegateManager.RegisterDelegateConvertor<UIMultiScroller.OnItemCreateHandler>((act) =>
-            //{
-            //	return new UIMultiScroller.OnItemCreateHandler((index, obj) =>
-            //	{
-            //		((System.Action<int, GameObject>)act)(index, obj);
-            //	});
-            //});
+            //自定义委托或Unity委托注册
+            AppDomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction<bool>>((action) =>
+            {
+                return new UnityEngine.Events.UnityAction<bool>((a) =>
+                {
+                    ((System.Action<bool>)action)(a);
+                });
+            });
+            AppDomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction>((action) =>
+            {
+                return new UnityEngine.Events.UnityAction(() =>
+                {
+                    ((System.Action)action)();
+                });
+            });
+            AppDomain.DelegateManager.RegisterDelegateConvertor<SocketEvent.OnActionHandler>((act) =>
+            {
+                return new SocketEvent.OnActionHandler((buffer) =>
+                {
+                    ((System.Action<byte[]>)act)(buffer);
+                });
+            });
+            AppDomain.DelegateManager.RegisterDelegateConvertor<CommonEvent.OnActionHandler>((act) =>
+            {
+                return new CommonEvent.OnActionHandler((userData) =>
+                {
+                    ((System.Action<object>)act)(userData);
+                });
+            });
         }
 
         void OnHotFixLoaded()

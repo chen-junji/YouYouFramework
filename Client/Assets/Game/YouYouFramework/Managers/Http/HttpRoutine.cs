@@ -124,7 +124,7 @@ namespace YouYou
                     //web加密
                     m_Dic["deviceIdentifier"] = DeviceUtil.DeviceIdentifier;
                     m_Dic["deviceModel"] = DeviceUtil.DeviceModel;
-                    long t = GameEntry.Data.SysDataManager.CurrServerTime;
+                    long t = GameEntry.Data.SysData.CurrServerTime;
                     m_Dic["sign"] = EncryptUtil.Md5(string.Format("{0}:{1}", t, DeviceUtil.DeviceIdentifier));
                     m_Dic["t"] = t;
 

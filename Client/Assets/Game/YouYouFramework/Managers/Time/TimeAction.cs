@@ -46,6 +46,9 @@ namespace YouYou
         private float m_LastPauseTime;
 
         /// <summary>
+        /// 是否无视时间缩放 TODO
+        /// </summary>
+        private bool Unscaled;
         /// 开始运行
         /// </summary>
         public Action OnStartAction { get; private set; }
@@ -67,7 +70,7 @@ namespace YouYou
         /// <param name="delayTime">延迟时间</param>
         /// <param name="interval">间隔</param>
         /// <param name="loop">循环次数</param>
-        internal TimeAction Init(string timeName = null, float delayTime = 0, float interval = 1, int loop = 0, Action onStar = null, Action<int> onUpdate = null, Action onComplete = null)
+        internal TimeAction Init(string timeName = null, float delayTime = 0, float interval = 1, int loop = 0, bool unScaled = false, Action onStar = null, Action<int> onUpdate = null, Action onComplete = null)
         {
             if (tillTime > 0)
             {
@@ -75,9 +78,9 @@ namespace YouYou
                 return null;
             }
             TimeName = timeName;
-            //m_DelayTime = delayTime;
             m_Interval = interval;
             m_Loop = loop;
+            Unscaled = unScaled;
             OnStartAction = onStar;
             OnUpdateAction = onUpdate;
             OnCompleteAction = onComplete;

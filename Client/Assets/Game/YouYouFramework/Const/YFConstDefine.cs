@@ -44,15 +44,6 @@ namespace YouYou
 		public const string AudioAssetBundlePath = "download/fmod.assetbundle";
 
 		/// <summary>
-		/// 窗口打开声音
-		/// </summary>
-		public const int Audio_UIOpen = 10201;
-		/// <summary>
-		/// UI关闭声音
-		/// </summary>
-		public const int Audio_UIClose = 10202;
-
-		/// <summary>
 		/// 帧率
 		/// </summary>
 		public const string targetFrameRate = "targetFrameRate";

@@ -14,7 +14,7 @@ namespace YouYou
         /// <summary>
         /// 是否活跃
         /// </summary>
-        protected internal bool IsActive;
+        internal bool IsActive = true;
 
         public Sys_UIFormEntity SysUIForm { get; private set; }
 
@@ -36,19 +36,19 @@ namespace YouYou
         private Action m_InitComplate;
         public bool IsInit { get; private set; }
 
-        void Awake()
+        protected virtual void Awake()
         {
             if (GetComponent<GraphicRaycaster>() == null) gameObject.AddComponent<GraphicRaycaster>();
             CurrCanvas = GetComponent<Canvas>();
         }
-        void Start()
+        protected virtual void Start()
         {
             OnInit(UserData);
             IsInit = true;
             m_InitComplate();
             Open(UserData);
         }
-        void OnDestroy()
+        protected virtual void OnDestroy()
         {
             OnBeforDestroy();
         }

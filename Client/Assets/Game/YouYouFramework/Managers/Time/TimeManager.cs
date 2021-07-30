@@ -78,9 +78,9 @@ namespace YouYou
         /// 创建定时器
         /// </summary>
         /// <returns></returns>
-        public TimeAction Create(string timeName = null, float delayTime = 0, float interval = 1, int loop = 0, Action onStar = null, Action<int> onUpdate = null, Action onComplete = null)
+        public TimeAction Create(string timeName = null, float delayTime = 0, float interval = 1, int loop = 0, bool unScaled = false, Action onStar = null, Action<int> onUpdate = null, Action onComplete = null)
         {
-            return new TimeAction().Init(timeName, delayTime, interval, loop, onStar, onUpdate, onComplete);
+            return new TimeAction().Init(timeName, delayTime, interval, loop, unScaled, onStar, onUpdate, onComplete);
         }
         public async ETTask Delay(float delayTime)
         {
@@ -101,6 +101,11 @@ namespace YouYou
                 yield return null;
                 if (onComplete != null) onComplete();
             }
+        }
+
+        public void SetTimeScale(float scale)
+        {
+            Time.timeScale = scale;
         }
     }
 }

@@ -164,7 +164,7 @@ namespace YouYou
         private async void InitCDNAssetBundleInfo()
         {
             StringBuilder sbr = StringHelper.PoolNew();
-            string url = sbr.AppendFormatNoGC("{0}{1}", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl, YFConstDefine.VersionFileName).ToString();
+            string url = sbr.AppendFormatNoGC("{0}{1}", GameEntry.Data.SysData.CurrChannelConfig.RealSourceUrl, YFConstDefine.VersionFileName).ToString();
             StringHelper.PoolDel(ref sbr);
 
             HttpCallBackArgs args = await GameEntry.Http.GetArgsAsync(url, false);

@@ -82,6 +82,7 @@ namespace YouYou
         public static SocketManager Socket { get; private set; }
         public static HttpManager Http { get; private set; }
         public static DataManager Data { get; private set; }
+        public static PlayerPrefsManager PlayerPrefs { get; private set; }
         public static LocalizationManager Localization { get; private set; }
         public static PoolManager Pool { get; private set; }
         public static YouYouSceneManager Scene { get; private set; }
@@ -110,6 +111,7 @@ namespace YouYou
             Socket = new SocketManager();
             Http = new HttpManager();
             Data = new DataManager();
+            PlayerPrefs = new PlayerPrefsManager();
             Localization = new LocalizationManager();
             Pool = new PoolManager();
             Scene = new YouYouSceneManager();
@@ -127,6 +129,7 @@ namespace YouYou
             DataTable.Init();
             Socket.Init();
             Http.Init();
+            PlayerPrefs.Init();
             Localization.Init();
             Pool.Init();
             Scene.Init();
@@ -168,7 +171,6 @@ namespace YouYou
         public static Action ActionOnUpdate;
         public static Action<bool> ActionOnApplicationPause;
         public static Action ActionOnApplicationQuit;
-        public static Action ActionOnGameEnter;
 
         private void Awake()
         {
@@ -204,7 +206,6 @@ namespace YouYou
             Resource.OnUpdate();
             Download.OnUpdate();
             UI.OnUpdate();
-            Audio.OnUpdate();
             YouYouInput.OnUpdate();
             WebSocket.OnUpdate();
             Task.OnUpdate();
@@ -221,6 +222,7 @@ namespace YouYou
             Socket.Dispose();
             Http.Dispose();
             Data.Dispose();
+            PlayerPrefs.Dispose();
             Localization.Dispose();
             Pool.Dispose();
             Scene.Dispose();
@@ -233,7 +235,7 @@ namespace YouYou
         }
         private void OnApplicationPause(bool pause)
         {
-            if (pause) Data.PlayerPrefs.SaveDataAll();
+            if (pause) PlayerPrefs.SaveDataAll();
 
             ActionOnApplicationPause?.Invoke(pause);
         }

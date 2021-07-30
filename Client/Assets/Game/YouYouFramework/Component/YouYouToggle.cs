@@ -16,8 +16,12 @@ namespace YouYou
         private string id;
 
         private Toggle m_Toggle;
+
+        private float BegScale;
+
         void Start()
         {
+            BegScale = transform.localScale.x;
             m_Toggle = GetComponent<Toggle>();
 
             if (AudioId.Length == 0)
@@ -32,14 +36,14 @@ namespace YouYou
             {
                 if (IsOffPlay)
                 {
-                    transform.DOScale(0.9f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(1.1f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(1, 0.05f).SetUpdate(true)));
+                    transform.DOScale(BegScale * 0.9f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(BegScale * 1.1f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(BegScale, 0.05f).SetUpdate(true)));
                     GameEntry.Audio.PlayAudio(id);
                 }
                 else
                 {
                     if (isOn)
                     {
-                        transform.DOScale(0.9f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(1.1f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(1, 0.05f).SetUpdate(true)));
+                        transform.DOScale(BegScale * 0.9f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(BegScale * 1.1f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(BegScale, 0.05f).SetUpdate(true)));
                         GameEntry.Audio.PlayAudio(id);
                     }
                 }

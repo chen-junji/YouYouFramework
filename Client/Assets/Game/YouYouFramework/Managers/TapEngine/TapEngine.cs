@@ -23,7 +23,7 @@ public class TapEngine
     }
     private void RefreshIsShake(object p)
     {
-        IsShake = GameEntry.Data.PlayerPrefs.GetLoggerDic(CommonEventId.IsShake).ToInt() == 1;
+        IsShake = GameEntry.PlayerPrefs.GetLoggerDic(CommonEventId.IsShake).ToInt() == 1;
     }
 
     #region 苹果

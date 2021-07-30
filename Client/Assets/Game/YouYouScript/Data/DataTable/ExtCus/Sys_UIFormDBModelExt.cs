@@ -13,26 +13,23 @@ namespace YouYou
 			m_NameByEntityDic = new Dictionary<string, Sys_UIFormEntity>();
 			for (int i = 0; i < m_List.Count; i++)
 			{
-				Sys_UIFormEntity entity = m_List[i];
+				Sys_UIFormEntity sys_UIForm = m_List[i];
 
-				string path = string.Empty;
+				string assetPath = string.Empty;
 				switch (GameEntry.CurrLanguage)
 				{
 					case YouYouLanguage.Chinese:
-						path = entity.AssetPath_Chinese;
+						assetPath = sys_UIForm.AssetPath_Chinese;
 						break;
 					case YouYouLanguage.English:
-						if (entity.AssetPath_English != null)
-						{
-							path = entity.AssetPath_English;
-						}
-						else
-						{
-							path = entity.AssetPath_Chinese;
-						}
+						assetPath = string.IsNullOrWhiteSpace(sys_UIForm.AssetPath_English) ? sys_UIForm.AssetPath_Chinese : sys_UIForm.AssetPath_English;
+						break;
+					default:
+						assetPath = sys_UIForm.AssetPath_Chinese;
 						break;
 				}
-				string[] strs = path.Split('/');
+
+				string[] strs = assetPath.Split('/');
 				if (strs.Length >= 1)
 				{
 					string str = strs[strs.Length - 1];
@@ -42,7 +39,7 @@ namespace YouYou
 					}
 					else
 					{
-						m_NameByEntityDic.Add(str, entity);
+						m_NameByEntityDic.Add(str, sys_UIForm);
 					}
 				}
 			}

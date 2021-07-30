@@ -70,7 +70,7 @@ namespace YouYou
                      if (buff == null)
                      {
                          //如果只读区也没有,从CDN读取
-                         string url = string.Format("{0}{1}", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
+                         string url = string.Format("{0}{1}", GameEntry.Data.SysData.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
                          HttpCallBackArgs args = await GameEntry.Http.GetArgsAsync(url, false);
                          if (!args.HasError)
                          {

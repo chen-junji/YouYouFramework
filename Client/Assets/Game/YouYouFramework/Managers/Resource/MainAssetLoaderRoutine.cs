@@ -53,22 +53,29 @@ namespace YouYou
         internal void Load(string assetFullName, Action<ResourceEntity> onComplete, Action<float> onUpdate, bool isAddReferenceCount)
         {
 #if EDITORLOAD && UNITY_EDITOR
-			m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
-			m_CurrResourceEntity.IsAssetBundle = false;
-			m_CurrResourceEntity.ResourceName = assetFullName;
-			m_CurrResourceEntity.Target = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetFullName);
-			onComplete?.Invoke(m_CurrResourceEntity);
+            assetFullName = "Assets/Download/" + assetFullName;
+
+            m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
+            m_CurrResourceEntity.IsAssetBundle = false;
+            m_CurrResourceEntity.ResourceName = assetFullName;
+            m_CurrResourceEntity.Target = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetFullName);
+            onComplete?.Invoke(m_CurrResourceEntity);
             Reset();
 #elif RESOURCES
-			string resourcesPath = assetFullName.Split('.')[0].Replace("Assets/Download/", string.Empty);
+            string[] temps = assetFullName.Split('.');
+            assetFullName = string.Empty;
+            for (int i = 0; i < temps.Length - 1; i++) assetFullName += temps[i];
 
-			m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
-			m_CurrResourceEntity.IsAssetBundle = false;
-			m_CurrResourceEntity.ResourceName = assetFullName;
-			m_CurrResourceEntity.Target = Resources.Load(resourcesPath);
+            m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
+            m_CurrResourceEntity.IsAssetBundle = false;
+            m_CurrResourceEntity.ResourceName = assetFullName;
+            m_CurrResourceEntity.Target = Resources.Load(assetFullName);
+            if (m_CurrResourceEntity.Target == null) GameEntry.LogError("资源加载失败==" + assetFullName);
             onComplete?.Invoke(m_CurrResourceEntity);
             Reset();
 #else
+            assetFullName = "Assets/Download/" + assetFullName;
+
             m_CurrAssetEntity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(assetFullName);
             if (m_CurrAssetEntity == null) return;
             m_OnComplete = (retEntity) =>

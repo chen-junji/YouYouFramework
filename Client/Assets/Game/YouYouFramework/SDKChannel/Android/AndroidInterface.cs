@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +24,7 @@ public class AndroidInterface : MonoBehaviour
 	private void InitAndroidSDK()
 	{
 		if (m_IsInitAndroidSDK) return;
-		switch (GameEntry.Data.SysDataManager.CurrChannelConfig.ChannelId)
+		switch (GameEntry.Data.SysData.CurrChannelConfig.ChannelId)
 		{
 			case 146:
 				currAndroidSDK = new SDK_YouYou();

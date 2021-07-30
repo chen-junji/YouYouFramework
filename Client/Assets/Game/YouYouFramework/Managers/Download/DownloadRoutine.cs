@@ -115,7 +115,7 @@ public class DownloadRoutine
 					m_FileStream = File.OpenWrite(m_DownloadLocalFilePath);
 					m_FileStream.Seek(0, SeekOrigin.End);
 					m_BeginPos = (uint)m_FileStream.Length;
-                    Download(string.Format("{0}{1}", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl, m_CurrFileUrl), m_BeginPos);
+                    Download(string.Format("{0}{1}", GameEntry.Data.SysData.CurrChannelConfig.RealSourceUrl, m_CurrFileUrl), m_BeginPos);
 				}
 			}
 			else
@@ -145,7 +145,7 @@ public class DownloadRoutine
 		m_FileStream = new FileStream(m_DownloadLocalFilePath, FileMode.Create, FileAccess.Write);
 
 		PlayerPrefs.SetString(m_CurrFileUrl, m_CurrAssetBundleInfo.MD5);
-		Download(string.Format("{0}{1}", GameEntry.Data.SysDataManager.CurrChannelConfig.RealSourceUrl, m_CurrFileUrl));
+		Download(string.Format("{0}{1}", GameEntry.Data.SysData.CurrChannelConfig.RealSourceUrl, m_CurrFileUrl));
 	}
 
 	/// <summary>

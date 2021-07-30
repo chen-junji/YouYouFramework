@@ -200,7 +200,7 @@ public class GameUtil
     /// <returns></returns>
     public static string GetUIResPath(string path)
     {
-        return string.Format("Assets/Download/UI/UIRes/UITexture/{0}.png", path);
+        return string.Format("UI/UIRes/UITexture/{0}.png", path);
     }
 
     public static void OpenUICurePay()

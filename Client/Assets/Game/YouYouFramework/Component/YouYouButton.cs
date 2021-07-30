@@ -14,8 +14,12 @@ namespace YouYou
         private string id;
 
         private Button m_Button;
-        void Start()
+
+        private float BegScale;
+
+        private void Start()
         {
+            BegScale = transform.localScale.x;
             m_Button = GetComponent<Button>();
 
             if (AudioId.Length == 0)
@@ -28,7 +32,7 @@ namespace YouYou
             }
             m_Button.onClick.AddListener(() =>
             {
-                transform.DOScale(0.9f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(1.1f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(1, 0.05f).SetUpdate(true)));
+                transform.DOScale(BegScale * 0.9f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(BegScale * 1.1f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(BegScale, 0.05f).SetUpdate(true)));
                 GameEntry.Audio.PlayAudio(id);
             });
         }

@@ -25,7 +25,7 @@ namespace Hotfix
             YouYou.GameEntry.ActionOnUpdate = OnUpdate;
             YouYou.GameEntry.ActionOnApplicationPause = OnApplicationPause;
             YouYou.GameEntry.ActionOnApplicationQuit = OnApplicationQuit;
-            YouYou.GameEntry.ActionOnGameEnter = OnGameEnter;
+            YouYou.GameEntry.Event.CommonEvent.AddEventListener(YouYou.CommonEventId.PreloadComplete, OnGameEnter);
         }
         private void OnUpdate()
         {
@@ -33,13 +33,12 @@ namespace Hotfix
         }
         private void OnApplicationPause(bool pause)
         {
-            if (pause) Data.PlayerPrefsManager.SaveDataAll();
         }
         private void OnApplicationQuit()
         {
-            Data.PlayerPrefsManager.SaveDataAll();
         }
-        public static void OnGameEnter()
+
+        private void OnGameEnter(object userData)
         {
             UI.OpenUIForm(UIFormId.UIDialog);
         }

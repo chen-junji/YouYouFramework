@@ -183,7 +183,7 @@ public static class GameObjectUtil
     {
         if (img != null && !string.IsNullOrEmpty(imgPath))
         {
-            Object asset = await GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<Object>("Assets/Download/UI/UIRes/UITexture/" + imgPath);
+            Object asset = await GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<Object>("UI/UIRes/UITexture/" + imgPath);
             if (asset == null) return;
             if (asset is Texture2D) img.texture = (Texture2D)asset;
             if (isSetNativeSize) img.SetNativeSize();

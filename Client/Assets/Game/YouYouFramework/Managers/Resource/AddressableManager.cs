@@ -94,7 +94,7 @@ namespace YouYou
         public string GetSceneAssetBundlePath(string sceneName)
         {
             //string.Format("download/scenes/{0}.assetbundle", sceneName.ToLower());
-            return string.Format("Assets/Download/Scenes/{0}.unity", sceneName.ToLower());
+            return string.Format("Scenes/{0}.unity", sceneName.ToLower());
         }
     }
 }

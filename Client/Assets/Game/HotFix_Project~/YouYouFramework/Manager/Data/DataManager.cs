@@ -11,7 +11,6 @@ namespace Hotfix
     /// </summary>
     public class DataManager
     {
-        public PlayerPrefsManager PlayerPrefsManager { get; private set; }
         public UserDataManager UserDataManager { get; private set; }
         public RoleDataManager RoleDataManager { get; private set; }
         private float m_NextRunTime = 0f;
@@ -20,7 +19,6 @@ namespace Hotfix
 
         internal DataManager()
         {
-            PlayerPrefsManager = new PlayerPrefsManager();
             UserDataManager = new UserDataManager();
             RoleDataManager = new RoleDataManager();
         }
@@ -35,7 +33,6 @@ namespace Hotfix
 
         public void Dispose()
         {
-            PlayerPrefsManager.Dispose();
             RoleDataManager.Dispose();
         }
     }

@@ -27,7 +27,7 @@ public class TestAudio : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.B))
         {
-            serialId = GameEntry.Audio.FMOD.PlayAudio(601, pos3D: target.position);
+            //serialId = GameEntry.Audio.FMOD.PlayAudio(601, pos3D: target.position);
         }
         if (Input.GetKeyUp(KeyCode.C))
         {
