@@ -96,6 +96,9 @@ namespace YouYou
         /// </summary>
         public void Stop()
         {
+            //防止重复Stop
+            if (tillTime == 0) return;
+
             GameEntry.Time.Remove(tillTime, this);
             IsStart = false;
             OnStartAction = null;

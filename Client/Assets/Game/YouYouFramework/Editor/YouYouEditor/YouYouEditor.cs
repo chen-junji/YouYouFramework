@@ -205,7 +205,7 @@ public class YouYouEditor : OdinMenuEditorWindow
 	#endregion
 
 	#region 复制Hotfix.dll, Hotfix.pdb到Download/Hotfix
-	[InitializeOnLoad]
+	//[InitializeOnLoad]
 	public class Startup
 	{
 		private const string ScriptAssembliesDir = "Assets/Game/HotFix_Project~/bin/Debug";

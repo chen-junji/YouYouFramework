@@ -336,13 +336,18 @@ namespace YouYou
         }
         public void GameObjectSpawn(Sys_PrefabEntity sys_PrefabEntity, Transform panent = null, Action<Transform, bool> onComplete = null)
         {
-            if (sys_PrefabEntity == null) return;
             GameObjectPool.Spawn(sys_PrefabEntity, panent, onComplete);
         }
         public async ETTask<(Transform, bool)> GameObjectSpawnAsync(string prefabName, Transform panent = null)
         {
             ETTask<(Transform, bool)> task = ETTask<(Transform, bool)>.Create();
             GameObjectSpawn(prefabName, panent, (trans, isNew) => task.SetResult((trans, isNew)));
+            return await task;
+        }
+        public async ETTask<Transform> GameObjectSpawnAsync(string prefabName)
+        {
+            ETTask<Transform> task = ETTask<Transform>.Create();
+            GameObjectSpawn(prefabName, null, (trans, isNew) => task.SetResult(trans));
             return await task;
         }
 

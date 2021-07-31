@@ -5,28 +5,23 @@ using System.Collections;
 /// <summary>
 /// 单例(Mono)
 /// </summary>
-public class SingletonMono<T> : MonoBehaviour
+public class SingletonMono<T> : MonoBehaviour where T : SingletonMono<T>
 {
     public static T Instance { get; private set; }
 
-    void Awake()
+    protected virtual void Awake()
     {
-        Instance = GetComponent<T>();
-
-        OnAwake();
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = (T)this;
+        }
     }
-
-    void Start()
+    protected virtual void OnDestroy()
     {
-        OnStart();
+        if (Instance == this) Instance = null;
     }
-
-    void OnDestroy()
-    {
-        BeforeOnDestroy();
-    }
-
-    protected virtual void OnAwake() { }
-    protected virtual void OnStart() { }
-    protected virtual void BeforeOnDestroy() { }
 }

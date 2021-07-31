@@ -2,25 +2,27 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-
-public class Singleton<T> : IDisposable where T :new()
+namespace YouYou
 {
-    private static T instance;
-
-    public static T Instance
+    public class Singleton<T> : IDisposable where T : new()
     {
-        get
+        private static T instance;
+
+        public static T Instance
         {
-            if (instance == null)
+            get
             {
-                instance = new T();
+                if (instance == null)
+                {
+                    instance = new T();
+                }
+                return instance;
             }
-            return instance;
         }
-    }
 
-    public virtual void Dispose()
-    {
-        
+        public virtual void Dispose()
+        {
+
+        }
     }
 }
