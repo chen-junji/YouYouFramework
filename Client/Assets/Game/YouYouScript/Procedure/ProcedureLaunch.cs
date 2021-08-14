@@ -17,25 +17,26 @@ namespace YouYou
 #if RESOURCES || EDITORLOAD
             GameEntry.Procedure.ChangeState(ProcedureState.Preload);
 #elif ASSETBUNDLE
-			//访问账号服务器
-			var value = new
-            {
-                ChannelId = GameEntry.Data.SysDataManager.CurrChannelConfig.ChannelId,
-                InnerVersion = GameEntry.Data.SysDataManager.CurrChannelConfig.InnerVersion,
-            };
-			GameEntry.Http.Post(GameEntry.Http.RealWebAccountUrl + "/init", value.ToJson(), false, (retJson) =>
-			{
-				if (!retJson.JsonCutApart<bool>("HasError"))
-				{
-					string config = retJson.JsonCutApart("Value");
-					GameEntry.Data.SysDataManager.CurrChannelConfig.ServerTime = config.JsonCutApart<long>("ServerTime");
-					GameEntry.Data.SysDataManager.CurrChannelConfig.SourceVersion = config.JsonCutApart("SourceVersion");
-					GameEntry.Data.SysDataManager.CurrChannelConfig.SourceUrl = config.JsonCutApart("SourceUrl");
-					GameEntry.Data.SysDataManager.CurrChannelConfig.TDAppId = config.JsonCutApart("TDAppId");
-					GameEntry.Data.SysDataManager.CurrChannelConfig.IsOpenTD = config.JsonCutApart<bool>("IsOpenTD");
-					GameEntry.Procedure.ChangeState(ProcedureState.CheckVersion);
-				}
-			});
+            //访问账号服务器
+            //var value = new
+            //{
+            //    ChannelId = GameEntry.Data.SysData.CurrChannelConfig.ChannelId,
+            //    InnerVersion = GameEntry.Data.SysData.CurrChannelConfig.InnerVersion,
+            //};
+            //GameEntry.Http.Post(GameEntry.Http.RealWebAccountUrl + "/init", value.ToJson(), false, (retJson) =>
+            //{
+            //    if (!retJson.JsonCutApart<bool>("HasError"))
+            //    {
+            //        string config = retJson.JsonCutApart("Value");
+            //        GameEntry.Data.SysData.CurrChannelConfig.ServerTime = config.JsonCutApart<long>("ServerTime");
+            //        GameEntry.Data.SysData.CurrChannelConfig.SourceVersion = config.JsonCutApart("SourceVersion");
+            //        GameEntry.Data.SysData.CurrChannelConfig.SourceUrl = config.JsonCutApart("SourceUrl");
+            //        GameEntry.Data.SysData.CurrChannelConfig.TDAppId = config.JsonCutApart("TDAppId");
+            //        GameEntry.Data.SysData.CurrChannelConfig.IsOpenTD = config.JsonCutApart<bool>("IsOpenTD");
+            //        GameEntry.Procedure.ChangeState(ProcedureState.CheckVersion);
+            //    }
+            //});
+            GameEntry.Procedure.ChangeState(ProcedureState.CheckVersion);
 #endif
         }
     }

@@ -26,6 +26,13 @@ MonoBehaviour:
     IsEncrypt: 0
     Path:
     - Download/Audio
+  - Name: "FMOD\u97F3\u9891"
+    IsCanEditor: 1
+    Overall: 1
+    IsFirstData: 0
+    IsEncrypt: 0
+    Path:
+    - Download/FMOD
   - Name: "\u81EA\u5B9A\u4E49Shader"
     IsCanEditor: 0
     Overall: 1

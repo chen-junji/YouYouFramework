@@ -3,31 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ÇşµÀÅäÖÃ
+/// æ¸ é“é…ç½®
 /// </summary>
 public class ChannelConfigEntity
 {
 	/// <summary>
-	/// ÇşµÀºÅ
+	/// æ¸ é“å·
 	/// </summary>
 	public short ChannelId = 146;
 
 	/// <summary>
-	/// ·şÎñÆ÷Ê±¼ä
+	/// æœåŠ¡å™¨æ—¶é—´
 	/// </summary>
 	public long ServerTime;
 
 	/// <summary>
-	/// ×ÊÔ´°æ±¾ºÅ
+	/// èµ„æºç‰ˆæœ¬å·
 	/// </summary>
 	public string SourceVersion = "1.0.0";
 
 	public int InnerVersion = 1001;
 
 	/// <summary>
-	/// ×ÊÔ´µØÖ·
+	/// èµ„æºåœ°å€
 	/// </summary>
-	public string SourceUrl;
+	public string SourceUrl = "http://127.0.0.1:8082/";
 
 	/// <summary>
 	/// TDAppId
@@ -35,19 +35,19 @@ public class ChannelConfigEntity
 	public string TDAppId;
 
 	/// <summary>
-	/// ÊÇ·ñ¿ªÆôÍ³¼Æ
+	/// æ˜¯å¦å¼€å¯ç»Ÿè®¡
 	/// </summary>
 	public bool IsOpenTD;
 
 	/// <summary>
-	/// ³äÖµ·şÎñÆ÷±àºÅ
+	/// å……å€¼æœåŠ¡å™¨ç¼–å·
 	/// </summary>
 	public short PayServerNo;
 
-	#region RealSourceUrl ÕæÕıµÄ×ÊÔ´µØÖ·
+	#region RealSourceUrl çœŸæ­£çš„èµ„æºåœ°å€
 	private string m_RealSourceUrl;
 	/// <summary>
-	/// ÕæÕıµÄ×ÊÔ´µØÖ·
+	/// çœŸæ­£çš„èµ„æºåœ°å€
 	/// </summary>
 	public string RealSourceUrl
 	{

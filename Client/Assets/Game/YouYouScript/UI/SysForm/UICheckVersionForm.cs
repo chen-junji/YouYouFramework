@@ -9,10 +9,10 @@ public class UICheckVersionForm : MonoBehaviour
 {
     [SerializeField]
     private Text txtTip;
-    [SerializeField]
-    private Text txtSize;
-    [SerializeField]
-    private Text txtVersion;
+    //[SerializeField]
+    //private Text txtSize;
+    //[SerializeField]
+    //private Text txtVersion;
 
     [SerializeField]
     private Scrollbar scrollbar;
@@ -35,22 +35,22 @@ public class UICheckVersionForm : MonoBehaviour
         GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.PreloadUpdate, OnPreloadUpdate);
         GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.PreloadComplete, OnPreloadComplete);
 
-        if (txtSize != null) txtSize.gameObject.SetActive(false);
+        //if (txtSize != null) txtSize.gameObject.SetActive(false);
     }
 
     #region 检查更新进度
     private void OnCheckVersionBeginDownload(object userData)
     {
-        if (txtSize != null) txtSize.gameObject.SetActive(true);
+        //if (txtSize != null) txtSize.gameObject.SetActive(true);
 
-        txtVersion.text = string.Format("最新版本 {0}", GameEntry.Resource.ResourceManager.CDNVersion);
+        //txtVersion.text = string.Format("最新版本 {0}", GameEntry.Resource.ResourceManager.CDNVersion);
     }
     private void OnCheckVersionDownloadUpdate(object userData)
     {
         BaseParams baseParams = userData as BaseParams;
 
         txtTip.text = string.Format("正在下载{0}/{1}", baseParams.IntParam1, baseParams.IntParam2);
-        if (txtSize != null) txtSize.text = string.Format("{0:f2}M/{1:f2}M", (float)baseParams.ULongParam1 / (1024 * 1024), (float)baseParams.ULongParam2 / (1024 * 1024));
+        //if (txtSize != null) txtSize.text = string.Format("{0:f2}M/{1:f2}M", (float)baseParams.ULongParam1 / (1024 * 1024), (float)baseParams.ULongParam2 / (1024 * 1024));
 
         scrollbar.size = (float)baseParams.IntParam1 / baseParams.IntParam2;
     }
@@ -75,8 +75,8 @@ public class UICheckVersionForm : MonoBehaviour
     }
     private void OnPreloadBegin(object userData)
     {
-        if (txtSize != null) txtSize.gameObject.SetActive(false);
-        txtVersion.text = string.Format("资源版本号 {0}", GameEntry.Resource.ResourceManager.CDNVersion);
+        //if (txtSize != null) txtSize.gameObject.SetActive(false);
+        //txtVersion.text = string.Format("资源版本号 {0}", GameEntry.Resource.ResourceManager.CDNVersion);
     }
     #endregion
 }
