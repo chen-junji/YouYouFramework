@@ -22,11 +22,6 @@ namespace Hotfix
         public string AssetPath;
 
         /// <summary>
-        /// 是否3d声音
-        /// </summary>
-        public byte Is3D;
-
-        /// <summary>
         /// 音量（0-1）
         /// </summary>
         public float Volume;

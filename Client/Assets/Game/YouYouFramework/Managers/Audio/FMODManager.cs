@@ -193,7 +193,7 @@ namespace YouYou
 
             if (sys_Audio != null)
             {
-                return PlayAudio(sys_Audio.AssetPath, sys_Audio.Volume, parameterName, parameterValue, sys_Audio.Is3D == 1, pos3D);
+                return PlayAudio(sys_Audio.AssetPath, sys_Audio.Volume, parameterName, parameterValue, pos3D);
             }
             else
             {
@@ -204,7 +204,7 @@ namespace YouYou
         /// <summary>
         /// 播放音效
         /// </summary>
-        internal int PlayAudio(string eventPath, float volume = 1, string parameterName = null, float parameterValue = 0, bool is3D = false, Vector3 pos3D = default)
+        internal int PlayAudio(string eventPath, float volume = 1, string parameterName = null, float parameterValue = 0, Vector3 pos3D = default)
         {
             if (string.IsNullOrEmpty(eventPath)) return -1;
 
@@ -215,7 +215,7 @@ namespace YouYou
             //设置参数
             if (!string.IsNullOrEmpty(parameterName)) eventInstance.setParameterByName(parameterName, parameterValue);
             //设置3D音效
-            if (is3D) eventInstance.set3DAttributes(pos3D.To3DAttributes());
+            if (pos3D != default) eventInstance.set3DAttributes(pos3D.To3DAttributes());
 
             eventInstance.start();
             int serialId = m_Serial++;

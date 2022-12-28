@@ -73,21 +73,33 @@ public class TapEngine
         if (isAndroid())
             vibrator.Call("vibrate");
         else
+        {
+#if (UNITY_IPHONE || UNITY_IOS) && !UNITY_EDITOR
             Handheld.Vibrate();
+#endif
+        }
     }
     public void Vibrate(long milliseconds)
     {
         if (isAndroid())
             vibrator.Call("vibrate", milliseconds);
         else
+        {
+#if (UNITY_IPHONE || UNITY_IOS) && !UNITY_EDITOR
             Handheld.Vibrate();
+#endif
+        }
     }
     public void Vibrate(long[] pattern, int repeat)
     {
         if (isAndroid())
             vibrator.Call("vibrate", pattern, repeat);
         else
+        {
+#if (UNITY_IPHONE || UNITY_IOS) && !UNITY_EDITOR
             Handheld.Vibrate();
+#endif
+        }
     }
 
     public void Cancel()

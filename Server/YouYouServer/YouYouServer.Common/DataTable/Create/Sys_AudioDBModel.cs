@@ -31,7 +31,6 @@ public partial class Sys_AudioDBModel : DataTableDBModelBase<Sys_AudioDBModel, S
             entity.Id = ms.ReadInt();
             entity.Desc = ms.ReadUTF8String();
             entity.AssetPath = ms.ReadUTF8String();
-            entity.Is3D = (byte)ms.ReadByte();
             entity.Volume = ms.ReadFloat();
             entity.IsLoop = (byte)ms.ReadByte();
 

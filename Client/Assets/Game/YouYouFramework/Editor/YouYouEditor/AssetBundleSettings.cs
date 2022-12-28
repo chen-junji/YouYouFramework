@@ -267,26 +267,23 @@ public class AssetBundleSettings : ScriptableObject
 
 		//临时列表
 		List<AssetEntity> tempLst = new List<AssetEntity>();
+		HashSet<string> tempHash = new HashSet<string>();
 
-		int len = Datas.Length;
 		//循环设置文件夹包括子文件里边的项
-		for (int i = 0; i < len; i++)
+		for (int i = 0; i < Datas.Length; i++)
 		{
 			AssetBundleData assetBundleData = Datas[i];
 			for (int j = 0; j < assetBundleData.Path.Length; j++)
 			{
 				string path = Application.dataPath + "/" + assetBundleData.Path[j];
 				//Debug.LogError("CreateDependenciesFile path=" + path);
-				CollectFileInfo(tempLst, path);
+				CollectFileInfo(tempLst, tempHash, path);
 			}
 		}
 
-		//
-
 		//资源列表
 		List<AssetEntity> assetList = new List<AssetEntity>();
-        len = tempLst.Count;
-		for (int i = 0; i < len; i++)
+		for (int i = 0; i < tempLst.Count; i++)
 		{
 			AssetEntity entity = tempLst[i];
 
@@ -296,15 +293,11 @@ public class AssetBundleSettings : ScriptableObject
 
 			assetList.Add(newEntity);
 
-			//场景不需要检查依赖项
-			//if (entity.Category == AssetCategory.Scenes) continue;
-
 			newEntity.DependsAssetList = new List<AssetDependsEntity>();
-
-            string[] arr = AssetDatabase.GetDependencies(entity.AssetFullName, true);
+			string[] arr = AssetDatabase.GetDependencies(entity.AssetFullName, true);
 			foreach (string str in arr)
 			{
-				if (!str.Equals(newEntity.AssetFullName, StringComparison.CurrentCultureIgnoreCase) && GetIsAsset(tempLst, str))
+				if (!str.Equals(newEntity.AssetFullName) && !str.IsSuffix(".cs") && tempHash.Contains(str))
 				{
 					AssetDependsEntity assetDepends = new AssetDependsEntity();
 					assetDepends.AssetFullName = str;
@@ -317,18 +310,15 @@ public class AssetBundleSettings : ScriptableObject
 
 		//生成一个Json文件
 		string targetPath = OutPath;
-        if (!Directory.Exists(targetPath)) Directory.CreateDirectory(targetPath);
+		if (!Directory.Exists(targetPath)) Directory.CreateDirectory(targetPath);
 
-		string strJsonFilePath = targetPath + "/AssetInfo.json"; //版本文件路径
+		string strJsonFilePath = targetPath + "/AssetInfo.json"; //依赖文件路径
 		IOUtil.CreateTextFile(strJsonFilePath, assetList.ToJson());
 
-
-		MMO_MemoryStream ms = new MMO_MemoryStream();
 		//生成二进制文件
-		len = assetList.Count;
-		ms.WriteInt(len);
-
-		for (int i = 0; i < len; i++)
+		MMO_MemoryStream ms = new MMO_MemoryStream();
+		ms.WriteInt(assetList.Count);
+		for (int i = 0; i < assetList.Count; i++)
 		{
 			AssetEntity entity = assetList[i];
 			ms.WriteUTF8String(entity.AssetFullName);
@@ -354,37 +344,15 @@ public class AssetBundleSettings : ScriptableObject
 		string filePath = targetPath + "/AssetInfo.bytes"; //版本文件路径
 		byte[] buffer = ms.ToArray();
 		buffer = ZlibHelper.CompressBytes(buffer);
-		FileStream fs = new FileStream(filePath, FileMode.Create);
-		fs.Write(buffer, 0, buffer.Length);
-		fs.Close();
-		fs.Dispose();
-	}
-
-	/// <summary>
-	/// 判断某个资源是否存在于资源列表
-	/// </summary>
-	/// <param name="tempLst"></param>
-	/// <param name="assetFullName"></param>
-	/// <returns></returns>
-	private bool GetIsAsset(List<AssetEntity> tempLst, string assetFullName)
-	{
-        if (assetFullName.IsSuffix(".cs")) return false;
-		int len = tempLst.Count;
-		for (int i = 0; i < len; i++)
+		using (FileStream fs = new FileStream(filePath, FileMode.Create))
 		{
-            if (tempLst[i].AssetFullName.Equals(assetFullName, StringComparison.CurrentCultureIgnoreCase)) return true;
-			}
-		return false;
+			fs.Write(buffer, 0, buffer.Length);
+		}
 	}
-
-
-
 	/// <summary>
 	/// 收集文件信息
 	/// </summary>
-	/// <param name="tempLst"></param>
-	/// <param name="folderPath"></param>
-	private void CollectFileInfo(List<AssetEntity> tempLst, string folderPath)
+	private void CollectFileInfo(List<AssetEntity> tempLst, HashSet<string> tempHash, string folderPath)
 	{
 		DirectoryInfo directory = new DirectoryInfo(folderPath);
 
@@ -408,6 +376,7 @@ public class AssetBundleSettings : ScriptableObject
 
 			entity.AssetBundleName = (GetAssetBundleName(entity.AssetFullName) + ".assetbundle").ToLower();
 			tempLst.Add(entity);
+			tempHash.Add(entity.AssetFullName);
 		}
 	}
 	#endregion
