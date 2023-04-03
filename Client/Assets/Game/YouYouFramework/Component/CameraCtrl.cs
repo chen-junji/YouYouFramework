@@ -77,7 +77,6 @@ public class CameraCtrl : MonoBehaviour
 
 	void Start()
 	{
-		GameEntry.CameraCtrl = this;
 		Init();
 	}
 

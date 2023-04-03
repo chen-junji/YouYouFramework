@@ -40,23 +40,8 @@ namespace YouYou
         public string[] LockedAssetBundle;
 
         [FoldoutGroup("UIGroup")]
-        [Header("标准分辨率宽度")]
-        [SerializeField]
-        public int StandardWidth = 1280;
-
-        [FoldoutGroup("UIGroup")]
-        [Header("标准分辨率高度")]
-        [SerializeField]
-        public int StandardHeight = 720;
-
-        [FoldoutGroup("UIGroup")]
         [Header("UI摄像机")]
         public Camera UICamera;
-
-        [FoldoutGroup("UIGroup")]
-        [Header("根画布")]
-        [SerializeField]
-        public Canvas UIRootCanvas;
 
         [FoldoutGroup("UIGroup")]
         [Header("根画布的缩放")]
@@ -67,10 +52,6 @@ namespace YouYou
         [Header("UI分组")]
         [SerializeField]
         public UIGroup[] UIGroups;
-
-        [Title("支付平台选择")]
-        public PayPlatform m_PayPlatform;
-        public static PayPlatform PayPaltform { get; private set; }
 
         #region 管理器属性
         public static LoggerManager Logger { get; private set; }
@@ -164,11 +145,6 @@ namespace YouYou
         /// </summary>
         public static YouYouLanguage CurrLanguage;
 
-        public static CameraCtrl CameraCtrl;
-
-        public static Action ActionOnUpdate;
-        public static Action<bool> ActionOnApplicationPause;
-        public static Action ActionOnApplicationQuit;
 
         private void Awake()
         {
@@ -182,7 +158,6 @@ namespace YouYou
             CurrDeviceGrade = m_CurrDeviceGrade;
             ParamsSettings = m_ParamsSettings;
             CurrLanguage = m_CurrLanguage;
-            PayPaltform = m_PayPlatform;
 
             //限制游戏帧数,FPS
             Application.targetFrameRate = ParamsSettings.GetGradeParamData(YFConstDefine.targetFrameRate, CurrDeviceGrade);
@@ -207,8 +182,6 @@ namespace YouYou
             YouYouInput.OnUpdate();
             WebSocket.OnUpdate();
             Task.OnUpdate();
-
-            ActionOnUpdate?.Invoke();
         }
         private void OnApplicationQuit()
         {
@@ -228,14 +201,10 @@ namespace YouYou
             Download.Dispose();
             UI.Dispose();
             YouYouInput.Dispose();
-
-            ActionOnApplicationQuit?.Invoke();
         }
         private void OnApplicationPause(bool pause)
         {
             if (pause) PlayerPrefs.SaveDataAll();
-
-            ActionOnApplicationPause?.Invoke(pause);
         }
 
         /// <summary>
