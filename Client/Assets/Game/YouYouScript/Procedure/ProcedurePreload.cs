@@ -99,18 +99,18 @@ namespace YouYou
                 taskGroup.AddTask((taskRoutine) => GameEntry.UI.PreloadUI(entity, taskRoutine.Leave));
             }
 
-            //加载初始声音
-            taskGroup.AddTask((taskRoutine) =>
-            {
-                GameEntry.Audio.FMOD.LoadBanks(taskRoutine.Leave);
-            });
+            ////加载初始声音
+            //taskGroup.AddTask((taskRoutine) =>
+            //{
+            //    GameEntry.Audio.FMOD.LoadBanks(taskRoutine.Leave);
+            //});
 
             //初始化ILRuntime
-            taskGroup.AddTask((taskRoutine) =>
-            {
-                GameEntry.ILRuntime.Init();
-                GameEntry.ILRuntime.OnLoadDataTableComplete = () => taskRoutine.Leave();
-            });
+            //taskGroup.AddTask((taskRoutine) =>
+            //{
+            //    GameEntry.ILRuntime.Init();
+            //    GameEntry.ILRuntime.OnLoadDataTableComplete = () => taskRoutine.Leave();
+            //});
 
             taskGroup.OnCompleteOne = () =>
             {

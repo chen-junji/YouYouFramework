@@ -40,7 +40,7 @@ public class TestAudio : MonoBehaviour
             value += Time.deltaTime * 10;
             value = Mathf.Min(value, 300);
             Debug.LogError("value==" + value);
-            GameEntry.Audio.FMOD.SetParameterForAudio(serialId, "Speed", value);
+            //GameEntry.Audio.FMOD.SetParameterForAudio(serialId, "Speed", value);
         }
 
     }

@@ -17,12 +17,6 @@ namespace YouYou
         public float PlayerBGMVolume { get; private set; }
         public float PlayerAudioVolume { get; private set; }
 
-        public FMODManager FMOD { get; private set; }
-
-        public AudioManager()
-        {
-            FMOD = new FMODManager();
-        }
         public void Init()
         {
             ReleaseInterval = 10;
@@ -37,8 +31,6 @@ namespace YouYou
             RefreshAudio(null);
 
             GameEntry.Time.Create(delayTime: ReleaseInterval, loop: -1, interval: ReleaseInterval, onUpdate: (updateValue) => Release());
-
-            FMOD.Init();
         }
         private void RefreshAudio(object userData)
         {

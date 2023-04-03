@@ -15,7 +15,6 @@ MonoBehaviour:
   ResourceVersion: 1.0.0
   CurrBuildTarget: 0
   Options: 272
-  IsAutoCreateAssetInfo: 1
   AssetBundleSavePath: AssetBundles
   IsCanEditor: 1
   Datas:
@@ -26,13 +25,6 @@ MonoBehaviour:
     IsEncrypt: 0
     Path:
     - Download/Audio
-  - Name: "FMOD\u97F3\u9891"
-    IsCanEditor: 1
-    Overall: 1
-    IsFirstData: 0
-    IsEncrypt: 0
-    Path:
-    - Download/FMOD
   - Name: "\u81EA\u5B9A\u4E49Shader"
     IsCanEditor: 0
     Overall: 1

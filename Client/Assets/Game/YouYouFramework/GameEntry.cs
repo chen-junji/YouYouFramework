@@ -93,7 +93,6 @@ namespace YouYou
         public static InputManager YouYouInput { get; private set; }
         public static WebSocketManager WebSocket { get; private set; }
         public static TaskManager Task { get; private set; }
-        public static ILRuntimeManager ILRuntime { get; private set; }
         #endregion
 
         #region InitManagers 初始化管理器
@@ -122,7 +121,6 @@ namespace YouYou
             YouYouInput = new InputManager();
             WebSocket = new WebSocketManager();
             Task = new TaskManager();
-            ILRuntime = new ILRuntimeManager();
 
             Logger.Init();
             Procedure.Init();
