@@ -13,8 +13,8 @@ public class TestLua : MonoBehaviour
 {
     void Start()
     {
-        GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.LoadingProgressChange, null);
-        GameEntry.Event.CommonEvent.RemoveEventListener(CommonEventId.LoadingProgressChange, null);
+        GameEntry.Event.Common.AddEventListener(CommonEventId.LoadingProgressChange, null);
+        GameEntry.Event.Common.RemoveEventListener(CommonEventId.LoadingProgressChange, null);
 
         UnityEngine.UI.Scrollbar bar = null;
         bar.value = 1;

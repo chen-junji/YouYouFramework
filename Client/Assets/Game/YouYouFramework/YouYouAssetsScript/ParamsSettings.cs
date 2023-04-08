@@ -8,120 +8,134 @@ using YouYou;
 [CreateAssetMenu]
 public class ParamsSettings : ScriptableObject
 {
-	[BoxGroup("InitUrl")] public string WebAccountUrl;
-	[BoxGroup("InitUrl")] public string TestWebAccountUrl;
-	[BoxGroup("InitUrl")] public bool IsTest;
-	[BoxGroup("InitUrl")] public bool PostIsEncrypt;//ÊÇ·ñ¼ÓÃÜ(ÈçÊ±¼ä´Á)
-	[BoxGroup("InitUrl")] public string PostContentType;//ÉèÖÃContentType
+    [BoxGroup("InitUrl")] public string WebAccountUrl;
+    [BoxGroup("InitUrl")] public string TestWebAccountUrl;
+    [BoxGroup("InitUrl")] public bool IsTest;
+    [BoxGroup("InitUrl")] public bool PostIsEncrypt;//æ˜¯å¦åŠ å¯†(å¦‚æ—¶é—´æˆ³)
+    [BoxGroup("InitUrl")] public string PostContentType;//è®¾ç½®ContentType
 
+    #region å¸¸è§„æ•°æ®
+    /// <summary>
+    /// å¸¸è§„æ•°æ®
+    /// </summary>
+    [Serializable]
+    public class GeneralParamData
+    {
+        [TableColumnWidth(260, Resizable = false)]
+        /// <summary>
+        /// å‚æ•°Key
+        /// </summary>
+        public string Key;
 
+        /// <summary>
+        /// å‚æ•°å€¼
+        /// </summary>
+        public int Value;
+    }
 
-	[BoxGroup("GeneralParams")]
-	[TableList(ShowIndexLabels = true, AlwaysExpanded = true)]
-	[HideLabel]
-	public GeneralParamData[] GeneralParams;
+    [BoxGroup("GeneralParams")]
+    [TableList(ShowIndexLabels = true, AlwaysExpanded = true)]
+    [HideLabel]
+    public GeneralParamData[] GeneralParams;
+    /// <summary>
+    /// æ ¹æ®keyè·å–å‚æ•°
+    /// </summary>
+    public int GetGradeParamData(string key)
+    {
+        for (int i = 0; i < GeneralParams.Length; i++)
+        {
+            GeneralParamData gradeParamData = GeneralParams[i];
+            if (gradeParamData.Key.Equals(key, StringComparison.CurrentCultureIgnoreCase))
+            {
+                return gradeParamData.Value;
+            }
+        }
 
-	[BoxGroup("GradeParams")]
-	[TableList(ShowIndexLabels = true, AlwaysExpanded = true)]
-	[HideLabel]
-	public GradeParamData[] GradeParams;
+        GameEntry.LogError("GetGradeParamData Fail key={0}", key);
+        return 0;
+    }
+    #endregion
 
-	/// <summary>
-	/// ³£¹æÊı¾İ
-	/// </summary>
-	[Serializable]
-	public class GeneralParamData
-	{
-		[TableColumnWidth(260, Resizable = false)]
-		/// <summary>
-		/// ²ÎÊıKey
-		/// </summary>
-		public string Key;
+    #region ç­‰çº§æ•°æ®
+    /// <summary>
+    /// è®¾å¤‡ç­‰çº§
+    /// </summary>
+    public enum DeviceGrade
+    {
+        Low = 0,
+        Middle = 1,
+        High = 2
+    }
+    /// <summary>
+     /// ç­‰çº§å‚æ•°æ•°æ®
+     /// </summary>
+    [Serializable]
+    public class GradeParamData
+    {
+        [TableColumnWidth(260, Resizable = false)]
+        /// <summary>
+        /// å‚æ•°Key
+        /// </summary>
+        public string Key;
 
-		/// <summary>
-		/// ²ÎÊıÖµ
-		/// </summary>
-		public int Value;
-	}
+        /// <summary>
+        /// ä½é…å€¼
+        /// </summary>
+        public int LowValue;
 
-	/// <summary>
-	/// Éè±¸µÈ¼¶
-	/// </summary>
-	public enum DeviceGrade
-	{
-		Low = 0,
-		Middle = 1,
-		High = 2
-	}
+        /// <summary>
+        /// ä¸­é…å€¼
+        /// </summary>
+        public int MiddleValue;
 
-	/// <summary>
-	/// µÈ¼¶²ÎÊıÊı¾İ
-	/// </summary>
-	[Serializable]
-	public class GradeParamData
-	{
-		[TableColumnWidth(260, Resizable = false)]
-		/// <summary>
-		/// ²ÎÊıKey
-		/// </summary>
-		public string Key;
+        /// <summary>
+        /// é«˜é…å€¼
+        /// </summary>
+        public int HighValue;
 
-		/// <summary>
-		/// µÍÅäÖµ
-		/// </summary>
-		public int LowValue;
+        /// <summary>
+        /// è·å–å‚æ•°å€¼
+        /// </summary>
+        public int GetValueByGrade(DeviceGrade grade)
+        {
+            switch (grade)
+            {
+                default:
+                case DeviceGrade.Low:
+                    return LowValue;
+                case DeviceGrade.Middle:
+                    return MiddleValue;
+                case DeviceGrade.High:
+                    return HighValue;
+            }
+        }
+    }
 
-		/// <summary>
-		/// ÖĞÅäÖµ
-		/// </summary>
-		public int MiddleValue;
+    [BoxGroup("GradeParams")]
+    [TableList(ShowIndexLabels = true, AlwaysExpanded = true)]
+    [HideLabel]
+    public GradeParamData[] GradeParams;
 
-		/// <summary>
-		/// ¸ßÅäÖµ
-		/// </summary>
-		public int HighValue;
+    private int m_LenGradeParams = 0;
 
-		/// <summary>
-		/// »ñÈ¡²ÎÊıÖµ
-		/// </summary>
-		/// <param name="grade"></param>
-		/// <returns></returns>
-		public int GetValueByGrade(DeviceGrade grade)
-		{
-			switch (grade)
-			{
-				default:
-				case DeviceGrade.Low:
-					return LowValue;
-				case DeviceGrade.Middle:
-					return MiddleValue;
-				case DeviceGrade.High:
-					return HighValue;
-			}
-		}
-	}
+    /// <summary>
+    /// æ ¹æ®keyå’Œè®¾å¤‡ç­‰çº§è·å–å‚æ•°
+    /// </summary>
+    public int GetGradeParamData(string key, DeviceGrade grade)
+    {
+        m_LenGradeParams = GradeParams.Length;
+        for (int i = 0; i < m_LenGradeParams; i++)
+        {
+            GradeParamData gradeParamData = GradeParams[i];
+            if (gradeParamData.Key.Equals(key, StringComparison.CurrentCultureIgnoreCase))
+            {
+                return gradeParamData.GetValueByGrade(grade);
+            }
+        }
 
-	private int m_LenGradeParams = 0;
-
-	/// <summary>
-	/// ¸ù¾İkeyºÍÉè±¸µÈ¼¶»ñÈ¡²ÎÊı
-	/// </summary>
-	/// <param name="key"></param>
-	/// <param name="grade"></param>
-	/// <returns></returns>
-	public int GetGradeParamData(string key, DeviceGrade grade)
-	{
-		m_LenGradeParams = GradeParams.Length;
-		for (int i = 0; i < m_LenGradeParams; i++)
-		{
-			GradeParamData gradeParamData = GradeParams[i];
-			if (gradeParamData.Key.Equals(key, StringComparison.CurrentCultureIgnoreCase))
-			{
-				return gradeParamData.GetValueByGrade(grade);
-			}
-		}
-
-		GameEntry.LogError("GetGradeParamData Fail key={0}", key);
-		return 0;
-	}
+        GameEntry.LogError("GetGradeParamData Fail key={0}", key);
+        return 0;
+    }
+    #endregion
+    
 }

@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using YouYou;
+
+[RequireComponent(typeof(Toggle))]
+public class ToggleHandler : MonoBehaviour
+{
+    [SerializeField] string Name;
+
+    private Toggle toggle;
+
+    void Start()
+    {
+        toggle = GetComponent<Toggle>();
+        toggle.onValueChanged.AddListener(isOn =>
+        {
+            if (isOn)
+            {
+                GameEntry.Input.SetButtonDown(Name);
+                GameEntry.Event.Common.Dispatch("ToggleIsOn" + Name);
+            }
+            else
+            {
+                GameEntry.Input.SetButtonUp(Name);
+            }
+        });
+    }
+    void Update()
+    {
+        if (GameEntry.Input.GetButtonDown(ConstInput.Aim)) toggle.SetIsOnWithoutNotify(true);
+        if (GameEntry.Input.GetButtonUp(ConstInput.Aim)) toggle.SetIsOnWithoutNotify(false);
+    }
+}

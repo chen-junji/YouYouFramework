@@ -88,7 +88,7 @@ namespace YouYou
             {
                 //已经建立了连接
                 m_IsConnectToMainSocket = true;
-                GameEntry.Event.CommonEvent.Dispatch(CommonEventId.OnConnectOKToMainSocket);
+                GameEntry.Event.Common.Dispatch(CommonEventId.OnConnectOKToMainSocket);
             };
 
             SocketProtoListener.AddProtoListener();

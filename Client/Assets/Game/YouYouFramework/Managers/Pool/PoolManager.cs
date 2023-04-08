@@ -17,7 +17,7 @@ namespace YouYou
         /// <summary>
         /// 游戏物体对象池
         /// </summary>
-        private GameObjectPool GameObjectPool;
+        public GameObjectPool GameObjectPool { get; private set; }
         /// <summary>
         /// 资源包池
         /// </summary>
@@ -303,66 +303,17 @@ namespace YouYou
                 ReleaseAssetPool();
                 //GameEntry.Log(LogCategory.Normal, "释放Asset池");
 #endif
-                GameEntry.Event.CommonEvent.Dispatch(CommonEventId.LuaFullGc);
-
-#if !UNLOADRES_CHANGESCENE
-                Resources.UnloadUnusedAssets();
-#endif
             }
         }
 
         #region 游戏物体对象池
-
         /// <summary>
         /// 初始化游戏物体对象池
         /// </summary>
-        private void InitGameObjectPool()
+        internal void InitGameObjectPool()
         {
-            GameEntry.Instance.StartCoroutine(GameObjectPool.Init(GameEntry.Instance.GameObjectPoolGroups, GameEntry.Instance.PoolParent));
         }
 
-        /// <summary>
-        /// 从对象池中获取对象
-        /// </summary>
-        /// <param name="prefabId">预设编号</param>
-        /// <param name="onComplete"></param>
-        public void GameObjectSpawn(int prefabId, Transform panent = null, Action<Transform, bool> onComplete = null)
-        {
-            GameObjectSpawn(GameEntry.DataTable.Sys_PrefabDBModel.GetDic(prefabId), panent, onComplete);
-        }
-        public void GameObjectSpawn(string prefabName, Transform panent = null, Action<Transform, bool> onComplete = null)
-        {
-            GameObjectSpawn(GameEntry.DataTable.Sys_PrefabDBModel.GetPrefabIdByName(prefabName), panent, onComplete);
-        }
-        public void GameObjectSpawn(Sys_PrefabEntity sys_PrefabEntity, Transform panent = null, Action<Transform, bool> onComplete = null)
-        {
-            GameObjectPool.Spawn(sys_PrefabEntity, panent, onComplete);
-        }
-        public async ETTask<(Transform, bool)> GameObjectSpawnAsync(string prefabName, Transform panent = null)
-        {
-            ETTask<(Transform, bool)> task = ETTask<(Transform, bool)>.Create();
-            GameObjectSpawn(prefabName, panent, (trans, isNew) => task.SetResult((trans, isNew)));
-            return await task;
-        }
-        public async ETTask<Transform> GameObjectSpawnAsync(string prefabName)
-        {
-            ETTask<Transform> task = ETTask<Transform>.Create();
-            GameObjectSpawn(prefabName, null, (trans, isNew) => task.SetResult(trans));
-            return await task;
-        }
-
-        /// <summary>
-        /// 对象回池
-        /// </summary>
-        /// <param name="instance">实例</param>
-        public void GameObjectDespawn(Transform instance)
-        {
-            GameObjectPool.Despawn(instance);
-        }
-        #endregion
-
-
-        #region 实例管理和分类资源池释放
         /// <summary>
         /// 克隆出来的实例资源字典
         /// </summary>
@@ -376,28 +327,27 @@ namespace YouYou
         }
 
         /// <summary>
-        /// 注册到实例字典
+        /// 把克隆出来的资源 加入实例资源池
         /// </summary>
-        /// <param name="instanceId"></param>
-        /// <param name="resourceEntity"></param>
         public void RegisterInstanceResource(int instanceId, ResourceEntity resourceEntity)
         {
-            //Debug.LogError("注册到实例字典instanceId=" + instanceId);
+            //YouYou.GameEntry.LogError("注册到实例字典instanceId=" + instanceId);
             m_InstanceResourceDic[instanceId] = resourceEntity;
+            resourceEntity.Spawn(true);
         }
 
         /// <summary>
-        /// 释放实例资源
+        /// 释放实例资源, 从实例字典Remove
         /// </summary>
-        /// <param name="instanceId"></param>
         public void ReleaseInstanceResource(int instanceId)
         {
-            //Debug.LogError("释放实例资源instanceId=" + instanceId);
+            //YouYou.GameEntry.LogError("释放实例资源instanceId=" + instanceId);
             ResourceEntity resourceEntity = null;
             if (m_InstanceResourceDic.TryGetValue(instanceId, out resourceEntity))
             {
 #if ASSETBUNDLE
                 AssetPool.Unspawn(resourceEntity.ResourceName);
+                resourceEntity.Unspawn(true);
 #else
                 resourceEntity.Target = null;
                 GameEntry.Pool.EnqueueClassObject(resourceEntity);

@@ -48,15 +48,15 @@ public class MMO_MemoryStream : MemoryStream
     #endregion
 
     #region UShort
+    byte[] arrUShort = new byte[2];
     /// <summary>
     /// 从流中读取一个ushort数据
     /// </summary>
     /// <returns></returns>
     public ushort ReadUShort()
     {
-        byte[] arr = new byte[2];
-        base.Read(arr, 0, 2);
-        return BitConverter.ToUInt16(arr, 0);
+        base.Read(arrUShort, 0, 2);
+        return BitConverter.ToUInt16(arrUShort, 0);
     }
 
     /// <summary>
@@ -71,15 +71,15 @@ public class MMO_MemoryStream : MemoryStream
     #endregion
 
     #region Int
+    byte[] arrInt = new byte[4];
     /// <summary>
     /// 从流中读取一个int数据
     /// </summary>
     /// <returns></returns>
     public int ReadInt()
     {
-        byte[] arr = new byte[4];
-        base.Read(arr, 0, 4);
-        return BitConverter.ToInt32(arr, 0);
+        base.Read(arrInt, 0, 4);
+        return BitConverter.ToInt32(arrInt, 0);
     }
 
     /// <summary>
@@ -94,15 +94,15 @@ public class MMO_MemoryStream : MemoryStream
     #endregion
 
     #region UInt
+    byte[] arrUInt = new byte[4];
     /// <summary>
     /// 从流中读取一个uint数据
     /// </summary>
     /// <returns></returns>
     public uint ReadUInt()
     {
-        byte[] arr = new byte[4];
-        base.Read(arr, 0, 4);
-        return BitConverter.ToUInt32(arr, 0);
+        base.Read(arrUInt, 0, 4);
+        return BitConverter.ToUInt32(arrUInt, 0);
     }
 
     /// <summary>
@@ -163,15 +163,15 @@ public class MMO_MemoryStream : MemoryStream
     #endregion
 
     #region Float
+    byte[] arrFloat = new byte[4];
     /// <summary>
     /// 从流中读取一个float数据
     /// </summary>
     /// <returns></returns>
     public float ReadFloat()
     {
-        byte[] arr = new byte[4];
-        base.Read(arr, 0, 4);
-        return BitConverter.ToSingle(arr, 0);
+        base.Read(arrFloat, 0, 4);
+        return BitConverter.ToSingle(arrFloat, 0);
     }
 
     /// <summary>
@@ -186,15 +186,15 @@ public class MMO_MemoryStream : MemoryStream
     #endregion
 
     #region Double
+    byte[] arrDouble = new byte[8];
     /// <summary>
     /// 从流中读取一个double数据
     /// </summary>
     /// <returns></returns>
     public double ReadDouble()
     {
-        byte[] arr = new byte[8];
-        base.Read(arr, 0, 8);
-        return BitConverter.ToDouble(arr, 0);
+        base.Read(arrDouble, 0, 8);
+        return BitConverter.ToDouble(arrDouble, 0);
     }
 
     /// <summary>
@@ -236,9 +236,17 @@ public class MMO_MemoryStream : MemoryStream
     public string ReadUTF8String()
     {
         ushort len = this.ReadUShort();
-        byte[] arr = new byte[len];
-        base.Read(arr, 0, len);
-        return Encoding.UTF8.GetString(arr);
+        if (len > 0)
+        {
+            byte[] arr = new byte[len];
+            base.Read(arr, 0, len);
+            arr.ToString();
+            return Encoding.UTF8.GetString(arr);
+        }
+        else
+        {
+            return string.Empty;
+        }
     }
 
     /// <summary>

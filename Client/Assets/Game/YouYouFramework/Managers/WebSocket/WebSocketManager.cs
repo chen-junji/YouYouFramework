@@ -82,7 +82,7 @@ namespace YouYou
                 }
                 else
                 {
-                    Debug.Log(json.JsonCutApart("Msg"));
+                    GameEntry.Log(LogCategory.Normal, json.JsonCutApart("Msg"));
                 }
             }
         }

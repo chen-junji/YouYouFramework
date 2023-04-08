@@ -5,37 +5,37 @@ using UnityEngine;
 namespace YouYou
 {
     /// <summary>
-    /// ×ÊÔ´ÊµÌå(AssetBundleºÍAssetÊµÌå)
+    /// èµ„æºå®ä½“(AssetBundleå’ŒAssetå®ä½“)
     /// </summary>
     public class ResourceEntity
     {
         /// <summary>
-        /// ×ÊÔ´Ãû³Æ
+        /// èµ„æºåç§°
         /// </summary>
         public string ResourceName;
 
         /// <summary>
-        /// ÊÇ·ñAssetBundle
+        /// æ˜¯å¦AssetBundle
         /// </summary>
         public bool IsAssetBundle;
 
         /// <summary>
-        /// ¹ØÁªÄ¿±ê
+        /// å…³è”ç›®æ ‡
         /// </summary>
         public object Target;
 
         /// <summary>
-        /// ÉÏ´ÎÊ¹ÓÃÊ±¼ä
+        /// ä¸Šæ¬¡ä½¿ç”¨æ—¶é—´
         /// </summary>
         public float LastUseTime { get; private set; }
 
         /// <summary>
-        /// ÒıÓÃ¼ÆÊı
+        /// å¼•ç”¨è®¡æ•°
         /// </summary>
         public int ReferenceCount { get; private set; }
 
         /// <summary>
-        /// ÒÀÀµµÄ×ÊÔ´ÊµÌåÁ´±í
+        /// ä¾èµ–çš„èµ„æºå®ä½“é“¾è¡¨
         /// </summary>
         public LinkedList<ResourceEntity> DependsResourceList { private set; get; }
 
@@ -46,7 +46,7 @@ namespace YouYou
         }
 
         /// <summary>
-        /// ¶ÔÏóÈ¡³Ø
+        /// å¯¹è±¡å–æ± (reference==trueåˆ™å¼•ç”¨è®¡æ•°+1)
         /// </summary>
         public void Spawn(bool reference)
         {
@@ -58,7 +58,7 @@ namespace YouYou
             }
             else
             {
-                //Èç¹ûÊÇËø¶¨×ÊÔ´°ü ²»ÊÍ·Å
+                //å¦‚æœæ˜¯é”å®šèµ„æºåŒ… ä¸é‡Šæ”¾
                 if (GameEntry.Pool.CheckAssetBundleIsLock(ResourceName))
                 {
                     ReferenceCount = 1;
@@ -67,28 +67,30 @@ namespace YouYou
         }
 
         /// <summary>
-        /// ¶ÔÏó»Ø³Ø
+        /// å¯¹è±¡å›æ± (reference==trueåˆ™å¼•ç”¨è®¡æ•°-1)
         /// </summary>
-        public void Unspawn()
+        public void Unspawn(bool reference)
         {
             LastUseTime = Time.time;
 
             if (!IsAssetBundle)
             {
-                ReferenceCount--;
+                if (reference) ReferenceCount--;
                 if (ReferenceCount < 0) ReferenceCount = 0;
             }
         }
+
         /// <summary>
-        /// ¶ÔÏóÊÇ·ñ¿ÉÒÔÊÍ·Å
+        /// å¯¹è±¡æ˜¯å¦å¯ä»¥é‡Šæ”¾
         /// </summary>
         /// <returns></returns>
         public bool GetCanRelease()
         {
             return ReferenceCount == 0 && Time.time - LastUseTime > (IsAssetBundle ? GameEntry.Pool.ReleaseAssetBundleInterval : GameEntry.Pool.ReleaseAssetInterval);
         }
+
         /// <summary>
-        /// ÊÍ·Å×ÊÔ´
+        /// é‡Šæ”¾èµ„æº
         /// </summary>
         public void Release()
         {
@@ -102,8 +104,8 @@ namespace YouYou
             ReferenceCount = 0;
             Target = null;
 
-            DependsResourceList.Clear(); //°Ñ×Ô¼ºÒÀÀµµÄ×ÊÔ´ÊµÌåÇå¿Õ
-            GameEntry.Pool.EnqueueClassObject(this); //°ÑÕâ¸ö×ÊÔ´ÊµÌå»Ø³Ø
+            DependsResourceList.Clear(); //æŠŠè‡ªå·±ä¾èµ–çš„èµ„æºå®ä½“æ¸…ç©º
+            GameEntry.Pool.EnqueueClassObject(this); //æŠŠè¿™ä¸ªèµ„æºå®ä½“å›æ± 
         }
     }
 }

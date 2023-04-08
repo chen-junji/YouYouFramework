@@ -8,6 +8,8 @@ using System.Collections;
 using UnityEngine.UI;
 using YouYou;
 using DG.Tweening;
+using UnityEngine.U2D;
+using System.IO;
 
 /// <summary>
 /// GameObject拓展类
@@ -146,27 +148,24 @@ public static class GameObjectUtil
     /// <summary>
     /// 自动加载图片
     /// </summary>
-    /// <param name="go"></param>
-    /// <param name="imgPath"></param>
-    /// <param name="imgName"></param>
     public static async void AutoLoadTexture(this Image img, string imgPath, bool isSetNativeSize = false)
     {
         if (img != null && !string.IsNullOrEmpty(imgPath))
         {
-            Object asset = await GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<Object>(imgPath);
+            Object asset = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<Object>(imgPath);
             if (asset == null) return;
-            Sprite obj = null;
-            if (asset is Sprite)
+            Sprite obj;
+            if (asset is Sprite sprite)
             {
-                obj = (Sprite)asset;
+                obj = sprite;
             }
             else
             {
                 Texture2D texture = (Texture2D)asset;
                 obj = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             }
-
-            img.overrideSprite = obj;
+            //img.overrideSprite = obj;
+            img.sprite = obj;
             if (isSetNativeSize)
             {
                 img.SetNativeSize();
@@ -176,18 +175,50 @@ public static class GameObjectUtil
     /// <summary>
     /// 自动加载图片
     /// </summary>
-    /// <param name="go"></param>
-    /// <param name="imgPath"></param>
-    /// <param name="imgName"></param>
     public static async void AutoLoadTexture(this RawImage img, string imgPath, bool isSetNativeSize = false)
     {
         if (img != null && !string.IsNullOrEmpty(imgPath))
         {
-            Object asset = await GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<Object>("UI/UIRes/UITexture/" + imgPath);
+            Object asset = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<Object>("UI/UIRes/UITexture/" + imgPath);
             if (asset == null) return;
             if (asset is Texture2D) img.texture = (Texture2D)asset;
             if (isSetNativeSize) img.SetNativeSize();
         }
     }
+
+    public static async void AutoLoadSprite(this Image img, string imgPath, bool isSetNativeSize = false)
+    {
+        var sprite = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<Sprite>(imgPath);
+        img.sprite = sprite;
+        if (isSetNativeSize)
+        {
+            img.SetNativeSize();
+        }
+    }
+
+    /// <summary>
+    /// 自动加载图片
+    /// </summary>
+    public static async void LoadTexture(string imgPath, BaseAction<Texture2D> onComplete)
+    {
+        if (!string.IsNullOrEmpty(imgPath))
+        {
+            Object asset = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<Object>(imgPath);
+            if (asset == null) return;
+
+            if (asset is Texture2D)
+            {
+                Texture2D texture = (Texture2D)asset;
+                onComplete?.Invoke(texture);
+            }
+        }
+    }
+
+
     #endregion
+    public static void SetEffectOrder(this Transform trans, int sortingOrder)
+    {
+        Renderer[] renderers = trans.GetComponentsInChildren<Renderer>(true);
+        for (int i = 0; i < renderers.Length; i++) renderers[i].sortingOrder = sortingOrder;
+    }
 }

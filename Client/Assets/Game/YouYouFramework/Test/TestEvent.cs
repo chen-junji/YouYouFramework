@@ -8,7 +8,7 @@ public class TestEvent : MonoBehaviour
 {
     void Start()
     {
-        //GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.RegComplete, OnRegComplete);
+        //GameEntry.Event.Common.AddEventListener(CommonEventId.RegComplete, OnRegComplete);
     }
 
     private void OnRegComplete(object userData)
@@ -20,12 +20,12 @@ public class TestEvent : MonoBehaviour
     {
         //if (Input.GetKeyUp(KeyCode.A))
         //{
-        //    GameEntry.Event.CommonEvent.Dispatch(CommonEventId.RegComplete, 123);
+        //    GameEntry.Event.Common.Dispatch(CommonEventId.RegComplete, 123);
         //}
     }
 
     private void OnDestroy()
     {
-        //GameEntry.Event.CommonEvent.RemoveEventListener(CommonEventId.RegComplete, OnRegComplete);
+        //GameEntry.Event.Common.RemoveEventListener(CommonEventId.RegComplete, OnRegComplete);
     }
 }

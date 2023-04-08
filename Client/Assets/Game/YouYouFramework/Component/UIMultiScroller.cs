@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
 
+
+
 public class UIMultiScroller : MonoBehaviour
 {
     public enum Arrangement { Horizontal, Vertical, }
@@ -37,7 +39,9 @@ public class UIMultiScroller : MonoBehaviour
 
     private Queue<UIScrollIndex> _unUsedQueue;  //将未显示出来的Item存入未使用队列里面，等待需要使用的时候直接取出
 
-    //第一步 添加监听这个委托
+    /// <summary>
+    /// 第一步 添加监听这个委托
+    /// </summary>
     public Action<int, GameObject> OnItemCreate;
     /// <summary>
     /// 第二步 设置 DataCount 总数量 需要提前设置

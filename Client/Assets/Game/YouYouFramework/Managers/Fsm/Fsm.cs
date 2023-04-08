@@ -8,37 +8,37 @@ using UnityEngine;
 namespace YouYou
 {
 	/// <summary>
-	/// ×´Ì¬»ú
+	/// çŠ¶æ€æœº
 	/// </summary>
 	/// <typeparam name="T">FSMManager</typeparam>
 	public class Fsm<T> : FsmBase where T : class
 	{
 		/// <summary>
-		/// ×´Ì¬»úÓµÓĞÕß
+		/// çŠ¶æ€æœºæ‹¥æœ‰è€…
 		/// </summary>
 		public T Owner { get; private set; }
 
 		/// <summary>
-		/// µ±Ç°×´Ì¬
+		/// å½“å‰çŠ¶æ€
 		/// </summary>
 		private FsmState<T> m_CurrState;
 
 		/// <summary>
-		/// ×´Ì¬×Öµä
+		/// çŠ¶æ€å­—å…¸
 		/// </summary>
 		private Dictionary<sbyte, FsmState<T>> m_StateDic;
 
 		/// <summary>
-		/// ²ÎÊı×Öµä
+		/// å‚æ•°å­—å…¸
 		/// </summary>
 		private Dictionary<string, VariableBase> m_ParamDic;
 
 		/// <summary>
-		/// ¹¹Ôìº¯Êı
+		/// æ„é€ å‡½æ•°
 		/// </summary>
-		/// <param name="fsmId">×´Ì¬»ú±àºÅ</param>
-		/// <param name="owner">ÓµÓĞÕß</param>
-		/// <param name="states">×´Ì¬Êı×é</param>
+		/// <param name="fsmId">çŠ¶æ€æœºç¼–å·</param>
+		/// <param name="owner">æ‹¥æœ‰è€…</param>
+		/// <param name="states">çŠ¶æ€æ•°ç»„</param>
 
 		public Fsm(int fsmId, T owner, FsmState<T>[] states) : base(fsmId)
 		{
@@ -46,7 +46,7 @@ namespace YouYou
 			m_ParamDic = new Dictionary<string, VariableBase>();
 			Owner = owner;
 
-			//°Ñ×´Ì¬¼ÓÈë×Öµä
+			//æŠŠçŠ¶æ€åŠ å…¥å­—å…¸
 			int len = states.Length;
 			for (int i = 0; i < len; i++)
 			{
@@ -56,15 +56,15 @@ namespace YouYou
 				m_StateDic[(sbyte)i] = state;
 			}
 
-			//ÉèÖÃÄ¬ÈÏ×´Ì¬
+			//è®¾ç½®é»˜è®¤çŠ¶æ€
 			CurrStateType = -1;
 		}
 
 		/// <summary>
-		/// »ñÈ¡×´Ì¬
+		/// è·å–çŠ¶æ€
 		/// </summary>
-		/// <param name="stateType">×´Ì¬Type</param>
-		/// <returns>×´Ì¬</returns>
+		/// <param name="stateType">çŠ¶æ€Type</param>
+		/// <returns>çŠ¶æ€</returns>
 		public FsmState<T> GetState(sbyte stateType)
 		{
 			FsmState<T> state = null;
@@ -81,12 +81,12 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ÇĞ»»×´Ì¬
+		/// åˆ‡æ¢çŠ¶æ€
 		/// </summary>
 		/// <param name="newState"></param>
-		public void ChangeState(sbyte newState)
+		public FsmState<T> ChangeState(sbyte newState)
 		{
-			if (CurrStateType == newState) return;
+			if (CurrStateType == newState) return m_CurrState;
 
 			if (m_CurrState != null)
 			{
@@ -95,14 +95,15 @@ namespace YouYou
 			CurrStateType = newState;
 			m_CurrState = m_StateDic[CurrStateType];
 
-			//½øÈëĞÂ×´Ì¬
+			//è¿›å…¥æ–°çŠ¶æ€
 			m_CurrState.OnEnter();
+			return m_CurrState;
 		}
 
 		/// <summary>
-		/// ÉèÖÃ²ÎÊıÖµ
+		/// è®¾ç½®å‚æ•°å€¼
 		/// </summary>
-		/// <typeparam name="TData">²ÎÊıÀàĞÍ</typeparam>
+		/// <typeparam name="TData">å‚æ•°ç±»å‹</typeparam>
 		/// <param name="key"></param>
 		/// <param name="value"></param>
 		public void SetData<TData>(string key, TData value)
@@ -116,16 +117,16 @@ namespace YouYou
 			}
 			else
 			{
-				//²ÎÊı²»´æÔÚ
+				//å‚æ•°ä¸å­˜åœ¨
 				Variable<TData> item = new Variable<TData>();
 				item.Value = value;
 				m_ParamDic[key] = item;
 			}
 		}
 		/// <summary>
-		/// »ñÈ¡²ÎÊıÖµ
+		/// è·å–å‚æ•°å€¼
 		/// </summary>
-		/// <typeparam name="TData">²ÎÊıÀàĞÍ</typeparam>
+		/// <typeparam name="TData">å‚æ•°ç±»å‹</typeparam>
 		/// <param name="key"></param>
 		/// <returns></returns>
 		public TData GetDada<TData>(string key)
@@ -140,7 +141,7 @@ namespace YouYou
 		}
 
 		/// <summary>
-		/// ¹Ø±Õ×´Ì¬»ú
+		/// å…³é—­çŠ¶æ€æœº
 		/// </summary>
 		public override void ShutDown()
 		{

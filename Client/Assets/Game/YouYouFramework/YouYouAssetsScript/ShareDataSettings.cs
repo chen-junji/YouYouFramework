@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using YouYou;
 
 [CreateAssetMenu]
 public class ShareDataSettings : ScriptableObject
@@ -137,7 +138,7 @@ public class ShareDataSettings : ScriptableObject
 
             IOUtil.CreateTextFile(Application.dataPath + "/" + LuaScriptPath + "/" + ClassName + ".bytes", sbrLua.ToString());
             #endregion
-            Debug.Log("生成=" + ClassName + "完毕");
+            GameEntry.Log("生成=" + ClassName + "完毕");
         }
     }
 

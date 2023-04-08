@@ -12,6 +12,7 @@ namespace YouYou
     public enum ProcedureState
     {
         /// <summary>
+        None,
         /// 初始化
         /// </summary>
         Launch,
@@ -75,6 +76,7 @@ namespace YouYou
             //得到枚举的长度
             int count = Enum.GetNames(typeof(ProcedureState)).Length;
             FsmState<ProcedureManager>[] states = new FsmState<ProcedureManager>[count];
+            states[(byte)ProcedureState.None] = new ProcedureNone();
             states[(byte)ProcedureState.Launch] = new ProcedureLaunch();
             states[(byte)ProcedureState.CheckVersion] = new ProcedureCheckVersion();
             states[(byte)ProcedureState.Preload] = new ProcedurePreload();

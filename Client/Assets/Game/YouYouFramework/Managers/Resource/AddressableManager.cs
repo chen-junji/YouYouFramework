@@ -40,10 +40,11 @@ namespace YouYou
         internal void Init()
         {
 #if EDITORLOAD
-			LocalFilePath = Application.dataPath;
-#elif ASSETBUNDLE
+            LocalFilePath = Application.dataPath;
+#else
             LocalFilePath = Application.persistentDataPath;
 #endif
+
             ResourceManager.Init();
             ResourceLoaderManager.Init();
 

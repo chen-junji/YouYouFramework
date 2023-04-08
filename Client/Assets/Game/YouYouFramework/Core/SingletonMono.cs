@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 
 /// <summary>
@@ -7,21 +6,28 @@ using System.Collections;
 /// </summary>
 public class SingletonMono<T> : MonoBehaviour where T : SingletonMono<T>
 {
-    public static T Instance { get; private set; }
-
+    private static T instance;
+    public static T Instance
+    {
+        get
+        {
+            if (instance == null) instance = FindObjectOfType<T>(true);
+            return instance;
+        }
+    }
     protected virtual void Awake()
     {
-        if (Instance != null)
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            Instance = (T)this;
+            instance = GetComponent<T>();
         }
     }
     protected virtual void OnDestroy()
     {
-        if (Instance == this) Instance = null;
+        if (instance == this) instance = null;
     }
 }

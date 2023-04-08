@@ -22,10 +22,6 @@ namespace YouYou
         private YouYouLanguage m_CurrLanguage;
 
         [FoldoutGroup("ResourceGroup")]
-        [Header("游戏物体对象池父物体")]
-        public Transform PoolParent;
-
-        [FoldoutGroup("ResourceGroup")]
         /// <summary>
         /// 游戏物体对象池分组
         /// </summary>
@@ -53,6 +49,9 @@ namespace YouYou
         [SerializeField]
         public UIGroup[] UIGroups;
 
+        [Header("音频组")]
+        public Transform AudioGroup;
+
         #region 管理器属性
         public static LoggerManager Logger { get; private set; }
         public static EventManager Event { get; private set; }
@@ -71,9 +70,11 @@ namespace YouYou
         public static DownloadManager Download { get; private set; }
         public static UIManager UI { get; private set; }
         public static AudioManager Audio { get; private set; }
-        public static InputManager YouYouInput { get; private set; }
+        public static CrossPlatformInputManager Input { get; private set; }
         public static WebSocketManager WebSocket { get; private set; }
         public static TaskManager Task { get; private set; }
+        public static QualityManager Quality { get; private set; }
+        public static GuideManager Guide { get; private set; }
         #endregion
 
         #region InitManagers 初始化管理器
@@ -99,9 +100,11 @@ namespace YouYou
             Download = new DownloadManager();
             UI = new UIManager();
             Audio = new AudioManager();
-            YouYouInput = new InputManager();
+            Input = new CrossPlatformInputManager();
             WebSocket = new WebSocketManager();
             Task = new TaskManager();
+            Quality = new QualityManager();
+            Guide = new GuideManager();
 
             Logger.Init();
             Procedure.Init();
@@ -116,7 +119,6 @@ namespace YouYou
             Download.Init();
             UI.Init();
             Audio.Init();
-            YouYouInput.Init();
             WebSocket.Init();
             Task.Init();
 
@@ -158,9 +160,6 @@ namespace YouYou
             CurrDeviceGrade = m_CurrDeviceGrade;
             ParamsSettings = m_ParamsSettings;
             CurrLanguage = m_CurrLanguage;
-
-            //限制游戏帧数,FPS
-            Application.targetFrameRate = ParamsSettings.GetGradeParamData(YFConstDefine.targetFrameRate, CurrDeviceGrade);
         }
         private void Start()
         {
@@ -173,13 +172,12 @@ namespace YouYou
             Time.OnUpdate();
             Procedure.OnUpdate();
             Socket.OnUpdate();
-            Data.OnUpdate();
             Pool.OnUpdate();
             Scene.OnUpdate();
             Resource.OnUpdate();
             Download.OnUpdate();
             UI.OnUpdate();
-            YouYouInput.OnUpdate();
+            Input.OnUpdate();
             WebSocket.OnUpdate();
             Task.OnUpdate();
         }
@@ -192,58 +190,70 @@ namespace YouYou
             DataTable.Dispose();
             Socket.Dispose();
             Http.Dispose();
-            Data.Dispose();
             PlayerPrefs.Dispose();
             Localization.Dispose();
             Pool.Dispose();
             Scene.Dispose();
             Resource.Dispose();
             Download.Dispose();
-            UI.Dispose();
-            YouYouInput.Dispose();
         }
         private void OnApplicationPause(bool pause)
         {
             if (pause) PlayerPrefs.SaveDataAll();
         }
 
+        public static void Log(object message, params object[] args)
+        {
+            Log(LogCategory.Normal, message, args);
+        }
         /// <summary>
         /// 打印日志
         /// </summary>
-        public static void Log(LogCategory catetory, string message, params object[] args)
+        public static void Log(LogCategory catetory, object message, params object[] args)
         {
             switch (catetory)
             {
                 default:
                 case LogCategory.Normal:
-#if UNITY_EDITOR || (DEBUG_LOG_NORMAL && DEBUG_MODEL)
-                    Debug.Log("[youyou]" + (args.Length == 0 ? message : string.Format(message, args)));
+#if DEBUG_LOG_NORMAL && DEBUG_MODEL
+                    Debug.Log("[youyou]" + (args.Length == 0 ? message : string.Format(message.ToString(), args)));
 #endif
                     break;
                 case LogCategory.Procedure:
-#if UNITY_EDITOR || (DEBUG_LOG_PROCEDURE && DEBUG_MODEL)
-                    Debug.Log("[youyou]" + string.Format("{0}", args.Length == 0 ? message : string.Format(message, args)));
+#if DEBUG_LOG_PROCEDURE && DEBUG_MODEL
+                    Debug.Log("[youyou]" + string.Format("{0}", args.Length == 0 ? message : string.Format(message.ToString(), args)));
 #endif
                     break;
                 case LogCategory.Resource:
-#if UNITY_EDITOR || (DEBUG_LOG_RESOURCE && DEBUG_MODEL)
-                    Debug.Log("[youyou]" + string.Format("{0}", args.Length == 0 ? message : string.Format(message, args)));
+#if DEBUG_LOG_RESOURCE && DEBUG_MODEL
+                    Debug.Log("[youyou]" + string.Format("{0}", args.Length == 0 ? message : string.Format(message.ToString(), args)));
 #endif
                     break;
                 case LogCategory.Proto:
-#if UNITY_EDITOR || (DEBUG_LOG_PROTO && DEBUG_MODEL)
-                    Debug.Log("[youyou]" + (args.Length == 0 ? message : string.Format(message, args)));
+#if DEBUG_LOG_PROTO && DEBUG_MODEL
+                    Debug.Log("[youyou]" + (args.Length == 0 ? message : string.Format(message.ToString(), args)));
 #endif
                     break;
             }
         }
+
+        /// <summary>
+        /// 打印警告日志
+        /// </summary>
+        public static void LogWarning(object message, params object[] args)
+        {
+#if DEBUG_LOG_WARNING && DEBUG_MODEL
+            Debug.LogWarning("[youyou]" + (args.Length == 0 ? message : string.Format(message.ToString(), args)));
+#endif
+        }
+
         /// <summary>
         /// 打印错误日志
         /// </summary>
-        public static void LogError(string message, params object[] args)
+        public static void LogError(object message, params object[] args)
         {
-#if UNITY_EDITOR || (DEBUG_LOG_ERROR && DEBUG_MODEL)
-            Debug.LogError("[youyou]" + (args.Length == 0 ? message : string.Format(message, args)));
+#if DEBUG_LOG_ERROR
+            Debug.LogError("[youyou]" + (args.Length == 0 ? message : string.Format(message.ToString(), args)));
 #endif
         }
     }

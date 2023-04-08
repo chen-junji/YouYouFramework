@@ -109,8 +109,8 @@ namespace YouYou
                 entity.AssetFullName = ms.ReadUTF8String();
                 entity.AssetBundleName = ms.ReadUTF8String();
 
-                //Debug.Log("entity.AssetBundleName=" + entity.AssetBundleName);
-                //Debug.Log("entity.AssetFullName=" + entity.AssetFullName);
+                //GameEntry.Log("entity.AssetBundleName=" + entity.AssetBundleName);
+                //GameEntry.Log("entity.AssetFullName=" + entity.AssetFullName);
 
                 depLen = ms.ReadInt();
                 if (depLen > 0)
@@ -167,7 +167,7 @@ namespace YouYou
             ResourceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
             if (assetBundleEntity != null)
             {
-                //Debug.Log("资源包在资源池中存在 从资源池中加载AssetBundle");
+                //GameEntry.Log("资源包在资源池中存在 从资源池中加载AssetBundle");
                 onComplete?.Invoke(assetBundleEntity.Target as AssetBundle);
                 return;
             }
@@ -245,7 +245,7 @@ namespace YouYou
         /// <param name="onComplete"></param>
         public void LoadAsset(string assetName, AssetBundle assetBundle, Action<float> onUpdate = null, Action<UnityEngine.Object, bool> onComplete = null)
         {
-            //Debug.Log(assetName + "===========================================================");
+            //GameEntry.Log(assetName + "===========================================================");
             //1.判断Asset是否加载到一半,防止高并发导致重复加载
             LinkedList<Action<UnityEngine.Object, bool>> lst = null;
             if (m_LoadingAsset.TryGetValue(assetName, out lst))
@@ -294,31 +294,41 @@ namespace YouYou
         }
         #endregion
 
-        public async ETTask<T> LoadMainAsset<T>(string assetFullName, Action<float> onUpdate = null) where T : class
+        public async ETTask<T> LoadMainAssetAsync<T>(string assetFullName, Action<float> onUpdate = null) where T : UnityEngine.Object
         {
             ETTask<T> task = ETTask<T>.Create();
             LoadMainAssetAction<T>(assetFullName, task.SetResult, onUpdate);
             return await task;
         }
-        public void LoadMainAssetAction<T>(string assetFullName, Action<T> onComplete = null, Action<float> onUpdate = null) where T : class
+        public void LoadMainAssetAction<T>(string assetFullName, Action<T> onComplete = null, Action<float> onUpdate = null) where T : UnityEngine.Object
         {
-            LoadMainAssetAction(assetFullName, (ResourceEntity resEntity) => onComplete?.Invoke(resEntity != null ? (T)resEntity.Target : null), onUpdate, false);
+            LoadMainAssetAction<T>(assetFullName, (ResourceEntity resEntity) => onComplete?.Invoke(resEntity != null ? (T)resEntity.Target : null), onUpdate);
         }
-        public async ETTask<ResourceEntity> LoadMainAsset(string assetFullName, Action<float> onUpdate = null, bool isAddReferenceCount = false)
+        public async ETTask<ResourceEntity> LoadMainAssetAsync(string assetFullName, Action<float> onUpdate = null)
         {
             ETTask<ResourceEntity> task = ETTask<ResourceEntity>.Create();
-            LoadMainAssetAction(assetFullName, task.SetResult, onUpdate, isAddReferenceCount);
+            LoadMainAssetAction<UnityEngine.Object>(assetFullName, task.SetResult, onUpdate);
             return await task;
         }
         /// <summary>
         /// 加载主资源
         /// </summary>
         /// <param name="isParallel">True并行加载, Flase递归加载</param>
-        /// <param name="isAddReferenceCount">是否递增引用计数?</param>
-        public void LoadMainAssetAction(string assetFullName, Action<ResourceEntity> onComplete, Action<float> onUpdate = null, bool isAddReferenceCount = false)
+        public void LoadMainAssetAction<T>(string assetFullName, Action<ResourceEntity> onComplete, Action<float> onUpdate = null) where T : UnityEngine.Object
         {
             MainAssetLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<MainAssetLoaderRoutine>();
-            routine.Load(assetFullName, onComplete, onUpdate, isAddReferenceCount);
+            routine.LoadAction<T>(assetFullName, onComplete, onUpdate);
+        }
+
+        public T LoadMainAsset<T>(string assetFullName) where T : UnityEngine.Object
+        {
+            MainAssetLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<MainAssetLoaderRoutine>();
+            return routine.Load(assetFullName).Target as T;
+        }
+        public ResourceEntity LoadMainAsset(string assetFullName)
+        {
+            MainAssetLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<MainAssetLoaderRoutine>();
+            return routine.Load(assetFullName);
         }
     }
 }

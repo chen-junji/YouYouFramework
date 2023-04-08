@@ -20,7 +20,7 @@ public class UILoadingForm : UIFormBase
 	protected override void OnInit(object userData)
 	{
 		base.OnInit(userData);
-		GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.LoadingProgressChange, OnLoadingProgressChange);
+		GameEntry.Event.Common.AddEventListener(CommonEventId.LoadingProgressChange, OnLoadingProgressChange);
 	}
 	private void OnLoadingProgressChange(object userData)
 	{
@@ -44,7 +44,7 @@ public class UILoadingForm : UIFormBase
 	protected override void OnClose()
 	{
 		base.OnClose();
-		GameEntry.Event.CommonEvent.RemoveEventListener(CommonEventId.LoadingProgressChange, OnLoadingProgressChange);
+		GameEntry.Event.Common.RemoveEventListener(CommonEventId.LoadingProgressChange, OnLoadingProgressChange);
 	}
 	protected override void OnBeforDestroy()
 	{

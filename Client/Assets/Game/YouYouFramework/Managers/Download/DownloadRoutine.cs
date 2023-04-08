@@ -209,7 +209,7 @@ public class DownloadRoutine
 			if (m_CurrDownloaderSize < m_UnityWebRequest.downloadedBytes)//这里是为了判断当前是否处于下载未完成
 			{
 				m_CurrDownloaderSize = m_UnityWebRequest.downloadedBytes;
-				//Debug.LogError(string.Format("下载进度{0}%", (int)(m_CurrDownloaderSize / (float)m_TotalSize) * 100));
+				//YouYou.GameEntry.LogError(string.Format("下载进度{0}%", (int)(m_CurrDownloaderSize / (float)m_TotalSize) * 100));
 
 				Sava(m_UnityWebRequest.downloadHandler.data);
 
@@ -233,7 +233,7 @@ public class DownloadRoutine
 		else
 		{
 			//下载完毕
-			//Debug.Log("下载完毕=>" + m_UnityWebRequest.url);
+			//GameEntry.Log("下载完毕=>" + m_UnityWebRequest.url);
 			m_CurrDownloaderSize = m_UnityWebRequest.downloadedBytes;
 			Sava(m_UnityWebRequest.downloadHandler.data, true);
 
@@ -269,7 +269,7 @@ public class DownloadRoutine
 		m_CurrWaitFlushSize += count;
 		if (m_CurrWaitFlushSize >= GameEntry.Download.FlushSize || downloadComplete)
 		{
-			//Debug.LogError("写入磁盘" + m_CurrFileUrl);
+			//YouYou.GameEntry.LogError("写入磁盘" + m_CurrFileUrl);
 			m_CurrWaitFlushSize = 0;
 			m_FileStream.Flush();
 		}

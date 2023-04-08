@@ -5,102 +5,161 @@ using UnityEngine;
 
 namespace YouYou
 {
-    public class TimeManager 
+    public class TimeManager
     {
         /// <summary>
         /// 定时器排序字典
         /// </summary>
         private readonly SortedDictionary<float, List<TimeAction>> m_SortedDictionary;
+        private readonly SortedDictionary<float, List<TimeAction>> m_UnscaledSortedDictionary;
+
         private readonly Queue<float> timeOutTime = new Queue<float>();
+
         // 记录最近的TimeAction的临时目标时间点
         private float minTime;
+        private float unscaledMinTime;
 
         internal TimeManager()
         {
             m_SortedDictionary = new SortedDictionary<float, List<TimeAction>>();
-        }
-
-        internal void Init()
-        {
-
+            m_UnscaledSortedDictionary = new SortedDictionary<float, List<TimeAction>>();
         }
 
         /// <summary>
         /// 注册定时器
         /// </summary>
-        internal void Register(float tillTime, TimeAction action)
+        internal void Register(float tillTime, TimeAction action, bool unScaled)
         {
-            if (!m_SortedDictionary.ContainsKey(tillTime)) m_SortedDictionary.Add(tillTime, new List<TimeAction>());
-
-            m_SortedDictionary[tillTime].Add(action);
-            if (tillTime < minTime) minTime = tillTime;
+            if (unScaled)
+            {
+                if (!m_UnscaledSortedDictionary.ContainsKey(tillTime)) m_UnscaledSortedDictionary.Add(tillTime, new List<TimeAction>());
+                m_UnscaledSortedDictionary[tillTime].Add(action);
+                if (tillTime < unscaledMinTime) unscaledMinTime = tillTime;
+            }
+            else
+            {
+                if (!m_SortedDictionary.ContainsKey(tillTime)) m_SortedDictionary.Add(tillTime, new List<TimeAction>());
+                m_SortedDictionary[tillTime].Add(action);
+                if (tillTime < minTime) minTime = tillTime;
+            }
         }
         /// <summary>
         /// 移除定时器
         /// </summary>
-        internal void Remove(float tillTime, TimeAction action)
+        internal void Remove(float tillTime, TimeAction action, bool unScaled)
         {
-            List<TimeAction> lst = null;
-            if (m_SortedDictionary.TryGetValue(tillTime, out lst))
+            if (unScaled)
             {
-                lst.Remove(action);
+                if (m_UnscaledSortedDictionary.TryGetValue(tillTime, out List<TimeAction> lst))
+                {
+                    lst.Remove(action);
+                }
+            }
+            else
+            {
+                if (m_SortedDictionary.TryGetValue(tillTime, out List<TimeAction> lst))
+                {
+                    lst.Remove(action);
+                }
             }
         }
 
         internal void OnUpdate()
         {
-            if (m_SortedDictionary.Count == 0) return;
-            if (Time.time < minTime) return;
+            if (m_SortedDictionary.Count > 0 && Time.time >= minTime)
+            {
+                var enumerator = m_SortedDictionary.GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    float k = enumerator.Current.Key;
+                    if (k > Time.time)
+                    {
+                        minTime = k;
+                        break;
+                    }
+                    timeOutTime.Enqueue(k);
+                }
+                foreach (var item in timeOutTime)
+                {
+                    if (m_SortedDictionary.ContainsKey(item) == false) continue;
 
-            foreach (var item in m_SortedDictionary)
-            {
-                float k = item.Key;
-                if (k > Time.time)
-                {
-                    minTime = item.Key;
-                    break;
+                    List<TimeAction> lst = m_SortedDictionary[item];
+                    for (int i = 0; i < lst.Count; i++)
+                    {
+                        lst[i].TillTimeEnd();
+                    }
+                    m_SortedDictionary.Remove(item);
                 }
-                timeOutTime.Enqueue(k);
+                timeOutTime.Clear();
             }
-            foreach (var item in timeOutTime)
+
+            if (m_UnscaledSortedDictionary.Count > 0 && Time.unscaledTime >= unscaledMinTime)
             {
-                List<TimeAction> lst = m_SortedDictionary[item];
-                for (int i = 0; i < lst.Count; i++)
+                foreach (var item in m_UnscaledSortedDictionary)
                 {
-                    lst[i].TillTimeEnd();
+                    float k = item.Key;
+                    if (k > Time.unscaledTime)
+                    {
+                        unscaledMinTime = item.Key;
+                        break;
+                    }
+                    timeOutTime.Enqueue(k);
                 }
-                m_SortedDictionary.Remove(item);
+                foreach (var item in timeOutTime)
+                {
+                    if (m_UnscaledSortedDictionary.ContainsKey(item) == false) continue;
+
+                    List<TimeAction> lst = m_UnscaledSortedDictionary[item];
+                    for (int i = 0; i < lst.Count; i++)
+                    {
+                        lst[i].TillTimeEnd();
+                    }
+                    m_UnscaledSortedDictionary.Remove(item);
+                }
+                timeOutTime.Clear();
             }
-            timeOutTime.Clear();
         }
 
         /// <summary>
         /// 创建定时器
         /// </summary>
-        /// <returns></returns>
-        public TimeAction Create(string timeName = null, float delayTime = 0, float interval = 1, int loop = 0, bool unScaled = false, Action onStar = null, Action<int> onUpdate = null, Action onComplete = null)
+        /// <param name="timeName">定时器名称, 有需要可以通过传名字关闭或暂停定时器</param>
+        /// <param name="delayTime">延迟时间</param>
+        /// <param name="interval">间隔时间</param>
+        /// <param name="loop">循环次数</param>
+        /// <param name="unScaled">是否无视Time.timeScale</param>
+        /// <param name="onStar">延迟时间结束时调用</param>
+        /// <param name="onUpdate">循环一次时调用</param>
+        /// <param name="onComplete">全部循环完毕时调用</param>
+        /// <returns>定时器</returns>
+        public TimeAction Create(string timeName = null, float delayTime = 0, float interval = 1, int loop = 1, bool unScaled = false, Action onStar = null, Action<int> onUpdate = null, Action onComplete = null)
         {
             return new TimeAction().Init(timeName, delayTime, interval, loop, unScaled, onStar, onUpdate, onComplete);
         }
-        public async ETTask Delay(float delayTime)
+        public async ETTask Delay(float delayTime, bool unScaled = false)
         {
             ETTask task = ETTask.Create();
-            Create(delayTime: delayTime, onStar: task.SetResult);
+            Create(delayTime: delayTime, unScaled: unScaled, onStar: task.SetResult);
             await task;
         }
 
         /// <summary>
         /// 延迟一帧
         /// </summary>
-        /// <param name="onComplete"></param>
         public void Yield(Action onComplete)
         {
             GameEntry.Instance.StartCoroutine(YieldCoroutine());
             IEnumerator YieldCoroutine()
             {
                 yield return null;
-                if (onComplete != null) onComplete();
+                onComplete?.Invoke();
             }
+        }
+        public async ETTask Yield()
+        {
+            ETTask task = ETTask.Create();
+            Yield(task.SetResult);
+            await task;
         }
 
         public void SetTimeScale(float scale)

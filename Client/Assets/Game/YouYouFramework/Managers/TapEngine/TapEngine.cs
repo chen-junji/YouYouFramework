@@ -14,16 +14,17 @@ using System.Runtime.InteropServices;
 /// </summary>
 public class TapEngine
 {
-    public bool IsShake = true;
+    public bool IsShake { get; private set; }
 
     public void Init()
     {
+        GameEntry.PlayerPrefs.SetBoolHas(CommonEventId.IsShake, true);
+        GameEntry.Event.Common.AddEventListener(CommonEventId.IsShake, RefreshIsShake);
         RefreshIsShake(null);
-        GameEntry.Event.CommonEvent.AddEventListener(CommonEventId.IsShake, RefreshIsShake);
     }
     private void RefreshIsShake(object p)
     {
-        IsShake = GameEntry.PlayerPrefs.GetLoggerDic(CommonEventId.IsShake).ToInt() == 1;
+        IsShake = GameEntry.PlayerPrefs.GetBool(CommonEventId.IsShake);
     }
 
     #region 苹果
@@ -59,56 +60,13 @@ public class TapEngine
     #endregion
 
     #region 安卓
-#if UNITY_ANDROID && !UNITY_EDITOR
-    public static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-    public static AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-    public static AndroidJavaObject vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", "vibrator");
-#else
-    public static AndroidJavaClass unityPlayer;
-    public static AndroidJavaObject currentActivity;
-    public static AndroidJavaObject vibrator;
-#endif
     public void Vibrate()
     {
-        if (isAndroid())
-            vibrator.Call("vibrate");
-        else
-        {
-#if (UNITY_IPHONE || UNITY_IOS) && !UNITY_EDITOR
-            Handheld.Vibrate();
+#if UNITY_ANDROID && !UNITY_EDITOR
+        if (IsAndroid()) Handheld.Vibrate();
 #endif
-        }
     }
-    public void Vibrate(long milliseconds)
-    {
-        if (isAndroid())
-            vibrator.Call("vibrate", milliseconds);
-        else
-        {
-#if (UNITY_IPHONE || UNITY_IOS) && !UNITY_EDITOR
-            Handheld.Vibrate();
-#endif
-        }
-    }
-    public void Vibrate(long[] pattern, int repeat)
-    {
-        if (isAndroid())
-            vibrator.Call("vibrate", pattern, repeat);
-        else
-        {
-#if (UNITY_IPHONE || UNITY_IOS) && !UNITY_EDITOR
-            Handheld.Vibrate();
-#endif
-        }
-    }
-
-    public void Cancel()
-    {
-        if (isAndroid())
-            vibrator.Call("cancel");
-    }
-
-    private bool isAndroid()
+    private bool IsAndroid()
     {
         if (!IsShake) return false;
 #if UNITY_ANDROID && !UNITY_EDITOR

@@ -335,7 +335,7 @@ namespace YouYou
         /// </summary>
         private void DownloadInitResources()
         {
-            GameEntry.Event.CommonEvent.Dispatch(CommonEventId.CheckVersionBeginDownload);
+            GameEntry.Event.Common.Dispatch(CommonEventId.CheckVersionBeginDownload);
             m_DownloadingParams = GameEntry.Pool.DequeueClassObject<BaseParams>();
             m_DownloadingParams.Reset();
 
@@ -480,7 +480,7 @@ namespace YouYou
             }
             #endregion
 
-            GameEntry.Event.CommonEvent.Dispatch(CommonEventId.CheckVersionBeginDownload);
+            GameEntry.Event.Common.Dispatch(CommonEventId.CheckVersionBeginDownload);
 
             //进行下载
             GameEntry.Log(LogCategory.Resource, "下载更新资源,文件数量==>" + needDownloadList.Count + "==>" + needDownloadList.ToJson());
@@ -530,7 +530,7 @@ namespace YouYou
             m_DownloadingParams.ULongParam1 = t3;
             m_DownloadingParams.ULongParam2 = t4;
 
-            GameEntry.Event.CommonEvent.Dispatch(CommonEventId.CheckVersionDownloadUpdate, m_DownloadingParams);
+            GameEntry.Event.Common.Dispatch(CommonEventId.CheckVersionDownloadUpdate, m_DownloadingParams);
         }
 
 
@@ -541,7 +541,7 @@ namespace YouYou
         {
             SetResourceVersion();
 
-            GameEntry.Event.CommonEvent.Dispatch(CommonEventId.CheckVersionDownloadComplete);
+            GameEntry.Event.Common.Dispatch(CommonEventId.CheckVersionDownloadComplete);
             GameEntry.Pool.EnqueueClassObject(m_DownloadingParams);
 
             //进入预加载流程

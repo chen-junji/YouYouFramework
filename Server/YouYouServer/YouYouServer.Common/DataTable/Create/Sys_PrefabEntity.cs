@@ -11,19 +11,9 @@ using System.Collections;
 public partial class Sys_PrefabEntity : DataTableEntityBase
 {
     /// <summary>
-    /// 描述
-    /// </summary>
-    public string Desc;
-
-    /// <summary>
     /// Name
     /// </summary>
     public string Name;
-
-    /// <summary>
-    /// 资源分类
-    /// </summary>
-    public int AssetCategory;
 
     /// <summary>
     /// 路径
@@ -33,7 +23,7 @@ public partial class Sys_PrefabEntity : DataTableEntityBase
     /// <summary>
     /// 后缀
     /// </summary>
-    public string Suffixes;
+    public string Suffix;
 
     /// <summary>
     /// 对象池编号

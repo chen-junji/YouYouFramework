@@ -187,7 +187,7 @@ namespace YouYou
 				}
 
 				//GC 整个项目中，有一处GC即可
-				GC.Collect();
+				//GC.Collect();
 			}
 		}
 

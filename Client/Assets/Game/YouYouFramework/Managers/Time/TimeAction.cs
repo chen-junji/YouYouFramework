@@ -70,11 +70,11 @@ namespace YouYou
         /// <param name="delayTime">延迟时间</param>
         /// <param name="interval">间隔</param>
         /// <param name="loop">循环次数</param>
-        internal TimeAction Init(string timeName = null, float delayTime = 0, float interval = 1, int loop = 0, bool unScaled = false, Action onStar = null, Action<int> onUpdate = null, Action onComplete = null)
+        internal TimeAction Init(string timeName, float delayTime, float interval, int loop, bool unScaled, Action onStar, Action<int> onUpdate, Action onComplete)
         {
             if (tillTime > 0)
             {
-                Debug.LogError("定时器正在使用中");
+                YouYou.GameEntry.LogError("定时器正在使用中");
                 return null;
             }
             TimeName = timeName;
@@ -85,9 +85,9 @@ namespace YouYou
             OnUpdateAction = onUpdate;
             OnCompleteAction = onComplete;
 
-            tillTime = Time.time + delayTime;
+            tillTime = (Unscaled ? Time.unscaledTime : Time.time) + delayTime;
             m_CurrLoop = 0;
-            GameEntry.Time.Register(tillTime, this);
+            GameEntry.Time.Register(tillTime, this, Unscaled);
 
             return this;
         }
@@ -99,7 +99,7 @@ namespace YouYou
             //防止重复Stop
             if (tillTime == 0) return;
 
-            GameEntry.Time.Remove(tillTime, this);
+            GameEntry.Time.Remove(tillTime, this, Unscaled);
             IsStart = false;
             OnStartAction = null;
             OnUpdateAction = null;
@@ -112,8 +112,8 @@ namespace YouYou
         /// </summary>
         public void Pause()
         {
-            m_LastPauseTime = Time.time;
-            GameEntry.Time.Remove(tillTime, this);
+            m_LastPauseTime = (Unscaled ? Time.unscaledTime : Time.time);
+            GameEntry.Time.Remove(tillTime, this, Unscaled);
         }
         /// <summary>
         /// 恢复
@@ -121,8 +121,8 @@ namespace YouYou
         public void Resume()
         {
             //计算暂停了多久
-            tillTime += Time.time - m_LastPauseTime;
-            GameEntry.Time.Register(tillTime, this);
+            tillTime += (Unscaled ? Time.unscaledTime : Time.time) - m_LastPauseTime;
+            GameEntry.Time.Register(tillTime, this, Unscaled);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace YouYou
             }
             else
             {
-                tillTime = Time.time + m_Interval;
+                tillTime = (Unscaled ? Time.unscaledTime : Time.time) + m_Interval;
             }
             IsStart = true;
 
@@ -154,7 +154,7 @@ namespace YouYou
                 }
                 m_CurrLoop++;
             }
-            GameEntry.Time.Register(tillTime, this);
+            GameEntry.Time.Register(tillTime, this, Unscaled);
         }
     }
 }

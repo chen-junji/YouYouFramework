@@ -48,6 +48,7 @@ namespace YouYou
         #region AppendDataToFile
         private void AppendDataToFile(string writeFileDate)
         {
+            if (m_LogArray == null) return;
             if (!string.IsNullOrEmpty(writeFileDate))
             {
                 m_LogArray.Add(writeFileDate);

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace YouYou
 {
     /// <summary>
-    /// UI层级管理
+    /// UI灞傜骇绠＄悊
     /// </summary>
     public class UILayer
     {
@@ -17,7 +17,7 @@ namespace YouYou
         }
 
         /// <summary>
-        /// 初始化基础排序
+        /// 鍒濆鍖栧熀纭�鎺掑簭
         /// </summary>
         /// <param name="groups"></param>
         internal void Init(UIGroup[] groups)
@@ -31,11 +31,11 @@ namespace YouYou
         }
 
         /// <summary>
-        /// 设置层级
+        /// 璁剧疆灞傜骇
         /// </summary>
-        /// <param name="formBase">窗口</param>
-        /// <param name="isAdd">true:增加  false:减少</param>
-        internal void SetSortingOrder(UIFormBase formBase, bool isAdd)
+        /// <param name="formBase">绐楀彛</param>
+        /// <param name="isAdd">true:澧炲姞  false:鍑忓皯</param>
+        internal void SetSortingOrder(UIBase formBase, bool isAdd)
         {
             if (!m_UILayerDic.ContainsKey(formBase.SysUIForm.UIGroupId)) return;
 

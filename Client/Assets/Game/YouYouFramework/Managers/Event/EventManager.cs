@@ -20,13 +20,13 @@ namespace YouYou
 		/// <summary>
 		/// 通用事件
 		/// </summary>
-		public CommonEvent CommonEvent { get; private set; }
+		public CommonEvent Common { get; private set; }
 
 		internal EventManager()
 		{
 			SocketEvent = new SocketEvent();
 			WebSocketEvent = new WebSocketEvent();
-			CommonEvent = new CommonEvent();
+			Common = new CommonEvent();
 		}
 	}
 }

@@ -113,13 +113,6 @@ namespace YouYou
 
         public void Dispose()
         {
-            Sys_CodeDBModel.Clear();
-            LocalizationDBModel.Clear();
-            Sys_PrefabDBModel.Clear();
-            Sys_UIFormDBModel.Clear();
-            Sys_SceneDBModel.Clear();
-            Sys_SceneDetailDBModel.Clear();
-            Sys_AnimationDBModel.Clear();
         }
     }
 }

@@ -33,8 +33,12 @@ namespace YouYou
                 entity.Id = ms.ReadInt();
                 entity.Desc = ms.ReadUTF8String();
                 entity.AssetPath = ms.ReadUTF8String();
+                entity.Suffix = ms.ReadUTF8String();
                 entity.Volume = ms.ReadFloat();
                 entity.IsLoop = (byte)ms.ReadByte();
+                entity.IsFadeIn = (byte)ms.ReadByte();
+                entity.IsFadeOut = (byte)ms.ReadByte();
+                entity.Priority = (byte)ms.ReadByte();
 
                 m_List.Add(entity);
                 m_Dic[entity.Id] = entity;

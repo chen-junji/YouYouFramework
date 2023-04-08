@@ -94,7 +94,7 @@ public class UISelectRoleDragView : MonoBehaviour, IBeginDragHandler, IDragHandl
         float x = m_DragBeginPos.x - m_DragEndPos.x;
         if (x > 1)
         {
-            //Debug.Log("向左拖拽");
+            //GameEntry.Log("向左拖拽");
             if (OnDraging != null)
             {
                 OnDraging(0);
@@ -102,7 +102,7 @@ public class UISelectRoleDragView : MonoBehaviour, IBeginDragHandler, IDragHandl
         }
         else if (x < -1)
         {
-            //Debug.Log("向右拖拽");
+            //GameEntry.Log("向右拖拽");
             if (OnDraging != null)
             {
                 OnDraging(1);

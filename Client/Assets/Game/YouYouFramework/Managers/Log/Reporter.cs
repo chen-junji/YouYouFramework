@@ -475,7 +475,7 @@ public class Reporter : MonoBehaviour
 	void Start()
 	{
 		logDate = System.DateTime.Now.ToString();
-		StartCoroutine("readInfo");
+		StartCoroutine(readInfo());
 		//ActiveCameraOperator();
 	}
 
@@ -1746,6 +1746,7 @@ public class Reporter : MonoBehaviour
 		gameObject.AddComponent<ReporterGUI>();
 	}
 
+#if !UNITY_EDITOR && DEBUG_MODEL
 	void Update()
 	{
 		fpsText = fps.ToString("0.000");
@@ -1758,9 +1759,7 @@ public class Reporter : MonoBehaviour
 		calculateStartIndex();
 		if (!show && isGestureDone())
 		{
-#if !UNITY_EDITOR && DEBUG_MODEL
 			doShow();
-#endif
 		}
 
 
@@ -1772,6 +1771,7 @@ public class Reporter : MonoBehaviour
 			//            Application.RegisterLogCallback(new Application.LogCallback(CaptureLog));
 		}
 	}
+#endif
 
 	public void CaptureLog(string condition, string stacktrace, LogType type)
 	{

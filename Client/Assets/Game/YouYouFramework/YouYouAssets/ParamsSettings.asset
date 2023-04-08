@@ -17,12 +17,12 @@ MonoBehaviour:
   IsTest: 1
   PostIsEncrypt: 0
   PostContentType: 
-  GeneralParams: []
+  GeneralParams:
+  - Key: MobileDebug
+    Value: 1
+  - Key: ActiveGuide
+    Value: 1
   GradeParams:
-  - Key: targetFrameRate
-    LowValue: 30
-    MiddleValue: 60
-    HighValue: 120
   - Key: Http_Retry
     LowValue: 2
     MiddleValue: 5

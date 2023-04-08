@@ -46,7 +46,7 @@ namespace YouYou
             }
             catch (Exception e)
             {
-                UnityEngine.Debug.LogError(e);
+                YouYou.GameEntry.LogError(e);
             }
         }
 

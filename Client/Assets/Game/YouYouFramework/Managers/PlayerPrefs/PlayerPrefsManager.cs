@@ -7,60 +7,142 @@ using YouYou;
 
 public class PlayerPrefsManager
 {
-    #region LoggerDic
-    private Dictionary<string, object> LoggerDic;
-    public object GetLoggerDic(string loggerType)
-    {
-        object value = null;
-        LoggerDic.TryGetValue(loggerType, out value);
-        return value;
-    }
-    public void SetLoggerDic(string loggerType, object userData, object param = null)
-    {
-        LoggerDic[loggerType] = userData;
+    public PlayerPrefsData Data { get; private set; }
 
-        GameEntry.Event.CommonEvent.Dispatch(loggerType, param);
-    }
-    public void SetLoggerDicAdd(string loggerType, float userData, object param = null)
+    public PlayerPrefsManager()
     {
-        SetLoggerDic(loggerType, GetLoggerDic(loggerType).ToFloat() + userData, param);
     }
-    #endregion
-
     public void Dispose()
     {
         SaveDataAll();
     }
     public void Init()
     {
-        LoggerDic = PlayerPrefs.GetString("LoggerDic").ToObject<Dictionary<string, object>>();
-        if (LoggerDic == null) LoggerDic = new Dictionary<string, object>();
+        Data = GetObject<PlayerPrefsData>("PlayerPrefsData");
+		
+		GameEntry.PlayerPrefs.SetFloatHas(CommonEventId.PlayerAudioVolume, 0.5f);
+        GameEntry.PlayerPrefs.SetFloatHas(CommonEventId.PlayerBGMVolume, 0.5f);
     }
     public void SaveDataAll()
     {
-        PlayerPrefs.SetString("LoggerDic", LoggerDic.ToJson());
+        SetObject("PlayerPrefsData", Data);
+        PlayerPrefs.Save();
     }
     public void DeleteAll()
     {
         PlayerPrefs.DeleteAll();
-
-        Init();
+        Data = new PlayerPrefsData();
     }
 
-    public T GetData<T>() where T : new()
+    public bool HasKey(string key)
     {
-        if (PlayerPrefs.HasKey(typeof(T).Name))
+        return PlayerPrefs.HasKey(key);
+    }
+    public bool DeleteKey(string key)
+    {
+        bool has = PlayerPrefs.HasKey(key);
+        PlayerPrefs.DeleteKey(key);
+        return has;
+    }
+
+    public bool GetBool(string key, bool defaultValue)
+    {
+        return GetInt(key, defaultValue ? 1 : 0) == 1;
+    }
+    public bool GetBool(string key)
+    {
+        return GetInt(key) == 1;
+    }
+    public void SetBool(string key, bool value, object param = null)
+    {
+        SetInt(key, value ? 1 : 0);
+        GameEntry.Event.Common.Dispatch(key, param);
+    }
+    public void SetBoolHas(string key, bool value)
+    {
+        if (HasKey(key)) return;
+        SetBool(key, value);
+    }
+
+    public int GetInt(string key, int defaultValue)
+    {
+        return PlayerPrefs.GetInt(key, defaultValue);
+    }
+    public int GetInt(string key)
+    {
+        return PlayerPrefs.GetInt(key);
+    }
+    public void SetInt(string key, int value, object param = null)
+    {
+        PlayerPrefs.SetInt(key, value);
+        GameEntry.Event.Common.Dispatch(key, param);
+    }
+    public void SetIntAdd(string key, int value)
+    {
+        SetInt(key, GetInt(key) + value);
+    }
+    public void SetIntHas(string key, int value)
+    {
+        if (HasKey(key)) return;
+        SetInt(key, value);
+    }
+
+    public float GetFloat(string key, float defaultValue)
+    {
+        return PlayerPrefs.GetFloat(key, defaultValue);
+    }
+    public float GetFloat(string key)
+    {
+        return PlayerPrefs.GetFloat(key);
+    }
+    public void SetFloat(string key, float value, object param = null)
+    {
+        PlayerPrefs.SetFloat(key, value);
+        GameEntry.Event.Common.Dispatch(key, param);
+    }
+    public void SetFloatAdd(string key, float value)
+    {
+        SetFloat(key, GetFloat(key) + value);
+    }
+    public void SetFloatHas(string key, float value)
+    {
+        if (HasKey(key)) return;
+        SetFloat(key, value);
+    }
+
+    public string GetString(string key, string defaultValue)
+    {
+        return PlayerPrefs.GetString(key, defaultValue);
+    }
+    public string GetString(string key)
+    {
+        return PlayerPrefs.GetString(key);
+    }
+    public void SetString(string key, string value, object param = null)
+    {
+        PlayerPrefs.SetString(key, value);
+        GameEntry.Event.Common.Dispatch(key, param);
+    }
+    public void SetStringHas(string key, string value)
+    {
+        if (HasKey(key)) return;
+        SetString(key, value);
+    }
+
+    public T GetObject<T>(string key) where T : new()
+    {
+        string value = PlayerPrefs.GetString(key);
+        if (!string.IsNullOrEmpty(value))
         {
-            return PlayerPrefs.GetString(typeof(T).Name).ToObject<T>();
+            return value.ToObject<T>();
         }
         else
         {
             return new T();
         }
     }
-
-    public void SaveData<T>(T data) where T : new()
+    public void SetObject<T>(string key, T data)
     {
-        PlayerPrefs.SetString(typeof(T).Name, data.ToJson());
+        PlayerPrefs.SetString(key, data.ToJson());
     }
 }

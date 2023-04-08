@@ -1,60 +1,56 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace YouYou
 {
-	public partial class Sys_UIFormDBModel
-	{
-		private Dictionary<string, Sys_UIFormEntity> m_NameByEntityDic;
+    public partial class Sys_UIFormDBModel
+    {
+        public Dictionary<string, Sys_UIFormEntity> NameByDic;
 
-		private void InitNameByEntityDic()
-		{
-			m_NameByEntityDic = new Dictionary<string, Sys_UIFormEntity>();
-			for (int i = 0; i < m_List.Count; i++)
-			{
-				Sys_UIFormEntity sys_UIForm = m_List[i];
+        protected override void OnLoadListComple()
+        {
+            base.OnLoadListComple();
+            NameByDic = new Dictionary<string, Sys_UIFormEntity>();
+            for (int i = 0; i < m_List.Count; i++)
+            {
+                Sys_UIFormEntity entity = m_List[i];
 
-				string assetPath = string.Empty;
-				switch (GameEntry.CurrLanguage)
-				{
-					case YouYouLanguage.Chinese:
-						assetPath = sys_UIForm.AssetPath_Chinese;
-						break;
-					case YouYouLanguage.English:
-						assetPath = string.IsNullOrWhiteSpace(sys_UIForm.AssetPath_English) ? sys_UIForm.AssetPath_Chinese : sys_UIForm.AssetPath_English;
-						break;
-					default:
-						assetPath = sys_UIForm.AssetPath_Chinese;
-						break;
-				}
+                string path = string.Empty;
+                switch (GameEntry.CurrLanguage)
+                {
+                    case YouYouLanguage.Chinese:
+                        path = entity.AssetPath_Chinese;
+                        break;
+                    case YouYouLanguage.English:
+                        path = string.IsNullOrWhiteSpace(entity.AssetPath_English) ? entity.AssetPath_Chinese : entity.AssetPath_English;
+                        break;
+                }
+                entity.AssetFullName = string.Format("Prefabs/UIPrefab/{0}.prefab", path).ToString();
+                string[] strs = path.Split('/');
+                if (strs.Length >= 1)
+                {
+                    string str = strs[strs.Length - 1];
+                    if (NameByDic.ContainsKey(str))
+                    {
+                        GameEntry.LogError("UIForm名称有重复! ==" + str);
+                    }
+                    else
+                    {
+                        NameByDic.Add(str, entity);
+                    }
+                }
+            }
+        }
 
-				string[] strs = assetPath.Split('/');
-				if (strs.Length >= 1)
-				{
-					string str = strs[strs.Length - 1];
-					if (m_NameByEntityDic.ContainsKey(str))
-					{
-						//Debug.Log("UI_Form OpenFail path == " + str);
-					}
-					else
-					{
-						m_NameByEntityDic.Add(str, sys_UIForm);
-					}
-				}
-			}
-		}
-		public int GetIdByName(string name)
-		{
-			if (m_NameByEntityDic == null) InitNameByEntityDic();
+        public int GetIdByName(string name)
+        {
+            if (NameByDic.ContainsKey(name))
+            {
+                return NameByDic[name].Id;
+            }
+            YouYou.GameEntry.LogError("没有找到Prefab, name==" + name);
 
-			if (m_NameByEntityDic.ContainsKey(name))
-			{
-				return m_NameByEntityDic[name].Id;
-			}
-			Debug.LogError("没有找到Prefab, name==" + name);
-
-			return -1;
-		}
-	}
+            return -1;
+        }
+    }
 }

@@ -16,4 +16,13 @@ public static class objectUtil
         if (value != null) float.TryParse(value.ToString(), out temp);
         return temp;
     }
+
+    public static bool CustomContains<T>(this IList<T> list, T t) where T : class
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i] == t) return true;
+        }
+        return false;
+    }
 }

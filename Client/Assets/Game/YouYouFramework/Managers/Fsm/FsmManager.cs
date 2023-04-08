@@ -60,8 +60,8 @@ namespace YouYou
 			FsmBase fsm = null;
 			if (m_FsmDic.TryGetValue(fsmId, out fsm))
 			{
-				fsm.ShutDown();
 				m_FsmDic.Remove(fsmId);
+				fsm.ShutDown();
 			}
 		}
 

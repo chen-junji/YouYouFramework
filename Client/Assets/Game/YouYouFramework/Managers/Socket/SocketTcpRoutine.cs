@@ -168,7 +168,7 @@ namespace YouYou
 			}
 			catch (Exception ex)
 			{
-				Debug.Log("连接失败=" + ex.Message);
+				GameEntry.Log("连接失败=" + ex.Message);
 			}
 		}
 		/// <summary>
@@ -188,7 +188,7 @@ namespace YouYou
 			}
 			else
 			{
-				Debug.Log("socket连接失败");
+				GameEntry.Log("socket连接失败");
 			}
 			m_Client.EndConnect(ar);
 		}
@@ -520,13 +520,13 @@ namespace YouYou
 				else
 				{
 					//服务器断开连接
-					Debug.Log(string.Format("服务器{0}断开连接", m_Client.RemoteEndPoint.ToString()));
+					GameEntry.Log(string.Format("服务器{0}断开连接", m_Client.RemoteEndPoint.ToString()));
 				}
 			}
 			catch
 			{
 				//服务器断开连接
-				Debug.Log(string.Format("服务器{0}断开连接", m_Client.RemoteEndPoint.ToString()));
+				GameEntry.Log(string.Format("服务器{0}断开连接", m_Client.RemoteEndPoint.ToString()));
 			}
 		}
 		#endregion

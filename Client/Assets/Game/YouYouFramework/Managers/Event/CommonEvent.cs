@@ -42,24 +42,13 @@ namespace YouYou
         {
             LinkedList<OnActionHandler> lstHandler = null;
             dic.TryGetValue(key, out lstHandler);
-            if (lstHandler != null)
-            {
-                lstHandler.Remove(handler);
-                if (lstHandler.Count == 0)
-                {
-                    dic.Remove(key);
-                }
-            }
+            if (lstHandler != null) lstHandler.Remove(handler);
         }
         public void RemoveEventListenerAll(string key)
         {
             LinkedList<OnActionHandler> lstHandler = null;
             dic.TryGetValue(key, out lstHandler);
-            if (lstHandler != null)
-            {
-                lstHandler.Clear();
-                dic.Remove(key);
-            }
+            if (lstHandler != null) lstHandler.Clear();
         }
         #endregion
 

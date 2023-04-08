@@ -39,7 +39,7 @@ namespace YouYou
                 LinkedListNode<TaskGroup> taskGroup = m_TaskGroupList.First;
                 while (taskGroup != null)
                 {
-                    Debug.LogError("======================");
+                    YouYou.GameEntry.LogError("======================");
                     taskGroup.Value.LogTask();
                     taskGroup = taskGroup.Next;
                 }
@@ -58,10 +58,14 @@ namespace YouYou
                 taskGroup = taskGroup.Next;
             }
         }
+
+        /// <summary>
+        /// 添加异步任务 (等待异步时会有 转圈等待UI遮罩)
+        /// </summary>
         public void AddTaskCommon(Action<TaskRoutine> task, bool isTask = true)
         {
             CommonGroup.AddTask(task, isTask);
-            CommonGroup.Run(false, () => GameEntry.UI.OpenUIForm(UIFormId.UICircle));
+            CommonGroup.Run(false, () => GameEntry.UI.OpenUIFormAction<UIBase>(UIFormId.UICircle));
         }
 
         /// <summary>

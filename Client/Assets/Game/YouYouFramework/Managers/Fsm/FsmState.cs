@@ -6,36 +6,43 @@ using UnityEngine;
 namespace YouYou
 {
     /// <summary>
-    /// ״̬����״̬
+    /// 状态机的状态
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">状态机</typeparam>
     public abstract class FsmState<T> where T : class
     {
         /// <summary>
-        /// ���и�״̬��״̬��
+        /// 所属状态机
         /// </summary>
         public Fsm<T> CurrFsm;
-
-        internal virtual void OnInit() { }
         /// <summary>
-        /// ����״̬
+        /// 所属状态机管理器
+        /// </summary>
+        protected T FsmMgr;
+
+        internal virtual void OnInit()
+        {
+            FsmMgr = CurrFsm.Owner;
+        }
+        /// <summary>
+        /// 进入状态
         /// </summary>
         internal virtual void OnEnter() { }
 
-		/// <summary>
-		/// ִ��״̬
-		/// </summary>
-		internal virtual void OnUpdate() { }
+        /// <summary>
+        /// 执行状态
+        /// </summary>
+        internal virtual void OnUpdate() { }
 
-		/// <summary>
-		/// �뿪״̬
-		/// </summary>
-		internal virtual void OnLeave() { }
+        /// <summary>
+        /// 离开状态
+        /// </summary>
+        internal virtual void OnLeave() { }
 
-		/// <summary>
-		/// ״̬������ʱ����
-		/// </summary>
-		internal virtual void OnDestroy() { }
+        /// <summary>
+        /// 状态机销毁时调用
+        /// </summary>
+        internal virtual void OnDestroy() { }
 
     }
 }

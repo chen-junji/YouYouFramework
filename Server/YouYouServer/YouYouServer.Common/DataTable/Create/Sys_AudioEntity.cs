@@ -21,6 +21,11 @@ public partial class Sys_AudioEntity : DataTableEntityBase
     public string AssetPath;
 
     /// <summary>
+    /// 后缀
+    /// </summary>
+    public string Suffix;
+
+    /// <summary>
     /// 音量（0-1）
     /// </summary>
     public float Volume;
@@ -29,5 +34,20 @@ public partial class Sys_AudioEntity : DataTableEntityBase
     /// 是否循环
     /// </summary>
     public byte IsLoop;
+
+    /// <summary>
+    /// 是否淡入
+    /// </summary>
+    public byte IsFadeIn;
+
+    /// <summary>
+    /// 是否淡出
+    /// </summary>
+    public byte IsFadeOut;
+
+    /// <summary>
+    /// 优先级(默认128)
+    /// </summary>
+    public byte Priority;
 
 }

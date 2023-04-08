@@ -1,7 +1,7 @@
 //===================================================
-//×÷    Õß£º±ßÑÄ  http://www.u3dol.com  QQÈº£º87481002
-//´´½¨Ê±¼ä£º2020-9-28
-//±¸    ×¢£º
+//ä½œ    è€…ï¼šè¾¹æ¶¯  http://www.u3dol.com  QQç¾¤ï¼š87481002
+//åˆ›å»ºæ—¶é—´ï¼š2020-9-28
+//å¤‡    æ³¨ï¼š
 //===================================================
 using UnityEngine;
 using System.Collections;
@@ -9,74 +9,75 @@ using DG.Tweening;
 using YouYou;
 
 /// <summary>
-/// ÉãÏñ»ú¿ØÖÆÆ÷
+/// æ‘„åƒæœºæ§åˆ¶å™¨
 /// </summary>
 public class CameraCtrl : MonoBehaviour
 {
 	/// <summary>
-	/// ¿ØÖÆÉãÏñ»úÉÏÏÂ
+	/// æ§åˆ¶æ‘„åƒæœºä¸Šä¸‹
 	/// </summary>
 	[SerializeField]
 	private Transform m_CameraUpAndDown;
 
 	/// <summary>
-	/// ÉãÏñ»úËõ·Å¸¸ÎïÌå
+	/// æ‘„åƒæœºç¼©æ”¾çˆ¶ç‰©ä½“
 	/// </summary>
 	[SerializeField]
 	private Transform m_CameraZoomContainer;
 
 	/// <summary>
-	/// ÉãÏñ»úÈİÆ÷
+	/// æ‘„åƒæœºå®¹å™¨
 	/// </summary>
 	[SerializeField]
 	private Transform m_CameraContainer;
 
-	[Header("×óÓÒĞı×ªËÙ¶È")]
+	[Header("å·¦å³æ—‹è½¬é€Ÿåº¦")]
 	[SerializeField]
 	private int m_RotateSpeed = 80;
 
 	/// <summary>
-	/// ÊÖËÉ¿ªºó×Ô¶¯Ğı×ªËÙ¶È
+	/// æ‰‹æ¾å¼€åè‡ªåŠ¨æ—‹è½¬é€Ÿåº¦
 	/// </summary>
 	private float m_AutoRotateSpeed;
 	private int m_AutoRotateType;
 
 	[HideInInspector]
 	/// <summary>
-	/// ÊÇ·ñÍÏ×§ÖĞ
+	/// æ˜¯å¦æ‹–æ‹½ä¸­
 	/// </summary>
 	public bool IsOnDrag;
 
 	[HideInInspector]
 	/// <summary>
-	/// ½áÊøÍÏ×§Ö¡¾àÀë
+	/// ç»“æŸæ‹–æ‹½å¸§è·ç¦»
 	/// </summary>
 	public float OnDragEndDistance;
 
-	[Header("ÉÏÏÂËÙ¶È")]
+	[Header("ä¸Šä¸‹é€Ÿåº¦")]
 	[SerializeField]
 	private int m_UpAndDownSpeed = 60;
 
-	[Header("ÉÏÏÂ»¬¶¯±ß½çÏŞÖÆ")]
+	[Header("ä¸Šä¸‹æ»‘åŠ¨è¾¹ç•Œé™åˆ¶")]
 	[SerializeField]
 	private Vector2 m_UpAndDownLimit;
 
-	[Header("Ëõ·ÅËÙ¶È")]
+	[Header("ç¼©æ”¾é€Ÿåº¦")]
 	[SerializeField]
 	private int m_ZoomSpeed = 10;
 
-	[Header("Ëõ·Å±ß½çÏŞÖÆ")]
+	[Header("ç¼©æ”¾è¾¹ç•Œé™åˆ¶")]
 	[SerializeField]
 	private Vector2 m_ZoomLimit;
 
 	/// <summary>
-	/// Ö÷ÉãÏñ»ú
+	/// ä¸»æ‘„åƒæœº
 	/// </summary>
 	[SerializeField]
 	public Camera MainCamera;
 
 	void Start()
 	{
+		//GameEntry.CameraCtrl = this;
 		Init();
 	}
 
@@ -85,16 +86,16 @@ public class CameraCtrl : MonoBehaviour
 	}
 
 	/// <summary>
-	/// ¿ªÆô»òÕß¹Ø±ÕÉãÏñ»ú
+	/// å¼€å¯æˆ–è€…å…³é—­æ‘„åƒæœº
 	/// </summary>
-	/// <param name="isOpen">ÊÇ·ñ¿ªÆô</param>
+	/// <param name="isOpen">æ˜¯å¦å¼€å¯</param>
 	public void SetCameraOpen(bool isOpen)
 	{
 		MainCamera.enabled = isOpen;
 	}
 
 	/// <summary>
-	/// ³õÊ¼»¯
+	/// åˆå§‹åŒ–
 	/// </summary>
 	public void Init()
 	{
@@ -102,9 +103,9 @@ public class CameraCtrl : MonoBehaviour
 	}
 
 	/// <summary>
-	/// ÉèÖÃÉãÏñ»úĞı×ª
+	/// è®¾ç½®æ‘„åƒæœºæ—‹è½¬
 	/// </summary>
-	/// <param name="type">0=×ó 1=ÓÒ</param>
+	/// <param name="type">0=å·¦ 1=å³</param>
 	public void SetCameraRotate(int type)
 	{
 		m_AutoRotateSpeed = m_RotateSpeed;
@@ -118,7 +119,7 @@ public class CameraCtrl : MonoBehaviour
 	}
 
 	/// <summary>
-	/// ÉèÖÃÉãÏñ»úÉÏÏÂ 0=ÉÏ 1=ÏÂ
+	/// è®¾ç½®æ‘„åƒæœºä¸Šä¸‹ 0=ä¸Š 1=ä¸‹
 	/// </summary>
 	/// <param name="type"></param>
 	public void SetCameraUpAndDown(int type)
@@ -128,9 +129,9 @@ public class CameraCtrl : MonoBehaviour
 	}
 
 	/// <summary>
-	/// ÉèÖÃÉãÏñ»ú Ëõ·Å
+	/// è®¾ç½®æ‘„åƒæœº ç¼©æ”¾
 	/// </summary>
-	/// <param name="type">0=À­½ü 1=À­Ô¶</param>
+	/// <param name="type">0=æ‹‰è¿‘ 1=æ‹‰è¿œ</param>
 	public void SetCameraZoom(int type)
 	{
 		m_CameraContainer.Translate(Vector3.forward * m_ZoomSpeed * Time.deltaTime * ((type == 1 ? -1 : 1)));
@@ -138,7 +139,7 @@ public class CameraCtrl : MonoBehaviour
 	}
 
 	/// <summary>
-	/// ÊµÊ±¿´×ÅÖ÷½Ç
+	/// å®æ—¶çœ‹ç€ä¸»è§’
 	/// </summary>
 	/// <param name="pos"></param>
 	public void AutoLookAt(Vector3 pos)
@@ -147,12 +148,12 @@ public class CameraCtrl : MonoBehaviour
 	}
 
 	/// <summary>
-	/// //ÕğÆÁ
+	/// //éœ‡å±
 	/// </summary>
-	/// <param name="delay">ÑÓ³ÙÊ±¼ä</param>
-	/// <param name="duration">³ÖĞøÊ±¼ä</param>
-	/// <param name="strength">Ç¿¶È</param>
-	/// <param name="vibrato">Õğ·ù</param>
+	/// <param name="delay">å»¶è¿Ÿæ—¶é—´</param>
+	/// <param name="duration">æŒç»­æ—¶é—´</param>
+	/// <param name="strength">å¼ºåº¦</param>
+	/// <param name="vibrato">éœ‡å¹…</param>
 	/// <returns></returns>
 	public void CameraShake(float delay = 0, float duration = 0.5f, float strength = 1, int vibrato = 10)
 	{
@@ -160,12 +161,12 @@ public class CameraCtrl : MonoBehaviour
 	}
 
 	/// <summary>
-	/// //ÕğÆÁ
+	/// //éœ‡å±
 	/// </summary>
-	/// <param name="delay">ÑÓ³ÙÊ±¼ä</param>
-	/// <param name="duration">³ÖĞøÊ±¼ä</param>
-	/// <param name="strength">Ç¿¶È</param>
-	/// <param name="vibrato">Õğ·ù</param>
+	/// <param name="delay">å»¶è¿Ÿæ—¶é—´</param>
+	/// <param name="duration">æŒç»­æ—¶é—´</param>
+	/// <param name="strength">å¼ºåº¦</param>
+	/// <param name="vibrato">éœ‡å¹…</param>
 	/// <returns></returns>
 	private IEnumerator DOCameraShake(float delay = 0, float duration = 0.5f, float strength = 1, int vibrato = 10)
 	{

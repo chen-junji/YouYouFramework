@@ -10,22 +10,50 @@ namespace YouYou
         /// <summary>
         /// 对象池中的列表
         /// </summary>
-        private LinkedList<UIFormBase> m_UIFormList;
+        private LinkedList<UIBase> m_UIFormList;
+
+        /// <summary>
+        /// UI回池后过期时间_秒
+        /// </summary>
+        public float UIExpire { get; private set; }
+        /// <summary>
+        /// UI释放间隔_秒
+        /// </summary>
+        public float ClearInterval { get; private set; }
+        /// <summary>
+        /// 下次运行时间
+        /// </summary>
+        private float m_NextRunTime = 0f;
+
 
         public UIPool()
         {
-            m_UIFormList = new LinkedList<UIFormBase>();
+            m_UIFormList = new LinkedList<UIBase>();
+
+            UIExpire = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_Expire, GameEntry.CurrDeviceGrade);
+            ClearInterval = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_ClearInterval, GameEntry.CurrDeviceGrade);
+        }
+        internal void OnUpdate()
+        {
+            if (Time.time > m_NextRunTime + ClearInterval)
+            {
+                m_NextRunTime = Time.time;
+
+                //释放UI对象池
+                CheckClear();
+            }
         }
 
         /// <summary>
         /// 对象获取
         /// </summary>
-        internal UIFormBase Dequeue(int uiFormId)
+        internal UIBase Dequeue(int uiFormId)
         {
-            for (LinkedListNode<UIFormBase> curr = m_UIFormList.First; curr != null; curr = curr.Next)
+            for (LinkedListNode<UIBase> curr = m_UIFormList.First; curr != null; curr = curr.Next)
             {
                 if (curr.Value.SysUIForm.Id == uiFormId)
                 {
+                    GameEntry.UI.ShowUI(curr.Value);
                     m_UIFormList.Remove(curr.Value);
                     return curr.Value;
                 }
@@ -36,9 +64,8 @@ namespace YouYou
         /// <summary>
         /// 对象回池
         /// </summary>
-        internal void EnQueue(UIFormBase form)
+        internal void EnQueue(UIBase form)
         {
-            GameEntry.UI.HideUI(form);
             m_UIFormList.AddLast(form);
         }
 
@@ -47,15 +74,15 @@ namespace YouYou
         /// </summary>
         internal void CheckClear()
         {
-            for (LinkedListNode<UIFormBase> curr = m_UIFormList.First; curr != null;)
+            for (LinkedListNode<UIBase> curr = m_UIFormList.First; curr != null;)
             {
-                if (curr.Value.SysUIForm.IsLock != 1 && Time.time > curr.Value.CloseTime + GameEntry.UI.UIExpire)
+                if (curr.Value.SysUIForm.IsLock != 1 && Time.time > curr.Value.CloseTime + UIExpire)
                 {
-                    Object.Destroy(curr.Value.gameObject);
-                    GameEntry.Pool.ReleaseInstanceResource(curr.Value.gameObject.GetInstanceID());
+                    LinkedListNode<UIBase> next = curr.Next;
 
-                    LinkedListNode<UIFormBase> next = curr.Next;
-                    m_UIFormList.Remove(curr.Value);
+                    //GameEntry.Log(LogCategory.Resource, "释放==" + curr.Value.gameObject);
+                    Release(curr.Value);
+
                     curr = next;
                 }
                 else
@@ -63,6 +90,54 @@ namespace YouYou
                     curr = curr.Next;
                 }
             }
+        }
+
+        internal void Release(string uiFormName)
+        {
+            int uiFormId = GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName);
+            for (LinkedListNode<UIBase> curr = m_UIFormList.First; curr != null; curr = curr.Next)
+            {
+                if (curr.Value.SysUIForm.Id == uiFormId)
+                {
+                    Release(curr.Value);
+                    break;
+                }
+            }
+        }
+        public void Release(UIBase uIBase)
+        {
+            Object.Destroy(uIBase.gameObject);
+            GameEntry.Pool.ReleaseInstanceResource(uIBase.gameObject.GetInstanceID());
+            m_UIFormList.Remove(uIBase);
+        }
+
+        /// <summary>
+        /// 立即强制清除全部窗口界面
+        /// </summary>
+        internal void ReleaseAll()
+        {
+            for (LinkedListNode<UIBase> curr = m_UIFormList.First; curr != null;)
+            {
+                LinkedListNode<UIBase> next = curr.Next;
+
+                GameEntry.Log(LogCategory.Resource, "释放==" + curr.Value.gameObject);
+                GameEntry.Pool.ReleaseInstanceResource(curr.Value.gameObject.GetInstanceID());
+                m_UIFormList.Remove(curr.Value);
+                Object.Destroy(curr.Value.gameObject);
+                curr = next;
+            }
+        }
+
+        public UIBase GetUIForm(int uiFormId)
+        {
+            for (LinkedListNode<UIBase> curr = m_UIFormList.First; curr != null; curr = curr.Next)
+            {
+                if (curr.Value.SysUIForm.Id == uiFormId)
+                {
+                    return curr.Value;
+                }
+            }
+            return null;
         }
     }
 }

@@ -17,24 +17,14 @@ namespace YouYou
         public string SceneName;
 
         /// <summary>
+        /// 场景路径
+        /// </summary>
+        public string ScenePath;
+
+        /// <summary>
         /// 背景音乐
         /// </summary>
         public int BGMId;
-
-        /// <summary>
-        /// 场景类型(0=登录1=选人2=PVP)
-        /// </summary>
-        public int SceneType;
-
-        /// <summary>
-        /// 场景英文描述
-        /// </summary>
-        public string Content_En;
-
-        /// <summary>
-        /// 场景中文描述
-        /// </summary>
-        public string Content_Chn;
 
     }
 }

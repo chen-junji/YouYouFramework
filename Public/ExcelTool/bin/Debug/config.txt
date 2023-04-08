@@ -4,4 +4,4 @@
 OutLua\
 ..\..\..\..\Server\Release\DataTable\
 ..\..\..\..\Server\YouYouServer\YouYouServer.Common\DataTable\Create\
-..\..\..\..\Client\Assets\Game\HotFix_Project~\YouYouScript\Data\DataTable\Create\
+OutHotfix\

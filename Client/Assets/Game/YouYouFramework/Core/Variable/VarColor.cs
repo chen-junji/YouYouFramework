@@ -14,8 +14,4 @@ public class VarColor : MonoBehaviour
 		
 	}
 	
-	void Update () 
-	{
-		
-	}
 }

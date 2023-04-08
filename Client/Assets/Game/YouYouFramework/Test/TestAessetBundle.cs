@@ -11,12 +11,12 @@ using YouYou;
 
 public class TestAessetBundle : MonoBehaviour
 {
-    async void Update()
+    void Update()
     {
-        if (Input.GetKeyUp(KeyCode.A))
-        {
-            GameObject testObj = await GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<GameObject>("Role/RoleSources/cike/zhujiao_cike_animation.prefab");
-            Debug.LogError(testObj);
-        }
+        //if (Input.GetKeyUp(KeyCode.A))
+        //{
+        //    GameObject testObj = await GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<GameObject>("Role/RoleSources/cike/zhujiao_cike_animation.prefab");
+        //    Debug.LogError(testObj);
+        //}
     }
 }

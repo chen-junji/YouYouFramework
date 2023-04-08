@@ -51,7 +51,7 @@ namespace YouYou
             GameEntry.Task.RemoveTaskGroup(this);
         }
 
-        public void AddTask(Action<TaskRoutine> task, bool isAddGroup = true)
+        public virtual void AddTask(Action<TaskRoutine> task, bool isAddGroup = true)
         {
             if (task == null) return;
             TaskRoutine taskRoutine = new TaskRoutine();
@@ -165,8 +165,8 @@ namespace YouYou
             LinkedListNode<TaskRoutine> routine = m_TaskRoutineList.First;
             while (routine != null)
             {
-                Debug.LogError(routine.Value);
-                Debug.LogError(routine.Value.CurrTask);
+                YouYou.GameEntry.LogError(routine.Value);
+                YouYou.GameEntry.LogError(routine.Value.CurrTask);
                 GameEntry.LogError("{0}=========={1}", routine.Value.CurrTask.Target, routine.Value.CurrTask.Method);
                 routine = routine.Next;
             }

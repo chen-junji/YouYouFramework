@@ -70,7 +70,7 @@ namespace YouYou
 					//如果只读区也没有,从CDN下载
 					GameEntry.Download.BeginDownloadSingle(assetBundlePath, (url, currSize, progress) =>
 					{
-						//Debug.LogError(progress);
+						//YouYou.GameEntry.LogError(progress);
 						OnAssetBundleCreateUpdate?.Invoke(progress);
 					}, (string fileUrl) =>
 					{
