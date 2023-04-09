@@ -1,8 +1,3 @@
-//===================================================
-//作    者：边涯  http://www.u3dol.com
-//创建时间：
-//备    注：
-//===================================================
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -100,7 +95,7 @@ namespace YouYou
         /// <param name="url"></param>
         private void GetUrl(string url)
         {
-            GameEntry.Log(LogCategory.Proto, "Get请求:{0}, {1}次重试", m_Url, m_CurrRetry);
+            GameEntry.Log(LogCategory.NetWork, "Get请求:{0}, {1}次重试", m_Url, m_CurrRetry);
             UnityWebRequest data = UnityWebRequest.Get(url);
             GameEntry.Instance.StartCoroutine(Request(data));
         }
@@ -136,7 +131,7 @@ namespace YouYou
                     unityWeb.SetRequestHeader("Content-Type", GameEntry.ParamsSettings.PostContentType);
             }
 
-            GameEntry.Log(LogCategory.Proto, "Post请求:{0}, {1}次重试==>>{2}", m_Url, m_CurrRetry, m_Json);
+            GameEntry.Log(LogCategory.NetWork, "Post请求:{0}, {1}次重试==>>{2}", m_Url, m_CurrRetry, m_Json);
             GameEntry.Instance.StartCoroutine(Request(unityWeb));
         }
         #endregion
@@ -182,7 +177,7 @@ namespace YouYou
                 m_CallBackArgs.Data = data.downloadHandler.data;
             }
 
-            if (!string.IsNullOrWhiteSpace(m_CallBackArgs.Value)) GameEntry.Log(LogCategory.Proto, "WebAPI回调:{0}, ==>>{1}", m_Url, m_CallBackArgs.ToJson());
+            if (!string.IsNullOrWhiteSpace(m_CallBackArgs.Value)) GameEntry.Log(LogCategory.NetWork, "WebAPI回调:{0}, ==>>{1}", m_Url, m_CallBackArgs.ToJson());
             m_CallBack?.Invoke(m_CallBackArgs);
 
             m_CurrRetry = 0;

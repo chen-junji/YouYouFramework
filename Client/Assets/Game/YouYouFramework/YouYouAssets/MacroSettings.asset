@@ -32,3 +32,6 @@ MonoBehaviour:
   - Enabled: 1
     Name: "\u8C03\u8BD5\u6A21\u5F0F"
     Macro: DEBUG_MODEL
+  - Enabled: 0
+    Name: "\u6253\u5370\u8B66\u544A\u65E5\u5FD7"
+    Macro: DEBUG_LOG_WARNING

@@ -75,7 +75,7 @@ namespace YouYou
                     }
                     else
                     {
-                        GameEntry.LogError("资源=>{0} 加载失败", m_CurrAssetName);
+                        GameEntry.LogError(LogCategory.Resource, "资源=>{0} 加载失败", m_CurrAssetName);
                         Reset();//一定要早点Reset
 
                         if (OnLoadAssetComplete != null) OnLoadAssetComplete(null);

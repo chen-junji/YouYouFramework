@@ -93,14 +93,14 @@ namespace YouYou
         internal ResourceEntity Load(string assetFullName)
         {
 #if EDITORLOAD && UNITY_EDITOR
-			assetFullName = "Assets/Download/" + assetFullName;
-			
-			m_CurrResourceEntity = new ResourceEntity();
-			m_CurrResourceEntity.IsAssetBundle = false;
-			m_CurrResourceEntity.ResourceName = assetFullName;
-			m_CurrResourceEntity.Target = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetFullName);
-			//Reset();
-			return m_CurrResourceEntity;
+            assetFullName = "Assets/Download/" + assetFullName;
+
+            m_CurrResourceEntity = new ResourceEntity();
+            m_CurrResourceEntity.IsAssetBundle = false;
+            m_CurrResourceEntity.ResourceName = assetFullName;
+            m_CurrResourceEntity.Target = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetFullName);
+            //Reset();
+            return m_CurrResourceEntity;
 #elif RESOURCES
             string[] temps = assetFullName.Split('.');
 
@@ -159,7 +159,7 @@ namespace YouYou
                     }
                     else
                     {
-                        YouYou.GameEntry.LogError("assetEntity==null, " + assetDependsEntity.AssetFullName);
+                        YouYou.GameEntry.LogError(LogCategory.Resource, "assetEntity==null, " + assetDependsEntity.AssetFullName);
                     }
                 }
             }
@@ -179,7 +179,7 @@ namespace YouYou
             {
                 if (m_MainAssetBundle == null)
                 {
-                    GameEntry.LogError("MainAssetBundle not exists " + m_CurrAssetEntity.AssetFullName);
+                    GameEntry.LogError(LogCategory.Resource, "MainAssetBundle not exists " + m_CurrAssetEntity.AssetFullName);
                     m_OnComplete?.Invoke(null);
                     return;
                 }

@@ -168,7 +168,7 @@ namespace YouYou
 			}
 			catch (Exception ex)
 			{
-				GameEntry.Log("连接失败=" + ex.Message);
+				GameEntry.Log(LogCategory.NetWork, "连接失败=" + ex.Message);
 			}
 		}
 		/// <summary>
@@ -183,12 +183,12 @@ namespace YouYou
 
 				ReceiveMsg();
 
-				GameEntry.Log(LogCategory.Proto, "Socket连接到=={0}==服务器成功!", m_Client.RemoteEndPoint);
+				GameEntry.Log(LogCategory.NetWork, "Socket连接到=={0}==服务器成功!", m_Client.RemoteEndPoint);
 				OnConnectOK?.Invoke();
 			}
 			else
 			{
-				GameEntry.Log("socket连接失败");
+				GameEntry.Log(LogCategory.NetWork, "socket连接失败");
 			}
 			m_Client.EndConnect(ar);
 		}
@@ -202,7 +202,7 @@ namespace YouYou
 		{
 			if (m_Client != null && m_Client.Connected)
 			{
-				GameEntry.Log(LogCategory.Proto, "Socket从=={0}==服务器断开连接!==", m_Client.RemoteEndPoint);
+				GameEntry.Log(LogCategory.NetWork, "Socket从=={0}==服务器断开连接!==", m_Client.RemoteEndPoint);
 				m_Client.Shutdown(SocketShutdown.Both);
 				m_Client.Close();
 				GameEntry.Socket.RemoveSocketTcpRoutine(this);
@@ -520,13 +520,13 @@ namespace YouYou
 				else
 				{
 					//服务器断开连接
-					GameEntry.Log(string.Format("服务器{0}断开连接", m_Client.RemoteEndPoint.ToString()));
+					GameEntry.Log(LogCategory.NetWork, string.Format("服务器{0}断开连接", m_Client.RemoteEndPoint.ToString()));
 				}
 			}
 			catch
 			{
 				//服务器断开连接
-				GameEntry.Log(string.Format("服务器{0}断开连接", m_Client.RemoteEndPoint.ToString()));
+				GameEntry.Log(LogCategory.NetWork, string.Format("服务器{0}断开连接", m_Client.RemoteEndPoint.ToString()));
 			}
 		}
 		#endregion

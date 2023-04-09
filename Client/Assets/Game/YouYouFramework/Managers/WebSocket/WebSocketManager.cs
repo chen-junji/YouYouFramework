@@ -73,7 +73,7 @@ namespace YouYou
 
                 string method = json.JsonCutApart("Method");
 #if DEBUG_LOG_PROTO && DEBUG_MODEL
-                GameEntry.Log(LogCategory.Proto, "WebSocket接收消息{0}==>>{1}", method, json);
+                GameEntry.Log(LogCategory.NetWork, "WebSocket接收消息{0}==>>{1}", method, json);
 #endif
                 if (int.Parse(json.JsonCutApart("Status")) == 1)
                 {
@@ -82,7 +82,7 @@ namespace YouYou
                 }
                 else
                 {
-                    GameEntry.Log(LogCategory.Normal, json.JsonCutApart("Msg"));
+                    GameEntry.Log(LogCategory.NetWork, json.JsonCutApart("Msg"));
                 }
             }
         }

@@ -46,7 +46,7 @@ namespace YouYou
             }
             catch (Exception e)
             {
-                YouYou.GameEntry.LogError(e);
+                YouYou.GameEntry.LogError(LogCategory.Framework, e);
             }
         }
 

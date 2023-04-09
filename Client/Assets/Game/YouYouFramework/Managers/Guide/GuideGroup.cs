@@ -31,7 +31,7 @@ namespace YouYou
             TaskGroup.OnComplete = () =>
             {
                 onComplete?.Invoke();
-                GameEntry.Log(LogCategory.Hollow, "GroupComplete:" + GameEntry.Guide.CurrentState);
+                GameEntry.Log(LogCategory.Guide, "GroupComplete:" + GameEntry.Guide.CurrentState);
                 GameEntry.Guide.OnStateEnter(GuideState.None);
             };
             TaskGroup.Run();

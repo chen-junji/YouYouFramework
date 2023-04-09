@@ -1,8 +1,4 @@
 //===================================================
-//作    者：边涯  http://www.u3dol.com
-//创建时间：
-//备    注：
-//===================================================
 using PathologicalGames;
 using System;
 using System.Collections;
@@ -127,7 +123,7 @@ namespace YouYou
             Sys_PrefabEntity sys_PrefabEntity = GameEntry.DataTable.Sys_PrefabDBModel.GetEntityByName(prefabName);
             if (sys_PrefabEntity == null)
             {
-                YouYou.GameEntry.LogError("sys_PrefabEntity == null, prefabName==" + prefabName);
+                YouYou.GameEntry.LogError(LogCategory.Resource, "sys_PrefabEntity == null, prefabName==" + prefabName);
                 return;
             }
             SpawnAction(sys_PrefabEntity, panent, onComplete);
@@ -138,7 +134,7 @@ namespace YouYou
             GameObject retObj = resourceEntity.Target as GameObject;
             if (retObj == null)
             {
-                YouYou.GameEntry.LogError("找不到Prefab, AssetFullName==" + entity.AssetPath);
+                YouYou.GameEntry.LogError(LogCategory.Resource, "找不到Prefab, AssetFullName==" + entity.AssetPath);
                 onComplete?.Invoke(null);
                 return;
             }

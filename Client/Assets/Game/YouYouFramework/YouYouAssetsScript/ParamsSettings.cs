@@ -51,7 +51,7 @@ public class ParamsSettings : ScriptableObject
             }
         }
 
-        GameEntry.LogError("GetGradeParamData Fail key={0}", key);
+        GameEntry.LogError(LogCategory.Framework, "GetGradeParamData Fail key={0}", key);
         return 0;
     }
     #endregion
@@ -133,7 +133,7 @@ public class ParamsSettings : ScriptableObject
             }
         }
 
-        GameEntry.LogError("GetGradeParamData Fail key={0}", key);
+        GameEntry.LogError(LogCategory.Framework, "GetGradeParamData Fail key={0}", key);
         return 0;
     }
     #endregion

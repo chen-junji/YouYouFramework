@@ -202,58 +202,52 @@ namespace YouYou
             if (pause) PlayerPrefs.SaveDataAll();
         }
 
-        public static void Log(object message, params object[] args)
-        {
-            Log(LogCategory.Normal, message, args);
-        }
-        /// <summary>
-        /// 打印日志
-        /// </summary>
+
         public static void Log(LogCategory catetory, object message, params object[] args)
         {
-            switch (catetory)
+#if DEBUG_LOG_NORMAL
+            string value = string.Empty;
+            if (args.Length == 0)
             {
-                default:
-                case LogCategory.Normal:
-#if DEBUG_LOG_NORMAL && DEBUG_MODEL
-                    Debug.Log("[youyou]" + (args.Length == 0 ? message : string.Format(message.ToString(), args)));
-#endif
-                    break;
-                case LogCategory.Procedure:
-#if DEBUG_LOG_PROCEDURE && DEBUG_MODEL
-                    Debug.Log("[youyou]" + string.Format("{0}", args.Length == 0 ? message : string.Format(message.ToString(), args)));
-#endif
-                    break;
-                case LogCategory.Resource:
-#if DEBUG_LOG_RESOURCE && DEBUG_MODEL
-                    Debug.Log("[youyou]" + string.Format("{0}", args.Length == 0 ? message : string.Format(message.ToString(), args)));
-#endif
-                    break;
-                case LogCategory.Proto:
-#if DEBUG_LOG_PROTO && DEBUG_MODEL
-                    Debug.Log("[youyou]" + (args.Length == 0 ? message : string.Format(message.ToString(), args)));
-#endif
-                    break;
+                value = message.ToString();
             }
-        }
-
-        /// <summary>
-        /// 打印警告日志
-        /// </summary>
-        public static void LogWarning(object message, params object[] args)
-        {
-#if DEBUG_LOG_WARNING && DEBUG_MODEL
-            Debug.LogWarning("[youyou]" + (args.Length == 0 ? message : string.Format(message.ToString(), args)));
+            else
+            {
+                value = string.Format(message.ToString(), args);
+            }
+            Debug.Log(string.Format("{0}=={1}", catetory.ToString(), value));
 #endif
         }
 
-        /// <summary>
-        /// 打印错误日志
-        /// </summary>
-        public static void LogError(object message, params object[] args)
+        public static void LogWarning(LogCategory catetory, object message, params object[] args)
+        {
+#if DEBUG_LOG_WARNING
+            string value = string.Empty;
+            if (args.Length == 0)
+            {
+                value = message.ToString();
+            }
+            else
+            {
+                value = string.Format(message.ToString(), args);
+            }
+            Debug.Log(string.Format("{0}=={1}", catetory.ToString(), value));
+#endif
+        }
+
+        public static void LogError(LogCategory catetory, object message, params object[] args)
         {
 #if DEBUG_LOG_ERROR
-            Debug.LogError("[youyou]" + (args.Length == 0 ? message : string.Format(message.ToString(), args)));
+            string value = string.Empty;
+            if (args.Length == 0)
+            {
+                value = message.ToString();
+            }
+            else
+            {
+                value = string.Format(message.ToString(), args);
+            }
+            Debug.Log(string.Format("{0}=={1}", catetory.ToString(), value));
 #endif
         }
     }

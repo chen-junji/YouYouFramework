@@ -74,7 +74,7 @@ namespace YouYou
         {
             if (tillTime > 0)
             {
-                YouYou.GameEntry.LogError("定时器正在使用中");
+                YouYou.GameEntry.LogError(LogCategory.Framework, "定时器正在使用中");
                 return null;
             }
             TimeName = timeName;

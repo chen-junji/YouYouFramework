@@ -39,7 +39,7 @@ namespace YouYou
                 LinkedListNode<TaskGroup> taskGroup = m_TaskGroupList.First;
                 while (taskGroup != null)
                 {
-                    YouYou.GameEntry.LogError("======================");
+                    YouYou.GameEntry.LogError(LogCategory.Framework, "======================");
                     taskGroup.Value.LogTask();
                     taskGroup = taskGroup.Next;
                 }

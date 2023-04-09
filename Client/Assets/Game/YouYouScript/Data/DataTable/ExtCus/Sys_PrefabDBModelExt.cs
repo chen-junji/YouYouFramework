@@ -21,7 +21,7 @@ namespace YouYou
                 string name = strs[strs.Length - 1];
                 if (m_NameByEntityDic.ContainsKey(name))
                 {
-                    GameEntry.LogError("Sys_Prefab有名称重复! == " + entity.AssetPath);
+                    GameEntry.LogError(LogCategory.Framework, "Sys_Prefab有名称重复! == " + entity.AssetPath);
                 }
                 else
                 {

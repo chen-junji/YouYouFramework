@@ -183,7 +183,7 @@ namespace YouYou
         /// <param name="buffer"></param>
         public void SendMainMsg(IProto proto)
         {
-            GameEntry.Log(LogCategory.Proto, "发送消息=={0}{1}", proto.ProtoEnName, proto.ToJson());
+            GameEntry.Log(LogCategory.NetWork, "发送消息=={0}{1}", proto.ProtoEnName, proto.ToJson());
             m_MainSocket.SendMsg(proto);
         }
         /// <summary>

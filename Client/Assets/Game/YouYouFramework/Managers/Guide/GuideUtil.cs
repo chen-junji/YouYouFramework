@@ -56,10 +56,10 @@ namespace YouYou
         public static void CheckBtnNext(Button button, Action onNext = null)
         {
             button.onClick.AddListener(OnNext);
-            GameEntry.Log(LogCategory.Hollow, "CheckBtnNext");
+            GameEntry.Log(LogCategory.Guide, "CheckBtnNext");
             void OnNext()
             {
-                GameEntry.Log(LogCategory.Hollow, "CheckBtnNext-OnNext");
+                GameEntry.Log(LogCategory.Guide, "CheckBtnNext-OnNext");
                 button.onClick.RemoveListener(OnNext);
 
                 onNext?.Invoke();

@@ -32,7 +32,7 @@ namespace YouYou
                     string str = strs[strs.Length - 1];
                     if (NameByDic.ContainsKey(str))
                     {
-                        GameEntry.LogError("UIForm名称有重复! ==" + str);
+                        GameEntry.LogError(LogCategory.Framework, "UIForm名称有重复! ==" + str);
                     }
                     else
                     {
@@ -48,7 +48,7 @@ namespace YouYou
             {
                 return NameByDic[name].Id;
             }
-            YouYou.GameEntry.LogError("没有找到Prefab, name==" + name);
+            YouYou.GameEntry.LogError(LogCategory.Framework, "没有找到Prefab, name==" + name);
 
             return -1;
         }

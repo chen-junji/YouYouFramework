@@ -257,10 +257,6 @@ namespace ExcelTool
 
             //生成代码Entity
             StringBuilder sbr = new StringBuilder();
-            sbr.Append("//===================================================\r\n");
-            sbr.Append("//作    者：边涯  http://www.u3dol.com\r\n");
-            sbr.Append("//备    注：此代码为工具生成 请勿手工修改\r\n");
-            sbr.Append("//===================================================\r\n");
             sbr.Append("using System.Collections;\r\n");
             sbr.Append("\r\n");
             sbr.Append("namespace YouYou\r\n");
@@ -296,10 +292,6 @@ namespace ExcelTool
             //生成代码DBModel
             sbr.Clear();
             sbr.Append("\r\n");
-            sbr.Append("//===================================================\r\n");
-            sbr.Append("//作    者：边涯  http://www.u3dol.com\r\n");
-            sbr.Append("//备    注：此代码为工具生成 请勿手工修改\r\n");
-            sbr.Append("//===================================================\r\n");
             sbr.Append("using System.Collections;\r\n");
             sbr.Append("using System.Collections.Generic;\r\n");
             sbr.Append("using System;\r\n");
@@ -369,10 +361,6 @@ namespace ExcelTool
 
             //生成代码Entity
             StringBuilder sbr = new StringBuilder();
-            sbr.Append("//===================================================\r\n");
-            sbr.Append("//作    者：边涯  http://www.u3dol.com\r\n");
-            sbr.Append("//备    注：此代码为工具生成 请勿手工修改\r\n");
-            sbr.Append("//===================================================\r\n");
             sbr.Append("using System.Collections;\r\n");
             sbr.Append("\r\n");
             sbr.Append("namespace Hotfix\r\n");
@@ -408,10 +396,6 @@ namespace ExcelTool
             //生成代码DBModel
             sbr.Clear();
             sbr.Append("\r\n");
-            sbr.Append("//===================================================\r\n");
-            sbr.Append("//作    者：边涯  http://www.u3dol.com\r\n");
-            sbr.Append("//备    注：此代码为工具生成 请勿手工修改\r\n");
-            sbr.Append("//===================================================\r\n");
             sbr.Append("using System.Collections;\r\n");
             sbr.Append("using System.Collections.Generic;\r\n");
             sbr.Append("using System;\r\n");
@@ -637,10 +621,6 @@ namespace ExcelTool
             //生成代码Entity
             StringBuilder sbr = new StringBuilder();
             sbr.Append("\r\n");
-            sbr.Append("//===================================================\r\n");
-            sbr.Append("//作    者：边涯  http://www.u3dol.com\r\n");
-            sbr.Append("//备    注：此代码为工具生成 请勿手工修改\r\n");
-            sbr.Append("//===================================================\r\n");
             sbr.Append("using System.Collections;\r\n");
             sbr.Append("\r\n");
             sbr.Append("/// <summary>\r\n");
@@ -673,10 +653,6 @@ namespace ExcelTool
             //生成代码DBModel
             sbr.Clear();
             sbr.Append("\r\n");
-            sbr.Append("//===================================================\r\n");
-            sbr.Append("//作    者：边涯  http://www.u3dol.com\r\n");
-            sbr.Append("//备    注：此代码为工具生成 请勿手工修改\r\n");
-            sbr.Append("//===================================================\r\n");
             sbr.Append("using System.Collections;\r\n");
             sbr.Append("using System.Collections.Generic;\r\n");
             sbr.Append("using System;\r\n");

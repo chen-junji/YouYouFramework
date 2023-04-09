@@ -23,7 +23,7 @@ namespace YouYou
                 string name = strs[strs.Length - 1];
                 if (m_NameByEntityDic.ContainsKey(name))
                 {
-                    GameEntry.LogWarning("Sys_Audio有名称重复! == " + entity.AssetPath);
+                    GameEntry.LogWarning(LogCategory.Audio, "Sys_Audio有名称重复! == " + entity.AssetPath);
                 }
                 else
                 {

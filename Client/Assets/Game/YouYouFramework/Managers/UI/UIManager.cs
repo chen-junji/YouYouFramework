@@ -98,7 +98,7 @@ namespace YouYou
             if (sys_UIForm == null) return;
             if (sys_UIForm.CanMulit == 0 && IsExists(uiFormId))
             {
-                YouYou.GameEntry.LogError("不重复打开同一个UI窗口==" + uiFormId + "  " + sys_UIForm.AssetPath_Chinese);
+                YouYou.GameEntry.LogError(LogCategory.Framework, "不重复打开同一个UI窗口==" + uiFormId + "  " + sys_UIForm.AssetPath_Chinese);
                 onComplete(null);
                 return;
             }
@@ -128,7 +128,7 @@ namespace YouYou
                 formBase = uiObj.GetComponent<UIBase>();
                 if (formBase == null)
                 {
-                    GameEntry.LogError("该UI界面没有挂载UIBase脚本==" + uiObj);
+                    GameEntry.LogError(LogCategory.Framework, "该UI界面没有挂载UIBase脚本==" + uiObj);
                     formBase = uiObj.AddComponent<UIBase>();
                 }
                 formBase.CurrCanvas.overrideSorting = true;
@@ -159,7 +159,7 @@ namespace YouYou
             if (sys_UIForm == null) return;
             if (sys_UIForm.CanMulit == 0 && IsExists(uiFormId))
             {
-                GameEntry.LogError("不重复打开同一个UI窗口==" + uiFormId + "  " + sys_UIForm.AssetPath_Chinese);
+                GameEntry.LogError(LogCategory.Framework, "不重复打开同一个UI窗口==" + uiFormId + "  " + sys_UIForm.AssetPath_Chinese);
                 return;
             }
 
@@ -184,7 +184,7 @@ namespace YouYou
             formBase = uiObj.GetComponent<UIBase>();
             if (formBase == null)
             {
-                GameEntry.LogError("该UI界面没有挂载UIBase脚本==" + uiObj);
+                GameEntry.LogError(LogCategory.Framework, "该UI界面没有挂载UIBase脚本==" + uiObj);
                 formBase = uiObj.AddComponent<UIBase>();
             }
             formBase.CurrCanvas.overrideSorting = true;
@@ -412,7 +412,7 @@ namespace YouYou
             if (sys_UIForm == null) return null;
             if (IsExists(sys_UIForm.Id) || UIPool.GetUIForm(sys_UIForm.Id) != null)
             {
-                YouYou.GameEntry.LogError("不预加载已存在的UI" + sys_UIForm.Id + "  " + sys_UIForm.AssetPath_Chinese);
+                YouYou.GameEntry.LogError(LogCategory.Framework, "不预加载已存在的UI" + sys_UIForm.Id + "  " + sys_UIForm.AssetPath_Chinese);
                 return null;
             }
 
@@ -425,7 +425,7 @@ namespace YouYou
             UIBase formBase = uiObj.GetComponent<UIBase>();
             if (formBase == null)
             {
-                GameEntry.LogError("该UI界面没有挂载UIBase脚本==" + uiObj);
+                GameEntry.LogError(LogCategory.Framework, "该UI界面没有挂载UIBase脚本==" + uiObj);
                 formBase = uiObj.AddComponent<UIBase>();
             }
             formBase.CurrCanvas.overrideSorting = true;

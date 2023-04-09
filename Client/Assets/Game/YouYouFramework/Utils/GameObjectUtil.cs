@@ -1,8 +1,4 @@
 //===================================================
-//作    者：边涯  http://www.u3dol.com  QQ群：87481002
-//创建时间：2015-12-01 21:45:22
-//备    注：
-//===================================================
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
@@ -10,6 +6,8 @@ using YouYou;
 using DG.Tweening;
 using UnityEngine.U2D;
 using System.IO;
+using System;
+using Object = UnityEngine.Object;
 
 /// <summary>
 /// GameObject拓展类
@@ -50,100 +48,6 @@ public static class GameObjectUtil
     }
     #endregion
 
-    #region SetParent 初始化当前gameObject并设置他的父物体
-    /// <summary>
-    /// 初始化当前gameObject并设置他的父物体
-    /// </summary>
-    /// <param name="obj"></param>
-    /// <param name="parent"></param>
-    public static void SetParent(this GameObject obj, Transform parent)
-    {
-        Vector3 pos = obj.transform.localPosition;
-        Vector3 scale = obj.transform.localScale;
-        Vector3 eulerAngles = obj.transform.localEulerAngles;
-
-        obj.transform.SetParent(parent);
-
-        obj.transform.localPosition = pos;
-        obj.transform.localScale = scale;
-        obj.transform.localEulerAngles = eulerAngles;
-    }
-    #endregion
-
-    #region DeepFindChild 深度递归查找子节点
-    /// <summary>
-    /// 深度递归查找子节点
-    /// </summary>
-    /// <param name="parent"></param>
-    /// <param name="targetName"></param>
-    /// <returns></returns>
-    public static Transform DeepFind(this Transform parent, string targetName)
-    {
-        Transform _result = null;
-        _result = parent.Find(targetName);
-        if (_result == null)
-        {
-            foreach (Transform child in parent)
-            {
-                _result = DeepFind(child, targetName);
-                if (_result != null)
-                {
-                    return _result;
-                }
-            }
-        }
-        return _result;
-    }
-    #endregion
-
-    #region 清空数组相关
-    /// <summary>
-    /// 清空数组
-    /// </summary>
-    /// <param name="arr"></param>
-    public static void SetNull(this MonoBehaviour[] arr)
-    {
-        if (arr != null)
-        {
-            for (int i = 0; i < arr.Length; i++)
-            {
-                arr[i] = null;
-            }
-            arr = null;
-        }
-    }
-    /// <summary>
-    /// 清空数组
-    /// </summary>
-    /// <param name="arr"></param>
-    public static void SetNull(this Transform[] arr)
-    {
-        if (arr != null)
-        {
-            for (int i = 0; i < arr.Length; i++)
-            {
-                arr[i] = null;
-            }
-            arr = null;
-        }
-    }
-    /// <summary>
-    /// 清空数组
-    /// </summary>
-    /// <param name="arr"></param>
-    public static void SetNull(this Sprite[] arr)
-    {
-        if (arr != null)
-        {
-            for (int i = 0; i < arr.Length; i++)
-            {
-                arr[i] = null;
-            }
-            arr = null;
-        }
-    }
-    #endregion
-
     #region AutoLoadTexture 自动加载图片
     /// <summary>
     /// 自动加载图片
@@ -172,9 +76,6 @@ public static class GameObjectUtil
             }
         }
     }
-    /// <summary>
-    /// 自动加载图片
-    /// </summary>
     public static async void AutoLoadTexture(this RawImage img, string imgPath, bool isSetNativeSize = false)
     {
         if (img != null && !string.IsNullOrEmpty(imgPath))
@@ -185,7 +86,6 @@ public static class GameObjectUtil
             if (isSetNativeSize) img.SetNativeSize();
         }
     }
-
     public static async void AutoLoadSprite(this Image img, string imgPath, bool isSetNativeSize = false)
     {
         var sprite = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<Sprite>(imgPath);
@@ -195,11 +95,7 @@ public static class GameObjectUtil
             img.SetNativeSize();
         }
     }
-
-    /// <summary>
-    /// 自动加载图片
-    /// </summary>
-    public static async void LoadTexture(string imgPath, BaseAction<Texture2D> onComplete)
+    public static async void LoadTexture(string imgPath, Action<Texture2D> onComplete)
     {
         if (!string.IsNullOrEmpty(imgPath))
         {
@@ -213,9 +109,11 @@ public static class GameObjectUtil
             }
         }
     }
-
-
     #endregion
+
+    /// <summary>
+    /// 设置特效渲染层级
+    /// </summary>
     public static void SetEffectOrder(this Transform trans, int sortingOrder)
     {
         Renderer[] renderers = trans.GetComponentsInChildren<Renderer>(true);

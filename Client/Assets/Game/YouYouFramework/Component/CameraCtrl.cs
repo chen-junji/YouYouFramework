@@ -1,8 +1,3 @@
-//===================================================
-//作    者：边涯  http://www.u3dol.com  QQ群：87481002
-//创建时间：2020-9-28
-//备    注：
-//===================================================
 using UnityEngine;
 using System.Collections;
 using DG.Tweening;
@@ -77,7 +72,6 @@ public class CameraCtrl : MonoBehaviour
 
 	void Start()
 	{
-		//GameEntry.CameraCtrl = this;
 		Init();
 	}
 

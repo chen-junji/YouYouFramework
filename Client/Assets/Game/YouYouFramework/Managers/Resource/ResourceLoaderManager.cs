@@ -74,20 +74,20 @@ namespace YouYou
                          HttpCallBackArgs args = await GameEntry.Http.GetArgsAsync(url, false);
                          if (!args.HasError)
                          {
-                             GameEntry.Log(LogCategory.Normal, "从CDN初始化资源信息");
+                             GameEntry.Log(LogCategory.Resource, "从CDN初始化资源信息");
                              InitAssetInfo(args.Data);
                          }
                      }
                      else
                      {
-                         GameEntry.Log(LogCategory.Normal, "从只读区初始化资源信息");
+                         GameEntry.Log(LogCategory.Resource, "从只读区初始化资源信息");
                          InitAssetInfo(buff);
                      }
                  });
             }
             else
             {
-                GameEntry.Log(LogCategory.Normal, "从可写区初始化资源信息");
+                GameEntry.Log(LogCategory.Resource, "从可写区初始化资源信息");
                 InitAssetInfo(buffer);
             }
         }
@@ -142,7 +142,7 @@ namespace YouYou
             {
                 return entity;
             }
-            GameEntry.LogError("资源不存在, assetFullName=>{0}", assetFullName);
+            GameEntry.LogError(LogCategory.Resource, "资源不存在, assetFullName=>{0}", assetFullName);
             return null;
         }
         #endregion

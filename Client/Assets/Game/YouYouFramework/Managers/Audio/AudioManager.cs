@@ -218,14 +218,14 @@ namespace YouYou
             Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName);
             if (sys_Audio == null)
             {
-                GameEntry.LogError("sys_Audio==null, audioName==" + audioName);
+                GameEntry.LogError(LogCategory.Audio, "sys_Audio==null, audioName==" + audioName);
                 return null;
             }
 
             AudioClip audioClip = GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<AudioClip>(sys_Audio.AssetPath);
             if (audioClip == null)
             {
-                GameEntry.LogError("PlaySound找不到音效,audioName==" + audioName);
+                GameEntry.LogError(LogCategory.Audio, "PlaySound找不到音效,audioName==" + audioName);
                 return null;
             }
 

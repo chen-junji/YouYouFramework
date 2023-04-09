@@ -23,7 +23,7 @@ namespace YouYou
         [DebuggerHidden]
         public void SetException(Exception exception)
         {
-            YouYou.GameEntry.LogError(exception);
+            YouYou.GameEntry.LogError(LogCategory.Framework, exception);
         }
 
         // 4. SetResult

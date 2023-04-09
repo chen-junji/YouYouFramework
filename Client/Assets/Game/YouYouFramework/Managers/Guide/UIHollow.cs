@@ -34,7 +34,7 @@ public class UIHollow : UIFormBase
         itemParent = transform.Find(GuideState.ToString());
         if (itemParent == null)
         {
-            YouYou.GameEntry.LogError("itemParent==null, descGroup==" + GuideState);
+            GameEntry.LogError(LogCategory.Guide, "itemParent==null, descGroup==" + GuideState);
         }
         itemParent.gameObject.SetActive(true);
         foreach (Transform item in itemParent)
@@ -59,7 +59,7 @@ public class UIHollow : UIFormBase
 
     private void ShowGuide()
     {
-        GameEntry.Log(LogCategory.Hollow, "Enter=={0}=={1}=={2}", GameEntry.Guide.CurrentState, CurrGuide.Value.gameObject.name, GameEntry.Guide.GuideGroup.TaskGroup.CurrCount + 1);
+        GameEntry.Log(LogCategory.Guide, "Enter=={0}=={1}=={2}", GameEntry.Guide.CurrentState, CurrGuide.Value.gameObject.name, GameEntry.Guide.GuideGroup.TaskGroup.CurrCount + 1);
         CurrGuide.Value.gameObject.SetActive(true);
     }
 

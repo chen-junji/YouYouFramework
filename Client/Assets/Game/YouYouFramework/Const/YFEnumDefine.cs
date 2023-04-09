@@ -4,46 +4,55 @@ using UnityEngine;
 
 namespace YouYou
 {
-	/// <summary>
-	/// 日志分类
-	/// </summary>
-	public enum LogCategory
-	{
-		/// <summary>
-		/// 普通日志
-		/// </summary>
-		Normal,
-		/// <summary>
-		/// 流程日志
-		/// </summary>
-		Procedure,
-		/// <summary>
-		/// 资源管理日志
-		/// </summary>
-		Resource,
-		/// <summary>
-		/// 协议日志
-		/// </summary>
-		Proto,
+    /// <summary>
+    /// 日志分类
+    /// </summary>
+    public enum LogCategory
+    {
         /// <summary>
-        /// 新手引导日志
+        /// 框架日志
         /// </summary>
-        Hollow,
+        Framework,
+        /// <summary>
+        /// 流程
+        /// </summary>
+        Procedure,
+        /// <summary>
+        /// 资源管理
+        /// </summary>
+        Resource,
+        /// <summary>
+        /// 网络消息
+        /// </summary>
+        NetWork,
+        /// <summary>
+        /// 新手引导
+        /// </summary>
+        Guide,
         UI,
-        Audio
+        Audio,
+
+        /// <summary>
+        /// 张三(程序员姓名)
+        /// </summary>
+        ZhangSan,
+        /// <summary>
+        /// 李四(程序员姓名)
+        /// </summary>
+        LiSi
     }
 
-	public enum LoadingType
-	{
-		/// <summary>
-		/// 切换场景
-		/// </summary>
-		ChangeScene,
-		/// <summary>
-		/// 检查更新
-		/// </summary>
-		CheckVersion
-	}
+    public enum LoadingType
+    {
+        /// <summary>
+        /// 切换场景
+        /// </summary>
+        ChangeScene,
+        /// <summary>
+        /// 检查更新
+        /// </summary>
+        CheckVersion
+    }
 
     /// <summary>
     /// 提示窗口,按钮显示方式

@@ -161,13 +161,13 @@ namespace YouYou
 
         public void LogTask()
         {
-            GameEntry.LogError("InTask={0}", InTask);
+            GameEntry.LogError(LogCategory.Framework, "InTask={0}", InTask);
             LinkedListNode<TaskRoutine> routine = m_TaskRoutineList.First;
             while (routine != null)
             {
-                YouYou.GameEntry.LogError(routine.Value);
-                YouYou.GameEntry.LogError(routine.Value.CurrTask);
-                GameEntry.LogError("{0}=========={1}", routine.Value.CurrTask.Target, routine.Value.CurrTask.Method);
+                YouYou.GameEntry.LogError(LogCategory.Framework, routine.Value);
+                YouYou.GameEntry.LogError(LogCategory.Framework, routine.Value.CurrTask);
+                GameEntry.LogError(LogCategory.Framework, "{0}=========={1}", routine.Value.CurrTask.Target, routine.Value.CurrTask.Method);
                 routine = routine.Next;
             }
         }

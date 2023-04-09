@@ -138,7 +138,7 @@ public class ShareDataSettings : ScriptableObject
 
             IOUtil.CreateTextFile(Application.dataPath + "/" + LuaScriptPath + "/" + ClassName + ".bytes", sbrLua.ToString());
             #endregion
-            GameEntry.Log("生成=" + ClassName + "完毕");
+            GameEntry.Log(LogCategory.Framework, "生成=" + ClassName + "完毕");
         }
     }
 

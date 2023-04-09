@@ -13,27 +13,20 @@ namespace YouYou
         }
 
 
-
-        public Sys_CodeDBModel Sys_CodeDBModel { get; private set; }
         public LocalizationDBModel LocalizationDBModel { get; private set; }
         public Sys_PrefabDBModel Sys_PrefabDBModel { get; private set; }
         public Sys_UIFormDBModel Sys_UIFormDBModel { get; private set; }
         public Sys_SceneDBModel Sys_SceneDBModel { get; private set; }
-        public Sys_SceneDetailDBModel Sys_SceneDetailDBModel { get; private set; }
         public Sys_AudioDBModel Sys_AudioDBModel { get; private set; }
-        public Sys_AnimationDBModel Sys_AnimationDBModel { get; private set; }
 
 
         internal void InitDBModel()
         {
-            Sys_CodeDBModel = new Sys_CodeDBModel();
             LocalizationDBModel = new LocalizationDBModel();
             Sys_PrefabDBModel = new Sys_PrefabDBModel();
             Sys_UIFormDBModel = new Sys_UIFormDBModel();
             Sys_SceneDBModel = new Sys_SceneDBModel();
-            Sys_SceneDetailDBModel = new Sys_SceneDetailDBModel();
             Sys_AudioDBModel = new Sys_AudioDBModel();
-            Sys_AnimationDBModel = new Sys_AnimationDBModel();
         }
         /// <summary>
         /// 加载表格
@@ -41,14 +34,11 @@ namespace YouYou
         private void LoadDataTable()
         {
             TaskGroup m_TaskGroup = GameEntry.Task.CreateTaskGroup();
-            Sys_CodeDBModel.LoadData(m_TaskGroup);
             LocalizationDBModel.LoadData(m_TaskGroup);
             Sys_PrefabDBModel.LoadData(m_TaskGroup);
             Sys_UIFormDBModel.LoadData(m_TaskGroup);
             Sys_SceneDBModel.LoadData(m_TaskGroup);
-            Sys_SceneDetailDBModel.LoadData(m_TaskGroup);
             Sys_AudioDBModel.LoadData(m_TaskGroup);
-            Sys_AnimationDBModel.LoadData(m_TaskGroup);
 
             m_TaskGroup.OnComplete = OnLoadDataTableComplete;
             m_TaskGroup.Run(true);

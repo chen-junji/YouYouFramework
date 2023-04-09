@@ -92,14 +92,14 @@ public class GuideManager
     /// </summary>
     public void GuideCompleteOne(GuideState currentState)
     {
-        GameEntry.Log(LogCategory.Hollow, "GuideCompleteOne:");
+        GameEntry.Log(LogCategory.Guide, "GuideCompleteOne:");
 
         //只能保存后面的引导
         if (currentState >= GetNextNetState())
         {
             GameEntry.PlayerPrefs.Data.GuideEntity.GuideCompleteOne(currentState);
             //这里可以网络存档
-            GameEntry.Log(LogCategory.Hollow, "GuideCompleteOne:" + currentState.ToString() + currentState.ToInt());
+            GameEntry.Log(LogCategory.Guide, "GuideCompleteOne:" + currentState.ToString() + currentState.ToInt());
         }
     }
 
@@ -121,7 +121,7 @@ public class GuideManager
         GuideGroup.AddGuide(2, () =>
         {
             GameEntry.Audio.PlayBGM("BGM");
-            GameEntry.Log(LogCategory.Hollow, "播放BGM-HOLLOW");
+            GameEntry.Log(LogCategory.Guide, "播放BGM-HOLLOW");
             GuideUtil.ShowOrNextHollow();
         });
         GuideGroup.Run();

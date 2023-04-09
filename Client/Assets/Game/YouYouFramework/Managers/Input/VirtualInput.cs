@@ -81,7 +81,7 @@ namespace YouYou
             // check if we already have an axis with that name and log and error if we do
             if (m_VirtualAxes.ContainsKey(axis.Name))
             {
-                YouYou.GameEntry.LogError("There is already a virtual axis named " + axis.Name + " registered.");
+                YouYou.GameEntry.LogError(LogCategory.Framework, "There is already a virtual axis named " + axis.Name + " registered.");
             }
             else
             {
@@ -102,7 +102,7 @@ namespace YouYou
             // check if already have a buttin with that name and log an error if we do
             if (m_VirtualButtons.ContainsKey(button.Name))
             {
-                YouYou.GameEntry.LogError("There is already a virtual button named " + button.Name + " registered.");
+                YouYou.GameEntry.LogError(LogCategory.Framework, "There is already a virtual button named " + button.Name + " registered.");
             }
             else
             {

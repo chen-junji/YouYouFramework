@@ -37,7 +37,7 @@ namespace YouYou
             itemParent = transform.Find(GuideState.ToString());
             if (itemParent == null)
             {
-                YouYou.GameEntry.LogError("itemParent==null, descGroup==" + GuideState);
+                YouYou.GameEntry.LogError(LogCategory.Guide, "itemParent==null, descGroup==" + GuideState);
             }
             itemParent.gameObject.SetActive(true);
             foreach (Transform item in itemParent)
