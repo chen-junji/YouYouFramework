@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using YouYou;
 
-public class SysDataManager : IDisposable
+public class SysDataMgr : IDisposable
 {
 	public long CurrServerTime
 	{
@@ -17,7 +17,7 @@ public class SysDataManager : IDisposable
 
 	public ChannelConfigEntity CurrChannelConfig { get; private set; }
 
-	public SysDataManager()
+	public SysDataMgr()
 	{
 		CurrChannelConfig = new ChannelConfigEntity();
 	}

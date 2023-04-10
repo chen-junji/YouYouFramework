@@ -80,7 +80,7 @@ namespace YouYou
             //加载自定义Shader
             taskGroup.AddTask((taskRoutine) =>
             {
-                GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(YFConstDefine.CusShadersAssetBundlePath, onComplete: (AssetBundle bundle) =>
+                GameEntry.Resource.ResourceLoaderManager.LoadAssetBundleAsync(YFConstDefine.CusShadersAssetBundlePath, onComplete: (AssetBundle bundle) =>
                 {
                     bundle.LoadAllAssets();
                     Shader.WarmupAllShaders();
@@ -90,14 +90,6 @@ namespace YouYou
 #endif
             //加载Excel
             await GameEntry.DataTable.LoadDataAllTableAsync();
-
-            //加载初始UI
-            List<Sys_UIFormEntity> lst = GameEntry.DataTable.Sys_UIFormDBModel.GetList().FindAll(x => x.LoadType == 2);
-            for (int i = 0; i < lst.Count; i++)
-            {
-                Sys_UIFormEntity entity = lst[i];
-                taskGroup.AddTask((taskRoutine) => PreloadUI(entity, taskRoutine.Leave));
-            }
 
             //初始化ILRuntime
             //taskGroup.AddTask((taskRoutine) =>
@@ -111,17 +103,6 @@ namespace YouYou
                 m_TargetProgress = taskGroup.CurrCount / (float)taskGroup.TotalCount * 100;
             };
             taskGroup.Run();
-        }
-
-
-        /// <summary>
-        /// 预加载UI
-        /// </summary>
-        private void PreloadUI(Sys_UIFormEntity sys_UIForm, Action onComplete = null)
-        {
-            //await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync(sys_UIForm.AssetFullName);
-            GameEntry.UI.PreloadLoadAssetUI(sys_UIForm);
-            onComplete?.Invoke();
         }
 
     }

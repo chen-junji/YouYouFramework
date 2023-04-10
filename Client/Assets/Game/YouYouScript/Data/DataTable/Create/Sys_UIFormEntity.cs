@@ -33,11 +33,6 @@ namespace YouYou
         public int IsLock;
 
         /// <summary>
-        /// 加载方式 零默认;一转圈;二预加载
-        /// </summary>
-        public byte LoadType;
-
-        /// <summary>
         /// 路径
         /// </summary>
         public string AssetPath_Chinese;
@@ -56,11 +51,6 @@ namespace YouYou
         /// 显示类型0=普通1=反切
         /// </summary>
         public byte ShowMode;
-
-        /// <summary>
-        /// 冻结类型0=置空层1=禁用
-        /// </summary>
-        public byte FreezeMode;
 
     }
 }

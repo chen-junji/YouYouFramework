@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Object = UnityEngine.Object;
 
 namespace YouYou
 {
@@ -29,15 +29,14 @@ namespace YouYou
         public Action<UnityEngine.Object> OnLoadAssetComplete;
 
 
-        /// <summary>
-        /// 异步加载资源
-        /// </summary>
-        /// <param name="assetName"></param>
-        /// <param name="assetBundle"></param>
-        internal void LoadAsset(string assetName, AssetBundle assetBundle)
+        internal void LoadAssetAsync(string assetName, AssetBundle assetBundle)
         {
             m_CurrAssetName = assetName;
             m_CurrAssetBundleRequest = assetBundle.LoadAssetAsync(assetName);
+        }
+        internal Object LoadAsset(string assetName, AssetBundle assetBundle)
+        {
+            return assetBundle.LoadAsset(assetName);
         }
 
         /// <summary>
@@ -65,26 +64,26 @@ namespace YouYou
             {
                 if (m_CurrAssetBundleRequest.isDone)
                 {
-                    UnityEngine.Object obj = m_CurrAssetBundleRequest.asset;
+                    Object obj = m_CurrAssetBundleRequest.asset;
                     if (obj != null)
                     {
                         //GameEntry.Log(LogCategory.Resource, "资源=>{0} 加载完毕", m_CurrAssetName);
                         Reset();//一定要早点Reset
 
-                        if (OnLoadAssetComplete != null) OnLoadAssetComplete(obj);
+                        OnLoadAssetComplete?.Invoke(obj);
                     }
                     else
                     {
                         GameEntry.LogError(LogCategory.Resource, "资源=>{0} 加载失败", m_CurrAssetName);
                         Reset();//一定要早点Reset
 
-                        if (OnLoadAssetComplete != null) OnLoadAssetComplete(null);
+                        OnLoadAssetComplete?.Invoke(null);
                     }
                 }
                 else
                 {
                     //加载进度
-                    if (OnAssetUpdate != null) OnAssetUpdate(m_CurrAssetBundleRequest.progress);
+                    OnAssetUpdate?.Invoke(m_CurrAssetBundleRequest.progress);
                 }
             }
         }

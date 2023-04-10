@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace YouYou
 {
-    public class ResourceManager :  IDisposable
+    public class ResourceManager : IDisposable
     {
         #region GetAssetBundleVersionList 根据字节数组获取资源包版本信息
         /// <summary>
@@ -111,7 +111,7 @@ namespace YouYou
         /// </summary>
         public void InitStreamingAssetsBundleInfo()
         {
-            ReadStreamingAssetsBundle(YFConstDefine.VersionFileName, (byte[] buffer) =>
+            StreamingAssetsManager.ReadAssetBundleAsync(YFConstDefine.VersionFileName, (byte[] buffer) =>
             {
                 if (buffer == null)
                 {
@@ -127,19 +127,6 @@ namespace YouYou
             });
         }
         #endregion
-
-        #region ReadStreamingAssetsBundle 读取只读区的资源包
-        /// <summary>
-        /// 读取只读区的资源包
-        /// </summary>
-        /// <param name="fileUrl"></param>
-        /// <param name="onComplete"></param>
-        internal void ReadStreamingAssetsBundle(string fileUrl, Action<byte[]> onComplete)
-        {
-            StreamingAssetsManager.ReadAssetBundle(fileUrl, onComplete);
-        }
-        #endregion
-
         #endregion
 
         #region CDN

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace YouYou
 {
@@ -65,25 +66,25 @@ namespace YouYou
             if (buffer == null)
             {
                 //如果可写区没有 那么就从只读区获取
-                GameEntry.Resource.ResourceManager.StreamingAssetsManager.ReadAssetBundle(YFConstDefine.AssetInfoName, async (byte[] buff) =>
-                 {
-                     if (buff == null)
-                     {
-                         //如果只读区也没有,从CDN读取
-                         string url = string.Format("{0}{1}", GameEntry.Data.SysData.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
-                         HttpCallBackArgs args = await GameEntry.Http.GetArgsAsync(url, false);
-                         if (!args.HasError)
-                         {
-                             GameEntry.Log(LogCategory.Resource, "从CDN初始化资源信息");
-                             InitAssetInfo(args.Data);
-                         }
-                     }
-                     else
-                     {
-                         GameEntry.Log(LogCategory.Resource, "从只读区初始化资源信息");
-                         InitAssetInfo(buff);
-                     }
-                 });
+                GameEntry.Resource.ResourceManager.StreamingAssetsManager.ReadAssetBundleAsync(YFConstDefine.AssetInfoName, async (byte[] buff) =>
+                {
+                    if (buff == null)
+                    {
+                        //如果只读区也没有,从CDN读取
+                        string url = string.Format("{0}{1}", GameEntry.Data.SysData.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
+                        HttpCallBackArgs args = await GameEntry.Http.GetArgsAsync(url, false);
+                        if (!args.HasError)
+                        {
+                            GameEntry.Log(LogCategory.Resource, "从CDN初始化资源信息");
+                            InitAssetInfo(args.Data);
+                        }
+                    }
+                    else
+                    {
+                        GameEntry.Log(LogCategory.Resource, "从只读区初始化资源信息");
+                        InitAssetInfo(buff);
+                    }
+                });
             }
             else
             {
@@ -161,7 +162,7 @@ namespace YouYou
         /// <summary>
         /// 加载资源包
         /// </summary>
-        public void LoadAssetBundle(string assetbundlePath, Action<float> onUpdate = null, Action<AssetBundle> onComplete = null)
+        public void LoadAssetBundleAsync(string assetbundlePath, Action<float> onUpdate = null, Action<AssetBundle> onComplete = null)
         {
             //1.判断资源包是否存在于AssetBundlePool
             ResourceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
@@ -227,7 +228,33 @@ namespace YouYou
                 GameEntry.Pool.EnqueueClassObject(routine);
             };
             //加载资源包
-            routine.LoadAssetBundle(assetbundlePath);
+            routine.LoadAssetBundleAsync(assetbundlePath);
+        }
+        public AssetBundle LoadAssetBundle(string assetbundlePath)
+        {
+            //1.判断资源包是否存在于AssetBundlePool
+            ResourceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
+            if (assetBundleEntity != null)
+            {
+                //GameEntry.Log("资源包在资源池中存在 从资源池中加载AssetBundle");
+                return assetBundleEntity.Target as AssetBundle;
+            }
+
+            AssetBundleLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<AssetBundleLoaderRoutine>();
+            if (routine == null) routine = new AssetBundleLoaderRoutine();
+
+            //加载资源包
+            AssetBundle assetbundle = routine.LoadAssetBundle(assetbundlePath);
+
+            //资源包注册到资源池
+            assetBundleEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
+            assetBundleEntity.ResourceName = assetbundlePath;
+            assetBundleEntity.IsAssetBundle = true;
+            assetBundleEntity.Target = assetbundle;
+            GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
+            GameEntry.Pool.EnqueueClassObject(routine);
+
+            return assetbundle;
         }
         #endregion
 
@@ -235,15 +262,11 @@ namespace YouYou
         /// <summary>
         /// 加载中的Asset
         /// </summary>
-        private Dictionary<string, LinkedList<Action<UnityEngine.Object, bool>>> m_LoadingAsset = new Dictionary<string, LinkedList<Action<UnityEngine.Object, bool>>>();
+        private Dictionary<string, LinkedList<Action<Object, bool>>> m_LoadingAsset = new Dictionary<string, LinkedList<Action<Object, bool>>>();
         /// <summary>
-        /// 从资源包中加载资源
+        /// 异步加载
         /// </summary>
-        /// <param name="assetName"></param>
-        /// <param name="assetBundle"></param>
-        /// <param name="onUpdate"></param>
-        /// <param name="onComplete"></param>
-        public void LoadAsset(string assetName, AssetBundle assetBundle, Action<float> onUpdate = null, Action<UnityEngine.Object, bool> onComplete = null)
+        public void LoadAssetAsync(string assetName, AssetBundle assetBundle, Action<float> onUpdate = null, Action<Object, bool> onComplete = null)
         {
             //GameEntry.Log(assetName + "===========================================================");
             //1.判断Asset是否加载到一半,防止高并发导致重复加载
@@ -257,7 +280,7 @@ namespace YouYou
             else
             {
                 //如果Asset还没有开始加载, 把委托加入对应的链表 然后开始加载
-                lst = GameEntry.Pool.DequeueClassObject<LinkedList<Action<UnityEngine.Object, bool>>>();
+                lst = GameEntry.Pool.DequeueClassObject<LinkedList<Action<Object, bool>>>();
                 lst.AddLast(onComplete);
                 m_LoadingAsset[assetName] = lst;
             }
@@ -272,9 +295,9 @@ namespace YouYou
             //资源加载 进行中 回调
             routine.OnAssetUpdate = onUpdate;
             //资源加载 结果 回调
-            routine.OnLoadAssetComplete = (UnityEngine.Object obj) =>
+            routine.OnLoadAssetComplete = (Object obj) =>
             {
-                LinkedListNode<Action<UnityEngine.Object, bool>> curr = lst.First;
+                LinkedListNode<Action<Object, bool>> curr = lst.First;
                 curr.Value?.Invoke(obj, true);
                 for (curr = curr.Next; curr != null; curr = curr.Next)
                 {
@@ -290,7 +313,11 @@ namespace YouYou
                 GameEntry.Pool.EnqueueClassObject(routine);
             };
             //加载资源
-            routine.LoadAsset(assetName, assetBundle);
+            routine.LoadAssetAsync(assetName, assetBundle);
+        }
+        public Object LoadAsset(string assetName, AssetBundle assetBundle)
+        {
+            return assetBundle.LoadAsset(assetName);
         }
         #endregion
 
@@ -313,7 +340,6 @@ namespace YouYou
         /// <summary>
         /// 加载主资源
         /// </summary>
-        /// <param name="isParallel">True并行加载, Flase递归加载</param>
         public void LoadMainAssetAction<T>(string assetFullName, Action<ResourceEntity> onComplete, Action<float> onUpdate = null) where T : UnityEngine.Object
         {
             MainAssetLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<MainAssetLoaderRoutine>();

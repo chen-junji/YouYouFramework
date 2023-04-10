@@ -65,13 +65,12 @@ namespace YouYou
         public void AddTaskCommon(Action<TaskRoutine> task, bool isTask = true)
         {
             CommonGroup.AddTask(task, isTask);
-            CommonGroup.Run(false, () => GameEntry.UI.OpenUIFormAction<UIBase>(UIFormId.UICircle));
+            CommonGroup.Run(false, () => GameEntry.UI.OpenUIForm<UIBase>(UIFormId.UICircle));
         }
 
         /// <summary>
         /// 创建一个任务组
         /// </summary>
-        /// <returns></returns>
         public TaskGroup CreateTaskGroup()
         {
             TaskGroup taskGroup = new TaskGroup();
@@ -79,9 +78,8 @@ namespace YouYou
         }
 
         /// <summary>
-        /// 注册定时器
+        /// 注册任务组
         /// </summary>
-        /// <param name="action"></param>
         internal void RegisterTaskGroup(TaskGroup taskGroup)
         {
             m_TaskGroupList.AddLast(taskGroup);
@@ -89,7 +87,6 @@ namespace YouYou
         /// <summary>
         /// 移除任务组
         /// </summary>
-        /// <param name="taskGroup"></param>
         public void RemoveTaskGroup(TaskGroup taskGroup)
         {
             m_TaskGroupList.Remove(taskGroup);

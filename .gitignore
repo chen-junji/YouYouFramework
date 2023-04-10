@@ -17,3 +17,6 @@ FMOD/.user/
 bin/
 obj/
 .vs/
+Client/HybridCLRData/
+Client/Assets/HybridCLRData/
+APK/

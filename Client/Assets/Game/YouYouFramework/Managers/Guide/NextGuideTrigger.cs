@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using YouYou;
+
+/// <summary>
+/// 新手引导, 下一步触发器
+/// </summary>
 public class NextGuideTrigger : MonoBehaviour
 {
-    //public string nextGuide;
-
     /// <summary>
     /// 什么名字进入后会触发
     /// </summary>
@@ -20,20 +22,11 @@ public class NextGuideTrigger : MonoBehaviour
         {
             if (name == other.name)
             {
-                //GuideState state = nextGuide.ToEnum<GuideState>();
-                //bool isNext = GameEntry.Guide.NextGroup(state);
-                //if (!isNext)
-                //{
-                //    Debug.LogError("触发下一步失败, 检查枚举==" + state);
-                //}
-
-                //进行下一个操作
+                //新手引导, 触发下一步
                 GameEntry.Guide.NextGroup(GameEntry.Guide.CurrentState);
 
                 TriggerEnter?.Invoke();
             }
         }
     }
-
-
 }

@@ -8,47 +8,36 @@ using UnityEngine.Networking;
 
 namespace YouYou
 {
-	/// <summary>
-	/// StreamingAssets管理器
-	/// </summary>
-	public class StreamingAssetsManager
-	{
-		#region ReadStreamingAsset 读取StreamingAssets下的资源
-		/// <summary>
-		/// 读取StreamingAssets下的资源
-		/// </summary>
-		/// <param name="url">资源路径</param>
-		/// <param name="onComplete"></param>
-		/// <returns></returns>
-		private IEnumerator ReadStreamingAsset(string url, Action<byte[]> onComplete)
-		{
-			var uri = new System.Uri(Path.Combine(Application.streamingAssetsPath, url));
-			using (UnityWebRequest request = UnityWebRequest.Get(uri.AbsoluteUri))
-			{
-				yield return request.SendWebRequest();
+    /// <summary>
+    /// StreamingAssets管理器
+    /// </summary>
+    public class StreamingAssetsManager
+    {
+        public AssetBundle ReadAssetBundle(string fileUrl)
+        {
+            return AssetBundle.LoadFromFile(fileUrl);
+        }
 
-				if (request.isNetworkError || request.isHttpError)
-				{
-					onComplete?.Invoke(null);
-				}
-				else
-				{
-					onComplete?.Invoke(request.downloadHandler.data);
-				}
-			}
-		}
-		#endregion
+        public void ReadAssetBundleAsync(string fileUrl, Action<byte[]> onComplete)
+        {
+            IEnumerator ReadStreamingAsset(string url, Action<byte[]> onComplete)
+            {
+                var uri = new System.Uri(Path.Combine(Application.streamingAssetsPath, url));
+                using (UnityWebRequest request = UnityWebRequest.Get(uri.AbsoluteUri))
+                {
+                    yield return request.SendWebRequest();
 
-		#region ReadAssetBundle 读取只读区资源包
-		/// <summary>
-		/// 读取只读区资源包
-		/// </summary>
-		/// <param name="fileUrl">资源路径</param>
-		/// <param name="onComplete"></param>
-		public void ReadAssetBundle(string fileUrl, Action<byte[]> onComplete)
-		{
-			GameEntry.Instance.StartCoroutine(ReadStreamingAsset(fileUrl + "AssetBundle", onComplete));
-		}
-		#endregion
-	}
+                    if (request.result == UnityWebRequest.Result.Success)
+                    {
+                        onComplete?.Invoke(request.downloadHandler.data);
+                    }
+                    else
+                    {
+                        onComplete?.Invoke(null);
+                    }
+                }
+            }
+            GameEntry.Instance.StartCoroutine(ReadStreamingAsset(fileUrl + "AssetBundle", onComplete));
+        }
+    }
 }

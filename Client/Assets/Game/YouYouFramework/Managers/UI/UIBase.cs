@@ -42,9 +42,6 @@ namespace YouYou
         //反切时调用
         public Action OnBack;
 
-        //Start是否执行过? 为了避免预加载Start不执行,  首次打开又执行Start, 导致两次Open的问题
-        public bool IsStart { get; private set; }
-
 
         protected virtual void Awake()
         {
@@ -57,10 +54,8 @@ namespace YouYou
         protected virtual void Start()
         {
             OnInit(UserData);
-
-            OnShow();//在没有调用Start之前是不能调用OnShow, 否则会出现OnInit没有初始化, OnShow方法没用的情况
+            OnShow();//在没有调用Start之前不能调用OnShow, 否则会先调用OnInit再调用OnShow, 导致报Null
             Open(UserData);
-            IsStart = true;
 
             GameEntry.Time.Yield(() =>
             {

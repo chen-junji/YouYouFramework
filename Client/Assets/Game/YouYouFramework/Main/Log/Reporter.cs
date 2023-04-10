@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
-using YouYou;
 
 //just drop this script to empty game object on first scene you game start at, this all what you have to do
 //no coding is required 
@@ -475,7 +474,7 @@ public class Reporter : MonoBehaviour
 	void Start()
 	{
 		logDate = System.DateTime.Now.ToString();
-		StartCoroutine(readInfo());
+		StartCoroutine("readInfo");
 		//ActiveCameraOperator();
 	}
 
@@ -1746,7 +1745,6 @@ public class Reporter : MonoBehaviour
 		gameObject.AddComponent<ReporterGUI>();
 	}
 
-#if !UNITY_EDITOR && DEBUG_MODEL
 	void Update()
 	{
 		fpsText = fps.ToString("0.000");
@@ -1759,7 +1757,9 @@ public class Reporter : MonoBehaviour
 		calculateStartIndex();
 		if (!show && isGestureDone())
 		{
+#if !UNITY_EDITOR && DEBUG_MODEL
 			doShow();
+#endif
 		}
 
 
@@ -1771,7 +1771,6 @@ public class Reporter : MonoBehaviour
 			//            Application.RegisterLogCallback(new Application.LogCallback(CaptureLog));
 		}
 	}
-#endif
 
 	public void CaptureLog(string condition, string stacktrace, LogType type)
 	{
@@ -1880,10 +1879,6 @@ public class Reporter : MonoBehaviour
 			if (startIndex >= (totalCount - totalVisibleCount))
 				scrollPosition.y += size.y;
 		}
-
-		//写入日志文件
-		if (GameEntry.Logger != null)
-			GameEntry.Logger.Write(log.condition + "\r\n" + log.stacktrace, log.logType);
 	}
 
 	private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)

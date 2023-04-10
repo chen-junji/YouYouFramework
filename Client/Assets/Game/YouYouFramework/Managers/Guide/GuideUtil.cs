@@ -11,7 +11,7 @@ namespace YouYou
         public static UIHollow UIHollow;
         public static void ShowOrNextHollow()
         {
-            if (!UIHollow || !UIHollow.IsActive) GameEntry.UI.OpenUIForm(UIFormId.UIHollow, out UIHollow);
+            if (!UIHollow || !UIHollow.IsActive) UIHollow = GameEntry.UI.OpenUIForm<UIHollow>();
 
             if (UIHollow.GuideState != GameEntry.Guide.CurrentState)
             {
@@ -26,29 +26,6 @@ namespace YouYou
         {
             if (UIHollow && UIHollow.IsActive) UIHollow.Close();
         }
-
-        //public static UIBubble UIBubble;
-        //public static void ShowOrNextBubble()
-        //{
-        //	if (!UIBubble || !UIBubble.IsActive) UIBubble = GameEntry.UI.OpenUIForm<UIBubble>(UIFormId.UIBubble);
-
-        //	if (UIBubble.GuideState != GameEntry.Guide.CurrentState)
-        //	{
-        //		UIBubble.OnOpenBegin = () =>
-        //		{
-        //			UIBubble.SetUI(GameEntry.Guide.CurrentState);
-        //		};
-        //	}
-        //	else
-        //	{
-        //		UIBubble.NextGroup();
-        //	}
-        //}
-        //public static void CloseBubble()
-        //{
-        //	if (UIBubble && UIBubble.IsActive) UIBubble.Close();
-        //}
-
 
         /// <summary>
         /// 监听按钮点击, 触发下一步
