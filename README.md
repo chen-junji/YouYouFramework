@@ -65,7 +65,9 @@ C# .NET Core开发的分布式游戏服务端, 使用MongoDB数据库, 双端支
 
 >WebSocket - 提供使用 WebSocket 长连接的功能, 支持 TCP 协议.
 
->HybridCLR热更新 (huatuo) - 提供了基于HybridCLR的代码热更新, 可调用YouYouFramework的任意模块.
+>本地数据存档 (PlayerPrefs) - 提供了基于Unity官方PlayerPrefs的本地数据存档, 支持数据更新派发事件, 支持存Object对象
+
+>代码热更新 (HybridCLR) - 提供了基于HybridCLR的代码热更新, 可调用YouYouFramework的任意模块.
 
 >新手引导 (Guide) - 提供了新手引导框架, 拆分多模块和多步骤(在模块内), 支持存档, 支持单模块重复引导
 
