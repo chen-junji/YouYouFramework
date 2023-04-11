@@ -27,12 +27,11 @@ namespace YouYou
             {
                 Sys_UIFormEntity entity = new Sys_UIFormEntity();
                 entity.Id = ms.ReadInt();
-                entity.Name = ms.ReadUTF8String();
                 entity.UIGroupId = (byte)ms.ReadByte();
-                entity.DisableUILayer = ms.ReadInt();
-                entity.IsLock = ms.ReadInt();
                 entity.AssetPath_Chinese = ms.ReadUTF8String();
                 entity.AssetPath_English = ms.ReadUTF8String();
+                entity.DisableUILayer = ms.ReadInt();
+                entity.IsLock = ms.ReadInt();
                 entity.CanMulit = ms.ReadInt();
                 entity.ShowMode = (byte)ms.ReadByte();
 

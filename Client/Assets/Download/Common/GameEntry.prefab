@@ -863,7 +863,7 @@ GameObject:
   - component: {fileID: 4719996667644374118}
   - component: {fileID: 4721251948694925642}
   m_Layer: 5
-  m_Name: UI_CheckVersion
+  m_Name: CheckVersionForm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -2,7 +2,7 @@ using YouYou;
 using UnityEngine;
 using System;
 
-public class UICircle : UIFormBase
+public class CircleForm : UIFormBase
 {
 	[SerializeField] private Transform circleTrans;
 	private void Update()

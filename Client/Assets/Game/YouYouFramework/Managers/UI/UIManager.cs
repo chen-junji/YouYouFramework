@@ -206,7 +206,10 @@ namespace YouYou
         /// <summary>
         /// 关闭UI窗口
         /// </summary>
-        /// <param name="uiFormName"></param>
+        public void CloseUIForm<T>() where T : UIBase
+        {
+            CloseUIForm(typeof(T).Name);
+        }
         public void CloseUIForm(string uiFormName)
         {
             CloseUIForm(GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName));

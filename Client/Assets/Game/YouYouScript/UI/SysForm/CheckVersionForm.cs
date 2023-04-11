@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using YouYou;
 
-public class UICheckVersionForm : MonoBehaviour
+public class CheckVersionForm : MonoBehaviour
 {
     [SerializeField]
     private Text txtTip;

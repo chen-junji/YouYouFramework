@@ -9,7 +9,7 @@ using YouYou;
 /// <summary>
 /// "加载"界面
 /// </summary>
-public class UILoadingForm : UIFormBase
+public class LoadingForm : UIFormBase
 {
 	[SerializeField]
 	private Scrollbar m_Scrollbar;

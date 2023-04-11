@@ -7,24 +7,9 @@ using System.Collections;
 public partial class Sys_UIFormEntity : DataTableEntityBase
 {
     /// <summary>
-    /// 名称
-    /// </summary>
-    public string Name;
-
-    /// <summary>
     /// UI分组编号
     /// </summary>
     public byte UIGroupId;
-
-    /// <summary>
-    /// 禁用层级管理
-    /// </summary>
-    public int DisableUILayer;
-
-    /// <summary>
-    /// 是否锁定
-    /// </summary>
-    public int IsLock;
 
     /// <summary>
     /// 路径
@@ -35,6 +20,16 @@ public partial class Sys_UIFormEntity : DataTableEntityBase
     /// 路径
     /// </summary>
     public string AssetPath_English;
+
+    /// <summary>
+    /// 禁用层级管理
+    /// </summary>
+    public int DisableUILayer;
+
+    /// <summary>
+    /// 是否锁定
+    /// </summary>
+    public int IsLock;
 
     /// <summary>
     /// 允许多实例

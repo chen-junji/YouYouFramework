@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 152359813}
   - component: {fileID: 2801116230955207975}
   m_Layer: 5
-  m_Name: UILoading
+  m_Name: LoadingForm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

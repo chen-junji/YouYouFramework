@@ -9,7 +9,7 @@ using YouYou;
 /// <summary>
 /// 提示窗口
 /// </summary>
-public class UIDialogForm : UIFormBase
+public class DialogForm : UIFormBase
 {
 	/// <summary>
 	/// 标题

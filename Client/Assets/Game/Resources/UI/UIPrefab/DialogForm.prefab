@@ -514,7 +514,7 @@ GameObject:
   - component: {fileID: 114093970811876944}
   - component: {fileID: 5675065671438365084}
   m_Layer: 5
-  m_Name: UIDialogForm
+  m_Name: DialogForm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

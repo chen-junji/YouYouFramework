@@ -27,7 +27,7 @@ namespace YouYou
         {
             CommonGroup.OnComplete = () =>
             {
-                GameEntry.UI.CloseUIForm(UIFormId.UICircle);
+                GameEntry.UI.CloseUIForm<CircleForm>();
             };
         }
         public void OnUpdate()
@@ -65,7 +65,7 @@ namespace YouYou
         public void AddTaskCommon(Action<TaskRoutine> task, bool isTask = true)
         {
             CommonGroup.AddTask(task, isTask);
-            CommonGroup.Run(false, () => GameEntry.UI.OpenUIForm<UIBase>(UIFormId.UICircle));
+            CommonGroup.Run(false, () => GameEntry.UI.OpenUIForm<CircleForm>());
         }
 
         /// <summary>

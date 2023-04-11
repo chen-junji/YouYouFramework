@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 908938218087949918}
   - component: {fileID: 9179069276492436272}
   m_Layer: 5
-  m_Name: UICircle
+  m_Name: CircleForm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
