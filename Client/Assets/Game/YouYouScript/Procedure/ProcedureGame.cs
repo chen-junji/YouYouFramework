@@ -6,27 +6,28 @@ using UnityEngine.UI;
 
 namespace YouYou
 {
-	/// <summary>
-	/// 游戏流程
-	/// </summary>
-	public class ProcedureGame : ProcedureBase
-	{
-		internal override void OnEnter()
-		{
-			base.OnEnter();
-			//GameEntry.UI.OpenDialogForm("框架内部流程全部加载完毕, 已经进入登录流程", "登录流程");
-		}
-		internal override void OnUpdate()
-		{
-			base.OnUpdate();
-		}
-		internal override void OnLeave()
-		{
-			base.OnLeave();
-		}
-		internal override void OnDestroy()
-		{
-			base.OnDestroy();
-		}
-	}
+    /// <summary>
+    /// 游戏流程
+    /// </summary>
+    public class ProcedureGame : ProcedureBase
+    {
+        internal override void OnEnter()
+        {
+            base.OnEnter();
+            UIDialogForm dialogForm = GameEntry.UI.OpenUIForm<UIDialogForm>();
+            dialogForm.SetUI("框架内部流程全部加载完毕, 已经进入登录流程", "登录流程");
+        }
+        internal override void OnUpdate()
+        {
+            base.OnUpdate();
+        }
+        internal override void OnLeave()
+        {
+            base.OnLeave();
+        }
+        internal override void OnDestroy()
+        {
+            base.OnDestroy();
+        }
+    }
 }

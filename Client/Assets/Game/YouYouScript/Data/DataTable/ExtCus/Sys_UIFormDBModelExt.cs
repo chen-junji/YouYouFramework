@@ -25,7 +25,7 @@ namespace YouYou
                         path = string.IsNullOrWhiteSpace(entity.AssetPath_English) ? entity.AssetPath_Chinese : entity.AssetPath_English;
                         break;
                 }
-                entity.AssetFullName = string.Format("Prefabs/UIPrefab/{0}.prefab", path).ToString();
+                entity.AssetFullName = string.Format("UI/UIPrefab/{0}.prefab", path).ToString();
                 string[] strs = path.Split('/');
                 if (strs.Length >= 1)
                 {

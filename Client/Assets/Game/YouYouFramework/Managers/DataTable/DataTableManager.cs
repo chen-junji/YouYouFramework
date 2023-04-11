@@ -9,7 +9,6 @@ namespace YouYou
         internal Action OnLoadDataTableComplete;
         internal void Init()
         {
-            InitDBModel();
         }
 
 
@@ -20,24 +19,21 @@ namespace YouYou
         public Sys_AudioDBModel Sys_AudioDBModel { get; private set; }
 
 
-        internal void InitDBModel()
-        {
-            LocalizationDBModel = new LocalizationDBModel();
-            Sys_PrefabDBModel = new Sys_PrefabDBModel();
-            Sys_UIFormDBModel = new Sys_UIFormDBModel();
-            Sys_SceneDBModel = new Sys_SceneDBModel();
-            Sys_AudioDBModel = new Sys_AudioDBModel();
-        }
         /// <summary>
         /// 加载表格
         /// </summary>
         private void LoadDataTable()
         {
             TaskGroup m_TaskGroup = GameEntry.Task.CreateTaskGroup();
+            LocalizationDBModel = new LocalizationDBModel();
             LocalizationDBModel.LoadData(m_TaskGroup);
+            Sys_PrefabDBModel = new Sys_PrefabDBModel();
             Sys_PrefabDBModel.LoadData(m_TaskGroup);
+            Sys_UIFormDBModel = new Sys_UIFormDBModel();
             Sys_UIFormDBModel.LoadData(m_TaskGroup);
+            Sys_SceneDBModel = new Sys_SceneDBModel();
             Sys_SceneDBModel.LoadData(m_TaskGroup);
+            Sys_AudioDBModel = new Sys_AudioDBModel();
             Sys_AudioDBModel.LoadData(m_TaskGroup);
 
             m_TaskGroup.OnComplete = OnLoadDataTableComplete;
@@ -65,18 +61,10 @@ namespace YouYou
             LoadDataTable();
 #endif
         }
-        internal async ETTask LoadDataAllTableAsync()
-        {
-            ETTask task = ETTask.Create();
-            LoadDataAllTable(task.SetResult);
-            await task;
-        }
 
         /// <summary>
         /// 获取表格的字节数组
         /// </summary>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
         public void GetDataTableBuffer(string dataTableName, Action<byte[]> onComplete)
         {
 #if EDITORLOAD

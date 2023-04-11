@@ -17,8 +17,6 @@ namespace YouYou
         /// <summary>
         /// 观察者监听事件
         /// </summary>
-        /// <param name="Key">主题列表的Key</param>
-        /// <param name="handler">主题</param>
         public void AddEventListener(string key, OnActionHandler handler)
         {
             LinkedList<OnActionHandler> lstHandler = null;
@@ -36,8 +34,6 @@ namespace YouYou
         /// <summary>
         /// 观察者移除监听事件
         /// </summary>
-        /// <param name="key">主题列表的Key</param>
-        /// <param name="handler">主题</param>
         public void RemoveEventListener(string key, OnActionHandler handler)
         {
             LinkedList<OnActionHandler> lstHandler = null;
@@ -56,8 +52,6 @@ namespace YouYou
         /// <summary>
         /// 派发
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="p"></param>
         public void Dispatch(string key, object userData)
         {
             LinkedList<OnActionHandler> lstHandler = null;

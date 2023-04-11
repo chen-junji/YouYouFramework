@@ -47,11 +47,11 @@ namespace YouYou
                 //根据实际情况调节速度, 加载已完成和未完成, 模拟进度增值速度分开计算!
                 if (m_TargetProgress < 100)
                 {
-                    m_CurrProgress = Mathf.Min(m_CurrProgress + Time.deltaTime * 15, m_TargetProgress - 1);//-1是为了防止模拟加载比实际加载快
+                    m_CurrProgress = Mathf.Min(m_CurrProgress + Time.deltaTime * 30, m_TargetProgress - 1);//-1是为了防止模拟加载比实际加载快
                 }
                 else
                 {
-                    m_CurrProgress = Mathf.Min(m_CurrProgress + Time.deltaTime * 30, m_TargetProgress);
+                    m_CurrProgress = Mathf.Min(m_CurrProgress + Time.deltaTime * 60, m_TargetProgress);
                 }
                 m_PreloadParams.FloatParam1 = m_CurrProgress;
                 GameEntry.Event.Common.Dispatch(CommonEventId.PreloadUpdate, m_PreloadParams);
@@ -70,12 +70,15 @@ namespace YouYou
         /// <summary>
         /// 开始任务
         /// </summary>
-        private async void BeginTask()
+        private void BeginTask()
         {
             TaskGroup taskGroup = GameEntry.Task.CreateTaskGroup();
 #if ASSETBUNDLE
             //初始化资源信息
-            await GameEntry.Resource.InitAssetInfo();
+            taskGroup.AddTask((taskRoutine) =>
+            {
+                GameEntry.Resource.ResourceLoaderManager.InitAssetInfo(taskRoutine.Leave);
+            });
 
             //加载自定义Shader
             taskGroup.AddTask((taskRoutine) =>
@@ -89,13 +92,16 @@ namespace YouYou
             });
 #endif
             //加载Excel
-            await GameEntry.DataTable.LoadDataAllTableAsync();
+            taskGroup.AddTask((taskRoutine) =>
+            {
+                GameEntry.DataTable.LoadDataAllTable(taskRoutine.Leave);
+            });
 
             //初始化ILRuntime
             //taskGroup.AddTask((taskRoutine) =>
             //{
             //    GameEntry.ILRuntime.Init();
-            //    GameEntry.ILRuntime.OnLoadDataTableComplete = () => taskRoutine.Leave();
+            //    GameEntry.ILRuntime.OnLoadDataTableComplete = taskRoutine.Leave;
             //});
 
             taskGroup.OnCompleteOne = () =>

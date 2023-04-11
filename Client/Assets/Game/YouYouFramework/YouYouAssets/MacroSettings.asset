@@ -18,20 +18,11 @@ MonoBehaviour:
     Name: "\u6253\u5370\u666E\u901A\u65E5\u5FD7"
     Macro: DEBUG_LOG_NORMAL
   - Enabled: 1
-    Name: "\u6253\u5370\u6D41\u7A0B\u65E5\u5FD7"
-    Macro: DEBUG_LOG_PROCEDURE
-  - Enabled: 1
-    Name: "\u6253\u5370\u8D44\u6E90\u65E5\u5FD7"
-    Macro: DEBUG_LOG_RESOURCE
-  - Enabled: 1
-    Name: "\u6253\u5370\u901A\u8BAF\u65E5\u5FD7"
-    Macro: DEBUG_LOG_PROTO
+    Name: "\u6253\u5370\u8B66\u544A\u65E5\u5FD7"
+    Macro: DEBUG_LOG_WARNING
   - Enabled: 1
     Name: "\u6253\u5370\u9519\u8BEF\u65E5\u5FD7"
     Macro: DEBUG_LOG_ERROR
   - Enabled: 1
     Name: "\u8C03\u8BD5\u6A21\u5F0F"
     Macro: DEBUG_MODEL
-  - Enabled: 0
-    Name: "\u6253\u5370\u8B66\u544A\u65E5\u5FD7"
-    Macro: DEBUG_LOG_WARNING

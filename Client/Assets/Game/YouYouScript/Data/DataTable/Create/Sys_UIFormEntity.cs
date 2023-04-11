@@ -8,11 +8,6 @@ namespace YouYou
     public partial class Sys_UIFormEntity : DataTableEntityBase
     {
         /// <summary>
-        /// 描述
-        /// </summary>
-        public string Desc;
-
-        /// <summary>
         /// 名称
         /// </summary>
         public string Name;

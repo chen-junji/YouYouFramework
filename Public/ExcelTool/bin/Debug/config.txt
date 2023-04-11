@@ -1,5 +1,5 @@
 ﻿..\..\..\Tables
-..\..\..\..\Client\Assets\Download\DataTable\
+..\..\..\..\Client\Assets\Game\Resources\DataTable\
 ..\..\..\..\Client\Assets\Game\YouYouScript\Data\DataTable\Create\
 OutLua\
 ..\..\..\..\Server\Release\DataTable\

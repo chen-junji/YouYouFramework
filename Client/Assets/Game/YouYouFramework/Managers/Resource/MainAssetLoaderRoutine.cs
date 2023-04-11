@@ -70,7 +70,7 @@ namespace YouYou
             m_CurrResourceEntity.IsAssetBundle = false;
             m_CurrResourceEntity.ResourceName = assetFullName;
             m_CurrResourceEntity.Target = Resources.Load<T>(assetFullName);
-            if (m_CurrResourceEntity.Target == null) GameEntry.LogError("资源加载失败==" + assetFullName);
+            if (m_CurrResourceEntity.Target == null) GameEntry.LogError(LogCategory.Resource, "资源加载失败==" + assetFullName);
             onComplete?.Invoke(m_CurrResourceEntity);
             Reset();
 #else
@@ -96,7 +96,7 @@ namespace YouYou
             m_CurrResourceEntity = new ResourceEntity();
             m_CurrResourceEntity.IsAssetBundle = false;
             m_CurrResourceEntity.ResourceName = assetFullName;
-            m_CurrResourceEntity.Target = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetFullName);
+            m_CurrResourceEntity.Target = UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetFullName);
             //Reset();
             return m_CurrResourceEntity;
 #elif RESOURCES
@@ -114,7 +114,7 @@ namespace YouYou
             m_CurrResourceEntity.IsAssetBundle = false;
             m_CurrResourceEntity.ResourceName = assetFullName;
             m_CurrResourceEntity.Target = Resources.Load(assetFullName);
-            if (m_CurrResourceEntity.Target == null) GameEntry.LogError("资源加载失败==" + assetFullName);
+            if (m_CurrResourceEntity.Target == null) GameEntry.LogError(LogCategory.Resource, "资源加载失败==" + assetFullName);
             //Reset();
             return m_CurrResourceEntity;
 #else

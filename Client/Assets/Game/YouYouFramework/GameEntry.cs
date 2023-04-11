@@ -215,7 +215,7 @@ namespace YouYou
             {
                 value = string.Format(message.ToString(), args);
             }
-            Debug.Log(string.Format("{0}=={1}", catetory.ToString(), value));
+            Debug.Log(string.Format("youyouLog=={0}=={1}", catetory.ToString(), value));
 #endif
         }
 
@@ -231,7 +231,7 @@ namespace YouYou
             {
                 value = string.Format(message.ToString(), args);
             }
-            Debug.Log(string.Format("{0}=={1}", catetory.ToString(), value));
+            Debug.Log(string.Format("youyouLog=={0}=={1}", catetory.ToString(), value));
 #endif
         }
 
@@ -247,7 +247,7 @@ namespace YouYou
             {
                 value = string.Format(message.ToString(), args);
             }
-            Debug.Log(string.Format("{0}=={1}", catetory.ToString(), value));
+            Debug.Log(string.Format("youyouLog=={0}=={1}", catetory.ToString(), value));
 #endif
         }
     }

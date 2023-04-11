@@ -63,16 +63,6 @@ namespace YouYou
             ResourceManager.InitStreamingAssetsBundleInfo();
         }
 
-        /// <summary>
-        /// 初始化资源信息
-        /// </summary>
-        public async ETTask InitAssetInfo()
-        {
-            ETTask task = ETTask.Create();
-            ResourceLoaderManager.InitAssetInfo(task.SetResult);
-            await task;
-        }
-
 
         /// <summary>
         /// 获取路径的最后名称

@@ -27,7 +27,6 @@ namespace YouYou
             {
                 Sys_UIFormEntity entity = new Sys_UIFormEntity();
                 entity.Id = ms.ReadInt();
-                entity.Desc = ms.ReadUTF8String();
                 entity.Name = ms.ReadUTF8String();
                 entity.UIGroupId = (byte)ms.ReadByte();
                 entity.DisableUILayer = ms.ReadInt();
