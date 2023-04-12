@@ -22,7 +22,7 @@ namespace YouYou
     }
 
 
-    public class LocalizationManager : IDisposable
+    public class LocalizationManager 
     {
         internal void Init()
         {
@@ -57,12 +57,6 @@ namespace YouYou
             }
             return value;
         }
-
-        public void Dispose()
-        {
-
-        }
-
 
     }
 }

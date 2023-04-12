@@ -8,7 +8,7 @@ namespace YouYou
     /// <summary>
     /// 场景管理器
     /// </summary>
-    public class YouYouSceneManager : IDisposable
+    public class YouYouSceneManager 
     {
         /// <summary>
         /// 场景加载器链表
@@ -263,9 +263,5 @@ namespace YouYou
             return progress;
         }
 
-        public void Dispose()
-        {
-
-        }
     }
 }

@@ -9,7 +9,7 @@ namespace YouYou
     /// <summary>
     /// 资源加载管理器
     /// </summary>
-    public class ResourceLoaderManager : IDisposable
+    public class ResourceLoaderManager
     {
         /// <summary>
         /// 资源信息字典
@@ -46,11 +46,6 @@ namespace YouYou
             {
                 curr.Value.OnUpdate();
             }
-        }
-        public void Dispose()
-        {
-            m_AssetInfoDic.Clear();
-            m_AssetLoaderList.Clear();
         }
 
         #region InitAssetInfo 初始化资源信息

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace YouYou
 {
-    public class DataTableManager : IDisposable
+    public class DataTableManager 
     {
         internal Action OnLoadDataTableComplete;
         internal void Init()
@@ -87,10 +87,6 @@ namespace YouYou
                 if (onComplete != null) onComplete(asset.bytes);
             });
 #endif
-        }
-
-        public void Dispose()
-        {
         }
     }
 }

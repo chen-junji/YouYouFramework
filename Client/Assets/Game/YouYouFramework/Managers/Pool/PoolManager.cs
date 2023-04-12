@@ -8,7 +8,7 @@ namespace YouYou
     /// <summary>
     /// 池管理器
     /// </summary>
-    public class PoolManager : IDisposable
+    public class PoolManager 
     {
         /// <summary>
         /// 类对象池
@@ -77,12 +77,6 @@ namespace YouYou
         public void ReleaseAssetPool()
         {
             AssetPool.Release();
-        }
-
-        public void Dispose()
-        {
-            ClassObjectPool.Dispose();
-            GameObjectPool.Dispose();
         }
 
         //============================

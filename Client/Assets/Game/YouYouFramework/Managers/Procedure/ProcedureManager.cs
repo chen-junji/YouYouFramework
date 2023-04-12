@@ -32,7 +32,7 @@ namespace YouYou
     /// <summary>
     /// 流程管理器
     /// </summary>
-    public class ProcedureManager : IDisposable
+    public class ProcedureManager 
     {
         /// <summary>
         /// 当前流程状态机
@@ -66,10 +66,6 @@ namespace YouYou
 
         internal ProcedureManager()
         {
-        }
-        public void Dispose()
-        {
-
         }
         internal void Init()
         {

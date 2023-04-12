@@ -186,15 +186,8 @@ namespace YouYou
             Logger.SyncLog();
             Logger.Dispose();
             Fsm.Dispose();
-            Procedure.Dispose();
-            DataTable.Dispose();
             Socket.Dispose();
-            Http.Dispose();
             PlayerPrefs.Dispose();
-            Localization.Dispose();
-            Pool.Dispose();
-            Scene.Dispose();
-            Resource.Dispose();
             Download.Dispose();
         }
         private void OnApplicationPause(bool pause)
@@ -231,7 +224,7 @@ namespace YouYou
             {
                 value = string.Format(message.ToString(), args);
             }
-            Debug.Log(string.Format("youyouLog=={0}=={1}", catetory.ToString(), value));
+            Debug.LogWarning(string.Format("youyouLog=={0}=={1}", catetory.ToString(), value));
 #endif
         }
 
@@ -247,7 +240,7 @@ namespace YouYou
             {
                 value = string.Format(message.ToString(), args);
             }
-            Debug.Log(string.Format("youyouLog=={0}=={1}", catetory.ToString(), value));
+            Debug.LogError(string.Format("youyouLog=={0}=={1}", catetory.ToString(), value));
 #endif
         }
     }

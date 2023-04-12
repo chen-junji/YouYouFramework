@@ -10,7 +10,7 @@ namespace YouYou
     /// <summary>
     /// 可寻址资源管理器
     /// </summary>
-    public class AddressableManager : IDisposable
+    public class AddressableManager 
     {
         /// <summary>
         /// 资源管理器
@@ -31,11 +31,6 @@ namespace YouYou
         {
             ResourceManager = new ResourceManager();
             ResourceLoaderManager = new ResourceLoaderManager();
-        }
-        public void Dispose()
-        {
-            ResourceManager.Dispose();
-            ResourceLoaderManager.Dispose();
         }
         internal void Init()
         {

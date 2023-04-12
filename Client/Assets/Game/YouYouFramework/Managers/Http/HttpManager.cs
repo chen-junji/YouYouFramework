@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace YouYou
 {
-    public class HttpManager : IDisposable
+    public class HttpManager 
     {
         /// <summary>
         /// 正式账号服务器Url
@@ -33,10 +33,7 @@ namespace YouYou
         /// </summary>
         public int RetryInterval { get; private set; }
 
-        public void Dispose()
-        {
 
-        }
         internal void Init()
         {
             m_WebAccountUrl = GameEntry.ParamsSettings.WebAccountUrl;

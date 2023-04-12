@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace YouYou
 {
-    public class ResourceManager : IDisposable
+    public class ResourceManager 
     {
         #region GetAssetBundleVersionList 根据字节数组获取资源包版本信息
         /// <summary>
@@ -535,12 +535,5 @@ namespace YouYou
             GameEntry.Procedure.ChangeState(ProcedureState.Preload);
         }
 
-
-        public void Dispose()
-        {
-            if (m_StreamingAssetsVersionDic != null) m_StreamingAssetsVersionDic.Clear();
-            if (m_CDNVersionDic != null) m_CDNVersionDic.Clear();
-            if (m_LocalAssetsVersionDic != null) m_LocalAssetsVersionDic.Clear();
-        }
     }
 }
