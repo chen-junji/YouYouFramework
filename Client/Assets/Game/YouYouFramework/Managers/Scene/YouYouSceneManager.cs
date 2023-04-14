@@ -80,7 +80,7 @@ namespace YouYou
                 if (m_CurrLoadOrUnloadSceneDetailCount == m_CurrSceneDetailList.Count)
                 {
                     GC.Collect();
-                    GameEntry.Log(LogCategory.Framework, "场景加载完毕{0}", m_CurrSceneDetailList[0].SceneName);
+                    GameEntry.Log(LogCategory.Framework, "场景加载完毕{0}", m_CurrSceneDetailList[0].SceneGroup);
 
                     m_CurrLoadOrUnloadSceneDetailCount = 0;
                     m_CurrSceneIsLoading = false;
@@ -184,7 +184,7 @@ namespace YouYou
         private void LoadNewScene()
         {
             m_CurrSceneIsLoading = true;
-            m_CurrSceneDetailList = GameEntry.DataTable.Sys_SceneDBModel.GetListBySceneName(m_CurrLoadSceneName);
+            m_CurrSceneDetailList = GameEntry.DataTable.Sys_SceneDBModel.GetListByGroupName(m_CurrLoadSceneName);
 
             for (int i = 0; i < m_CurrSceneDetailList.Count; i++)
             {

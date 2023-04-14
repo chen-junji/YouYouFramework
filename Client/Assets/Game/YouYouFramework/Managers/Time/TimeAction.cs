@@ -11,11 +11,6 @@ namespace YouYou
     public class TimeAction
     {
         /// <summary>
-        /// 定时器的名字
-        /// </summary>
-        public string TimeName { get; private set; }
-
-        /// <summary>
         /// 是否运行中
         /// </summary>
         public bool IsStart { get; private set; }
@@ -70,25 +65,26 @@ namespace YouYou
         /// <param name="delayTime">延迟时间</param>
         /// <param name="interval">间隔</param>
         /// <param name="loop">循环次数</param>
-        internal TimeAction Init(string timeName, float delayTime, float interval, int loop, bool unScaled, Action onStar, Action<int> onUpdate, Action onComplete)
+        internal TimeAction Init(float delayTime, Action onStar, float interval, int loop, Action<int> onUpdate, Action onComplete, bool unScaled)
         {
             if (tillTime > 0)
             {
                 YouYou.GameEntry.LogError(LogCategory.Framework, "定时器正在使用中");
                 return null;
             }
-            TimeName = timeName;
-            m_Interval = interval;
-            m_Loop = loop;
             Unscaled = unScaled;
-            OnStartAction = onStar;
-            OnUpdateAction = onUpdate;
-            OnCompleteAction = onComplete;
 
             tillTime = (Unscaled ? Time.unscaledTime : Time.time) + delayTime;
+            OnStartAction = onStar;
+
+            m_Interval = interval;
+            m_Loop = loop;
+            OnUpdateAction = onUpdate;
+
+            OnCompleteAction = onComplete;
+
             m_CurrLoop = 0;
             GameEntry.Time.Register(tillTime, this, Unscaled);
-
             return this;
         }
         /// <summary>

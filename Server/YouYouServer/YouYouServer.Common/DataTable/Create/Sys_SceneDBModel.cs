@@ -25,7 +25,7 @@ public partial class Sys_SceneDBModel : DataTableDBModelBase<Sys_SceneDBModel, S
         {
             Sys_SceneEntity entity = new Sys_SceneEntity();
             entity.Id = ms.ReadInt();
-            entity.SceneName = ms.ReadUTF8String();
+            entity.SceneGroup = ms.ReadUTF8String();
             entity.ScenePath = ms.ReadUTF8String();
             entity.BGMId = ms.ReadInt();
 

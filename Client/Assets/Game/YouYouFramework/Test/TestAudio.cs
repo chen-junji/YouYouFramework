@@ -1,4 +1,3 @@
-//===================================================
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,38 +5,15 @@ using YouYou;
 
 public class TestAudio : MonoBehaviour
 {
-    public Transform target;
-
-    public List<int> aaa;
-
-    void Start()
-    {
-
-    }
-
-    int serialId;
-    float value = 0;
-    bool begin = false;
-
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.B))
+        if (Input.GetKeyUp(KeyCode.A))
         {
-            //serialId = GameEntry.Audio.FMOD.PlayAudio(601, pos3D: target.position);
+            GameEntry.Audio.PlayBGM(AudioConst.BGM);
         }
-        if (Input.GetKeyUp(KeyCode.C))
+        if (Input.GetKeyUp(KeyCode.S))
         {
-            begin = true;
-
+            GameEntry.Audio.PlayAudio(AudioConst.button_sound);
         }
-
-        if (begin)
-        {
-            value += Time.deltaTime * 10;
-            value = Mathf.Min(value, 300);
-            Debug.LogError("value==" + value);
-            //GameEntry.Audio.FMOD.SetParameterForAudio(serialId, "Speed", value);
-        }
-
     }
 }

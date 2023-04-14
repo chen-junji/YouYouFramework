@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using YouYou;
 
 public class TestPool : MonoBehaviour
 {
-	void Start()
-	{
-	}
-	void Update()
-	{
-	}
+    async void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            await GameEntry.Pool.GameObjectPool.Spawn("RoleCtrl");
+        }
+    }
 }

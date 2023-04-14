@@ -123,23 +123,23 @@ namespace YouYou
         /// <summary>
         /// 创建定时器
         /// </summary>
-        /// <param name="timeName">定时器名称, 有需要可以通过传名字关闭或暂停定时器</param>
         /// <param name="delayTime">延迟时间</param>
+        /// <param name="onStar">延迟时间结束时调用</param>
         /// <param name="interval">间隔时间</param>
         /// <param name="loop">循环次数</param>
-        /// <param name="unScaled">是否无视Time.timeScale</param>
-        /// <param name="onStar">延迟时间结束时调用</param>
         /// <param name="onUpdate">循环一次时调用</param>
         /// <param name="onComplete">全部循环完毕时调用</param>
+        /// <param name="unScaled">是否无视Time.timeScale</param>
         /// <returns>定时器</returns>
-        public TimeAction Create(string timeName = null, float delayTime = 0, float interval = 1, int loop = 1, bool unScaled = false, Action onStar = null, Action<int> onUpdate = null, Action onComplete = null)
+        public TimeAction Create(float delayTime = 1, Action onStar = null, float interval = 0, int loop = 1, Action<int> onUpdate = null, Action onComplete = null, bool unScaled = false)
         {
-            return new TimeAction().Init(timeName, delayTime, interval, loop, unScaled, onStar, onUpdate, onComplete);
+            return new TimeAction().Init(delayTime, onStar, interval, loop, onUpdate, onComplete, unScaled);
         }
+
         public async ETTask Delay(float delayTime, bool unScaled = false)
         {
             ETTask task = ETTask.Create();
-            Create(delayTime: delayTime, unScaled: unScaled, onStar: task.SetResult);
+            Create(delayTime, task.SetResult, unScaled: unScaled);
             await task;
         }
 

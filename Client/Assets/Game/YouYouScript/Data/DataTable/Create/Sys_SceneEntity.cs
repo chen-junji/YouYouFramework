@@ -8,9 +8,9 @@ namespace YouYou
     public partial class Sys_SceneEntity : DataTableEntityBase
     {
         /// <summary>
-        /// 名称
+        /// 场景组
         /// </summary>
-        public string SceneName;
+        public string SceneGroup;
 
         /// <summary>
         /// 场景路径

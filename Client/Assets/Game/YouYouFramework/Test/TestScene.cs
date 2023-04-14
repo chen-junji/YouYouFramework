@@ -5,12 +5,8 @@ using YouYou;
 
 public class TestScene : MonoBehaviour
 {
-    void Start()
+    async void Update()
     {
-
-    }
-
-    void Update()
-    {
+        await GameEntry.Scene.LoadScene(CommonConst.Main);
     }
 }

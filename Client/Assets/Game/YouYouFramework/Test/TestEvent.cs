@@ -6,26 +6,24 @@ using YouYou;
 
 public class TestEvent : MonoBehaviour
 {
-    void Start()
-    {
-        //GameEntry.Event.Common.AddEventListener(CommonEventId.RegComplete, OnRegComplete);
-    }
-
-    private void OnRegComplete(object userData)
-    {
-        Debug.Log(userData);
-    }
-
-    void Update()
-    {
-        //if (Input.GetKeyUp(KeyCode.A))
-        //{
-        //    GameEntry.Event.Common.Dispatch(CommonEventId.RegComplete, 123);
-        //}
-    }
-
     private void OnDestroy()
     {
-        //GameEntry.Event.Common.RemoveEventListener(CommonEventId.RegComplete, OnRegComplete);
+        GameEntry.Event.Common.RemoveEventListener(CommonEventId.TestEvent, OnTestEvent);
+    }
+    void Start()
+    {
+        GameEntry.Event.Common.AddEventListener(CommonEventId.TestEvent, OnTestEvent);
+    }
+    void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            GameEntry.Event.Common.Dispatch(CommonEventId.TestEvent, 123);
+        }
+    }
+
+    private void OnTestEvent(object userData)
+    {
+        Debug.Log(userData);
     }
 }

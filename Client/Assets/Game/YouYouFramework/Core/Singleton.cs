@@ -4,7 +4,7 @@ using System;
 
 namespace YouYou
 {
-    public class Singleton<T> : IDisposable where T : new()
+    public class Singleton<T> where T : new()
     {
         private static T instance;
 
@@ -18,11 +18,6 @@ namespace YouYou
                 }
                 return instance;
             }
-        }
-
-        public virtual void Dispose()
-        {
-
         }
     }
 }

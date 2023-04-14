@@ -32,7 +32,7 @@ public class HollowOutMaskBtn : HollowOutMask
         if (DelayTime > 0)
         {
             button.enabled = false;
-            GameEntry.Time.Create(delayTime: DelayTime, onStar: () =>
+            GameEntry.Time.Create(DelayTime, () =>
             {
                 button.enabled = true;
             });

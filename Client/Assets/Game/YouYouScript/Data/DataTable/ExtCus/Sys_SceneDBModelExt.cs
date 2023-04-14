@@ -7,17 +7,26 @@ namespace YouYou
 {
     public partial class Sys_SceneDBModel
     {
-        public List<Sys_SceneEntity> GetListBySceneName(string sceneName)
+        private Dictionary<string, List<Sys_SceneEntity>> GroupNameByDic = new Dictionary<string, List<Sys_SceneEntity>>();
+        protected override void OnLoadListComple()
         {
-            List<Sys_SceneEntity> retValue = new List<Sys_SceneEntity>();
+            base.OnLoadListComple();
             for (int i = 0; i < m_List.Count; i++)
             {
-                if (m_List[i].SceneName == sceneName)
+                Sys_SceneEntity entity = m_List[i];
+                string[] strs = entity.ScenePath.Split('/');
+                if (strs.Length >= 1)
                 {
-                    retValue.Add(m_List[i]);
+                    string sceneName = strs[strs.Length - 1];
+                    if (!GroupNameByDic.ContainsKey(sceneName)) GroupNameByDic.Add(entity.SceneGroup, new List<Sys_SceneEntity>());
+                    GroupNameByDic[entity.SceneGroup].Add(entity);
                 }
             }
-            return retValue;
+        }
+
+        public List<Sys_SceneEntity> GetListByGroupName(string groupName)
+        {
+            return GroupNameByDic[groupName];
         }
     }
 }

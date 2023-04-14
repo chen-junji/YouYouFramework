@@ -14,8 +14,7 @@ namespace YouYou
         internal override void OnEnter()
         {
             base.OnEnter();
-            DialogForm dialogForm = GameEntry.UI.OpenUIForm<DialogForm>();
-            dialogForm.SetUI("框架内部流程全部加载完毕, 已经进入登录流程", "登录流程");
+            GameEntry.Scene.LoadSceneAction(CommonConst.Main);
         }
         internal override void OnUpdate()
         {

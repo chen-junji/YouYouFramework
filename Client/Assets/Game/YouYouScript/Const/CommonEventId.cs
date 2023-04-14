@@ -2,51 +2,28 @@ namespace YouYou
 {
     public class CommonEventId
     {
-        #region 系统事件编号(系统事件编号 采用4位 1001(10表示模块 01表示编号))
-        /// <summary>
-        /// 加载进度条更新
-        /// </summary>
-        public const string LoadingProgressChange = "LoadingProgressChange";
-        /// <summary>
-        /// 关闭"转圈圈"
-        /// </summary>
-        public const string CloseUICircle = "CloseUICircle";
-
-        /// <summary>
-        /// 检查更新_开始下载
-        /// </summary>
+        #region 系统事件
+        //检查更新_下载开始
         public const string CheckVersionBeginDownload = "CheckVersionBeginDownload";
-        /// <summary>
-        /// 检查更新_下载中
-        /// </summary>
+        //检查更新_下载进度更新
         public const string CheckVersionDownloadUpdate = "CheckVersionDownloadUpdate";
-        /// <summary>
-        /// 检查更新_下载完毕
-        /// </summary>
+        //检查更新_下载完毕
         public const string CheckVersionDownloadComplete = "CheckVersionDownloadComplete";
 
-        /// <summary>
-        /// 预加载_开始加载
-        /// </summary>
+        //预加载_加载开始
         public const string PreloadBegin = "PreloadBegin";
-        /// <summary>
-        /// 预加载_开始加载
-        /// </summary>
+        //预加载_加载进度更新
         public const string PreloadUpdate = "PreloadUpdate";
-        /// <summary>
-        /// 预加载_开始加载
-        /// </summary>
+        //预加载_加载完毕
         public const string PreloadComplete = "PreloadComplete";
 
-        /// <summary>
-        /// Lua内存释放
-        /// </summary>
-        public const string LuaFullGc = "LuaFullGc";
-
-        /// <summary>
-        /// 主Socket连接服务器成功
-        /// </summary>
+        //主Socket连接服务器成功
         public const string OnConnectOKToMainSocket = "OnConnectOKToMainSocket";
+
+        //场景加载进度更新
+        public const string LoadingProgressChange = "LoadingProgressChange";
+        //关闭"转圈圈"
+        public const string CloseUICircle = "CloseUICircle";
 
         //背景音乐音量
         public const string PlayerBGMVolume = "PlayerBGMVolume";
@@ -64,5 +41,7 @@ namespace YouYou
         public const string QualityLevel = "QualityLevel";
         #endregion
 
+        //测试事件
+        public const string TestEvent = "TestEvent";
     }
 }
