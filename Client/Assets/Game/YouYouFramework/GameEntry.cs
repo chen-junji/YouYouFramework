@@ -59,7 +59,6 @@ namespace YouYou
         public static FsmManager Fsm { get; private set; }
         public static ProcedureManager Procedure { get; private set; }
         public static DataTableManager DataTable { get; private set; }
-        public static SocketManager Socket { get; private set; }
         public static HttpManager Http { get; private set; }
         public static DataManager Data { get; private set; }
         public static PlayerPrefsManager PlayerPrefs { get; private set; }
@@ -71,60 +70,9 @@ namespace YouYou
         public static UIManager UI { get; private set; }
         public static AudioManager Audio { get; private set; }
         public static CrossPlatformInputManager Input { get; private set; }
-        public static WebSocketManager WebSocket { get; private set; }
         public static TaskManager Task { get; private set; }
         public static QualityManager Quality { get; private set; }
         public static GuideManager Guide { get; private set; }
-        #endregion
-
-        #region InitManagers 初始化管理器
-        /// <summary>
-        /// 初始化管理器
-        /// </summary>
-        private static void InitManagers()
-        {
-            Logger = new LoggerManager();
-            Event = new EventManager();
-            Time = new TimeManager();
-            Fsm = new FsmManager();
-            Procedure = new ProcedureManager();
-            DataTable = new DataTableManager();
-            Socket = new SocketManager();
-            Http = new HttpManager();
-            Data = new DataManager();
-            PlayerPrefs = new PlayerPrefsManager();
-            Localization = new LocalizationManager();
-            Pool = new PoolManager();
-            Scene = new YouYouSceneManager();
-            Resource = new AddressableManager();
-            Download = new DownloadManager();
-            UI = new UIManager();
-            Audio = new AudioManager();
-            Input = new CrossPlatformInputManager();
-            WebSocket = new WebSocketManager();
-            Task = new TaskManager();
-            Quality = new QualityManager();
-            Guide = new GuideManager();
-
-            Logger.Init();
-            Procedure.Init();
-            DataTable.Init();
-            Socket.Init();
-            Http.Init();
-            PlayerPrefs.Init();
-            Localization.Init();
-            Pool.Init();
-            Scene.Init();
-            Resource.Init();
-            Download.Init();
-            UI.Init();
-            Audio.Init();
-            WebSocket.Init();
-            Task.Init();
-
-            //进入第一个流程
-            Procedure.ChangeState(ProcedureState.Launch);
-        }
         #endregion
 
         /// <summary>
@@ -164,21 +112,56 @@ namespace YouYou
         private void Start()
         {
             Log(LogCategory.Procedure, "GameEntry.OnStart()");
-            InitManagers();
+
+            Logger = new LoggerManager();
+            Event = new EventManager();
+            Time = new TimeManager();
+            Fsm = new FsmManager();
+            Procedure = new ProcedureManager();
+            DataTable = new DataTableManager();
+            Http = new HttpManager();
+            Data = new DataManager();
+            PlayerPrefs = new PlayerPrefsManager();
+            Localization = new LocalizationManager();
+            Pool = new PoolManager();
+            Scene = new YouYouSceneManager();
+            Resource = new AddressableManager();
+            Download = new DownloadManager();
+            UI = new UIManager();
+            Audio = new AudioManager();
+            Input = new CrossPlatformInputManager();
+            Task = new TaskManager();
+            Quality = new QualityManager();
+            Guide = new GuideManager();
+
+            Logger.Init();
+            Procedure.Init();
+            DataTable.Init();
+            Http.Init();
+            PlayerPrefs.Init();
+            Localization.Init();
+            Pool.Init();
+            Scene.Init();
+            Resource.Init();
+            Download.Init();
+            UI.Init();
+            Audio.Init();
+            Task.Init();
+
+            //进入第一个流程
+            Procedure.ChangeState(ProcedureState.Launch);
         }
 
         void Update()
         {
             Time.OnUpdate();
             Procedure.OnUpdate();
-            Socket.OnUpdate();
             Pool.OnUpdate();
             Scene.OnUpdate();
             Resource.OnUpdate();
             Download.OnUpdate();
             UI.OnUpdate();
             Input.OnUpdate();
-            WebSocket.OnUpdate();
             Task.OnUpdate();
         }
         private void OnApplicationQuit()
@@ -186,7 +169,6 @@ namespace YouYou
             Logger.SyncLog();
             Logger.Dispose();
             Fsm.Dispose();
-            Socket.Dispose();
             PlayerPrefs.Dispose();
             Download.Dispose();
         }

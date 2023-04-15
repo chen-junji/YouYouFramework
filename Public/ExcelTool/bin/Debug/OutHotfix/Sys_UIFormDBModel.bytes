@@ -1,0 +1,49 @@
+--数据访问
+Sys_UIFormDBModel = { }
+
+local this = Sys_UIFormDBModel;
+
+local sys_uiformTable = { }; --定义表格
+
+function Sys_UIFormDBModel.LoadList()
+    GameInit.AddTotalLoadTableCount();
+    CS.YouYou.GameEntry.Lua:LoadDataTable("Sys_UIForm", this.LoadFormMS);
+end
+
+function Sys_UIFormDBModel.LoadFormMS(ms)
+    local rows = ms:ReadInt();
+    ms:ReadInt();
+
+    for i = 0, rows, 1 do
+        sys_uiformTable[#sys_uiformTable + 1] = Sys_UIFormEntity.New(
+                ms:ReadInt(),
+                ms:ReadUTF8String(),
+                ms:ReadUTF8String(),
+                ms:ReadByte(),
+                ms:ReadInt(),
+                ms:ReadInt(),
+                ms:ReadByte(),
+                ms:ReadUTF8String(),
+                ms:ReadUTF8String(),
+                ms:ReadInt(),
+                ms:ReadByte(),
+                ms:ReadByte()
+        );
+    end
+    GameInit.LoadOneTableComplete();
+end
+
+function Sys_UIFormDBModel.GetList()
+    return sys_uiformTable;
+end
+
+function Sys_UIFormDBModel.GetEntity(id)
+    local ret = nil;
+    for i = 1, #sys_uiformTable, 1 do
+        if (sys_uiformTable[i].Id == id) then
+            ret = sys_uiformTable[i];
+            break;
+        end
+    end
+    return ret;
+end

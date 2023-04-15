@@ -1,8 +1,0 @@
-syntax = "proto3";
-package YouYou.Proto;
-
-//中心服务器通知网关服务器注册到游戏服
-message WS2GWS_ToRegGameServer
-{
-
-}

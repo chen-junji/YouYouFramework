@@ -2,6 +2,6 @@
 ..\..\..\..\Client\Assets\Game\Resources\DataTable\
 ..\..\..\..\Client\Assets\Game\YouYouScript\Data\DataTable\Create\
 OutLua\
-..\..\..\..\Server\Release\DataTable\
-..\..\..\..\Server\YouYouServer\YouYouServer.Common\DataTable\Create\
+OutServer\
+OutServerScript\
 OutHotfix\

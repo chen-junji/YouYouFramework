@@ -1,0 +1,14 @@
+Sys_CodeEntity = { Id = 0, Desc = "", Name = "" }
+
+Sys_CodeEntity.__index = Sys_CodeEntity;
+
+function Sys_CodeEntity.New(Id, Desc, Name)
+    local self = { };
+    setmetatable(self, Sys_CodeEntity);
+
+    self.Id = Id;
+    self.Desc = Desc;
+    self.Name = Name;
+
+    return self;
+end

@@ -1,0 +1,41 @@
+--数据访问
+Sys_SceneDBModel = { }
+
+local this = Sys_SceneDBModel;
+
+local sys_sceneTable = { }; --定义表格
+
+function Sys_SceneDBModel.LoadList()
+    GameInit.AddTotalLoadTableCount();
+    CS.YouYou.GameEntry.Lua:LoadDataTable("Sys_Scene", this.LoadFormMS);
+end
+
+function Sys_SceneDBModel.LoadFormMS(ms)
+    local rows = ms:ReadInt();
+    ms:ReadInt();
+
+    for i = 0, rows, 1 do
+        sys_sceneTable[#sys_sceneTable + 1] = Sys_SceneEntity.New(
+                ms:ReadInt(),
+                ms:ReadUTF8String(),
+                ms:ReadUTF8String(),
+                ms:ReadInt()
+        );
+    end
+    GameInit.LoadOneTableComplete();
+end
+
+function Sys_SceneDBModel.GetList()
+    return sys_sceneTable;
+end
+
+function Sys_SceneDBModel.GetEntity(id)
+    local ret = nil;
+    for i = 1, #sys_sceneTable, 1 do
+        if (sys_sceneTable[i].Id == id) then
+            ret = sys_sceneTable[i];
+            break;
+        end
+    end
+    return ret;
+end

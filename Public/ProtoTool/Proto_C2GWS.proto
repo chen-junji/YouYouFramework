@@ -1,8 +1,0 @@
-syntax = "proto3";
-package YouYou.Proto;
-
-//玩家向网关服务器注册客户端
-message C2GWS_RegClient
-{
-    int64 AccountId = 1;//玩家账号
-}

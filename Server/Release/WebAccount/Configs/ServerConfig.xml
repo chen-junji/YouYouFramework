@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Root>
-  <ServerId>1</ServerId>
-  <MongoConnectionString>mongodb://127.0.0.1</MongoConnectionString>
-  <RedisConnectionString>127.0.0.1:6379</RedisConnectionString>
-  <DataTablePath>G:\Project\YouYou_MMORPG\YouYou_New\Server\Release\DataTable</DataTablePath>
-</Root>

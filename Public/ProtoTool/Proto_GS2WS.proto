@@ -1,8 +1,0 @@
-syntax = "proto3";
-package YouYou.Proto;
-
-//游戏服务器注册到中心服务器
-message GS2WS_RegGameServer
-{
-    int32 ServerId = 1;//服务器编号
-}

@@ -2,8 +2,9 @@
 
  **简介** 
 ------------
-YouYou Framework 是一个开源的客户端（基于Unity3d）服务端双端的游戏框架.<br>
-C# .NET Core开发的分布式游戏服务端, 使用MongoDB数据库, 双端支持热更新.<br>
+YouYou Framework 是一个开源的客户端游戏框架（基于Unity3d）.<br>
+YouYouServer服务端框架, 现已独立到另外仓库, 支持单客户端使用或双端同时使用<br>
+
 
  **原作者: 搜狐畅游-饭饭**<br>
  **框架开源迭代: Chen** 
@@ -47,8 +48,6 @@ C# .NET Core开发的分布式游戏服务端, 使用MongoDB数据库, 双端支
 
 >本地化 (Localization) - 提供本地化功能，也就是我们平时所说的多语言。支持Text和Image的本地化
 
->网络 (Network) - 提供使用 Socket 长连接的功能，支持 TCP 协议。用户可以同时建立多个连接与多个服务器同时进行通信，比如除了连接常规的游戏服务器，还可以连接语音聊天服务器。已接入 ProtoBuf 协议库。
-
 >对象池 (Object Pool) - 提供对象缓存池的功能，避免频繁地创建和销毁各种游戏对象，提高游戏性能。除了 YouYouFramework 自身使用了对象池，用户还可以很方便地创建和管理自己的对象池。目前支持类对象池,变量池,GameObject对象池,AssetBundle池,Asset池等(如Prefab).
 
 >流程 (Procedure) - 是贯穿游戏运行时整个生命周期的有限状态机。通过流程，将不同的游戏状态进行解耦将是一个非常好的习惯。对于网络游戏，你可能需要如检查资源流程、更新资源流程、检查服务器列表流程、选择服务器流程、登录服务器流程、创建角色流程等流程，而对于单机游戏，你可能需要在游戏选择菜单流程和游戏实际玩法流程之间做切换。如果想增加流程，只要派生自 ProcedureBase 类并实现自己的流程类即可使用。
@@ -63,8 +62,6 @@ C# .NET Core开发的分布式游戏服务端, 使用MongoDB数据库, 双端支
 
 >Web 请求 (Web Request) - 提供使用短连接的功能，可以用 Get 或者 Post 方法向服务器发送请求并获取响应数据，可指定允许几个 Web 请求器进行同时请求。
 
->WebSocket - 提供使用 WebSocket 长连接的功能, 支持 TCP 协议.
-
 >本地数据存档 (PlayerPrefs) - 提供了基于Unity官方PlayerPrefs的本地数据存档, 支持数据更新派发事件, 支持存Object对象
 
 >代码热更新 (HybridCLR) - 提供了基于HybridCLR的代码热更新, 可调用YouYouFramework的任意模块.
@@ -76,32 +73,5 @@ C# .NET Core开发的分布式游戏服务端, 使用MongoDB数据库, 双端支
 >画质设置 (Quality) - 提供了Quality设置, 分辨率设置, 帧率设置等, 支持存档和画质切换时的事件派发。
 
 >输入系统 (Input) - 提供了跨平台的Input封装, 支持PC(键盘鼠标)和手机(触屏)实时切换, 并实现输入方和监听方的代码解耦合。
-
-}
-
-
- **YouYouServer** 
-------------------------------------
-{
-
->**YouYouServer.Core-核心基类库**<br>
-引用了CSRedisCore, MongoDB.driver, Google.Protobuf等第三方包,用来存放项目的基类,工具类,核心类等
-
->**YouYouServer.Common-公共数据类库**<br>
-引用了YouYouServer.Core库, 用来读取项目的配置文件, 常量, Excel数据, Protobuf数据, DB数据等
-
->**YouYouServer.Model-线程模型库**<br>
-引用了YouYouServer.Core, YouYouServer.Common库, 用来处理分布式服务端和客户端的交互接口, 连接请求, 派发了数据消息事件等
-
->**YouYouServer.Hofix-服务器热补丁库**<br>
-引用了YouYouServer.Model库, 但是不能被任何库直接引用, 而是通过反射加载程序集的方式被调用, 监听了数据消息事件, 用来处理数据读写以及真正的业务逻辑, 如PVP战斗, 商城, 背包等
-
->**YouYouServer.WebAccount-Web服务器集群**
-
->**YouYouServer.GatewayServer-网关服务器,多节点控制台**
-
->**YouYouServer.GameServer-游戏服务器,多节点控制台**
-
->**YouYouServer.WorldServer-中心服务器,单节点控制台**
 
 }

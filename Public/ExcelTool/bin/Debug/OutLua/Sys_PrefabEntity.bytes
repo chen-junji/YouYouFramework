@@ -1,0 +1,20 @@
+Sys_PrefabEntity = { Id = 0, Name = "", AssetPath = "", Suffix = "", PoolId = 0, CullDespawned = 0, CullAbove = 0, CullDelay = 0, CullMaxPerPass = 0 }
+
+Sys_PrefabEntity.__index = Sys_PrefabEntity;
+
+function Sys_PrefabEntity.New(Id, Name, AssetPath, Suffix, PoolId, CullDespawned, CullAbove, CullDelay, CullMaxPerPass)
+    local self = { };
+    setmetatable(self, Sys_PrefabEntity);
+
+    self.Id = Id;
+    self.Name = Name;
+    self.AssetPath = AssetPath;
+    self.Suffix = Suffix;
+    self.PoolId = PoolId;
+    self.CullDespawned = CullDespawned;
+    self.CullAbove = CullAbove;
+    self.CullDelay = CullDelay;
+    self.CullMaxPerPass = CullMaxPerPass;
+
+    return self;
+end
