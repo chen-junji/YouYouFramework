@@ -26,14 +26,20 @@ public class TestTime : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.S))
         {
+            //提前停止
+            action.Stop();
+        }
+
+        if (Input.GetKeyUp(KeyCode.D))
+        {
             GameEntry.Log(LogCategory.ZhangSan, "创建了定时器 延迟1秒");
-            action = GameEntry.Time.Create(1, () =>
+            GameEntry.Time.Create(1, () =>
             {
                 GameEntry.Log(LogCategory.ZhangSan, "延迟1秒等待结束时");
             });
         }
 
-        if (Input.GetKeyUp(KeyCode.D))
+        if (Input.GetKeyUp(KeyCode.F))
         {
             Attack();
         }
