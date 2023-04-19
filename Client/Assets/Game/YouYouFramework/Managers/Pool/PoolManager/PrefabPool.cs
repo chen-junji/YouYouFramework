@@ -6,7 +6,7 @@ using UnityEngine;
 namespace PathologicalGames
 {
     /// <summary>
-    /// »Ø³Ø·½Ê½
+    /// å›æ± æ–¹å¼
     /// </summary>
     public enum SpawnType
     {
@@ -15,14 +15,14 @@ namespace PathologicalGames
     }
 
     /// <summary>
-    /// ¶ÔÏó³Ø
+    /// å¯¹è±¡æ± 
     /// </summary>
     [System.Serializable]
     public class PrefabPool
     {
         #region Public Properties Available in the Editor
         /// <summary>
-        /// µ±Ô¤Éè³ØÇå¿ÕÊ±ºòÎ¯ÍĞ[¸ÄÔì]
+        /// å½“é¢„è®¾æ± æ¸…ç©ºæ—¶å€™å§”æ‰˜[æ”¹é€ ]
         /// </summary>
         public System.Action<PrefabPool> OnPrefabPoolClear;
 
@@ -240,14 +240,14 @@ namespace PathologicalGames
 
 
         /// <summary>
-        /// Ö±½ÓÍêÈ«ÊÍ·Å
+        /// ç›´æ¥å®Œå…¨é‡Šæ”¾
         /// </summary>
         public void Release(Transform xform)
         {
             this._spawned.Remove(xform);
             this.spawnPool.DestroyInstance(xform.gameObject);
 
-            //Èç¹ûÔ¤Éè³ØÀï Ã»ÓĞÎïÌåÁË ´Ó×Ü³Ø×ÖµäÒÆ³ı[¸ÄÔì]
+            //å¦‚æœé¢„è®¾æ± é‡Œ æ²¡æœ‰ç‰©ä½“äº† ä»æ€»æ± å­—å…¸ç§»é™¤[æ”¹é€ ]
             if (this.totalCount == 0)
             {
                 this.spawnPool.prefabs.Remove(prefab.name);
@@ -366,7 +366,7 @@ namespace PathologicalGames
                                                 this.cullAbove,
                                                 this.totalCount));
 
-                        //Èç¹ûÔ¤Éè³ØÀï Ã»ÓĞÎïÌåÁË ´Ó×Ü³Ø×ÖµäÒÆ³ı[¸ÄÔì]
+                        //å¦‚æœé¢„è®¾æ± é‡Œ æ²¡æœ‰ç‰©ä½“äº† ä»æ€»æ± å­—å…¸ç§»é™¤[æ”¹é€ ]
                         if (this.totalCount == 0)
                         {
                             this.spawnPool.prefabs.Remove(prefab.name);
@@ -407,7 +407,7 @@ namespace PathologicalGames
         }
 
         /// <summary>
-        /// ÖØĞÂ¼ÓÈë×Öµä[¸ÄÔì]
+        /// é‡æ–°åŠ å…¥å­—å…¸[æ”¹é€ ]
         /// </summary>
         /// <param name="prefabName"></param>
         /// <param name="prefab"></param>
@@ -531,7 +531,7 @@ namespace PathologicalGames
 #endregion Pool Functionality
 
         /// <summary>
-        /// ¶ÔÏóÃû×Öºó×º
+        /// å¯¹è±¡åå­—åç¼€
         /// </summary>
         private void nameInstance(Transform instance)
         {

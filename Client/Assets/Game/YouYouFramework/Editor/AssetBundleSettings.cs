@@ -21,12 +21,12 @@ public class AssetBundleSettings : ScriptableObject
 
     [HorizontalGroup("Common", LabelWidth = 75)]
     [VerticalGroup("Common/Left")]
-    [LabelText("×ÊÔ´°æ±¾ºÅ")]
+    [LabelText("èµ„æºç‰ˆæœ¬å·")]
     public string ResourceVersion = "1.0.0";
 
     [PropertySpace(10)]
     [VerticalGroup("Common/Left")]
-    [LabelText("Ä¿±êÆ½Ì¨")]
+    [LabelText("ç›®æ ‡å¹³å°")]
     public CusBuildTarget CurrBuildTarget;
 
     public BuildTarget GetBuildTarget()
@@ -45,24 +45,24 @@ public class AssetBundleSettings : ScriptableObject
 
     [PropertySpace(10)]
     [VerticalGroup("Common/Left")]
-    [LabelText("²ÎÊı")]
+    [LabelText("å‚æ•°")]
     public BuildAssetBundleOptions Options;
 
     [VerticalGroup("Common/Right")]
     [Button(ButtonSizes.Medium)]
-    [LabelText("Çå¿Õ±¾µØCDN×ÊÔ´°ü")]
+    [LabelText("æ¸…ç©ºæœ¬åœ°CDNèµ„æºåŒ…")]
     public void ClearAssetBundle()
     {
         if (Directory.Exists(TempPath))
         {
             Directory.Delete(TempPath, true);
         }
-        EditorUtility.DisplayDialog("", "Çå¿ÕÍê±Ï", "È·¶¨");
+        EditorUtility.DisplayDialog("", "æ¸…ç©ºå®Œæ¯•", "ç¡®å®š");
     }
 
     [VerticalGroup("Common/Right")]
     [Button(ButtonSizes.Medium)]
-    [LabelText("ÈÈ¸üDll¸´ÖÆµ½HotfixÄ¿Â¼")]
+    [LabelText("çƒ­æ›´Dllå¤åˆ¶åˆ°Hotfixç›®å½•")]
     public void CopyHofixDll()
     {
         string CodeDir = "Assets/Game/Download/Hotfix/";
@@ -83,17 +83,17 @@ public class AssetBundleSettings : ScriptableObject
         }
 
         AssetDatabase.Refresh();
-        Debug.Log("ÈÈ¸üdllºÍ²¹³äÔªÊı¾İdll, ¸´ÖÆµ½Game/Download/HotfixÍê³É");
+        Debug.Log("çƒ­æ›´dllå’Œè¡¥å……å…ƒæ•°æ®dll, å¤åˆ¶åˆ°Game/Download/Hotfixå®Œæˆ");
     }
 
     /// <summary>
-    /// ÒªÊÕ¼¯µÄ×ÊÔ´°ü
+    /// è¦æ”¶é›†çš„èµ„æºåŒ…
     /// </summary>
     List<AssetBundleBuild> builds = new List<AssetBundleBuild>();
 
     [VerticalGroup("Common/Right")]
     [Button(ButtonSizes.Medium)]
-    [LabelText("´ò°üµ½±¾µØCDN")]
+    [LabelText("æ‰“åŒ…åˆ°æœ¬åœ°CDN")]
     public void BuildAssetBundle()
     {
         builds.Clear();
@@ -106,7 +106,7 @@ public class AssetBundleSettings : ScriptableObject
                 int lenPath = assetBundleData.Path.Length;
                 for (int j = 0; j < lenPath; j++)
                 {
-                    //´ò°üÕâ¸öÂ·¾¶
+                    //æ‰“åŒ…è¿™ä¸ªè·¯å¾„
                     string path = assetBundleData.Path[j];
                     BuildAssetBundleForPath(path, assetBundleData.Overall);
                 }
@@ -119,24 +119,24 @@ public class AssetBundleSettings : ScriptableObject
         Debug.Log("builds count==" + builds.Count + "==" + DateTime.Now);
 
         BuildPipeline.BuildAssetBundles(TempPath, builds.ToArray(), Options, GetBuildTarget());
-        Debug.Log("ÁÙÊ±×ÊÔ´°ü´ò°üÍê±Ï");
+        Debug.Log("ä¸´æ—¶èµ„æºåŒ…æ‰“åŒ…å®Œæ¯•");
 
         CopyFile(TempPath);
-        Debug.Log("¿½±´µ½Êä³öÄ¿Â¼Íê±Ï");
+        Debug.Log("æ‹·è´åˆ°è¾“å‡ºç›®å½•å®Œæ¯•");
 
         AssetBundleEncrypt();
-        Debug.Log("×ÊÔ´°ü¼ÓÃÜÍê±Ï");
+        Debug.Log("èµ„æºåŒ…åŠ å¯†å®Œæ¯•");
 
         CreateDependenciesFile();
-        Debug.Log("AssetInfoÉú³ÉÒÀÀµ¹ØÏµÎÄ¼şÍê±Ï");
+        Debug.Log("AssetInfoç”Ÿæˆä¾èµ–å…³ç³»æ–‡ä»¶å®Œæ¯•");
 
         CreateVersionFile();
-        Debug.Log("VersionFileÉú³É°æ±¾ÎÄ¼şÍê±Ï");
+        Debug.Log("VersionFileç”Ÿæˆç‰ˆæœ¬æ–‡ä»¶å®Œæ¯•");
     }
 
     [VerticalGroup("Common/Right")]
     [Button(ButtonSizes.Medium)]
-    [LabelText("×ÊÔ´¿½±´µ½StreamingAsstes")]
+    [LabelText("èµ„æºæ‹·è´åˆ°StreamingAsstes")]
     public void AssetBundleCopyToStreamingAsstes()
     {
         Debug.Log(OutPath);
@@ -150,8 +150,8 @@ public class AssetBundleSettings : ScriptableObject
 
         IOUtil.CopyDirectory(OutPath, toPath);
 
-        //ÖØĞÂÉú³É°æ±¾ÎÄ¼ş
-        //1.ÏÈ¶ÁÈ¡OutPathÀï±ßµÄ°æ±¾ÎÄ¼ş Õâ¸ö°æ±¾ÎÄ¼şÀï ´æ·ÅÁËËùÓĞµÄ×ÊÔ´°üĞÅÏ¢
+        //é‡æ–°ç”Ÿæˆç‰ˆæœ¬æ–‡ä»¶
+        //1.å…ˆè¯»å–OutPathé‡Œè¾¹çš„ç‰ˆæœ¬æ–‡ä»¶ è¿™ä¸ªç‰ˆæœ¬æ–‡ä»¶é‡Œ å­˜æ”¾äº†æ‰€æœ‰çš„èµ„æºåŒ…ä¿¡æ¯
 
         byte[] buffer = IOUtil.GetFileBuffer(OutPath + "/VersionFile.bytes");
         string version = "";
@@ -160,13 +160,13 @@ public class AssetBundleSettings : ScriptableObject
 
         DirectoryInfo directory = new DirectoryInfo(toPath);
 
-        //ÄÃµ½ÎÄ¼ş¼ĞÏÂËùÓĞÎÄ¼ş
+        //æ‹¿åˆ°æ–‡ä»¶å¤¹ä¸‹æ‰€æœ‰æ–‡ä»¶
         FileInfo[] arrFiles = directory.GetFiles("*", SearchOption.AllDirectories);
 
         for (int i = 0; i < arrFiles.Length; i++)
         {
             FileInfo file = arrFiles[i];
-            string fullName = file.FullName.Replace("\\", "/"); //È«Ãû °üº¬Â·¾¶À©Õ¹Ãû
+            string fullName = file.FullName.Replace("\\", "/"); //å…¨å åŒ…å«è·¯å¾„æ‰©å±•å
             string name = fullName.Replace(toPath, "").Replace(".assetbundle", "").Replace(".unity3d", "");
 
             if (name.Equals("AssetInfo.json", System.StringComparison.CurrentCultureIgnoreCase)
@@ -229,7 +229,7 @@ public class AssetBundleSettings : ScriptableObject
             }
         }
 
-        string filePath = toPath + "/VersionFile.bytes"; //°æ±¾ÎÄ¼şÂ·¾¶
+        string filePath = toPath + "/VersionFile.bytes"; //ç‰ˆæœ¬æ–‡ä»¶è·¯å¾„
         buffer = ms.ToArray();
         buffer = ZlibHelper.CompressBytes(buffer);
         FileStream fs = new FileStream(filePath, FileMode.Create);
@@ -237,12 +237,12 @@ public class AssetBundleSettings : ScriptableObject
         fs.Close();
 
         AssetDatabase.Refresh();
-        Debug.Log("³õÊ¼×ÊÔ´¿½±´µ½StreamingAsstesÍê±Ï");
+        Debug.Log("åˆå§‹èµ„æºæ‹·è´åˆ°StreamingAssteså®Œæ¯•");
     }
 
     #region TempPath OutPath
     /// <summary>
-    /// ÁÙÊ±Ä¿Â¼
+    /// ä¸´æ—¶ç›®å½•
     /// </summary>
     public string TempPath
     {
@@ -253,7 +253,7 @@ public class AssetBundleSettings : ScriptableObject
     }
 
     /// <summary>
-    /// Êä³öÄ¿Â¼
+    /// è¾“å‡ºç›®å½•
     /// </summary>
     public string OutPath
     {
@@ -264,9 +264,9 @@ public class AssetBundleSettings : ScriptableObject
     }
     #endregion
 
-    #region CopyFile ¿½±´ÎÄ¼şµ½ÕıÊ½Ä¿Â¼
+    #region CopyFile æ‹·è´æ–‡ä»¶åˆ°æ­£å¼ç›®å½•
     /// <summary>
-    /// ¿½±´ÎÄ¼şµ½ÕıÊ½Ä¿Â¼
+    /// æ‹·è´æ–‡ä»¶åˆ°æ­£å¼ç›®å½•
     /// </summary>
     /// <param name="oldPath"></param>
     private void CopyFile(string oldPath)
@@ -279,7 +279,7 @@ public class AssetBundleSettings : ScriptableObject
         IOUtil.CopyDirectory(oldPath, OutPath);
         DirectoryInfo directory = new DirectoryInfo(OutPath);
 
-        //ÄÃµ½ÎÄ¼ş¼ĞÏÂËùÓĞÎÄ¼ş
+        //æ‹¿åˆ°æ–‡ä»¶å¤¹ä¸‹æ‰€æœ‰æ–‡ä»¶
         FileInfo[] arrFiles = directory.GetFiles("*.y", SearchOption.AllDirectories);
         int len = arrFiles.Length;
         for (int i = 0; i < len; i++)
@@ -290,9 +290,9 @@ public class AssetBundleSettings : ScriptableObject
     }
     #endregion
 
-    #region AssetBundleEncrypt ×ÊÔ´°ü¼ÓÃÜ
+    #region AssetBundleEncrypt èµ„æºåŒ…åŠ å¯†
     /// <summary>
-    /// ×ÊÔ´°ü¼ÓÃÜ
+    /// èµ„æºåŒ…åŠ å¯†
     /// </summary>
     /// <param name="path"></param>
     private void AssetBundleEncrypt()
@@ -303,14 +303,14 @@ public class AssetBundleSettings : ScriptableObject
             AssetBundleData assetBundleData = Datas[i];
             if (assetBundleData.IsEncrypt && assetBundleData.IsCanEditor)
             {
-                //Èç¹ûĞèÒª¼ÓÃÜ
+                //å¦‚æœéœ€è¦åŠ å¯†
                 for (int j = 0; j < assetBundleData.Path.Length; j++)
                 {
                     string path = OutPath + "/" + assetBundleData.Path[j];
 
                     if (assetBundleData.Overall)
                     {
-                        //²»ÊÇ±éÀúÎÄ¼ş¼Ğ´ò°ü ËµÃ÷Õâ¸öÂ·¾¶¾ÍÊÇÒ»¸ö°ü
+                        //ä¸æ˜¯éå†æ–‡ä»¶å¤¹æ‰“åŒ… è¯´æ˜è¿™ä¸ªè·¯å¾„å°±æ˜¯ä¸€ä¸ªåŒ…
                         path = path + ".assetbundle";
 
                         AssetBundleEncryptFile(path);
@@ -325,14 +325,14 @@ public class AssetBundleSettings : ScriptableObject
     }
 
     /// <summary>
-    /// ¼ÓÃÜÎÄ¼ş¼ĞÏÂËùÓĞÎÄ¼ş
+    /// åŠ å¯†æ–‡ä»¶å¤¹ä¸‹æ‰€æœ‰æ–‡ä»¶
     /// </summary>
     /// <param name="folderPath"></param>
     private void AssetBundleEncryptFolder(string folderPath, bool isDelete = false)
     {
         DirectoryInfo directory = new DirectoryInfo(folderPath);
 
-        //ÄÃµ½ÎÄ¼ş¼ĞÏÂËùÓĞÎÄ¼ş
+        //æ‹¿åˆ°æ–‡ä»¶å¤¹ä¸‹æ‰€æœ‰æ–‡ä»¶
         FileInfo[] arrFiles = directory.GetFiles("*", SearchOption.AllDirectories);
 
         foreach (FileInfo file in arrFiles)
@@ -342,7 +342,7 @@ public class AssetBundleSettings : ScriptableObject
     }
 
     /// <summary>
-    /// ¼ÓÃÜÎÄ¼ş
+    /// åŠ å¯†æ–‡ä»¶
     /// </summary>
     /// <param name="filePath"></param>
     private void AssetBundleEncryptFile(string filePath, bool isDelete = false)
@@ -366,19 +366,19 @@ public class AssetBundleSettings : ScriptableObject
     }
     #endregion
 
-    #region OnCreateDependenciesFile Éú³ÉÒÀÀµ¹ØÏµÎÄ¼ş
+    #region OnCreateDependenciesFile ç”Ÿæˆä¾èµ–å…³ç³»æ–‡ä»¶
     /// <summary>
-    /// Éú³ÉÒÀÀµ¹ØÏµÎÄ¼ş
+    /// ç”Ÿæˆä¾èµ–å…³ç³»æ–‡ä»¶
     /// </summary>
     private void CreateDependenciesFile()
     {
-        //µÚÒ»´ÎÑ­»· °ÑËùÓĞµÄAsset´æ´¢µ½Ò»¸öÁĞ±íÀï
+        //ç¬¬ä¸€æ¬¡å¾ªç¯ æŠŠæ‰€æœ‰çš„Assetå­˜å‚¨åˆ°ä¸€ä¸ªåˆ—è¡¨é‡Œ
 
-        //ÁÙÊ±ÁĞ±í
+        //ä¸´æ—¶åˆ—è¡¨
         List<AssetEntity> tempLst = new List<AssetEntity>();
         HashSet<string> tempHash = new HashSet<string>();
 
-        //Ñ­»·ÉèÖÃÎÄ¼ş¼Ğ°üÀ¨×ÓÎÄ¼şÀï±ßµÄÏî
+        //å¾ªç¯è®¾ç½®æ–‡ä»¶å¤¹åŒ…æ‹¬å­æ–‡ä»¶é‡Œè¾¹çš„é¡¹
         for (int i = 0; i < Datas.Length; i++)
         {
             AssetBundleData assetBundleData = Datas[i];
@@ -390,7 +390,7 @@ public class AssetBundleSettings : ScriptableObject
             }
         }
 
-        //×ÊÔ´ÁĞ±í
+        //èµ„æºåˆ—è¡¨
         List<AssetEntity> assetList = new List<AssetEntity>();
         for (int i = 0; i < tempLst.Count; i++)
         {
@@ -411,20 +411,20 @@ public class AssetBundleSettings : ScriptableObject
                     AssetDependsEntity assetDepends = new AssetDependsEntity();
                     assetDepends.AssetFullName = str;
 
-                    //°ÑÒÀÀµ×ÊÔ´ ¼ÓÈëµ½ÒÀÀµ×ÊÔ´ÁĞ±í
+                    //æŠŠä¾èµ–èµ„æº åŠ å…¥åˆ°ä¾èµ–èµ„æºåˆ—è¡¨
                     newEntity.DependsAssetList.Add(assetDepends);
                 }
             }
         }
 
-        //Éú³ÉÒ»¸öJsonÎÄ¼ş
+        //ç”Ÿæˆä¸€ä¸ªJsonæ–‡ä»¶
         string targetPath = OutPath;
         if (!Directory.Exists(targetPath)) Directory.CreateDirectory(targetPath);
 
-        string strJsonFilePath = targetPath + "/AssetInfo.json"; //ÒÀÀµÎÄ¼şÂ·¾¶
+        string strJsonFilePath = targetPath + "/AssetInfo.json"; //ä¾èµ–æ–‡ä»¶è·¯å¾„
         IOUtil.CreateTextFile(strJsonFilePath, assetList.ToJson());
 
-        //Éú³É¶ş½øÖÆÎÄ¼ş
+        //ç”ŸæˆäºŒè¿›åˆ¶æ–‡ä»¶
         MMO_MemoryStream ms = new MMO_MemoryStream();
         ms.WriteInt(assetList.Count);
         for (int i = 0; i < assetList.Count; i++)
@@ -435,7 +435,7 @@ public class AssetBundleSettings : ScriptableObject
 
             if (entity.DependsAssetList != null)
             {
-                //Ìí¼ÓÒÀÀµ×ÊÔ´
+                //æ·»åŠ ä¾èµ–èµ„æº
                 int depLen = entity.DependsAssetList.Count;
                 ms.WriteInt(depLen);
                 for (int j = 0; j < depLen; j++)
@@ -450,7 +450,7 @@ public class AssetBundleSettings : ScriptableObject
             }
         }
 
-        string filePath = targetPath + "/AssetInfo.bytes"; //°æ±¾ÎÄ¼şÂ·¾¶
+        string filePath = targetPath + "/AssetInfo.bytes"; //ç‰ˆæœ¬æ–‡ä»¶è·¯å¾„
         byte[] buffer = ms.ToArray();
         buffer = ZlibHelper.CompressBytes(buffer);
         using (FileStream fs = new FileStream(filePath, FileMode.Create))
@@ -459,14 +459,14 @@ public class AssetBundleSettings : ScriptableObject
         }
     }
     /// <summary>
-    /// ÊÕ¼¯ÎÄ¼şĞÅÏ¢
+    /// æ”¶é›†æ–‡ä»¶ä¿¡æ¯
     /// </summary>
     private void CollectFileInfo(List<AssetEntity> tempLst, HashSet<string> tempHash, string folderPath)
     {
         DirectoryInfo directory = new DirectoryInfo(folderPath);
         if (directory.Exists == false) return;
 
-        //ÄÃµ½ÎÄ¼ş¼ĞÏÂËùÓĞÎÄ¼ş
+        //æ‹¿åˆ°æ–‡ä»¶å¤¹ä¸‹æ‰€æœ‰æ–‡ä»¶
         FileInfo[] arrFiles = directory.GetFiles("*", SearchOption.AllDirectories);
 
         for (int i = 0; i < arrFiles.Length; i++)
@@ -475,12 +475,12 @@ public class AssetBundleSettings : ScriptableObject
             if (file.Extension == ".meta") continue;
             if (file.FullName.IndexOf(".idea") != -1) continue;
 
-            //¾ø¶ÔÂ·¾¶
+            //ç»å¯¹è·¯å¾„
             string filePath = file.FullName;
             //Debug.LogError("filePath==" + filePath);
 
             AssetEntity entity = new AssetEntity();
-            //Ïà¶ÔÂ·¾¶
+            //ç›¸å¯¹è·¯å¾„
             entity.AssetFullName = filePath.Substring(filePath.IndexOf("Assets\\")).Replace("\\", "/");
             //Debug.LogError("AssetFullName==" + entity.AssetFullName);
 
@@ -491,9 +491,9 @@ public class AssetBundleSettings : ScriptableObject
     }
     #endregion
 
-    #region CreateVersionFile Éú³É°æ±¾ÎÄ¼ş
+    #region CreateVersionFile ç”Ÿæˆç‰ˆæœ¬æ–‡ä»¶
     /// <summary>
-    /// Éú³É°æ±¾ÎÄ¼ş
+    /// ç”Ÿæˆç‰ˆæœ¬æ–‡ä»¶
     /// </summary>
     private void CreateVersionFile()
     {
@@ -503,16 +503,16 @@ public class AssetBundleSettings : ScriptableObject
             Directory.CreateDirectory(path);
         }
 
-        string strVersionFilePath = path + "/VersionFile.txt"; //°æ±¾ÎÄ¼şÂ·¾¶
+        string strVersionFilePath = path + "/VersionFile.txt"; //ç‰ˆæœ¬æ–‡ä»¶è·¯å¾„
 
-        //Èç¹û°æ±¾ÎÄ¼ş´æÔÚ ÔòÉ¾³ı
+        //å¦‚æœç‰ˆæœ¬æ–‡ä»¶å­˜åœ¨ åˆ™åˆ é™¤
         IOUtil.DeleteFile(strVersionFilePath);
 
         StringBuilder sbContent = new StringBuilder();
 
         DirectoryInfo directory = new DirectoryInfo(path);
 
-        //ÄÃµ½ÎÄ¼ş¼ĞÏÂËùÓĞÎÄ¼ş
+        //æ‹¿åˆ°æ–‡ä»¶å¤¹ä¸‹æ‰€æœ‰æ–‡ä»¶
         FileInfo[] arrFiles = directory.GetFiles("*", SearchOption.AllDirectories);
 
         sbContent.AppendLine(ResourceVersion);
@@ -524,17 +524,17 @@ public class AssetBundleSettings : ScriptableObject
             {
                 continue;
             }
-            string fullName = file.FullName; //È«Ãû °üº¬Â·¾¶À©Õ¹Ãû
+            string fullName = file.FullName; //å…¨å åŒ…å«è·¯å¾„æ‰©å±•å
 
-            //Ïà¶ÔÂ·¾¶
+            //ç›¸å¯¹è·¯å¾„
             string name = fullName.Substring(fullName.IndexOf(CurrBuildTarget.ToString()) + CurrBuildTarget.ToString().Length + 1);
 
-            string md5 = EncryptUtil.GetFileMD5(fullName); //ÎÄ¼şµÄMD5
+            string md5 = EncryptUtil.GetFileMD5(fullName); //æ–‡ä»¶çš„MD5
             if (md5 == null) continue;
 
-            string size = file.Length.ToString(); //ÎÄ¼ş´óĞ¡
+            string size = file.Length.ToString(); //æ–‡ä»¶å¤§å°
 
-            bool isFirstData = false; //ÊÇ·ñ³õÊ¼Êı¾İ
+            bool isFirstData = false; //æ˜¯å¦åˆå§‹æ•°æ®
             bool isEncrypt = false;
             bool isBreak = false;
 
@@ -584,7 +584,7 @@ public class AssetBundleSettings : ScriptableObject
             }
         }
 
-        string filePath = path + "/VersionFile.bytes"; //°æ±¾ÎÄ¼şÂ·¾¶
+        string filePath = path + "/VersionFile.bytes"; //ç‰ˆæœ¬æ–‡ä»¶è·¯å¾„
         byte[] buffer = ms.ToArray();
         buffer = ZlibHelper.CompressBytes(buffer);
         FileStream fs = new FileStream(filePath, FileMode.Create);
@@ -595,16 +595,16 @@ public class AssetBundleSettings : ScriptableObject
 
     #endregion
 
-    #region GetAssetBundleName »ñÈ¡×ÊÔ´°üµÄÃû³Æ
+    #region GetAssetBundleName è·å–èµ„æºåŒ…çš„åç§°
     /// <summary>
-    /// »ñÈ¡×ÊÔ´°üµÄÃû³Æ
+    /// è·å–èµ„æºåŒ…çš„åç§°
     /// </summary>
     /// <param name="assetFullName"></param>
     /// <returns></returns>
     private string GetAssetBundleName(string assetFullName)
     {
         int len = Datas.Length;
-        //Ñ­»·ÉèÖÃÎÄ¼ş¼Ğ°üÀ¨×ÓÎÄ¼şÀï±ßµÄÏî
+        //å¾ªç¯è®¾ç½®æ–‡ä»¶å¤¹åŒ…æ‹¬å­æ–‡ä»¶é‡Œè¾¹çš„é¡¹
         for (int i = 0; i < len; i++)
         {
             AssetBundleData assetBundleData = Datas[i];
@@ -614,12 +614,12 @@ public class AssetBundleSettings : ScriptableObject
                 {
                     if (assetBundleData.Overall)
                     {
-                        //ÎÄ¼ş¼ĞÊÇ¸öÕû°ü Ôò·µ»ØÕâ¸öÌØÎÄ¼ş¼ĞÃû×Ö
+                        //æ–‡ä»¶å¤¹æ˜¯ä¸ªæ•´åŒ… åˆ™è¿”å›è¿™ä¸ªç‰¹æ–‡ä»¶å¤¹åå­—
                         return assetBundleData.Path[j].ToLower();
                     }
                     else
                     {
-                        //ÁãÉ¢×ÊÔ´
+                        //é›¶æ•£èµ„æº
                         return assetFullName.Substring(0, assetFullName.LastIndexOf('.')).ToLower().Replace("assets/", "");
                     }
                 }
@@ -631,24 +631,24 @@ public class AssetBundleSettings : ScriptableObject
 
 
     /// <summary>
-    /// ¸ù¾İÂ·¾¶´ò°ü×ÊÔ´
+    /// æ ¹æ®è·¯å¾„æ‰“åŒ…èµ„æº
     /// </summary>
     /// <param name="path"></param>
-    /// <param name="overall">´ò³ÉÒ»¸ö×ÊÔ´°ü</param>
+    /// <param name="overall">æ‰“æˆä¸€ä¸ªèµ„æºåŒ…</param>
     private void BuildAssetBundleForPath(string path, bool overall)
     {
         string fullPath = Application.dataPath + "/" + path;
         //Debug.LogError("fullPath=" + fullPath);
-        //1.ÄÃµ½ÎÄ¼ş¼ĞÏÂËùÓĞÎÄ¼ş
+        //1.æ‹¿åˆ°æ–‡ä»¶å¤¹ä¸‹æ‰€æœ‰æ–‡ä»¶
         DirectoryInfo directory = new DirectoryInfo(fullPath);
 
-        //ÄÃµ½ÎÄ¼ş¼ĞÏÂËùÓĞÎÄ¼ş
+        //æ‹¿åˆ°æ–‡ä»¶å¤¹ä¸‹æ‰€æœ‰æ–‡ä»¶
         FileInfo[] arrFiles = directory.GetFiles("*", SearchOption.AllDirectories);
 
         //Debug.LogError("arrFile=" + arrFile.Length);
         if (overall)
         {
-            //´ò³ÉÒ»¸ö×ÊÔ´°ü
+            //æ‰“æˆä¸€ä¸ªèµ„æºåŒ…
             AssetBundleBuild build = new AssetBundleBuild();
             build.assetBundleName = path + ".ab";
             build.assetBundleVariant = "y";
@@ -658,7 +658,7 @@ public class AssetBundleSettings : ScriptableObject
         }
         else
         {
-            //Ã¿¸öÎÄ¼ş´ò³ÉÒ»¸ö°ü
+            //æ¯ä¸ªæ–‡ä»¶æ‰“æˆä¸€ä¸ªåŒ…
             string[] arr = GetValidateFiles(arrFiles);
             for (int i = 0; i < arr.Length; i++)
             {
@@ -691,54 +691,54 @@ public class AssetBundleSettings : ScriptableObject
     }
 
 
-    [LabelText("×ÊÔ´°ü±£´æÂ·¾¶")]
+    [LabelText("èµ„æºåŒ…ä¿å­˜è·¯å¾„")]
     [FolderPath]
     /// <summary>
-    /// ×ÊÔ´°ü±£´æÂ·¾¶
+    /// èµ„æºåŒ…ä¿å­˜è·¯å¾„
     /// </summary>
     public string AssetBundleSavePath;
 
-    [LabelText("¹´Ñ¡½øĞĞ±à¼­")]
+    [LabelText("å‹¾é€‰è¿›è¡Œç¼–è¾‘")]
     public bool IsCanEditor;
 
     [EnableIf("IsCanEditor")]
     [BoxGroup("AssetBundleSettings")]
     public AssetBundleData[] Datas;
 
-    //±ØĞë¼ÓÉÏ¿ÉĞòÁĞ»¯±ê¼Ç
+    //å¿…é¡»åŠ ä¸Šå¯åºåˆ—åŒ–æ ‡è®°
     [Serializable]
     public class AssetBundleData
     {
-        [LabelText("Ãû³Æ")]
+        [LabelText("åç§°")]
         /// <summary>
-        /// Ãû³Æ
+        /// åç§°
         /// </summary>
         public string Name;
 
-        [LabelText("ÊÇ·ñÒª´ò°ü")]
+        [LabelText("æ˜¯å¦è¦æ‰“åŒ…")]
         public bool IsCanEditor = true;
 
-        [LabelText("ÎÄ¼ş¼ĞÎªÒ»¸ö×ÊÔ´°ü")]
+        [LabelText("æ–‡ä»¶å¤¹ä¸ºä¸€ä¸ªèµ„æºåŒ…")]
         /// <summary>
-        /// ´ò³ÉÒ»¸ö×ÊÔ´°ü
+        /// æ‰“æˆä¸€ä¸ªèµ„æºåŒ…
         /// </summary>
         public bool Overall;
 
-        [LabelText("ÊÇ·ñ³õÊ¼×ÊÔ´")]
+        [LabelText("æ˜¯å¦åˆå§‹èµ„æº")]
         /// <summary>
-        /// ÊÇ·ñ³õÊ¼×ÊÔ´
+        /// æ˜¯å¦åˆå§‹èµ„æº
         /// </summary>
         public bool IsFirstData;
 
-        [LabelText("ÊÇ·ñ¼ÓÃÜ")]
+        [LabelText("æ˜¯å¦åŠ å¯†")]
         /// <summary>
-        /// ÊÇ·ñ¼ÓÃÜ
+        /// æ˜¯å¦åŠ å¯†
         /// </summary>
         public bool IsEncrypt;
 
         [FolderPath(ParentFolder = "Assets")]
         /// <summary>
-        /// Â·¾¶
+        /// è·¯å¾„
         /// </summary>
         public string[] Path;
     }

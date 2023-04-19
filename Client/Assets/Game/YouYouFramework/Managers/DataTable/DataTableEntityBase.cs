@@ -6,12 +6,12 @@ using UnityEngine;
 namespace YouYou
 {
     /// <summary>
-    /// Êı¾İ±íÊµÌå»ùÀà
+    /// æ•°æ®è¡¨å®ä½“åŸºç±»
     /// </summary>
     public class DataTableEntityBase 
     {
         /// <summary>
-        /// ÊµÌå±àºÅ
+        /// å®ä½“ç¼–å·
         /// </summary>
         public int Id;
     }

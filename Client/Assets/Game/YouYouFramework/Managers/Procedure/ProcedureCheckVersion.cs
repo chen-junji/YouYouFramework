@@ -6,14 +6,14 @@ using UnityEngine;
 namespace YouYou
 {
     /// <summary>
-    /// ¼ì²é¸üĞÂÁ÷³Ì
+    /// æ£€æŸ¥æ›´æ–°æµç¨‹
     /// </summary>
     public class ProcedureCheckVersion : ProcedureBase
     {
         internal override void OnEnter()
         {
             base.OnEnter();
-            MainEntry.ResourceManager.LocalAssetsManager.SetResourceVersion(null);//²»¼ì²â°æ±¾ºÅ, ¶øÊÇÖ±½Ó¼ì²âMD5
+            MainEntry.ResourceManager.LocalAssetsManager.SetResourceVersion(null);//ä¸æ£€æµ‹ç‰ˆæœ¬å·, è€Œæ˜¯ç›´æ¥æ£€æµ‹MD5
             MainEntry.ResourceManager.CheckVersionComplete = () => GameEntry.Procedure.ChangeState(ProcedureState.Preload);
             MainEntry.ResourceManager.InitStreamingAssetsBundleInfo();
 

@@ -1,4 +1,4 @@
-﻿#if !No_Reporter
+#if !No_Reporter
 using UnityEngine;
 using System;
 using System.Collections;

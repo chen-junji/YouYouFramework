@@ -14,7 +14,7 @@ public class PoolObj : MonoBehaviour
 
     public void SetDelayTimeDespawn(float delayTime)
     {
-        if (DelayTimeDespawn > 0) return;//Ö»ÄÜÉèÖÃÒ»´Î
+        if (DelayTimeDespawn > 0) return;//åªèƒ½è®¾ç½®ä¸€æ¬¡
         DelayTimeDespawn = delayTime;
 
         BeginTime();

@@ -8,17 +8,17 @@ using UnityEngine;
 namespace YouYou
 {
     /// <summary>
-    /// ״̬������
+    /// 状态机基类
     /// </summary>
     public abstract class FsmBase
     {
         /// <summary>
-        /// ״̬�����
+        /// 状态机编号
         /// </summary>
         public int FsmId { get; private set; }
 
         /// <summary>
-        /// ��ǰ״̬������
+        /// 当前状态的类型
         /// </summary>
         public sbyte CurrStateType;
 
@@ -28,7 +28,7 @@ namespace YouYou
         }
 
         /// <summary>
-        /// �ر�״̬��
+        /// 关闭状态机
         /// </summary>
         public abstract void ShutDown();
 

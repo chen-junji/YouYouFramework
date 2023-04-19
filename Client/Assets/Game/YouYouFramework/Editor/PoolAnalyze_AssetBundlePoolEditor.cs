@@ -11,7 +11,7 @@ public class PoolAnalyze_AssetBundlePoolEditor : Editor
 	{
 		base.OnInspectorGUI();
 
-		#region ×ÊÔ´°ü³Ø
+		#region èµ„æºåŒ…æ± 
 		GUILayout.Space(10);
 
 		GUIStyle titleStyle = new GUIStyle();
@@ -20,16 +20,16 @@ public class PoolAnalyze_AssetBundlePoolEditor : Editor
 		if (GameEntry.Pool != null)
 		{
 			GUILayout.BeginHorizontal("box");
-			GUILayout.Label("ÏÂ´ÎÊÍ·ÅÊ£ÓàÊ±¼ä: " + Mathf.Abs(Time.time - (GameEntry.Pool.ReleaseAssetBundleNextRunTime + GameEntry.Pool.ReleaseAssetBundleInterval)), titleStyle);
+			GUILayout.Label("ä¸‹æ¬¡é‡Šæ”¾å‰©ä½™æ—¶é—´: " + Mathf.Abs(Time.time - (GameEntry.Pool.ReleaseAssetBundleNextRunTime + GameEntry.Pool.ReleaseAssetBundleInterval)), titleStyle);
 			GUILayout.EndHorizontal();
 		}
-		//===================×ÊÔ´³Ø±äÁ¿¼ÆÊı==================
+		//===================èµ„æºæ± å˜é‡è®¡æ•°==================
 		GUILayout.Space(10);
 		GUILayout.BeginVertical("box");
 		GUILayout.BeginHorizontal("box");
-		GUILayout.Label("×ÊÔ´°ü");
-		GUILayout.Label("¼ÆÊı", GUILayout.Width(50));
-		GUILayout.Label("Ê£ÓàÊ±¼ä", GUILayout.Width(50));
+		GUILayout.Label("èµ„æºåŒ…");
+		GUILayout.Label("è®¡æ•°", GUILayout.Width(50));
+		GUILayout.Label("å‰©ä½™æ—¶é—´", GUILayout.Width(50));
 		GUILayout.EndHorizontal();
 
 		if (GameEntry.Pool != null)
@@ -48,10 +48,10 @@ public class PoolAnalyze_AssetBundlePoolEditor : Editor
 			}
 		}
 		GUILayout.EndVertical();
-		//=================================±äÁ¿¼ÆÊı½áÊø==========================
+		//=================================å˜é‡è®¡æ•°ç»“æŸ==========================
 
 		serializedObject.ApplyModifiedProperties();
-		//ÖØ»æ
+		//é‡ç»˜
 		Repaint();
 		#endregion
 	}

@@ -7,22 +7,22 @@ namespace YouYou
 {
 
     /// <summary>
-    /// LocalizationDBModel数据管理
+    /// LocalizationDBModel鏁版嵁绠＄悊
     /// </summary>
     public partial class LocalizationDBModel : DataTableDBModelBase<LocalizationDBModel, DataTableEntityBase>
     {
         /// <summary>
-        /// 文件名称
+        /// 鏂囦欢鍚嶇О
         /// </summary>
         public override string DataTableName { get { return "Localization/" + GameEntry.CurrLanguage.ToString(); } }
 
         /// <summary>
-        /// 当前语言字典
+        /// 褰撳墠璇█瀛楀吀
         /// </summary>
         public Dictionary<string, string> LocalizationDic = new Dictionary<string, string>();
 
         /// <summary>
-        /// 加载列表
+        /// 鍔犺浇鍒楄〃
         /// </summary>
         /// <param name="ms"></param>
         protected override void LoadList(MMO_MemoryStream ms)

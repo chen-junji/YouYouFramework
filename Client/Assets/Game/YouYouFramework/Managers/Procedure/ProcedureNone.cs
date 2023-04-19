@@ -9,7 +9,7 @@ using UnityEngine.Android;
 namespace YouYou
 {
     /// <summary>
-    /// ¿ÕÁ÷³Ì
+    /// Â¿Ã•ÃÃ·Â³ÃŒ
     /// </summary>
     public class ProcedureNone : ProcedureBase
     {

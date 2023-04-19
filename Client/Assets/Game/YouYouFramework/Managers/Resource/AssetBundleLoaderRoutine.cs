@@ -8,38 +8,38 @@ using UnityEngine;
 namespace YouYou
 {
     /// <summary>
-    /// ×ÊÔ´°ü¼ÓÔØÆ÷
+    /// èµ„æºåŒ…åŠ è½½å™¨
     /// </summary>
     public class AssetBundleLoaderRoutine
     {
         /// <summary>
-        /// µ±Ç°µÄ×ÊÔ´°üĞÅÏ¢
+        /// å½“å‰çš„èµ„æºåŒ…ä¿¡æ¯
         /// </summary>
         private AssetBundleInfoEntity m_CurrAssetBundleInfo;
 
         /// <summary>
-        /// ×ÊÔ´°ü´´½¨ÇëÇó
+        /// èµ„æºåŒ…åˆ›å»ºè¯·æ±‚
         /// </summary>
         private AssetBundleCreateRequest m_CurrAssetBundleCreateRequest;
 
         /// <summary>
-        /// ×ÊÔ´°ü´´½¨ÇëÇó¸üĞÂ
+        /// èµ„æºåŒ…åˆ›å»ºè¯·æ±‚æ›´æ–°
         /// </summary>
         public Action<float> OnAssetBundleCreateUpdate;
 
         /// <summary>
-        /// ¼ÓÔØ×ÊÔ´°üÍê±Ï
+        /// åŠ è½½èµ„æºåŒ…å®Œæ¯•
         /// </summary>
         public Action<AssetBundle> OnLoadAssetBundleComplete;
 
-        #region LoadAssetBundle ¼ÓÔØ×ÊÔ´°ü
+        #region LoadAssetBundle åŠ è½½èµ„æºåŒ…
         public void LoadAssetBundleAsync(string assetBundlePath)
         {
             void LoadAssetBundleAsync(byte[] buffer)
             {
                 if (m_CurrAssetBundleInfo.IsEncrypt)
                 {
-                    //Èç¹û×ÊÔ´°üÊÇ¼ÓÃÜµÄ,Ôò½âÃÜ
+                    //å¦‚æœèµ„æºåŒ…æ˜¯åŠ å¯†çš„,åˆ™è§£å¯†
                     buffer = SecurityUtil.Xor(buffer);
                 }
 
@@ -49,17 +49,17 @@ namespace YouYou
 
             m_CurrAssetBundleInfo = MainEntry.ResourceManager.GetAssetBundleInfo(assetBundlePath);
 
-            //¼ì²éÎÄ¼şÔÚ¿ÉĞ´ÇøÊÇ·ñ´æÔÚ
+            //æ£€æŸ¥æ–‡ä»¶åœ¨å¯å†™åŒºæ˜¯å¦å­˜åœ¨
             bool isExistsInLocal = MainEntry.ResourceManager.LocalAssetsManager.CheckFileExists(assetBundlePath);
 
             if (isExistsInLocal && !m_CurrAssetBundleInfo.IsEncrypt)
             {
-                //¿ÉĞ´Çø¼ÓÔØ, ²»ÓÃ½âÃÜ
+                //å¯å†™åŒºåŠ è½½, ä¸ç”¨è§£å¯†
                 m_CurrAssetBundleCreateRequest = AssetBundle.LoadFromFileAsync(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
             }
             else
             {
-                //¿ÉĞ´Çø¼ÓÔØ, ĞèÒª½âÃÜ
+                //å¯å†™åŒºåŠ è½½, éœ€è¦è§£å¯†
                 byte[] buffer = MainEntry.ResourceManager.LocalAssetsManager.GetFileBuffer(assetBundlePath);
                 if (buffer != null)
                 {
@@ -67,17 +67,17 @@ namespace YouYou
                     return;
                 }
 
-                //Èç¹û¿ÉĞ´ÇøÃ»ÓĞ ÄÇÃ´¾Í´ÓÖ»¶ÁÇø»ñÈ¡
+                //å¦‚æœå¯å†™åŒºæ²¡æœ‰ é‚£ä¹ˆå°±ä»åªè¯»åŒºè·å–
                 MainEntry.ResourceManager.StreamingAssetsManager.ReadAssetBundleAsync(assetBundlePath, (byte[] buff) =>
                 {
                     if (buff != null)
                     {
-                        //´ÓÖ»¶ÁÇø¼ÓÔØ×ÊÔ´°ü
+                        //ä»åªè¯»åŒºåŠ è½½èµ„æºåŒ…
                         LoadAssetBundleAsync(buff);
                         return;
                     }
 
-                    //Èç¹ûÖ»¶ÁÇøÒ²Ã»ÓĞ,´ÓCDNÏÂÔØ
+                    //å¦‚æœåªè¯»åŒºä¹Ÿæ²¡æœ‰,ä»CDNä¸‹è½½
                     MainEntry.Download.BeginDownloadSingle(assetBundlePath, (url, currSize, progress) =>
                     {
                         //YouYou.GameEntry.LogError(progress);
@@ -97,7 +97,7 @@ namespace YouYou
             {
                 if (m_CurrAssetBundleInfo.IsEncrypt)
                 {
-                    //Èç¹û×ÊÔ´°üÊÇ¼ÓÃÜµÄ,Ôò½âÃÜ
+                    //å¦‚æœèµ„æºåŒ…æ˜¯åŠ å¯†çš„,åˆ™è§£å¯†
                     buffer = SecurityUtil.Xor(buffer);
                 }
 
@@ -107,31 +107,31 @@ namespace YouYou
 
             m_CurrAssetBundleInfo = MainEntry.ResourceManager.GetAssetBundleInfo(assetBundlePath);
 
-            //¼ì²éÎÄ¼şÔÚ¿ÉĞ´ÇøÊÇ·ñ´æÔÚ
+            //æ£€æŸ¥æ–‡ä»¶åœ¨å¯å†™åŒºæ˜¯å¦å­˜åœ¨
             bool isExistsInLocal = MainEntry.ResourceManager.LocalAssetsManager.CheckFileExists(assetBundlePath);
 
             if (isExistsInLocal && !m_CurrAssetBundleInfo.IsEncrypt)
             {
-                //¿ÉĞ´Çø¼ÓÔØ, ²»ÓÃ½âÃÜ
+                //å¯å†™åŒºåŠ è½½, ä¸ç”¨è§£å¯†
                 return AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
             }
             else
             {
-                //¿ÉĞ´Çø¼ÓÔØ, ĞèÒª½âÃÜ
+                //å¯å†™åŒºåŠ è½½, éœ€è¦è§£å¯†
                 byte[] buffer = MainEntry.ResourceManager.LocalAssetsManager.GetFileBuffer(assetBundlePath);
                 if (buffer != null)
                 {
                     return LoadAssetBundle(buffer);
                 }
 
-                //Ö»¶ÁÇø¼ÓÔØ(Ä¿Ç°²»Ö§³Ö¼ÓÃÜ×ÊÔ´)
+                //åªè¯»åŒºåŠ è½½(ç›®å‰ä¸æ”¯æŒåŠ å¯†èµ„æº)
                 AssetBundle assetBundle = MainEntry.ResourceManager.StreamingAssetsManager.ReadAssetBundle(assetBundlePath);
                 if (assetBundle != null)
                 {
                     return assetBundle;
                 }
 
-                GameEntry.LogError(LogCategory.Resource, "±¾µØÃ»ÓĞ¸Ã×ÊÔ´, »òĞíÒªÈ¥·şÎñ¶ËÏÂÔØ==" + assetBundlePath);
+                GameEntry.LogError(LogCategory.Resource, "æœ¬åœ°æ²¡æœ‰è¯¥èµ„æº, æˆ–è®¸è¦å»æœåŠ¡ç«¯ä¸‹è½½==" + assetBundlePath);
                 return null;
             }
 
@@ -140,7 +140,7 @@ namespace YouYou
         #endregion
 
         /// <summary>
-        /// ÖØÖÃ
+        /// é‡ç½®
         /// </summary>
         public void Reset()
         {
@@ -148,16 +148,16 @@ namespace YouYou
         }
 
         /// <summary>
-        /// ¸üĞÂ
+        /// æ›´æ–°
         /// </summary>
         internal void OnUpdate()
         {
             UpdateAssetBundleCreateRequest();
         }
 
-        #region UpdateAssetBundleCreateRequest ¸üĞÂ×ÊÔ´°üÇëÇó
+        #region UpdateAssetBundleCreateRequest æ›´æ–°èµ„æºåŒ…è¯·æ±‚
         /// <summary>
-        /// ¸üĞÂ×ÊÔ´°üÇëÇó
+        /// æ›´æ–°èµ„æºåŒ…è¯·æ±‚
         /// </summary>
         private void UpdateAssetBundleCreateRequest()
         {
@@ -167,18 +167,18 @@ namespace YouYou
                 AssetBundle assetBundle = m_CurrAssetBundleCreateRequest.assetBundle;
                 if (assetBundle != null)
                 {
-                    //GameEntry.Log(LogCategory.Resource, "×ÊÔ´°ü=>{0} ¼ÓÔØÍê±Ï", m_CurrAssetBundleInfo.AssetBundleName);
+                    //GameEntry.Log(LogCategory.Resource, "èµ„æºåŒ…=>{0} åŠ è½½å®Œæ¯•", m_CurrAssetBundleInfo.AssetBundleName);
                 }
                 else
                 {
-                    GameEntry.LogError(LogCategory.Resource, "×ÊÔ´°ü=>{0} ¼ÓÔØÊ§°Ü", m_CurrAssetBundleInfo.AssetBundleName);
+                    GameEntry.LogError(LogCategory.Resource, "èµ„æºåŒ…=>{0} åŠ è½½å¤±è´¥", m_CurrAssetBundleInfo.AssetBundleName);
                 }
                 OnLoadAssetBundleComplete?.Invoke(assetBundle);
-                Reset();//Ò»¶¨ÒªÔçµãReset
+                Reset();//ä¸€å®šè¦æ—©ç‚¹Reset
             }
             else
             {
-                //¼ÓÔØ½ø¶È
+                //åŠ è½½è¿›åº¦
                 //OnAssetBundleCreateUpdate?.Invoke(m_CurrAssetBundleCreateRequest.progress);
             }
         }

@@ -10,7 +10,7 @@ public class HollowOutMaskBtn : HollowOutMask
 {
     private Button button;
 
-    [Header("Ç¿ÖÆ¹Û¿´Ê±¼ä")]
+    [Header("å¼ºåˆ¶è§‚çœ‹æ—¶é—´")]
     [SerializeField] float DelayTime;
 
     protected override void Awake()
@@ -21,14 +21,14 @@ public class HollowOutMaskBtn : HollowOutMask
         button.targetGraphic = this;
         button.onClick.AddListener(() =>
         {
-            //½øÐÐÏÂÒ»¸ö²Ù×÷
+            //è¿›è¡Œä¸‹ä¸€ä¸ªæ“ä½œ
             GameEntry.Guide.NextGroup(GameEntry.Guide.CurrentState);
         });
     }
     protected override void OnEnable()
     {
         base.OnEnable();
-        //Ç¿ÖÆÍæ¼Ò¿´Ò»»á¶ù
+        //å¼ºåˆ¶çŽ©å®¶çœ‹ä¸€ä¼šå„¿
         if (DelayTime > 0)
         {
             button.enabled = false;

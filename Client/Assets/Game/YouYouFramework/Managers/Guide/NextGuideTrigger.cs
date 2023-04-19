@@ -5,12 +5,12 @@ using UnityEngine;
 using YouYou;
 
 /// <summary>
-/// ĞÂÊÖÒıµ¼, ÏÂÒ»²½´¥·¢Æ÷
+/// æ–°æ‰‹å¼•å¯¼, ä¸‹ä¸€æ­¥è§¦å‘å™¨
 /// </summary>
 public class NextGuideTrigger : MonoBehaviour
 {
     /// <summary>
-    /// Ê²Ã´Ãû×Ö½øÈëºó»á´¥·¢
+    /// ä»€ä¹ˆåå­—è¿›å…¥åä¼šè§¦å‘
     /// </summary>
     public string[] triggerNames;
 
@@ -22,7 +22,7 @@ public class NextGuideTrigger : MonoBehaviour
         {
             if (name == other.name)
             {
-                //ĞÂÊÖÒıµ¼, ´¥·¢ÏÂÒ»²½
+                //æ–°æ‰‹å¼•å¯¼, è§¦å‘ä¸‹ä¸€æ­¥
                 GameEntry.Guide.NextGroup(GameEntry.Guide.CurrentState);
 
                 TriggerEnter?.Invoke();

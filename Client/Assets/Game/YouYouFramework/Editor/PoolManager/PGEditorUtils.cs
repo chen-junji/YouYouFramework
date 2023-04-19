@@ -1,5 +1,5 @@
 /// <Licensing>
-/// ©2011-2014 (Copyright) Path-o-logical Games, LLC
+/// Â©2011-2014 (Copyright) Path-o-logical Games, LLC
 /// If purchased from the Unity Asset Store, the following license is superseded 
 /// by the Asset Store license.
 /// Licensed under the Unity Asset Package Product License (the "License");

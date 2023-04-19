@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace YouYou
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(Button))]//½Å±¾ÒÀÀµ
+    [RequireComponent(typeof(Button))]//Â½Ã…Â±Â¾Ã’Ã€Ã€Âµ
     public class AnimButton : MonoBehaviour
     {
         private float BegScale;

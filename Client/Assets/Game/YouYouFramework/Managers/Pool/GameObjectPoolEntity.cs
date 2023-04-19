@@ -4,23 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ¶ÔÏó³ØÊµÌå
+/// å¯¹è±¡æ± å®ä½“
 /// </summary>
 [System.Serializable]
 public class GameObjectPoolEntity
 {
 	/// <summary>
-	/// ¶ÔÏó³Ø±àºÅ
+	/// å¯¹è±¡æ± ç¼–å·
 	/// </summary>
 	public byte PoolId;
 
 	/// <summary>
-	/// ¶ÔÏó³ØÃû×Ö
+	/// å¯¹è±¡æ± åå­—
 	/// </summary>
 	public string PoolName;
 
 	/// <summary>
-	/// ¶ÔÓ¦µÄÓÎÏ·ÎïÌå¶ÔÏó³Ø
+	/// å¯¹åº”çš„æ¸¸æˆç‰©ä½“å¯¹è±¡æ± 
 	/// </summary>
 	[HideInInspector]
 	public SpawnPool Pool;

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace YouYou
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(Toggle))]//½Å±¾ÒÀÀµ
+    [RequireComponent(typeof(Toggle))]//Â½Ã…Â±Â¾Ã’Ã€Ã€Âµ
     public class AnimToggle : MonoBehaviour
     {
         [SerializeField] private bool IsOffPlay;

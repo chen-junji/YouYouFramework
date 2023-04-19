@@ -16,17 +16,17 @@ public class MacroSettings : ScriptableObject
         public bool Enabled;
 
         /// <summary>
-        /// ²ÎÊıÉèÖÃµÄKey(ÖĞÎÄ½éÉÜ)
+        /// å‚æ•°è®¾ç½®çš„Key(ä¸­æ–‡ä»‹ç»)
         /// </summary>
         public string Name;
 
         /// <summary>
-        /// ²ÎÊıÉèÖÃµÄÖµ
+        /// å‚æ•°è®¾ç½®çš„å€¼
         /// </summary>
         public string Macro;
     }
     /// <summary>
-    /// ×ÊÔ´¼ÓÔØ·½Ê½
+    /// èµ„æºåŠ è½½æ–¹å¼
     /// </summary>
     public enum AssetLoadTarget
     {
@@ -36,7 +36,7 @@ public class MacroSettings : ScriptableObject
     }
     private string m_Macor;
 
-    [LabelText("×ÊÔ´¼ÓÔØ·½Ê½")]
+    [LabelText("èµ„æºåŠ è½½æ–¹å¼")]
     public AssetLoadTarget CurrAssetLoadTarget;
 
     [PropertySpace(10)]
@@ -60,7 +60,7 @@ public class MacroSettings : ScriptableObject
         }
         macor += string.Format("{0};", CurrAssetLoadTarget.ToString());
 
-        //ÉèÖÃBuildSettingÖĞµÄ³¡¾°ÆôÓÃºÍ½ûÓÃ
+        //è®¾ç½®BuildSettingä¸­çš„åœºæ™¯å¯ç”¨å’Œç¦ç”¨
         EditorBuildSettingsScene[] arrScene = EditorBuildSettings.scenes;
         for (int i = 0; i < arrScene.Length; i++)
         {
@@ -87,12 +87,12 @@ public class MacroSettings : ScriptableObject
     void OnEnable()
     {
 #if UNITY_EDITOR
-        //³õÊ¼»¯m_Macor
+        //åˆå§‹åŒ–m_Macor
         m_Macor = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
 
         if (!string.IsNullOrEmpty(m_Macor))
         {
-            //¸Ã×Ö·û´®°üº¬AssetLoadTargets[i]
+            //è¯¥å­—ç¬¦ä¸²åŒ…å«AssetLoadTargets[i]
             AssetLoadTarget[] AssetLoadTargets = (AssetLoadTarget[])Enum.GetValues(typeof(AssetLoadTarget));
             for (int i = 0; i < AssetLoadTargets.Length; i++)
             {
@@ -102,7 +102,7 @@ public class MacroSettings : ScriptableObject
                 }
             }
 
-            //¸Ã×Ö·û´®°üº¬Settings[i].Macro
+            //è¯¥å­—ç¬¦ä¸²åŒ…å«Settings[i].Macro
             for (int i = 0; i < Settings.Length; i++)
             {
                 if (m_Macor.IndexOf(Settings[i].Macro) != -1)

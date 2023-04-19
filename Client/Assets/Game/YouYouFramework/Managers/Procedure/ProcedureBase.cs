@@ -7,7 +7,7 @@ using UnityEngine;
 namespace YouYou
 {
     /// <summary>
-    /// Á÷³Ì×´Ì¬»ùÀà
+    /// æµç¨‹çŠ¶æ€åŸºç±»
     /// </summary>
     public class ProcedureBase : FsmState<ProcedureManager>
     {

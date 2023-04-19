@@ -8,21 +8,21 @@ namespace Main
     public class SysDataMgr
     {
         /// <summary>
-        /// ÇşµÀÅäÖÃÊı¾İ
+        /// æ¸ é“é…ç½®æ•°æ®
         /// </summary>
         public ChannelConfigEntity CurrChannelConfig { get; private set; }
 
         /// <summary>
-        /// Httpµ÷ÓÃÊ§°ÜºóÖØÊÔ´ÎÊı
+        /// Httpè°ƒç”¨å¤±è´¥åé‡è¯•æ¬¡æ•°
         /// </summary>
         public int HttpRetry { get; private set; }
         /// <summary>
-        /// Httpµ÷ÓÃÊ§°ÜºóÖØÊÔ¼ä¸ô£¨Ãë£©
+        /// Httpè°ƒç”¨å¤±è´¥åé‡è¯•é—´éš”ï¼ˆç§’ï¼‰
         /// </summary>
         public int HttpRetryInterval { get; private set; }
 
         /// <summary>
-        /// ÓÃÓÚ¼ÆËãÊ±¼ä´ÁµÄ±¾µØ·şÎñÆ÷Ê±¼ä
+        /// ç”¨äºè®¡ç®—æ—¶é—´æˆ³çš„æœ¬åœ°æœåŠ¡å™¨æ—¶é—´
         /// </summary>
         public long CurrServerTime
         {

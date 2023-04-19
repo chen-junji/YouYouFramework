@@ -5,22 +5,22 @@ using UnityEngine;
 
 
 /// <summary>
-/// HttpÇëÇó»Øµ÷Êı¾İÀà ÓÃÓÚ´æ´¢´ÓHttpÕ¾µãÏÂÔØµÄÊı¾İ
+/// Httpè¯·æ±‚å›è°ƒæ•°æ®ç±» ç”¨äºå­˜å‚¨ä»Httpç«™ç‚¹ä¸‹è½½çš„æ•°æ®
 /// </summary>
 public class HttpCallBackArgs : EventArgs
 {
     /// <summary>
-    /// ÊÇ·ñÓĞ´í
+    /// æ˜¯å¦æœ‰é”™
     /// </summary>
     public bool HasError;
 
     /// <summary>
-    /// Json·µ»ØÖµ
+    /// Jsonè¿”å›å€¼
     /// </summary>
     public string Value;
 
     /// <summary>
-    /// bytes·µ»ØÖµ
+    /// bytesè¿”å›å€¼
     /// </summary>
     public byte[] Data;
 }

@@ -8,35 +8,35 @@ namespace Main
     public class MainEntry : MonoBehaviour
     {
         /// <summary>
-        /// ÈÕÖ¾·ÖÀà
+        /// æ—¥å¿—åˆ†ç±»
         /// </summary>
         public enum LogCategory
         {
             /// <summary>
-            /// ¿ò¼ÜÈÕÖ¾
+            /// æ¡†æ¶æ—¥å¿—
             /// </summary>
             Framework,
             /// <summary>
-            /// Á÷³Ì
+            /// æµç¨‹
             /// </summary>
             Procedure,
             /// <summary>
-            /// ×ÊÔ´¹ÜÀí
+            /// èµ„æºç®¡ç†
             /// </summary>
             Resource,
             /// <summary>
-            /// ÍøÂçÏûÏ¢
+            /// ç½‘ç»œæ¶ˆæ¯
             /// </summary>
             NetWork
         }
 
-        //È«¾Ö²ÎÊıÉèÖÃ
+        //å…¨å±€å‚æ•°è®¾ç½®
         [FoldoutGroup("ParamsSettings")]
         [SerializeField]
         private ParamsSettings m_ParamsSettings;
         public static ParamsSettings ParamsSettings { get; private set; }
 
-        //µ±Ç°Éè±¸µÈ¼¶
+        //å½“å‰è®¾å¤‡ç­‰çº§
         [FoldoutGroup("ParamsSettings")]
         [SerializeField]
         private ParamsSettings.DeviceGrade m_CurrDeviceGrade;
@@ -44,29 +44,29 @@ namespace Main
 
 
         /// <summary>
-        /// ÏÂÔØ¹ÜÀíÆ÷
+        /// ä¸‹è½½ç®¡ç†å™¨
         /// </summary>
         public static DownloadManager Download { get; private set; }
         /// <summary>
-        /// ×ÊÔ´¹ÜÀíÆ÷
+        /// èµ„æºç®¡ç†å™¨
         /// </summary>
         public static ResourceManager ResourceManager { get; private set; }
         /// <summary>
-        /// Àà¶ÔÏó³Ø
+        /// ç±»å¯¹è±¡æ± 
         /// </summary>
         public static ClassObjectPool ClassObjectPool { get; private set; }
         /// <summary>
-        /// ÏµÍ³Êı¾İ¹ÜÀíÆ÷
+        /// ç³»ç»Ÿæ•°æ®ç®¡ç†å™¨
         /// </summary>
         public static SysDataMgr SysData { get; private set; }
         /// <summary>
-        /// ÈÈ¸üĞÂ¹ÜÀíÆ÷
+        /// çƒ­æ›´æ–°ç®¡ç†å™¨
         /// </summary>
         public static HotfixManager Hotfix { get; private set; }
 
 
         /// <summary>
-        /// µ¥Àı
+        /// å•ä¾‹
         /// </summary>
         public static MainEntry Instance { get; private set; }
 
@@ -74,10 +74,10 @@ namespace Main
         {
             Instance = this;
 
-            //ÆÁÄ»³£ÁÁ
+            //å±å¹•å¸¸äº®
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-            //´Ë´¦ÒÔºóÅĞ¶ÏÈç¹û²»ÊÇ±à¼­Æ÷Ä£Ê½ Òª¸ù¾İÉè±¸ĞÅÏ¢ÅĞ¶ÏµÈ¼¶
+            //æ­¤å¤„ä»¥ååˆ¤æ–­å¦‚æœä¸æ˜¯ç¼–è¾‘å™¨æ¨¡å¼ è¦æ ¹æ®è®¾å¤‡ä¿¡æ¯åˆ¤æ–­ç­‰çº§
             CurrDeviceGrade = m_CurrDeviceGrade;
             ParamsSettings = m_ParamsSettings;
         }

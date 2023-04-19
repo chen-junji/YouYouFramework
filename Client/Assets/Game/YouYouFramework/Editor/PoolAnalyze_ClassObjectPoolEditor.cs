@@ -12,7 +12,7 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 	{
 		base.OnInspectorGUI();
 
-		#region Àà¶ÔÏó³Ø
+		#region ç±»å¯¹è±¡æ± 
 		GUILayout.Space(10);
 
 		GUIStyle titleStyle = new GUIStyle();
@@ -21,15 +21,15 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 		if (GameEntry.Pool != null)
 		{
 			GUILayout.BeginHorizontal("box");
-			GUILayout.Label("ÏÂ´ÎÊÍ·ÅÊ£ÓàÊ±¼ä: " + Mathf.Abs(Time.time - (GameEntry.Pool.ReleaseClassObjectNextRunTime + GameEntry.Pool.ReleaseClassObjectInterval)), titleStyle);
+			GUILayout.Label("ä¸‹æ¬¡é‡Šæ”¾å‰©ä½™æ—¶é—´: " + Mathf.Abs(Time.time - (GameEntry.Pool.ReleaseClassObjectNextRunTime + GameEntry.Pool.ReleaseClassObjectInterval)), titleStyle);
 			GUILayout.EndHorizontal();
 		}
 		GUILayout.Space(10);
 		GUILayout.BeginVertical("box");
 		GUILayout.BeginHorizontal("box");
-		GUILayout.Label("ÀàÃû");
-		GUILayout.Label("³ØÖĞÊıÁ¿", GUILayout.Width(50));
-		GUILayout.Label("³£×¤ÊıÁ¿", GUILayout.Width(50));
+		GUILayout.Label("ç±»å");
+		GUILayout.Label("æ± ä¸­æ•°é‡", GUILayout.Width(50));
+		GUILayout.Label("å¸¸é©»æ•°é‡", GUILayout.Width(50));
 		GUILayout.EndHorizontal();
 
 		if (GameEntry.Pool != null)
@@ -52,11 +52,11 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 			}
 		}
 		GUILayout.EndVertical();
-		//================Àà¶ÔÏó³Ø±äÁ¿¼ÆÊı===============
+		//================ç±»å¯¹è±¡æ± å˜é‡è®¡æ•°===============
 		GUILayout.BeginVertical("box");
 		GUILayout.BeginHorizontal("box");
-		GUILayout.Label("±äÁ¿Ãû");
-		GUILayout.Label("¼ÆÊı", GUILayout.Width(50));
+		GUILayout.Label("å˜é‡å");
+		GUILayout.Label("è®¡æ•°", GUILayout.Width(50));
 		GUILayout.EndHorizontal();
 
 		if (GameEntry.Pool != null)
@@ -70,10 +70,10 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 			}
 		}
 		GUILayout.EndVertical();
-		//=================================±äÁ¿¼ÆÊı½áÊø==========================
+		//=================================å˜é‡è®¡æ•°ç»“æŸ==========================
 
 		serializedObject.ApplyModifiedProperties();
-		//ÖØ»æ
+		//é‡ç»˜
 		Repaint();
 		#endregion
 	}

@@ -7,8 +7,8 @@ public class SceneCtrl : SingletonMono<SceneCtrl>
 {
     void Start()
     {
-        GameEntry.Log(LogCategory.ZhangSan, "·¹·¹Å£±Æ");
+        GameEntry.Log(LogCategory.ZhangSan, "é¥­é¥­ç‰›é€¼");
         FormDialog formDialog = GameEntry.UI.OpenUIForm<FormDialog>();
-        formDialog.SetUI("¿ò¼ÜÄÚ²¿Á÷³ÌÈ«²¿¼ÓÔØÍê±Ï, ÒÑ¾­½øÈëµÇÂ¼Á÷³Ì", "µÇÂ¼Á÷³Ì");
+        formDialog.SetUI("æ¡†æ¶å†…éƒ¨æµç¨‹å…¨éƒ¨åŠ è½½å®Œæ¯•, å·²ç»è¿›å…¥ç™»å½•æµç¨‹", "ç™»å½•æµç¨‹");
     }
 }

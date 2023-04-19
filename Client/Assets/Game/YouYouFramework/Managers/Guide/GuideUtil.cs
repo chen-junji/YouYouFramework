@@ -28,7 +28,7 @@ namespace YouYou
         }
 
         /// <summary>
-        /// ¼àÌı°´Å¥µã»÷, ´¥·¢ÏÂÒ»²½
+        /// ç›‘å¬æŒ‰é’®ç‚¹å‡», è§¦å‘ä¸‹ä¸€æ­¥
         /// </summary>
         public static void CheckBtnNext(Button button, Action onNext = null)
         {
@@ -44,7 +44,7 @@ namespace YouYou
             }
         }
         /// <summary>
-        /// ¼àÌı¿ª¹Ø¼¤»î, ´¥·¢ÏÂÒ»²½
+        /// ç›‘å¬å¼€å…³æ¿€æ´», è§¦å‘ä¸‹ä¸€æ­¥
         /// </summary>
         public static void CheckToggleNext(Toggle toggle)
         {
@@ -57,7 +57,7 @@ namespace YouYou
             }
         }
         /// <summary>
-        /// ¼àÌıÊÂ¼ş, ´¥·¢ÏÂÒ»²½
+        /// ç›‘å¬äº‹ä»¶, è§¦å‘ä¸‹ä¸€æ­¥
         /// </summary>
         public static void CheckEventNext(string eventName)
         {
@@ -69,7 +69,7 @@ namespace YouYou
             }
         }
         /// <summary>
-        /// ¼àÌı´°¿Ú´ò¿ª, ´¥·¢ÏÂÒ»²½
+        /// ç›‘å¬çª—å£æ‰“å¼€, è§¦å‘ä¸‹ä¸€æ­¥
         /// </summary>
         public static void CheckUIOpenNext(UIBase ui)
         {

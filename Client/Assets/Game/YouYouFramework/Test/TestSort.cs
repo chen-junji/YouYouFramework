@@ -11,7 +11,7 @@ public class TestSort : MonoBehaviour
 		Debug.LogError(arr.ToJson());
 	}
 
-	#region Ã°ÅÝÅÅÐò
+	#region Ñ†â•ŸÐµÑ‰ÐµÐµÐ¿Ð 
 	void BubbleSort(int[] arr)
 	{
 		for (int i = 0; i < arr.Length - 1; i++)
@@ -29,7 +29,7 @@ public class TestSort : MonoBehaviour
 	}
 	#endregion
 
-	#region ¿ìËÙÅÅÐò
+	#region Â©Ð›ÐºÑ‹ÐµÐµÐ¿Ð 
 	void QuickSort(int[] arr, int low, int high)
 	{
 		int left = low;

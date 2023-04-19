@@ -6,18 +6,18 @@ using UnityEngine;
 namespace YouYou
 {
     /// <summary>
-    /// UI分组
+    /// UI鍒嗙粍
     /// </summary>
     [System.Serializable]
     public class UIGroup
     {
         /// <summary>
-        /// 分组编号
+        /// 鍒嗙粍缂栧彿
         /// </summary>
         public byte Id;
 
         /// <summary>
-        /// 基础排序
+        /// 鍩虹鎺掑簭
         /// </summary>
         public ushort BaseOrder;
 

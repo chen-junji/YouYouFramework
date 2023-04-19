@@ -20,22 +20,22 @@ namespace PathologicalGames
     /// </summary>
     public static class InstanceHandler
     {
-        //[¸ÄÔì] Ôö¼ÓresourceEntity
+        //[æ”¹é€ ] å¢åŠ resourceEntity
         public delegate GameObject InstantiateDelegate(GameObject prefab, Vector3 pos, Quaternion rot, object resourceEntity = null);
         public delegate void DestroyDelegate(GameObject instance);
 
         /// <summary>
-        /// ¿ÉÒÔÓÃÀ´À¹½ØInstantiateÀ´ÊµÏÖÄã×Ô¼ºµÄ´¦Àí
+        /// å¯ä»¥ç”¨æ¥æ‹¦æˆªInstantiateæ¥å®ç°ä½ è‡ªå·±çš„å¤„ç†
         /// </summary>
         public static InstantiateDelegate InstantiateDelegates;
 
         /// <summary>
-        /// ¿ÉÒÔÓÃÀ´À¹½ØDestroysÀ´ÊµÏÖÄã×Ô¼ºµÄ´¦Àí
+        /// å¯ä»¥ç”¨æ¥æ‹¦æˆªDestroysæ¥å®ç°ä½ è‡ªå·±çš„å¤„ç†
         /// </summary>
         public static DestroyDelegate DestroyDelegates;
 
         /// <summary>
-        /// ¿ËÂ¡¶ÔÏó
+        /// å…‹éš†å¯¹è±¡
         /// </summary>
         internal static GameObject InstantiatePrefab(GameObject prefab, Vector3 pos, Quaternion rot, object resourceEntity = null)
         {
@@ -50,7 +50,7 @@ namespace PathologicalGames
         }
 
         /// <summary>
-        /// Ïú»Ù¶ÔÏó
+        /// é”€æ¯å¯¹è±¡
         /// </summary>
         internal static void DestroyInstance(GameObject instance)
         {
