@@ -1,3 +1,4 @@
+using Main;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ public class TestDownload : MonoBehaviour
             PlayerPrefs.DeleteAll();
 
             //单文件下载
-            GameEntry.Download.BeginDownloadSingle("download/datatable.assetbundle");
+            MainEntry.Download.BeginDownloadSingle("download/datatable.assetbundle");
         }
 
         if (Input.GetKeyDown(KeyCode.S))
@@ -27,7 +28,7 @@ public class TestDownload : MonoBehaviour
             lst.AddLast("download/cusshaders.assetbundle");
             lst.AddLast("download/datatable.assetbundle");
             lst.AddLast("download/effect/effectsources/model/fu_01.assetbundle");
-            GameEntry.Download.BeginDownloadMulit(lst, OnDownloadMulitUpdate, OnDownloadMulitComplete);
+            MainEntry.Download.BeginDownloadMulit(lst, OnDownloadMulitUpdate, OnDownloadMulitComplete);
         }
     }
     private void OnDownloadMulitComplete()

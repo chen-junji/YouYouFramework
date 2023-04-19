@@ -1,3 +1,4 @@
+using Main;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -46,10 +47,10 @@ namespace YouYou
             }
 
 
-            m_CurrAssetBundleInfo = GameEntry.Resource.ResourceManager.GetAssetBundleInfo(assetBundlePath);
+            m_CurrAssetBundleInfo = MainEntry.ResourceManager.GetAssetBundleInfo(assetBundlePath);
 
             //检查文件在可写区是否存在
-            bool isExistsInLocal = GameEntry.Resource.ResourceManager.LocalAssetsManager.CheckFileExists(assetBundlePath);
+            bool isExistsInLocal = MainEntry.ResourceManager.LocalAssetsManager.CheckFileExists(assetBundlePath);
 
             if (isExistsInLocal && !m_CurrAssetBundleInfo.IsEncrypt)
             {
@@ -59,7 +60,7 @@ namespace YouYou
             else
             {
                 //可写区加载, 需要解密
-                byte[] buffer = GameEntry.Resource.ResourceManager.LocalAssetsManager.GetFileBuffer(assetBundlePath);
+                byte[] buffer = MainEntry.ResourceManager.LocalAssetsManager.GetFileBuffer(assetBundlePath);
                 if (buffer != null)
                 {
                     LoadAssetBundleAsync(buffer);
@@ -67,7 +68,7 @@ namespace YouYou
                 }
 
                 //如果可写区没有 那么就从只读区获取
-                GameEntry.Resource.ResourceManager.StreamingAssetsManager.ReadAssetBundleAsync(assetBundlePath, (byte[] buff) =>
+                MainEntry.ResourceManager.StreamingAssetsManager.ReadAssetBundleAsync(assetBundlePath, (byte[] buff) =>
                 {
                     if (buff != null)
                     {
@@ -77,13 +78,13 @@ namespace YouYou
                     }
 
                     //如果只读区也没有,从CDN下载
-                    GameEntry.Download.BeginDownloadSingle(assetBundlePath, (url, currSize, progress) =>
+                    MainEntry.Download.BeginDownloadSingle(assetBundlePath, (url, currSize, progress) =>
                     {
                         //YouYou.GameEntry.LogError(progress);
                         OnAssetBundleCreateUpdate?.Invoke(progress);
                     }, (string fileUrl) =>
                     {
-                        buffer = GameEntry.Resource.ResourceManager.LocalAssetsManager.GetFileBuffer(fileUrl);
+                        buffer = MainEntry.ResourceManager.LocalAssetsManager.GetFileBuffer(fileUrl);
                         LoadAssetBundleAsync(buffer);
                     });
                 });
@@ -104,10 +105,10 @@ namespace YouYou
             }
 
 
-            m_CurrAssetBundleInfo = GameEntry.Resource.ResourceManager.GetAssetBundleInfo(assetBundlePath);
+            m_CurrAssetBundleInfo = MainEntry.ResourceManager.GetAssetBundleInfo(assetBundlePath);
 
             //检查文件在可写区是否存在
-            bool isExistsInLocal = GameEntry.Resource.ResourceManager.LocalAssetsManager.CheckFileExists(assetBundlePath);
+            bool isExistsInLocal = MainEntry.ResourceManager.LocalAssetsManager.CheckFileExists(assetBundlePath);
 
             if (isExistsInLocal && !m_CurrAssetBundleInfo.IsEncrypt)
             {
@@ -117,14 +118,14 @@ namespace YouYou
             else
             {
                 //可写区加载, 需要解密
-                byte[] buffer = GameEntry.Resource.ResourceManager.LocalAssetsManager.GetFileBuffer(assetBundlePath);
+                byte[] buffer = MainEntry.ResourceManager.LocalAssetsManager.GetFileBuffer(assetBundlePath);
                 if (buffer != null)
                 {
                     return LoadAssetBundle(buffer);
                 }
 
                 //只读区加载(目前不支持加密资源)
-                AssetBundle assetBundle = GameEntry.Resource.ResourceManager.StreamingAssetsManager.ReadAssetBundle(assetBundlePath);
+                AssetBundle assetBundle = MainEntry.ResourceManager.StreamingAssetsManager.ReadAssetBundle(assetBundlePath);
                 if (assetBundle != null)
                 {
                     return assetBundle;

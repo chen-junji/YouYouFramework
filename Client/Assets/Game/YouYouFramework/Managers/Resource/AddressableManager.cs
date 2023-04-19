@@ -13,34 +13,16 @@ namespace YouYou
     public class AddressableManager 
     {
         /// <summary>
-        /// 资源管理器
-        /// </summary>
-        public ResourceManager ResourceManager { get; private set; }
-
-        /// <summary>
         /// 资源加载管理器
         /// </summary>
         public ResourceLoaderManager ResourceLoaderManager { get; private set; }
 
-        /// <summary>
-        /// 本地文件路径
-        /// </summary>
-        public string LocalFilePath { get; private set; }
-
         internal AddressableManager()
         {
-            ResourceManager = new ResourceManager();
             ResourceLoaderManager = new ResourceLoaderManager();
         }
         internal void Init()
         {
-#if EDITORLOAD
-            LocalFilePath = Application.dataPath;
-#else
-            LocalFilePath = Application.persistentDataPath;
-#endif
-
-            ResourceManager.Init();
             ResourceLoaderManager.Init();
 
             Application.backgroundLoadingPriority = ThreadPriority.High;
@@ -48,14 +30,6 @@ namespace YouYou
         internal void OnUpdate()
         {
             ResourceLoaderManager.OnUpdate();
-        }
-
-        /// <summary>
-        /// 初始化只读区资源包信息
-        /// </summary>
-        public void InitStreamingAssetsBundleInfo()
-        {
-            ResourceManager.InitStreamingAssetsBundleInfo();
         }
 
 

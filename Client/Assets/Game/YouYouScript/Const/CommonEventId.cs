@@ -3,13 +3,6 @@ namespace YouYou
     public class CommonEventId
     {
         #region 系统事件
-        //检查更新_下载开始
-        public const string CheckVersionBeginDownload = "CheckVersionBeginDownload";
-        //检查更新_下载进度更新
-        public const string CheckVersionDownloadUpdate = "CheckVersionDownloadUpdate";
-        //检查更新_下载完毕
-        public const string CheckVersionDownloadComplete = "CheckVersionDownloadComplete";
-
         //预加载_加载开始
         public const string PreloadBegin = "PreloadBegin";
         //预加载_加载进度更新

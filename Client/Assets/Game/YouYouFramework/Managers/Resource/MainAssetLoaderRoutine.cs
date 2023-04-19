@@ -74,7 +74,7 @@ namespace YouYou
             onComplete?.Invoke(m_CurrResourceEntity);
             Reset();
 #else
-            assetFullName = "Assets/Download/" + assetFullName;
+            assetFullName = "Assets/Game/Download/" + assetFullName;
 
             m_CurrAssetEntity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(assetFullName);
             if (m_CurrAssetEntity == null) return;
@@ -118,7 +118,7 @@ namespace YouYou
             //Reset();
             return m_CurrResourceEntity;
 #else
-            assetFullName = "Assets/Download/" + assetFullName;
+            assetFullName = "Assets/Game/Download/" + assetFullName;
 
             m_CurrAssetEntity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(assetFullName);
             if (m_CurrAssetEntity == null) return null;

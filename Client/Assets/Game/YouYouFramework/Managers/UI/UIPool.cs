@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Main;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,8 +31,8 @@ namespace YouYou
         {
             m_UIFormList = new LinkedList<UIBase>();
 
-            UIExpire = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_Expire, GameEntry.CurrDeviceGrade);
-            ClearInterval = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_ClearInterval, GameEntry.CurrDeviceGrade);
+            UIExpire = Main.MainEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_Expire, Main.MainEntry.CurrDeviceGrade);
+            ClearInterval = Main.MainEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_ClearInterval, Main.MainEntry.CurrDeviceGrade);
         }
         internal void OnUpdate()
         {

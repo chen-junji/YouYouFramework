@@ -51,13 +51,13 @@ namespace YouYou
             OnLoadSceneComplete = onLoadSceneComplete;
 
 #if EDITORLOAD || RESOURCES
-            m_CurrAsync = SceneManager.LoadSceneAsync(sceneName + ".unity", LoadSceneMode.Additive);
+            m_CurrAsync = SceneManager.LoadSceneAsync("Assets/Game/Download/" + sceneName + ".unity", LoadSceneMode.Additive);
             m_CurrAsync.allowSceneActivation = false;
             if (m_CurrAsync == null) OnLoadSceneComplete?.Invoke(this);
 #else
             //加载场景的资源包
-            Object obj = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<Object>(sceneName);
-            m_CurrAsync = SceneManager.LoadSceneAsync(sceneName + ".unity", LoadSceneMode.Additive);
+            Object obj = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<Object>(sceneName + ".unity");
+            m_CurrAsync = SceneManager.LoadSceneAsync("Assets/Game/Download/" + sceneName + ".unity", LoadSceneMode.Additive);
             m_CurrAsync.allowSceneActivation = false;
             if (m_CurrAsync == null) OnLoadSceneComplete?.Invoke(this);
 #endif

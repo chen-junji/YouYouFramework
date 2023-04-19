@@ -22,7 +22,7 @@ public class AndroidInterface : Singleton<AndroidInterface>
     private void InitAndroidSDK()
     {
         if (m_IsInitAndroidSDK) return;
-        switch (GameEntry.Data.SysData.CurrChannelConfig.ChannelId)
+        switch (Main.MainEntry.SysData.CurrChannelConfig.ChannelId)
         {
             case 146:
                 currAndroidSDK = new SDK_YouYou();

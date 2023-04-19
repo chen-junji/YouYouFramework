@@ -61,7 +61,7 @@ public class SDK_YouYou : IAndroidSDK
 		{
 			//给账户服务器发送请求
 			Dictionary<string, object> data = new Dictionary<string, object>();
-			data["ChennelId"] = GameEntry.Data.SysData.CurrChannelConfig.ChannelId;
+			data["ChennelId"] = Main.MainEntry.SysData.CurrChannelConfig.ChannelId;
 			data["Code"] = code;
 
 			Dictionary<string, object> dic = new Dictionary<string, object>();

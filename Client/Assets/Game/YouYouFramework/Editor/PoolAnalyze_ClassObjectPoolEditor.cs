@@ -34,7 +34,7 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 
 		if (GameEntry.Pool != null)
 		{
-			foreach (var item in GameEntry.Pool.ClassObjectPool.InspectorDic)
+			foreach (var item in Main.MainEntry.ClassObjectPool.InspectorDic)
 			{
 				GUILayout.BeginHorizontal("box");
 				GUILayout.Label(item.Key.Name);
@@ -45,7 +45,7 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 
 				int key = item.Key.GetHashCode();
 				byte resideCount = 0;
-				GameEntry.Pool.ClassObjectPool.ClassObjectCount.TryGetValue(key, out resideCount);
+				Main.MainEntry.ClassObjectPool.ClassObjectCount.TryGetValue(key, out resideCount);
 
 				GUILayout.Label(resideCount.ToString(), titleStyle);
 				GUILayout.EndHorizontal();

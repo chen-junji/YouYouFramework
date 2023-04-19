@@ -11,11 +11,8 @@ namespace YouYou
     /// </summary>
     public class DataManager : IDisposable
     {
-        public SysDataMgr SysData { get; private set; }
-
         internal DataManager()
         {
-            SysData = new SysDataMgr();
         }
         public void OnUpdate()
         {

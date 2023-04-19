@@ -81,14 +81,4 @@ namespace YouYou
         ReverseChange = 1,
     }
 
-    /// <summary>
-    /// 支付平台
-    /// </summary>
-    public enum PayPlatform
-    {
-        IOS,
-        Ali_WX,
-        Goggle,
-    }
-
 }

@@ -146,7 +146,7 @@ namespace YouYou
 
         public CrossPlatformInputManager()
         {
-            MobileDebug = GameEntry.ParamsSettings.GetGradeParamData("MobileDebug") == 1;
+            MobileDebug = Main.MainEntry.ParamsSettings.GetGradeParamData("MobileDebug") == 1;
 
             //得到枚举的长度
             int count = Enum.GetNames(typeof(State)).Length;

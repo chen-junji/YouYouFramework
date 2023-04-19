@@ -2,18 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Main;
 
 namespace YouYou
 {
     /// <summary>
     /// 池管理器
     /// </summary>
-    public class PoolManager 
+    public class PoolManager
     {
-        /// <summary>
-        /// 类对象池
-        /// </summary>
-        public ClassObjectPool ClassObjectPool { get; private set; }
         /// <summary>
         /// 游戏物体对象池
         /// </summary>
@@ -29,7 +26,6 @@ namespace YouYou
 
         internal PoolManager()
         {
-            ClassObjectPool = new ClassObjectPool();
             GameObjectPool = new GameObjectPool();
 
             AssetBundlePool = new ResourcePool("AssetBundlePool");
@@ -42,9 +38,9 @@ namespace YouYou
         /// </summary>
         internal void Init()
         {
-            ReleaseClassObjectInterval = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Pool_ReleaseClassObjectInterval, GameEntry.CurrDeviceGrade);
-            ReleaseAssetBundleInterval = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Pool_ReleaseAssetBundleInterval, GameEntry.CurrDeviceGrade);
-            ReleaseAssetInterval = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Pool_ReleaseAssetInterval, GameEntry.CurrDeviceGrade);
+            ReleaseClassObjectInterval = Main.MainEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Pool_ReleaseClassObjectInterval, Main.MainEntry.CurrDeviceGrade);
+            ReleaseAssetBundleInterval = Main.MainEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Pool_ReleaseAssetBundleInterval, Main.MainEntry.CurrDeviceGrade);
+            ReleaseAssetInterval = Main.MainEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Pool_ReleaseAssetInterval, Main.MainEntry.CurrDeviceGrade);
 
             ReleaseClassObjectNextRunTime = Time.time;
             ReleaseAssetBundleNextRunTime = Time.time;
@@ -60,7 +56,7 @@ namespace YouYou
         /// </summary>
         public void ReleaseClassObjectPool()
         {
-            ClassObjectPool.Release();
+            MainEntry.ClassObjectPool.Release();
         }
 
         /// <summary>
@@ -123,7 +119,7 @@ namespace YouYou
         /// <param name="count"></param>
         public void SetClassObjectResideCount<T>(byte count) where T : class
         {
-            ClassObjectPool.SetResideCount<T>(count);
+            MainEntry.ClassObjectPool.SetResideCount<T>(count);
         }
 
         #region DequeueClassObject 取出一个对象
@@ -134,7 +130,7 @@ namespace YouYou
         /// <returns></returns>
         public T DequeueClassObject<T>() where T : class, new()
         {
-            return ClassObjectPool.Dequeue<T>();
+            return MainEntry.ClassObjectPool.Dequeue<T>();
         }
         #endregion
 
@@ -145,7 +141,7 @@ namespace YouYou
         /// <param name="obj"></param>
         public void EnqueueClassObject(object obj)
         {
-            ClassObjectPool.Enqueue(obj);
+            MainEntry.ClassObjectPool.Enqueue(obj);
         }
         #endregion
 
@@ -172,7 +168,7 @@ namespace YouYou
         {
             lock (m_VarObjectLock)
             {
-                T item = ClassObjectPool.Dequeue<T>();
+                T item = MainEntry.ClassObjectPool.Dequeue<T>();
 #if UNITY_EDITOR
                 Type t = item.GetType();
                 if (VarObjectInspectorDic.ContainsKey(t))
@@ -197,7 +193,7 @@ namespace YouYou
         {
             lock (m_VarObjectLock)
             {
-                ClassObjectPool.Enqueue(item);
+                MainEntry.ClassObjectPool.Enqueue(item);
 #if UNITY_EDITOR
                 Type t = item.GetType();
                 if (VarObjectInspectorDic.ContainsKey(t))

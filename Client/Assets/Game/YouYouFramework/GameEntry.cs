@@ -9,18 +9,6 @@ namespace YouYou
 {
     public class GameEntry : MonoBehaviour
     {
-        [FoldoutGroup("ParamsSettings")]
-        [SerializeField]
-        private ParamsSettings.DeviceGrade m_CurrDeviceGrade;
-
-        [FoldoutGroup("ParamsSettings")]
-        [SerializeField]
-        private ParamsSettings m_ParamsSettings;
-
-        [FoldoutGroup("ParamsSettings")]
-        [SerializeField]
-        private YouYouLanguage m_CurrLanguage;
-
         [FoldoutGroup("ResourceGroup")]
         /// <summary>
         /// 游戏物体对象池分组
@@ -52,7 +40,12 @@ namespace YouYou
         [Header("音频组")]
         public Transform AudioGroup;
 
-        #region 管理器属性
+        [Header("当前语言（要和本地化表的语言字段 一致）")]
+        [SerializeField]
+        private YouYouLanguage m_CurrLanguage;
+        public static YouYouLanguage CurrLanguage;
+
+        //管理器属性
         public static LoggerManager Logger { get; private set; }
         public static EventManager Event { get; private set; }
         public static TimeManager Time { get; private set; }
@@ -66,47 +59,24 @@ namespace YouYou
         public static PoolManager Pool { get; private set; }
         public static YouYouSceneManager Scene { get; private set; }
         public static AddressableManager Resource { get; private set; }
-        public static DownloadManager Download { get; private set; }
         public static UIManager UI { get; private set; }
         public static AudioManager Audio { get; private set; }
         public static CrossPlatformInputManager Input { get; private set; }
         public static TaskManager Task { get; private set; }
         public static QualityManager Quality { get; private set; }
         public static GuideManager Guide { get; private set; }
-        #endregion
+
 
         /// <summary>
         /// 单例
         /// </summary>
         public static GameEntry Instance { get; private set; }
 
-        /// <summary>
-        /// 全局参数设置
-        /// </summary>
-        public static ParamsSettings ParamsSettings { get; private set; }
-
-        /// <summary>
-        /// 当前设备等级
-        /// </summary>
-        public static ParamsSettings.DeviceGrade CurrDeviceGrade { get; private set; }
-
-        /// <summary>
-        /// 当前语言（要和本地化表的语言字段 一致）
-        /// </summary>
-        public static YouYouLanguage CurrLanguage;
-
-
         private void Awake()
         {
             Log(LogCategory.Procedure, "GameEntry.OnAwake()");
             Instance = this;
 
-            //屏幕常亮
-            Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
-            //此处以后判断如果不是编辑器模式 要根据设备信息判断等级
-            CurrDeviceGrade = m_CurrDeviceGrade;
-            ParamsSettings = m_ParamsSettings;
             CurrLanguage = m_CurrLanguage;
         }
         private void Start()
@@ -126,7 +96,6 @@ namespace YouYou
             Pool = new PoolManager();
             Scene = new YouYouSceneManager();
             Resource = new AddressableManager();
-            Download = new DownloadManager();
             UI = new UIManager();
             Audio = new AudioManager();
             Input = new CrossPlatformInputManager();
@@ -143,7 +112,6 @@ namespace YouYou
             Pool.Init();
             Scene.Init();
             Resource.Init();
-            Download.Init();
             UI.Init();
             Audio.Init();
             Task.Init();
@@ -159,7 +127,6 @@ namespace YouYou
             Pool.OnUpdate();
             Scene.OnUpdate();
             Resource.OnUpdate();
-            Download.OnUpdate();
             UI.OnUpdate();
             Input.OnUpdate();
             Task.OnUpdate();
@@ -170,7 +137,6 @@ namespace YouYou
             Logger.Dispose();
             Fsm.Dispose();
             PlayerPrefs.Dispose();
-            Download.Dispose();
         }
         private void OnApplicationPause(bool pause)
         {
@@ -225,5 +191,6 @@ namespace YouYou
             Debug.LogError(string.Format("youyouLog=={0}=={1}", catetory.ToString(), value));
 #endif
         }
+
     }
 }

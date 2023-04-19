@@ -1,3 +1,4 @@
+using Main;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -57,16 +58,16 @@ namespace YouYou
         {
             m_InitAssetInfoComplete = initAssetInfoComplete;
 
-            byte[] buffer = GameEntry.Resource.ResourceManager.LocalAssetsManager.GetFileBuffer(YFConstDefine.AssetInfoName);
+            byte[] buffer = MainEntry.ResourceManager.LocalAssetsManager.GetFileBuffer(YFConstDefine.AssetInfoName);
             if (buffer == null)
             {
                 //如果可写区没有 那么就从只读区获取
-                GameEntry.Resource.ResourceManager.StreamingAssetsManager.ReadAssetBundleAsync(YFConstDefine.AssetInfoName, async (byte[] buff) =>
+                MainEntry.ResourceManager.StreamingAssetsManager.ReadAssetBundleAsync(YFConstDefine.AssetInfoName, async (byte[] buff) =>
                 {
                     if (buff == null)
                     {
                         //如果只读区也没有,从CDN读取
-                        string url = string.Format("{0}{1}", GameEntry.Data.SysData.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
+                        string url = string.Format("{0}{1}", MainEntry.SysData.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
                         HttpCallBackArgs args = await GameEntry.Http.GetArgsAsync(url, false);
                         if (!args.HasError)
                         {

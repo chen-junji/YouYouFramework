@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.focus-creative-games.hybridclr_unity": {
+      "version": "https://gitee.com/focus-creative-games/hybridclr_unity.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "b8b990bfc18201dd82128f76fd112a64163882c9"
+    },
     "com.unity.collab-proxy": {
       "version": "2.0.1",
       "depth": 0,

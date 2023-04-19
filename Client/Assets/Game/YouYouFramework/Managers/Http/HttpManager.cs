@@ -1,3 +1,4 @@
+using Main;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,24 +25,14 @@ namespace YouYou
         /// </summary>
         public string RealWebAccountUrl { get { return "http://" + RealIpAndPort + "/"; } }
         public string RealIpAndPort { get { return m_IsTest ? m_TestWebAccountUrl : m_WebAccountUrl; } }
-        /// <summary>
-        /// 连接失败后重试次数
-        /// </summary>
-        public int Retry { get; private set; }
-        /// <summary>
-        /// 连接失败后重试间隔（秒）
-        /// </summary>
-        public int RetryInterval { get; private set; }
 
 
         internal void Init()
         {
-            m_WebAccountUrl = GameEntry.ParamsSettings.WebAccountUrl;
-            m_TestWebAccountUrl = GameEntry.ParamsSettings.TestWebAccountUrl;
-            m_IsTest = GameEntry.ParamsSettings.IsTest;
+            m_WebAccountUrl = MainEntry.ParamsSettings.WebAccountUrl;
+            m_TestWebAccountUrl = MainEntry.ParamsSettings.TestWebAccountUrl;
+            m_IsTest = Main.MainEntry.ParamsSettings.IsTest;
 
-            Retry = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Http_Retry, GameEntry.CurrDeviceGrade);
-            RetryInterval = GameEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Http_RetryInterval, GameEntry.CurrDeviceGrade);
         }
 
         #region Get

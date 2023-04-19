@@ -47,7 +47,7 @@ public class GuideManager
 
     public bool OnStateEnter(GuideState state)
     {
-        if (GameEntry.ParamsSettings.GetGradeParamData("ActiveGuide") == 0) return false;
+        if (Main.MainEntry.ParamsSettings.GetGradeParamData("ActiveGuide") == 0) return false;
 
         if (CurrentState == state) return false;
 
@@ -72,7 +72,7 @@ public class GuideManager
     public bool NextGroup(GuideState descGroup)
     {
         //if (GameEntry.ParamsSettings.GetGradeParamData("EditorGuide") == 0 && Application.installMode == ApplicationInstallMode.Editor) return false;
-        if (GameEntry.ParamsSettings.GetGradeParamData("ActiveGuide") == 0) return false;
+        if (Main.MainEntry.ParamsSettings.GetGradeParamData("ActiveGuide") == 0) return false;
         if (CurrentState != descGroup) return false;
 
         GuideUtil.CloseHollow();
