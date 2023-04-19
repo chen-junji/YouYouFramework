@@ -494,36 +494,30 @@ namespace Main
             MainEntry.Download.BeginDownloadMulit(needDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
         }
 
-        ///// <summary>
-        ///// 单个文件检查更新(True==不需要更新)
-        ///// </summary>
-        //public bool CheckVersionChangeSingle(string assetFullName)
-        //{
-        //    AssetEntity assetEntity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(assetFullName);
-        //    if (assetEntity == null) return false;
-
-        //    AssetBundleInfoEntity cdnAssetBundleInfo = null;
-        //    if (m_CDNVersionDic.TryGetValue(assetEntity.AssetBundleName, out cdnAssetBundleInfo))
-        //    {
-        //        AssetBundleInfoEntity LocalAssetsAssetBundleInfo = null;
-        //        if (m_LocalAssetsVersionDic.TryGetValue(cdnAssetBundleInfo.AssetBundleName, out LocalAssetsAssetBundleInfo))
-        //        {
-        //            //可写区有 CDN也有
-        //            return cdnAssetBundleInfo.MD5.Equals(LocalAssetsAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase);
-        //        }
-        //        else
-        //        {
-        //            //可写区不存在 则去只读区判断一次
-        //            AssetBundleInfoEntity streamingAssetsAssetBundleInfo = null;
-        //            if (m_StreamingAssetsVersionDic.TryGetValue(cdnAssetBundleInfo.AssetBundleName, out streamingAssetsAssetBundleInfo))
-        //            {
-        //                return cdnAssetBundleInfo.MD5.Equals(streamingAssetsAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase);//只读区存在 验证MD5
-        //            }
-        //            return false;//只读区不存在
-        //        }
-        //    }
-        //    return false;//CDN不存在
-        //}
+        /// <summary>
+        /// 单个文件检查更新(True==不需要更新)
+        /// </summary>
+        public bool CheckVersionChangeSingle(string assetBundleName)
+        {
+            if (m_CDNVersionDic.TryGetValue(assetBundleName, out AssetBundleInfoEntity cdnAssetBundleInfo))
+            {
+                if (m_LocalAssetsVersionDic.TryGetValue(cdnAssetBundleInfo.AssetBundleName, out AssetBundleInfoEntity LocalAssetsAssetBundleInfo))
+                {
+                    //可写区有 CDN也有
+                    return cdnAssetBundleInfo.MD5.Equals(LocalAssetsAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase);
+                }
+                else
+                {
+                    //可写区不存在 则去只读区判断一次
+                    if (m_StreamingAssetsVersionDic.TryGetValue(cdnAssetBundleInfo.AssetBundleName, out AssetBundleInfoEntity streamingAssetsAssetBundleInfo))
+                    {
+                        return cdnAssetBundleInfo.MD5.Equals(streamingAssetsAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase);//只读区存在 验证MD5
+                    }
+                    return false;//只读区不存在
+                }
+            }
+            return false;//CDN不存在
+        }
         #endregion
 
         /// <summary>

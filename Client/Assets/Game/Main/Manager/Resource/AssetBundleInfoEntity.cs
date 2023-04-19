@@ -5,32 +5,32 @@ using UnityEngine;
 namespace Main
 {
     /// <summary>
-    /// AssetBundle°æ±¾ÎÄ¼şĞÅÏ¢ÊµÌå
+    /// AssetBundleç‰ˆæœ¬æ–‡ä»¶ä¿¡æ¯å®ä½“
     /// </summary>
     public class AssetBundleInfoEntity
     {
         /// <summary>
-        /// ×ÊÔ´°üÃû³Æ
+        /// èµ„æºåŒ…åç§°
         /// </summary>
         public string AssetBundleName;
 
         /// <summary>
-        /// MD5Âë
+        /// MD5ç 
         /// </summary>
         public string MD5;
 
         /// <summary>
-        /// ÎÄ¼ş´óĞ¡(×Ö½Ú)
+        /// æ–‡ä»¶å¤§å°(å­—èŠ‚)
         /// </summary>
         public ulong Size;
 
         /// <summary>
-        /// ÊÇ·ñ³õÊ¼Êı¾İ
+        /// æ˜¯å¦åˆå§‹æ•°æ®
         /// </summary>
         public bool IsFirstData;
 
         /// <summary>
-        /// ÊÇ·ñÒÑ¾­¼ÓÃÜ
+        /// æ˜¯å¦å·²ç»åŠ å¯†
         /// </summary>
         public bool IsEncrypt;
 

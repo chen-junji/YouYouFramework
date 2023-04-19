@@ -7,12 +7,12 @@ using UnityEngine;
 namespace Main
 {
 	/// <summary>
-	/// ¿ÉĞ´Çø×ÊÔ´¹ÜÀíÆ÷
+	/// å¯å†™åŒºèµ„æºç®¡ç†å™¨
 	/// </summary>
 	public class LocalAssetsManager
 	{
 		/// <summary>
-		/// ±¾µØ°æ±¾ÎÄ¼şÂ·¾¶
+		/// æœ¬åœ°ç‰ˆæœ¬æ–‡ä»¶è·¯å¾„
 		/// </summary>
 		public string LocalVersionFilePath
 		{
@@ -22,9 +22,9 @@ namespace Main
 			}
 		}
 
-		#region »ñÈ¡¿ÉĞ´Çø°æ±¾ÎÄ¼şÊÇ·ñ´æÔÚ GetVersionFileExists
+		#region è·å–å¯å†™åŒºç‰ˆæœ¬æ–‡ä»¶æ˜¯å¦å­˜åœ¨ GetVersionFileExists
 		/// <summary>
-		/// »ñÈ¡¿ÉĞ´Çø°æ±¾ÎÄ¼şÊÇ·ñ´æÔÚ
+		/// è·å–å¯å†™åŒºç‰ˆæœ¬æ–‡ä»¶æ˜¯å¦å­˜åœ¨
 		/// </summary>
 		/// <returns></returns>
 		public bool GetVersionFileExists()
@@ -33,9 +33,9 @@ namespace Main
 		}
 		#endregion
 
-		#region GetFileBuffer »ñÈ¡±¾µØÎÄ¼şµÄ×Ö½ÚÊı×é
+		#region GetFileBuffer è·å–æœ¬åœ°æ–‡ä»¶çš„å­—èŠ‚æ•°ç»„
 		/// <summary>
-		/// »ñÈ¡±¾µØÎÄ¼şµÄ×Ö½ÚÊı×é
+		/// è·å–æœ¬åœ°æ–‡ä»¶çš„å­—èŠ‚æ•°ç»„
 		/// </summary>
 		/// <param name="path"></param>
 		/// <returns></returns>
@@ -50,9 +50,9 @@ namespace Main
 		}
 		#endregion
 
-		#region SetResourceVersion ±£´æ×ÊÔ´°æ±¾ºÅ
+		#region SetResourceVersion ä¿å­˜èµ„æºç‰ˆæœ¬å·
 		/// <summary>
-		/// ±£´æ×ÊÔ´°æ±¾ºÅ
+		/// ä¿å­˜èµ„æºç‰ˆæœ¬å·
 		/// </summary>
 		/// <param name="version"></param>
 		public void SetResourceVersion(string version)
@@ -61,9 +61,9 @@ namespace Main
 		}
 		#endregion
 
-		#region SaveVersionFile ±£´æ°æ±¾ÎÄ¼ş
+		#region SaveVersionFile ä¿å­˜ç‰ˆæœ¬æ–‡ä»¶
 		/// <summary>
-		/// ±£´æ°æ±¾ÎÄ¼ş
+		/// ä¿å­˜ç‰ˆæœ¬æ–‡ä»¶
 		/// </summary>
 		/// <param name="version"></param>
 		public void SaveVersionFile(Dictionary<string, AssetBundleInfoEntity> dic)
@@ -73,9 +73,9 @@ namespace Main
 		}
 		#endregion
 
-		#region GetAssetBundleVersionList ¼ÓÔØ¿ÉĞ´Çø×ÊÔ´°üĞÅÏ¢
+		#region GetAssetBundleVersionList åŠ è½½å¯å†™åŒºèµ„æºåŒ…ä¿¡æ¯
 		/// <summary>
-		/// ¼ÓÔØ¿ÉĞ´Çø×ÊÔ´°üĞÅÏ¢
+		/// åŠ è½½å¯å†™åŒºèµ„æºåŒ…ä¿¡æ¯
 		/// </summary>
 		/// <param name="version"></param>
 		/// <returns></returns>

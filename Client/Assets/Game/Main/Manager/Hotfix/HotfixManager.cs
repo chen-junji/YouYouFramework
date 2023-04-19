@@ -1,4 +1,5 @@
 using HybridCLR;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,64 +10,79 @@ namespace Main
     {
         private static AssetBundle hotfixAb;
 
-        public void Init()
+        public HotfixManager()
         {
-            //ÕâÀï·ÀÖ¹ÈÈ¸ü¹¤³ÌÕÒ²»µ½AOT¹¤³ÌµÄÀà
+            //è¿™é‡Œé˜²æ­¢çƒ­æ›´å·¥ç¨‹æ‰¾ä¸åˆ°AOTå·¥ç¨‹çš„ç±»
             System.Data.AcceptRejectRule acceptRejectRule = System.Data.AcceptRejectRule.None;
             System.Net.WebSockets.WebSocketReceiveResult webSocketReceiveResult = null;
-
+        }
+        public void Init()
+        {
             MainEntry.ResourceManager.CheckVersionComplete = () =>
             {
-                MainEntry.Download.BeginDownloadSingle(YFConstDefine.HotfixAssetBundlePath, onComplete: (string fileUrl) =>
+                //ä¸‹è½½å¹¶åŠ è½½çƒ­æ›´ç¨‹åºé›†
+                CheckAndDownload(YFConstDefine.HotfixAssetBundlePath, (string fileUrl) =>
                 {
-                    Debug.LogError(fileUrl);
-
-                    //¼ÓÔØÈÈ¸ü³ÌĞò¼¯
                     hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, fileUrl));
                     LoadMetadataForAOTAssemblies();
-
 #if !UNITY_EDITOR
                     System.Reflection.Assembly.Load(hotfixAb.LoadAsset<TextAsset>("Assembly-CSharp.dll.bytes").bytes);
+                    MainEntry.Log(MainEntry.LogCategory.Resource, "Assembly-CSharp.dllåŠ è½½å®Œæ¯•");
 #endif
 
-                    MainEntry.Download.BeginDownloadSingle(YFConstDefine.GameEntryAssetBundlePath, onComplete: (string fileUrl) =>
+                    //ä¸‹è½½å¹¶åŠ è½½GameEntry
+                    CheckAndDownload(YFConstDefine.GameEntryAssetBundlePath, (string fileUrl) =>
                     {
-                        Debug.LogError(fileUrl);
-
                         AssetBundle prefabAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, fileUrl));
-                        Object.Instantiate(prefabAb.LoadAsset<GameObject>("gameentry.prefab"));
+                        UnityEngine.Object.Instantiate(prefabAb.LoadAsset<GameObject>("gameentry.prefab"));
                     });
 
                 });
             };
 
+            //è·å–CDNçš„AssetInfoä¿¡æ¯
             MainEntry.ResourceManager.InitStreamingAssetsBundleInfo();
 
         }
 
+        private void CheckAndDownload(string url, Action<string> onComplete)
+        {
+            bool isUpdate = MainEntry.ResourceManager.CheckVersionChangeSingle(url);
+            if (isUpdate)
+            {
+                MainEntry.Log(MainEntry.LogCategory.Resource, "èµ„æºæ²¡å˜åŒ–, ä¸ç”¨é‡æ–°ä¸‹è½½, url==" + url);
+                MainEntry.Download.BeginDownloadSingle(url, onComplete: onComplete);
+            }
+            else
+            {
+                MainEntry.Log(MainEntry.LogCategory.Resource, "èµ„æºæœ‰æ›´æ–°, é‡æ–°ä¸‹è½½, url==" + url);
+                onComplete?.Invoke(url);
+            }
+        }
+
         /// <summary>
-        /// Îªaot assembly¼ÓÔØÔ­Ê¼metadata£¬ Õâ¸ö´úÂë·Åaot»òÕßÈÈ¸üĞÂ¶¼ĞĞ¡£
-        /// Ò»µ©¼ÓÔØºó£¬Èç¹ûAOT·ºĞÍº¯Êı¶ÔÓ¦nativeÊµÏÖ²»´æÔÚ£¬Ôò×Ô¶¯Ìæ»»Îª½âÊÍÄ£Ê½Ö´ĞĞ
+        /// ä¸ºaot assemblyåŠ è½½åŸå§‹metadataï¼Œ è¿™ä¸ªä»£ç æ”¾aotæˆ–è€…çƒ­æ›´æ–°éƒ½è¡Œã€‚
+        /// ä¸€æ—¦åŠ è½½åï¼Œå¦‚æœAOTæ³›å‹å‡½æ•°å¯¹åº”nativeå®ç°ä¸å­˜åœ¨ï¼Œåˆ™è‡ªåŠ¨æ›¿æ¢ä¸ºè§£é‡Šæ¨¡å¼æ‰§è¡Œ
         /// </summary>
         private static void LoadMetadataForAOTAssemblies()
         {
             List<string> aotMetaAssemblyFiles = new List<string>()
-        {
-            "mscorlib.dll",
-            "System.dll",
-            "System.Core.dll",
-        };
-            /// ×¢Òâ£¬²¹³äÔªÊı¾İÊÇ¸øAOT dll²¹³äÔªÊı¾İ£¬¶ø²»ÊÇ¸øÈÈ¸üĞÂdll²¹³äÔªÊı¾İ¡£
-            /// ÈÈ¸üĞÂdll²»È±ÔªÊı¾İ£¬²»ĞèÒª²¹³ä£¬Èç¹ûµ÷ÓÃLoadMetadataForAOTAssembly»á·µ»Ø´íÎó
+            {
+                "mscorlib.dll",
+                "System.dll",
+                "System.Core.dll",
+            };
+            /// æ³¨æ„ï¼Œè¡¥å……å…ƒæ•°æ®æ˜¯ç»™AOT dllè¡¥å……å…ƒæ•°æ®ï¼Œè€Œä¸æ˜¯ç»™çƒ­æ›´æ–°dllè¡¥å……å…ƒæ•°æ®ã€‚
+            /// çƒ­æ›´æ–°dllä¸ç¼ºå…ƒæ•°æ®ï¼Œä¸éœ€è¦è¡¥å……ï¼Œå¦‚æœè°ƒç”¨LoadMetadataForAOTAssemblyä¼šè¿”å›é”™è¯¯
             /// 
             HomologousImageMode mode = HomologousImageMode.SuperSet;
             foreach (var aotDllName in aotMetaAssemblyFiles)
             {
                 byte[] dllBytes = hotfixAb.LoadAsset<TextAsset>(aotDllName + ".bytes").bytes;
-                // ¼ÓÔØassembly¶ÔÓ¦µÄdll£¬»á×Ô¶¯ÎªËühook¡£Ò»µ©aot·ºĞÍº¯ÊıµÄnativeº¯Êı²»´æÔÚ£¬ÓÃ½âÊÍÆ÷°æ±¾´úÂë
+                // åŠ è½½assemblyå¯¹åº”çš„dllï¼Œä¼šè‡ªåŠ¨ä¸ºå®ƒhookã€‚ä¸€æ—¦aotæ³›å‹å‡½æ•°çš„nativeå‡½æ•°ä¸å­˜åœ¨ï¼Œç”¨è§£é‡Šå™¨ç‰ˆæœ¬ä»£ç 
                 LoadImageErrorCode err = RuntimeApi.LoadMetadataForAOTAssembly(dllBytes, mode);
-                Debug.Log($"LoadMetadataForAOTAssembly:{aotDllName}. mode:{mode} ret:{err}");
             }
+            MainEntry.Log(MainEntry.LogCategory.Resource, "è¡¥å……å…ƒæ•°æ®DllåŠ è½½å®Œæ¯•==" + aotMetaAssemblyFiles.ToJson());
         }
     }
 }

@@ -6,7 +6,7 @@ YouYou Framework 是一个开源的客户端游戏框架（基于Unity3d）.<br>
 YouYouServer服务端框架, 现已独立到另外仓库, 支持单客户端使用或双端同时使用<br>
 
 
- **原作者: 搜狐畅游-饭饭**<br>
+ **原作者: 搜狐畅游程序开发专家-饭饭**<br>
  **框架开源迭代: Chen** 
  
 在最新的 YouYou Framework 版本中, 包含以下内置模块. 
