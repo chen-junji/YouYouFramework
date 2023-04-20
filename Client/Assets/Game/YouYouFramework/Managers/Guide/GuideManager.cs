@@ -35,7 +35,7 @@ public class GuideManager
     public GuideState CurrentState { get; private set; }       //当前处于哪个状态
 
     public event Action<GuideState, GuideState> OnStateChange;
-    
+
     /// <summary>
     /// 触发下一步
     /// </summary>
@@ -120,7 +120,7 @@ public class GuideManager
         //主界面, 对话
         GuideGroup.AddGuide(2, () =>
         {
-            GameEntry.Audio.PlayBGM("BGM");
+            GameEntry.Audio.PlayBGM(BGMName.BGM);
             GameEntry.Log(LogCategory.Guide, "播放BGM-HOLLOW");
             GuideUtil.ShowOrNextHollow();
         });

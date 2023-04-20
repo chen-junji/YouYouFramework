@@ -9,11 +9,12 @@ public class TestAudio : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.A))
         {
-            GameEntry.Audio.PlayBGM(AudioConst.BGM);
+            GameEntry.Audio.PlayBGM(BGMName.BGM);
         }
+
         if (Input.GetKeyUp(KeyCode.S))
         {
-            GameEntry.Audio.PlayAudio(AudioConst.button_sound);
+            GameEntry.Audio.PlayAudio(AudioName.button_sound);
         }
     }
 }

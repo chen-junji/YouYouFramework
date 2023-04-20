@@ -17,7 +17,6 @@ namespace YouYou
         public Sys_PrefabDBModel Sys_PrefabDBModel { get; private set; }
         public Sys_UIFormDBModel Sys_UIFormDBModel { get; private set; }
         public Sys_SceneDBModel Sys_SceneDBModel { get; private set; }
-        public Sys_AudioDBModel Sys_AudioDBModel { get; private set; }
 
 
         /// <summary>
@@ -34,8 +33,6 @@ namespace YouYou
             Sys_UIFormDBModel.LoadData(m_TaskGroup);
             Sys_SceneDBModel = new Sys_SceneDBModel();
             Sys_SceneDBModel.LoadData(m_TaskGroup);
-            Sys_AudioDBModel = new Sys_AudioDBModel();
-            Sys_AudioDBModel.LoadData(m_TaskGroup);
 
             m_TaskGroup.OnComplete = OnLoadDataTableComplete;
             m_TaskGroup.Run(true);
@@ -71,7 +68,7 @@ namespace YouYou
 #if EDITORLOAD
             GameEntry.Time.Yield(() =>
             {
-                byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/Download/DataTable/{1}.bytes", GameEntry.Resource.LocalFilePath, dataTableName));
+                byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/Game/Download/DataTable/{1}.bytes", MainEntry.ResourceManager.LocalFilePath, dataTableName));
                 if (onComplete != null) onComplete(buffer);
             });
 #elif RESOURCES

@@ -31,6 +31,7 @@ namespace YouYou
         Guide,
         UI,
         Audio,
+        Scene,
 
         /// <summary>
         /// 张三(程序员姓名)

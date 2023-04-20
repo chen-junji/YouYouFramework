@@ -18,6 +18,16 @@ namespace Main
         }
         public void Init()
         {
+#if EDITORLOAD
+            GameObject gameEntry = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/Download/Common/GameEntry.prefab");
+            UnityEngine.Object.Instantiate(gameEntry);
+            return;
+#elif RESOURCES
+            GameObject gameEntry = Resources.Load<GameObject>("Common/GameEntry.prefab");
+            UnityEngine.Object.Instantiate(gameEntry);
+            return;
+#endif
+
             MainEntry.ResourceManager.CheckVersionComplete = () =>
             {
                 //下载并加载热更程序集

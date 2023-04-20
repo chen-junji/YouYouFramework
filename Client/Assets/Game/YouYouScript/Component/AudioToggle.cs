@@ -12,26 +12,26 @@ namespace YouYou
     {
         [SerializeField] private bool IsOffPlay;
 
-        [SerializeField] private string[] AudioId = new string[] { };
-        private string id;
+        [SerializeField] private AudioName[] AudioNames = new AudioName[] { };
+        private AudioName audioName;
 
         private Toggle m_Toggle;
 
         void Start()
         {
-            if (AudioId.Length == 0)
+            if (AudioNames.Length == 0)
             {
-                id = AudioConst.button_sound;
+                audioName = AudioName.button_sound;
             }
             else
             {
-                id = AudioId[Random.Range(0, AudioId.Length)];
+                audioName = AudioNames[Random.Range(0, AudioNames.Length)];
             }
 
             m_Toggle = GetComponent<Toggle>();
             m_Toggle.onValueChanged.AddListener((isOn) =>
             {
-                if (IsOffPlay || isOn) GameEntry.Audio.PlayAudio(id);
+                if (IsOffPlay || isOn) GameEntry.Audio.PlayAudio(audioName);
             });
         }
     }

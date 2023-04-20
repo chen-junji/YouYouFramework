@@ -47,7 +47,7 @@ namespace YouYou
         internal void LoadAction<T>(string assetFullName, Action<ResourceEntity> onComplete, Action<float> onUpdate) where T : Object
         {
 #if EDITORLOAD && UNITY_EDITOR
-            assetFullName = "Assets/Download/" + assetFullName;
+            assetFullName = "Assets/Game/Download/" + assetFullName;
 
             m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
             m_CurrResourceEntity.IsAssetBundle = false;
@@ -91,7 +91,7 @@ namespace YouYou
         internal ResourceEntity Load(string assetFullName)
         {
 #if EDITORLOAD && UNITY_EDITOR
-            assetFullName = "Assets/Download/" + assetFullName;
+            assetFullName = "Assets/Game/Download/" + assetFullName;
 
             m_CurrResourceEntity = new ResourceEntity();
             m_CurrResourceEntity.IsAssetBundle = false;

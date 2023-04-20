@@ -15,7 +15,7 @@ namespace YouYou
     {
         public AudioSource BGMSource { get; private set; }
 
-        public Sys_AudioEntity CurrBGMEntity;
+        public BGMEntity CurrBGMEntity;
         public float PlayerBGMVolume { get; private set; }
         public float PlayerAudioVolume { get; private set; }
 
@@ -52,7 +52,7 @@ namespace YouYou
         private void RefreshBGM(object userData)
         {
             PlayerBGMVolume = GameEntry.PlayerPrefs.GetFloat(CommonEventId.PlayerBGMVolume);
-            if (CurrBGMEntity != null) BGMSource.volume = CurrBGMEntity.Volume * PlayerBGMVolume;
+            BGMSource.volume = CurrBGMEntity.Volume * PlayerBGMVolume;
         }
 
         private void OnGamePause(object userData)
@@ -67,40 +67,19 @@ namespace YouYou
         #region BGM
         private TimeAction timeActionIn;
         private TimeAction timeActionOut;
-        public void PlayBGM(string audioName)
+
+        public void PlayBGM(BGMName audioName)
         {
-            Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName);
-            if (sys_Audio == null)
-            {
-                Debug.LogError("sys_Audio==null, audioName==" + audioName);
-                return;
-            }
-            if (sys_Audio == CurrBGMEntity)
+            BGMEntity sys_Audio = AudioConst.GetDic(audioName);
+            if (sys_Audio.BGMName == CurrBGMEntity.BGMName)
             {
                 return;
             }
 
             CurrBGMEntity = sys_Audio;
-            PlayBGM(CurrBGMEntity.AssetPath, CurrBGMEntity.IsLoop == 1, CurrBGMEntity.IsFadeIn == 1, CurrBGMEntity.Volume);
-            GameEntry.Log(LogCategory.Audio, CurrBGMEntity.Volume + "PlayBGM");
-        }
-        public void PlayBGM(int audioId)
-        {
-            Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetDic(audioId);
-            if (sys_Audio == null)
-            {
-                Debug.LogError("sys_Audio==null, audioId==" + audioId);
-                return;
-            }
-            CurrBGMEntity = sys_Audio;
-            PlayBGM(CurrBGMEntity.AssetPath, CurrBGMEntity.IsLoop == 1, CurrBGMEntity.IsFadeIn == 1, CurrBGMEntity.Volume);
-            GameEntry.Log(LogCategory.Audio, CurrBGMEntity.Volume + "PlayBGM");
-        }
-        public async void PlayBGM(string assetPath, bool isLoop, bool isFadeIn, float entityVolume)
-        {
-            AudioClip audioClip = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<AudioClip>(assetPath);
-            PlayBGM(audioClip, isLoop, isFadeIn, entityVolume);
-            GameEntry.Log(LogCategory.Audio, CurrBGMEntity.Volume + "PlayBGM");
+            AudioClip audioClip = GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<AudioClip>(CurrBGMEntity.AssetPath);
+            PlayBGM(audioClip, CurrBGMEntity.IsLoop, CurrBGMEntity.IsFadeIn, CurrBGMEntity.Volume);
+            GameEntry.Log(LogCategory.Audio, "PlayBGM, Volume=={0}", CurrBGMEntity.Volume);
         }
         public void PlayBGM(AudioClip audioClip, bool isLoop, bool isFadeIn, float entityVolume)
         {
@@ -146,7 +125,7 @@ namespace YouYou
 
         internal void StopBGM(Action volumeOut = null)
         {
-            if (CurrBGMEntity == null || CurrBGMEntity.IsFadeOut == 0)
+            if (CurrBGMEntity.IsFadeOut == false)
             {
                 BGMSource.Stop();
                 volumeOut?.Invoke();
@@ -202,36 +181,22 @@ namespace YouYou
         {
             PlayAudio2(audioClip, volume, loop, priority);
         }
-        public void PlayAudio(string audioName, Vector3 point)
+        public void PlayAudio(AudioName audioName, Vector3 point)
         {
-            AudioSource helper = GetAudioSource(audioName);
+            AudioEnity sys_Audio = AudioConst.GetAudio(audioName);
+            AudioClip audioClip = GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<AudioClip>(sys_Audio.AssetPath);
+            AudioSource helper = PlayAudio2(audioClip, sys_Audio.Volume, sys_Audio.IsLoop, sys_Audio.Priority);
             if (helper == null) return;
             helper.transform.position = point;
             helper.spatialBlend = 1;
         }
-        public void PlayAudio(string audioName)
+        public void PlayAudio(AudioName audioName)
         {
-            GetAudioSource(audioName);
-        }
-        private AudioSource GetAudioSource(string audioName)
-        {
-            Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName);
-            if (sys_Audio == null)
-            {
-                GameEntry.LogError(LogCategory.Audio, "sys_Audio==null, audioName==" + audioName);
-                return null;
-            }
-
+            AudioEnity sys_Audio = AudioConst.GetAudio(audioName);
             AudioClip audioClip = GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<AudioClip>(sys_Audio.AssetPath);
-            if (audioClip == null)
-            {
-                GameEntry.LogError(LogCategory.Audio, "PlaySound找不到音效,audioName==" + audioName);
-                return null;
-            }
-
-            AudioSource helper = PlayAudio2(audioClip, sys_Audio.Volume, sys_Audio.IsLoop == 1, sys_Audio.Priority);
-            return helper;
+            PlayAudio2(audioClip, sys_Audio.Volume, sys_Audio.IsLoop, sys_Audio.Priority);
         }
+
         private AudioSource PlayAudio2(AudioClip audioClip, float volume = 1, bool loop = false, int priority = 128)
         {
             if (PlayerAudioVolume == 0f) return null;

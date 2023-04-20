@@ -9,8 +9,8 @@ namespace YouYou
     [RequireComponent(typeof(Button))]//脚本依赖
     public class AudioButton : MonoBehaviour
     {
-        [SerializeField] private string[] AudioId = new string[] { };
-        private string id;
+        [SerializeField] private AudioName[] AudioNames = new AudioName[] { };
+        private AudioName audioName;
 
         private Button m_Button;
 
@@ -18,17 +18,17 @@ namespace YouYou
         {
             m_Button = GetComponent<Button>();
 
-            if (AudioId.Length == 0)
+            if (AudioNames.Length == 0)
             {
-                id = AudioConst.button_sound;
+                audioName = AudioName.button_sound;
             }
             else
             {
-                id = AudioId[Random.Range(0, AudioId.Length)];
+                audioName = AudioNames[Random.Range(0, AudioNames.Length)];
             }
             m_Button.onClick.AddListener(() =>
             {
-                GameEntry.Audio.PlayAudio(id);
+                GameEntry.Audio.PlayAudio(audioName);
             });
         }
     }

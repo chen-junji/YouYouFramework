@@ -80,7 +80,7 @@ namespace YouYou
                 if (m_CurrLoadOrUnloadSceneDetailCount == m_CurrSceneDetailList.Count)
                 {
                     GC.Collect();
-                    GameEntry.Log(LogCategory.Framework, "场景加载完毕{0}", m_CurrSceneDetailList[0].SceneGroup);
+                    GameEntry.Log(LogCategory.Scene, "场景加载完毕=={0}", m_CurrSceneDetailList.ToJson());
 
                     m_CurrLoadOrUnloadSceneDetailCount = 0;
                     m_CurrSceneIsLoading = false;
