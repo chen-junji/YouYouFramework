@@ -7,6 +7,9 @@ public class TestScene : MonoBehaviour
 {
     async void Update()
     {
-        await GameEntry.Scene.LoadScene(CommonConst.Main);
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            await GameEntry.Scene.LoadScene(SceneGroupName.Main);
+        }
     }
 }

@@ -15,10 +15,12 @@ namespace YouYou
     {
         private AsyncOperation m_CurrAsync = null;
 
+        private string SceneName;
+
         /// <summary>
         /// 进度更新
         /// </summary>
-        private Action<int, float> OnProgressUpdate;
+        private Action<string, float> OnProgressUpdate;
 
         /// <summary>
         /// 加载场景完毕
@@ -31,22 +33,18 @@ namespace YouYou
         private Action<SceneLoaderRoutine> OnUnLoadSceneComplete;
 
         /// <summary>
-        /// 场景明细编号
-        /// </summary>
-        private int m_SceneDetailId;
-
-        /// <summary>
         /// 加载场景
         /// </summary>
         /// <param name="sceneDetailId"></param>
         /// <param name="sceneName"></param>
         /// <param name="onProgressUpdate"></param>
         /// <param name="onComplete"></param>
-        public async void LoadScene(int sceneDetailId, string sceneName, Action<int, float> onProgressUpdate, Action<SceneLoaderRoutine> onLoadSceneComplete)
+        public async void LoadScene(string sceneName, Action<string, float> onProgressUpdate, Action<SceneLoaderRoutine> onLoadSceneComplete)
         {
             Reset();
 
-            m_SceneDetailId = sceneDetailId;
+            SceneName = sceneName;
+
             OnProgressUpdate = onProgressUpdate;
             OnLoadSceneComplete = onLoadSceneComplete;
 
@@ -95,14 +93,14 @@ namespace YouYou
             {
                 if (m_CurrAsync.progress >= 0.9f)
                 {
-                    OnProgressUpdate?.Invoke(m_SceneDetailId, m_CurrAsync.progress);
+                    OnProgressUpdate?.Invoke(SceneName, m_CurrAsync.progress);
                     m_CurrAsync.allowSceneActivation = true;
                     m_CurrAsync = null;
                     OnLoadSceneComplete?.Invoke(this);
                 }
                 else
                 {
-                    OnProgressUpdate?.Invoke(m_SceneDetailId, m_CurrAsync.progress);
+                    OnProgressUpdate?.Invoke(SceneName, m_CurrAsync.progress);
                 }
             }
             else

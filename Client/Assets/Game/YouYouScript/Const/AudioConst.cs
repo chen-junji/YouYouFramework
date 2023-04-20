@@ -84,6 +84,7 @@ public struct AudioEnity
 
 public enum BGMName : uint
 {
+    None,
     BGM,
 }
 public enum AudioName : uint

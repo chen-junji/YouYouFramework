@@ -19,6 +19,11 @@ namespace YouYou
         internal override void OnEnter()
         {
             base.OnEnter();
+            //初始化配置代码
+            AudioConst audioConst = new AudioConst();
+            PrefabConst prefabConst = new PrefabConst();
+            SceneConst sceneConst = new SceneConst();
+
             //初始画质设置
             GameEntry.Quality.SetQuality((QualityManager.Quality)GameEntry.PlayerPrefs.GetInt(CommonEventId.QualityLevel));
             GameEntry.Quality.SetScreen((QualityManager.ScreenLevel)GameEntry.PlayerPrefs.GetInt(CommonEventId.Screen));

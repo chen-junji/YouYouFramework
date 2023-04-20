@@ -15,7 +15,6 @@ namespace YouYou
 
         public LocalizationDBModel LocalizationDBModel { get; private set; }
         public Sys_UIFormDBModel Sys_UIFormDBModel { get; private set; }
-        public Sys_SceneDBModel Sys_SceneDBModel { get; private set; }
 
 
         /// <summary>
@@ -28,8 +27,6 @@ namespace YouYou
             LocalizationDBModel.LoadData(m_TaskGroup);
             Sys_UIFormDBModel = new Sys_UIFormDBModel();
             Sys_UIFormDBModel.LoadData(m_TaskGroup);
-            Sys_SceneDBModel = new Sys_SceneDBModel();
-            Sys_SceneDBModel.LoadData(m_TaskGroup);
 
             m_TaskGroup.OnComplete = OnLoadDataTableComplete;
             m_TaskGroup.Run(true);
