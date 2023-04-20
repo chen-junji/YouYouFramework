@@ -14,7 +14,6 @@ namespace YouYou
 
 
         public LocalizationDBModel LocalizationDBModel { get; private set; }
-        public Sys_PrefabDBModel Sys_PrefabDBModel { get; private set; }
         public Sys_UIFormDBModel Sys_UIFormDBModel { get; private set; }
         public Sys_SceneDBModel Sys_SceneDBModel { get; private set; }
 
@@ -27,8 +26,6 @@ namespace YouYou
             TaskGroup m_TaskGroup = GameEntry.Task.CreateTaskGroup();
             LocalizationDBModel = new LocalizationDBModel();
             LocalizationDBModel.LoadData(m_TaskGroup);
-            Sys_PrefabDBModel = new Sys_PrefabDBModel();
-            Sys_PrefabDBModel.LoadData(m_TaskGroup);
             Sys_UIFormDBModel = new Sys_UIFormDBModel();
             Sys_UIFormDBModel.LoadData(m_TaskGroup);
             Sys_SceneDBModel = new Sys_SceneDBModel();

@@ -9,7 +9,7 @@ public class TestPool : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.A))
         {
-            await GameEntry.Pool.GameObjectPool.Spawn("RoleCtrl");
+            await GameEntry.Pool.GameObjectPool.Spawn(PrefabName.zhujiao_cike_animation);
         }
     }
 }

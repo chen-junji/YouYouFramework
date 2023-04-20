@@ -106,7 +106,7 @@ namespace YouYou
         /// <summary>
         /// 从对象池中获取对象
         /// </summary>
-        public async ETTask<PoolObj> Spawn(string prefabName, Transform panent = null)
+        public async ETTask<PoolObj> Spawn(PrefabName prefabName, Transform panent = null)
         {
             ETTask<PoolObj> task = ETTask<PoolObj>.Create();
             SpawnAction(prefabName, panent, trans => task.SetResult(trans));
@@ -118,17 +118,12 @@ namespace YouYou
             SpawnAction(prefab, panent, onComplete: trans => task.SetResult(trans));
             return await task;
         }
-        public void SpawnAction(string prefabName, Transform panent = null, Action<PoolObj> onComplete = null)
+        public void SpawnAction(PrefabName prefabName, Transform panent = null, Action<PoolObj> onComplete = null)
         {
-            Sys_PrefabEntity sys_PrefabEntity = GameEntry.DataTable.Sys_PrefabDBModel.GetEntityByName(prefabName);
-            if (sys_PrefabEntity == null)
-            {
-                YouYou.GameEntry.LogError(LogCategory.Resource, "sys_PrefabEntity == null, prefabName==" + prefabName);
-                return;
-            }
+            PrefabEntity sys_PrefabEntity = PrefabConst.GetDic(prefabName);
             SpawnAction(sys_PrefabEntity, panent, onComplete);
         }
-        public async void SpawnAction(Sys_PrefabEntity entity, Transform panent = null, Action<PoolObj> onComplete = null)
+        public async void SpawnAction(PrefabEntity entity, Transform panent = null, Action<PoolObj> onComplete = null)
         {
             ResourceEntity resourceEntity = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync(entity.AssetPath);
             GameObject retObj = resourceEntity.Target as GameObject;
@@ -142,7 +137,7 @@ namespace YouYou
             int prefabId = prefab.gameObject.GetInstanceID();
             m_PrefabResourceDic[prefabId] = resourceEntity;
 
-            SpawnAction(prefab, panent, entity.PoolId, entity.CullDespawned == 1, entity.CullAbove, entity.CullDelay, entity.CullMaxPerPass, onComplete);
+            SpawnAction(prefab, panent, entity.PoolId, entity.CullDespawned, entity.CullAbove, entity.CullDelay, entity.CullMaxPerPass, onComplete);
         }
         public void SpawnAction(Transform prefab, Transform panent = null, byte poolId = 1, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0, Action<PoolObj> onComplete = null)
         {
