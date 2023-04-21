@@ -57,16 +57,16 @@ namespace Main
 
         private void CheckAndDownload(string url, Action<string> onComplete)
         {
-            bool isUpdate = MainEntry.ResourceManager.CheckVersionChangeSingle(url);
-            if (isUpdate)
+            bool isEquals = MainEntry.ResourceManager.CheckVersionChangeSingle(url);
+            if (isEquals)
             {
                 MainEntry.Log(MainEntry.LogCategory.Resource, "资源没变化, 不用重新下载, url==" + url);
-                MainEntry.Download.BeginDownloadSingle(url, onComplete: onComplete);
+                onComplete?.Invoke(url);
             }
             else
             {
                 MainEntry.Log(MainEntry.LogCategory.Resource, "资源有更新, 重新下载, url==" + url);
-                onComplete?.Invoke(url);
+                MainEntry.Download.BeginDownloadSingle(url, onComplete: onComplete);
             }
         }
 
