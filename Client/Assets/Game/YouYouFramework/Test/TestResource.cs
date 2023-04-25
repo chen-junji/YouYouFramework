@@ -6,7 +6,7 @@ using YouYou;
 
 public class TestResource : MonoBehaviour
 {
-    void Update()
+    async void Update()
     {
         if (Input.GetKeyUp(KeyCode.A))
         {
@@ -16,6 +16,11 @@ public class TestResource : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.S))
         {
             AssetBundle testObj = GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle("Role/RoleSources/cike/zhujiao_cike_animation.assetbundle");
+            Debug.LogError(testObj);
+        }
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+            GameObject testObj = await GameEntry.Resource.ResourceLoaderManager.LoadMainAssetAsync<GameObject>("Role/RoleSources/cike/zhujiao_cike_animation.prefab");
             Debug.LogError(testObj);
         }
     }

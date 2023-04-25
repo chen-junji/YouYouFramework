@@ -117,6 +117,7 @@ namespace YouYou
                     {
                         AssetDependsEntity assetDepends = new AssetDependsEntity();
                         assetDepends.AssetFullName = ms.ReadUTF8String();
+                        assetDepends.AssetBundleName = ms.ReadUTF8String();
                         entity.DependsAssetList.Add(assetDepends);
                     }
                 }
@@ -145,86 +146,54 @@ namespace YouYou
         #endregion
 
         #region LoadAssetBundle 加载资源包
-        public class LoadingAssetBundleTask
-        {
-            public Action<float> OnUpdate;
-            public Action<AssetBundle> OnComplete;
-        }
         /// <summary>
         /// 加载中的Bundle
         /// </summary>
-        private Dictionary<string, LinkedList<LoadingAssetBundleTask>> m_LoadingAssetBundle = new Dictionary<string, LinkedList<LoadingAssetBundleTask>>();
-
+        private TaskGroup AssetBundleTaskGroup = new TaskGroup();
         /// <summary>
         /// 加载资源包
         /// </summary>
-        public void LoadAssetBundleAsync(string assetbundlePath, Action<float> onUpdate = null, Action<AssetBundle> onComplete = null)
+        public void LoadAssetBundleAction(string assetbundlePath, Action<float> onUpdate = null, Action<AssetBundle> onComplete = null)
         {
-            //1.判断资源包是否存在于AssetBundlePool
-            ResourceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
-            if (assetBundleEntity != null)
+            //使用TaskGroup, 加入异步加载队列, 防止高并发导致的重复加载
+            AssetBundleTaskGroup.AddTask((taskRoutine) =>
             {
-                //GameEntry.Log("资源包在资源池中存在 从资源池中加载AssetBundle");
-                onComplete?.Invoke(assetBundleEntity.Target as AssetBundle);
-                return;
-            }
-
-            //2.判断Bundle是否加载到一半,防止高并发导致重复加载
-            LoadingAssetBundleTask task = GameEntry.Pool.DequeueClassObject<LoadingAssetBundleTask>();
-            task.OnUpdate = onUpdate;
-            task.OnComplete = onComplete;
-
-            LinkedList<LoadingAssetBundleTask> lst = null;
-            if (m_LoadingAssetBundle.TryGetValue(assetbundlePath, out lst))
-            {
-                //如果Bundle已经在加载中, 把委托加入对应的链表 然后直接return;
-                lst.AddLast(task);
-                return;
-            }
-            else
-            {
-                //如果Bundle还没有开始加载, 把委托加入对应的链表 然后开始加载
-                lst = GameEntry.Pool.DequeueClassObject<LinkedList<LoadingAssetBundleTask>>();
-                lst.AddLast(task);
-                m_LoadingAssetBundle[assetbundlePath] = lst;
-            }
-
-            AssetBundleLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<AssetBundleLoaderRoutine>();
-            if (routine == null) routine = new AssetBundleLoaderRoutine();
-
-            //加入链表开始Update()
-            m_AssetBundleLoaderList.AddLast(routine);
-            //资源包加载 监听回调
-            routine.OnAssetBundleCreateUpdate = (progress) =>
-            {
-                for (LinkedListNode<LoadingAssetBundleTask> curr = lst.First; curr != null; curr = curr.Next)
+                //1.判断资源包是否存在于AssetBundlePool
+                ResourceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
+                if (assetBundleEntity != null)
                 {
-                    curr.Value.OnUpdate?.Invoke(progress);
+                    //GameEntry.Log("资源包在资源池中存在 从资源池中加载AssetBundle");
+                    taskRoutine.Leave();
+                    onComplete?.Invoke(assetBundleEntity.Target as AssetBundle);
+                    return;
                 }
-            };
-            routine.OnLoadAssetBundleComplete = (AssetBundle assetbundle) =>
-            {
-                //资源包注册到资源池
-                assetBundleEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
-                assetBundleEntity.ResourceName = assetbundlePath;
-                assetBundleEntity.IsAssetBundle = true;
-                assetBundleEntity.Target = assetbundle;
-                GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
 
-                //结束循环 回池
-                for (LinkedListNode<LoadingAssetBundleTask> curr = lst.First; curr != null; curr = curr.Next)
+                AssetBundleLoaderRoutine loadRoutine = GameEntry.Pool.DequeueClassObject<AssetBundleLoaderRoutine>();
+                if (loadRoutine == null) loadRoutine = new AssetBundleLoaderRoutine();
+
+                //加入链表开始Update()
+                m_AssetBundleLoaderList.AddLast(loadRoutine);
+                //资源包加载 监听回调
+                loadRoutine.OnAssetBundleCreateUpdate = onUpdate;
+                loadRoutine.OnLoadAssetBundleComplete = (AssetBundle assetbundle) =>
                 {
-                    curr.Value.OnComplete?.Invoke(assetBundleEntity.Target as AssetBundle);
-                    GameEntry.Pool.EnqueueClassObject(curr.Value);
-                }
-                lst.Clear();//资源加载完毕后必须清空
-                GameEntry.Pool.EnqueueClassObject(lst);
-                m_LoadingAssetBundle.Remove(assetbundlePath);//从加载中的Bundle的Dic 移除
-                m_AssetBundleLoaderList.Remove(routine);
-                GameEntry.Pool.EnqueueClassObject(routine);
-            };
-            //加载资源包
-            routine.LoadAssetBundleAsync(assetbundlePath);
+                    //资源包注册到资源池
+                    assetBundleEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
+                    assetBundleEntity.ResourceName = assetbundlePath;
+                    assetBundleEntity.IsAssetBundle = true;
+                    assetBundleEntity.Target = assetbundle;
+                    GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
+
+                    taskRoutine.Leave();
+                    onComplete?.Invoke(assetBundleEntity.Target as AssetBundle);
+
+                    m_AssetBundleLoaderList.Remove(loadRoutine);
+                    GameEntry.Pool.EnqueueClassObject(loadRoutine);
+                };
+                //加载资源包
+                loadRoutine.LoadAssetBundleAsync(assetbundlePath);
+            });
+            AssetBundleTaskGroup.Run();
         }
         public AssetBundle LoadAssetBundle(string assetbundlePath)
         {
@@ -258,58 +227,38 @@ namespace YouYou
         /// <summary>
         /// 加载中的Asset
         /// </summary>
-        private Dictionary<string, LinkedList<Action<Object, bool>>> m_LoadingAsset = new Dictionary<string, LinkedList<Action<Object, bool>>>();
+        private TaskGroup AssetTaskGroup = new TaskGroup();
         /// <summary>
         /// 异步加载
         /// </summary>
-        public void LoadAssetAsync(string assetName, AssetBundle assetBundle, Action<float> onUpdate = null, Action<Object, bool> onComplete = null)
+        public void LoadAssetAction(string assetName, AssetBundle assetBundle, Action<float> onUpdate = null, Action<Object> onComplete = null)
         {
-            //GameEntry.Log(assetName + "===========================================================");
-            //1.判断Asset是否加载到一半,防止高并发导致重复加载
-            LinkedList<Action<UnityEngine.Object, bool>> lst = null;
-            if (m_LoadingAsset.TryGetValue(assetName, out lst))
+            //使用TaskGroup, 加入异步加载队列, 防止高并发导致的重复加载
+            AssetTaskGroup.AddTask((taskRoutine) =>
             {
-                //如果Asset已经在加载中, 把委托加入对应的链表 然后直接return;
-                lst.AddLast(onComplete);
-                return;
-            }
-            else
-            {
-                //如果Asset还没有开始加载, 把委托加入对应的链表 然后开始加载
-                lst = GameEntry.Pool.DequeueClassObject<LinkedList<Action<Object, bool>>>();
-                lst.AddLast(onComplete);
-                m_LoadingAsset[assetName] = lst;
-            }
+                AssetLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<AssetLoaderRoutine>();
+                if (routine == null) routine = new AssetLoaderRoutine();
 
+                //加入链表开始循环
+                m_AssetLoaderList.AddLast(routine);
 
-            AssetLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<AssetLoaderRoutine>();
-            if (routine == null) routine = new AssetLoaderRoutine();
-
-            //加入链表开始循环
-            m_AssetLoaderList.AddLast(routine);
-
-            //资源加载 进行中 回调
-            routine.OnAssetUpdate = onUpdate;
-            //资源加载 结果 回调
-            routine.OnLoadAssetComplete = (Object obj) =>
-            {
-                LinkedListNode<Action<Object, bool>> curr = lst.First;
-                curr.Value?.Invoke(obj, true);
-                for (curr = curr.Next; curr != null; curr = curr.Next)
+                //资源加载 进行中 回调
+                routine.OnAssetUpdate = onUpdate;
+                //资源加载 结果 回调
+                routine.OnLoadAssetComplete = (Object obj) =>
                 {
-                    curr.Value?.Invoke(obj, false);
-                }
-                //资源加载完毕后
-                lst.Clear();//必须清空
-                GameEntry.Pool.EnqueueClassObject(lst);
-                m_LoadingAsset.Remove(assetName);//从加载中的Asset的Dic 移除
+                    taskRoutine.Leave();
+                    onComplete?.Invoke(obj);
 
-                //结束循环 回池
-                m_AssetLoaderList.Remove(routine);
-                GameEntry.Pool.EnqueueClassObject(routine);
-            };
-            //加载资源
-            routine.LoadAssetAsync(assetName, assetBundle);
+                    //结束循环 回池
+                    m_AssetLoaderList.Remove(routine);
+                    GameEntry.Pool.EnqueueClassObject(routine);
+                };
+                //加载资源
+                routine.LoadAssetAsync(assetName, assetBundle);
+            });
+            AssetTaskGroup.Run();
+
         }
         public Object LoadAsset(string assetName, AssetBundle assetBundle)
         {

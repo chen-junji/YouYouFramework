@@ -9,5 +9,6 @@ namespace YouYou
     public class AssetDependsEntity
     {
         public string AssetFullName;
+        public string AssetBundleName;
     }
 }

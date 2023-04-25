@@ -44,7 +44,7 @@ namespace YouYou
         {
             OnLoadDataTableComplete = onComplete;
 #if ASSETBUNDLE
-            GameEntry.Resource.ResourceLoaderManager.LoadAssetBundleAsync(YFConstDefine.DataTableAssetBundlePath, onComplete: (AssetBundle bundle) =>
+            GameEntry.Resource.ResourceLoaderManager.LoadAssetBundleAction(YFConstDefine.DataTableAssetBundlePath, onComplete: (AssetBundle bundle) =>
             {
                 m_DataTableBundle = bundle;
                 LoadDataTable();
@@ -72,7 +72,7 @@ namespace YouYou
 				if (onComplete != null) onComplete(asset.bytes);
 			});
 #else
-            GameEntry.Resource.ResourceLoaderManager.LoadAssetAsync(GameEntry.Resource.GetLastPathName(dataTableName), m_DataTableBundle, onComplete: (UnityEngine.Object obj, bool isNew) =>
+            GameEntry.Resource.ResourceLoaderManager.LoadAssetAction(GameEntry.Resource.GetLastPathName(dataTableName), m_DataTableBundle, onComplete: (UnityEngine.Object obj) =>
             {
                 if (obj == null) return;
                 TextAsset asset = obj as TextAsset;

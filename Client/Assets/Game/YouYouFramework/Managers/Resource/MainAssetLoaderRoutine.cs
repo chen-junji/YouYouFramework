@@ -153,28 +153,20 @@ namespace YouYou
             {
                 foreach (AssetDependsEntity assetDependsEntity in dependsAssetList)
                 {
-                    AssetEntity assetEntity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(assetDependsEntity.AssetFullName);
-                    if (assetEntity != null)
+                    if (!m_DependsAssetBundleNames.Add(assetDependsEntity.AssetBundleName))
                     {
-                        if (!m_DependsAssetBundleNames.Add(assetEntity.AssetBundleName))
-                        {
-                            //避免加载重复依赖文件
-                            GameEntry.LogError(LogCategory.Resource, "有重复依赖文件==" + assetEntity.AssetBundleName);
-                            continue;
-                        }
-                        taskGroup.AddTask((taskRoutine) => GameEntry.Resource.ResourceLoaderManager.LoadAssetBundleAsync(assetEntity.AssetBundleName, onComplete: (bundle) => taskRoutine.Leave()));
+                        //避免加载重复依赖文件
+                        GameEntry.LogError(LogCategory.Resource, "有重复依赖文件==" + assetDependsEntity.AssetBundleName);
+                        continue;
                     }
-                    else
-                    {
-                        YouYou.GameEntry.LogError(LogCategory.Resource, "assetEntity==null, " + assetDependsEntity.AssetFullName);
-                    }
+                    taskGroup.AddTask((taskRoutine) => GameEntry.Resource.ResourceLoaderManager.LoadAssetBundleAction(assetDependsEntity.AssetBundleName, onComplete: (bundle) => taskRoutine.Leave()));
                 }
             }
 
             //加载主资源包
             taskGroup.AddTask((taskRoutine) =>
             {
-                GameEntry.Resource.ResourceLoaderManager.LoadAssetBundleAsync(m_CurrAssetEntity.AssetBundleName, m_OnUpdate, onComplete: (AssetBundle bundle) =>
+                GameEntry.Resource.ResourceLoaderManager.LoadAssetBundleAction(m_CurrAssetEntity.AssetBundleName, m_OnUpdate, onComplete: (AssetBundle bundle) =>
                 {
                     m_MainAssetBundle = bundle;
                     taskRoutine.Leave();
@@ -196,7 +188,7 @@ namespace YouYou
                     return;
                 }
                 //加载主资源
-                GameEntry.Resource.ResourceLoaderManager.LoadAssetAsync(m_CurrAssetEntity.AssetFullName, m_MainAssetBundle, onComplete: (UnityEngine.Object obj, bool isNew) =>
+                GameEntry.Resource.ResourceLoaderManager.LoadAssetAction(m_CurrAssetEntity.AssetFullName, m_MainAssetBundle, onComplete: (Object obj) =>
                 {
                     m_CurrResourceEntity = GameEntry.Pool.AssetPool.Spawn(m_CurrAssetEntity.AssetFullName);
                     if (m_CurrResourceEntity != null)
@@ -239,21 +231,13 @@ namespace YouYou
             {
                 foreach (AssetDependsEntity assetDependsEntity in dependsAssetList)
                 {
-                    AssetEntity assetEntity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(assetDependsEntity.AssetFullName);
-                    if (assetEntity != null)
+                    if (!m_DependsAssetBundleNames.Add(assetDependsEntity.AssetBundleName))
                     {
-                        if (!m_DependsAssetBundleNames.Add(assetEntity.AssetBundleName))
-                        {
-                            //避免加载重复依赖文件
-                            GameEntry.LogError(LogCategory.Resource, "有重复依赖文件==" + assetEntity.AssetBundleName);
-                            continue;
-                        }
-                        GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(assetEntity.AssetBundleName);
+                        //避免加载重复依赖文件
+                        GameEntry.LogError(LogCategory.Resource, "有重复依赖文件==" + assetDependsEntity.AssetBundleName);
+                        continue;
                     }
-                    else
-                    {
-                        GameEntry.LogError(LogCategory.Resource, "assetEntity==null, " + assetDependsEntity.AssetFullName);
-                    }
+                    GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(assetDependsEntity.AssetBundleName);
                 }
             }
 

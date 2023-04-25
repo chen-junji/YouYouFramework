@@ -84,7 +84,7 @@ namespace YouYou
             //加载自定义Shader
             taskGroup.AddTask((taskRoutine) =>
             {
-                GameEntry.Resource.ResourceLoaderManager.LoadAssetBundleAsync(YFConstDefine.CusShadersAssetBundlePath, onComplete: (AssetBundle bundle) =>
+                GameEntry.Resource.ResourceLoaderManager.LoadAssetBundleAction(YFConstDefine.CusShadersAssetBundlePath, onComplete: (AssetBundle bundle) =>
                 {
                     bundle.LoadAllAssets();
                     Shader.WarmupAllShaders();

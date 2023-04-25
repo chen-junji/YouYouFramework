@@ -376,7 +376,7 @@ public class AssetBundleSettings : ScriptableObject
 
         //临时列表
         List<AssetEntity> tempLst = new List<AssetEntity>();
-        HashSet<string> tempHash = new HashSet<string>();
+        Dictionary<string, AssetEntity> tempDic = new Dictionary<string, AssetEntity>();
 
         //循环设置文件夹包括子文件里边的项
         for (int i = 0; i < Datas.Length; i++)
@@ -386,7 +386,7 @@ public class AssetBundleSettings : ScriptableObject
             {
                 string path = Application.dataPath + "/" + assetBundleData.Path[j];
                 //Debug.LogError("CreateDependenciesFile path=" + path);
-                CollectFileInfo(tempLst, tempHash, path);
+                CollectFileInfo(tempLst, tempDic, path);
             }
         }
 
@@ -406,10 +406,11 @@ public class AssetBundleSettings : ScriptableObject
             string[] arr = AssetDatabase.GetDependencies(entity.AssetFullName, true);
             foreach (string str in arr)
             {
-                if (!str.Equals(newEntity.AssetFullName) && !str.IsSuffix(".cs") && tempHash.Contains(str))
+                if (!str.Equals(newEntity.AssetFullName) && !str.IsSuffix(".cs") && tempDic.ContainsKey(str))
                 {
                     AssetDependsEntity assetDepends = new AssetDependsEntity();
                     assetDepends.AssetFullName = str;
+                    assetDepends.AssetBundleName = tempDic[str].AssetBundleName;
 
                     //把依赖资源 加入到依赖资源列表
                     newEntity.DependsAssetList.Add(assetDepends);
@@ -442,6 +443,7 @@ public class AssetBundleSettings : ScriptableObject
                 {
                     AssetDependsEntity assetDepends = entity.DependsAssetList[j];
                     ms.WriteUTF8String(assetDepends.AssetFullName);
+                    ms.WriteUTF8String(assetDepends.AssetBundleName);
                 }
             }
             else
@@ -461,7 +463,7 @@ public class AssetBundleSettings : ScriptableObject
     /// <summary>
     /// 收集文件信息
     /// </summary>
-    private void CollectFileInfo(List<AssetEntity> tempLst, HashSet<string> tempHash, string folderPath)
+    private void CollectFileInfo(List<AssetEntity> tempLst, Dictionary<string, AssetEntity> tempDic, string folderPath)
     {
         DirectoryInfo directory = new DirectoryInfo(folderPath);
         if (directory.Exists == false) return;
@@ -486,7 +488,7 @@ public class AssetBundleSettings : ScriptableObject
 
             entity.AssetBundleName = (GetAssetBundleName(entity.AssetFullName) + ".assetbundle").ToLower();
             tempLst.Add(entity);
-            tempHash.Add(entity.AssetFullName);
+            tempDic.Add(entity.AssetFullName, entity);
         }
     }
     #endregion
