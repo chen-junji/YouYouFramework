@@ -8,23 +8,9 @@ namespace YouYou
 {
     public static class GuideUtil
     {
-        public static FormHollow UIHollow;
         public static void ShowOrNextHollow()
         {
-            if (!UIHollow || !UIHollow.IsActive) UIHollow = GameEntry.UI.OpenUIForm<FormHollow>();
-
-            if (UIHollow.GuideState != GameEntry.Guide.CurrentState)
-            {
-                UIHollow.SetUI(GameEntry.Guide.CurrentState);
-            }
-            else
-            {
-                UIHollow.NextGroup();
-            }
-        }
-        public static void CloseHollow()
-        {
-            if (UIHollow && UIHollow.IsActive) UIHollow.Close();
+            FormHollow.ShowDialog();
         }
 
         /// <summary>

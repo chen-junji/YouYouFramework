@@ -61,7 +61,7 @@ public class FormDialog : UIFormBase
         formDialog.SetUI(message, title, type, okAction, cancelAction);
     }
 
-    public void SetUI(string message = "", string title = "提示", DialogFormType type = DialogFormType.Affirm, Action okAction = null, Action cancelAction = null)
+    private void SetUI(string message = "", string title = "提示", DialogFormType type = DialogFormType.Affirm, Action okAction = null, Action cancelAction = null)
     {
         //窗口内容
         lblTitle.text = title;

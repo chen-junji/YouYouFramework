@@ -71,7 +71,7 @@ public class GuideManager
         if (Main.MainEntry.ParamsSettings.GetGradeParamData("ActiveGuide") == 0) return false;
         if (CurrentState != descGroup) return false;
 
-        GuideUtil.CloseHollow();
+        GameEntry.UI.CloseUIForm<FormHollow>();
         if (OnNextOne != null)
         {
             Action onNextOne = OnNextOne;

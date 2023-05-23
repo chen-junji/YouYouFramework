@@ -47,7 +47,7 @@ namespace YouYou
                 {
                     m_CurrProgress = Mathf.Min(m_CurrProgress + Time.deltaTime * 60, m_TargetProgress);
                 }
-                MainEntry.Data.PreloadUpdate(m_CurrProgress);
+                MainEntry.Data.Dispatch(SysDataMgr.EventName.PRELOAD_UPDATE, m_CurrProgress);
             }
 
             if (m_CurrProgress == 100)

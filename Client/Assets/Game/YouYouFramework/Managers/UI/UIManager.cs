@@ -193,6 +193,7 @@ namespace YouYou
         }
         internal void CloseUIForm(UIBase formBase)
         {
+            if (!formBase.IsActive) return;
             if (!m_OpenUIFormList.Remove(formBase))
             {
                 //YouYou.GameEntry.LogError(formBase + "==已经是关闭状态了");
