@@ -40,10 +40,9 @@ public class FormDialog : UIFormBase
     private Action m_CancelAction;
 
 
-    protected override void OnInit(object userData)
+    protected override void Awake()
     {
-        base.OnInit(userData);
-
+        base.Awake();
         btnOK.onClick.AddListener(() =>
         {
             m_OkAction?.Invoke();

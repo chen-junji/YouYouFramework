@@ -18,12 +18,12 @@ public class FormLoading : UIFormBase
 	private Text txtTip;
 
 
-	protected override void OnInit(object userData)
-	{
-		base.OnInit(userData);
+    protected override void Awake()
+    {
+        base.Awake();
 		MainEntry.Data.AddEventListener(SysDataMgr.EventName.LOADING_SCENE_UPDATE, OnLoadingProgressChange);
 	}
-	private void OnLoadingProgressChange(object userData)
+    private void OnLoadingProgressChange(object userData)
 	{
 		BaseParams baseParams = (BaseParams)userData;
 
@@ -36,19 +36,15 @@ public class FormLoading : UIFormBase
 		m_Scrollbar.size = baseParams.FloatParam1;
 	}
 
-	protected override void OnOpen(object userData)
-	{
-		base.OnOpen(userData);
+    protected override void OnEnable()
+    {
+        base.OnEnable();
 		//txtTip.text = string.Empty;
 		//m_Scrollbar.size = 0;
 	}
-	protected override void OnClose()
-	{
-		base.OnClose();
+    protected override void OnDisable()
+    {
+        base.OnDisable();
 		MainEntry.Data.RemoveEventListener(SysDataMgr.EventName.LOADING_SCENE_UPDATE, OnLoadingProgressChange);
-	}
-	protected override void OnBeforDestroy()
-	{
-		base.OnBeforDestroy();
 	}
 }

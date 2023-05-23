@@ -68,15 +68,5 @@ namespace YouYou
                 GameEntry.Guide.NextGroup(GameEntry.Guide.CurrentState);
             }
         }
-        /// <summary>
-        /// 监听窗口打开, 触发下一步
-        /// </summary>
-        public static void CheckUIOpenNext(UIBase ui)
-        {
-            ui.OnOpenBegin = () =>
-            {
-                GameEntry.Guide.NextGroup(GameEntry.Guide.CurrentState);
-            };
-        }
     }
 }

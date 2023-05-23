@@ -8,23 +8,16 @@ public class UIFormBase : UIBase
     [Header("是否窗口动画")]
     [SerializeField] bool isAnim = false;
 
-    protected override void OnOpen(object userData)
+    protected override void OnEnable()
     {
-        base.OnOpen(userData);
+        base.OnEnable();
 #if UNITY_EDITOR
         transform.SetAsLastSibling();
 #endif
         if (isAnim) AnimOpen();
     }
-    protected override void OnClose()
-    {
-        base.OnClose();
-        if (isAnim) AnimClose();
-    }
     public void AnimOpen()
     {
-    }
-    public void AnimClose()
-    {
+        transform.DoShowScale(0.3f, 1);
     }
 }

@@ -10,37 +10,25 @@ namespace YouYou
     [RequireComponent(typeof(GraphicRaycaster))]//脚本依赖
     public class UIBase : MonoBehaviour
     {
-        /// <summary>
-        /// 是否活跃
-        /// </summary>
-        internal bool IsActive = true;
-
-        public Sys_UIFormEntity SysUIForm { get; private set; }
-
-        /// <summary>
-        /// 当前画布
-        /// </summary>
-        public Canvas CurrCanvas { get; private set; }
-
-        /// <summary>
-        /// 关闭时间
-        /// </summary>
-        public float CloseTime { get; private set; }
-
-        /// <summary>
-        /// 用户数据
-        /// </summary>
-        public object UserData { get; private set; }
-
         [Header("UI特效分组")]
         [SerializeField] public List<UIEffectGroup> UIEffectGroups = new List<UIEffectGroup>();
         [Header("初始播放的特效")]
         [SerializeField] List<ParticleSystem> effectOnOpenPlay = new List<ParticleSystem>();
 
-        public Action OnOpenBegin;
+        public Sys_UIFormEntity SysUIForm { get; private set; }
+
+        public Canvas CurrCanvas { get; private set; }
+
+        public float CloseTime { get; private set; }
+
+        //打开时调用
+        public static Action ActionOpen;
 
         //反切时调用
         public Action OnBack;
+
+        //是否活跃
+        internal bool IsActive = true;
 
 
         protected virtual void Awake()
@@ -53,10 +41,6 @@ namespace YouYou
         }
         protected virtual void Start()
         {
-            OnInit(UserData);
-            OnShow();//在没有调用Start之前不能调用OnShow, 否则会先调用OnInit再调用OnShow, 导致报Null
-            Open(UserData);
-
             GameEntry.Time.Yield(() =>
             {
                 Button[] buttons = GetComponentsInChildren<Button>(true);
@@ -68,24 +52,28 @@ namespace YouYou
                 }
             });
         }
+        protected virtual void OnDisable()
+        {
+
+        }
         protected virtual void OnDestroy()
         {
-            OnBeforDestroy();
         }
 
-        internal void Init(Sys_UIFormEntity sysUIForm, object userData)
+        public void Close()
+        {
+            GameEntry.UI.CloseUIForm(this);
+        }
+
+        internal void Init(Sys_UIFormEntity sysUIForm)
         {
             SysUIForm = sysUIForm;
-            UserData = userData;
-            OnLoadComplete();
         }
-
-        internal void Open(object userData)
+        internal void ToOpen()
         {
-            UserData = userData;
-
             //先设置UI层级
-            if (SysUIForm != null && SysUIForm.DisableUILayer != 1) GameEntry.UI.UILayer.SetSortingOrder(this, true);
+            if (SysUIForm.DisableUILayer != 1) GameEntry.UI.UILayer.SetSortingOrder(this, true);
+
             //再根据UI层级, 设置特效层级
             for (int i = 0; i < UIEffectGroups.Count; i++)
             {
@@ -104,47 +92,22 @@ namespace YouYou
             //播放设定的初始特效
             effectOnOpenPlay.ForEach(x => x.Play());
 
-            if (OnOpenBegin != null)
+            if (ActionOpen != null)
             {
-                Action onOpenBegin = OnOpenBegin;
-                OnOpenBegin = null;
+                Action onOpenBegin = ActionOpen;
+                ActionOpen = null;
                 onOpenBegin();
             }
-            OnOpen(UserData);
-        }
-
-        public void Close()
-        {
-            GameEntry.UI.CloseUIForm(this);
         }
         internal void ToClose()
         {
-            if (SysUIForm != null && SysUIForm.DisableUILayer != 1)
-            {
-                //进行层级管理 减少层级
-                GameEntry.UI.UILayer.SetSortingOrder(this, false);
-            }
-
-            OnClose();
+            //进行层级管理 减少层级
+            if (SysUIForm.DisableUILayer != 1) GameEntry.UI.UILayer.SetSortingOrder(this, false);
 
             CloseTime = Time.time;
             GameEntry.UI.HideUI(this);
             GameEntry.UI.UIPool.EnQueue(this);
         }
 
-        //初始化, 最早调用, 克隆时调用一次
-        protected virtual void OnInit(object userData) { }
-        //打开, 第二调用, 克隆和对象池取出时调用(反切时不会调)
-        protected virtual void OnOpen(object userData) { }
-        //关闭, 对象回池时, 调用(反切时不会调)
-        protected virtual void OnClose() { }
-        //销毁, 对象池销毁该对象时, 调用一次
-        protected virtual void OnBeforDestroy() { }
-        //任何情况下 显示 都会调用
-        internal virtual void OnShow() { }
-        //任何情况下 隐藏 都会调用
-        internal virtual void OnHide() { }
-        //加载完毕后调用
-        internal virtual void OnLoadComplete() { }
     }
 }

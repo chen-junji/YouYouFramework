@@ -102,7 +102,7 @@ namespace YouYou
                 m_OpenUIFormList.AddLast(formBase);
                 CheckReverseChange(sys_UIForm, formBase, true);
 
-                formBase.Open(userData);
+                formBase.ToOpen();
                 return formBase as T;
             }
 
@@ -123,7 +123,8 @@ namespace YouYou
 
             CheckReverseChange(sys_UIForm, formBase, true);
 
-            formBase.Init(sys_UIForm, userData);
+            formBase.Init(sys_UIForm);
+            formBase.ToOpen();
 
             return formBase as T;
         }
@@ -154,8 +155,12 @@ namespace YouYou
                     if (m_ReverseChangeUIList.Count > 0)
                     {
                         UIBase topForms = m_ReverseChangeUIList.First.Value;
-                        topForms.OnBack?.Invoke();
-                        topForms.OnBack = null;
+                        if (topForms.OnBack != null)
+                        {
+                            Action onBack = topForms.OnBack;
+                            topForms.OnBack = null;
+                            onBack();
+                        }
                         GameEntry.UI.ShowUI(topForms);
                     }
                 }
@@ -275,7 +280,6 @@ namespace YouYou
             //GameEntry.Log("ShowUI==" + uiFormBase);
             uiFormBase.IsActive = true;
             uiFormBase.gameObject.SetActive(true);
-            uiFormBase.OnShow();
         }
         /// <summary>
         /// 隐藏/冻结一个UI
@@ -285,7 +289,6 @@ namespace YouYou
             //GameEntry.Log("HideUI==" + uiFormBase);
             uiFormBase.IsActive = false;
             uiFormBase.gameObject.SetActive(false);
-            uiFormBase.OnHide();
         }
         #endregion
 
