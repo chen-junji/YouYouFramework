@@ -1,3 +1,4 @@
+using Main;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -105,7 +106,7 @@ namespace YouYou
             Target = null;
 
             DependsResourceList.Clear(); //把自己依赖的资源实体清空
-            GameEntry.Pool.EnqueueClassObject(this); //把这个资源实体回池
+            MainEntry.ClassObjectPool.Enqueue(this); //把这个资源实体回池
         }
     }
 }

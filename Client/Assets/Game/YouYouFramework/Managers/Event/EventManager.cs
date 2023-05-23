@@ -1,3 +1,4 @@
+using Main;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,5 +22,27 @@ namespace YouYou
 		{
 			Common = new CommonEvent();
 		}
-	}
+
+        public void Dispatch(EventName key)
+        {
+            Common.Dispatch(key.ToString());
+        }
+        public void Dispatch(EventName key, object userData)
+        {
+            Common.Dispatch(key.ToString(), userData);
+        }
+
+        public void AddEventListener(EventName key, CommonEvent.OnActionHandler handler)
+        {
+            Common.AddEventListener(key.ToString(), handler);
+        }
+        public void RemoveEventListener(EventName key, CommonEvent.OnActionHandler handler)
+        {
+            Common.RemoveEventListener(key.ToString(), handler);
+        }
+        public void RemoveEventListenerAll(EventName key)
+        {
+            Common.RemoveEventListenerAll(key.ToString());
+        }
+    }
 }

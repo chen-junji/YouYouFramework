@@ -1,0 +1,41 @@
+using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using UnityEngine;
+using UnityEngine.Playables;
+
+namespace YouYou
+{
+    [System.Serializable]
+    public class PlaySoundEventArgs
+    {
+        /// <summary>
+        /// 目标点
+        /// </summary>
+        [Header("目标点")]
+        public DynamicTarget Target;
+
+        /// <summary>
+        /// 声音文件
+        /// </summary>
+        [Header("声音文件")]
+        public AudioClip AudioClip;
+    }
+    public class PlaySoundPlayable : BasePlayableAsset<PlaySoundPlayableBehaviour, PlaySoundEventArgs>
+    {
+    }
+    public class PlaySoundPlayableBehaviour : BasePlayableBehaviour<PlaySoundEventArgs>
+    {
+        protected override void OnYouYouBehaviourPlay(Playable playable, FrameData info)
+        {
+            if (CurrArgs.Target == DynamicTarget.OurOne)
+            {
+                GameEntry.Audio.PlayAudio(CurrArgs.AudioClip, CurrTimelineCtrl.RoleCtrl.transform.position);
+            }
+        }
+
+        protected override void OnYouYouBehaviourStop(Playable playable, FrameData info)
+        {
+
+        }
+    }
+}

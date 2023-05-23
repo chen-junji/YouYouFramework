@@ -25,9 +25,7 @@ public partial class Sys_PrefabDBModel : DataTableDBModelBase<Sys_PrefabDBModel,
         {
             Sys_PrefabEntity entity = new Sys_PrefabEntity();
             entity.Id = ms.ReadInt();
-            entity.Name = ms.ReadUTF8String();
             entity.AssetPath = ms.ReadUTF8String();
-            entity.Suffix = ms.ReadUTF8String();
             entity.PoolId = (byte)ms.ReadByte();
             entity.CullDespawned = (byte)ms.ReadByte();
             entity.CullAbove = ms.ReadInt();

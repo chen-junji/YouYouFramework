@@ -24,14 +24,14 @@ MonoBehaviour:
     IsFirstData: 0
     IsEncrypt: 0
     Path:
-    - Game/Download/Audio
+    - Game/Download/Sound
   - Name: "\u81EA\u5B9A\u4E49Shader"
     IsCanEditor: 1
     Overall: 1
     IsFirstData: 1
-    IsEncrypt: 1
+    IsEncrypt: 0
     Path:
-    - Game/Download/CusShaders
+    - Game/Download/Shader
   - Name: "\u6570\u636E\u8868"
     IsCanEditor: 1
     Overall: 1
@@ -39,68 +39,33 @@ MonoBehaviour:
     IsEncrypt: 1
     Path:
     - Game/Download/DataTable
-  - Name: "\u7279\u6548"
+  - Name: "\u9884\u5236\u4F53"
+    IsCanEditor: 1
+    Overall: 1
+    IsFirstData: 1
+    IsEncrypt: 0
+    Path:
+    - Game/Download/Prefab
+  - Name: "\u8D44\u6E90"
     IsCanEditor: 1
     Overall: 0
     IsFirstData: 0
     IsEncrypt: 0
     Path:
-    - Game/Download/Effect
-  - Name: "\u89D2\u8272"
-    IsCanEditor: 1
-    Overall: 0
-    IsFirstData: 0
-    IsEncrypt: 0
-    Path:
-    - Game/Download/Role
-  - Name: "\u521D\u59CB\u573A\u666F"
+    - Game/Download/Res/Font
+    - Game/Download/Res/RoleSources
+    - Game/Download/Res/UIRes
+  - Name: "\u573A\u666F"
     IsCanEditor: 1
     Overall: 0
     IsFirstData: 1
     IsEncrypt: 0
     Path:
     - Game/Download/Scenes
-  - Name: "UI\u9884\u5236\u4F53"
-    IsCanEditor: 1
-    Overall: 1
-    IsFirstData: 1
-    IsEncrypt: 0
-    Path:
-    - Game/Download/UI/UIPrefab
-  - Name: "UI\u5B57\u4F53"
-    IsCanEditor: 1
-    Overall: 1
-    IsFirstData: 1
-    IsEncrypt: 0
-    Path:
-    - Game/Download/UI/UIFont
-  - Name: "UI\u56FE\u96C6"
-    IsCanEditor: 1
-    Overall: 1
-    IsFirstData: 1
-    IsEncrypt: 0
-    Path:
-    - Game/Download/UI/UIRes/Common
-    - Game/Download/UI/UIRes/Frame
-    - Game/Download/UI/UIRes/TitleBar
-  - Name: "UILoading\u5927\u56FE"
-    IsCanEditor: 1
-    Overall: 0
-    IsFirstData: 1
-    IsEncrypt: 0
-    Path:
-    - Game/Download/UI/UIRes/Loading
-  - Name: "ILRuntime\u7A0B\u5E8F\u96C6"
+  - Name: "Hotfix\u7A0B\u5E8F\u96C6"
     IsCanEditor: 1
     Overall: 1
     IsFirstData: 1
     IsEncrypt: 0
     Path:
     - Game/Download/Hotfix
-  - Name: "\u901A\u7528\u6587\u4EF6\u5939"
-    IsCanEditor: 1
-    Overall: 0
-    IsFirstData: 1
-    IsEncrypt: 0
-    Path:
-    - Game/Download/Common

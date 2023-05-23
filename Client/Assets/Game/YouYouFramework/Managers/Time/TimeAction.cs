@@ -128,7 +128,11 @@ namespace YouYou
         {
             if (!IsStart)
             {
-                if (OnStartAction != null && (OnStartAction.Target == null || OnStartAction.Target.ToString() == "null")) return;
+                if (OnStartAction != null && (OnStartAction.Target == null || OnStartAction.Target.ToString() == "null"))
+                {
+                    GameEntry.LogError(LogCategory.Framework, "TimeAction.OnStartAction.Target==null");
+                    return;
+                }
                 OnStartAction?.Invoke();
             }
             else
@@ -138,13 +142,22 @@ namespace YouYou
             IsStart = true;
 
             //以下代码 间隔m_Interval 时间 执行一次
-            if (OnUpdateAction != null && (OnUpdateAction.Target == null || OnUpdateAction.Target.ToString() == "null")) return;
+
+            if (OnUpdateAction != null && (OnUpdateAction.Target == null || OnUpdateAction.Target.ToString() == "null"))
+            {
+                GameEntry.LogError(LogCategory.Framework, "TimeAction.OnUpdateAction.Target==null");
+                return;
+            }
             OnUpdateAction?.Invoke(m_Loop - m_CurrLoop);
             if (m_Loop != -1)
             {
                 if (m_CurrLoop >= m_Loop)
                 {
-                    if (OnCompleteAction != null && (OnCompleteAction.Target == null || OnCompleteAction.Target.ToString() == "null")) return;
+                    if (OnCompleteAction != null && (OnCompleteAction.Target == null || OnCompleteAction.Target.ToString() == "null"))
+                    {
+                        GameEntry.LogError(LogCategory.Framework, "TimeAction.OnCompleteAction.Target==null");
+                        return;
+                    }
                     OnCompleteAction?.Invoke();
                     return;
                 }

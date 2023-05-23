@@ -9,7 +9,7 @@ public class TestProcedure : MonoBehaviour
     {
 		if (Input.GetKeyUp(KeyCode.A))
 		{
-			GameEntry.Procedure.ChangeState(ProcedureState.Game);
+			GameEntry.Procedure.ChangeState(ProcedureState.None);
 		}
 	}
 }

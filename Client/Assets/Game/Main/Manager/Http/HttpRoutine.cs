@@ -119,7 +119,7 @@ namespace Main
                     //web加密
                     m_Dic["deviceIdentifier"] = DeviceUtil.DeviceIdentifier;
                     m_Dic["deviceModel"] = DeviceUtil.DeviceModel;
-                    long t = MainEntry.SysData.CurrServerTime;
+                    long t = MainEntry.Data.CurrServerTime;
                     m_Dic["sign"] = EncryptUtil.Md5(string.Format("{0}:{1}", t, DeviceUtil.DeviceIdentifier));
                     m_Dic["t"] = t;
 
@@ -156,9 +156,9 @@ namespace Main
             else
             {
                 //报错了 进行重试
-                if (m_CurrRetry > 0) yield return new WaitForSeconds(MainEntry.SysData.HttpRetryInterval);
+                if (m_CurrRetry > 0) yield return new WaitForSeconds(MainEntry.HttpRetryInterval);
                 m_CurrRetry++;
-                if (m_CurrRetry <= MainEntry.SysData.HttpRetry)
+                if (m_CurrRetry <= MainEntry.HttpRetry)
                 {
                     switch (data.method)
                     {

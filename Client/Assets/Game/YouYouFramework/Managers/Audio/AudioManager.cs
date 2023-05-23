@@ -15,7 +15,7 @@ namespace YouYou
     {
         public AudioSource BGMSource { get; private set; }
 
-        public BGMEntity CurrBGMEntity;
+        public Sys_BGMEntity CurrBGMEntity;
         public float PlayerBGMVolume { get; private set; }
         public float PlayerAudioVolume { get; private set; }
 
@@ -37,9 +37,9 @@ namespace YouYou
             BGMSource.loop = true;
             BGMSource.name = "BGMSource";
 
-            GameEntry.Event.Common.AddEventListener(CommonEventId.PlayerBGMVolume, RefreshBGM);
-            GameEntry.Event.Common.AddEventListener(CommonEventId.PlayerAudioVolume, RefreshAudio);
-            GameEntry.Event.Common.AddEventListener(CommonEventId.GamePause, OnGamePause);
+            GameEntry.Data.PlayerPrefsDataMgr.AddEventListener(PlayerPrefsDataMgr.EventName.PlayerBGMVolume, RefreshBGM);
+            GameEntry.Data.PlayerPrefsDataMgr.AddEventListener(PlayerPrefsDataMgr.EventName.PlayerAudioVolume, RefreshAudio);
+            GameEntry.Data.PlayerPrefsDataMgr.AddEventListener(PlayerPrefsDataMgr.EventName.GamePause, OnGamePause);
 
             RefreshBGM(null);
             RefreshAudio(null);
@@ -47,12 +47,12 @@ namespace YouYou
 
         private void RefreshAudio(object userData)
         {
-            PlayerAudioVolume = GameEntry.PlayerPrefs.GetFloat(CommonEventId.PlayerAudioVolume);
+            PlayerAudioVolume = GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.PlayerAudioVolume);
         }
         private void RefreshBGM(object userData)
         {
-            PlayerBGMVolume = GameEntry.PlayerPrefs.GetFloat(CommonEventId.PlayerBGMVolume);
-            BGMSource.volume = CurrBGMEntity.Volume * PlayerBGMVolume;
+            PlayerBGMVolume = GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.PlayerBGMVolume);
+            if (CurrBGMEntity != null) BGMSource.volume = CurrBGMEntity.Volume * PlayerBGMVolume;
         }
 
         private void OnGamePause(object userData)
@@ -70,15 +70,15 @@ namespace YouYou
 
         public void PlayBGM(BGMName audioName)
         {
-            BGMEntity sys_Audio = AudioConst.GetDic(audioName);
-            if (sys_Audio.BGMName == CurrBGMEntity.BGMName)
+            Sys_BGMEntity entity = GameEntry.DataTable.Sys_BGMDBModel.GetEntity(audioName.ToString());
+            if (CurrBGMEntity != null && CurrBGMEntity.AssetPath == entity.AssetPath)
             {
                 return;
             }
 
-            CurrBGMEntity = sys_Audio;
-            AudioClip audioClip = GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<AudioClip>(CurrBGMEntity.AssetPath);
-            PlayBGM(audioClip, CurrBGMEntity.IsLoop, CurrBGMEntity.IsFadeIn, CurrBGMEntity.Volume);
+            CurrBGMEntity = entity;
+            AudioClip audioClip = GameEntry.Resource.LoadMainAsset<AudioClip>(CurrBGMEntity.AssetPath);
+            PlayBGM(audioClip, CurrBGMEntity.IsLoop == 1, CurrBGMEntity.IsFadeIn == 1, CurrBGMEntity.Volume);
             GameEntry.Log(LogCategory.Audio, "PlayBGM, Volume=={0}", CurrBGMEntity.Volume);
         }
         public void PlayBGM(AudioClip audioClip, bool isLoop, bool isFadeIn, float entityVolume)
@@ -125,7 +125,7 @@ namespace YouYou
 
         internal void StopBGM(Action volumeOut = null)
         {
-            if (CurrBGMEntity.IsFadeOut == false)
+            if (CurrBGMEntity.IsFadeOut == 0)
             {
                 BGMSource.Stop();
                 volumeOut?.Invoke();
@@ -173,7 +173,11 @@ namespace YouYou
         public void PlayAudio(AudioClip audioClip, Vector3 point, float volume = 1, bool loop = false, int priority = 128)
         {
             AudioSource audioSource = PlayAudio2(audioClip, volume, loop, priority);
-            if (audioSource == null) return;
+            if (audioSource == null)
+            {
+                Debug.LogError("audioSource==null");
+                return;
+            }
             audioSource.transform.position = point;
             audioSource.spatialBlend = 1;
         }
@@ -183,23 +187,27 @@ namespace YouYou
         }
         public void PlayAudio(AudioName audioName, Vector3 point)
         {
-            AudioEnity sys_Audio = AudioConst.GetAudio(audioName);
-            AudioClip audioClip = GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<AudioClip>(sys_Audio.AssetPath);
-            AudioSource helper = PlayAudio2(audioClip, sys_Audio.Volume, sys_Audio.IsLoop, sys_Audio.Priority);
+            Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName.ToString());
+            AudioClip audioClip = GameEntry.Resource.LoadMainAsset<AudioClip>(sys_Audio.AssetPath);
+            AudioSource helper = PlayAudio2(audioClip, sys_Audio.Volume, sys_Audio.IsLoop == 1, sys_Audio.Priority);
             if (helper == null) return;
             helper.transform.position = point;
             helper.spatialBlend = 1;
         }
         public void PlayAudio(AudioName audioName)
         {
-            AudioEnity sys_Audio = AudioConst.GetAudio(audioName);
-            AudioClip audioClip = GameEntry.Resource.ResourceLoaderManager.LoadMainAsset<AudioClip>(sys_Audio.AssetPath);
-            PlayAudio2(audioClip, sys_Audio.Volume, sys_Audio.IsLoop, sys_Audio.Priority);
+            Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName.ToString());
+            AudioClip audioClip = GameEntry.Resource.LoadMainAsset<AudioClip>(sys_Audio.AssetPath);
+            PlayAudio2(audioClip, sys_Audio.Volume, sys_Audio.IsLoop == 1, sys_Audio.Priority);
         }
 
         private AudioSource PlayAudio2(AudioClip audioClip, float volume = 1, bool loop = false, int priority = 128)
         {
-            if (PlayerAudioVolume == 0f) return null;
+            if (PlayerAudioVolume == 0f)
+            {
+                Debug.LogError("PlayerAudioVolume==0, 播放无效");
+                return null;
+            }
 
             AudioSource helper = Dequeue();
             AudioSourceList.Add(helper);

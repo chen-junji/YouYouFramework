@@ -15,24 +15,22 @@ namespace YouYou
             {
                 Sys_UIFormEntity entity = m_List[i];
 
-                string path = string.Empty;
                 switch (GameEntry.CurrLanguage)
                 {
                     case YouYouLanguage.Chinese:
-                        path = entity.AssetPath_Chinese;
+                        entity.AssetFullName = entity.AssetPath_Chinese;
                         break;
                     case YouYouLanguage.English:
-                        path = string.IsNullOrWhiteSpace(entity.AssetPath_English) ? entity.AssetPath_Chinese : entity.AssetPath_English;
+                        entity.AssetFullName = string.IsNullOrWhiteSpace(entity.AssetPath_English) ? entity.AssetPath_Chinese : entity.AssetPath_English;
                         break;
                 }
-                entity.AssetFullName = string.Format("UI/UIPrefab/{0}.prefab", path).ToString();
-                string[] strs = path.Split('/');
+                string[] strs = entity.AssetFullName.Split('.')[0].Split('/');
                 if (strs.Length >= 1)
                 {
                     string str = strs[strs.Length - 1];
                     if (NameByDic.ContainsKey(str))
                     {
-                        GameEntry.LogError(LogCategory.Framework, "UIForm名称有重复! ==" + str);
+                        GameEntry.LogError(LogCategory.Framework, "名称有重复! ==" + str);
                     }
                     else
                     {
@@ -42,15 +40,14 @@ namespace YouYou
             }
         }
 
-        public int GetIdByName(string name)
+        public Sys_UIFormEntity GetEntity(string name)
         {
             if (NameByDic.ContainsKey(name))
             {
-                return NameByDic[name].Id;
+                return NameByDic[name];
             }
-            YouYou.GameEntry.LogError(LogCategory.Framework, "没有找到Prefab, name==" + name);
-
-            return -1;
+            YouYou.GameEntry.LogError(LogCategory.Framework, "没有找到资源, Name==" + name);
+            return null;
         }
     }
 }

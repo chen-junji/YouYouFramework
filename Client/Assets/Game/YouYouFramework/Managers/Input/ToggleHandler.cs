@@ -7,7 +7,7 @@ using YouYou;
 [RequireComponent(typeof(Toggle))]
 public class ToggleHandler : MonoBehaviour
 {
-    [SerializeField] string Name;
+    [SerializeField] InputName Name;
 
     private Toggle toggle;
 
@@ -26,10 +26,5 @@ public class ToggleHandler : MonoBehaviour
                 GameEntry.Input.SetButtonUp(Name);
             }
         });
-    }
-    void Update()
-    {
-        if (GameEntry.Input.GetButtonDown(ConstInput.Aim)) toggle.SetIsOnWithoutNotify(true);
-        if (GameEntry.Input.GetButtonUp(ConstInput.Aim)) toggle.SetIsOnWithoutNotify(false);
     }
 }

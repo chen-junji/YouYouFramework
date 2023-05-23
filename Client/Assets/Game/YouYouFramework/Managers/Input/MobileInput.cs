@@ -12,7 +12,7 @@ namespace YouYou
             Cursor.visible = true;
         }
 
-        private void CheckAddAxes(string name)
+        private void CheckAddAxes(InputName name)
         {
             if (!m_VirtualAxes.ContainsKey(name))
             {
@@ -21,28 +21,28 @@ namespace YouYou
             }
         }
 
-        public override float GetAxis(string name, bool raw)
+        public override float GetAxis(InputName name, bool raw)
         {
             CheckAddAxes(name);
             return m_VirtualAxes[name].GetValue;
         }
 
-        public override void SetAxisPositive(string name)
+        public override void SetAxisPositive(InputName name)
         {
             CheckAddAxes(name);
             m_VirtualAxes[name].Update(1f);
         }
-        public override void SetAxisNegative(string name)
+        public override void SetAxisNegative(InputName name)
         {
             CheckAddAxes(name);
             m_VirtualAxes[name].Update(-1f);
         }
-        public override void SetAxisZero(string name)
+        public override void SetAxisZero(InputName name)
         {
             CheckAddAxes(name);
             m_VirtualAxes[name].Update(0f);
         }
-        public override void SetAxis(string name, float value)
+        public override void SetAxis(InputName name, float value)
         {
             CheckAddAxes(name);
             m_VirtualAxes[name].Update(value);

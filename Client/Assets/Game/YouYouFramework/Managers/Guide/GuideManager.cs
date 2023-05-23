@@ -29,9 +29,6 @@ public enum GuideState
 /// </summary>
 public class GuideManager
 {
-    //单机或联网
-    public bool b_native = false;
-
     public GuideState CurrentState { get; private set; }       //当前处于哪个状态
 
     public event Action<GuideState, GuideState> OnStateChange;
@@ -55,7 +52,7 @@ public class GuideManager
         {
             //只触发一次的引导
             case GuideState.Battle1:
-                if (GetNextNetState() != state) return false;
+                if (GameEntry.Data.GuideDataMgr.NextGuide != state) return false;
                 break;
 
             //每次引导结束
@@ -71,7 +68,6 @@ public class GuideManager
 
     public bool NextGroup(GuideState descGroup)
     {
-        //if (GameEntry.ParamsSettings.GetGradeParamData("EditorGuide") == 0 && Application.installMode == ApplicationInstallMode.Editor) return false;
         if (Main.MainEntry.ParamsSettings.GetGradeParamData("ActiveGuide") == 0) return false;
         if (CurrentState != descGroup) return false;
 
@@ -87,45 +83,45 @@ public class GuideManager
         return true;
     }
 
-    /// <summary>
-    ///当一个完成后的逻辑 By Sixalloy
-    /// </summary>
-    public void GuideCompleteOne(GuideState currentState)
-    {
-        GameEntry.Log(LogCategory.Guide, "GuideCompleteOne:");
-
-        //只能保存后面的引导
-        if (currentState >= GetNextNetState())
-        {
-            GameEntry.PlayerPrefs.Data.GuideEntity.GuideCompleteOne(currentState);
-            //这里可以网络存档
-            GameEntry.Log(LogCategory.Guide, "GuideCompleteOne:" + currentState.ToString() + currentState.ToInt());
-        }
-    }
-
-    private GuideState GetNextNetState()
-    {
-        if (b_native) return GameEntry.PlayerPrefs.Data.GuideEntity.CurrGuide + 1;
-        return GameEntry.PlayerPrefs.Data.GuideEntity.CurrGuide + 1;//这里可以网络存档
-    }
-
 
     #region 条件触发判断
-    //第一关局外
+    //第一关 新手引导
     public void EnterBattle1()
     {
         if (!GameEntry.Guide.OnStateEnter(GuideState.Battle1)) return;
 
         GuideGroup = new GuideGroup();
-        //主界面, 对话
-        GuideGroup.AddGuide(2, () =>
+        GuideGroup.AddGuide(() =>
         {
-            GameEntry.Audio.PlayBGM(BGMName.BGM);
-            GameEntry.Log(LogCategory.Guide, "播放BGM-HOLLOW");
+            //穿透点击按钮, 触发下一步
             GuideUtil.ShowOrNextHollow();
         });
-        GuideGroup.Run();
-
+        GuideGroup.AddGuide(() =>
+        {
+            //点击全屏遮罩, 触发下一步
+            GuideUtil.ShowOrNextHollow();
+        });
+        GuideGroup.AddGuide(() =>
+        {
+            //监听按钮点击, 触发下一步
+            Button button = null;
+            GuideUtil.CheckBtnNext(button);
+        });
+        GuideGroup.AddGuide(() =>
+        {
+            //监听开关打开, 触发下一步
+            Toggle toggle = null;
+            GuideUtil.CheckToggleNext(toggle);
+        });
+        GuideGroup.AddGuide(() =>
+        {
+            //监听事件 触发下一步
+            GuideUtil.CheckEventNext("EventName");
+        });
+        GuideGroup.Run(()=>
+        {
+            GameEntry.Data.GuideDataMgr.GuideCompleteOne(CurrentState);
+        });
     }
     #endregion
 

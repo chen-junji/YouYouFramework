@@ -7,19 +7,9 @@ using System.Collections;
 public partial class Sys_PrefabEntity : DataTableEntityBase
 {
     /// <summary>
-    /// Name
-    /// </summary>
-    public string Name;
-
-    /// <summary>
     /// 路径
     /// </summary>
     public string AssetPath;
-
-    /// <summary>
-    /// 后缀
-    /// </summary>
-    public string Suffix;
 
     /// <summary>
     /// 对象池编号

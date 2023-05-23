@@ -18,13 +18,13 @@ public class TapEngine
 
     public void Init()
     {
-        GameEntry.PlayerPrefs.SetBoolHas(CommonEventId.IsShake, true);
-        GameEntry.Event.Common.AddEventListener(CommonEventId.IsShake, RefreshIsShake);
+        GameEntry.Data.PlayerPrefsDataMgr.SetBoolHas(PlayerPrefsDataMgr.EventName.IsShake, true);
+        GameEntry.Data.PlayerPrefsDataMgr.AddEventListener(PlayerPrefsDataMgr.EventName.IsShake, RefreshIsShake);
         RefreshIsShake(null);
     }
     private void RefreshIsShake(object p)
     {
-        IsShake = GameEntry.PlayerPrefs.GetBool(CommonEventId.IsShake);
+        IsShake = GameEntry.Data.PlayerPrefsDataMgr.GetBool(PlayerPrefsDataMgr.EventName.IsShake);
     }
 
     #region 苹果

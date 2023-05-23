@@ -1,4 +1,4 @@
-using DG.Tweening;
+//using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +20,7 @@ namespace YouYou
             m_Button = GetComponent<Button>();
             m_Button.onClick.AddListener(() =>
             {
-                transform.DOScale(BegScale * 0.9f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(BegScale * 1.1f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(BegScale, 0.05f).SetUpdate(true)));
+                //transform.DOScale(BegScale * 0.9f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(BegScale * 1.1f, 0.05f).SetUpdate(true).OnComplete(() => transform.DOScale(BegScale, 0.05f).SetUpdate(true)));
             });
         }
     }

@@ -1,4 +1,3 @@
-using DG.Tweening;
 using Main;
 using System.Collections;
 using System.Collections.Generic;
@@ -95,7 +94,7 @@ namespace YouYou
 
         internal void Release(string uiFormName)
         {
-            int uiFormId = GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName);
+            int uiFormId = GameEntry.DataTable.Sys_UIFormDBModel.GetEntity(uiFormName).Id;
             for (LinkedListNode<UIBase> curr = m_UIFormList.First; curr != null; curr = curr.Next)
             {
                 if (curr.Value.SysUIForm.Id == uiFormId)

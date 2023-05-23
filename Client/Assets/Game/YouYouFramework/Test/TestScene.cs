@@ -7,7 +7,7 @@ public class TestScene : MonoBehaviour
 {
     async void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyUp(KeyCode.A))
         {
             await GameEntry.Scene.LoadScene(SceneGroupName.Main);
         }

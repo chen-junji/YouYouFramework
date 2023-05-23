@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 using System;
 using Object = UnityEngine.Object;
 
@@ -87,21 +86,17 @@ namespace YouYou
         }
         public T OpenUIForm<T>(string uiFormName, object userData = null) where T : UIBase
         {
-            return OpenUIForm<T>(GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName), userData);
-        }
-        public T OpenUIForm<T>(int uiFormId, object userData = null) where T : UIBase
-        {
             //1,读表
-            Sys_UIFormEntity sys_UIForm = GameEntry.DataTable.Sys_UIFormDBModel.GetDic(uiFormId);
+            Sys_UIFormEntity sys_UIForm = GameEntry.DataTable.Sys_UIFormDBModel.GetEntity(uiFormName);
             if (sys_UIForm == null) return null;
-            if (sys_UIForm.CanMulit == 0 && IsExists(uiFormId))
+            if (sys_UIForm.CanMulit == 0 && IsExists(sys_UIForm.Id))
             {
-                GameEntry.LogError(LogCategory.Framework, "不重复打开同一个UI窗口==" + uiFormId + "  " + sys_UIForm.AssetPath_Chinese);
+                GameEntry.LogError(LogCategory.Framework, "不重复打开同一个UI窗口==" + sys_UIForm.Id + "  " + sys_UIForm.AssetFullName);
                 return null;
             }
 
             //从对象池里面取
-            UIBase formBase = UIPool.Dequeue(uiFormId);
+            UIBase formBase = UIPool.Dequeue(sys_UIForm.Id);
             if (formBase != null)
             {
                 m_OpenUIFormList.AddLast(formBase);
@@ -112,7 +107,7 @@ namespace YouYou
             }
 
             //对象池没有, 克隆新的
-            ResourceEntity resourceEntity = GameEntry.Resource.ResourceLoaderManager.LoadMainAsset(sys_UIForm.AssetFullName);
+            ResourceEntity resourceEntity = GameEntry.Resource.LoadMainAsset(sys_UIForm.AssetFullName);
             GameObject uiObj = Object.Instantiate((GameObject)resourceEntity.Target, GameEntry.UI.GetUIGroup(sys_UIForm.UIGroupId).Group);
             GameEntry.Pool.RegisterInstanceResource(uiObj.GetInstanceID(), resourceEntity);
 
@@ -212,7 +207,7 @@ namespace YouYou
         }
         public void CloseUIForm(string uiFormName)
         {
-            CloseUIForm(GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName));
+            CloseUIForm(GameEntry.DataTable.Sys_UIFormDBModel.GetEntity(uiFormName).Id);
         }
         /// <summary>
         /// 关闭所有"Default"组的UI窗口
@@ -238,7 +233,7 @@ namespace YouYou
         /// </summary>
         public void Release(string uiFormName)
         {
-            int uiFormId = GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName);
+            int uiFormId = GameEntry.DataTable.Sys_UIFormDBModel.GetEntity(uiFormName).Id;
             for (LinkedListNode<UIBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
             {
                 if (curr.Value.SysUIForm.Id == uiFormId)
@@ -296,7 +291,7 @@ namespace YouYou
 
         public T GetUIForm<T>(string uiFormName) where T : UIBase
         {
-            int uiFormId = GameEntry.DataTable.Sys_UIFormDBModel.GetIdByName(uiFormName);
+            int uiFormId = GameEntry.DataTable.Sys_UIFormDBModel.GetEntity(uiFormName).Id;
             //先看看已打开的窗口有没有
             for (LinkedListNode<UIBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
             {

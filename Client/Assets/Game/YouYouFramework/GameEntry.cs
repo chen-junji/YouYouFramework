@@ -31,6 +31,7 @@ namespace YouYou
         [Header("根画布的缩放")]
         [SerializeField]
         public CanvasScaler UIRootCanvasScaler;
+        public RectTransform UIRootRectTransform { get; private set; }
 
         [FoldoutGroup("UIGroup")]
         [Header("UI分组")]
@@ -54,11 +55,10 @@ namespace YouYou
         public static DataTableManager DataTable { get; private set; }
         public static HttpManager Http { get; private set; }
         public static DataManager Data { get; private set; }
-        public static PlayerPrefsManager PlayerPrefs { get; private set; }
         public static LocalizationManager Localization { get; private set; }
         public static PoolManager Pool { get; private set; }
         public static YouYouSceneManager Scene { get; private set; }
-        public static AddressableManager Resource { get; private set; }
+        public static ResourceLoaderManager Resource { get; private set; }
         public static UIManager UI { get; private set; }
         public static AudioManager Audio { get; private set; }
         public static CrossPlatformInputManager Input { get; private set; }
@@ -77,6 +77,8 @@ namespace YouYou
             Log(LogCategory.Procedure, "GameEntry.OnAwake()");
             Instance = this;
 
+            UIRootRectTransform = UIRootCanvasScaler.GetComponent<RectTransform>();
+
             CurrLanguage = m_CurrLanguage;
         }
         private void Start()
@@ -91,11 +93,10 @@ namespace YouYou
             DataTable = new DataTableManager();
             Http = new HttpManager();
             Data = new DataManager();
-            PlayerPrefs = new PlayerPrefsManager();
             Localization = new LocalizationManager();
             Pool = new PoolManager();
             Scene = new YouYouSceneManager();
-            Resource = new AddressableManager();
+            Resource = new ResourceLoaderManager();
             UI = new UIManager();
             Audio = new AudioManager();
             Input = new CrossPlatformInputManager();
@@ -107,7 +108,7 @@ namespace YouYou
             Procedure.Init();
             DataTable.Init();
             Http.Init();
-            PlayerPrefs.Init();
+            Data.Init();
             Localization.Init();
             Pool.Init();
             Scene.Init();
@@ -133,14 +134,14 @@ namespace YouYou
         }
         private void OnApplicationQuit()
         {
+            Data.SaveDataAll();
             Logger.SyncLog();
             Logger.Dispose();
             Fsm.Dispose();
-            PlayerPrefs.Dispose();
         }
         private void OnApplicationPause(bool pause)
         {
-            if (pause) PlayerPrefs.SaveDataAll();
+            if (pause) Data.SaveDataAll();
         }
 
 

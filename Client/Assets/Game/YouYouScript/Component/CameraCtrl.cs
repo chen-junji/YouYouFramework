@@ -1,196 +1,166 @@
 using UnityEngine;
 using System.Collections;
-using DG.Tweening;
+//using DG.Tweening;
 using YouYou;
 
 /// <summary>
 /// 摄像机控制器
 /// </summary>
-public class CameraCtrl : MonoBehaviour
+public class CameraCtrl : SingletonMono<CameraCtrl>
 {
-	/// <summary>
-	/// 控制摄像机上下
-	/// </summary>
-	[SerializeField]
-	private Transform m_CameraUpAndDown;
+    /// <summary>
+    /// 控制摄像机上下
+    /// </summary>
+    [SerializeField]
+    private Transform m_CameraUpAndDown;
 
-	/// <summary>
-	/// 摄像机缩放父物体
-	/// </summary>
-	[SerializeField]
-	private Transform m_CameraZoomContainer;
+    /// <summary>
+    /// 摄像机缩放父物体
+    /// </summary>
+    [SerializeField]
+    private Transform m_CameraZoomContainer;
 
-	/// <summary>
-	/// 摄像机容器
-	/// </summary>
-	[SerializeField]
-	private Transform m_CameraContainer;
+    /// <summary>
+    /// 摄像机容器
+    /// </summary>
+    [SerializeField]
+    private Transform m_CameraContainer;
 
-	[Header("左右旋转速度")]
-	[SerializeField]
-	private int m_RotateSpeed = 80;
+    [Header("左右旋转速度")]
+    [SerializeField]
+    private int m_RotateSpeed = 80;
 
-	/// <summary>
-	/// 手松开后自动旋转速度
-	/// </summary>
-	private float m_AutoRotateSpeed;
-	private int m_AutoRotateType;
+    [Header("上下速度")]
+    [SerializeField]
+    private int m_UpAndDownSpeed = 60;
 
-	[HideInInspector]
-	/// <summary>
-	/// 是否拖拽中
-	/// </summary>
-	public bool IsOnDrag;
+    [Header("上下滑动边界限制")]
+    [SerializeField]
+    private Vector2 m_UpAndDownLimit;
 
-	[HideInInspector]
-	/// <summary>
-	/// 结束拖拽帧距离
-	/// </summary>
-	public float OnDragEndDistance;
+    [Header("缩放速度")]
+    [SerializeField]
+    private int m_ZoomSpeed = 10;
 
-	[Header("上下速度")]
-	[SerializeField]
-	private int m_UpAndDownSpeed = 60;
+    [Header("缩放边界限制")]
+    [SerializeField]
+    private Vector2 m_ZoomLimit;
 
-	[Header("上下滑动边界限制")]
-	[SerializeField]
-	private Vector2 m_UpAndDownLimit;
+    /// <summary>
+    /// 主摄像机
+    /// </summary>
+    public Camera MainCamera;
 
-	[Header("缩放速度")]
-	[SerializeField]
-	private int m_ZoomSpeed = 10;
+    //当前实际值
+    private float distance = 20f;
+    private float rotateX = 0.0f;
+    private float rotateY = 0.0f;
+    //平滑目标值
+    private float targetX = 0f;
+    private float targetY = 0f;
+    private float targetDistance = 0f;
 
-	[Header("缩放边界限制")]
-	[SerializeField]
-	private Vector2 m_ZoomLimit;
+    //当前平滑阻尼速度
+    private float xVelocity = 1f;
+    private float yVelocity = 1f;
+    private float zoomVelocity = 1f;
 
-	/// <summary>
-	/// 主摄像机
-	/// </summary>
-	[SerializeField]
-	public Camera MainCamera;
 
-	void Start()
-	{
-		Init();
-	}
+    void Start()
+    {
+        targetY = m_UpAndDownLimit.x;
+        targetDistance = m_ZoomLimit.x;
+    }
+    private void LateUpdate()
+    {
+        //这四行可以搬到外部调用
+        SetCameraRotateX(GameEntry.Input.GetAxis(InputName.MouseX));
+        SetCameraRotateY(GameEntry.Input.GetAxis(InputName.MouseY));
+        if (Input.GetKey(KeyCode.K)) SetCameraDistance(Time.deltaTime * 10);
+        else if (Input.GetKey(KeyCode.L)) SetCameraDistance(-Time.deltaTime * 10);
 
-	private void OnDestroy()
-	{
-	}
 
-	/// <summary>
-	/// 开启或者关闭摄像机
-	/// </summary>
-	/// <param name="isOpen">是否开启</param>
-	public void SetCameraOpen(bool isOpen)
-	{
-		MainCamera.enabled = isOpen;
-	}
+        //左右旋转 计算阻尼并刷新位置
+        rotateX = Mathf.SmoothDamp(rotateX, targetX, ref xVelocity, 0.2f);
+        transform.localEulerAngles = new Vector3(0, rotateX, 0);
 
-	/// <summary>
-	/// 初始化
-	/// </summary>
-	public void Init()
-	{
-		m_CameraUpAndDown.transform.localEulerAngles = new Vector3(0, 0, Mathf.Clamp(m_CameraUpAndDown.transform.localEulerAngles.z, 35f, 80f));
-	}
+        //上下旋转 计算阻尼并刷新位置
+        rotateY = Mathf.SmoothDamp(rotateY, targetY, ref yVelocity, 0.2f);
+        m_CameraUpAndDown.transform.localEulerAngles = new Vector3(rotateY, 0, 0);
 
-	/// <summary>
-	/// 设置摄像机旋转
-	/// </summary>
-	/// <param name="type">0=左 1=右</param>
-	public void SetCameraRotate(int type)
-	{
-		m_AutoRotateSpeed = m_RotateSpeed;
-		m_AutoRotateType = type;
-		SetCameraRotateAuto();
-	}
+        //前后缩放 计算阻尼并刷新位置
+        distance = Mathf.SmoothDamp(distance, targetDistance, ref zoomVelocity, 0.5f);
+        m_CameraZoomContainer.localPosition = new Vector3(0, 0, distance);
+    }
 
-	private void SetCameraRotateAuto()
-	{
-		transform.Rotate(0, m_AutoRotateSpeed * Time.deltaTime * (m_AutoRotateType == 0 ? -1 : 1), 0);
-	}
+    /// <summary>
+    /// 设置摄像机 左右旋转 增加偏移量
+    /// </summary>
+    public void SetCameraRotateX(float value)
+    {
+        if (Mathf.Abs(value) > 0.01f) targetX += value * m_RotateSpeed * 0.01f;
+    }
+    /// <summary>
+    /// 设置摄像机 上下旋转 增加偏移量
+    /// </summary>
+    public void SetCameraRotateY(float value)
+    {
+        if (Mathf.Abs(value) > 0.01f) targetY -= value * m_UpAndDownSpeed * 0.01f;
+        targetY = ClampAngle(targetY, m_UpAndDownLimit.x, m_UpAndDownLimit.y);
+    }
+    /// <summary>
+    /// 设置摄像机 前后缩放 增加偏移量
+    /// </summary>
+    public void SetCameraDistance(float value)
+    {
+        if (Mathf.Abs(value) > 0.01f) targetDistance += value * m_ZoomSpeed;
+        targetDistance = Mathf.Clamp(targetDistance, m_ZoomLimit.x, m_ZoomLimit.y);
+    }
 
-	/// <summary>
-	/// 设置摄像机上下 0=上 1=下
-	/// </summary>
-	/// <param name="type"></param>
-	public void SetCameraUpAndDown(int type)
-	{
-		m_CameraUpAndDown.transform.Rotate(0, 0, m_UpAndDownSpeed * Time.deltaTime * (type == 1 ? -1 : 1));
-		m_CameraUpAndDown.transform.localEulerAngles = new Vector3(0, 0, Mathf.Clamp(m_CameraUpAndDown.transform.localEulerAngles.z, m_UpAndDownLimit.x, m_UpAndDownLimit.y));
-	}
+    #region ClampAngle 限制旋转角度的极限范围
+    /// <summary>
+    /// 限制旋转角度的极限范围
+    /// </summary>
+    /// <param name="angle">当前旋转角度</param>
+    /// <param name="min">极限负旋转</param>
+    /// <param name="max">极限正旋转</param>
+    /// <returns></returns>
+    private static float ClampAngle(float angle, float min, float max)
+    {
+        if (angle < -360) angle += 360;
+        if (angle > 360) angle -= 360;
+        return Mathf.Clamp(angle, min, max);
+    }
+    #endregion
 
-	/// <summary>
-	/// 设置摄像机 缩放
-	/// </summary>
-	/// <param name="type">0=拉近 1=拉远</param>
-	public void SetCameraZoom(int type)
-	{
-		m_CameraContainer.Translate(Vector3.forward * m_ZoomSpeed * Time.deltaTime * ((type == 1 ? -1 : 1)));
-		m_CameraContainer.localPosition = new Vector3(0, 0, Mathf.Clamp(m_CameraContainer.localPosition.z, m_ZoomLimit.x, m_ZoomLimit.y));
-	}
+    /// <summary>
+    /// //震屏
+    /// </summary>
+    /// <param name="delay">延迟时间</param>
+    /// <param name="duration">持续时间</param>
+    /// <param name="strength">强度</param>
+    /// <param name="vibrato">震幅</param>
+    /// <returns></returns>
+    public void CameraShake(float delay = 0, float duration = 0.5f, float strength = 1, int vibrato = 10)
+    {
+        StartCoroutine(DOCameraShake());
+        IEnumerator DOCameraShake()
+        {
+            yield return new WaitForSeconds(delay);
+            //m_CameraContainer.DOShakePosition(duration, strength, vibrato);
+        }
+    }
 
-	/// <summary>
-	/// 实时看着主角
-	/// </summary>
-	/// <param name="pos"></param>
-	public void AutoLookAt(Vector3 pos)
-	{
-		m_CameraZoomContainer.LookAt(pos);
-	}
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 15f);
 
-	/// <summary>
-	/// //震屏
-	/// </summary>
-	/// <param name="delay">延迟时间</param>
-	/// <param name="duration">持续时间</param>
-	/// <param name="strength">强度</param>
-	/// <param name="vibrato">震幅</param>
-	/// <returns></returns>
-	public void CameraShake(float delay = 0, float duration = 0.5f, float strength = 1, int vibrato = 10)
-	{
-		StartCoroutine(DOCameraShake(delay, duration, strength, vibrato));
-	}
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, 14f);
 
-	/// <summary>
-	/// //震屏
-	/// </summary>
-	/// <param name="delay">延迟时间</param>
-	/// <param name="duration">持续时间</param>
-	/// <param name="strength">强度</param>
-	/// <param name="vibrato">震幅</param>
-	/// <returns></returns>
-	private IEnumerator DOCameraShake(float delay = 0, float duration = 0.5f, float strength = 1, int vibrato = 10)
-	{
-		yield return new WaitForSeconds(delay);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, 12f);
+    }
 
-		m_CameraContainer.DOShakePosition(0.3f, 1f, 100);
-	}
-
-	void OnDrawGizmos()
-	{
-		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(transform.position, 15f);
-
-		Gizmos.color = Color.blue;
-		Gizmos.DrawWireSphere(transform.position, 14f);
-
-		Gizmos.color = Color.green;
-		Gizmos.DrawWireSphere(transform.position, 12f);
-	}
-
-	private void Update()
-	{
-		if (!IsOnDrag && m_AutoRotateSpeed > 0)
-		{
-			float changeDistance = Mathf.Abs(OnDragEndDistance);
-			if (changeDistance > 0)
-			{
-				m_AutoRotateSpeed -= Mathf.Clamp((100 - Mathf.Clamp(changeDistance, 0, 99)) * Time.deltaTime * 10, 5, 15);
-				SetCameraRotateAuto();
-			}
-		}
-	}
 }

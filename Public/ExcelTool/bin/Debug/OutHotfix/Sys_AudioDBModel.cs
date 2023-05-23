@@ -27,13 +27,9 @@ namespace Hotfix
             {
                 Sys_AudioEntity entity = new Sys_AudioEntity();
                 entity.Id = ms.ReadInt();
-                entity.Desc = ms.ReadUTF8String();
                 entity.AssetPath = ms.ReadUTF8String();
-                entity.Suffix = ms.ReadUTF8String();
                 entity.Volume = ms.ReadFloat();
                 entity.IsLoop = (byte)ms.ReadByte();
-                entity.IsFadeIn = (byte)ms.ReadByte();
-                entity.IsFadeOut = (byte)ms.ReadByte();
                 entity.Priority = (byte)ms.ReadByte();
 
                 m_List.Add(entity);

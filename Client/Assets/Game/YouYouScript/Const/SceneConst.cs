@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum SceneGroupName : uint
-{
-    None,
-    Main,
-}
 public struct SceneEntity
 {
     public SceneGroupName SceneGroupName;
@@ -42,11 +37,16 @@ public class SceneConst
         }
 
         //配置对象池的预制体
-        AddDic(new SceneEntity(SceneGroupName.Main, new List<string> { "Scenes/Main_1" }, BGMName.BGM));
+        AddDic(new SceneEntity(SceneGroupName.Main, new List<string> { "Assets/Game/Download/Scenes/Main_1.unity" }, BGMName.maintheme1));
     }
 
     public static SceneEntity GetDic(SceneGroupName name)
     {
         return dic[name];
     }
+}
+public enum SceneGroupName : uint
+{
+    None,
+    Main,
 }

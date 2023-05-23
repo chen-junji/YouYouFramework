@@ -20,14 +20,12 @@ namespace YouYou
         {
             base.OnEnter();
             //初始化配置代码
-            AudioConst audioConst = new AudioConst();
-            PrefabConst prefabConst = new PrefabConst();
             SceneConst sceneConst = new SceneConst();
 
             //初始画质设置
-            GameEntry.Quality.SetQuality((QualityManager.Quality)GameEntry.PlayerPrefs.GetInt(CommonEventId.QualityLevel));
-            GameEntry.Quality.SetScreen((QualityManager.ScreenLevel)GameEntry.PlayerPrefs.GetInt(CommonEventId.Screen));
-            GameEntry.Quality.SetFrameRate((QualityManager.FrameRate)GameEntry.PlayerPrefs.GetInt(CommonEventId.FrameRate));
+            GameEntry.Quality.SetQuality((QualityManager.Quality)GameEntry.Data.PlayerPrefsDataMgr.GetInt(PlayerPrefsDataMgr.EventName.QualityLevel));
+            GameEntry.Quality.SetScreen((QualityManager.ScreenLevel)GameEntry.Data.PlayerPrefsDataMgr.GetInt(PlayerPrefsDataMgr.EventName.Screen));
+            GameEntry.Quality.SetFrameRate((QualityManager.FrameRate)GameEntry.Data.PlayerPrefsDataMgr.GetInt(PlayerPrefsDataMgr.EventName.FrameRate));
 
             //获取安卓权限
             permissions.ToList().ForEach(s =>

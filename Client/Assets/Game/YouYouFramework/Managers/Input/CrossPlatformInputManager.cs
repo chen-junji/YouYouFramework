@@ -11,15 +11,15 @@ namespace YouYou
         //也可以由其他输入设备实现，如kinect、电子传感器等
         public class VirtualAxis
         {
-            public string Name { get; private set; }
+            public InputName Name { get; private set; }
             private float m_Value;
             public bool MatchWithInputManager { get; private set; }
 
 
-            public VirtualAxis(string name) : this(name, true)
+            public VirtualAxis(InputName name) : this(name, true)
             {
             }
-            public VirtualAxis(string name, bool matchToInputSettings)
+            public VirtualAxis(InputName name, bool matchToInputSettings)
             {
                 Name = name;
                 MatchWithInputManager = matchToInputSettings;
@@ -45,17 +45,17 @@ namespace YouYou
         //该按钮的Get/Down/Up状态
         public class VirtualButton
         {
-            public string Name { get; private set; }
+            public InputName Name { get; private set; }
             public bool MatchWithInputManager { get; private set; }
 
             private int m_LastPressedFrame = -5;
             private int m_ReleasedFrame = -5;
             private bool m_Pressed;
 
-            public VirtualButton(string name) : this(name, true)
+            public VirtualButton(InputName name) : this(name, true)
             {
             }
-            public VirtualButton(string name, bool matchToInputSettings)
+            public VirtualButton(InputName name, bool matchToInputSettings)
             {
                 this.Name = name;
                 MatchWithInputManager = matchToInputSettings;
@@ -115,20 +115,20 @@ namespace YouYou
                 Cursor.visible = true;
             }
 
-            public override float GetAxis(string name, bool raw)
+            public override float GetAxis(InputName name, bool raw)
             {
                 return 0;
             }
-            public override void SetAxis(string name, float value)
+            public override void SetAxis(InputName name, float value)
             {
             }
-            public override void SetAxisNegative(string name)
+            public override void SetAxisNegative(InputName name)
             {
             }
-            public override void SetAxisPositive(string name)
+            public override void SetAxisPositive(InputName name)
             {
             }
-            public override void SetAxisZero(string name)
+            public override void SetAxisZero(InputName name)
             {
             }
         }
@@ -156,7 +156,7 @@ namespace YouYou
             states[(byte)State.Touch] = new MobileInput();
 
             CurrFsm = GameEntry.Fsm.Create(this, states);
-            SetInput(false);
+            SetEnable(false);
         }
         internal void OnUpdate()
         {
@@ -170,7 +170,7 @@ namespace YouYou
             CurrInput = CurrFsm.ChangeState((sbyte)state) as VirtualInput;
         }
 
-        public void SetInput(bool enable)
+        public void SetEnable(bool enable)
         {
             if (enable)
             {
@@ -201,62 +201,62 @@ namespace YouYou
             CurrInput.RegisterVirtualButton(button);
         }
 
-        public VirtualButton VirtualButtonReference(string name)
+        public VirtualButton VirtualButtonReference(InputName name)
         {
             return CurrInput.VirtualButtonReference(name);
         }
 
         // returns the platform appropriate axis for the given name
-        public float GetAxis(string name)
+        public float GetAxis(InputName name)
         {
             return GetAxis(name, false);
         }
-        public float GetAxisRaw(string name)
+        public float GetAxisRaw(InputName name)
         {
             return GetAxis(name, true);
         }
         // private function handles both types of axis (raw and not raw)
-        private float GetAxis(string name, bool raw)
+        private float GetAxis(InputName name, bool raw)
         {
             return CurrInput.GetAxis(name, raw);
         }
 
         // -- Button handling --
-        public bool GetButton(string name)
+        public bool GetButton(InputName name)
         {
             return CurrInput.GetButton(name);
         }
-        public bool GetButtonDown(string name)
+        public bool GetButtonDown(InputName name)
         {
             return CurrInput.GetButtonDown(name);
         }
-        public bool GetButtonUp(string name)
+        public bool GetButtonUp(InputName name)
         {
             return CurrInput.GetButtonUp(name);
         }
 
-        public void SetButtonDown(string name)
+        public void SetButtonDown(InputName name)
         {
             CurrInput.SetButtonDown(name);
         }
-        public void SetButtonUp(string name)
+        public void SetButtonUp(InputName name)
         {
             CurrInput.SetButtonUp(name);
         }
 
-        public void SetAxisPositive(string name)
+        public void SetAxisPositive(InputName name)
         {
             CurrInput.SetAxisPositive(name);
         }
-        public void SetAxisNegative(string name)
+        public void SetAxisNegative(InputName name)
         {
             CurrInput.SetAxisNegative(name);
         }
-        public void SetAxisZero(string name)
+        public void SetAxisZero(InputName name)
         {
             CurrInput.SetAxisZero(name);
         }
-        public void SetAxis(string name, float value)
+        public void SetAxis(InputName name, float value)
         {
             CurrInput.SetAxis(name, value);
         }

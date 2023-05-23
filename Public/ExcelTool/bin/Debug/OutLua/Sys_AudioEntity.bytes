@@ -1,19 +1,15 @@
-Sys_AudioEntity = { Id = 0, Desc = "", AssetPath = "", Suffix = "", Volume = 0, IsLoop = 0, IsFadeIn = 0, IsFadeOut = 0, Priority = 0 }
+Sys_AudioEntity = { Id = 0, AssetPath = "", Volume = 0, IsLoop = 0, Priority = 0 }
 
 Sys_AudioEntity.__index = Sys_AudioEntity;
 
-function Sys_AudioEntity.New(Id, Desc, AssetPath, Suffix, Volume, IsLoop, IsFadeIn, IsFadeOut, Priority)
+function Sys_AudioEntity.New(Id, AssetPath, Volume, IsLoop, Priority)
     local self = { };
     setmetatable(self, Sys_AudioEntity);
 
     self.Id = Id;
-    self.Desc = Desc;
     self.AssetPath = AssetPath;
-    self.Suffix = Suffix;
     self.Volume = Volume;
     self.IsLoop = IsLoop;
-    self.IsFadeIn = IsFadeIn;
-    self.IsFadeOut = IsFadeOut;
     self.Priority = Priority;
 
     return self;

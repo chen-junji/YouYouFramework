@@ -20,6 +20,11 @@ namespace YouYou
         /// </summary>
         protected T FsmMgr;
 
+        /// <summary>
+        /// 当前状态的内部行为是否执行完毕
+        /// </summary>
+        public bool ActionComplete { get; protected set; }
+
         internal virtual void OnInit()
         {
             FsmMgr = CurrFsm.Owner;
@@ -27,7 +32,10 @@ namespace YouYou
         /// <summary>
         /// 进入状态
         /// </summary>
-        internal virtual void OnEnter() { }
+        internal virtual void OnEnter()
+        {
+            ActionComplete = false;
+        }
 
         /// <summary>
         /// 执行状态

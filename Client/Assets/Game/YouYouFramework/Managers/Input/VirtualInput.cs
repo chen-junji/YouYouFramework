@@ -7,12 +7,12 @@ namespace YouYou
 {
     public abstract class VirtualInput : FsmState<CrossPlatformInputManager>
     {
-        protected Dictionary<string, CrossPlatformInputManager.VirtualAxis> m_VirtualAxes =
-            new Dictionary<string, CrossPlatformInputManager.VirtualAxis>();
+        protected Dictionary<InputName, CrossPlatformInputManager.VirtualAxis> m_VirtualAxes =
+            new Dictionary<InputName, CrossPlatformInputManager.VirtualAxis>();
         // Dictionary to store the name relating to the virtual axes
-        protected Dictionary<string, CrossPlatformInputManager.VirtualButton> m_VirtualButtons =
-            new Dictionary<string, CrossPlatformInputManager.VirtualButton>();
-        protected List<string> m_AlwaysUseVirtual = new List<string>();
+        protected Dictionary<InputName, CrossPlatformInputManager.VirtualButton> m_VirtualButtons =
+            new Dictionary<InputName, CrossPlatformInputManager.VirtualButton>();
+        protected List<InputName> m_AlwaysUseVirtual = new List<InputName>();
         // list of the axis and button names that have been flagged to always use a virtual axis or button
 
 
@@ -28,7 +28,7 @@ namespace YouYou
             }
         }
 
-        public bool GetButton(string name)
+        public bool GetButton(InputName name)
         {
             if (m_VirtualButtons.ContainsKey(name))
             {
@@ -38,7 +38,7 @@ namespace YouYou
             GameEntry.Input.RegisterVirtualButton(new CrossPlatformInputManager.VirtualButton(name));
             return m_VirtualButtons[name].GetButton;
         }
-        public bool GetButtonDown(string name)
+        public bool GetButtonDown(InputName name)
         {
             if (m_VirtualButtons.ContainsKey(name))
             {
@@ -48,7 +48,7 @@ namespace YouYou
             GameEntry.Input.RegisterVirtualButton(new CrossPlatformInputManager.VirtualButton(name));
             return m_VirtualButtons[name].GetButtonDown;
         }
-        public bool GetButtonUp(string name)
+        public bool GetButtonUp(InputName name)
         {
             if (m_VirtualButtons.ContainsKey(name))
             {
@@ -59,7 +59,7 @@ namespace YouYou
             return m_VirtualButtons[name].GetButtonUp;
         }
 
-        public void SetButtonDown(string name)
+        public void SetButtonDown(InputName name)
         {
             if (!m_VirtualButtons.ContainsKey(name))
             {
@@ -67,7 +67,7 @@ namespace YouYou
             }
             m_VirtualButtons[name].Pressed();
         }
-        public void SetButtonUp(string name)
+        public void SetButtonUp(InputName name)
         {
             if (!m_VirtualButtons.ContainsKey(name))
             {
@@ -117,7 +117,7 @@ namespace YouYou
             }
         }
 
-        public CrossPlatformInputManager.VirtualAxis VirtualAxisReference(string name)
+        public CrossPlatformInputManager.VirtualAxis VirtualAxisReference(InputName name)
         {
             if (!m_VirtualAxes.TryGetValue(name, out CrossPlatformInputManager.VirtualAxis axis))
             {
@@ -126,7 +126,7 @@ namespace YouYou
             }
             return axis;
         }
-        public CrossPlatformInputManager.VirtualButton VirtualButtonReference(string name)
+        public CrossPlatformInputManager.VirtualButton VirtualButtonReference(InputName name)
         {
             if (!m_VirtualButtons.TryGetValue(name, out CrossPlatformInputManager.VirtualButton button))
             {
@@ -137,11 +137,11 @@ namespace YouYou
         }
 
 
-        public abstract float GetAxis(string name, bool raw);
+        public abstract float GetAxis(InputName name, bool raw);
 
-        public abstract void SetAxisPositive(string name);
-        public abstract void SetAxisNegative(string name);
-        public abstract void SetAxisZero(string name);
-        public abstract void SetAxis(string name, float value);
+        public abstract void SetAxisPositive(InputName name);
+        public abstract void SetAxisNegative(InputName name);
+        public abstract void SetAxisZero(InputName name);
+        public abstract void SetAxis(InputName name, float value);
     }
 }

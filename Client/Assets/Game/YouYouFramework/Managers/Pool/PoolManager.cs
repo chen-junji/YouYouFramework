@@ -51,30 +51,6 @@ namespace YouYou
             InitClassReside();
         }
 
-        /// <summary>
-        /// 释放类对象池
-        /// </summary>
-        public void ReleaseClassObjectPool()
-        {
-            MainEntry.ClassObjectPool.Release();
-        }
-
-        /// <summary>
-        /// 释放资源包池
-        /// </summary>
-        public void ReleaseAssetBundlePool()
-        {
-            AssetBundlePool.Release();
-        }
-
-        /// <summary>
-        /// 释放分类资源池中所有资源
-        /// </summary>
-        public void ReleaseAssetPool()
-        {
-            AssetPool.Release();
-        }
-
         //============================
 
 
@@ -105,45 +81,13 @@ namespace YouYou
         /// </summary>
         private void InitClassReside()
         {
-            SetClassObjectResideCount<HttpRoutine>(3);
-            SetClassObjectResideCount<Dictionary<string, object>>(3);
-            SetClassObjectResideCount<AssetBundleLoaderRoutine>(10);
-            SetClassObjectResideCount<AssetLoaderRoutine>(10);
-            SetClassObjectResideCount<ResourceEntity>(10);
-            SetClassObjectResideCount<MainAssetLoaderRoutine>(30);
+            MainEntry.ClassObjectPool.SetResideCount<HttpRoutine>(3);
+            MainEntry.ClassObjectPool.SetResideCount<Dictionary<string, object>>(3);
+            MainEntry.ClassObjectPool.SetResideCount<AssetBundleLoaderRoutine>(10);
+            MainEntry.ClassObjectPool.SetResideCount<AssetLoaderRoutine>(10);
+            MainEntry.ClassObjectPool.SetResideCount<ResourceEntity>(10);
+            MainEntry.ClassObjectPool.SetResideCount<MainAssetLoaderRoutine>(30);
         }
-        /// <summary>
-        /// 设置类常驻数量
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="count"></param>
-        public void SetClassObjectResideCount<T>(byte count) where T : class
-        {
-            MainEntry.ClassObjectPool.SetResideCount<T>(count);
-        }
-
-        #region DequeueClassObject 取出一个对象
-        /// <summary>
-        /// 取出一个对象
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public T DequeueClassObject<T>() where T : class, new()
-        {
-            return MainEntry.ClassObjectPool.Dequeue<T>();
-        }
-        #endregion
-
-        #region EnqueueClassObject 对象回池
-        /// <summary>
-        /// 对象回池
-        /// </summary>
-        /// <param name="obj"></param>
-        public void EnqueueClassObject(object obj)
-        {
-            MainEntry.ClassObjectPool.Enqueue(obj);
-        }
-        #endregion
 
         #region 变量对象池
 
@@ -213,64 +157,36 @@ namespace YouYou
         /// <summary>
         /// 释放类对象池间隔
         /// </summary>
-        public int ReleaseClassObjectInterval
-        {
-            get;
-            private set;
-        }
-
+        public int ReleaseClassObjectInterval { get; private set; }
         /// <summary>
         /// 下次释放类对象运行时间
         /// </summary>
-        public float ReleaseClassObjectNextRunTime
-        {
-            get;
-            private set;
-        }
-
+        public float ReleaseClassObjectNextRunTime { get; private set; }
 
         /// <summary>
         /// 释放AssetBundle池间隔
         /// </summary>
-        public int ReleaseAssetBundleInterval
-        {
-            get;
-            private set;
-        }
-
+        public int ReleaseAssetBundleInterval { get; private set; }
         /// <summary>
         /// 下次释放AssetBundle池运行时间
         /// </summary>
-        public float ReleaseAssetBundleNextRunTime
-        {
-            get;
-            private set;
-        }
+        public float ReleaseAssetBundleNextRunTime { get; private set; }
 
         /// <summary>
         /// 释放Asset池间隔
         /// </summary>
-        public int ReleaseAssetInterval
-        {
-            get;
-            private set;
-        }
-
+        public int ReleaseAssetInterval { get; private set; }
         /// <summary>
         /// 下次释放Asset池运行时间
         /// </summary>
-        public float ReleaseAssetNextRunTime
-        {
-            get;
-            private set;
-        }
+        public float ReleaseAssetNextRunTime { get; private set; }
 
         internal void OnUpdate()
         {
             if (Time.time > ReleaseClassObjectNextRunTime + ReleaseClassObjectInterval)
             {
                 ReleaseClassObjectNextRunTime = Time.time;
-                ReleaseClassObjectPool();
+                MainEntry.ClassObjectPool.Release();
                 //GameEntry.Log(LogCategory.Normal, "释放类对象池");
             }
 
@@ -280,7 +196,7 @@ namespace YouYou
                 ReleaseAssetBundleNextRunTime = Time.time;
 
 #if ASSETBUNDLE
-                ReleaseAssetBundlePool();
+                AssetBundlePool.Release();
                 //GameEntry.Log(LogCategory.Normal, "释放AssetBundle池");
 #endif
             }
@@ -290,7 +206,7 @@ namespace YouYou
                 ReleaseAssetNextRunTime = Time.time;
 
 #if ASSETBUNDLE
-                ReleaseAssetPool();
+                AssetPool.Release();
                 //GameEntry.Log(LogCategory.Normal, "释放Asset池");
 #endif
             }
@@ -340,7 +256,7 @@ namespace YouYou
                 resourceEntity.Unspawn(true);
 #else
                 resourceEntity.Target = null;
-                GameEntry.Pool.EnqueueClassObject(resourceEntity);
+                MainEntry.ClassObjectPool.Enqueue(resourceEntity);
 #endif
                 m_InstanceResourceDic.Remove(instanceId);
             }

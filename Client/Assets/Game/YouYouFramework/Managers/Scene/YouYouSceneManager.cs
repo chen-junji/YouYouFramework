@@ -1,3 +1,4 @@
+using Main;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace YouYou
         /// <summary>
         /// 当前场景组
         /// </summary>
-        private SceneEntity m_CurrSceneDetailList;
+        public SceneEntity CurrSceneEntity { get; private set; }
 
         /// <summary>
         /// 当前已经加载或者卸载的明细数量
@@ -46,11 +47,6 @@ namespace YouYou
         private Dictionary<string, float> m_TargetProgressDic;
 
         /// <summary>
-        /// 加载场景的参数
-        /// </summary>
-        private BaseParams m_CurrLoadingParam;
-
-        /// <summary>
         /// 加载完毕委托
         /// </summary>
         private Action m_OnComplete = null;
@@ -65,7 +61,7 @@ namespace YouYou
         {
             SceneManager.sceneLoaded += (Scene scene, LoadSceneMode sceneMode) =>
             {
-                if (m_CurrSceneDetailList.AssetPathList.Count == 0) return;
+                if (CurrSceneEntity.AssetPathList.Count == 0) return;
 
                 //设置列表里的第一个场景为主场景(激活场景)
                 if (m_CurrLoadOrUnloadSceneDetailCount == 0)
@@ -76,16 +72,12 @@ namespace YouYou
                 }
 
                 m_CurrLoadOrUnloadSceneDetailCount++;
-                if (m_CurrLoadOrUnloadSceneDetailCount == m_CurrSceneDetailList.AssetPathList.Count)
+                if (m_CurrLoadOrUnloadSceneDetailCount == CurrSceneEntity.AssetPathList.Count)
                 {
-                    GC.Collect();
-                    GameEntry.Log(LogCategory.Scene, "场景加载完毕=={0}", m_CurrSceneDetailList.ToJson());
+                    GameEntry.Log(LogCategory.Scene, "场景加载完毕=={0}", CurrSceneEntity.ToJson());
 
                     m_CurrLoadOrUnloadSceneDetailCount = 0;
                     m_CurrSceneIsLoading = false;
-
-                    m_CurrLoadingParam.Reset();
-                    GameEntry.Pool.EnqueueClassObject(m_CurrLoadingParam);
 
                     m_OnComplete?.Invoke();
                     //GameEntry.UI.CloseUIForm(UIFormId.UI_Loading);
@@ -93,29 +85,28 @@ namespace YouYou
             };
             SceneManager.sceneUnloaded += (Scene scene) =>
             {
+                if (CurrSceneEntity.AssetPathList.Count == 0) return;
+
                 if (SceneManager.sceneCount == 2)
                 {
                     Resources.UnloadUnusedAssets();
+                    GC.Collect();
+                }
+                m_CurrLoadOrUnloadSceneDetailCount++;
+                if (m_CurrLoadOrUnloadSceneDetailCount == CurrSceneEntity.AssetPathList.Count)
+                {
+                    m_CurrLoadOrUnloadSceneDetailCount = 0;
+                    LoadNewScene();
                 }
             };
         }
 
-        public void UnLoadAllScene()
+        public async ETTask LoadScene(SceneGroupName sceneName)
         {
-            if (m_CurrSceneDetailList.AssetPathList.Count == 0) return;
-            for (int i = 0; i < m_CurrSceneDetailList.AssetPathList.Count; i++)
-            {
-                SceneLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<SceneLoaderRoutine>();
-                m_SceneLoaderList.AddLast(routine);
-                routine.UnLoadScene(m_CurrSceneDetailList.AssetPathList[i], (SceneLoaderRoutine retRoutine) =>
-                {
-                    m_SceneLoaderList.Remove(retRoutine);
-                    GameEntry.Pool.EnqueueClassObject(retRoutine);
-                });
-            }
-            m_CurrLoadSceneName = SceneGroupName.None;
+            ETTask task = ETTask.Create();
+            LoadSceneAction(sceneName, task.SetResult);
+            await task;
         }
-
         /// <summary>
         /// 加载场景
         /// </summary>
@@ -135,40 +126,22 @@ namespace YouYou
                 return;
             }
 
-            m_CurrLoadingParam = GameEntry.Pool.DequeueClassObject<BaseParams>();
-
-            DoLoadScene(sceneName);
-        }
-        public async ETTask LoadScene(SceneGroupName sceneName)
-        {
-            ETTask task = ETTask.Create();
-            LoadSceneAction(sceneName, task.SetResult);
-            await task;
-        }
-
-        /// <summary>
-        /// 执行加载场景
-        /// </summary>
-        private void DoLoadScene(SceneGroupName sceneName)
-        {
             m_CurrProgress = 0;
             m_TargetProgressDic.Clear();
-
             m_CurrLoadSceneName = sceneName;
-            UnLoadCurrScene();
-        }
-        /// <summary>
-        /// 卸载当前场景并加载新场景
-        /// </summary>
-        private void UnLoadCurrScene()
-        {
-            if (m_CurrSceneDetailList.SceneGroupName != SceneGroupName.None && m_CurrSceneDetailList.AssetPathList.Count > 0)
+
+            //卸载当前场景并加载新场景
+            if (CurrSceneEntity.SceneGroupName != SceneGroupName.None && CurrSceneEntity.AssetPathList.Count > 0)
             {
-                for (int i = 0; i < m_CurrSceneDetailList.AssetPathList.Count; i++)
+                for (int i = 0; i < CurrSceneEntity.AssetPathList.Count; i++)
                 {
-                    SceneLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<SceneLoaderRoutine>();
+                    SceneLoaderRoutine routine = MainEntry.ClassObjectPool.Dequeue<SceneLoaderRoutine>();
                     m_SceneLoaderList.AddLast(routine);
-                    routine.UnLoadScene(m_CurrSceneDetailList.AssetPathList[i], OnUnLoadSceneComplete);
+                    routine.UnLoadScene(CurrSceneEntity.AssetPathList[i], (SceneLoaderRoutine routine) =>
+                    {
+                        m_SceneLoaderList.Remove(routine);
+                        MainEntry.ClassObjectPool.Enqueue(routine);
+                    });
                 }
             }
             else
@@ -176,39 +149,28 @@ namespace YouYou
                 LoadNewScene();
             }
         }
+
         /// <summary>
         /// 加载新场景
         /// </summary>
         private void LoadNewScene()
         {
             m_CurrSceneIsLoading = true;
-            m_CurrSceneDetailList = SceneConst.GetDic(m_CurrLoadSceneName);
+            CurrSceneEntity = SceneConst.GetDic(m_CurrLoadSceneName);
 
-            for (int i = 0; i < m_CurrSceneDetailList.AssetPathList.Count; i++)
+            for (int i = 0; i < CurrSceneEntity.AssetPathList.Count; i++)
             {
-                SceneLoaderRoutine routine = GameEntry.Pool.DequeueClassObject<SceneLoaderRoutine>();
+                SceneLoaderRoutine routine = MainEntry.ClassObjectPool.Dequeue<SceneLoaderRoutine>();
                 m_SceneLoaderList.AddLast(routine);
-                routine.LoadScene(m_CurrSceneDetailList.AssetPathList[i], (string sceneDetailId, float progress) =>
+                routine.LoadScene(CurrSceneEntity.AssetPathList[i], (string sceneDetailId, float progress) =>
                 {
                     //记录每个场景明细当前的进度
                     m_TargetProgressDic[sceneDetailId] = progress;
                 }, (SceneLoaderRoutine retRoutine) =>
                 {
                     m_SceneLoaderList.Remove(retRoutine);
-                    GameEntry.Pool.EnqueueClassObject(retRoutine);
+                    MainEntry.ClassObjectPool.Enqueue(retRoutine);
                 });
-            }
-        }
-        private void OnUnLoadSceneComplete(SceneLoaderRoutine routine)
-        {
-            m_SceneLoaderList.Remove(routine);
-            GameEntry.Pool.EnqueueClassObject(routine);
-
-            m_CurrLoadOrUnloadSceneDetailCount++;
-            if (m_CurrLoadOrUnloadSceneDetailCount == m_CurrSceneDetailList.AssetPathList.Count)
-            {
-                m_CurrLoadOrUnloadSceneDetailCount = 0;
-                LoadNewScene();
             }
         }
 
@@ -227,19 +189,16 @@ namespace YouYou
                 }
 
                 float currTarget = GetCurrTotalProgress();
-                float finalTarget = 0.9f * m_CurrSceneDetailList.AssetPathList.Count;
+                float finalTarget = 0.9f * CurrSceneEntity.AssetPathList.Count;
                 if (currTarget >= finalTarget)
                 {
-                    currTarget = m_CurrSceneDetailList.AssetPathList.Count;
+                    currTarget = CurrSceneEntity.AssetPathList.Count;
                 }
 
-                if (m_CurrProgress <= m_CurrSceneDetailList.AssetPathList.Count && m_CurrProgress <= currTarget)
+                if (m_CurrProgress <= CurrSceneEntity.AssetPathList.Count && m_CurrProgress <= currTarget)
                 {
-                    m_CurrProgress += Time.deltaTime * m_CurrSceneDetailList.AssetPathList.Count * 1;
-                    m_CurrLoadingParam.IntParam1 = (int)LoadingType.ChangeScene;
-                    m_CurrLoadingParam.FloatParam1 = Math.Min(m_CurrProgress / m_CurrSceneDetailList.AssetPathList.Count, 1);
-
-                    GameEntry.Event.Common.Dispatch(CommonEventId.LoadingProgressChange, m_CurrLoadingParam);
+                    m_CurrProgress += Time.deltaTime * CurrSceneEntity.AssetPathList.Count * 1;
+                    MainEntry.Data.LoadingSceneUpdate(Math.Min(m_CurrProgress / CurrSceneEntity.AssetPathList.Count, 1));
                 }
             }
         }
@@ -257,6 +216,22 @@ namespace YouYou
                 progress += lst.Current.Value;
             }
             return progress;
+        }
+
+        public void UnLoadAllScene()
+        {
+            if (CurrSceneEntity.AssetPathList.Count == 0) return;
+            for (int i = 0; i < CurrSceneEntity.AssetPathList.Count; i++)
+            {
+                SceneLoaderRoutine routine = MainEntry.ClassObjectPool.Dequeue<SceneLoaderRoutine>();
+                m_SceneLoaderList.AddLast(routine);
+                routine.UnLoadScene(CurrSceneEntity.AssetPathList[i], (SceneLoaderRoutine retRoutine) =>
+                {
+                    m_SceneLoaderList.Remove(retRoutine);
+                    MainEntry.ClassObjectPool.Enqueue(retRoutine);
+                });
+            }
+            m_CurrLoadSceneName = SceneGroupName.None;
         }
 
     }

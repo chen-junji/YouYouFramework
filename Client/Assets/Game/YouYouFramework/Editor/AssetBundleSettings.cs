@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using YouYou;
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "YouYouAsset/AssetBundleSettings")]
 public class AssetBundleSettings : ScriptableObject
 {
     public enum CusBuildTarget

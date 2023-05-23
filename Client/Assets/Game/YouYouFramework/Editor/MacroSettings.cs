@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "YouYouAsset/MacroSettings")]
 public class MacroSettings : ScriptableObject
 {
     [Serializable]
@@ -30,9 +30,9 @@ public class MacroSettings : ScriptableObject
     /// </summary>
     public enum AssetLoadTarget
     {
-        RESOURCES = 0,
-        ASSETBUNDLE = 1,
-        EDITORLOAD = 2,
+        RESOURCES,
+        ASSETBUNDLE,
+        EDITORLOAD
     }
     private string m_Macor;
 

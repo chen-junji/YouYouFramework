@@ -1,3 +1,4 @@
+using Main;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -47,9 +48,7 @@ namespace YouYou
         internal void LoadAction<T>(string assetFullName, Action<ResourceEntity> onComplete, Action<float> onUpdate) where T : Object
         {
 #if EDITORLOAD && UNITY_EDITOR
-            assetFullName = "Assets/Game/Download/" + assetFullName;
-
-            m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
+            m_CurrResourceEntity = MainEntry.ClassObjectPool.Dequeue<ResourceEntity>();
             m_CurrResourceEntity.IsAssetBundle = false;
             m_CurrResourceEntity.ResourceName = assetFullName;
             m_CurrResourceEntity.Target = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(assetFullName);
@@ -66,7 +65,7 @@ namespace YouYou
                 StringHelper.PoolDel(ref str);
             }
 
-            m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
+            m_CurrResourceEntity = MainEntry.ClassObjectPool.Dequeue<ResourceEntity>();
             m_CurrResourceEntity.IsAssetBundle = false;
             m_CurrResourceEntity.ResourceName = assetFullName;
             m_CurrResourceEntity.Target = Resources.Load<T>(assetFullName);
@@ -74,9 +73,7 @@ namespace YouYou
             onComplete?.Invoke(m_CurrResourceEntity);
             Reset();
 #else
-            assetFullName = "Assets/Game/Download/" + assetFullName;
-
-            m_CurrAssetEntity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(assetFullName);
+            m_CurrAssetEntity = GameEntry.Resource.GetAssetEntity(assetFullName);
             if (m_CurrAssetEntity == null) return;
             m_OnComplete = (retEntity) =>
             {
@@ -91,8 +88,6 @@ namespace YouYou
         internal ResourceEntity Load(string assetFullName)
         {
 #if EDITORLOAD && UNITY_EDITOR
-            assetFullName = "Assets/Game/Download/" + assetFullName;
-
             m_CurrResourceEntity = new ResourceEntity();
             m_CurrResourceEntity.IsAssetBundle = false;
             m_CurrResourceEntity.ResourceName = assetFullName;
@@ -118,9 +113,7 @@ namespace YouYou
             //Reset();
             return m_CurrResourceEntity;
 #else
-            assetFullName = "Assets/Game/Download/" + assetFullName;
-
-            m_CurrAssetEntity = GameEntry.Resource.ResourceLoaderManager.GetAssetEntity(assetFullName);
+            m_CurrAssetEntity = GameEntry.Resource.GetAssetEntity(assetFullName);
             if (m_CurrAssetEntity == null) return null;
             LoadMainAsset();
             return m_CurrResourceEntity;
@@ -159,14 +152,14 @@ namespace YouYou
                         GameEntry.LogError(LogCategory.Resource, "有重复依赖文件==" + assetDependsEntity.AssetBundleName);
                         continue;
                     }
-                    taskGroup.AddTask((taskRoutine) => GameEntry.Resource.ResourceLoaderManager.LoadAssetBundleAction(assetDependsEntity.AssetBundleName, onComplete: (bundle) => taskRoutine.Leave()));
+                    taskGroup.AddTask((taskRoutine) => GameEntry.Resource.LoadAssetBundleAction(assetDependsEntity.AssetBundleName, onComplete: (bundle) => taskRoutine.Leave()));
                 }
             }
 
             //加载主资源包
             taskGroup.AddTask((taskRoutine) =>
             {
-                GameEntry.Resource.ResourceLoaderManager.LoadAssetBundleAction(m_CurrAssetEntity.AssetBundleName, m_OnUpdate, onComplete: (AssetBundle bundle) =>
+                GameEntry.Resource.LoadAssetBundleAction(m_CurrAssetEntity.AssetBundleName, m_OnUpdate, onComplete: (AssetBundle bundle) =>
                 {
                     m_MainAssetBundle = bundle;
                     taskRoutine.Leave();
@@ -188,7 +181,7 @@ namespace YouYou
                     return;
                 }
                 //加载主资源
-                GameEntry.Resource.ResourceLoaderManager.LoadAssetAction(m_CurrAssetEntity.AssetFullName, m_MainAssetBundle, onComplete: (Object obj) =>
+                GameEntry.Resource.LoadAssetAction(m_CurrAssetEntity.AssetFullName, m_MainAssetBundle, onComplete: (Object obj) =>
                 {
                     m_CurrResourceEntity = GameEntry.Pool.AssetPool.Spawn(m_CurrAssetEntity.AssetFullName);
                     if (m_CurrResourceEntity != null)
@@ -198,7 +191,7 @@ namespace YouYou
                         return;
                     }
 
-                    m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
+                    m_CurrResourceEntity = MainEntry.ClassObjectPool.Dequeue<ResourceEntity>();
                     m_CurrResourceEntity.IsAssetBundle = false;
                     m_CurrResourceEntity.ResourceName = m_CurrAssetEntity.AssetFullName;
                     m_CurrResourceEntity.Target = obj;
@@ -237,12 +230,12 @@ namespace YouYou
                         GameEntry.LogError(LogCategory.Resource, "有重复依赖文件==" + assetDependsEntity.AssetBundleName);
                         continue;
                     }
-                    GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(assetDependsEntity.AssetBundleName);
+                    GameEntry.Resource.LoadAssetBundle(assetDependsEntity.AssetBundleName);
                 }
             }
 
             //加载主资源包
-            m_MainAssetBundle = GameEntry.Resource.ResourceLoaderManager.LoadAssetBundle(m_CurrAssetEntity.AssetBundleName);
+            m_MainAssetBundle = GameEntry.Resource.LoadAssetBundle(m_CurrAssetEntity.AssetBundleName);
             if (m_MainAssetBundle == null)
             {
                 GameEntry.LogError(LogCategory.Resource, "MainAssetBundle not exists " + m_CurrAssetEntity.AssetFullName);
@@ -256,7 +249,7 @@ namespace YouYou
             }
 
             //加载主资源
-            Object obj = GameEntry.Resource.ResourceLoaderManager.LoadAsset(m_CurrAssetEntity.AssetFullName, m_MainAssetBundle);
+            Object obj = GameEntry.Resource.LoadAsset(m_CurrAssetEntity.AssetFullName, m_MainAssetBundle);
             m_CurrResourceEntity = GameEntry.Pool.AssetPool.Spawn(m_CurrAssetEntity.AssetFullName);
             if (m_CurrResourceEntity != null)
             {
@@ -265,7 +258,7 @@ namespace YouYou
                 return;
             }
 
-            m_CurrResourceEntity = GameEntry.Pool.DequeueClassObject<ResourceEntity>();
+            m_CurrResourceEntity = MainEntry.ClassObjectPool.Dequeue<ResourceEntity>();
             m_CurrResourceEntity.IsAssetBundle = false;
             m_CurrResourceEntity.ResourceName = m_CurrAssetEntity.AssetFullName;
             m_CurrResourceEntity.Target = obj;
@@ -283,7 +276,7 @@ namespace YouYou
             m_CurrResourceEntity = null;
             m_MainAssetBundle = null;
             m_DependsAssetBundleNames.Clear();
-            GameEntry.Pool.EnqueueClassObject(this);
+            MainEntry.ClassObjectPool.Enqueue(this);
         }
     }
 }

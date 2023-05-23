@@ -40,7 +40,7 @@ namespace YouYou
         {
             GameEntry.Task.AddTaskCommon((taskRoutine) =>
             {
-                GameEntry.Pool.DequeueClassObject<HttpRoutine>().Get(url, (HttpCallBackArgs ret) =>
+                MainEntry.ClassObjectPool.Dequeue<HttpRoutine>().Get(url, (HttpCallBackArgs ret) =>
                 {
                     taskRoutine.Leave();
                     if (ret.HasError)
@@ -81,7 +81,7 @@ namespace YouYou
         {
             GameEntry.Task.AddTaskCommon((taskRoutine) =>
             {
-                GameEntry.Pool.DequeueClassObject<HttpRoutine>().Post(url, json, (HttpCallBackArgs ret) =>
+                MainEntry.ClassObjectPool.Dequeue<HttpRoutine>().Post(url, json, (HttpCallBackArgs ret) =>
                 {
                     taskRoutine.Leave();
                     if (ret.HasError)

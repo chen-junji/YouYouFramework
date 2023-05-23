@@ -22,8 +22,7 @@ namespace YouYou
 
             if (GameEntry.Localization != null)
             {
-                string path = GameUtil.GetUIResPath(GameEntry.Localization.GetString(m_Localization));
-                m_Image.AutoLoadSprite(path);
+                m_Image.AutoLoadSprite(GameEntry.Localization.GetString(m_Localization));
             }
         }
     }

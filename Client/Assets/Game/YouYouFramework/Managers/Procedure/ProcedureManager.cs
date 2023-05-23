@@ -37,11 +37,7 @@ namespace YouYou
         /// <summary>
         /// 当前流程状态机
         /// </summary>
-        private Fsm<ProcedureManager> m_CurrFsm;
-        /// <summary>
-        /// 当前流程状态机
-        /// </summary>
-        public Fsm<ProcedureManager> CurrFsm { get { return m_CurrFsm; } }
+        public Fsm<ProcedureManager> CurrFsm { get; private set; }
 
         /// <summary>
         /// 当前流程状态Type
@@ -50,23 +46,10 @@ namespace YouYou
         {
             get
             {
-                return (ProcedureState)m_CurrFsm.CurrStateType;
-            }
-        }
-        /// <summary>
-        /// 当前流程
-        /// </summary>
-        public FsmState<ProcedureManager> CurrProcedure
-        {
-            get
-            {
-                return m_CurrFsm.GetState(m_CurrFsm.CurrStateType);
+                return (ProcedureState)CurrFsm.CurrStateType;
             }
         }
 
-        internal ProcedureManager()
-        {
-        }
         internal void Init()
         {
             //得到枚举的长度
@@ -78,11 +61,11 @@ namespace YouYou
             states[(byte)ProcedureState.Preload] = new ProcedurePreload();
             states[(byte)ProcedureState.Game] = new ProcedureGame();
 
-            m_CurrFsm = GameEntry.Fsm.Create(this, states);
+            CurrFsm = GameEntry.Fsm.Create(this, states);
         }
         internal void OnUpdate()
         {
-            m_CurrFsm.OnUpdate();
+            CurrFsm.OnUpdate();
         }
 
         /// <summary>
@@ -90,7 +73,7 @@ namespace YouYou
         /// </summary>
         public void ChangeState(ProcedureState state)
         {
-            m_CurrFsm.ChangeState((sbyte)state);
+            CurrFsm.ChangeState((sbyte)state);
         }
 
         /// <summary>

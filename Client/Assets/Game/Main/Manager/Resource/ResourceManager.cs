@@ -160,7 +160,7 @@ namespace Main
         private void InitCDNAssetBundleInfo()
         {
             StringBuilder sbr = StringHelper.PoolNew();
-            string url = sbr.AppendFormatNoGC("{0}{1}", MainEntry.SysData.CurrChannelConfig.RealSourceUrl, YFConstDefine.VersionFileName).ToString();
+            string url = sbr.AppendFormatNoGC("{0}{1}", MainEntry.Data.CurrChannelConfig.RealSourceUrl, YFConstDefine.VersionFileName).ToString();
             StringHelper.PoolDel(ref sbr);
 
             MainEntry.ClassObjectPool.Dequeue<HttpRoutine>().Get(url, (HttpCallBackArgs args) =>

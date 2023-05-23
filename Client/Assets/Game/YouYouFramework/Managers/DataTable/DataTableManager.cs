@@ -15,6 +15,9 @@ namespace YouYou
 
         public LocalizationDBModel LocalizationDBModel { get; private set; }
         public Sys_UIFormDBModel Sys_UIFormDBModel { get; private set; }
+        public Sys_PrefabDBModel Sys_PrefabDBModel { get; private set; }
+        public Sys_BGMDBModel Sys_BGMDBModel { get; private set; }
+        public Sys_AudioDBModel Sys_AudioDBModel { get; private set; }
 
 
         /// <summary>
@@ -27,6 +30,15 @@ namespace YouYou
             LocalizationDBModel.LoadData(m_TaskGroup);
             Sys_UIFormDBModel = new Sys_UIFormDBModel();
             Sys_UIFormDBModel.LoadData(m_TaskGroup);
+            Sys_PrefabDBModel = new Sys_PrefabDBModel();
+            Sys_PrefabDBModel.LoadData(m_TaskGroup);
+
+            Sys_AudioDBModel = new Sys_AudioDBModel();
+            Sys_AudioDBModel.LoadData(m_TaskGroup);
+
+            Sys_BGMDBModel = new Sys_BGMDBModel();
+            Sys_BGMDBModel.LoadData(m_TaskGroup);
+
 
             m_TaskGroup.OnComplete = OnLoadDataTableComplete;
             m_TaskGroup.Run(true);
@@ -44,7 +56,7 @@ namespace YouYou
         {
             OnLoadDataTableComplete = onComplete;
 #if ASSETBUNDLE
-            GameEntry.Resource.ResourceLoaderManager.LoadAssetBundleAction(YFConstDefine.DataTableAssetBundlePath, onComplete: (AssetBundle bundle) =>
+            GameEntry.Resource.LoadAssetBundleAction(YFConstDefine.DataTableAssetBundlePath, onComplete: (AssetBundle bundle) =>
             {
                 m_DataTableBundle = bundle;
                 LoadDataTable();
@@ -72,7 +84,7 @@ namespace YouYou
 				if (onComplete != null) onComplete(asset.bytes);
 			});
 #else
-            GameEntry.Resource.ResourceLoaderManager.LoadAssetAction(GameEntry.Resource.GetLastPathName(dataTableName), m_DataTableBundle, onComplete: (UnityEngine.Object obj) =>
+            GameEntry.Resource.LoadAssetAction(GameUtil.GetLastPathName(dataTableName), m_DataTableBundle, onComplete: (UnityEngine.Object obj) =>
             {
                 if (obj == null) return;
                 TextAsset asset = obj as TextAsset;

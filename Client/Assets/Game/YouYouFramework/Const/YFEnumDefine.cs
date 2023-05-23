@@ -43,18 +43,6 @@ namespace YouYou
         LiSi
     }
 
-    public enum LoadingType
-    {
-        /// <summary>
-        /// 切换场景
-        /// </summary>
-        ChangeScene,
-        /// <summary>
-        /// 检查更新
-        /// </summary>
-        CheckVersion
-    }
-
     /// <summary>
     /// 提示窗口,按钮显示方式
     /// </summary>
@@ -67,7 +55,7 @@ namespace YouYou
         /// <summary>
         /// 确定,取消按钮
         /// </summary>
-        Noraml
+        AffirmAndCancel
     }
 
     /// <summary>

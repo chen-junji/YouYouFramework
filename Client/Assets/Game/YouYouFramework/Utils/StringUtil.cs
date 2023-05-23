@@ -35,10 +35,10 @@ public static class StringUtil
     /// <summary>
     /// 检查后缀名
     /// </summary>
-    public static bool IsSuffix(this string str, string suffix)
+    public static bool IsSuffix(this string str, string suffix, StringComparison comparisonType = StringComparison.CurrentCulture)
     {
         //总长度减去后缀的索引等于后缀的长度
-        int indexOf = str.LastIndexOf(suffix);
+        int indexOf = str.LastIndexOf(suffix, StringComparison.CurrentCultureIgnoreCase);
         return indexOf != -1 && indexOf == str.Length - suffix.Length;
     }
 

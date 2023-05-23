@@ -18,8 +18,6 @@ function Sys_PrefabDBModel.LoadFormMS(ms)
         sys_prefabTable[#sys_prefabTable + 1] = Sys_PrefabEntity.New(
                 ms:ReadInt(),
                 ms:ReadUTF8String(),
-                ms:ReadUTF8String(),
-                ms:ReadUTF8String(),
                 ms:ReadByte(),
                 ms:ReadByte(),
                 ms:ReadInt(),

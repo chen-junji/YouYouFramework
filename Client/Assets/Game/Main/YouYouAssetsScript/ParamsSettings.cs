@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "YouYouAsset/ParamsSettings")]
 public class ParamsSettings : ScriptableObject
 {
     [BoxGroup("InitUrl")] public string WebAccountUrl;

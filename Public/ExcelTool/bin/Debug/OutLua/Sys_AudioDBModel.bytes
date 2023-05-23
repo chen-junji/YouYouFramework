@@ -18,11 +18,7 @@ function Sys_AudioDBModel.LoadFormMS(ms)
         sys_audioTable[#sys_audioTable + 1] = Sys_AudioEntity.New(
                 ms:ReadInt(),
                 ms:ReadUTF8String(),
-                ms:ReadUTF8String(),
-                ms:ReadUTF8String(),
                 ms:ReadFloat(),
-                ms:ReadByte(),
-                ms:ReadByte(),
                 ms:ReadByte(),
                 ms:ReadByte()
         );

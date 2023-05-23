@@ -14,16 +14,13 @@ namespace YouYou
             TaskGroup = new TaskGroup();
         }
 
-        public void AddGuide(int guideCount, Action task)
+        public void AddGuide(Action task)
         {
-            for (int i = 0; i < guideCount; i++)
+            TaskGroup.AddTask(taskRoutine =>
             {
-                TaskGroup.AddTask(taskRoutine =>
-                {
-                    GameEntry.Guide.OnNextOne = taskRoutine.Leave;
-                    task?.Invoke();
-                });
-            }
+                GameEntry.Guide.OnNextOne = taskRoutine.Leave;
+                task?.Invoke();
+            });
         }
 
         public void Run(Action onComplete = null)

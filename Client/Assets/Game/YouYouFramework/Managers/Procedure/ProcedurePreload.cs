@@ -22,17 +22,10 @@ namespace YouYou
         /// </summary>
         private float m_CurrProgress;
 
-        /// <summary>
-        /// 预加载参数
-        /// </summary>
-        private BaseParams m_PreloadParams;
-
         internal override void OnEnter()
         {
             base.OnEnter();
-            m_PreloadParams = GameEntry.Pool.DequeueClassObject<BaseParams>();
-            m_PreloadParams.Reset();
-            GameEntry.Event.Common.Dispatch(CommonEventId.PreloadBegin);
+            MainEntry.Data.Dispatch(SysDataMgr.EventName.PRELOAD_BEGIN);
 
             m_CurrProgress = 0;
 
@@ -54,14 +47,12 @@ namespace YouYou
                 {
                     m_CurrProgress = Mathf.Min(m_CurrProgress + Time.deltaTime * 60, m_TargetProgress);
                 }
-                m_PreloadParams.FloatParam1 = m_CurrProgress;
-                GameEntry.Event.Common.Dispatch(CommonEventId.PreloadUpdate, m_PreloadParams);
+                MainEntry.Data.PreloadUpdate(m_CurrProgress);
             }
 
             if (m_CurrProgress == 100)
             {
-                GameEntry.Event.Common.Dispatch(CommonEventId.PreloadComplete);
-                GameEntry.Pool.EnqueueClassObject(m_PreloadParams);
+                MainEntry.Data.Dispatch(SysDataMgr.EventName.PRELOAD_COMPLETE);
 
                 //进入到业务流程
                 GameEntry.Procedure.ChangeState(ProcedureState.Game);
@@ -78,13 +69,13 @@ namespace YouYou
             //初始化资源信息
             taskGroup.AddTask((taskRoutine) =>
             {
-                GameEntry.Resource.ResourceLoaderManager.InitAssetInfo(taskRoutine.Leave);
+                GameEntry.Resource.InitAssetInfo(taskRoutine.Leave);
             });
 
             //加载自定义Shader
             taskGroup.AddTask((taskRoutine) =>
             {
-                GameEntry.Resource.ResourceLoaderManager.LoadAssetBundleAction(YFConstDefine.CusShadersAssetBundlePath, onComplete: (AssetBundle bundle) =>
+                GameEntry.Resource.LoadAssetBundleAction(YFConstDefine.CusShadersAssetBundlePath, onComplete: (AssetBundle bundle) =>
                 {
                     bundle.LoadAllAssets();
                     Shader.WarmupAllShaders();

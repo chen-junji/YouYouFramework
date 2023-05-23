@@ -9,7 +9,7 @@ public class TestDownload : MonoBehaviour
 {
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyUp(KeyCode.A))
         {
             //这是为了删掉断点续传存档点
             PlayerPrefs.DeleteAll();
@@ -18,7 +18,7 @@ public class TestDownload : MonoBehaviour
             MainEntry.Download.BeginDownloadSingle("download/datatable.assetbundle");
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyUp(KeyCode.S))
         {
             //这是为了删掉断点续传存档点
             PlayerPrefs.DeleteAll();

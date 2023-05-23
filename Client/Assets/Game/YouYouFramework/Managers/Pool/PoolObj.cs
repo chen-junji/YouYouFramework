@@ -10,7 +10,39 @@ public class PoolObj : MonoBehaviour
     [SerializeField] float DelayTimeDespawn;
 
     [HideInInspector] public bool IsNew;
-    private TimeAction timeAction;
+
+    private List<PoolObj> ChildObj = new List<PoolObj>();
+
+    protected virtual void OnDestory() { }
+    protected virtual void Start()
+    {
+        if (IsNew)
+        {
+            OnInit();
+            OnOpen();
+        }
+    }
+    public virtual void OnInit() { }
+    public virtual void OnOpen() { }
+    public virtual void OnClose()
+    {
+        for (int i = 0; i < ChildObj.Count; i++)
+        {
+            ChildObj[i].Despawn();
+        }
+        ChildObj.Clear();
+    }
+
+    public void AddChild(PoolObj poolObj)
+    {
+        if (poolObj == null) return;
+        ChildObj.Add(poolObj);
+    }
+
+    public void Despawn()
+    {
+        GameEntry.Pool.GameObjectPool.Despawn(this);
+    }
 
     public void SetDelayTimeDespawn(float delayTime)
     {
@@ -23,24 +55,11 @@ public class PoolObj : MonoBehaviour
     public void BeginTime()
     {
         if (DelayTimeDespawn <= 0) return;
-
-        //timeAction = GameEntry.Time.Create(delayTime: DelayTimeDespawn, onComplete: () =>
-        //{
-        //    GameEntry.Pool.GameObjectPool.Despawn(transform);
-        //    timeAction = null;
-        //});
-
         StartCoroutine(DelayDespawn());
     }
     public void StopTime()
     {
         IsActive = false;
-        //if (timeAction != null)
-        //{
-        //    timeAction.Stop();
-        //    timeAction = null;
-        //}
-
         StopCoroutine(DelayDespawn());
     }
 
@@ -50,8 +69,4 @@ public class PoolObj : MonoBehaviour
         GameEntry.Pool.GameObjectPool.Despawn(transform);
     }
 
-    public void Despawn()
-    {
-        GameEntry.Pool.GameObjectPool.Despawn(this);
-    }
 }

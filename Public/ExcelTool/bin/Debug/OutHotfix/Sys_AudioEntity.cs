@@ -8,19 +8,9 @@ namespace Hotfix
     public partial class Sys_AudioEntity : DataTableEntityBase
     {
         /// <summary>
-        /// 描述
-        /// </summary>
-        public string Desc;
-
-        /// <summary>
         /// 路径
         /// </summary>
         public string AssetPath;
-
-        /// <summary>
-        /// 后缀
-        /// </summary>
-        public string Suffix;
 
         /// <summary>
         /// 音量（0-1）
@@ -31,16 +21,6 @@ namespace Hotfix
         /// 是否循环
         /// </summary>
         public byte IsLoop;
-
-        /// <summary>
-        /// 是否淡入
-        /// </summary>
-        public byte IsFadeIn;
-
-        /// <summary>
-        /// 是否淡出
-        /// </summary>
-        public byte IsFadeOut;
 
         /// <summary>
         /// 优先级(默认128)

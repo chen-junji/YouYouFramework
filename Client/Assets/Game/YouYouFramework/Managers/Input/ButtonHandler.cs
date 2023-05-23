@@ -6,7 +6,7 @@ namespace YouYou
 {
     public class ButtonHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        [SerializeField] string Name;
+        [SerializeField] InputName Name;
         public void OnPointerDown(PointerEventData eventData)
         {
             GameEntry.Input.SetButtonDown(Name);

@@ -1,4 +1,3 @@
-using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +20,7 @@ namespace YouYou
         {
             if (AudioNames.Length == 0)
             {
-                audioName = AudioName.button_sound;
+                audioName = AudioName.UIClick;
             }
             else
             {

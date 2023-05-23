@@ -58,12 +58,20 @@ namespace Main
         /// <summary>
         /// 系统数据管理器
         /// </summary>
-        public static SysDataMgr SysData { get; private set; }
+        public static SysDataMgr Data { get; private set; }
         /// <summary>
         /// 热更新管理器
         /// </summary>
         public static HotfixManager Hotfix { get; private set; }
 
+        /// <summary>
+        /// Http调用失败后重试次数
+        /// </summary>
+        public static int HttpRetry { get; private set; }
+        /// <summary>
+        /// Http调用失败后重试间隔（秒）
+        /// </summary>
+        public static int HttpRetryInterval { get; private set; }
 
         /// <summary>
         /// 单例
@@ -80,13 +88,16 @@ namespace Main
             //此处以后判断如果不是编辑器模式 要根据设备信息判断等级
             CurrDeviceGrade = m_CurrDeviceGrade;
             ParamsSettings = m_ParamsSettings;
-        }
-        private void Start()
-        {
+
+            //初始化系统参数
+            HttpRetry = ParamsSettings.GetGradeParamData(YFConstDefine.Http_Retry, CurrDeviceGrade);
+            HttpRetryInterval = ParamsSettings.GetGradeParamData(YFConstDefine.Http_RetryInterval, CurrDeviceGrade);
+
+            //初始化管理器
             Download = new DownloadManager();
             ResourceManager = new ResourceManager();
             ClassObjectPool = new ClassObjectPool();
-            SysData = new SysDataMgr();
+            Data = new SysDataMgr();
             Hotfix = new HotfixManager();
 
             Download.Init();

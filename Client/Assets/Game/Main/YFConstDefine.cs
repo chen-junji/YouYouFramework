@@ -37,17 +37,12 @@ namespace Main
 		/// <summary>
 		/// GameEntry的Assetbundle的存储路径
 		/// </summary>
-		public const string GameEntryAssetBundlePath = "game/download/common/gameentry.assetbundle";
+		public const string GameEntryAssetBundlePath = "game/download/prefab/gameentry.assetbundle";
 
 		/// <summary>
 		/// 自定义Shader的AssetBundle的存储路径
 		/// </summary>
-		public const string CusShadersAssetBundlePath = "game/download/cusshaders.assetbundle";
-
-		/// <summary>
-		/// 帧率
-		/// </summary>
-		public const string targetFrameRate = "targetFrameRate";
+		public const string CusShadersAssetBundlePath = "game/download/shader.assetbundle";
 
 		/// <summary>
 		/// Http请求失败后的重试次数
@@ -100,16 +95,6 @@ namespace Main
 		/// UI释放间隔_秒
 		/// </summary>
 		public const string UI_ClearInterval = "UI_ClearInterval";
-
-		/// <summary>
-		/// Lua中可释放表数据的生命周期
-		/// </summary>
-		public const string Lua_DataTableLife = "Lua_DataTableLife";
-
-		/// <summary>
-		/// Audio释放间隔
-		/// </summary>
-		public const string Audio_ReleaseInterval = "Audio_ReleaseInterval";
 
 	}
 }

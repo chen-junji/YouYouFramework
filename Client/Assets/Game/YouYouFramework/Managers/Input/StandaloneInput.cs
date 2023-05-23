@@ -9,8 +9,8 @@ namespace YouYou
         public struct KeyCodeItem
         {
             public KeyCode KeyCode;
-            public string Name;
-            public KeyCodeItem(KeyCode keyCode, string name)
+            public InputName Name;
+            public KeyCodeItem(KeyCode keyCode, InputName name)
             {
                 KeyCode = keyCode;
                 Name = name;
@@ -20,22 +20,17 @@ namespace YouYou
         internal override void OnInit()
         {
             base.OnInit();
-            KeyCodeItemList.Add(new KeyCodeItem(KeyCode.Mouse0, ConstInput.Fire));
-            KeyCodeItemList.Add(new KeyCodeItem(KeyCode.Mouse1, ConstInput.Aim));
-            KeyCodeItemList.Add(new KeyCodeItem(KeyCode.Space, ConstInput.Jump));
-            KeyCodeItemList.Add(new KeyCodeItem(KeyCode.R, ConstInput.Reload));
-            KeyCodeItemList.Add(new KeyCodeItem(KeyCode.LeftControl, ConstInput.Crouch));
-            KeyCodeItemList.Add(new KeyCodeItem(KeyCode.Escape, ConstInput.Pause));
-            KeyCodeItemList.Add(new KeyCodeItem(KeyCode.G, ConstInput.SkipDelay));
-            KeyCodeItemList.Add(new KeyCodeItem(KeyCode.H, ConstInput.AddCurrency));
-            KeyCodeItemList.Add(new KeyCodeItem(KeyCode.E, ConstInput.SellTower));
+            //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.Mouse0, ConstInput.Fire));
+            //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.Mouse1, ConstInput.Aim));
+            //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.Space, ConstInput.Jump));
+            //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.R, ConstInput.Reload));
+            //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.LeftControl, ConstInput.Crouch));
+            //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.Escape, ConstInput.Pause));
+            //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.G, ConstInput.SkipDelay));
+            //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.H, ConstInput.AddCurrency));
+            //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.E, ConstInput.SellTower));
 
-            KeyCodeItemList.Add(new KeyCodeItem(KeyCode.T, ConstInput.Interact));
-            //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.LeftShift, ConstInput.Run));
-            //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.Z, ConstInput.Prone));
-            //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.Q, ConstInput.Drop));
-            //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.N, ConstInput.ChangeUseMode));
-            //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.LeftControl, ConstInput.AlternateUse));
+            //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.T, ConstInput.Interact));
         }
         internal override void OnEnter()
         {
@@ -66,21 +61,21 @@ namespace YouYou
         }
 
 
-        public override float GetAxis(string name, bool raw)
+        public override float GetAxis(InputName name, bool raw)
         {
-            return raw ? Input.GetAxisRaw(name) : Input.GetAxis(name);
+            return raw ? Input.GetAxisRaw(name.ToString()) : Input.GetAxis(name.ToString());
         }
 
-        public override void SetAxisPositive(string name)
+        public override void SetAxisPositive(InputName name)
         {
         }
-        public override void SetAxisNegative(string name)
+        public override void SetAxisNegative(InputName name)
         {
         }
-        public override void SetAxisZero(string name)
+        public override void SetAxisZero(InputName name)
         {
         }
-        public override void SetAxis(string name, float value)
+        public override void SetAxis(InputName name, float value)
         {
         }
     }

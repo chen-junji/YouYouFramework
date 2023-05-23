@@ -20,7 +20,7 @@ namespace YouYou
 
             if (AudioNames.Length == 0)
             {
-                audioName = AudioName.button_sound;
+                audioName = AudioName.UIClick;
             }
             else
             {
