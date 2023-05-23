@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
 using UnityEngine.EventSystems;
-//using DG.Tweening;
+using DG.Tweening;
 using YouYou;
 
 public class UIRollingScroller : UIScroller, IDragHandler, IEndDragHandler
@@ -85,7 +85,7 @@ public class UIRollingScroller : UIScroller, IDragHandler, IEndDragHandler
         // 自动滚到最新消息的位置
         if (targetYPos < autoRollingHigh && isDraging == false)
         {
-            //ScrollRect.content.DOAnchorPos3D(new Vector3(0f, tempY, 0f), 0.5f);
+            ScrollRect.content.DOAnchorPos3D(new Vector3(0f, tempY, 0f), 0.5f);
         }
         else if (isReLoadData)
         {

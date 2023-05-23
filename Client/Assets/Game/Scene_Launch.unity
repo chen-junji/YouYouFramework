@@ -604,20 +604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43dd04617c9f105449b227e016c972a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  protocol: 0
-  ip: 127.0.0.1
-  port: 9543
-  localTest: 0
-  logMode: 1
-  debugRpc: 1
-  authorize: 0
-  startConnect: 1
-  md5CRC: 0
-  reconnectCount: 10
-  reconnectInterval: 2000
-  heartLimit: 5
-  heartInterval: 1000
-  dontDestroyOnLoad: 1
 --- !u!4 &856664107
 Transform:
   m_ObjectHideFlags: 0

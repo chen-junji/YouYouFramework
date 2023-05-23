@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-//using DG.Tweening;
+using DG.Tweening;
 using YouYou;
 
 /// <summary>
@@ -147,7 +147,7 @@ public class CameraCtrl : SingletonMono<CameraCtrl>
         IEnumerator DOCameraShake()
         {
             yield return new WaitForSeconds(delay);
-            //m_CameraContainer.DOShakePosition(duration, strength, vibrato);
+            m_CameraContainer.DOShakePosition(duration, strength, vibrato);
         }
     }
 
