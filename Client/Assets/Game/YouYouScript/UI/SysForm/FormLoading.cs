@@ -21,7 +21,7 @@ public class FormLoading : UIFormBase
     protected override void Awake()
     {
         base.Awake();
-        MainEntry.Data.AddEventListener(SysDataMgr.EventName.LOADING_SCENE_UPDATE, OnLoadingProgressChange);
+        MainEntry.Data.AddEventListener(SysDataMgr.EventName.LoadingSceneUpdate, OnLoadingProgressChange);
     }
     private void OnLoadingProgressChange(object userData)
     {
@@ -40,6 +40,6 @@ public class FormLoading : UIFormBase
     protected override void OnDisable()
     {
         base.OnDisable();
-        MainEntry.Data.RemoveEventListener(SysDataMgr.EventName.LOADING_SCENE_UPDATE, OnLoadingProgressChange);
+        MainEntry.Data.RemoveEventListener(SysDataMgr.EventName.LoadingSceneUpdate, OnLoadingProgressChange);
     }
 }

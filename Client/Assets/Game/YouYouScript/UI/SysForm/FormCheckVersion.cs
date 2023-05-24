@@ -27,9 +27,9 @@ public class FormCheckVersion : MonoBehaviour
         MainEntry.ResourceManager.CheckVersionDownloadUpdate -= OnCheckVersionDownloadUpdate;
         MainEntry.ResourceManager.CheckVersionDownloadComplete -= OnCheckVersionDownloadComplete;
 
-        MainEntry.Data.RemoveEventListener(SysDataMgr.EventName.PRELOAD_BEGIN, OnPreloadBegin);
-        MainEntry.Data.RemoveEventListener(SysDataMgr.EventName.PRELOAD_UPDATE, OnPreloadUpdate);
-        MainEntry.Data.RemoveEventListener(SysDataMgr.EventName.PRELOAD_COMPLETE, OnPreloadComplete);
+        MainEntry.Data.RemoveEventListener(SysDataMgr.EventName.PreloadBegin, OnPreloadBegin);
+        MainEntry.Data.RemoveEventListener(SysDataMgr.EventName.PreloadUpdate, OnPreloadUpdate);
+        MainEntry.Data.RemoveEventListener(SysDataMgr.EventName.PreloadComplete, OnPreloadComplete);
     }
     private void Start()
     {
@@ -37,9 +37,9 @@ public class FormCheckVersion : MonoBehaviour
         MainEntry.ResourceManager.CheckVersionDownloadUpdate += OnCheckVersionDownloadUpdate;
         MainEntry.ResourceManager.CheckVersionDownloadComplete += OnCheckVersionDownloadComplete;
 
-        MainEntry.Data.AddEventListener(SysDataMgr.EventName.PRELOAD_BEGIN, OnPreloadBegin);
-        MainEntry.Data.AddEventListener(SysDataMgr.EventName.PRELOAD_UPDATE, OnPreloadUpdate);
-        MainEntry.Data.AddEventListener(SysDataMgr.EventName.PRELOAD_COMPLETE, OnPreloadComplete);
+        MainEntry.Data.AddEventListener(SysDataMgr.EventName.PreloadBegin, OnPreloadBegin);
+        MainEntry.Data.AddEventListener(SysDataMgr.EventName.PreloadUpdate, OnPreloadUpdate);
+        MainEntry.Data.AddEventListener(SysDataMgr.EventName.PreloadComplete, OnPreloadComplete);
 
         //if (txtSize != null) txtSize.gameObject.SetActive(false);
     }

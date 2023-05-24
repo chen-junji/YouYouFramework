@@ -10,11 +10,6 @@ namespace YouYou
     [RequireComponent(typeof(GraphicRaycaster))]//脚本依赖
     public class UIBase : MonoBehaviour
     {
-        [Header("UI特效分组")]
-        [SerializeField] public List<UIEffectGroup> UIEffectGroups = new List<UIEffectGroup>();
-        [Header("初始播放的特效")]
-        [SerializeField] List<ParticleSystem> effectOnOpenPlay = new List<ParticleSystem>();
-
         public Sys_UIFormEntity SysUIForm { get; private set; }
 
         public Canvas CurrCanvas { get; private set; }
@@ -43,6 +38,7 @@ namespace YouYou
         {
             GameEntry.Time.Yield(() =>
             {
+                //这里是禁用所有按钮的导航功能，因为用不上
                 Button[] buttons = GetComponentsInChildren<Button>(true);
                 for (int i = 0; i < buttons.Length; i++)
                 {
@@ -71,27 +67,10 @@ namespace YouYou
         }
         internal void ToOpen()
         {
-            //先设置UI层级
+            //设置UI层级
             if (SysUIForm.DisableUILayer != 1) GameEntry.UI.UILayer.SetSortingOrder(this, true);
 
-            //再根据UI层级, 设置特效层级
-            for (int i = 0; i < UIEffectGroups.Count; i++)
-            {
-                UIEffectGroup effectGroup = UIEffectGroups[i];
-                effectGroup.Group.ForEach(x =>
-                {
-                    x.SetEffectOrder(CurrCanvas.sortingOrder + effectGroup.Order);
-                    x.gameObject.SetLayer("UI");
-                });
-            }
-
-            //停止特效初始播放, 不需要可以注释
-            ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>();
-            for (int i = 0; i < particles.Length; i++) particles[i].Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-
-            //播放设定的初始特效
-            effectOnOpenPlay.ForEach(x => x.Play());
-
+            //UI打开时的委托
             if (ActionOpen != null)
             {
                 Action onOpenBegin = ActionOpen;

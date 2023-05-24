@@ -4,12 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using YouYou;
 
-public class GuideDataMgr : DataMgrBase<GuideDataMgr.EventName>
+public class GuideDataMgr
 {
-    public enum EventName
-    {
-
-    }
     //µ¥»ú»òÍøÂç´æµµ
     private bool b_native = true;
 

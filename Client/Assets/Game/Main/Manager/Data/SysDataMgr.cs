@@ -9,11 +9,11 @@ namespace Main
     {
         public enum EventName : uint
         {
-            LOADING_SCENE_UPDATE,
+            LoadingSceneUpdate,
 
-            PRELOAD_BEGIN,
-            PRELOAD_UPDATE,
-            PRELOAD_COMPLETE,
+            PreloadBegin,
+            PreloadUpdate,
+            PreloadComplete,
         }
 
         /// <summary>

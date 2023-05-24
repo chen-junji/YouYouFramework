@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,8 @@ public class PoolObj : MonoBehaviour
     [HideInInspector] public bool IsNew;
 
     private List<PoolObj> ChildObj = new List<PoolObj>();
+
+    public Action OnDespawn;
 
     protected virtual void OnDestory() { }
     protected virtual void Start()
@@ -41,6 +44,7 @@ public class PoolObj : MonoBehaviour
 
     public void Despawn()
     {
+        OnDespawn?.Invoke();
         GameEntry.Pool.GameObjectPool.Despawn(this);
     }
 
@@ -66,7 +70,7 @@ public class PoolObj : MonoBehaviour
     IEnumerator DelayDespawn()
     {
         yield return new WaitForSeconds(DelayTimeDespawn);
-        GameEntry.Pool.GameObjectPool.Despawn(transform);
+        Despawn();
     }
 
 }

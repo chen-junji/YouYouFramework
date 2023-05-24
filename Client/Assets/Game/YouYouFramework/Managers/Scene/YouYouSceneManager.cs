@@ -198,7 +198,7 @@ namespace YouYou
                 if (m_CurrProgress <= CurrSceneEntity.AssetPathList.Count && m_CurrProgress <= currTarget)
                 {
                     m_CurrProgress += Time.deltaTime * CurrSceneEntity.AssetPathList.Count * 1;
-                    MainEntry.Data.Dispatch(SysDataMgr.EventName.LOADING_SCENE_UPDATE, Math.Min(m_CurrProgress / CurrSceneEntity.AssetPathList.Count, 1));
+                    MainEntry.Data.Dispatch(SysDataMgr.EventName.LoadingSceneUpdate, Math.Min(m_CurrProgress / CurrSceneEntity.AssetPathList.Count, 1));
                 }
             }
         }

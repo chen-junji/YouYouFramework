@@ -13,22 +13,13 @@ namespace YouYou
     /// </summary>
     public class AudioManager
     {
-        public AudioSource BGMSource { get; private set; }
-
-        public Sys_BGMEntity CurrBGMEntity;
         public float PlayerBGMVolume { get; private set; }
         public float PlayerAudioVolume { get; private set; }
-
-        private AudioSource AudioSourcePrefab;
-
-        private Queue<AudioSource> HelpPool = new Queue<AudioSource>();
-
-        private List<AudioSource> AudioSourceList = new List<AudioSource>();
 
 
         public void Init()
         {
-            AudioSourcePrefab = new GameObject("AudioItem", typeof(AudioSource)).GetComponent<AudioSource>();
+            AudioSourcePrefab = new GameObject("AudioItem", typeof(AudioSource), typeof(PoolObj)).GetComponent<AudioSource>();
             AudioSourcePrefab.transform.SetParent(GameEntry.Instance.AudioGroup);
             AudioSourcePrefab.playOnAwake = false;
             AudioSourcePrefab.maxDistance = 20;
@@ -65,6 +56,8 @@ namespace YouYou
         }
 
         #region BGM
+        public AudioSource BGMSource { get; private set; }
+        public Sys_BGMEntity CurrBGMEntity;
         private TimeAction timeActionIn;
         private TimeAction timeActionOut;
 
@@ -170,6 +163,9 @@ namespace YouYou
         #endregion
 
         #region 音效
+        private AudioSource AudioSourcePrefab;
+        private List<AudioSource> AudioSourceList = new List<AudioSource>();
+
         public void PlayAudio(AudioClip audioClip, Vector3 point, float volume = 1, bool loop = false, int priority = 128)
         {
             AudioSource audioSource = PlayAudio2(audioClip, volume, loop, priority);
@@ -209,7 +205,7 @@ namespace YouYou
                 return null;
             }
 
-            AudioSource helper = Dequeue();
+            AudioSource helper = GameEntry.Pool.GameObjectPool.Spawn(AudioSourcePrefab.transform, GameEntry.Instance.AudioGroup).GetComponent<AudioSource>();
             AudioSourceList.Add(helper);
             helper.clip = audioClip;
             helper.mute = false;
@@ -221,32 +217,16 @@ namespace YouYou
 
             if (!helper.loop)
             {
-                GameEntry.Time.Create(delayTime: audioClip.length, onComplete: () =>
+                PoolObj poolObj = helper.GetComponent<PoolObj>();
+                poolObj.SetDelayTimeDespawn(audioClip.length);
+                poolObj.OnDespawn = () =>
                 {
-                    if (helper == null) return;
-                    bool isRemove = AudioSourceList.Remove(helper);
-                    if (isRemove) Enqueue(helper);
-                });
+                    AudioSourceList.Remove(helper);
+                };
             }
             return helper;
         }
 
-        private AudioSource Dequeue()
-        {
-            if (HelpPool.Count > 0)
-            {
-                return HelpPool.Dequeue();
-            }
-            else
-            {
-                return Object.Instantiate(AudioSourcePrefab, GameEntry.Instance.AudioGroup);
-            }
-        }
-        private void Enqueue(AudioSource helper)
-        {
-            helper.clip = null;
-            HelpPool.Enqueue(helper);
-        }
         #endregion
 
     }

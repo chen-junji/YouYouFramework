@@ -25,7 +25,7 @@ namespace YouYou
         internal override void OnEnter()
         {
             base.OnEnter();
-            MainEntry.Data.Dispatch(SysDataMgr.EventName.PRELOAD_BEGIN);
+            MainEntry.Data.Dispatch(SysDataMgr.EventName.PreloadBegin);
 
             m_CurrProgress = 0;
 
@@ -47,12 +47,12 @@ namespace YouYou
                 {
                     m_CurrProgress = Mathf.Min(m_CurrProgress + Time.deltaTime * 60, m_TargetProgress);
                 }
-                MainEntry.Data.Dispatch(SysDataMgr.EventName.PRELOAD_UPDATE, m_CurrProgress);
+                MainEntry.Data.Dispatch(SysDataMgr.EventName.PreloadUpdate, m_CurrProgress);
             }
 
             if (m_CurrProgress == 100)
             {
-                MainEntry.Data.Dispatch(SysDataMgr.EventName.PRELOAD_COMPLETE);
+                MainEntry.Data.Dispatch(SysDataMgr.EventName.PreloadComplete);
 
                 //进入到业务流程
                 GameEntry.Procedure.ChangeState(ProcedureState.Game);
