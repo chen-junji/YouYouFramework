@@ -13,6 +13,7 @@ namespace YouYou
     /// </summary>
     public class AudioManager
     {
+        public float MasterVolume { get; private set; }
         public float PlayerBGMVolume { get; private set; }
         public float PlayerAudioVolume { get; private set; }
 
@@ -29,14 +30,21 @@ namespace YouYou
             BGMSource.name = "BGMSource";
             BGMSource.outputAudioMixerGroup = GameEntry.Instance.MonsterMixer.FindMatchingGroups("BGM")[0];
 
+            GameEntry.Data.PlayerPrefsDataMgr.AddEventListener(PlayerPrefsDataMgr.EventName.MasterVolume, RefreshMasterVolume);
             GameEntry.Data.PlayerPrefsDataMgr.AddEventListener(PlayerPrefsDataMgr.EventName.BGMVolume, RefreshBGM);
             GameEntry.Data.PlayerPrefsDataMgr.AddEventListener(PlayerPrefsDataMgr.EventName.AudioVolume, RefreshAudio);
             GameEntry.Data.PlayerPrefsDataMgr.AddEventListener(PlayerPrefsDataMgr.EventName.GamePause, OnGamePause);
 
+            RefreshMasterVolume(null);
             RefreshBGM(null);
             RefreshAudio(null);
         }
 
+        private void RefreshMasterVolume(object userData)
+        {
+            MasterVolume = GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.MasterVolume);
+            SetMixerVolume(PlayerPrefsDataMgr.EventName.MasterVolume.ToString(), MasterVolume);
+        }
         private void RefreshAudio(object userData)
         {
             PlayerAudioVolume = GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.AudioVolume);

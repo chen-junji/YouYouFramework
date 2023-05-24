@@ -10,6 +10,8 @@ public class PlayerPrefsDataMgr : DataMgrBase<PlayerPrefsDataMgr.EventName>
 {
     public enum EventName : uint
     {
+        //主音量
+        MasterVolume,
         //背景音乐音量
         BGMVolume,
         //音效音量
@@ -35,6 +37,7 @@ public class PlayerPrefsDataMgr : DataMgrBase<PlayerPrefsDataMgr.EventName>
         dicFloat = GetObject<Dictionary<EventName, float>>("dicFloat");
         dicString = GetObject<Dictionary<EventName, string>>("dicString");
 
+        GameEntry.Data.PlayerPrefsDataMgr.SetFloatHas(EventName.MasterVolume, 1);
         GameEntry.Data.PlayerPrefsDataMgr.SetFloatHas(EventName.AudioVolume, 1);
         GameEntry.Data.PlayerPrefsDataMgr.SetFloatHas(EventName.BGMVolume, 1);
         GameEntry.Data.PlayerPrefsDataMgr.SetIntHas(EventName.FrameRate, 2);
