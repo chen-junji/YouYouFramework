@@ -18,11 +18,6 @@ namespace YouYou
         public float Volume;
 
         /// <summary>
-        /// 是否循环
-        /// </summary>
-        public byte IsLoop;
-
-        /// <summary>
         /// 优先级(默认128)
         /// </summary>
         public byte Priority;

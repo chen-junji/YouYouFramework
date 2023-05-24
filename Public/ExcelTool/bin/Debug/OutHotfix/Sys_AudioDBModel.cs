@@ -29,7 +29,6 @@ namespace Hotfix
                 entity.Id = ms.ReadInt();
                 entity.AssetPath = ms.ReadUTF8String();
                 entity.Volume = ms.ReadFloat();
-                entity.IsLoop = (byte)ms.ReadByte();
                 entity.Priority = (byte)ms.ReadByte();
 
                 m_List.Add(entity);

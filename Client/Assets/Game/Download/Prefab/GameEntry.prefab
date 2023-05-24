@@ -32,7 +32,7 @@ Transform:
   m_Children:
   - {fileID: 7296422001348922006}
   m_Father: {fileID: 4719996667698335942}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4650427173031401150
 MonoBehaviour:
@@ -199,7 +199,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4719996668570295970}
   - {fileID: 4719996668493931837}
   - {fileID: 4719996667531089352}
   - {fileID: 4404308025077254991}
@@ -222,6 +221,9 @@ MonoBehaviour:
   - PoolId: 1
     PoolName: Common
     Pool: {fileID: 0}
+  - PoolId: 2
+    PoolName: Audio
+    Pool: {fileID: 0}
   LockedAssetBundle:
   - download/cusshaders.assetbundle
   - download/ui/uifont.assetbundle
@@ -240,7 +242,7 @@ MonoBehaviour:
   - Id: 4
     BaseOrder: 3000
     Group: {fileID: 4719996667817288573}
-  AudioGroup: {fileID: 4719996668570295970}
+  MonsterMixer: {fileID: 24100000, guid: b2cf29e1378929c43b3632019690086b, type: 2}
   m_CurrLanguage: 0
 --- !u!1 &4719996667742643965
 GameObject:
@@ -413,37 +415,6 @@ Transform:
   - {fileID: 4719996667436394914}
   - {fileID: 4719996668840302257}
   - {fileID: 4719996667788739060}
-  m_Father: {fileID: 4719996667698335942}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &4719996668570295971
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4719996668570295970}
-  m_Layer: 0
-  m_Name: AudioGroup
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4719996668570295970
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4719996668570295971}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
   m_Father: {fileID: 4719996667698335942}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -777,7 +748,7 @@ PrefabInstance:
     - target: {fileID: 6941828194667635599, guid: 4927c5bd289c06146bd2c560ef138bff,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6941828194667635599, guid: 4927c5bd289c06146bd2c560ef138bff,
         type: 3}

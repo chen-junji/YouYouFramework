@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 namespace YouYou
@@ -10,17 +11,11 @@ namespace YouYou
     public class GameEntry : MonoBehaviour
     {
         [FoldoutGroup("ResourceGroup")]
-        /// <summary>
-        /// 游戏物体对象池分组
-        /// </summary>
-        [SerializeField]
+        [Header("游戏物体对象池分组")]
         public GameObjectPoolEntity[] GameObjectPoolGroups;
 
         [FoldoutGroup("ResourceGroup")]
-        [Header("锁定的资源包")]
-        /// <summary>
-        /// 锁定的资源包（不会释放）
-        /// </summary>
+        [Header("对象池锁定的资源包")]
         public string[] LockedAssetBundle;
 
         [FoldoutGroup("UIGroup")]
@@ -29,17 +24,22 @@ namespace YouYou
 
         [FoldoutGroup("UIGroup")]
         [Header("根画布的缩放")]
-        [SerializeField]
         public CanvasScaler UIRootCanvasScaler;
         public RectTransform UIRootRectTransform { get; private set; }
 
         [FoldoutGroup("UIGroup")]
         [Header("UI分组")]
-        [SerializeField]
         public UIGroup[] UIGroups;
 
-        [Header("音频组")]
+
+        [FoldoutGroup("AudioGroup")]
+        [Header("所有AudioSource的父节点")]
         public Transform AudioGroup;
+
+        [FoldoutGroup("AudioGroup")]
+        [Header("声音主混合器")]
+        public AudioMixer MonsterMixer;
+
 
         [Header("当前语言（要和本地化表的语言字段 一致）")]
         [SerializeField]

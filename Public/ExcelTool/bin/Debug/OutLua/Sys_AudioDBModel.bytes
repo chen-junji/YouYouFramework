@@ -19,7 +19,6 @@ function Sys_AudioDBModel.LoadFormMS(ms)
                 ms:ReadInt(),
                 ms:ReadUTF8String(),
                 ms:ReadFloat(),
-                ms:ReadByte(),
                 ms:ReadByte()
         );
     end

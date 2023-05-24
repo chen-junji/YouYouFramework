@@ -11,9 +11,9 @@ public class PlayerPrefsDataMgr : DataMgrBase<PlayerPrefsDataMgr.EventName>
     public enum EventName : uint
     {
         //±≥æ∞“Ù¿÷“Ù¡ø
-        PlayerBGMVolume,
+        BGMVolume,
         //“Ù–ß“Ù¡ø
-        PlayerAudioVolume,
+        AudioVolume,
         // «∑Ò’∂Ø
         IsShake,
         //”Œœ∑‘›Õ£
@@ -35,8 +35,8 @@ public class PlayerPrefsDataMgr : DataMgrBase<PlayerPrefsDataMgr.EventName>
         dicFloat = GetObject<Dictionary<EventName, float>>("dicFloat");
         dicString = GetObject<Dictionary<EventName, string>>("dicString");
 
-        GameEntry.Data.PlayerPrefsDataMgr.SetFloatHas(EventName.PlayerAudioVolume, 1);
-        GameEntry.Data.PlayerPrefsDataMgr.SetFloatHas(EventName.PlayerBGMVolume, 1);
+        GameEntry.Data.PlayerPrefsDataMgr.SetFloatHas(EventName.AudioVolume, 1);
+        GameEntry.Data.PlayerPrefsDataMgr.SetFloatHas(EventName.BGMVolume, 1);
         GameEntry.Data.PlayerPrefsDataMgr.SetIntHas(EventName.FrameRate, 2);
     }
     public void SaveDataAll()
