@@ -3,7 +3,7 @@ using System.Linq;
 using YouYou;
 using UnityEngine.EventSystems;
 
-public class bl_TouchPad : MonoBehaviour, IDragHandler, IEndDragHandler
+public class YouYouTouchPad : MonoBehaviour, IDragHandler, IEndDragHandler
 {
     private Vector2 input;
 
