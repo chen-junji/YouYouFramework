@@ -27,7 +27,7 @@ public partial class Sys_SceneDBModel : DataTableDBModelBase<Sys_SceneDBModel, S
             entity.Id = ms.ReadInt();
             entity.SceneGroup = ms.ReadUTF8String();
             entity.ScenePath = ms.ReadUTF8String();
-            entity.BGMId = ms.ReadInt();
+            entity.BGMId = ms.ReadUTF8String();
 
             m_List.Add(entity);
             m_Dic[entity.Id] = entity;

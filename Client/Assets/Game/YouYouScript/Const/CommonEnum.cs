@@ -17,10 +17,14 @@ public enum AudioName : uint
     UIClick,
     UIClose,
 }
+public enum SceneGroupName : uint
+{
+    None,
+    Main,
+}
 
 public enum EventName : uint
 {
-    //²âÊÔÊÂ¼þ
     TestEvent,
 }
 

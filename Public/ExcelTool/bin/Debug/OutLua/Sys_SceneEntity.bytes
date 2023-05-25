@@ -1,4 +1,4 @@
-Sys_SceneEntity = { Id = 0, SceneGroup = "", ScenePath = "", BGMId = 0 }
+Sys_SceneEntity = { Id = 0, SceneGroup = "", ScenePath = "", BGMId = "" }
 
 Sys_SceneEntity.__index = Sys_SceneEntity;
 

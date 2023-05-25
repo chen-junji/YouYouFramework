@@ -19,6 +19,6 @@ public partial class Sys_SceneEntity : DataTableEntityBase
     /// <summary>
     /// 背景音乐
     /// </summary>
-    public int BGMId;
+    public string BGMId;
 
 }

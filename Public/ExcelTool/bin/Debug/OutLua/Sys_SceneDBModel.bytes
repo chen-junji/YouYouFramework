@@ -19,7 +19,7 @@ function Sys_SceneDBModel.LoadFormMS(ms)
                 ms:ReadInt(),
                 ms:ReadUTF8String(),
                 ms:ReadUTF8String(),
-                ms:ReadInt()
+                ms:ReadUTF8String()
         );
     end
     GameInit.LoadOneTableComplete();

@@ -18,6 +18,7 @@ namespace YouYou
         public Sys_PrefabDBModel Sys_PrefabDBModel { get; private set; }
         public Sys_BGMDBModel Sys_BGMDBModel { get; private set; }
         public Sys_AudioDBModel Sys_AudioDBModel { get; private set; }
+        public Sys_SceneDBModel Sys_SceneDBModel { get; private set; }
 
 
         /// <summary>
@@ -28,8 +29,10 @@ namespace YouYou
             TaskGroup m_TaskGroup = GameEntry.Task.CreateTaskGroup();
             LocalizationDBModel = new LocalizationDBModel();
             LocalizationDBModel.LoadData(m_TaskGroup);
+
             Sys_UIFormDBModel = new Sys_UIFormDBModel();
             Sys_UIFormDBModel.LoadData(m_TaskGroup);
+
             Sys_PrefabDBModel = new Sys_PrefabDBModel();
             Sys_PrefabDBModel.LoadData(m_TaskGroup);
 
@@ -39,6 +42,8 @@ namespace YouYou
             Sys_BGMDBModel = new Sys_BGMDBModel();
             Sys_BGMDBModel.LoadData(m_TaskGroup);
 
+            Sys_SceneDBModel = new Sys_SceneDBModel();
+            Sys_SceneDBModel.LoadData(m_TaskGroup);
 
             m_TaskGroup.OnComplete = OnLoadDataTableComplete;
             m_TaskGroup.Run(true);

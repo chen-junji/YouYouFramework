@@ -19,9 +19,6 @@ namespace YouYou
         internal override void OnEnter()
         {
             base.OnEnter();
-            //初始化配置代码
-            SceneConst sceneConst = new SceneConst();
-
             //初始画质设置
             GameEntry.Quality.SetQuality((QualityManager.Quality)GameEntry.Data.PlayerPrefsDataMgr.GetInt(PlayerPrefsDataMgr.EventName.QualityLevel));
             GameEntry.Quality.SetScreen((QualityManager.ScreenLevel)GameEntry.Data.PlayerPrefsDataMgr.GetInt(PlayerPrefsDataMgr.EventName.Screen));
