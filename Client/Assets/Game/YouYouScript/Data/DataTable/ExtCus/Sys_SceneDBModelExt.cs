@@ -26,9 +26,15 @@ namespace YouYou
             }
         }
 
-        public List<Sys_SceneEntity> GetListByGroupName(string groupName)
+        public List<Sys_SceneEntity> GetListByGroupName(string groupName, int maxCount)
         {
-            return GroupNameByDic[groupName];
+            if (maxCount == -1) maxCount = GroupNameByDic[groupName].Count;
+            List<Sys_SceneEntity> lst = new List<Sys_SceneEntity>();
+            for (int i = 0; i < maxCount; i++)
+            {
+                lst.Add(GroupNameByDic[groupName][i]);
+            }
+            return lst;
         }
     }
 }

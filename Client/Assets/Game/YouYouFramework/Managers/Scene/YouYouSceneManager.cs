@@ -22,6 +22,11 @@ namespace YouYou
         private SceneGroupName m_CurrSceneGroupName;
 
         /// <summary>
+        /// 本次场景加载的最大数量
+        /// </summary>
+        private int SceneLoadMaxCount;
+
+        /// <summary>
         /// 当前场景组
         /// </summary>
         public List<Sys_SceneEntity> CurrSceneEntityGroup { get; private set; }
@@ -88,16 +93,16 @@ namespace YouYou
             };
         }
 
-        public async ETTask LoadScene(SceneGroupName sceneName)
+        public async ETTask LoadSceneAsync(SceneGroupName sceneName, int sceneLoadCount = -1)
         {
             ETTask task = ETTask.Create();
-            LoadSceneAction(sceneName, task.SetResult);
+            LoadSceneAction(sceneName, sceneLoadCount, task.SetResult);
             await task;
         }
         /// <summary>
         /// 加载场景
         /// </summary>
-        public void LoadSceneAction(SceneGroupName sceneName, Action onComplete = null)
+        public void LoadSceneAction(SceneGroupName sceneName, int sceneLoadCount = -1, Action onComplete = null)
         {
             if (m_CurrSceneIsLoading)
             {
@@ -117,6 +122,7 @@ namespace YouYou
             m_CurrProgress = 0;
             m_TargetProgressDic.Clear();
             m_CurrSceneGroupName = sceneName;
+            SceneLoadMaxCount = sceneLoadCount;
 
             //卸载当前场景并加载新场景
             if (CurrSceneEntityGroup.Count > 0)
@@ -140,7 +146,7 @@ namespace YouYou
         private void LoadNewScene()
         {
             m_SceneLoaderList.Clear();
-            CurrSceneEntityGroup = GameEntry.DataTable.Sys_SceneDBModel.GetListByGroupName(m_CurrSceneGroupName.ToString());
+            CurrSceneEntityGroup = GameEntry.DataTable.Sys_SceneDBModel.GetListByGroupName(m_CurrSceneGroupName.ToString(), SceneLoadMaxCount);
 
             for (int i = 0; i < CurrSceneEntityGroup.Count; i++)
             {

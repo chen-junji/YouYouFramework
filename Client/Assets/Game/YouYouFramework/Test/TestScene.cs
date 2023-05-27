@@ -9,7 +9,7 @@ public class TestScene : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.A))
         {
-            await GameEntry.Scene.LoadScene(SceneGroupName.Main);
+            await GameEntry.Scene.LoadSceneAsync(SceneGroupName.Main);
         }
     }
 }
