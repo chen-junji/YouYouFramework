@@ -14,8 +14,8 @@ namespace YouYou
     public class AudioManager
     {
         public float MasterVolume { get; private set; }
-        public float PlayerBGMVolume { get; private set; }
-        public float PlayerAudioVolume { get; private set; }
+        public float BGMVolume { get; private set; }
+        public float AudioVolume { get; private set; }
 
 
         public void Init()
@@ -42,24 +42,35 @@ namespace YouYou
 
         private void RefreshMasterVolume(object userData)
         {
-            MasterVolume = GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.MasterVolume);
-            SetMixerVolume(PlayerPrefsDataMgr.EventName.MasterVolume.ToString(), MasterVolume);
+            SetMasterVolume(GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.MasterVolume));
         }
         private void RefreshAudio(object userData)
         {
-            PlayerAudioVolume = GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.AudioVolume);
-            SetMixerVolume(PlayerPrefsDataMgr.EventName.AudioVolume.ToString(), PlayerAudioVolume);
+            SetAudioVolume(GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.AudioVolume));
         }
         private void RefreshBGM(object userData)
         {
-            PlayerBGMVolume = GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.BGMVolume);
-            SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), PlayerBGMVolume);
+            SetBGMVolume(GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.BGMVolume));
+        }
+        public void SetMasterVolume(float volume)
+        {
+            MasterVolume = volume;
+            SetMixerVolume(PlayerPrefsDataMgr.EventName.MasterVolume.ToString(), MasterVolume);
+        }
+        public void SetAudioVolume(float volume)
+        {
+            AudioVolume = volume;
+            SetMixerVolume(PlayerPrefsDataMgr.EventName.AudioVolume.ToString(), AudioVolume);
+        }
+        public void SetBGMVolume(float volume)
+        {
+            BGMVolume = volume;
+            SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), BGMVolume);
         }
         private void SetMixerVolume(string key, float volume)
         {
-            //因为Mixer的音量是-80到20， 而存档里的音量是0-1， 所以这里要做转换
-            volume = volume * 100;
-            volume -= 80;
+            //因为Mixer内我们要修改的音量是db， 而存档里的音量是0-1形式的百分比， 所以这里要做转换
+            volume = (float)(20 * Math.Log10(volume / 1));
             GameEntry.Instance.MonsterMixer.SetFloat(key, volume);
         }
 
@@ -119,7 +130,7 @@ namespace YouYou
                     {
                         //得到一个0-1的音量值
                         float volume = (loopCount - loop) / loopCount;
-                        SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), PlayerBGMVolume * volume);
+                        SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), BGMVolume * volume);
                     }, onComplete: () =>
                     {
                         timeActionIn = null;
@@ -127,7 +138,7 @@ namespace YouYou
                 }
                 else
                 {
-                    SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), PlayerBGMVolume);
+                    SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), BGMVolume);
                 }
             });
             GameEntry.Log(LogCategory.Audio, CurrBGMEntity.Volume + "PlayBGM");
@@ -153,7 +164,7 @@ namespace YouYou
             {
                 //得到一个0-1的音量值
                 float volume = (loopCount - loop);
-                SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), PlayerBGMVolume * volume);
+                SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), BGMVolume * volume);
             }, onComplete: () =>
             {
                 timeActionOut = null;
