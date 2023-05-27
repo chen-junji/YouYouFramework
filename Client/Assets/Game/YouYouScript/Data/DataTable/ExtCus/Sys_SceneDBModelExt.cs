@@ -17,8 +17,10 @@ namespace YouYou
                 string[] strs = entity.ScenePath.Split('/');
                 if (strs.Length >= 1)
                 {
-                    string sceneName = strs[strs.Length - 1];
-                    if (!GroupNameByDic.ContainsKey(sceneName)) GroupNameByDic.Add(entity.SceneGroup, new List<Sys_SceneEntity>());
+                    if (!GroupNameByDic.ContainsKey(entity.SceneGroup))
+                    {
+                        GroupNameByDic.Add(entity.SceneGroup, new List<Sys_SceneEntity>());
+                    }
                     GroupNameByDic[entity.SceneGroup].Add(entity);
                 }
             }

@@ -91,7 +91,11 @@ namespace YouYou
 
         public void PlayBGM(BGMName audioName)
         {
-            Sys_BGMEntity entity = GameEntry.DataTable.Sys_BGMDBModel.GetEntity(audioName.ToString());
+            PlayBGM(audioName.ToString());
+        }
+        public void PlayBGM(string audioName)
+        {
+            Sys_BGMEntity entity = GameEntry.DataTable.Sys_BGMDBModel.GetEntity(audioName);
             if (CurrBGMEntity != null && CurrBGMEntity.AssetPath == entity.AssetPath)
             {
                 return;
@@ -100,7 +104,6 @@ namespace YouYou
             CurrBGMEntity = entity;
             AudioClip audioClip = GameEntry.Resource.LoadMainAsset<AudioClip>(CurrBGMEntity.AssetPath);
             PlayBGM(audioClip, CurrBGMEntity.IsLoop == 1, CurrBGMEntity.IsFadeIn == 1, CurrBGMEntity.Volume);
-            GameEntry.Log(LogCategory.Audio, "PlayBGM, Volume=={0}", CurrBGMEntity.Volume);
         }
         public void PlayBGM(AudioClip audioClip, bool isLoop, bool isFadeIn, float entityVolume)
         {
@@ -141,7 +144,7 @@ namespace YouYou
                     SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), BGMVolume);
                 }
             });
-            GameEntry.Log(LogCategory.Audio, CurrBGMEntity.Volume + "PlayBGM");
+            GameEntry.Log(LogCategory.Audio, "PlayBGM, Volume=={0}", entityVolume);
         }
 
         internal void StopBGM(Action volumeOut = null)
@@ -193,6 +196,18 @@ namespace YouYou
         private AudioSource AudioSourcePrefab;
         private List<AudioSource> AudioSourceList = new List<AudioSource>();
 
+        public void PlayAudio(AudioClip audioClip, float volume = 1, int priority = 128)
+        {
+            PlayAudio2(audioClip, volume, priority);
+        }
+        public void PlayAudio(AudioName audioName)
+        {
+            PlayAudio(audioName.ToString());
+        }
+        public void PlayAudio(AudioName audioName, Vector3 point)
+        {
+            PlayAudio(audioName.ToString(), point);
+        }
         public void PlayAudio(AudioClip audioClip, Vector3 point, float volume = 1, int priority = 128)
         {
             AudioSource audioSource = PlayAudio2(audioClip, volume, priority);
@@ -204,22 +219,18 @@ namespace YouYou
             audioSource.transform.position = point;
             audioSource.spatialBlend = 1;
         }
-        public void PlayAudio(AudioClip audioClip, float volume = 1, int priority = 128)
+        public void PlayAudio(string audioName, Vector3 point)
         {
-            PlayAudio2(audioClip, volume, priority);
-        }
-        public void PlayAudio(AudioName audioName, Vector3 point)
-        {
-            Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName.ToString());
+            Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName);
             AudioClip audioClip = GameEntry.Resource.LoadMainAsset<AudioClip>(sys_Audio.AssetPath);
             AudioSource helper = PlayAudio2(audioClip, sys_Audio.Volume, sys_Audio.Priority);
             if (helper == null) return;
             helper.transform.position = point;
             helper.spatialBlend = 1;
         }
-        public void PlayAudio(AudioName audioName)
+        public void PlayAudio(string audioName)
         {
-            Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName.ToString());
+            Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName);
             AudioClip audioClip = GameEntry.Resource.LoadMainAsset<AudioClip>(sys_Audio.AssetPath);
             PlayAudio2(audioClip, sys_Audio.Volume, sys_Audio.Priority);
         }

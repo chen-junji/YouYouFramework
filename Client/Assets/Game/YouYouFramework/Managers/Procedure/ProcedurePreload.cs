@@ -39,18 +39,19 @@ namespace YouYou
             if (m_CurrProgress < m_TargetProgress)
             {
                 //根据实际情况调节速度, 加载已完成和未完成, 模拟进度增值速度分开计算!
-                if (m_TargetProgress < 100)
+                if (m_TargetProgress < 1)
                 {
-                    m_CurrProgress = Mathf.Min(m_CurrProgress + Time.deltaTime * 30, m_TargetProgress - 1);//-1是为了防止模拟加载比实际加载快
+                    m_CurrProgress += Time.deltaTime * 0.5f;
                 }
                 else
                 {
-                    m_CurrProgress = Mathf.Min(m_CurrProgress + Time.deltaTime * 60, m_TargetProgress);
+                    m_CurrProgress += Time.deltaTime * 0.8f;
                 }
+                m_CurrProgress = Mathf.Min(m_CurrProgress, m_TargetProgress);//这里是为了防止进度超过100%， 比如完成了显示102%
                 MainEntry.Data.Dispatch(SysDataMgr.EventName.PreloadUpdate, m_CurrProgress);
             }
 
-            if (m_CurrProgress == 100)
+            if (m_CurrProgress == 1)
             {
                 MainEntry.Data.Dispatch(SysDataMgr.EventName.PreloadComplete);
 
@@ -98,7 +99,7 @@ namespace YouYou
 
             taskGroup.OnCompleteOne = () =>
             {
-                m_TargetProgress = taskGroup.CurrCount / (float)taskGroup.TotalCount * 100;
+                m_TargetProgress = taskGroup.CurrCount / (float)taskGroup.TotalCount;
             };
             taskGroup.Run();
         }

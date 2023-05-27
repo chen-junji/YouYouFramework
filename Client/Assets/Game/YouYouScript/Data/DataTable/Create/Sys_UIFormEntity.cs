@@ -28,7 +28,7 @@ namespace YouYou
         public int DisableUILayer;
 
         /// <summary>
-        /// 是否锁定
+        /// 是否对象池锁定
         /// </summary>
         public int IsLock;
 

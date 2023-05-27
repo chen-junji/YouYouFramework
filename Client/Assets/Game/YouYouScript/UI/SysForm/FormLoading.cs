@@ -17,18 +17,13 @@ public class FormLoading : UIFormBase
     [SerializeField]
     private Text txtTip;
 
-
-    protected override void Awake()
-    {
-        base.Awake();
-        MainEntry.Data.AddEventListener(SysDataMgr.EventName.LoadingSceneUpdate, OnLoadingProgressChange);
-    }
     private void OnLoadingProgressChange(object userData)
     {
         float baseParams = (float)userData;
-        float progress = Math.Min(baseParams * 100, 100);
-        txtTip.text = string.Format("正在进入场景, 加载进度 {0}%", Math.Floor(progress));
+        txtTip.text = string.Format("正在进入场景, 加载进度 {0}%", Math.Floor(baseParams * 100));
         m_Scrollbar.size = baseParams;
+
+        if (baseParams == 1) Close();
     }
 
     protected override void OnEnable()
@@ -36,6 +31,7 @@ public class FormLoading : UIFormBase
         base.OnEnable();
         //txtTip.text = string.Empty;
         //m_Scrollbar.size = 0;
+        MainEntry.Data.AddEventListener(SysDataMgr.EventName.LoadingSceneUpdate, OnLoadingProgressChange);
     }
     protected override void OnDisable()
     {

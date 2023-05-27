@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Download/Scenes/Main_1.unity
     guid: 6117a6a264c463c44acb6e9f57e75505
+  - enabled: 1
+    path: Assets/Game/Download/Scenes/Main_2.unity
+    guid: 143390c8e3f234747bc439bbf7059454
+  - enabled: 1
+    path: Assets/Game/Download/Scenes/Main_3.unity
+    guid: aaeff198a1a1a674883afd120566eabe
   m_configObjects: {}

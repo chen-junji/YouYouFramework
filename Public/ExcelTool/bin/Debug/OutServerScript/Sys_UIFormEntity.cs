@@ -27,7 +27,7 @@ public partial class Sys_UIFormEntity : DataTableEntityBase
     public int DisableUILayer;
 
     /// <summary>
-    /// 是否锁定
+    /// 是否对象池锁定
     /// </summary>
     public int IsLock;
 

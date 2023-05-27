@@ -73,9 +73,9 @@ public class FormCheckVersion : MonoBehaviour
     {
         float baseParams = (float)userData;
 
-        txtTip.text = string.Format("正在加载资源{0:f0}%", baseParams);
+        txtTip.text = string.Format("正在加载资源{0:f0}%", baseParams * 100);
 
-        scrollbar.size = baseParams * 0.01f;
+        scrollbar.size = baseParams;
     }
     private void OnPreloadBegin(object userData)
     {

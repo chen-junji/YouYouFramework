@@ -23,41 +23,24 @@ namespace YouYou
         private Action<string, float> OnProgressUpdate;
 
         /// <summary>
-        /// 加载场景完毕
-        /// </summary>
-        private Action<SceneLoaderRoutine> OnLoadSceneComplete;
-
-        /// <summary>
-        /// 卸载场景完毕
-        /// </summary>
-        private Action<SceneLoaderRoutine> OnUnLoadSceneComplete;
-
-        /// <summary>
         /// 加载场景
         /// </summary>
         /// <param name="sceneDetailId"></param>
         /// <param name="sceneName"></param>
         /// <param name="onProgressUpdate"></param>
         /// <param name="onComplete"></param>
-        public async void LoadScene(string sceneName, Action<string, float> onProgressUpdate, Action<SceneLoaderRoutine> onLoadSceneComplete)
+        public async void LoadScene(string sceneName, Action<string, float> onProgressUpdate)
         {
-            Reset();
-
             SceneName = sceneName;
 
             OnProgressUpdate = onProgressUpdate;
-            OnLoadSceneComplete = onLoadSceneComplete;
 
 #if EDITORLOAD || RESOURCES
             m_CurrAsync = SceneManager.LoadSceneAsync(sceneName , LoadSceneMode.Additive);
-            m_CurrAsync.allowSceneActivation = false;
-            if (m_CurrAsync == null) OnLoadSceneComplete?.Invoke(this);
 #else
             //加载场景的资源包
             Object obj = await GameEntry.Resource.LoadMainAssetAsync<Object>(sceneName);
             m_CurrAsync = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-            m_CurrAsync.allowSceneActivation = false;
-            if (m_CurrAsync == null) OnLoadSceneComplete?.Invoke(this);
 #endif
         }
 
@@ -66,20 +49,9 @@ namespace YouYou
         /// </summary>
         /// <param name="sceneName"></param>
         /// <param name="onComplete"></param>
-        public void UnLoadScene(string sceneName, Action<SceneLoaderRoutine> onUnLoadSceneComplete)
+        public void UnLoadScene(string sceneName)
         {
-            Reset();
-            OnUnLoadSceneComplete = onUnLoadSceneComplete;
             m_CurrAsync = SceneManager.UnloadSceneAsync(sceneName);
-            if (m_CurrAsync == null) OnUnLoadSceneComplete?.Invoke(this);
-        }
-
-        private void Reset()
-        {
-            m_CurrAsync = null;
-            OnProgressUpdate = null;
-            OnLoadSceneComplete = null;
-            OnUnLoadSceneComplete = null;
         }
 
         /// <summary>
@@ -88,25 +60,9 @@ namespace YouYou
         internal void OnUpdate()
         {
             if (m_CurrAsync == null) return;
-
             if (!m_CurrAsync.isDone)
             {
-                if (m_CurrAsync.progress >= 0.9f)
-                {
-                    OnProgressUpdate?.Invoke(SceneName, m_CurrAsync.progress);
-                    m_CurrAsync.allowSceneActivation = true;
-                    m_CurrAsync = null;
-                    OnLoadSceneComplete?.Invoke(this);
-                }
-                else
-                {
-                    OnProgressUpdate?.Invoke(SceneName, m_CurrAsync.progress);
-                }
-            }
-            else
-            {
-                m_CurrAsync = null;
-                OnUnLoadSceneComplete?.Invoke(this);
+                OnProgressUpdate?.Invoke(SceneName, m_CurrAsync.progress);
             }
         }
     }
