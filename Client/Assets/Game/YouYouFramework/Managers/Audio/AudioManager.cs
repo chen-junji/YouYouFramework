@@ -96,8 +96,9 @@ namespace YouYou
         public void PlayBGM(string audioName)
         {
             Sys_BGMEntity entity = GameEntry.DataTable.Sys_BGMDBModel.GetEntity(audioName);
-            if (CurrBGMEntity != null && CurrBGMEntity.AssetPath == entity.AssetPath)
+            if (entity == null)
             {
+                GameEntry.LogError(LogCategory.Audio, "CurrBGMEntity==null, audioName==" + audioName);
                 return;
             }
 
@@ -109,7 +110,7 @@ namespace YouYou
         {
             if (audioClip == null)
             {
-                Debug.LogError("audioClip==null");
+                GameEntry.LogError(LogCategory.Audio, "audioClip==null");
                 return;
             }
             StopBGM(() =>
@@ -129,10 +130,10 @@ namespace YouYou
                     }
                     SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), 0);
                     int loopCount = 10;
-                    timeActionIn = GameEntry.Time.Create(interval: 0.15f, loop: loopCount, unScaled: true, onUpdate: (int loop) =>
+                    timeActionIn = GameEntry.Time.Create(interval: 0.1f, loop: loopCount, unScaled: true, onUpdate: (int loop) =>
                     {
                         //得到一个0-1的音量值
-                        float volume = (loopCount - loop) / loopCount;
+                        float volume = (loopCount - loop) / (float)loopCount;
                         SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), BGMVolume * volume);
                     }, onComplete: () =>
                     {
@@ -149,7 +150,7 @@ namespace YouYou
 
         internal void StopBGM(Action volumeOut = null)
         {
-            if (CurrBGMEntity.IsFadeOut == 0)
+            if (CurrBGMEntity == null || CurrBGMEntity.IsFadeOut == 0)
             {
                 BGMSource.Stop();
                 volumeOut?.Invoke();
@@ -163,10 +164,10 @@ namespace YouYou
             }
             //把音量逐渐变成0 再停止
             int loopCount = 10;
-            timeActionOut = GameEntry.Time.Create(interval: 0.15f, loop: loopCount, unScaled: true, onUpdate: (int loop) =>
+            timeActionOut = GameEntry.Time.Create(interval: 0.1f, loop: loopCount, unScaled: true, onUpdate: (int loop) =>
             {
                 //得到一个0-1的音量值
-                float volume = (loopCount - loop);
+                float volume = (loop / (float)loopCount);
                 SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), BGMVolume * volume);
             }, onComplete: () =>
             {
