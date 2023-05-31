@@ -9,15 +9,6 @@ namespace PathologicalGames
         public static readonly SpawnPoolsDict Pools = new SpawnPoolsDict();
     }
 
-
-    /// <summary>
-    /// This can be used to intercept Instantiate and Destroy to implement your own handling. See 
-    /// PoolManagerExampleFiles/Scripts/InstanceHandlerDelegateExample.cs.
-    /// 
-    /// Simply add your own delegate and it will be run. 
-    /// 
-    /// If a SpawnPool.InstantiateDelegate is used it will override the one set here.
-    /// </summary>
     public static class InstanceHandler
     {
         //[改造] 增加resourceEntity
@@ -68,15 +59,12 @@ namespace PathologicalGames
 
     public class SpawnPoolsDict
     {
-        #region Event Handling
         public delegate void OnCreatedDelegate(SpawnPool pool);
 
-        internal Dictionary<string, OnCreatedDelegate> onCreatedDelegates =
-             new Dictionary<string, OnCreatedDelegate>();
+        internal Dictionary<string, OnCreatedDelegate> onCreatedDelegates = new Dictionary<string, OnCreatedDelegate>();
 
         public void AddOnCreatedDelegate(string poolName, OnCreatedDelegate createdDelegate)
         {
-            // Assign first delegate "just in time"
             if (!this.onCreatedDelegates.ContainsKey(poolName))
             {
                 this.onCreatedDelegates.Add(poolName, createdDelegate);
@@ -106,43 +94,18 @@ namespace PathologicalGames
             );
         }
 
-        #endregion Event Handling
 
-        #region Public Custom Memebers
-        /// <summary>
-        /// Creates a new GameObject with a SpawnPool Component which registers itself
-        /// with the PoolManager.Pools dictionary. The SpawnPool can then be accessed 
-        /// directly via the return value of this function or by via the PoolManager.Pools 
-        /// dictionary using a 'key' (string : the name of the pool, SpawnPool.poolName).
-        /// </summary>
-        /// <param name="poolName">
-        /// The name for the new SpawnPool. The GameObject will have the word "Pool"
-        /// Added at the end.
-        /// </param>
-        /// <returns>A reference to the new SpawnPool component</returns>
         public SpawnPool Create(string poolName)
         {
-            // Add "Pool" to the end of the poolName to make a more user-friendly
-            //   GameObject name. This gets stripped back out in SpawnPool Awake()
             var owner = new GameObject(poolName + "Pool");
             return owner.AddComponent<SpawnPool>();
         }
-        #endregion Public Custom Memebers
 
 
 
-        #region Dict Functionality
-        // Internal (wrapped) dictionary
         private Dictionary<string, SpawnPool> _pools = new Dictionary<string, SpawnPool>();
-
-        /// <summary>
-        /// Used internally by SpawnPools to add themseleves on Awake().
-        /// Use PoolManager.CreatePool() to create an entirely new SpawnPool GameObject
-        /// </summary>
-        /// <param name="spawnPool"></param>
         internal void Add(SpawnPool spawnPool)
         {
-            // Don't let two pools with the same name be added. See error below for details
             if (this.ContainsKey(spawnPool.poolName))
             {
                 Debug.LogError(string.Format("A pool with the name '{0}' already exists. " +
@@ -157,13 +120,6 @@ namespace PathologicalGames
             if (this.onCreatedDelegates.ContainsKey(spawnPool.poolName))
                 this.onCreatedDelegates[spawnPool.poolName](spawnPool);
         }
-
-
-        /// <summary>
-        /// Used internally by SpawnPools to remove themseleves on Destroy().
-        /// Use PoolManager.Destroy() to destroy an entire SpawnPool GameObject.
-        /// </summary>
-        /// <param name="spawnPool"></param>
         internal bool Remove(SpawnPool spawnPool)
         {
             if (!this.ContainsValue(spawnPool) & Application.isPlaying)
@@ -178,28 +134,14 @@ namespace PathologicalGames
             this._pools.Remove(spawnPool.poolName);
             return true;
         }
-
-        /// <summary>
-        /// Returns true if a pool exists with the passed pool name.
-        /// </summary>
-        /// <param name="poolName">The name to look for</param>
-        /// <returns>True if the pool exists, otherwise, false.</returns>
         public bool ContainsKey(string poolName)
         {
             return this._pools.ContainsKey(poolName);
         }
-
-        /// <summary>
-        /// Returns true if a SpawnPool instance exists in this Pools dict.
-        /// </summary>
-        /// <param name="poolName">The name to look for</param>
-        /// <returns>True if the pool exists, otherwise, false.</returns>
         public bool ContainsValue(SpawnPool pool)
         {
             return this._pools.ContainsValue(pool);
         }
-
-        #endregion Dict Functionality
 
     }
 

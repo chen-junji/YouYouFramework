@@ -74,7 +74,7 @@ namespace YouYou
                 {
                     SceneManager.SetActiveScene(scene);
                     //初始化对象池
-                    GameEntry.Pool.GameObjectPool.Init();
+                    GameEntry.Pool.GameObjectPool.InitScenePool();
                 }
 
                 m_TargetProgressDic[scene.path] = 1;

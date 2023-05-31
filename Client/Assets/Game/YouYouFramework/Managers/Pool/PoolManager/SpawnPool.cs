@@ -315,11 +315,6 @@ namespace PathologicalGames
 
 
         #region Utility Functions
-        /// <summary>
-        /// Returns the prefab pool for a given prefab.
-        /// </summary>
-        /// <param name="prefab">The Transform of an instance</param>
-        /// <returns>PrefabPool</returns>
         public PrefabPool GetPrefabPool(Transform prefab)
         {
             for (int i = 0; i < this._prefabPools.Count; i++)

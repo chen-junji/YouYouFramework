@@ -49,6 +49,8 @@ namespace YouYou
             InitGameObjectPool();
             m_LockedAssetBundleLength = GameEntry.Instance.LockedAssetBundle.Length;
             InitClassReside();
+
+            GameObjectPool.Init();
         }
 
         //============================

@@ -38,7 +38,25 @@ namespace YouYou
         public GameObject YouYouObjPool { get; private set; }
 
 
-        internal void Init()
+        public void Init()
+        {
+            for (int i = 0; i < GameEntry.Instance.GameObjectPoolGroups.Length; i++)
+            {
+                GameObjectPoolEntity entity = GameEntry.Instance.GameObjectPoolGroups[i];
+
+                if (entity.IsGlobal)
+                {
+                    //创建对象池
+                    SpawnPool pool = PathologicalGames.PoolManager.Pools.Create(entity.PoolName);
+                    pool.group.SetParent(GameEntry.Instance.transform);
+                    pool.group.localPosition = Vector3.zero;
+                    pool.group.localPosition = Vector3.zero;
+                    entity.Pool = pool;
+                    m_SpawnPoolDic[entity.PoolId] = entity;
+                }
+            }
+        }
+        internal void InitScenePool()
         {
             if (YouYouObjPool == null) YouYouObjPool = new GameObject("YouYouObjPool");
 
@@ -46,14 +64,16 @@ namespace YouYou
             {
                 GameObjectPoolEntity entity = GameEntry.Instance.GameObjectPoolGroups[i];
 
-                //创建对象池
-                SpawnPool pool = PathologicalGames.PoolManager.Pools.Create(entity.PoolName);
-                pool.group.SetParent(YouYouObjPool.transform);
-                pool.group.localPosition = Vector3.zero;
-                pool.group.localPosition = Vector3.zero;
-                entity.Pool = pool;
-
-                m_SpawnPoolDic[entity.PoolId] = entity;
+                if (!entity.IsGlobal)
+                {
+                    //创建对象池
+                    SpawnPool pool = PathologicalGames.PoolManager.Pools.Create(entity.PoolName);
+                    pool.group.SetParent(YouYouObjPool.transform);
+                    pool.group.localPosition = Vector3.zero;
+                    pool.group.localPosition = Vector3.zero;
+                    entity.Pool = pool;
+                    m_SpawnPoolDic[entity.PoolId] = entity;
+                }
             }
         }
 

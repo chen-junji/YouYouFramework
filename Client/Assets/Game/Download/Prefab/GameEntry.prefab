@@ -217,10 +217,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameObjectPoolGroups:
-  - PoolId: 1
+  - IsGlobal: 0
+    PoolId: 1
     PoolName: Common
     Pool: {fileID: 0}
-  - PoolId: 2
+  - IsGlobal: 1
+    PoolId: 2
     PoolName: Audio
     Pool: {fileID: 0}
   LockedAssetBundle:

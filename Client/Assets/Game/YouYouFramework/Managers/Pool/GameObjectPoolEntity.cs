@@ -9,6 +9,9 @@ using UnityEngine;
 [System.Serializable]
 public class GameObjectPoolEntity
 {
+	[Header("跨场景不销毁")]
+	public bool IsGlobal;
+
 	/// <summary>
 	/// 对象池编号
 	/// </summary>
@@ -24,4 +27,5 @@ public class GameObjectPoolEntity
 	/// </summary>
 	[HideInInspector]
 	public SpawnPool Pool;
+
 }
