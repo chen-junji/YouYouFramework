@@ -32,6 +32,7 @@ namespace YouYou
         UI,
         Audio,
         Scene,
+        Pool,
 
         /// <summary>
         /// 张三(程序员姓名)

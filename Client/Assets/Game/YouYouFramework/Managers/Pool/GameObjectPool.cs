@@ -11,7 +11,7 @@ namespace YouYou
     /// <summary>
     /// 游戏物体对象池
     /// </summary>
-    public class GameObjectPool : IDisposable
+    public class GameObjectPool
     {
         /// <summary>
         /// 游戏物体对象池字典
@@ -24,16 +24,9 @@ namespace YouYou
         private Dictionary<int, PrefabPool> m_InstanceIdPoolIdDic;
 
         /// <summary>
-        /// 空闲预设池队列 相当于对这个预设池再加了一层池
-        /// </summary>
-        private Queue<PrefabPool> m_PrefabPoolQueue;
-
-        /// <summary>
         /// Key==Prefab的InstanceId
         /// </summary>
         private Dictionary<int, ResourceEntity> m_PrefabResourceDic;
-
-        private readonly Dictionary<Type, Queue<Object>> pool = new Dictionary<Type, Queue<Object>>();
 
         public GameObject YouYouObjPool { get; private set; }
 
@@ -48,9 +41,9 @@ namespace YouYou
                 {
                     //创建对象池
                     SpawnPool pool = PathologicalGames.PoolManager.Pools.Create(entity.PoolName);
-                    pool.group.SetParent(GameEntry.Instance.transform);
-                    pool.group.localPosition = Vector3.zero;
-                    pool.group.localPosition = Vector3.zero;
+                    pool.transform.SetParent(GameEntry.Instance.transform);
+                    pool.transform.localPosition = Vector3.zero;
+                    pool.transform.localPosition = Vector3.zero;
                     entity.Pool = pool;
                     m_SpawnPoolDic[entity.PoolId] = entity;
                 }
@@ -68,24 +61,19 @@ namespace YouYou
                 {
                     //创建对象池
                     SpawnPool pool = PathologicalGames.PoolManager.Pools.Create(entity.PoolName);
-                    pool.group.SetParent(YouYouObjPool.transform);
-                    pool.group.localPosition = Vector3.zero;
-                    pool.group.localPosition = Vector3.zero;
+                    pool.transform.SetParent(YouYouObjPool.transform);
+                    pool.transform.localPosition = Vector3.zero;
+                    pool.transform.localPosition = Vector3.zero;
                     entity.Pool = pool;
                     m_SpawnPoolDic[entity.PoolId] = entity;
                 }
             }
         }
 
-        public void Dispose()
-        {
-            m_SpawnPoolDic.Clear();
-        }
         public GameObjectPool()
         {
             m_SpawnPoolDic = new Dictionary<byte, GameObjectPoolEntity>();
             m_InstanceIdPoolIdDic = new Dictionary<int, PrefabPool>();
-            m_PrefabPoolQueue = new Queue<PrefabPool>();
             m_PrefabResourceDic = new Dictionary<int, ResourceEntity>();
 
             //对象池物体克隆请求
@@ -185,29 +173,8 @@ namespace YouYou
             PrefabPool prefabPoolInner = gameObjectPoolEntity.Pool.GetPrefabPool(prefab);
             if (prefabPoolInner == null)
             {
-                //先去队列里找 空闲的池
-                if (m_PrefabPoolQueue.Count > 0)
-                {
-                    prefabPoolInner = m_PrefabPoolQueue.Dequeue();
-
-                    gameObjectPoolEntity.Pool.AddPrefabPool(prefabPoolInner);
-
-                    prefabPoolInner.prefab = prefab;
-                    prefabPoolInner.prefabGO = prefab.gameObject;
-                    prefabPoolInner.AddPrefabToDic(prefab.name, prefab);
-                }
-                else
-                {
-                    prefabPoolInner = new PrefabPool(prefab);
-                    gameObjectPoolEntity.Pool.CreatePrefabPool(prefabPoolInner);
-                }
-
-                prefabPoolInner.OnPrefabPoolClear = (PrefabPool pool) =>
-                {
-                    //预设池加入队列
-                    gameObjectPoolEntity.Pool.RemovePrefabPool(pool);
-                    m_PrefabPoolQueue.Enqueue(pool);
-                };
+                prefabPoolInner = new PrefabPool(prefab);
+                gameObjectPoolEntity.Pool.CreatePrefabPool(prefabPoolInner);
 
                 //对象池配置
                 prefabPoolInner.cullDespawned = cullDespawned;
@@ -310,30 +277,5 @@ namespace YouYou
             }
         }
 
-        public T GetObject<T>(Object ifCreatObject, Transform ifCreatObjectParent = null) where T : Object
-        {
-            var type = typeof(T);
-            if (!pool.TryGetValue(type, out var queue))
-                pool.Add(type, queue = new Queue<Object>());
-            T poolObj;
-            while (queue.Count > 0) //如果池内的物体被意外删除了, 就会被清除忽略掉
-            {
-                poolObj = queue.Dequeue() as T;
-                if (poolObj != null)
-                    return poolObj;
-            }
-            poolObj = Object.Instantiate(ifCreatObject as T, ifCreatObjectParent);
-            return poolObj;
-        }
-
-        public void Recycling(Object obj)
-        {
-            if (obj == null)
-                return;
-            var type = obj.GetType();
-            if (!pool.TryGetValue(type, out var queue))
-                pool.Add(type, queue = new Queue<Object>());
-            queue.Enqueue(obj);
-        }
     }
 }
