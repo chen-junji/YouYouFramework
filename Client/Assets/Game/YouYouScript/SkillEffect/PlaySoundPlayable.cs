@@ -27,12 +27,8 @@ namespace YouYou
     {
         protected override void OnYouYouBehaviourPlay(Playable playable, FrameData info)
         {
-            if (CurrArgs.Target == DynamicTarget.OurOne)
-            {
-                GameEntry.Audio.PlayAudio(CurrArgs.AudioClip, CurrTimelineCtrl.RoleCtrl.transform.position);
-            }
+            CurrTimelineCtrl.PlaySound?.Invoke(CurrArgs);
         }
-
         protected override void OnYouYouBehaviourStop(Playable playable, FrameData info)
         {
 

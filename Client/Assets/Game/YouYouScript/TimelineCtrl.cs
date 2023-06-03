@@ -14,10 +14,11 @@ namespace YouYou
     {
         private PlayableDirector m_CurrPlayableDirector;
 
-        /// <summary>
-        /// 当前放技能的角色
-        /// </summary>
-        [HideInInspector] public RoleCtrl RoleCtrl;
+        //轨道剪辑触发 委托
+        public Action<PlayAnimEventArgs> PlayAnim;
+        public Action<PlayResourceEventArgs, float> PlayResource;
+        public Action<PlaySoundEventArgs> PlaySound;
+        public Action<HurtPointEventArgs> HurtPoint;
 
         /// <summary>
         /// 停止播放委托

@@ -27,7 +27,7 @@ namespace YouYou
     {
         protected override void OnYouYouBehaviourPlay(Playable playable, FrameData info)
         {
-            CurrTimelineCtrl.RoleCtrl.CheckHurt(CurrArgs, CurrTimelineCtrl.transform.position);
+            CurrTimelineCtrl.HurtPoint?.Invoke(CurrArgs);
         }
 
         protected override void OnYouYouBehaviourStop(Playable playable, FrameData info)

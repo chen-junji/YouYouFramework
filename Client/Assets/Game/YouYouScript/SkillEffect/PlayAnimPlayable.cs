@@ -26,10 +26,7 @@ namespace YouYou
     {
         protected override void OnYouYouBehaviourPlay(Playable playable, FrameData info)
         {
-            if (CurrArgs.Target == DynamicTarget.OurOne)
-            {
-                CurrTimelineCtrl.RoleCtrl.PlayAnim(CurrArgs.AnimationClip);
-            }
+            CurrTimelineCtrl.PlayAnim?.Invoke(CurrArgs);
         }
 
         protected override void OnYouYouBehaviourStop(Playable playable, FrameData info)
