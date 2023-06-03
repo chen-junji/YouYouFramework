@@ -10,9 +10,6 @@ public class RoleCtrl : MonoBehaviour
     /// </summary>
     public RoleView RoleView { get; private set; }
 
-    //角色实时信息
-    public RoleInfo RoleInfo;
-
     protected virtual void Awake()
     {
         RoleView = GetComponent<RoleView>();
