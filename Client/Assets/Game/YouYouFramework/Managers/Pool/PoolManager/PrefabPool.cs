@@ -154,7 +154,6 @@ namespace PathologicalGames
                                        this.prefab.name,
                                        xform.name));
 
-            // Switch to the despawned list
             this._spawned.Remove(xform);
             this._despawned.AddLast(xform);
 
@@ -169,21 +168,13 @@ namespace PathologicalGames
                     break;
             }
 
-            // Trigger culling if the feature is ON and the size  of the 
-            //   overall pool is over the Cull Above threashold.
-            //   This is triggered here because Despawn has to occur before
-            //   it is worth culling anyway, and it is run fairly often.
-            if (!this.cullingActive &&   // Cheap & Singleton. Only trigger once!
-                this.cullDespawned &&    // Is the feature even on? Cheap too.
-                this.totalCount > this.cullAbove)   // Criteria met?
+            if (!cullingActive && cullDespawned && totalCount > cullAbove)
             {
-                this.cullingActive = true;
-                this.spawnPool.StartCoroutine(CullDespawned());
+                cullingActive = true;
+                spawnPool.StartCoroutine(CullDespawned());
             }
             return true;
         }
-
-
 
         /// <summary>
         /// 定时清理对象池的协程
@@ -196,12 +187,9 @@ namespace PathologicalGames
                                         this.prefab.name,
                                         this.cullDelay));
 
-            // First time always pause, then check to see if the condition is
-            //   still true before attempting to cull.
-            //yield return new WaitForSeconds(this.cullDelay);
-
             while (this.totalCount > this.cullAbove)
             {
+                yield return new WaitForSeconds(this.cullDelay);
 
                 // Attempt to delete an amount == this.cullMaxPerPass
                 for (int i = 0; i < this.cullMaxPerPass; i++)
@@ -213,8 +201,8 @@ namespace PathologicalGames
                     // Destroy the last item in the list
                     if (this._despawned.Count > 0)
                     {
-                        Transform inst = this._despawned.First.Value;
-                        this._despawned.RemoveFirst();
+                        Transform inst = this._despawned.Last.Value;
+                        this._despawned.RemoveLast();
                         InstanceHandler.DestroyInstance(inst.gameObject);
 
                         YouYou.GameEntry.Log(YouYou.LogCategory.Pool, string.Format("SpawnPool {0} ({1}): " +
@@ -238,18 +226,14 @@ namespace PathologicalGames
                     }
                 }
 
-                // Check again later
-                yield return new WaitForSeconds(this.cullDelay);
             }
 
             YouYou.GameEntry.Log(YouYou.LogCategory.Pool, string.Format("SpawnPool {0} ({1}): CULLING FINISHED! Stopping",
                                         this.spawnPool.poolName,
                                         this.prefab.name));
 
-            // Reset the singleton so the feature can be used again if needed.
             this.cullingActive = false;
             yield return null;
-
         }
 
         internal Transform SpawnInstance(Vector3 pos, Quaternion rot, ref bool isNewInstance)

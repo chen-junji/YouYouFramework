@@ -109,6 +109,19 @@ namespace YouYou
                 Despawn(preloadList[i]);
             }
         }
+        public void PreloadObj(PrefabName prefabName, int count)
+        {
+            List<PoolObj> preloadList = new List<PoolObj>();
+            for (int i = 0; i < count; i++)
+            {
+                PoolObj poolObj = Spawn(prefabName);
+                preloadList.Add(poolObj);
+            }
+            for (int i = 0; i < count; i++)
+            {
+                Despawn(preloadList[i]);
+            }
+        }
 
         #region Spawn 从对象池中获取对象
         /// <summary>
@@ -173,14 +186,14 @@ namespace YouYou
             PrefabPool prefabPoolInner = gameObjectPoolEntity.Pool.GetPrefabPool(prefab);
             if (prefabPoolInner == null)
             {
-                prefabPoolInner = new PrefabPool(prefab);
-                gameObjectPoolEntity.Pool.CreatePrefabPool(prefabPoolInner);
-
                 //对象池配置
+                prefabPoolInner = new PrefabPool(prefab);
                 prefabPoolInner.cullDespawned = cullDespawned;
                 prefabPoolInner.cullAbove = cullAbove;
                 prefabPoolInner.cullDelay = cullDelay;
                 prefabPoolInner.cullMaxPerPass = cullMaxPerPass;
+
+                gameObjectPoolEntity.Pool.CreatePrefabPool(prefabPoolInner);
             }
 
             //拿到一个实例
@@ -201,7 +214,14 @@ namespace YouYou
             int instanceID = retTrans.gameObject.GetInstanceID();
             m_InstanceIdPoolIdDic[instanceID] = prefabPool;
 
-            if (pannt != null) retTrans.SetParent(pannt);
+            if (pannt != null)
+            {
+                retTrans.SetParent(pannt);
+            }
+            else
+            {
+                retTrans.SetParent(prefabPool.spawnPool.transform);
+            }
             if (prefab != null)
             {
                 retTrans.localPosition = prefab.transform.localPosition;
