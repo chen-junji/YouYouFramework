@@ -1,5 +1,5 @@
 //===================================================
-using PathologicalGames;
+using YouYou;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace YouYou
         public Dictionary<byte, GameObjectPoolEntity> m_SpawnPoolDic;
 
         /// <summary>
-        /// 实例ID对应对象池ID
+        /// Key==GameObject的InstanceId
         /// </summary>
         private Dictionary<int, PrefabPool> m_InstanceIdPoolIdDic;
 
@@ -31,6 +31,9 @@ namespace YouYou
         public GameObject YouYouObjPool { get; private set; }
 
 
+        /// <summary>
+        /// 初始化跨场景不销毁的对象池
+        /// </summary>
         public void Init()
         {
             for (int i = 0; i < GameEntry.Instance.GameObjectPoolGroups.Length; i++)
@@ -40,7 +43,7 @@ namespace YouYou
                 if (entity.IsGlobal)
                 {
                     //创建对象池
-                    SpawnPool pool = PathologicalGames.PoolManager.Pools.Create(entity.PoolName);
+                    SpawnPool pool = new GameObject(entity.PoolName + "Pool").AddComponent<SpawnPool>();
                     pool.transform.SetParent(GameEntry.Instance.transform);
                     pool.transform.localPosition = Vector3.zero;
                     pool.transform.localPosition = Vector3.zero;
@@ -49,6 +52,9 @@ namespace YouYou
                 }
             }
         }
+        /// <summary>
+        /// 初始化跨场景销毁的对象池
+        /// </summary>
         internal void InitScenePool()
         {
             if (YouYouObjPool == null) YouYouObjPool = new GameObject("YouYouObjPool");
@@ -60,7 +66,7 @@ namespace YouYou
                 if (!entity.IsGlobal)
                 {
                     //创建对象池
-                    SpawnPool pool = PathologicalGames.PoolManager.Pools.Create(entity.PoolName);
+                    SpawnPool pool = new GameObject(entity.PoolName + "Pool").AddComponent<SpawnPool>();
                     pool.transform.SetParent(YouYouObjPool.transform);
                     pool.transform.localPosition = Vector3.zero;
                     pool.transform.localPosition = Vector3.zero;
@@ -83,7 +89,7 @@ namespace YouYou
         }
         private GameObject InstantiateDelegate(GameObject prefab, Vector3 pos, Quaternion rot, object userData)
         {
-            GameObject obj = UnityEngine.Object.Instantiate(prefab, pos, rot);
+            GameObject obj = Object.Instantiate(prefab, pos, rot);
             if (m_PrefabResourceDic.TryGetValue(prefab.GetInstanceID(), out ResourceEntity resourceEntity))
             {
                 GameEntry.Pool.RegisterInstanceResource(obj.GetInstanceID(), resourceEntity);
@@ -92,16 +98,19 @@ namespace YouYou
         }
         private void DestroyDelegate(GameObject instance)
         {
-            UnityEngine.Object.Destroy(instance);
+            Object.Destroy(instance);
             GameEntry.Pool.ReleaseInstanceResource(instance.GetInstanceID());
         }
 
-        public void PreloadObj(Transform prefab, int count)
+        /// <summary>
+        /// 预加载对象池
+        /// </summary>
+        public void PreloadObj(PrefabName prefabName, int count)
         {
             List<PoolObj> preloadList = new List<PoolObj>();
             for (int i = 0; i < count; i++)
             {
-                PoolObj poolObj = Spawn(prefab);
+                PoolObj poolObj = Spawn(prefabName);
                 preloadList.Add(poolObj);
             }
             for (int i = 0; i < count; i++)
@@ -109,12 +118,12 @@ namespace YouYou
                 Despawn(preloadList[i]);
             }
         }
-        public void PreloadObj(PrefabName prefabName, int count)
+        public void PreloadObj(Transform prefab, int count)
         {
             List<PoolObj> preloadList = new List<PoolObj>();
             for (int i = 0; i < count; i++)
             {
-                PoolObj poolObj = Spawn(prefabName);
+                PoolObj poolObj = Spawn(prefab);
                 preloadList.Add(poolObj);
             }
             for (int i = 0; i < count; i++)
