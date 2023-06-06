@@ -46,7 +46,6 @@ namespace YouYou
             ReleaseAssetBundleNextRunTime = Time.time;
             ReleaseAssetNextRunTime = Time.time;
 
-            InitGameObjectPool();
             m_LockedAssetBundleLength = GameEntry.Instance.LockedAssetBundle.Length;
             InitClassReside();
 
@@ -215,13 +214,6 @@ namespace YouYou
         }
 
         #region 游戏物体对象池
-        /// <summary>
-        /// 初始化游戏物体对象池
-        /// </summary>
-        internal void InitGameObjectPool()
-        {
-        }
-
         /// <summary>
         /// 克隆出来的实例资源字典
         /// </summary>

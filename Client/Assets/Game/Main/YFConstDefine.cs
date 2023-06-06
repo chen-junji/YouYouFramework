@@ -37,7 +37,7 @@ namespace Main
 		/// <summary>
 		/// GameEntry的Assetbundle的存储路径
 		/// </summary>
-		public const string GameEntryAssetBundlePath = "game/download/prefab/gameentry.assetbundle";
+		public const string GameEntryAssetBundlePath = "game/download/hotfix.assetbundle";
 
 		/// <summary>
 		/// 自定义Shader的AssetBundle的存储路径

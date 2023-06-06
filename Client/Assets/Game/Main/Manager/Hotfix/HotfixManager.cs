@@ -23,7 +23,7 @@ namespace Main
             UnityEngine.Object.Instantiate(gameEntry);
             return;
 #elif RESOURCES
-            GameObject gameEntry = Resources.Load<GameObject>("Common/GameEntry.prefab");
+            GameObject gameEntry = Resources.Load<GameObject>("Hotfix/GameEntry.prefab");
             UnityEngine.Object.Instantiate(gameEntry);
             return;
 #endif
@@ -33,20 +33,15 @@ namespace Main
                 //下载并加载热更程序集
                 CheckAndDownload(YFConstDefine.HotfixAssetBundlePath, (string fileUrl) =>
                 {
+#if !UNITY_EDITOR
                     hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, fileUrl));
                     LoadMetadataForAOTAssemblies();
-#if !UNITY_EDITOR
                     System.Reflection.Assembly.Load(hotfixAb.LoadAsset<TextAsset>("Assembly-CSharp.dll.bytes").bytes);
                     MainEntry.Log(MainEntry.LogCategory.Resource, "Assembly-CSharp.dll加载完毕");
 #endif
 
-                    //下载并加载GameEntry
-                    CheckAndDownload(YFConstDefine.GameEntryAssetBundlePath, (string fileUrl) =>
-                    {
-                        AssetBundle prefabAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, fileUrl));
-                        UnityEngine.Object.Instantiate(prefabAb.LoadAsset<GameObject>("gameentry.prefab"));
-                    });
-
+                    AssetBundle prefabAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, fileUrl));
+                    UnityEngine.Object.Instantiate(prefabAb.LoadAsset<GameObject>("gameentry.prefab"));
                 });
             };
 

@@ -116,7 +116,7 @@ public class AssetBundleSettings : ScriptableObject
         if (!Directory.Exists(TempPath)) Directory.CreateDirectory(TempPath);
 
         if (builds.Count == 0) return;
-        Debug.Log("builds count==" + builds.Count + "==" + DateTime.Now);
+        Debug.Log("builds count==" + builds.Count);
 
         BuildPipeline.BuildAssetBundles(TempPath, builds.ToArray(), Options, GetBuildTarget());
         Debug.Log("临时资源包打包完毕");
@@ -382,11 +382,14 @@ public class AssetBundleSettings : ScriptableObject
         for (int i = 0; i < Datas.Length; i++)
         {
             AssetBundleData assetBundleData = Datas[i];
-            for (int j = 0; j < assetBundleData.Path.Length; j++)
+            if (assetBundleData.IsCanEditor)
             {
-                string path = Application.dataPath + "/" + assetBundleData.Path[j];
-                //Debug.LogError("CreateDependenciesFile path=" + path);
-                CollectFileInfo(tempLst, tempDic, path);
+                for (int j = 0; j < assetBundleData.Path.Length; j++)
+                {
+                    string path = Application.dataPath + "/" + assetBundleData.Path[j];
+                    //Debug.LogError("CreateDependenciesFile path=" + path);
+                    CollectFileInfo(tempLst, tempDic, path);
+                }
             }
         }
 
@@ -641,13 +644,11 @@ public class AssetBundleSettings : ScriptableObject
     {
         string fullPath = Application.dataPath + "/" + path;
         //Debug.LogError("fullPath=" + fullPath);
+
         //1.拿到文件夹下所有文件
         DirectoryInfo directory = new DirectoryInfo(fullPath);
-
-        //拿到文件夹下所有文件
         FileInfo[] arrFiles = directory.GetFiles("*", SearchOption.AllDirectories);
 
-        //Debug.LogError("arrFile=" + arrFile.Length);
         if (overall)
         {
             //打成一个资源包
