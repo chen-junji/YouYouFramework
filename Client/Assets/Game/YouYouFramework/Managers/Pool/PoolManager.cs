@@ -219,12 +219,6 @@ namespace YouYou
         /// </summary>
         private Dictionary<int, ResourceEntity> m_InstanceResourceDic;
 
-        public ResourceEntity GetResourceEntity(int instanceId)
-        {
-            ResourceEntity resourceEntity = null;
-            m_InstanceResourceDic.TryGetValue(instanceId, out resourceEntity);
-            return resourceEntity;
-        }
 
         /// <summary>
         /// 把克隆出来的资源 加入实例资源池

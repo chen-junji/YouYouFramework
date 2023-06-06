@@ -35,16 +35,6 @@ namespace YouYou
         /// </summary>
         public int ReferenceCount { get; private set; }
 
-        /// <summary>
-        /// 依赖的资源实体链表
-        /// </summary>
-        public LinkedList<ResourceEntity> DependsResourceList { private set; get; }
-
-
-        public ResourceEntity()
-        {
-            DependsResourceList = new LinkedList<ResourceEntity>();
-        }
 
         /// <summary>
         /// 对象取池(reference==true则引用计数+1)
@@ -105,7 +95,6 @@ namespace YouYou
             ReferenceCount = 0;
             Target = null;
 
-            DependsResourceList.Clear(); //把自己依赖的资源实体清空
             MainEntry.ClassObjectPool.Enqueue(this); //把这个资源实体回池
         }
     }

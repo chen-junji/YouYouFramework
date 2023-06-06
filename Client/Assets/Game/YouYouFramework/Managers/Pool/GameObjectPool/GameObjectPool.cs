@@ -87,7 +87,7 @@ namespace YouYou
             //对象池物体销毁请求
             InstanceHandler.DestroyDelegates += DestroyDelegate;
         }
-        private GameObject InstantiateDelegate(GameObject prefab, Vector3 pos, Quaternion rot, object userData)
+        private GameObject InstantiateDelegate(GameObject prefab, Vector3 pos, Quaternion rot)
         {
             GameObject obj = Object.Instantiate(prefab, pos, rot);
             if (m_PrefabResourceDic.TryGetValue(prefab.GetInstanceID(), out ResourceEntity resourceEntity))

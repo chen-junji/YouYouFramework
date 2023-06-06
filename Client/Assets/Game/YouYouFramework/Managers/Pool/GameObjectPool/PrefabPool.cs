@@ -6,15 +6,6 @@ using UnityEngine;
 namespace YouYou
 {
     /// <summary>
-    /// 回池方式
-    /// </summary>
-    public enum SpawnType
-    {
-        Active,
-        Position
-    }
-
-    /// <summary>
     /// 对象池
     /// </summary>
     [System.Serializable]
@@ -29,23 +20,6 @@ namespace YouYou
         /// 基于性能原因而存储的预制件GameObject的引用
         /// </summary>
         public GameObject prefabGO;
-
-        public SpawnType SpawnType;
-
-        /// <summary>
-        /// 是否限制对象的最大数量
-        /// </summary>
-        public bool limitInstances = false;
-
-        /// <summary>
-        /// 限制对象的最大数量
-        /// </summary>
-        public int limitAmount = 100;
-
-        /// <summary>
-        /// 如果为True， 当对象超过最大数量， 销毁第一个对象
-        /// </summary>
-        public bool limitFIFO = false;
 
         /// <summary>
         /// 是否开启缓存池自动清理模式
@@ -135,13 +109,6 @@ namespace YouYou
         internal Transform SpawnInstance(Vector3 pos, Quaternion rot, ref bool isNewInstance)
         {
             isNewInstance = false;
-            if (limitInstances && limitFIFO && _spawned.Count >= limitAmount)
-            {
-                //当对象超过最大数量， 销毁第一个对象
-                Transform firstIn = _spawned.First.Value;
-
-                DespawnInstance(firstIn);
-            }
 
             Transform inst;
 
@@ -167,7 +134,7 @@ namespace YouYou
 
                 inst.position = pos;
                 inst.rotation = rot;
-                if (SpawnType == SpawnType.Active) inst.gameObject.SetActive(true);
+                inst.gameObject.SetActive(true);
 
             }
             return inst;
@@ -185,7 +152,10 @@ namespace YouYou
             Transform inst = instGO.transform;
             _spawned.AddLast(inst);
 
-            nameInstance(inst);
+#if UNITY_EDITOR
+            //对象名字后缀
+            inst.name += (TotalCount + 1).ToString("#000");
+#endif
             return inst;
         }
 
@@ -197,16 +167,7 @@ namespace YouYou
             _spawned.Remove(xform);
             _despawned.AddLast(xform);
 
-            //对象回池类型
-            switch (SpawnType)
-            {
-                case SpawnType.Active:
-                    xform.gameObject.SetActive(false);
-                    break;
-                case SpawnType.Position:
-                    xform.position = Vector3.down * 100;
-                    break;
-            }
+            xform.gameObject.SetActive(false);
 
             if (!cullingActive && cullDespawned && TotalCount > cullAbove)
             {
@@ -250,15 +211,5 @@ namespace YouYou
             InstanceHandler.DestroyInstance(xform.gameObject);
         }
 
-
-        /// <summary>
-        /// 对象名字后缀
-        /// </summary>
-        private void nameInstance(Transform instance)
-        {
-#if UNITY_EDITOR
-            instance.name += (TotalCount + 1).ToString("#000");
-#endif
-        }
     }
 }

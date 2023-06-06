@@ -6,8 +6,7 @@ namespace YouYou
 {
     public static class InstanceHandler
     {
-        //[改造] 增加resourceEntity
-        public delegate GameObject InstantiateDelegate(GameObject prefab, Vector3 pos, Quaternion rot, object resourceEntity = null);
+        public delegate GameObject InstantiateDelegate(GameObject prefab, Vector3 pos, Quaternion rot);
         public delegate void DestroyDelegate(GameObject instance);
 
         /// <summary>
@@ -23,11 +22,11 @@ namespace YouYou
         /// <summary>
         /// 克隆对象
         /// </summary>
-        internal static GameObject InstantiatePrefab(GameObject prefab, Vector3 pos, Quaternion rot, object resourceEntity = null)
+        internal static GameObject InstantiatePrefab(GameObject prefab, Vector3 pos, Quaternion rot)
         {
             if (InstantiateDelegates != null)
             {
-                return InstantiateDelegates(prefab, pos, rot, resourceEntity);
+                return InstantiateDelegates(prefab, pos, rot);
             }
             else
             {
