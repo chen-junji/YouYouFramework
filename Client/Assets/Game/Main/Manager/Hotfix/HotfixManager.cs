@@ -19,7 +19,7 @@ namespace Main
         public void Init()
         {
 #if EDITORLOAD
-            GameObject gameEntry = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/Download/Prefab/GameEntry.prefab");
+            GameObject gameEntry = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/Download/Hotfix/GameEntry.prefab");
             UnityEngine.Object.Instantiate(gameEntry);
             return;
 #elif RESOURCES
