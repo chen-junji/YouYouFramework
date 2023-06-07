@@ -178,9 +178,7 @@ namespace YouYou
                 loadRoutine.OnLoadAssetBundleComplete = (AssetBundle assetbundle) =>
                 {
                     //资源包注册到资源池
-                    assetBundleEntity = MainEntry.ClassObjectPool.Dequeue<AssetBundleEntity>();
-                    assetBundleEntity.ResourceName = assetbundlePath;
-                    assetBundleEntity.Target = assetbundle;
+                    assetBundleEntity = AssetBundleEntity.Create(assetbundlePath, assetbundle);
                     GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
 
                     taskRoutine.Leave();
@@ -220,9 +218,7 @@ namespace YouYou
             AssetBundle assetbundle = routine.LoadAssetBundle(assetbundlePath);
 
             //资源包注册到资源池
-            assetBundleEntity = MainEntry.ClassObjectPool.Dequeue<AssetBundleEntity>();
-            assetBundleEntity.ResourceName = assetbundlePath;
-            assetBundleEntity.Target = assetbundle;
+            assetBundleEntity = AssetBundleEntity.Create(assetbundlePath, assetbundle);
             GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
             MainEntry.ClassObjectPool.Enqueue(routine);
 

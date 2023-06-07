@@ -106,9 +106,9 @@ namespace YouYou
         }
         public void Release(UIBase uIBase)
         {
-            Object.Destroy(uIBase.gameObject);
             GameEntry.Pool.ReleaseInstanceResource(uIBase.gameObject.GetInstanceID());
             m_UIFormList.Remove(uIBase);
+            Object.Destroy(uIBase.gameObject);
         }
 
         /// <summary>
@@ -121,9 +121,7 @@ namespace YouYou
                 LinkedListNode<UIBase> next = curr.Next;
 
                 GameEntry.Log(LogCategory.Resource, "释放==" + curr.Value.gameObject);
-                GameEntry.Pool.ReleaseInstanceResource(curr.Value.gameObject.GetInstanceID());
-                m_UIFormList.Remove(curr.Value);
-                Object.Destroy(curr.Value.gameObject);
+                Release(curr.Value);
                 curr = next;
             }
         }

@@ -64,6 +64,13 @@ namespace YouYou
             return ReferenceCount == 0 && Time.time - LastUseTime > GameEntry.Pool.ReleaseAssetBundleInterval;
         }
 
+        public static AssetBundleEntity Create(string name, AssetBundle target)
+        {
+            AssetBundleEntity assetBundleEntity = MainEntry.ClassObjectPool.Dequeue<AssetBundleEntity>();
+            assetBundleEntity.ResourceName = name;
+            assetBundleEntity.Target = target;
+            return assetBundleEntity;
+        }
         /// <summary>
         /// ÊÍ·Å×ÊÔ´
         /// </summary>
