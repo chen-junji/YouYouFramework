@@ -18,7 +18,7 @@ namespace YouYou
         /// <summary>
         /// 资源包池
         /// </summary>
-        public ResourcePool AssetBundlePool { get; private set; }
+        public AssetBundlePool AssetBundlePool { get; private set; }
         /// <summary>
         /// 主资源池
         /// </summary>
@@ -28,7 +28,7 @@ namespace YouYou
         {
             GameObjectPool = new GameObjectPool();
 
-            AssetBundlePool = new ResourcePool("AssetBundlePool");
+            AssetBundlePool = new AssetBundlePool("AssetBundlePool");
             m_InstanceResourceDic = new Dictionary<int, ResourceEntity>();
             AssetPool = new ResourcePool("AssetPool");
         }
@@ -87,6 +87,7 @@ namespace YouYou
             MainEntry.ClassObjectPool.SetResideCount<AssetBundleLoaderRoutine>(10);
             MainEntry.ClassObjectPool.SetResideCount<AssetLoaderRoutine>(10);
             MainEntry.ClassObjectPool.SetResideCount<ResourceEntity>(10);
+            //MainEntry.ClassObjectPool.SetResideCount<AssetBundleEntity>(10);
             MainEntry.ClassObjectPool.SetResideCount<MainAssetLoaderRoutine>(30);
         }
 
@@ -236,16 +237,9 @@ namespace YouYou
         public void ReleaseInstanceResource(int instanceId)
         {
             //YouYou.GameEntry.LogError("释放实例资源instanceId=" + instanceId);
-            ResourceEntity resourceEntity = null;
-            if (m_InstanceResourceDic.TryGetValue(instanceId, out resourceEntity))
+            if (m_InstanceResourceDic.TryGetValue(instanceId, out ResourceEntity resourceEntity))
             {
-#if ASSETBUNDLE
-                AssetPool.Unspawn(resourceEntity.ResourceName);
                 resourceEntity.Unspawn(true);
-#else
-                resourceEntity.Target = null;
-                MainEntry.ClassObjectPool.Enqueue(resourceEntity);
-#endif
                 m_InstanceResourceDic.Remove(instanceId);
             }
         }

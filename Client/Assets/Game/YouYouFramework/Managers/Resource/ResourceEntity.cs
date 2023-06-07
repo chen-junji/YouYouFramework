@@ -16,14 +16,9 @@ namespace YouYou
         public string ResourceName;
 
         /// <summary>
-        /// 是否AssetBundle
-        /// </summary>
-        public bool IsAssetBundle;
-
-        /// <summary>
         /// 关联目标
         /// </summary>
-        public object Target;
+        public Object Target;
 
         /// <summary>
         /// 上次使用时间
@@ -43,18 +38,7 @@ namespace YouYou
         {
             LastUseTime = Time.time;
 
-            if (!IsAssetBundle)
-            {
-                if (reference) ReferenceCount++;
-            }
-            else
-            {
-                //如果是锁定资源包 不释放
-                if (GameEntry.Pool.CheckAssetBundleIsLock(ResourceName))
-                {
-                    ReferenceCount = 1;
-                }
-            }
+            if (reference) ReferenceCount++;
         }
 
         /// <summary>
@@ -62,13 +46,15 @@ namespace YouYou
         /// </summary>
         public void Unspawn(bool reference)
         {
+#if ASSETBUNDLE
             LastUseTime = Time.time;
 
-            if (!IsAssetBundle)
-            {
-                if (reference) ReferenceCount--;
-                if (ReferenceCount < 0) ReferenceCount = 0;
-            }
+            if (reference) ReferenceCount--;
+            if (ReferenceCount < 0) ReferenceCount = 0;
+#else
+            Target = null;
+            MainEntry.ClassObjectPool.Enqueue(this);
+#endif
         }
 
         /// <summary>
@@ -77,7 +63,7 @@ namespace YouYou
         /// <returns></returns>
         public bool GetCanRelease()
         {
-            return ReferenceCount == 0 && Time.time - LastUseTime > (IsAssetBundle ? GameEntry.Pool.ReleaseAssetBundleInterval : GameEntry.Pool.ReleaseAssetInterval);
+            return ReferenceCount == 0 && Time.time - LastUseTime > GameEntry.Pool.ReleaseAssetInterval;
         }
 
         /// <summary>
@@ -85,17 +71,19 @@ namespace YouYou
         /// </summary>
         public void Release()
         {
-            if (IsAssetBundle)
-            {
-                AssetBundle bundle = Target as AssetBundle;
-                bundle.Unload(false);
-            }
-
             ResourceName = null;
             ReferenceCount = 0;
             Target = null;
 
             MainEntry.ClassObjectPool.Enqueue(this); //把这个资源实体回池
+        }
+
+        public static ResourceEntity Create(string name, Object obj)
+        {
+            ResourceEntity resourceEntity = MainEntry.ClassObjectPool.Dequeue<ResourceEntity>();
+            resourceEntity.ResourceName = name;
+            resourceEntity.Target = obj;
+            return resourceEntity;
         }
     }
 }

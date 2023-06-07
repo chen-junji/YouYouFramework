@@ -412,7 +412,7 @@ public class AssetBundleSettings : ScriptableObject
                 if (!str.Equals(newEntity.AssetFullName) && !str.IsSuffix(".cs") && tempDic.ContainsKey(str))
                 {
                     AssetDependsEntity assetDepends = new AssetDependsEntity();
-                    assetDepends.AssetFullName = str;
+                    //assetDepends.AssetFullName = str;
                     assetDepends.AssetBundleName = tempDic[str].AssetBundleName;
 
                     //把依赖资源 加入到依赖资源列表
@@ -445,7 +445,7 @@ public class AssetBundleSettings : ScriptableObject
                 for (int j = 0; j < depLen; j++)
                 {
                     AssetDependsEntity assetDepends = entity.DependsAssetList[j];
-                    ms.WriteUTF8String(assetDepends.AssetFullName);
+                    //ms.WriteUTF8String(assetDepends.AssetFullName);
                     ms.WriteUTF8String(assetDepends.AssetBundleName);
                 }
             }

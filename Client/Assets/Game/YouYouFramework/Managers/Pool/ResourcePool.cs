@@ -60,16 +60,9 @@ namespace YouYou
         /// </summary>
         public ResourceEntity Spawn(string resourceName)
         {
-            ResourceEntity resourceEntity = null;
-            if (m_ResourceDic.TryGetValue(resourceName, out resourceEntity))
+            if (m_ResourceDic.TryGetValue(resourceName, out ResourceEntity resourceEntity))
             {
                 resourceEntity.Spawn(false);
-#if UNITY_EDITOR
-                if (InspectorDic.ContainsKey(resourceEntity.ResourceName))
-                {
-                    InspectorDic[resourceEntity.ResourceName] = resourceEntity;
-                }
-#endif
             }
             return resourceEntity;
         }
@@ -79,16 +72,9 @@ namespace YouYou
         /// </summary>
         public void Unspawn(string resourceName)
         {
-            ResourceEntity resourceEntity = null;
-            if (m_ResourceDic.TryGetValue(resourceName, out resourceEntity))
+            if (m_ResourceDic.TryGetValue(resourceName, out ResourceEntity resourceEntity))
             {
                 resourceEntity.Unspawn(false);
-#if UNITY_EDITOR
-                if (InspectorDic.ContainsKey(resourceEntity.ResourceName))
-                {
-                    InspectorDic[resourceEntity.ResourceName] = resourceEntity;
-                }
-#endif
             }
         }
 

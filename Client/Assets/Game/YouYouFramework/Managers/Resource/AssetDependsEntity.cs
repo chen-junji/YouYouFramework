@@ -8,7 +8,7 @@ namespace YouYou
     /// </summary>
     public class AssetDependsEntity
     {
-        public string AssetFullName;
+        //public string AssetFullName;
         public string AssetBundleName;
     }
 }

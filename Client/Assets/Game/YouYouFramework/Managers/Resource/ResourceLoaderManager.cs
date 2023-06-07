@@ -117,7 +117,7 @@ namespace YouYou
                     for (int j = 0; j < depLen; j++)
                     {
                         AssetDependsEntity assetDepends = new AssetDependsEntity();
-                        assetDepends.AssetFullName = ms.ReadUTF8String();
+                        //assetDepends.AssetFullName = ms.ReadUTF8String();
                         assetDepends.AssetBundleName = ms.ReadUTF8String();
                         entity.DependsAssetList.Add(assetDepends);
                     }
@@ -160,17 +160,16 @@ namespace YouYou
             AssetBundleTaskGroup.AddTask((taskRoutine) =>
             {
                 //1.判断资源包是否存在于AssetBundlePool
-                ResourceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
+                AssetBundleEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
                 if (assetBundleEntity != null)
                 {
                     //GameEntry.Log("资源包在资源池中存在 从资源池中加载AssetBundle");
                     taskRoutine.Leave();
-                    onComplete?.Invoke(assetBundleEntity.Target as AssetBundle);
+                    onComplete?.Invoke(assetBundleEntity.Target);
                     return;
                 }
 
                 AssetBundleLoaderRoutine loadRoutine = MainEntry.ClassObjectPool.Dequeue<AssetBundleLoaderRoutine>();
-                if (loadRoutine == null) loadRoutine = new AssetBundleLoaderRoutine();
 
                 //加入链表开始Update()
                 m_AssetBundleLoaderList.AddLast(loadRoutine);
@@ -179,14 +178,13 @@ namespace YouYou
                 loadRoutine.OnLoadAssetBundleComplete = (AssetBundle assetbundle) =>
                 {
                     //资源包注册到资源池
-                    assetBundleEntity = MainEntry.ClassObjectPool.Dequeue<ResourceEntity>();
+                    assetBundleEntity = MainEntry.ClassObjectPool.Dequeue<AssetBundleEntity>();
                     assetBundleEntity.ResourceName = assetbundlePath;
-                    assetBundleEntity.IsAssetBundle = true;
                     assetBundleEntity.Target = assetbundle;
                     GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
 
                     taskRoutine.Leave();
-                    onComplete?.Invoke(assetBundleEntity.Target as AssetBundle);
+                    onComplete?.Invoke(assetBundleEntity.Target);
 
                     m_AssetBundleLoaderList.Remove(loadRoutine);
                     MainEntry.ClassObjectPool.Enqueue(loadRoutine);
@@ -196,26 +194,34 @@ namespace YouYou
             });
             AssetBundleTaskGroup.Run();
         }
+
+        public async ETTask<AssetBundle> LoadAssetBundleAsync(string assetbundlePath, Action<float> onUpdate = null)
+        {
+            ETTask<AssetBundle> task = ETTask<AssetBundle>.Create();
+            LoadAssetBundleAction(assetbundlePath, onUpdate, (ab) =>
+            {
+                task.SetResult(ab);
+            });
+            return await task;
+        }
+
         public AssetBundle LoadAssetBundle(string assetbundlePath)
         {
             //1.判断资源包是否存在于AssetBundlePool
-            ResourceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
+            AssetBundleEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
             if (assetBundleEntity != null)
             {
                 //GameEntry.Log("资源包在资源池中存在 从资源池中加载AssetBundle");
-                return assetBundleEntity.Target as AssetBundle;
+                return assetBundleEntity.Target;
             }
 
-            AssetBundleLoaderRoutine routine = MainEntry.ClassObjectPool.Dequeue<AssetBundleLoaderRoutine>();
-            if (routine == null) routine = new AssetBundleLoaderRoutine();
-
             //加载资源包
+            AssetBundleLoaderRoutine routine = MainEntry.ClassObjectPool.Dequeue<AssetBundleLoaderRoutine>();
             AssetBundle assetbundle = routine.LoadAssetBundle(assetbundlePath);
 
             //资源包注册到资源池
-            assetBundleEntity = MainEntry.ClassObjectPool.Dequeue<ResourceEntity>();
+            assetBundleEntity = MainEntry.ClassObjectPool.Dequeue<AssetBundleEntity>();
             assetBundleEntity.ResourceName = assetbundlePath;
-            assetBundleEntity.IsAssetBundle = true;
             assetBundleEntity.Target = assetbundle;
             GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
             MainEntry.ClassObjectPool.Enqueue(routine);
@@ -238,7 +244,6 @@ namespace YouYou
             AssetTaskGroup.AddTask((taskRoutine) =>
             {
                 AssetLoaderRoutine routine = MainEntry.ClassObjectPool.Dequeue<AssetLoaderRoutine>();
-                if (routine == null) routine = new AssetLoaderRoutine();
 
                 //加入链表开始循环
                 m_AssetLoaderList.AddLast(routine);
@@ -259,8 +264,17 @@ namespace YouYou
                 routine.LoadAssetAsync(assetName, assetBundle);
             });
             AssetTaskGroup.Run();
-
         }
+        public async ETTask<Object> LoadAssetAsync(string assetName, AssetBundle assetBundle, Action<float> onUpdate = null)
+        {
+            ETTask<Object> task = ETTask<Object>.Create();
+            LoadAssetAction(assetName, assetBundle, onUpdate, (obj) =>
+            {
+                task.SetResult(obj);
+            });
+            return await task;
+        }
+
         public Object LoadAsset(string assetName, AssetBundle assetBundle)
         {
             return assetBundle.LoadAsset(assetName);
@@ -270,28 +284,22 @@ namespace YouYou
         #region LoadMainAsset 加载主资源(自动加载依赖)
         public async ETTask<T> LoadMainAssetAsync<T>(string assetFullName, Action<float> onUpdate = null) where T : Object
         {
-            ETTask<T> task = ETTask<T>.Create();
-            MainAssetLoaderRoutine routine = MainEntry.ClassObjectPool.Dequeue<MainAssetLoaderRoutine>();
-            routine.LoadAction<T>(assetFullName, (ResourceEntity resEntity) => task.SetResult(resEntity != null ? (T)resEntity.Target : null), onUpdate);
-            return await task;
+            ResourceEntity resEntity = await MainAssetLoaderRoutine.LoadAsyncStatic(assetFullName, onUpdate);
+            return resEntity.Target as T;
         }
         public async ETTask<ResourceEntity> LoadMainAssetAsync(string assetFullName, Action<float> onUpdate = null)
         {
-            ETTask<ResourceEntity> task = ETTask<ResourceEntity>.Create();
-            MainAssetLoaderRoutine routine = MainEntry.ClassObjectPool.Dequeue<MainAssetLoaderRoutine>();
-            routine.LoadAction<Object>(assetFullName, task.SetResult, onUpdate);
-            return await task;
+            ResourceEntity resEntity = await MainAssetLoaderRoutine.LoadAsyncStatic(assetFullName, onUpdate);
+            return resEntity;
         }
 
-        public T LoadMainAsset<T>(string assetFullName) where T : UnityEngine.Object
+        public T LoadMainAsset<T>(string assetFullName) where T : Object
         {
-            MainAssetLoaderRoutine routine = MainEntry.ClassObjectPool.Dequeue<MainAssetLoaderRoutine>();
-            return routine.Load(assetFullName).Target as T;
+            return MainAssetLoaderRoutine.LoadStatic(assetFullName).Target as T;
         }
         public ResourceEntity LoadMainAsset(string assetFullName)
         {
-            MainAssetLoaderRoutine routine = MainEntry.ClassObjectPool.Dequeue<MainAssetLoaderRoutine>();
-            return routine.Load(assetFullName);
+            return MainAssetLoaderRoutine.LoadStatic(assetFullName);
         }
         #endregion
     }
