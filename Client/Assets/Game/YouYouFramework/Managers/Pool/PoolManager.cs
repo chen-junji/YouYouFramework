@@ -192,26 +192,21 @@ namespace YouYou
                 //GameEntry.Log(LogCategory.Normal, "释放类对象池");
             }
 
-
+#if ASSETBUNDLE
             if (Time.time > ReleaseAssetBundleNextRunTime + ReleaseAssetBundleInterval)
             {
                 ReleaseAssetBundleNextRunTime = Time.time;
-
-#if ASSETBUNDLE
                 AssetBundlePool.Release();
                 //GameEntry.Log(LogCategory.Normal, "释放AssetBundle池");
-#endif
             }
-
+#endif
             if (Time.time > ReleaseAssetNextRunTime + ReleaseAssetInterval)
             {
                 ReleaseAssetNextRunTime = Time.time;
-
-#if ASSETBUNDLE
                 AssetPool.Release();
                 //GameEntry.Log(LogCategory.Normal, "释放Asset池");
-#endif
             }
+
         }
 
         #region 游戏物体对象池

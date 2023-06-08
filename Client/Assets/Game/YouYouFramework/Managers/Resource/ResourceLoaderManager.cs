@@ -205,8 +205,11 @@ namespace YouYou
         /// <summary>
         /// 加载主资源包和依赖资源包
         /// </summary>
-        public async ETTask<AssetBundle> LoadMainAndDependAssetBundleAsync(AssetEntity assetEntity, Action<float> onUpdate = null)
+        public async ETTask<AssetBundle> LoadMainAndDependAssetBundleAsync(string assetFullName, Action<float> onUpdate = null)
         {
+            AssetEntity assetEntity = GameEntry.Resource.GetAssetEntity(assetFullName);
+            if (assetEntity == null) return null;
+
             //加载这个资源所依赖的资源包
             List<AssetDependsEntity> dependsAssetList = assetEntity.DependsAssetList;
             if (dependsAssetList != null)
@@ -227,8 +230,11 @@ namespace YouYou
             return m_MainAssetBundle;
         }
 
-        public AssetBundle LoadMainAndDependAssetBundle(AssetEntity assetEntity)
+        public AssetBundle LoadMainAndDependAssetBundle(string assetFullName)
         {
+            AssetEntity assetEntity = GameEntry.Resource.GetAssetEntity(assetFullName);
+            if (assetEntity == null) return null;
+
             //加载这个资源所依赖的资源包
             List<AssetDependsEntity> dependsAssetList = assetEntity.DependsAssetList;
             if (dependsAssetList != null)

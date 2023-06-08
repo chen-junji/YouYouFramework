@@ -48,7 +48,6 @@ namespace YouYou
         /// </summary>
         public void Register(ResourceEntity entity)
         {
-            entity.Spawn(false);
 #if UNITY_EDITOR
             InspectorDic.Add(entity.ResourceName, entity);
 #endif
@@ -68,17 +67,6 @@ namespace YouYou
         }
 
         /// <summary>
-        /// 资源回池
-        /// </summary>
-        public void Unspawn(string resourceName)
-        {
-            if (m_ResourceDic.TryGetValue(resourceName, out ResourceEntity resourceEntity))
-            {
-                resourceEntity.Unspawn(false);
-            }
-        }
-
-        /// <summary>
         /// 释放资源池中可释放资源
         /// </summary>
         public void Release()
@@ -90,10 +78,7 @@ namespace YouYou
                 if (resourceEntity.GetCanRelease())
                 {
 #if UNITY_EDITOR
-                    if (InspectorDic.ContainsKey(resourceEntity.ResourceName))
-                    {
-                        InspectorDic.Remove(resourceEntity.ResourceName);
-                    }
+                    InspectorDic.Remove(resourceEntity.ResourceName);
 #endif
                     m_NeedRemoveKeyList.AddFirst(resourceEntity.ResourceName);
                     resourceEntity.Release();
@@ -123,10 +108,7 @@ namespace YouYou
             {
                 ResourceEntity resourceEntity = enumerator.Current.Value;
 #if UNITY_EDITOR
-                if (InspectorDic.ContainsKey(resourceEntity.ResourceName))
-                {
-                    InspectorDic.Remove(resourceEntity.ResourceName);
-                }
+                InspectorDic.Remove(resourceEntity.ResourceName);
 #endif
                 m_NeedRemoveKeyList.AddFirst(resourceEntity.ResourceName);
                 resourceEntity.Release();

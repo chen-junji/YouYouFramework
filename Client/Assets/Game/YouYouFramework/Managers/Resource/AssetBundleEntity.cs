@@ -29,9 +29,9 @@ namespace YouYou
 
 
         /// <summary>
-        /// 对象取池(reference==true则引用计数+1)
+        /// 对象取池
         /// </summary>
-        public void Spawn(bool reference)
+        public void Spawn()
         {
             LastUseTime = Time.time;
 
@@ -43,16 +43,11 @@ namespace YouYou
         }
 
         /// <summary>
-        /// 对象回池(reference==true则引用计数-1)
+        /// 对象回池
         /// </summary>
-        public void Unspawn(bool reference)
+        public void Unspawn()
         {
-#if ASSETBUNDLE
             LastUseTime = Time.time;
-#else
-            Target = null;
-            MainEntry.ClassObjectPool.Enqueue(this);
-#endif
         }
 
         /// <summary>
@@ -69,6 +64,7 @@ namespace YouYou
             AssetBundleEntity assetBundleEntity = MainEntry.ClassObjectPool.Dequeue<AssetBundleEntity>();
             assetBundleEntity.ResourceName = name;
             assetBundleEntity.Target = target;
+            assetBundleEntity.Spawn();
             return assetBundleEntity;
         }
         /// <summary>

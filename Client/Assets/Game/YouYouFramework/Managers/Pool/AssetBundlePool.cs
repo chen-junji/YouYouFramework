@@ -45,7 +45,6 @@ namespace YouYou
         /// </summary>
         public void Register(AssetBundleEntity entity)
         {
-            entity.Spawn(false);
 #if UNITY_EDITOR
             InspectorDic.Add(entity.ResourceName, entity);
 #endif
@@ -59,20 +58,9 @@ namespace YouYou
         {
             if (m_ResourceDic.TryGetValue(resourceName, out AssetBundleEntity resourceEntity))
             {
-                resourceEntity.Spawn(false);
+                resourceEntity.Spawn();
             }
             return resourceEntity;
-        }
-
-        /// <summary>
-        /// ×ÊÔ´»Ø³Ø
-        /// </summary>
-        public void Unspawn(string resourceName)
-        {
-            if (m_ResourceDic.TryGetValue(resourceName, out AssetBundleEntity resourceEntity))
-            {
-                resourceEntity.Unspawn(false);
-            }
         }
 
         /// <summary>

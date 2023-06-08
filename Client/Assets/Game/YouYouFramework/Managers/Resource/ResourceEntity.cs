@@ -46,15 +46,10 @@ namespace YouYou
         /// </summary>
         public void Unspawn(bool reference)
         {
-#if ASSETBUNDLE
             LastUseTime = Time.time;
 
             if (reference) ReferenceCount--;
             if (ReferenceCount < 0) ReferenceCount = 0;
-#else
-            Target = null;
-            MainEntry.ClassObjectPool.Enqueue(this);
-#endif
         }
 
         /// <summary>
@@ -83,6 +78,8 @@ namespace YouYou
             ResourceEntity resourceEntity = MainEntry.ClassObjectPool.Dequeue<ResourceEntity>();
             resourceEntity.ResourceName = name;
             resourceEntity.Target = obj;
+            resourceEntity.Spawn(false);
+            GameEntry.Pool.AssetPool.Register(resourceEntity);
             return resourceEntity;
         }
     }
