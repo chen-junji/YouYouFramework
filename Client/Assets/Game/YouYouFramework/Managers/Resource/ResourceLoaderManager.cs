@@ -93,7 +93,6 @@ namespace YouYou
         /// <summary>
         /// 初始化资源信息
         /// </summary>
-        /// <param name="buffer"></param>
         private void InitAssetInfo(byte[] buffer)
         {
             buffer = ZlibHelper.DeCompressBytes(buffer);//解压
@@ -132,8 +131,6 @@ namespace YouYou
         /// <summary>
         /// 根据资源路径获取资源信息
         /// </summary>
-        /// <param name="assetFullName">资源路径</param>
-        /// <returns></returns>
         internal AssetEntity GetAssetEntity(string assetFullName)
         {
             AssetEntity entity = null;
@@ -329,6 +326,9 @@ namespace YouYou
         #endregion
 
         #region LoadMainAsset 加载主资源(自动加载依赖)
+        /// <summary>
+        /// 异步加载主资源(自动加载依赖)
+        /// </summary>
         public async ETTask<T> LoadMainAssetAsync<T>(string assetFullName, Action<float> onUpdate = null) where T : Object
         {
             ResourceEntity resEntity = await LoadMainAssetAsync(assetFullName, onUpdate);
@@ -367,6 +367,9 @@ namespace YouYou
             return resourceEntity;
         }
 
+        /// <summary>
+        /// 同步加载主资源(自动加载依赖)
+        /// </summary>
         public T LoadMainAsset<T>(string assetFullName) where T : Object
         {
             return LoadMainAsset(assetFullName).Target as T;
