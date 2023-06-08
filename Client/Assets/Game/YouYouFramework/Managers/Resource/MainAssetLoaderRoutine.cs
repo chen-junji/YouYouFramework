@@ -55,41 +55,16 @@ namespace YouYou
             m_CurrAssetEntity = GameEntry.Resource.GetAssetEntity(assetFullName);
             if (m_CurrAssetEntity == null) return null;
 
-            //===================开始加载AB================
-            bool IsSuffixScene = m_CurrAssetEntity.AssetFullName.IsSuffix(".unity");
-            if (!IsSuffixScene)
+            //从分类资源池(AssetPool)中查找主资源
+            m_CurrResourceEntity = GameEntry.Pool.AssetPool.Spawn(m_CurrAssetEntity.AssetFullName);
+            if (m_CurrResourceEntity != null)
             {
-                //从分类资源池(AssetPool)中查找
-                m_CurrResourceEntity = GameEntry.Pool.AssetPool.Spawn(m_CurrAssetEntity.AssetFullName);
-                if (m_CurrResourceEntity != null)
-                {
-                    //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
-                    return m_CurrResourceEntity;
-                }
+                //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
+                return m_CurrResourceEntity;
             }
 
-            //加载这个资源所依赖的资源包
-            List<AssetDependsEntity> dependsAssetList = m_CurrAssetEntity.DependsAssetList;
-            if (dependsAssetList != null)
-            {
-                for (int i = 0; i < dependsAssetList.Count; i++)
-                {
-                    await GameEntry.Resource.LoadAssetBundleAsync(dependsAssetList[i].AssetBundleName);
-                }
-            }
-
-            //加载主资源包
-            m_MainAssetBundle = await GameEntry.Resource.LoadAssetBundleAsync(m_CurrAssetEntity.AssetBundleName, m_OnUpdate);
-            if (m_MainAssetBundle == null)
-            {
-                GameEntry.LogError(LogCategory.Resource, "MainAssetBundle not exists " + m_CurrAssetEntity.AssetFullName);
-                return null;
-            }
-
-            if (IsSuffixScene)
-            {
-                return null;
-            }
+            //加载主资源包和依赖资源包
+            m_MainAssetBundle = await GameEntry.Resource.LoadMainAndDependAssetBundleAsync(m_CurrAssetEntity, m_OnUpdate);
 
             //加载主资源
             Object obj = await GameEntry.Resource.LoadAssetAsync(m_CurrAssetEntity.AssetFullName, m_MainAssetBundle);
@@ -128,40 +103,16 @@ namespace YouYou
             m_CurrAssetEntity = GameEntry.Resource.GetAssetEntity(assetFullName);
             if (m_CurrAssetEntity == null) return null;
 
-            //===================开始加载AB================
-            bool IsSuffixScene = m_CurrAssetEntity.AssetFullName.IsSuffix(".unity");
-            if (!IsSuffixScene)
+            //从分类资源池(AssetPool)中查找主资源
+            m_CurrResourceEntity = GameEntry.Pool.AssetPool.Spawn(m_CurrAssetEntity.AssetFullName);
+            if (m_CurrResourceEntity != null)
             {
-                //从分类资源池(AssetPool)中查找
-                m_CurrResourceEntity = GameEntry.Pool.AssetPool.Spawn(m_CurrAssetEntity.AssetFullName);
-                if (m_CurrResourceEntity != null)
-                {
-                    //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
-                    return m_CurrResourceEntity;
-                }
+                //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
+                return m_CurrResourceEntity;
             }
 
-            //加载这个资源所依赖的资源包
-            List<AssetDependsEntity> dependsAssetList = m_CurrAssetEntity.DependsAssetList;
-            if (dependsAssetList != null)
-            {
-                for (int i = 0; i < dependsAssetList.Count; i++)
-                {
-                    GameEntry.Resource.LoadAssetBundle(dependsAssetList[i].AssetBundleName);
-                }
-            }
-
-            //加载主资源包
-            m_MainAssetBundle = GameEntry.Resource.LoadAssetBundle(m_CurrAssetEntity.AssetBundleName);
-            if (m_MainAssetBundle == null)
-            {
-                GameEntry.LogError(LogCategory.Resource, "MainAssetBundle not exists " + m_CurrAssetEntity.AssetFullName);
-                return null;
-            }
-            if (IsSuffixScene)
-            {
-                return null;
-            }
+            //加载主资源包和依赖资源包
+            m_MainAssetBundle = GameEntry.Resource.LoadMainAndDependAssetBundle(m_CurrAssetEntity);
 
             //加载主资源
             Object obj = GameEntry.Resource.LoadAsset(m_CurrAssetEntity.AssetFullName, m_MainAssetBundle);
@@ -174,7 +125,6 @@ namespace YouYou
 
             m_CurrResourceEntity = ResourceEntity.Create(m_CurrAssetEntity.AssetFullName, obj);
             GameEntry.Pool.AssetPool.Register(m_CurrResourceEntity);
-
 #endif
 
             if (m_CurrResourceEntity.Target == null) GameEntry.LogError(LogCategory.Resource, "资源加载失败==" + assetFullName);

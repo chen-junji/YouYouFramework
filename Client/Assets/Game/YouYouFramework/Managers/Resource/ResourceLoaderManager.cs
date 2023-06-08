@@ -202,7 +202,52 @@ namespace YouYou
             });
             return await task;
         }
+        /// <summary>
+        /// 加载主资源包和依赖资源包
+        /// </summary>
+        public async ETTask<AssetBundle> LoadMainAndDependAssetBundleAsync(AssetEntity assetEntity, Action<float> onUpdate = null)
+        {
+            //加载这个资源所依赖的资源包
+            List<AssetDependsEntity> dependsAssetList = assetEntity.DependsAssetList;
+            if (dependsAssetList != null)
+            {
+                for (int i = 0; i < dependsAssetList.Count; i++)
+                {
+                    await GameEntry.Resource.LoadAssetBundleAsync(dependsAssetList[i].AssetBundleName);
+                }
+            }
 
+            //加载主资源包
+            AssetBundle m_MainAssetBundle = await GameEntry.Resource.LoadAssetBundleAsync(assetEntity.AssetBundleName, onUpdate);
+            if (m_MainAssetBundle == null)
+            {
+                GameEntry.LogError(LogCategory.Resource, "MainAssetBundle not exists " + assetEntity.AssetFullName);
+                return null;
+            }
+            return m_MainAssetBundle;
+        }
+
+        public AssetBundle LoadMainAndDependAssetBundle(AssetEntity assetEntity)
+        {
+            //加载这个资源所依赖的资源包
+            List<AssetDependsEntity> dependsAssetList = assetEntity.DependsAssetList;
+            if (dependsAssetList != null)
+            {
+                for (int i = 0; i < dependsAssetList.Count; i++)
+                {
+                    GameEntry.Resource.LoadAssetBundle(dependsAssetList[i].AssetBundleName);
+                }
+            }
+
+            //加载主资源包
+            AssetBundle m_MainAssetBundle = GameEntry.Resource.LoadAssetBundle(assetEntity.AssetBundleName);
+            if (m_MainAssetBundle == null)
+            {
+                GameEntry.LogError(LogCategory.Resource, "MainAssetBundle not exists " + assetEntity.AssetFullName);
+                return null;
+            }
+            return m_MainAssetBundle;
+        }
         public AssetBundle LoadAssetBundle(string assetbundlePath)
         {
             //1.判断资源包是否存在于AssetBundlePool

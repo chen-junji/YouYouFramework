@@ -39,7 +39,8 @@ namespace YouYou
             m_CurrAsync = SceneManager.LoadSceneAsync(sceneName , LoadSceneMode.Additive);
 #else
             //加载场景的资源包
-            await GameEntry.Resource.LoadMainAssetAsync(sceneName);
+            AssetEntity assetEntity = GameEntry.Resource.GetAssetEntity(sceneName);
+            await GameEntry.Resource.LoadMainAndDependAssetBundleAsync(assetEntity);
             m_CurrAsync = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 #endif
         }
