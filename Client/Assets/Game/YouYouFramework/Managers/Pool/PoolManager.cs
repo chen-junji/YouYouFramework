@@ -88,7 +88,6 @@ namespace YouYou
             MainEntry.ClassObjectPool.SetResideCount<AssetLoaderRoutine>(10);
             MainEntry.ClassObjectPool.SetResideCount<ResourceEntity>(10);
             MainEntry.ClassObjectPool.SetResideCount<AssetBundleEntity>(10);
-            MainEntry.ClassObjectPool.SetResideCount<MainAssetLoaderRoutine>(30);
         }
 
         #region 变量对象池
