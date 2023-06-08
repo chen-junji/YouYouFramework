@@ -1,6 +1,5 @@
 using Main;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -156,13 +155,13 @@ namespace YouYou
             //使用TaskGroup, 加入异步加载队列, 防止高并发导致的重复加载
             AssetBundleTaskGroup.AddTask((taskRoutine) =>
             {
-                //1.判断资源包是否存在于AssetBundlePool
+                //判断资源包是否存在于AssetBundlePool
                 AssetBundleEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
                 if (assetBundleEntity != null)
                 {
                     //GameEntry.Log("资源包在资源池中存在 从资源池中加载AssetBundle");
-                    taskRoutine.Leave();
                     onComplete?.Invoke(assetBundleEntity.Target);
+                    taskRoutine.Leave();
                     return;
                 }
 
@@ -253,12 +252,21 @@ namespace YouYou
         }
         public AssetBundle LoadAssetBundle(string assetbundlePath)
         {
-            //1.判断资源包是否存在于AssetBundlePool
+            //判断资源包是否存在于AssetBundlePool
             AssetBundleEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
             if (assetBundleEntity != null)
             {
                 //GameEntry.Log("资源包在资源池中存在 从资源池中加载AssetBundle");
                 return assetBundleEntity.Target;
+            }
+
+            //如果这个AssetBundle在异步加载中，则直接堵塞主线程，返回Request.assetBundle
+            for (LinkedListNode<AssetBundleLoaderRoutine> curr = m_AssetBundleLoaderList.First; curr != null; curr = curr.Next)
+            {
+                if (curr.Value.CurrAssetBundleInfo.AssetBundleName == assetbundlePath)
+                {
+                    return curr.Value.CurrAssetBundleCreateRequest.assetBundle;
+                }
             }
 
             //加载资源包
@@ -321,6 +329,15 @@ namespace YouYou
 
         public Object LoadAsset(string assetName, AssetBundle assetBundle)
         {
+            //如果这个Asset在异步加载中，则直接堵塞主线程，返回Request.asset
+            for (LinkedListNode<AssetLoaderRoutine> curr = m_AssetLoaderList.First; curr != null; curr = curr.Next)
+            {
+                if (curr.Value.CurrAssetName == assetName)
+                {
+                    return curr.Value.CurrAssetBundleRequest.asset;
+                }
+            }
+
             return assetBundle.LoadAsset(assetName);
         }
         #endregion

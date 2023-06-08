@@ -14,9 +14,9 @@ namespace YouYou
         /// <summary>
         /// 资源加载请求
         /// </summary>
-        private AssetBundleRequest m_CurrAssetBundleRequest;
+        public AssetBundleRequest CurrAssetBundleRequest { get; private set; }
 
-        private string m_CurrAssetName;
+        public string CurrAssetName { get; private set; }
 
         /// <summary>
         /// 资源请求更新
@@ -26,13 +26,13 @@ namespace YouYou
         /// <summary>
         /// 加载资源完毕
         /// </summary>
-        public Action<UnityEngine.Object> OnLoadAssetComplete;
+        public Action<Object> OnLoadAssetComplete;
 
 
         internal void LoadAssetAsync(string assetName, AssetBundle assetBundle)
         {
-            m_CurrAssetName = assetName;
-            m_CurrAssetBundleRequest = assetBundle.LoadAssetAsync(assetName);
+            CurrAssetName = assetName;
+            CurrAssetBundleRequest = assetBundle.LoadAssetAsync(assetName);
         }
         internal Object LoadAsset(string assetName, AssetBundle assetBundle)
         {
@@ -44,7 +44,7 @@ namespace YouYou
         /// </summary>
         public void Reset()
         {
-            m_CurrAssetBundleRequest = null;
+            CurrAssetBundleRequest = null;
         }
 
         /// <summary>
@@ -60,11 +60,11 @@ namespace YouYou
         /// </summary>
         private void UpdateAssetBundleRequest()
         {
-            if (m_CurrAssetBundleRequest != null)
+            if (CurrAssetBundleRequest != null)
             {
-                if (m_CurrAssetBundleRequest.isDone)
+                if (CurrAssetBundleRequest.isDone)
                 {
-                    Object obj = m_CurrAssetBundleRequest.asset;
+                    Object obj = CurrAssetBundleRequest.asset;
                     if (obj != null)
                     {
                         //GameEntry.Log(LogCategory.Resource, "资源=>{0} 加载完毕", m_CurrAssetName);
@@ -74,7 +74,7 @@ namespace YouYou
                     }
                     else
                     {
-                        GameEntry.LogError(LogCategory.Resource, "资源=>{0} 加载失败", m_CurrAssetName);
+                        GameEntry.LogError(LogCategory.Resource, "资源=>{0} 加载失败", CurrAssetName);
                         Reset();//一定要早点Reset
 
                         OnLoadAssetComplete?.Invoke(null);
@@ -83,7 +83,7 @@ namespace YouYou
                 else
                 {
                     //加载进度
-                    OnAssetUpdate?.Invoke(m_CurrAssetBundleRequest.progress);
+                    OnAssetUpdate?.Invoke(CurrAssetBundleRequest.progress);
                 }
             }
         }

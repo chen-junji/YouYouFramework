@@ -15,12 +15,12 @@ namespace YouYou
         /// <summary>
         /// 当前的资源包信息
         /// </summary>
-        private AssetBundleInfoEntity m_CurrAssetBundleInfo;
+        public AssetBundleInfoEntity CurrAssetBundleInfo { get; private set; }
 
         /// <summary>
         /// 资源包创建请求
         /// </summary>
-        private AssetBundleCreateRequest m_CurrAssetBundleCreateRequest;
+        public AssetBundleCreateRequest CurrAssetBundleCreateRequest { get; private set; }
 
         /// <summary>
         /// 资源包创建请求更新
@@ -37,25 +37,25 @@ namespace YouYou
         {
             void LoadAssetBundleAsync(byte[] buffer)
             {
-                if (m_CurrAssetBundleInfo.IsEncrypt)
+                if (CurrAssetBundleInfo.IsEncrypt)
                 {
                     //如果资源包是加密的,则解密
                     buffer = SecurityUtil.Xor(buffer);
                 }
 
-                m_CurrAssetBundleCreateRequest = AssetBundle.LoadFromMemoryAsync(buffer);
+                CurrAssetBundleCreateRequest = AssetBundle.LoadFromMemoryAsync(buffer);
             }
 
 
-            m_CurrAssetBundleInfo = MainEntry.ResourceManager.GetAssetBundleInfo(assetBundlePath);
+            CurrAssetBundleInfo = MainEntry.ResourceManager.GetAssetBundleInfo(assetBundlePath);
 
             //检查文件在可写区是否存在
             bool isExistsInLocal = MainEntry.ResourceManager.LocalAssetsManager.CheckFileExists(assetBundlePath);
 
-            if (isExistsInLocal && !m_CurrAssetBundleInfo.IsEncrypt)
+            if (isExistsInLocal && !CurrAssetBundleInfo.IsEncrypt)
             {
                 //可写区加载, 不用解密
-                m_CurrAssetBundleCreateRequest = AssetBundle.LoadFromFileAsync(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
+                CurrAssetBundleCreateRequest = AssetBundle.LoadFromFileAsync(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
             }
             else
             {
@@ -95,7 +95,7 @@ namespace YouYou
         {
             AssetBundle LoadAssetBundle(byte[] buffer)
             {
-                if (m_CurrAssetBundleInfo.IsEncrypt)
+                if (CurrAssetBundleInfo.IsEncrypt)
                 {
                     //如果资源包是加密的,则解密
                     buffer = SecurityUtil.Xor(buffer);
@@ -105,12 +105,12 @@ namespace YouYou
             }
 
 
-            m_CurrAssetBundleInfo = MainEntry.ResourceManager.GetAssetBundleInfo(assetBundlePath);
+            CurrAssetBundleInfo = MainEntry.ResourceManager.GetAssetBundleInfo(assetBundlePath);
 
             //检查文件在可写区是否存在
             bool isExistsInLocal = MainEntry.ResourceManager.LocalAssetsManager.CheckFileExists(assetBundlePath);
 
-            if (isExistsInLocal && !m_CurrAssetBundleInfo.IsEncrypt)
+            if (isExistsInLocal && !CurrAssetBundleInfo.IsEncrypt)
             {
                 //可写区加载, 不用解密
                 return AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
@@ -144,7 +144,7 @@ namespace YouYou
         /// </summary>
         public void Reset()
         {
-            m_CurrAssetBundleCreateRequest = null;
+            CurrAssetBundleCreateRequest = null;
         }
 
         /// <summary>
@@ -161,17 +161,17 @@ namespace YouYou
         /// </summary>
         private void UpdateAssetBundleCreateRequest()
         {
-            if (m_CurrAssetBundleCreateRequest == null) return;
-            if (m_CurrAssetBundleCreateRequest.isDone)
+            if (CurrAssetBundleCreateRequest == null) return;
+            if (CurrAssetBundleCreateRequest.isDone)
             {
-                AssetBundle assetBundle = m_CurrAssetBundleCreateRequest.assetBundle;
+                AssetBundle assetBundle = CurrAssetBundleCreateRequest.assetBundle;
                 if (assetBundle != null)
                 {
                     //GameEntry.Log(LogCategory.Resource, "资源包=>{0} 加载完毕", m_CurrAssetBundleInfo.AssetBundleName);
                 }
                 else
                 {
-                    GameEntry.LogError(LogCategory.Resource, "资源包=>{0} 加载失败", m_CurrAssetBundleInfo.AssetBundleName);
+                    GameEntry.LogError(LogCategory.Resource, "资源包=>{0} 加载失败", CurrAssetBundleInfo.AssetBundleName);
                 }
                 OnLoadAssetBundleComplete?.Invoke(assetBundle);
                 Reset();//一定要早点Reset
