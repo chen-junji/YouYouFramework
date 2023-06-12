@@ -9,12 +9,6 @@ using YouYou;
 public class CameraCtrl : SingletonMono<CameraCtrl>
 {
     /// <summary>
-    /// 控制摄像机上下
-    /// </summary>
-    [SerializeField]
-    private Transform m_CameraUpAndDown;
-
-    /// <summary>
     /// 摄像机缩放父物体
     /// </summary>
     [SerializeField]
@@ -80,13 +74,10 @@ public class CameraCtrl : SingletonMono<CameraCtrl>
         else if (Input.GetKey(KeyCode.L)) SetCameraDistance(-Time.deltaTime * 10);
 
 
-        //左右旋转 计算阻尼并刷新位置
+        //旋转 计算阻尼并刷新位置
         rotateX = Mathf.SmoothDamp(rotateX, targetX, ref xVelocity, 0.2f);
-        transform.localEulerAngles = new Vector3(0, rotateX, 0);
-
-        //上下旋转 计算阻尼并刷新位置
         rotateY = Mathf.SmoothDamp(rotateY, targetY, ref yVelocity, 0.2f);
-        m_CameraUpAndDown.transform.localEulerAngles = new Vector3(rotateY, 0, 0);
+        transform.localEulerAngles = new Vector3(rotateY, rotateX, 0);
 
         //前后缩放 计算阻尼并刷新位置
         distance = Mathf.SmoothDamp(distance, targetDistance, ref zoomVelocity, 0.5f);
