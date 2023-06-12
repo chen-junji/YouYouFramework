@@ -21,7 +21,7 @@ MonoBehaviour:
   - Name: "\u58F0\u97F3"
     IsCanEditor: 1
     Overall: 1
-    IsFirstData: 0
+    IsFirstData: 1
     IsEncrypt: 0
     Path:
     - Game/Download/Sound

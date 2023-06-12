@@ -54,6 +54,10 @@ namespace Main
             m_CallBackArgs = new HttpCallBackArgs();
             m_Dic = new Dictionary<string, object>();
         }
+        public static HttpRoutine Create()
+        {
+            return MainEntry.ClassObjectPool.Dequeue<HttpRoutine>();
+        }
 
         #region SendData 发送web数据
         /// <summary>

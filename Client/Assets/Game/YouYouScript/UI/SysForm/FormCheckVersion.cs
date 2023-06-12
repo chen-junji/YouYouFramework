@@ -27,9 +27,9 @@ public class FormCheckVersion : MonoBehaviour
         MainEntry.ResourceManager.CheckVersionDownloadUpdate -= OnCheckVersionDownloadUpdate;
         MainEntry.ResourceManager.CheckVersionDownloadComplete -= OnCheckVersionDownloadComplete;
 
-        MainEntry.Data.RemoveEventListener(SysDataMgr.EventName.PreloadBegin, OnPreloadBegin);
-        MainEntry.Data.RemoveEventListener(SysDataMgr.EventName.PreloadUpdate, OnPreloadUpdate);
-        MainEntry.Data.RemoveEventListener(SysDataMgr.EventName.PreloadComplete, OnPreloadComplete);
+        MainEntry.Data.ActionPreloadBegin -= OnPreloadBegin;
+        MainEntry.Data.ActionPreloadUpdate -= OnPreloadUpdate;
+        MainEntry.Data.ActionPreloadComplete -= OnPreloadComplete;
     }
     private void Start()
     {
@@ -37,9 +37,10 @@ public class FormCheckVersion : MonoBehaviour
         MainEntry.ResourceManager.CheckVersionDownloadUpdate += OnCheckVersionDownloadUpdate;
         MainEntry.ResourceManager.CheckVersionDownloadComplete += OnCheckVersionDownloadComplete;
 
-        MainEntry.Data.AddEventListener(SysDataMgr.EventName.PreloadBegin, OnPreloadBegin);
-        MainEntry.Data.AddEventListener(SysDataMgr.EventName.PreloadUpdate, OnPreloadUpdate);
-        MainEntry.Data.AddEventListener(SysDataMgr.EventName.PreloadComplete, OnPreloadComplete);
+
+        MainEntry.Data.ActionPreloadBegin += OnPreloadBegin;
+        MainEntry.Data.ActionPreloadUpdate += OnPreloadUpdate;
+        MainEntry.Data.ActionPreloadComplete += OnPreloadComplete;
 
         //if (txtSize != null) txtSize.gameObject.SetActive(false);
     }
@@ -65,19 +66,17 @@ public class FormCheckVersion : MonoBehaviour
     #endregion
 
     #region 预加载进度
-    private void OnPreloadComplete(object userData)
+    private void OnPreloadComplete()
     {
         Destroy(gameObject);
     }
-    private void OnPreloadUpdate(object userData)
+    private void OnPreloadUpdate(float baseParams)
     {
-        float baseParams = (float)userData;
-
         txtTip.text = string.Format("正在加载资源{0:f0}%", baseParams * 100);
 
         scrollbar.size = baseParams;
     }
-    private void OnPreloadBegin(object userData)
+    private void OnPreloadBegin()
     {
         //if (txtSize != null) txtSize.gameObject.SetActive(false);
         //txtVersion.text = string.Format("资源版本号 {0}", GameEntry.Resource.ResourceManager.CDNVersion);

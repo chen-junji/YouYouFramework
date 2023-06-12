@@ -5,16 +5,13 @@ using UnityEngine;
 
 namespace Main
 {
-    public class SysDataMgr : DataMgrBase<SysDataMgr.EventName>
+    public class SysDataMgr 
     {
-        public enum EventName : uint
-        {
-            LoadingSceneUpdate,
+        public event Action<float> ActionLoadingSceneUpdate;
 
-            PreloadBegin,
-            PreloadUpdate,
-            PreloadComplete,
-        }
+        public event Action ActionPreloadBegin;
+        public event Action<float> ActionPreloadUpdate;
+        public event Action ActionPreloadComplete;
 
         /// <summary>
         /// 渠道配置数据
@@ -36,6 +33,24 @@ namespace Main
         public SysDataMgr()
         {
             CurrChannelConfig = new ChannelConfigEntity();
+        }
+
+        public void LoadingSceneUpdate(float progress)
+        {
+            ActionLoadingSceneUpdate?.Invoke(progress);
+        }
+
+        public void PreloadBegin()
+        {
+            ActionPreloadBegin?.Invoke();
+        }
+        public void PreloadUpdate(float progress)
+        {
+            ActionPreloadUpdate?.Invoke(progress);
+        }
+        public void PreloadComplete()
+        {
+            ActionPreloadComplete?.Invoke();
         }
 
     }

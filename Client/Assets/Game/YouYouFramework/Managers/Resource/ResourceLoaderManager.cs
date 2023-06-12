@@ -165,7 +165,7 @@ namespace YouYou
                     return;
                 }
 
-                AssetBundleLoaderRoutine loadRoutine = MainEntry.ClassObjectPool.Dequeue<AssetBundleLoaderRoutine>();
+                AssetBundleLoaderRoutine loadRoutine = AssetBundleLoaderRoutine.Create();
 
                 //加入链表开始Update()
                 m_AssetBundleLoaderList.AddLast(loadRoutine);
@@ -181,7 +181,6 @@ namespace YouYou
                     onComplete?.Invoke(assetBundleEntity.Target);
 
                     m_AssetBundleLoaderList.Remove(loadRoutine);
-                    MainEntry.ClassObjectPool.Enqueue(loadRoutine);
                 };
                 //加载资源包
                 loadRoutine.LoadAssetBundleAsync(assetbundlePath);
@@ -270,7 +269,7 @@ namespace YouYou
             }
 
             //加载资源包
-            AssetBundleLoaderRoutine routine = MainEntry.ClassObjectPool.Dequeue<AssetBundleLoaderRoutine>();
+            AssetBundleLoaderRoutine routine = AssetBundleLoaderRoutine.Create();
             AssetBundle assetbundle = routine.LoadAssetBundle(assetbundlePath);
 
             //资源包注册到资源池
@@ -295,7 +294,7 @@ namespace YouYou
             //使用TaskGroup, 加入异步加载队列, 防止高并发导致的重复加载
             AssetTaskGroup.AddTask((taskRoutine) =>
             {
-                AssetLoaderRoutine routine = MainEntry.ClassObjectPool.Dequeue<AssetLoaderRoutine>();
+                AssetLoaderRoutine routine = AssetLoaderRoutine.Create();
 
                 //加入链表开始循环
                 m_AssetLoaderList.AddLast(routine);
@@ -310,7 +309,6 @@ namespace YouYou
 
                     //结束循环 回池
                     m_AssetLoaderList.Remove(routine);
-                    MainEntry.ClassObjectPool.Enqueue(routine);
                 };
                 //加载资源
                 routine.LoadAssetAsync(assetName, assetBundle);

@@ -139,6 +139,12 @@ namespace YouYou
 
         #endregion
 
+        public static AssetBundleLoaderRoutine Create()
+        {
+            AssetBundleLoaderRoutine assetBundleLoaderRoutine = MainEntry.ClassObjectPool.Dequeue<AssetBundleLoaderRoutine>();
+            return assetBundleLoaderRoutine;
+        }
+
         /// <summary>
         /// 重置
         /// </summary>
@@ -173,8 +179,9 @@ namespace YouYou
                 {
                     GameEntry.LogError(LogCategory.Resource, "资源包=>{0} 加载失败", CurrAssetBundleInfo.AssetBundleName);
                 }
-                OnLoadAssetBundleComplete?.Invoke(assetBundle);
                 Reset();//一定要早点Reset
+                OnLoadAssetBundleComplete?.Invoke(assetBundle);
+                MainEntry.ClassObjectPool.Enqueue(this);
             }
             else
             {

@@ -34,6 +34,13 @@ public class BaseParams
 
     public Vector3 Vector3Param1;
 
+
+    public static BaseParams Create()
+    {
+        BaseParams baseParams = Main.MainEntry.ClassObjectPool.Dequeue<BaseParams>();
+        baseParams.Reset();
+        return baseParams;
+    }
     /// <summary>
     /// 重置
     /// </summary>

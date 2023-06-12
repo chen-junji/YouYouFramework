@@ -89,11 +89,10 @@ namespace Main
                 return;
             }
 
-            DownloadRoutine routine = MainEntry.ClassObjectPool.Dequeue<DownloadRoutine>();
+            DownloadRoutine routine = DownloadRoutine.Create();
             routine.BeginDownload(url, entity, onUpdate, onComplete: (string fileUrl, DownloadRoutine r) =>
             {
                 m_DownloadSingleRoutineList.Remove(routine);
-                MainEntry.ClassObjectPool.Enqueue(routine);
                 if (onComplete != null) onComplete(fileUrl);
             });
             m_DownloadSingleRoutineList.AddLast(routine);
@@ -107,11 +106,10 @@ namespace Main
         /// <param name="onDownloadMulitComplete"></param>
         public void BeginDownloadMulit(LinkedList<string> lstUrl, Action<int, int, ulong, ulong> onDownloadMulitUpdate = null, Action onDownloadMulitComplete = null)
         {
-            DownloadMulitRoutine mulitRoutine = MainEntry.ClassObjectPool.Dequeue<DownloadMulitRoutine>();
+            DownloadMulitRoutine mulitRoutine = DownloadMulitRoutine.Create();
             mulitRoutine.BeginDownloadMulit(lstUrl, onDownloadMulitUpdate, (DownloadMulitRoutine r) =>
             {
                 m_DownloadMulitRoutineList.Remove(r);
-                MainEntry.ClassObjectPool.Enqueue(r);
                 onDownloadMulitComplete?.Invoke();
             });
             m_DownloadMulitRoutineList.AddLast(mulitRoutine);

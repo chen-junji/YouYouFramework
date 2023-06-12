@@ -188,7 +188,7 @@ namespace YouYou
                         m_CurrProgress += Time.deltaTime * 0.8f;
                     }
                     m_CurrProgress = Mathf.Min(m_CurrProgress, targetProgress);//这里是为了防止进度超过100%， 比如完成了显示102%
-                    MainEntry.Data.Dispatch(SysDataMgr.EventName.LoadingSceneUpdate, m_CurrProgress);
+                    MainEntry.Data.LoadingSceneUpdate(m_CurrProgress);
                 }
 
                 if (m_CurrProgress == 1)

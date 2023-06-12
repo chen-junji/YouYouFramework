@@ -1,3 +1,4 @@
+using Main;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,6 +40,12 @@ namespace YouYou
             return assetBundle.LoadAsset(assetName);
         }
 
+        public static AssetLoaderRoutine Create()
+        {
+            AssetLoaderRoutine assetLoaderRoutine = Main.MainEntry.ClassObjectPool.Dequeue<AssetLoaderRoutine>();
+            return assetLoaderRoutine;
+        }
+
         /// <summary>
         /// 重置
         /// </summary>
@@ -68,17 +75,14 @@ namespace YouYou
                     if (obj != null)
                     {
                         //GameEntry.Log(LogCategory.Resource, "资源=>{0} 加载完毕", m_CurrAssetName);
-                        Reset();//一定要早点Reset
-
-                        OnLoadAssetComplete?.Invoke(obj);
                     }
                     else
                     {
                         GameEntry.LogError(LogCategory.Resource, "资源=>{0} 加载失败", CurrAssetName);
-                        Reset();//一定要早点Reset
-
-                        OnLoadAssetComplete?.Invoke(null);
                     }
+                    Reset();//一定要早点Reset
+                    OnLoadAssetComplete?.Invoke(obj);
+                    MainEntry.ClassObjectPool.Enqueue(this);
                 }
                 else
                 {

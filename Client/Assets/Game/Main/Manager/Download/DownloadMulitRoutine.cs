@@ -16,6 +16,10 @@ namespace Main
             m_DownloadRoutineList = new LinkedList<DownloadRoutine>();
             m_NeedDownloadList = new LinkedList<string>();
         }
+        public static DownloadMulitRoutine Create()
+        {
+            return MainEntry.ClassObjectPool.Dequeue<DownloadMulitRoutine>();
+        }
         public void Dispose()
         {
             m_DownloadMulitCurrSizeDic.Clear();
@@ -83,6 +87,7 @@ namespace Main
             if (lstUrl.Count < 1)
             {
                 onDownloadMulitComplete?.Invoke(this);
+                MainEntry.ClassObjectPool.Enqueue(this);
                 return;
             }
             m_OnDownloadMulitUpdate = onDownloadMulitUpdate;
@@ -119,7 +124,7 @@ namespace Main
             int routineCount = Mathf.Min(MainEntry.Download.DownloadRoutineCount, m_DownloadMulitNeedCount);
             for (int i = 0; i < routineCount; i++)
             {
-                DownloadRoutine routine = MainEntry.ClassObjectPool.Dequeue<DownloadRoutine>();
+                DownloadRoutine routine = DownloadRoutine.Create();
 
                 string url = m_NeedDownloadList.First.Value;
 
@@ -153,11 +158,12 @@ namespace Main
             //检查队列中是否有要下载的数量
             if (m_NeedDownloadList.Count > 0)
             {
-                //让下载器继续工作
+                //创建新的下载器，下载新文件
                 string url = m_NeedDownloadList.First.Value;
-
                 AssetBundleInfoEntity entity = MainEntry.ResourceManager.GetAssetBundleInfo(url);
-                routine.BeginDownload(url, entity, OnDownloadMulitUpdate, OnDownloadMulitComplete);
+
+                DownloadRoutine newRoutine = DownloadRoutine.Create();
+                newRoutine.BeginDownload(url, entity, OnDownloadMulitUpdate, OnDownloadMulitComplete);
 
                 m_NeedDownloadList.RemoveFirst();
             }
@@ -165,7 +171,6 @@ namespace Main
             {
                 //下载器回池
                 m_DownloadRoutineList.Remove(routine);
-                MainEntry.ClassObjectPool.Enqueue(routine);
             }
 
             m_DownloadMulitCurrCount++;
@@ -177,7 +182,8 @@ namespace Main
                 m_DownloadMulitCurrSize = m_DownloadMulitTotalSize;
                 m_OnDownloadMulitUpdate?.Invoke(m_DownloadMulitCurrCount, m_DownloadMulitNeedCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
 
-                if (m_OnDownloadMulitComplete != null) m_OnDownloadMulitComplete(this);
+                m_OnDownloadMulitComplete?.Invoke(this);
+                MainEntry.ClassObjectPool.Enqueue(this);
                 //Debug.LogError("所有资源下载完毕!!!");
             }
         }

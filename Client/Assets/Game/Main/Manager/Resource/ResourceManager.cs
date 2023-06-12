@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Main
 {
@@ -163,21 +164,28 @@ namespace Main
             string url = sbr.AppendFormatNoGC("{0}{1}", MainEntry.Data.CurrChannelConfig.RealSourceUrl, YFConstDefine.VersionFileName).ToString();
             StringHelper.PoolDel(ref sbr);
 
-            MainEntry.ClassObjectPool.Dequeue<HttpRoutine>().Get(url, (HttpCallBackArgs args) =>
+            IEnumerator UnityWebRequestGet(string url, Action<UnityWebRequest> onComplete)
             {
-                if (args.HasError)
+                using (UnityWebRequest request = UnityWebRequest.Get(url))
                 {
-                    Debug.LogError("UITipLogOut");
-                    //GameEntry.Instance.UITipLogOut.SetValue(() => GetArgs(url, loadingCircle, callBack));
+                    yield return request.SendWebRequest();
+                    onComplete?.Invoke(request);
                 }
-                else
+            }
+            MainEntry.Instance.StartCoroutine(UnityWebRequestGet(url, (request) =>
+            {
+                if (request.result == UnityWebRequest.Result.Success)
                 {
-                    m_CDNVersionDic = GetAssetBundleVersionList(args.Data, ref m_CDNVersion);
+                    m_CDNVersionDic = GetAssetBundleVersionList(request.downloadHandler.data, ref m_CDNVersion);
                     MainEntry.Log(MainEntry.LogCategory.Resource, "OnInitCDNAssetBundleInfo");
 
                     CheckVersionFileExistsInLocal();
                 }
-            });
+                else
+                {
+                    Main.MainEntry.Log(MainEntry.LogCategory.Resource, "初始化CDN资源包信息失败，url==" + url);
+                }
+            }));
         }
         #endregion
 
@@ -343,8 +351,7 @@ namespace Main
         private void DownloadInitResources()
         {
             CheckVersionBeginDownload?.Invoke();
-            m_DownloadingParams = MainEntry.ClassObjectPool.Dequeue<BaseParams>();
-            m_DownloadingParams.Reset();
+            m_DownloadingParams = BaseParams.Create();
 
             m_NeedDownloadList.Clear();
 
@@ -376,8 +383,7 @@ namespace Main
         /// </summary>
         private void BeginCheckVersionChange()
         {
-            m_DownloadingParams = MainEntry.ClassObjectPool.Dequeue<BaseParams>();
-            m_DownloadingParams.Reset();
+            m_DownloadingParams = BaseParams.Create();
 
             //需要删除的文件
             LinkedList<string> delList = new LinkedList<string>();

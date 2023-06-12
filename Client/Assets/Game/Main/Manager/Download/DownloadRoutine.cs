@@ -170,6 +170,10 @@ namespace Main
             m_UnityWebRequest.SendWebRequest();
         }
 
+        public static DownloadRoutine Create()
+        {
+            return MainEntry.ClassObjectPool.Dequeue<DownloadRoutine>();
+        }
         public void Reset()
         {
             if (m_UnityWebRequest != null)
@@ -233,6 +237,7 @@ namespace Main
                     }
                     MainEntry.LogError(MainEntry.LogCategory.Resource, "下载失败, URL {0} Error= {1}", m_UnityWebRequest.url, m_UnityWebRequest.error);
                     Reset();
+                    MainEntry.ClassObjectPool.Enqueue(this);
                     return;
             }
 
@@ -254,6 +259,7 @@ namespace Main
             MainEntry.ResourceManager.SaveVersion(m_CurrAssetBundleInfo);
 
             m_OnComplete?.Invoke(m_CurrFileUrl, this);
+            MainEntry.ClassObjectPool.Enqueue(this);
         }
 
         /// <summary>
