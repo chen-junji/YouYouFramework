@@ -13,12 +13,7 @@ namespace Main
     /// </summary>
     public class StreamingAssetsManager
     {
-        public AssetBundle ReadAssetBundle(string fileUrl)
-        {
-            return AssetBundle.LoadFromFile(fileUrl);
-        }
-
-        public void ReadAssetBundleAsync(string fileUrl, Action<byte[]> onComplete)
+        public void LoadAssetBundleAction(string fileUrl, Action<byte[]> onComplete)
         {
             IEnumerator ReadStreamingAsset(string url, Action<byte[]> onComplete)
             {

@@ -60,32 +60,6 @@ public class AssetBundleSettings : ScriptableObject
         EditorUtility.DisplayDialog("", "清空完毕", "确定");
     }
 
-    [VerticalGroup("Common/Right")]
-    [Button(ButtonSizes.Medium)]
-    [LabelText("热更Dll复制到Hotfix目录")]
-    public void CopyHofixDll()
-    {
-        string CodeDir = "Assets/Game/Download/Hotfix/";
-
-        string ScriptAssembliesDir = Application.dataPath + "/../" + "HybridCLRData/HotUpdateDlls/" + GetBuildTarget().ToString() + "/Assembly-CSharp.dll";
-        File.Copy(ScriptAssembliesDir, Path.Combine(CodeDir, "Assembly-CSharp.dll.bytes"), true);
-
-        List<string> aotMetaAssemblyFiles = new List<string>()
-        {
-            "mscorlib.dll",
-            "System.dll",
-            "System.Core.dll",
-        };
-        string aotMetaAssemblyDir = Application.dataPath + "/../" + "HybridCLRData/AssembliesPostIl2CppStrip/" + GetBuildTarget().ToString() + "/";
-        foreach (var aotDllName in aotMetaAssemblyFiles)
-        {
-            File.Copy(aotMetaAssemblyDir + aotDllName, Path.Combine(CodeDir, aotDllName + ".bytes"), true);
-        }
-
-        AssetDatabase.Refresh();
-        Debug.Log("热更dll和补充元数据dll, 复制到Game/Download/Hotfix完成");
-    }
-
     /// <summary>
     /// 要收集的资源包
     /// </summary>
@@ -96,6 +70,8 @@ public class AssetBundleSettings : ScriptableObject
     [LabelText("打包到本地CDN")]
     public void BuildAssetBundle()
     {
+        CopyHofixDll();
+
         builds.Clear();
         int len = Datas.Length;
         for (int i = 0; i < len; i++)
@@ -134,111 +110,111 @@ public class AssetBundleSettings : ScriptableObject
         Debug.Log("VersionFile生成版本文件完毕");
     }
 
-    [VerticalGroup("Common/Right")]
-    [Button(ButtonSizes.Medium)]
-    [LabelText("资源拷贝到StreamingAsstes")]
-    public void AssetBundleCopyToStreamingAsstes()
-    {
-        Debug.Log(OutPath);
-        string toPath = Application.streamingAssetsPath + "/AssetBundles/";
+    //[VerticalGroup("Common/Right")]
+    //[Button(ButtonSizes.Medium)]
+    //[LabelText("资源拷贝到StreamingAsstes")]
+    //public void AssetBundleCopyToStreamingAsstes()
+    //{
+    //    Debug.Log(OutPath);
+    //    string toPath = Application.streamingAssetsPath + "/AssetBundles/";
 
-        if (Directory.Exists(toPath))
-        {
-            Directory.Delete(toPath, true);
-        }
-        Directory.CreateDirectory(toPath);
+    //    if (Directory.Exists(toPath))
+    //    {
+    //        Directory.Delete(toPath, true);
+    //    }
+    //    Directory.CreateDirectory(toPath);
 
-        IOUtil.CopyDirectory(OutPath, toPath);
+    //    IOUtil.CopyDirectory(OutPath, toPath);
 
-        //重新生成版本文件
-        //1.先读取OutPath里边的版本文件 这个版本文件里 存放了所有的资源包信息
+    //    //重新生成版本文件
+    //    //1.先读取OutPath里边的版本文件 这个版本文件里 存放了所有的资源包信息
 
-        byte[] buffer = IOUtil.GetFileBuffer(OutPath + "/VersionFile.bytes");
-        string version = "";
-        Dictionary<string, AssetBundleInfoEntity> dic = ResourceManager.GetAssetBundleVersionList(buffer, ref version);
-        Dictionary<string, AssetBundleInfoEntity> newDic = new Dictionary<string, AssetBundleInfoEntity>();
+    //    byte[] buffer = IOUtil.GetFileBuffer(OutPath + "/VersionFile.bytes");
+    //    string version = "";
+    //    Dictionary<string, AssetBundleInfoEntity> dic = ResourceManager.GetAssetBundleVersionList(buffer, ref version);
+    //    Dictionary<string, AssetBundleInfoEntity> newDic = new Dictionary<string, AssetBundleInfoEntity>();
 
-        DirectoryInfo directory = new DirectoryInfo(toPath);
+    //    DirectoryInfo directory = new DirectoryInfo(toPath);
 
-        //拿到文件夹下所有文件
-        FileInfo[] arrFiles = directory.GetFiles("*", SearchOption.AllDirectories);
+    //    //拿到文件夹下所有文件
+    //    FileInfo[] arrFiles = directory.GetFiles("*", SearchOption.AllDirectories);
 
-        for (int i = 0; i < arrFiles.Length; i++)
-        {
-            FileInfo file = arrFiles[i];
-            string fullName = file.FullName.Replace("\\", "/"); //全名 包含路径扩展名
-            string name = fullName.Replace(toPath, "").Replace(".assetbundle", "").Replace(".unity3d", "");
+    //    for (int i = 0; i < arrFiles.Length; i++)
+    //    {
+    //        FileInfo file = arrFiles[i];
+    //        string fullName = file.FullName.Replace("\\", "/"); //全名 包含路径扩展名
+    //        string name = fullName.Replace(toPath, "").Replace(".assetbundle", "").Replace(".unity3d", "");
 
-            if (name.Equals("AssetInfo.json", System.StringComparison.CurrentCultureIgnoreCase)
-                || name.Equals("Windows", System.StringComparison.CurrentCultureIgnoreCase)
-                || name.Equals("Windows.manifest", System.StringComparison.CurrentCultureIgnoreCase)
+    //        if (name.Equals("AssetInfo.json", System.StringComparison.CurrentCultureIgnoreCase)
+    //            || name.Equals("Windows", System.StringComparison.CurrentCultureIgnoreCase)
+    //            || name.Equals("Windows.manifest", System.StringComparison.CurrentCultureIgnoreCase)
 
-                || name.Equals("Android", System.StringComparison.CurrentCultureIgnoreCase)
-                || name.Equals("Android.manifest", System.StringComparison.CurrentCultureIgnoreCase)
+    //            || name.Equals("Android", System.StringComparison.CurrentCultureIgnoreCase)
+    //            || name.Equals("Android.manifest", System.StringComparison.CurrentCultureIgnoreCase)
 
-                || name.Equals("iOS", System.StringComparison.CurrentCultureIgnoreCase)
-                || name.Equals("iOS.manifest", System.StringComparison.CurrentCultureIgnoreCase)
-                )
-            {
-                File.Delete(file.FullName);
-                continue;
-            }
+    //            || name.Equals("iOS", System.StringComparison.CurrentCultureIgnoreCase)
+    //            || name.Equals("iOS.manifest", System.StringComparison.CurrentCultureIgnoreCase)
+    //            )
+    //        {
+    //            File.Delete(file.FullName);
+    //            continue;
+    //        }
 
-            AssetBundleInfoEntity entity = null;
-            dic.TryGetValue(name, out entity);
+    //        AssetBundleInfoEntity entity = null;
+    //        dic.TryGetValue(name, out entity);
 
 
-            if (entity != null)
-            {
-                newDic[name] = entity;
-            }
-        }
+    //        if (entity != null)
+    //        {
+    //            newDic[name] = entity;
+    //        }
+    //    }
 
-        StringBuilder sbContent = new StringBuilder();
-        sbContent.AppendLine(version);
+    //    StringBuilder sbContent = new StringBuilder();
+    //    sbContent.AppendLine(version);
 
-        foreach (var item in newDic)
-        {
-            AssetBundleInfoEntity entity = item.Value;
-            string strLine = string.Format("{0}|{1}|{2}|{3}|{4}", entity.AssetBundleName, entity.MD5, entity.Size, entity.IsFirstData ? 1 : 0, entity.IsEncrypt ? 1 : 0);
-            sbContent.AppendLine(strLine);
-        }
+    //    foreach (var item in newDic)
+    //    {
+    //        AssetBundleInfoEntity entity = item.Value;
+    //        string strLine = string.Format("{0}|{1}|{2}|{3}|{4}", entity.AssetBundleName, entity.MD5, entity.Size, entity.IsFirstData ? 1 : 0, entity.IsEncrypt ? 1 : 0);
+    //        sbContent.AppendLine(strLine);
+    //    }
 
-        IOUtil.CreateTextFile(toPath + "VersionFile.txt", sbContent.ToString());
+    //    IOUtil.CreateTextFile(toPath + "VersionFile.txt", sbContent.ToString());
 
-        //=======================
-        MMO_MemoryStream ms = new MMO_MemoryStream();
-        string str = sbContent.ToString().Trim();
-        string[] arr = str.Split('\n');
-        int len = arr.Length;
-        ms.WriteInt(len);
-        for (int i = 0; i < len; i++)
-        {
-            if (i == 0)
-            {
-                ms.WriteUTF8String(arr[i]);
-            }
-            else
-            {
-                string[] arrInner = arr[i].Split('|');
-                ms.WriteUTF8String(arrInner[0]);
-                ms.WriteUTF8String(arrInner[1]);
-                ms.WriteInt(int.Parse(arrInner[2]));
-                ms.WriteByte(byte.Parse(arrInner[3]));
-                ms.WriteByte(byte.Parse(arrInner[4]));
-            }
-        }
+    //    //=======================
+    //    MMO_MemoryStream ms = new MMO_MemoryStream();
+    //    string str = sbContent.ToString().Trim();
+    //    string[] arr = str.Split('\n');
+    //    int len = arr.Length;
+    //    ms.WriteInt(len);
+    //    for (int i = 0; i < len; i++)
+    //    {
+    //        if (i == 0)
+    //        {
+    //            ms.WriteUTF8String(arr[i]);
+    //        }
+    //        else
+    //        {
+    //            string[] arrInner = arr[i].Split('|');
+    //            ms.WriteUTF8String(arrInner[0]);
+    //            ms.WriteUTF8String(arrInner[1]);
+    //            ms.WriteInt(int.Parse(arrInner[2]));
+    //            ms.WriteByte(byte.Parse(arrInner[3]));
+    //            ms.WriteByte(byte.Parse(arrInner[4]));
+    //        }
+    //    }
 
-        string filePath = toPath + "/VersionFile.bytes"; //版本文件路径
-        buffer = ms.ToArray();
-        buffer = ZlibHelper.CompressBytes(buffer);
-        FileStream fs = new FileStream(filePath, FileMode.Create);
-        fs.Write(buffer, 0, buffer.Length);
-        fs.Close();
+    //    string filePath = toPath + "/VersionFile.bytes"; //版本文件路径
+    //    buffer = ms.ToArray();
+    //    buffer = ZlibHelper.CompressBytes(buffer);
+    //    FileStream fs = new FileStream(filePath, FileMode.Create);
+    //    fs.Write(buffer, 0, buffer.Length);
+    //    fs.Close();
 
-        AssetDatabase.Refresh();
-        Debug.Log("初始资源拷贝到StreamingAsstes完毕");
-    }
+    //    AssetDatabase.Refresh();
+    //    Debug.Log("资源拷贝到StreamingAsstes完毕");
+    //}
 
     #region TempPath OutPath
     /// <summary>
@@ -634,6 +610,35 @@ public class AssetBundleSettings : ScriptableObject
     }
     #endregion
 
+    #region CopyHofixDll 热更Dll复制到Hotfix目录
+    /// <summary>
+    /// 热更Dll复制到Hotfix目录
+    /// </summary>
+    public void CopyHofixDll()
+    {
+        HybridCLR.Editor.Commands.CompileDllCommand.CompileDll(GetBuildTarget());
+
+        string CodeDir = "Assets/Game/Download/Hotfix/";
+
+        string ScriptAssembliesDir = Application.dataPath + "/../" + "HybridCLRData/HotUpdateDlls/" + GetBuildTarget().ToString() + "/Assembly-CSharp.dll";
+        File.Copy(ScriptAssembliesDir, Path.Combine(CodeDir, "Assembly-CSharp.dll.bytes"), true);
+
+        List<string> aotMetaAssemblyFiles = new List<string>()
+        {
+            "mscorlib.dll",
+            "System.dll",
+            "System.Core.dll",
+        };
+        string aotMetaAssemblyDir = Application.dataPath + "/../" + "HybridCLRData/AssembliesPostIl2CppStrip/" + GetBuildTarget().ToString() + "/";
+        foreach (var aotDllName in aotMetaAssemblyFiles)
+        {
+            File.Copy(aotMetaAssemblyDir + aotDllName, Path.Combine(CodeDir, aotDllName + ".bytes"), true);
+        }
+
+        AssetDatabase.Refresh();
+        Debug.Log("热更dll和补充元数据dll, 复制到Game/Download/Hotfix完成");
+    }
+    #endregion
 
     /// <summary>
     /// 根据路径打包资源

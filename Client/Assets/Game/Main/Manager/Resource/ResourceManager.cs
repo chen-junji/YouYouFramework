@@ -121,7 +121,7 @@ namespace Main
         /// </summary>
         public void InitStreamingAssetsBundleInfo()
         {
-            StreamingAssetsManager.ReadAssetBundleAsync(YFConstDefine.VersionFileName, (byte[] buffer) =>
+            StreamingAssetsManager.LoadAssetBundleAction(YFConstDefine.VersionFileName, (byte[] buffer) =>
             {
                 if (buffer == null)
                 {
