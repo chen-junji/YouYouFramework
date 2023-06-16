@@ -62,7 +62,7 @@ namespace YouYou
             if (buffer == null)
             {
                 //如果可写区没有 那么就从只读区获取
-                MainEntry.ResourceManager.StreamingAssetsManager.ReadAssetBundleAsync(YFConstDefine.AssetInfoName, async (byte[] buff) =>
+                MainEntry.ResourceManager.StreamingAssetsManager.LoadAssetBundleAction(YFConstDefine.AssetInfoName, async (byte[] buff) =>
                 {
                     if (buff == null)
                     {
