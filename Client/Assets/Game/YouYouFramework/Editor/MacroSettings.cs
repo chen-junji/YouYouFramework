@@ -30,7 +30,6 @@ public class MacroSettings : ScriptableObject
     /// </summary>
     public enum AssetLoadTarget
     {
-        RESOURCES,
         ASSETBUNDLE,
         EDITORLOAD
     }

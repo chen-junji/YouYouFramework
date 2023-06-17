@@ -30,7 +30,7 @@ namespace YouYou
                 //if (!Permission.HasUserAuthorizedPermission(s)) Permission.RequestUserPermission(s);
             });
 
-#if RESOURCES || EDITORLOAD
+#if EDITORLOAD
             GameEntry.Procedure.ChangeState(ProcedureState.Preload);
 #elif ASSETBUNDLE
             GameEntry.Procedure.ChangeState(ProcedureState.CheckVersion);

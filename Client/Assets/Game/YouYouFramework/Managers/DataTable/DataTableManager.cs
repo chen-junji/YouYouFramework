@@ -82,12 +82,6 @@ namespace YouYou
                 byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/Game/Download/DataTable/{1}.bytes", MainEntry.ResourceManager.LocalFilePath, dataTableName));
                 if (onComplete != null) onComplete(buffer);
             });
-#elif RESOURCES
-			GameEntry.Time.Yield(() =>
-			{
-				TextAsset asset = Resources.Load<TextAsset>(string.Format("DataTable/{0}", dataTableName));
-				if (onComplete != null) onComplete(asset.bytes);
-			});
 #else
             GameEntry.Resource.LoadAssetAction(GameUtil.GetLastPathName(dataTableName), m_DataTableBundle, onComplete: (UnityEngine.Object obj) =>
             {

@@ -21,8 +21,6 @@ public class GameUtil
             if (item is AnimationClip) clips.Add(item as AnimationClip);
         }
         return clips.ToArray();
-#elif RESOURCES
-        return Resources.LoadAll<AnimationClip>(path);
 #else
         AssetEntity m_CurrAssetEnity = GameEntry.Resource.GetAssetEntity(path);
         AssetBundle bundle = GameEntry.Resource.LoadAssetBundle(m_CurrAssetEnity.AssetBundleName);

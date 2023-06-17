@@ -361,8 +361,6 @@ namespace YouYou
 
 #if EDITORLOAD && UNITY_EDITOR
             resourceEntity = ResourceEntity.Create(assetFullName, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetFullName));
-#elif RESOURCES
-            resourceEntity = ResourceEntity.Create(assetFullName, Resources.Load(assetFullName));
 #else
             //加载主资源包和依赖资源包
             AssetBundle mainAssetBundle = await GameEntry.Resource.LoadMainAndDependAssetBundleAsync(assetFullName, onUpdate);
@@ -401,8 +399,6 @@ namespace YouYou
 
 #if EDITORLOAD && UNITY_EDITOR
             resourceEntity = ResourceEntity.Create(assetFullName, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetFullName));
-#elif RESOURCES
-            resourceEntity = ResourceEntity.Create(assetFullName, Resources.Load(assetFullName));
 #else
             //加载主资源包和依赖资源包
             AssetBundle mainAssetBundle = GameEntry.Resource.LoadMainAndDependAssetBundle(assetFullName);
