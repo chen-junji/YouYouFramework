@@ -11,15 +11,6 @@ namespace Main
     public class ResourceManager
     {
         /// <summary>
-        /// 只读区管理器
-        /// </summary>
-        public StreamingAssetsManager StreamingAssetsManager
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
         /// 可写区管理器
         /// </summary>
         public LocalAssetsManager LocalAssetsManager
@@ -45,7 +36,6 @@ namespace Main
 
         public ResourceManager()
         {
-            StreamingAssetsManager = new StreamingAssetsManager();
             LocalAssetsManager = new LocalAssetsManager();
 
             m_NeedDownloadList = new LinkedList<string>();
