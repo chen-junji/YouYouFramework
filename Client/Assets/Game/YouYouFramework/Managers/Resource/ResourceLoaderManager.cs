@@ -362,7 +362,7 @@ namespace YouYou
                 return referenceEntity;
             }
 
-            Object obj = await mainAssetBundle.LoadAssetAsync(assetFullName);
+            Object obj = await GameEntry.Resource.LoadAssetAsync(assetFullName, mainAssetBundle);
             referenceEntity = AssetReferenceEntity.Create(assetFullName, obj);
 #endif
 
