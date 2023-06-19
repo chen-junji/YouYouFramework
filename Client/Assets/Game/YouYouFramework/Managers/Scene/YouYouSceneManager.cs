@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Main;
 using System;
 using System.Collections.Generic;
@@ -93,11 +94,11 @@ namespace YouYou
             };
         }
 
-        public async ETTask LoadSceneAsync(SceneGroupName sceneName, int sceneLoadCount = -1)
+        public UniTask LoadSceneAsync(SceneGroupName sceneName, int sceneLoadCount = -1)
         {
-            ETTask task = ETTask.Create();
-            LoadSceneAction(sceneName, sceneLoadCount, task.SetResult);
-            await task;
+            var task = new UniTaskCompletionSource();
+            LoadSceneAction(sceneName, sceneLoadCount, () => task.TrySetResult());
+            return task.Task;
         }
         /// <summary>
         /// 加载场景

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Cysharp.Threading.Tasks;
 
 namespace YouYou
 {
@@ -176,19 +177,19 @@ namespace YouYou
             AssetBundleTaskGroup.Run();
         }
 
-        public async ETTask<AssetBundle> LoadAssetBundleAsync(string assetbundlePath, Action<float> onUpdate = null)
+        public UniTask<AssetBundle> LoadAssetBundleAsync(string assetbundlePath, Action<float> onUpdate = null)
         {
-            ETTask<AssetBundle> task = ETTask<AssetBundle>.Create();
+            var task = new UniTaskCompletionSource<AssetBundle>();
             LoadAssetBundleAction(assetbundlePath, onUpdate, (ab) =>
             {
-                task.SetResult(ab);
+                task.TrySetResult(ab);
             });
-            return await task;
+            return task.Task;
         }
         /// <summary>
         /// 加载主资源包和依赖资源包
         /// </summary>
-        public async ETTask<AssetBundle> LoadAssetBundleMainAndDependAsync(string assetFullName, Action<float> onUpdate = null)
+        public async UniTask<AssetBundle> LoadAssetBundleMainAndDependAsync(string assetFullName, Action<float> onUpdate = null)
         {
             AssetInfoEntity assetEntity = GameEntry.Resource.GetAssetEntity(assetFullName);
             if (assetEntity == null) return null;
@@ -303,14 +304,14 @@ namespace YouYou
             });
             AssetTaskGroup.Run();
         }
-        public async ETTask<Object> LoadAssetAsync(string assetName, AssetBundle assetBundle, Action<float> onUpdate = null)
+        public UniTask<Object> LoadAssetAsync(string assetName, AssetBundle assetBundle, Action<float> onUpdate = null)
         {
-            ETTask<Object> task = ETTask<Object>.Create();
+            var task = new UniTaskCompletionSource<Object>();
             LoadAssetAction(assetName, assetBundle, onUpdate, (obj) =>
             {
-                task.SetResult(obj);
+                task.TrySetResult(obj);
             });
-            return await task;
+            return task.Task;
         }
 
         public Object LoadAsset(string assetName, AssetBundle assetBundle)
@@ -332,12 +333,12 @@ namespace YouYou
         /// <summary>
         /// 异步加载主资源(自动加载依赖)
         /// </summary>
-        public async ETTask<T> LoadMainAssetAsync<T>(string assetFullName, Action<float> onUpdate = null) where T : Object
+        public async UniTask<T> LoadMainAssetAsync<T>(string assetFullName, Action<float> onUpdate = null) where T : Object
         {
             AssetReferenceEntity resEntity = await LoadMainAssetAsync(assetFullName, onUpdate);
             return resEntity.Target as T;
         }
-        public async ETTask<AssetReferenceEntity> LoadMainAssetAsync(string assetFullName, Action<float> onUpdate = null)
+        public async UniTask<AssetReferenceEntity> LoadMainAssetAsync(string assetFullName, Action<float> onUpdate = null)
         {
             //从分类资源池(AssetPool)中查找主资源
             AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullName);
@@ -361,7 +362,7 @@ namespace YouYou
                 return referenceEntity;
             }
 
-            Object obj = await GameEntry.Resource.LoadAssetAsync(assetFullName, mainAssetBundle);
+            Object obj = await mainAssetBundle.LoadAssetAsync(assetFullName);
             referenceEntity = AssetReferenceEntity.Create(assetFullName, obj);
 #endif
 

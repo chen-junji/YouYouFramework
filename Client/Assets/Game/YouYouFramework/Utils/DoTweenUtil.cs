@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,11 +8,11 @@ using YouYou;
 
 public static class DoTweenUtil
 {
-    public static async ETTask<T> OnComplete<T>(this T t) where T : Tween
+    public static UniTask<T> OnComplete<T>(this T t) where T : Tween
     {
-        ETTask<T> task = ETTask<T>.Create();
-        t.OnComplete(() => task.SetResult(t));
-        return await task;
+        var utcs = new UniTaskCompletionSource<T>();
+        t.OnComplete(() => utcs.TrySetResult(t));
+        return utcs.Task;
     }
     public static Tweener DoShowScale(this Transform target, float duration)
     {

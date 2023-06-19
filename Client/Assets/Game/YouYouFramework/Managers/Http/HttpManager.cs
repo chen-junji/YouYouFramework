@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Main;
 using System;
 using System.Collections;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace YouYou
 {
-    public class HttpManager 
+    public class HttpManager
     {
         /// <summary>
         /// 正式账号服务器Url
@@ -48,7 +49,7 @@ namespace YouYou
                         Debug.LogError("UITipLogOut");
                         //GameEntry.Instance.UITipLogOut.SetValue(() => GetArgs(url, loadingCircle, callBack));
                     }
-					else
+                    else
                     {
                         callBack?.Invoke(ret);
                     }
@@ -62,17 +63,17 @@ namespace YouYou
                 if (args.Value.JsonCutApart("Status").ToInt() == 1) callBack?.Invoke(args.Value.JsonCutApart("Content"));
             });
         }
-        public async ETTask<HttpCallBackArgs> GetArgsAsync(string url, bool loadingCircle = false)
+        public UniTask<HttpCallBackArgs> GetArgsAsync(string url, bool loadingCircle = false)
         {
-            ETTask<HttpCallBackArgs> task = ETTask<HttpCallBackArgs>.Create();
-            GetArgs(url, loadingCircle, task.SetResult);
-            return await task;
+            var task = new UniTaskCompletionSource<HttpCallBackArgs>();
+            GetArgs(url, loadingCircle, x => task.TrySetResult(x));
+            return task.Task;
         }
-        public async ETTask<string> GetAsync(string url, bool loadingCircle = false)
+        public UniTask<string> GetAsync(string url, bool loadingCircle = false)
         {
-            ETTask<string> task = ETTask<string>.Create();
-            Get(url, loadingCircle, task.SetResult);
-            return await task;
+            var task = new UniTaskCompletionSource<string>();
+            Get(url, loadingCircle, x => task.TrySetResult(x));
+            return task.Task;
         }
         #endregion
 
@@ -89,7 +90,7 @@ namespace YouYou
                         Debug.LogError("UITipLogOut");
                         //GameEntry.Instance.UITipLogOut.SetValue(() => PostArgs(url, json, loadingCircle, callBack));
                     }
-					else
+                    else
                     {
                         callBack?.Invoke(ret);
                     }
@@ -103,17 +104,17 @@ namespace YouYou
                 if (args.Value.JsonCutApart("Status").ToInt() == 1) callBack?.Invoke(args.Value.JsonCutApart("Content"));
             });
         }
-        public async ETTask<HttpCallBackArgs> PostArgsAsync(string url, string json = null, bool loadingCircle = false)
+        public UniTask<HttpCallBackArgs> PostArgsAsync(string url, string json = null, bool loadingCircle = false)
         {
-            ETTask<HttpCallBackArgs> task = ETTask<HttpCallBackArgs>.Create();
-            PostArgs(url, json, loadingCircle, task.SetResult);
-            return await task;
+            var task = new UniTaskCompletionSource<HttpCallBackArgs>();
+            PostArgs(url, json, loadingCircle, x => task.TrySetResult(x));
+            return task.Task;
         }
-        public async ETTask<string> PostAsync(string url, string json = null, bool loadingCircle = false)
+        public UniTask<string> PostAsync(string url, string json = null, bool loadingCircle = false)
         {
-            ETTask<string> task = ETTask<string>.Create();
-            Post(url, json, loadingCircle, task.SetResult);
-            return await task;
+            var task = new UniTaskCompletionSource<string>();
+            Post(url, json, loadingCircle, x => task.TrySetResult(x));
+            return task.Task;
         }
         #endregion
     }

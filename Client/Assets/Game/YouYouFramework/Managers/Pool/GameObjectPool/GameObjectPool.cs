@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Cysharp.Threading.Tasks;
 
 namespace YouYou
 {
@@ -136,12 +137,12 @@ namespace YouYou
         /// <summary>
         /// 从对象池中获取对象
         /// </summary>
-        public async ETTask<PoolObj> SpawnAsync(PrefabName prefabName, Transform panent = null)
+        public async UniTask<PoolObj> SpawnAsync(PrefabName prefabName, Transform panent = null)
         {
             Sys_PrefabEntity sys_Prefab = GameEntry.DataTable.Sys_PrefabDBModel.GetEntity(prefabName.ToString());
             return await SpawnAsync(sys_Prefab, panent);
         }
-        public async ETTask<PoolObj> SpawnAsync(Sys_PrefabEntity entity, Transform panent = null)
+        public async UniTask<PoolObj> SpawnAsync(Sys_PrefabEntity entity, Transform panent = null)
         {
             AssetReferenceEntity referenceEntity = await GameEntry.Resource.LoadMainAssetAsync(entity.AssetPath);
             GameObject retObj = referenceEntity.Target as GameObject;
