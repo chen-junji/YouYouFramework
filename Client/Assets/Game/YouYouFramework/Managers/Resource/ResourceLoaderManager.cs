@@ -54,33 +54,21 @@ namespace YouYou
         /// <summary>
         /// 初始化资源信息
         /// </summary>
-        internal void InitAssetInfo(Action initAssetInfoComplete)
+        internal async void InitAssetInfo(Action initAssetInfoComplete)
         {
             m_InitAssetInfoComplete = initAssetInfoComplete;
 
             byte[] buffer = MainEntry.ResourceManager.LocalAssetsManager.GetFileBuffer(YFConstDefine.AssetInfoName);
             if (buffer == null)
             {
-                //如果可写区没有 那么就从只读区获取
-                MainEntry.ResourceManager.StreamingAssetsManager.LoadAssetBundleAction(YFConstDefine.AssetInfoName, async (byte[] buff) =>
+                //如果可写区没有,从CDN读取
+                string url = string.Format("{0}{1}", MainEntry.Data.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
+                HttpCallBackArgs args = await GameEntry.Http.GetArgsAsync(url, false);
+                if (!args.HasError)
                 {
-                    if (buff == null)
-                    {
-                        //如果只读区也没有,从CDN读取
-                        string url = string.Format("{0}{1}", MainEntry.Data.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
-                        HttpCallBackArgs args = await GameEntry.Http.GetArgsAsync(url, false);
-                        if (!args.HasError)
-                        {
-                            GameEntry.Log(LogCategory.Resource, "从CDN初始化资源信息");
-                            InitAssetInfo(args.Data);
-                        }
-                    }
-                    else
-                    {
-                        GameEntry.Log(LogCategory.Resource, "从只读区初始化资源信息");
-                        InitAssetInfo(buff);
-                    }
-                });
+                    GameEntry.Log(LogCategory.Resource, "从CDN初始化资源信息");
+                    InitAssetInfo(args.Data);
+                }
             }
             else
             {
@@ -200,7 +188,7 @@ namespace YouYou
         /// <summary>
         /// 加载主资源包和依赖资源包
         /// </summary>
-        public async ETTask<AssetBundle> LoadMainAndDependAssetBundleAsync(string assetFullName, Action<float> onUpdate = null)
+        public async ETTask<AssetBundle> LoadAssetBundleMainAndDependAsync(string assetFullName, Action<float> onUpdate = null)
         {
             AssetEntity assetEntity = GameEntry.Resource.GetAssetEntity(assetFullName);
             if (assetEntity == null) return null;
@@ -225,7 +213,7 @@ namespace YouYou
             return m_MainAssetBundle;
         }
 
-        public AssetBundle LoadMainAndDependAssetBundle(string assetFullName)
+        public AssetBundle LoadAssetBundleMainAndDepend(string assetFullName)
         {
             AssetEntity assetEntity = GameEntry.Resource.GetAssetEntity(assetFullName);
             if (assetEntity == null) return null;
@@ -363,7 +351,7 @@ namespace YouYou
             resourceEntity = ResourceEntity.Create(assetFullName, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetFullName));
 #else
             //加载主资源包和依赖资源包
-            AssetBundle mainAssetBundle = await GameEntry.Resource.LoadMainAndDependAssetBundleAsync(assetFullName, onUpdate);
+            AssetBundle mainAssetBundle = await GameEntry.Resource.LoadAssetBundleMainAndDependAsync(assetFullName, onUpdate);
 
             //从分类资源池(AssetPool)中查找主资源 (再次查找是为了防止高并发情况下，异步加载AssetBundle后，AssetPool内已经有Asset对象了)
             resourceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullName);
@@ -401,7 +389,7 @@ namespace YouYou
             resourceEntity = ResourceEntity.Create(assetFullName, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetFullName));
 #else
             //加载主资源包和依赖资源包
-            AssetBundle mainAssetBundle = GameEntry.Resource.LoadMainAndDependAssetBundle(assetFullName);
+            AssetBundle mainAssetBundle = GameEntry.Resource.LoadAssetBundleMainAndDepend(assetFullName);
 
             //加载主资源
             Object obj = GameEntry.Resource.LoadAsset(assetFullName, mainAssetBundle);

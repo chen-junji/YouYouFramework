@@ -86,8 +86,8 @@ namespace Main
         {
             if (lstUrl.Count < 1)
             {
-                onDownloadMulitComplete?.Invoke(this);
                 MainEntry.ClassObjectPool.Enqueue(this);
+                onDownloadMulitComplete?.Invoke(this);
                 return;
             }
             m_OnDownloadMulitUpdate = onDownloadMulitUpdate;
@@ -182,8 +182,8 @@ namespace Main
                 m_DownloadMulitCurrSize = m_DownloadMulitTotalSize;
                 m_OnDownloadMulitUpdate?.Invoke(m_DownloadMulitCurrCount, m_DownloadMulitNeedCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
 
-                m_OnDownloadMulitComplete?.Invoke(this);
                 MainEntry.ClassObjectPool.Enqueue(this);
+                m_OnDownloadMulitComplete?.Invoke(this);
                 //Debug.LogError("所有资源下载完毕!!!");
             }
         }

@@ -242,7 +242,7 @@ namespace Main
             }
 
             //下载完毕
-            //GameEntry.Log("下载完毕=>" + m_UnityWebRequest.url);
+            MainEntry.Log(MainEntry.LogCategory.Resource, "下载完毕=>" + m_UnityWebRequest.url);
             m_CurrDownloaderSize = m_UnityWebRequest.downloadedBytes;
             Sava(m_UnityWebRequest.downloadHandler.data, true);
 
@@ -258,8 +258,8 @@ namespace Main
             //更新可写区的版本信息
             MainEntry.ResourceManager.SaveVersion(m_CurrAssetBundleInfo);
 
-            m_OnComplete?.Invoke(m_CurrFileUrl, this);
             MainEntry.ClassObjectPool.Enqueue(this);
+            m_OnComplete?.Invoke(m_CurrFileUrl, this);
         }
 
         /// <summary>

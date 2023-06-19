@@ -60,30 +60,15 @@ namespace YouYou
             }
             else
             {
-                //如果可写区没有 那么就从只读区获取
-                MainEntry.ResourceManager.StreamingAssetsManager.LoadAssetBundleAction(assetBundlePath, (byte[] buff) =>
+                //如果可写区没有 那么就从CDN下载
+                MainEntry.Download.BeginDownloadSingle(assetBundlePath, (url, currSize, progress) =>
                 {
-                    if (buff != null)
-                    {
-                        //如果资源包是加密的,则解密
-                        if (CurrAssetBundleInfo.IsEncrypt)
-                        {
-                            buff = SecurityUtil.Xor(buff);
-                        }
-                        CurrAssetBundleCreateRequest = AssetBundle.LoadFromMemoryAsync(buff);
-                        return;
-                    }
-
-                    //如果只读区也没有,从CDN下载
-                    MainEntry.Download.BeginDownloadSingle(assetBundlePath, (url, currSize, progress) =>
-                    {
-                        //YouYou.GameEntry.LogError(progress);
-                        OnAssetBundleCreateUpdate?.Invoke(progress);
-                    }, (string fileUrl) =>
-                    {
-                        //下载完毕，从可写区加载
-                        LoadAssetBundleAsync(assetBundlePath);
-                    });
+                    //YouYou.GameEntry.LogError(progress);
+                    OnAssetBundleCreateUpdate?.Invoke(progress);
+                }, (string fileUrl) =>
+                {
+                    //下载完毕，从可写区加载
+                    LoadAssetBundleAsync(assetBundlePath);
                 });
             }
 
@@ -170,8 +155,8 @@ namespace YouYou
                     GameEntry.LogError(LogCategory.Resource, "资源包=>{0} 加载失败", CurrAssetBundleInfo.AssetBundleName);
                 }
                 Reset();//一定要早点Reset
-                OnLoadAssetBundleComplete?.Invoke(assetBundle);
                 MainEntry.ClassObjectPool.Enqueue(this);
+                OnLoadAssetBundleComplete?.Invoke(assetBundle);
             }
             else
             {
