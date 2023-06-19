@@ -98,15 +98,6 @@ namespace YouYou
                     return AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
                 }
             }
-            else
-            {
-                //只读区加载(目前不支持加密资源)
-                AssetBundle assetBundle = AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/AssetBundles/" + assetBundlePath);
-                if (assetBundle != null)
-                {
-                    return assetBundle;
-                }
-            }
 
             GameEntry.LogError(LogCategory.Resource, "本地没有该资源, 或许要去服务端下载==" + assetBundlePath);
             return null;
