@@ -79,6 +79,7 @@ public class MacroSettings : ScriptableObject
         for (int i = 0; i < definesL.Count; i++) macor += string.Format("{0};", definesL[i]);
 
         PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, macor);
+        AssetDatabase.SaveAssets();
         Debug.Log("Sava Macro Success====" + macor);
 #endif
     }

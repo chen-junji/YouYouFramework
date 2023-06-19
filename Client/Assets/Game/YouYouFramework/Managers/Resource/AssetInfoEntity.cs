@@ -5,9 +5,9 @@ using UnityEngine;
 namespace YouYou
 {
 	/// <summary>
-	/// Asset实体
+	/// AssetInfo的主Asset实体
 	/// </summary>
-	public class AssetEntity
+	public class AssetInfoEntity
 	{
 		/// <summary>
 		/// 资源完整名称(路径)
@@ -23,5 +23,14 @@ namespace YouYou
 		/// 依赖资源
 		/// </summary>
 		public List<AssetDependsEntity> DependsAssetList;
+	}
+
+	/// <summary>
+	/// AssetInfo的Asset依赖项实体
+	/// </summary>
+	public class AssetDependsEntity
+	{
+		//public string AssetFullName;
+		public string AssetBundleName;
 	}
 }

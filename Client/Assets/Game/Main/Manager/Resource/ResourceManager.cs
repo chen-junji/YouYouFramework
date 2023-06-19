@@ -57,11 +57,11 @@ namespace Main
         /// <param name="buffer">字节数组</param>
         /// <param name="version">版本号</param>
         /// <returns></returns>
-        public static Dictionary<string, AssetBundleInfoEntity> GetAssetBundleVersionList(byte[] buffer, ref string version)
+        public static Dictionary<string, VersionFileEntity> GetAssetBundleVersionList(byte[] buffer, ref string version)
         {
             buffer = ZlibHelper.DeCompressBytes(buffer);
 
-            Dictionary<string, AssetBundleInfoEntity> dic = new Dictionary<string, AssetBundleInfoEntity>();
+            Dictionary<string, VersionFileEntity> dic = new Dictionary<string, VersionFileEntity>();
 
             MMO_MemoryStream ms = new MMO_MemoryStream(buffer);
 
@@ -75,7 +75,7 @@ namespace Main
                 }
                 else
                 {
-                    AssetBundleInfoEntity entity = new AssetBundleInfoEntity();
+                    VersionFileEntity entity = new VersionFileEntity();
                     entity.AssetBundleName = ms.ReadUTF8String();
                     entity.MD5 = ms.ReadUTF8String();
                     entity.Size = ms.ReadULong();
@@ -103,7 +103,7 @@ namespace Main
         /// <summary>
         /// CDN资源包信息
         /// </summary>
-        private Dictionary<string, AssetBundleInfoEntity> m_CDNVersionDic = new Dictionary<string, AssetBundleInfoEntity>();
+        private Dictionary<string, VersionFileEntity> m_CDNVersionDic = new Dictionary<string, VersionFileEntity>();
 
         /// <summary>
         /// 初始化CDN的版本文件信息
@@ -154,13 +154,13 @@ namespace Main
         /// <summary>
         /// 可写区资源包信息
         /// </summary>
-        private Dictionary<string, AssetBundleInfoEntity> m_LocalAssetsVersionDic = new Dictionary<string, AssetBundleInfoEntity>();
+        private Dictionary<string, VersionFileEntity> m_LocalAssetsVersionDic = new Dictionary<string, VersionFileEntity>();
 
         /// <summary>
         /// 保存版本信息
         /// </summary>
         /// <param name="entity"></param>
-        public void SaveVersion(AssetBundleInfoEntity entity)
+        public void SaveVersion(VersionFileEntity entity)
         {
             m_LocalAssetsVersionDic[entity.AssetBundleName] = entity;
 
@@ -183,9 +183,9 @@ namespace Main
         /// </summary>
         /// <param name="assetbundlePath"></param>
         /// <returns></returns>
-        public AssetBundleInfoEntity GetAssetBundleInfo(string assetbundlePath)
+        public VersionFileEntity GetAssetBundleInfo(string assetbundlePath)
         {
-            AssetBundleInfoEntity entity = null;
+            VersionFileEntity entity = null;
             m_CDNVersionDic.TryGetValue(assetbundlePath, out entity);
             return entity;
         }
@@ -238,7 +238,7 @@ namespace Main
             var enumerator = m_CDNVersionDic.GetEnumerator();
             while (enumerator.MoveNext())
             {
-                AssetBundleInfoEntity entity = enumerator.Current.Value;
+                VersionFileEntity entity = enumerator.Current.Value;
                 if (entity.IsFirstData)
                 {
                     m_NeedDownloadList.AddLast(entity.AssetBundleName);
@@ -277,7 +277,7 @@ namespace Main
             {
                 string assetBundleName = enumerator.Current.Key;
 
-                AssetBundleInfoEntity cdnAssetBundleInfo = null;
+                VersionFileEntity cdnAssetBundleInfo = null;
                 if (m_CDNVersionDic.TryGetValue(assetBundleName, out cdnAssetBundleInfo))
                 {
                     //可写区有 CDN也有
@@ -313,7 +313,7 @@ namespace Main
             enumerator = m_CDNVersionDic.GetEnumerator();
             while (enumerator.MoveNext())
             {
-                AssetBundleInfoEntity cdnAssetBundleInfo = enumerator.Current.Value;
+                VersionFileEntity cdnAssetBundleInfo = enumerator.Current.Value;
                 if (cdnAssetBundleInfo.IsFirstData)//检查初始资源
                 {
                     if (!m_LocalAssetsVersionDic.ContainsKey(cdnAssetBundleInfo.AssetBundleName))
@@ -336,9 +336,9 @@ namespace Main
         /// </summary>
         public bool CheckVersionChangeSingle(string assetBundleName)
         {
-            if (m_CDNVersionDic.TryGetValue(assetBundleName, out AssetBundleInfoEntity cdnAssetBundleInfo))
+            if (m_CDNVersionDic.TryGetValue(assetBundleName, out VersionFileEntity cdnAssetBundleInfo))
             {
-                if (m_LocalAssetsVersionDic.TryGetValue(cdnAssetBundleInfo.AssetBundleName, out AssetBundleInfoEntity LocalAssetsAssetBundleInfo))
+                if (m_LocalAssetsVersionDic.TryGetValue(cdnAssetBundleInfo.AssetBundleName, out VersionFileEntity LocalAssetsAssetBundleInfo))
                 {
                     //可写区有 CDN也有 验证MD5
                     return cdnAssetBundleInfo.MD5.Equals(LocalAssetsAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase);

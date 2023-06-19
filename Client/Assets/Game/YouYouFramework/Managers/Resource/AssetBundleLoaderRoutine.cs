@@ -15,7 +15,7 @@ namespace YouYou
         /// <summary>
         /// 当前的资源包信息
         /// </summary>
-        public AssetBundleInfoEntity CurrAssetBundleInfo { get; private set; }
+        public VersionFileEntity CurrAssetBundleInfo { get; private set; }
 
         /// <summary>
         /// 资源包创建请求

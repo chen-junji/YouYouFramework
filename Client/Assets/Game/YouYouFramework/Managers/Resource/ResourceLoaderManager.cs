@@ -14,7 +14,7 @@ namespace YouYou
         /// <summary>
         /// 资源信息字典
         /// </summary>
-        private Dictionary<string, AssetEntity> m_AssetInfoDic;
+        private Dictionary<string, AssetInfoEntity> m_AssetInfoDic;
 
         /// <summary>
         /// 资源包加载器链表
@@ -28,7 +28,7 @@ namespace YouYou
 
         public ResourceLoaderManager()
         {
-            m_AssetInfoDic = new Dictionary<string, AssetEntity>();
+            m_AssetInfoDic = new Dictionary<string, AssetInfoEntity>();
             m_AssetBundleLoaderList = new LinkedList<AssetBundleLoaderRoutine>();
             m_AssetLoaderList = new LinkedList<AssetLoaderRoutine>();
         }
@@ -89,7 +89,7 @@ namespace YouYou
             int depLen = 0;
             for (int i = 0; i < len; i++)
             {
-                AssetEntity entity = new AssetEntity();
+                AssetInfoEntity entity = new AssetInfoEntity();
                 entity.AssetFullName = ms.ReadUTF8String();
                 entity.AssetBundleName = ms.ReadUTF8String();
 
@@ -118,9 +118,9 @@ namespace YouYou
         /// <summary>
         /// 根据资源路径获取资源信息
         /// </summary>
-        internal AssetEntity GetAssetEntity(string assetFullName)
+        internal AssetInfoEntity GetAssetEntity(string assetFullName)
         {
-            AssetEntity entity = null;
+            AssetInfoEntity entity = null;
             if (m_AssetInfoDic.TryGetValue(assetFullName, out entity))
             {
                 return entity;
@@ -144,7 +144,7 @@ namespace YouYou
             AssetBundleTaskGroup.AddTask((taskRoutine) =>
             {
                 //判断资源包是否存在于AssetBundlePool
-                AssetBundleEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
+                AssetBundleReferenceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
                 if (assetBundleEntity != null)
                 {
                     //GameEntry.Log("资源包在资源池中存在 从资源池中加载AssetBundle");
@@ -162,7 +162,7 @@ namespace YouYou
                 loadRoutine.OnLoadAssetBundleComplete = (AssetBundle assetbundle) =>
                 {
                     //资源包注册到资源池
-                    assetBundleEntity = AssetBundleEntity.Create(assetbundlePath, assetbundle);
+                    assetBundleEntity = AssetBundleReferenceEntity.Create(assetbundlePath, assetbundle);
                     GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
 
                     taskRoutine.Leave();
@@ -190,7 +190,7 @@ namespace YouYou
         /// </summary>
         public async ETTask<AssetBundle> LoadAssetBundleMainAndDependAsync(string assetFullName, Action<float> onUpdate = null)
         {
-            AssetEntity assetEntity = GameEntry.Resource.GetAssetEntity(assetFullName);
+            AssetInfoEntity assetEntity = GameEntry.Resource.GetAssetEntity(assetFullName);
             if (assetEntity == null) return null;
 
             //加载这个资源所依赖的资源包
@@ -215,7 +215,7 @@ namespace YouYou
 
         public AssetBundle LoadAssetBundleMainAndDepend(string assetFullName)
         {
-            AssetEntity assetEntity = GameEntry.Resource.GetAssetEntity(assetFullName);
+            AssetInfoEntity assetEntity = GameEntry.Resource.GetAssetEntity(assetFullName);
             if (assetEntity == null) return null;
 
             //加载这个资源所依赖的资源包
@@ -240,7 +240,7 @@ namespace YouYou
         public AssetBundle LoadAssetBundle(string assetbundlePath)
         {
             //判断资源包是否存在于AssetBundlePool
-            AssetBundleEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
+            AssetBundleReferenceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
             if (assetBundleEntity != null)
             {
                 //GameEntry.Log("资源包在资源池中存在 从资源池中加载AssetBundle");
@@ -261,7 +261,7 @@ namespace YouYou
             AssetBundle assetbundle = routine.LoadAssetBundle(assetbundlePath);
 
             //资源包注册到资源池
-            assetBundleEntity = AssetBundleEntity.Create(assetbundlePath, assetbundle);
+            assetBundleEntity = AssetBundleReferenceEntity.Create(assetbundlePath, assetbundle);
             GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
             MainEntry.ClassObjectPool.Enqueue(routine);
 
@@ -334,38 +334,38 @@ namespace YouYou
         /// </summary>
         public async ETTask<T> LoadMainAssetAsync<T>(string assetFullName, Action<float> onUpdate = null) where T : Object
         {
-            ResourceEntity resEntity = await LoadMainAssetAsync(assetFullName, onUpdate);
+            AssetReferenceEntity resEntity = await LoadMainAssetAsync(assetFullName, onUpdate);
             return resEntity.Target as T;
         }
-        public async ETTask<ResourceEntity> LoadMainAssetAsync(string assetFullName, Action<float> onUpdate = null)
+        public async ETTask<AssetReferenceEntity> LoadMainAssetAsync(string assetFullName, Action<float> onUpdate = null)
         {
             //从分类资源池(AssetPool)中查找主资源
-            ResourceEntity resourceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullName);
-            if (resourceEntity != null)
+            AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullName);
+            if (referenceEntity != null)
             {
                 //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
-                return resourceEntity;
+                return referenceEntity;
             }
 
 #if EDITORLOAD && UNITY_EDITOR
-            resourceEntity = ResourceEntity.Create(assetFullName, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetFullName));
+            referenceEntity = AssetReferenceEntity.Create(assetFullName, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetFullName));
 #else
             //加载主资源包和依赖资源包
             AssetBundle mainAssetBundle = await GameEntry.Resource.LoadAssetBundleMainAndDependAsync(assetFullName, onUpdate);
 
             //从分类资源池(AssetPool)中查找主资源 (再次查找是为了防止高并发情况下，异步加载AssetBundle后，AssetPool内已经有Asset对象了)
-            resourceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullName);
-            if (resourceEntity != null)
+            referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullName);
+            if (referenceEntity != null)
             {
                 //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
-                return resourceEntity;
+                return referenceEntity;
             }
 
             Object obj = await GameEntry.Resource.LoadAssetAsync(assetFullName, mainAssetBundle);
-            resourceEntity = ResourceEntity.Create(assetFullName, obj);
+            referenceEntity = AssetReferenceEntity.Create(assetFullName, obj);
 #endif
 
-            return resourceEntity;
+            return referenceEntity;
         }
 
         /// <summary>
@@ -375,29 +375,29 @@ namespace YouYou
         {
             return LoadMainAsset(assetFullName).Target as T;
         }
-        public ResourceEntity LoadMainAsset(string assetFullName)
+        public AssetReferenceEntity LoadMainAsset(string assetFullName)
         {
             //从分类资源池(AssetPool)中查找主资源
-            ResourceEntity resourceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullName);
-            if (resourceEntity != null)
+            AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullName);
+            if (referenceEntity != null)
             {
                 //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
-                return resourceEntity;
+                return referenceEntity;
             }
 
 #if EDITORLOAD && UNITY_EDITOR
-            resourceEntity = ResourceEntity.Create(assetFullName, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetFullName));
+            referenceEntity = AssetReferenceEntity.Create(assetFullName, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetFullName));
 #else
             //加载主资源包和依赖资源包
             AssetBundle mainAssetBundle = GameEntry.Resource.LoadAssetBundleMainAndDepend(assetFullName);
 
             //加载主资源
             Object obj = GameEntry.Resource.LoadAsset(assetFullName, mainAssetBundle);
-            resourceEntity = ResourceEntity.Create(assetFullName, obj);
+            referenceEntity = AssetReferenceEntity.Create(assetFullName, obj);
 #endif
 
-            if (resourceEntity.Target == null) GameEntry.LogError(LogCategory.Resource, "资源加载失败==" + assetFullName);
-            return resourceEntity;
+            if (referenceEntity.Target == null) GameEntry.LogError(LogCategory.Resource, "资源加载失败==" + assetFullName);
+            return referenceEntity;
         }
         #endregion
     }

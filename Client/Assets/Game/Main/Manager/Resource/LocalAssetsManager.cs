@@ -66,7 +66,7 @@ namespace Main
 		/// 保存版本文件
 		/// </summary>
 		/// <param name="version"></param>
-		public void SaveVersionFile(Dictionary<string, AssetBundleInfoEntity> dic)
+		public void SaveVersionFile(Dictionary<string, VersionFileEntity> dic)
 		{
 			string json = dic.ToJson();
 			IOUtil.CreateTextFile(LocalVersionFilePath, json);
@@ -79,11 +79,11 @@ namespace Main
 		/// </summary>
 		/// <param name="version"></param>
 		/// <returns></returns>
-		public Dictionary<string, AssetBundleInfoEntity> GetAssetBundleVersionList(ref string version)
+		public Dictionary<string, VersionFileEntity> GetAssetBundleVersionList(ref string version)
 		{
 			version = PlayerPrefs.GetString(YFConstDefine.ResourceVersion);
 			string json = IOUtil.GetFileText(LocalVersionFilePath);
-			return json.ToObject<Dictionary<string, AssetBundleInfoEntity>>();
+			return json.ToObject<Dictionary<string, VersionFileEntity>>();
 		}
 		#endregion
 	}

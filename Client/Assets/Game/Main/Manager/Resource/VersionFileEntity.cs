@@ -5,9 +5,9 @@ using UnityEngine;
 namespace Main
 {
     /// <summary>
-    /// AssetBundle版本文件信息实体
+    /// AssetBundle版本文件信息
     /// </summary>
-    public class AssetBundleInfoEntity
+    public class VersionFileEntity
     {
         /// <summary>
         /// 资源包名称

@@ -26,7 +26,7 @@ namespace YouYou
         /// <summary>
         /// Key==Prefab的InstanceId
         /// </summary>
-        private Dictionary<int, ResourceEntity> m_PrefabResourceDic;
+        private Dictionary<int, AssetReferenceEntity> m_PrefabResourceDic;
 
         public GameObject YouYouObjPool { get; private set; }
 
@@ -80,7 +80,7 @@ namespace YouYou
         {
             m_SpawnPoolDic = new Dictionary<byte, GameObjectPoolEntity>();
             m_InstanceIdPoolIdDic = new Dictionary<int, PrefabPool>();
-            m_PrefabResourceDic = new Dictionary<int, ResourceEntity>();
+            m_PrefabResourceDic = new Dictionary<int, AssetReferenceEntity>();
 
             //对象池物体克隆请求
             InstanceHandler.InstantiateDelegates += InstantiateDelegate;
@@ -90,9 +90,9 @@ namespace YouYou
         private GameObject InstantiateDelegate(GameObject prefab, Vector3 pos, Quaternion rot)
         {
             GameObject obj = Object.Instantiate(prefab, pos, rot);
-            if (m_PrefabResourceDic.TryGetValue(prefab.GetInstanceID(), out ResourceEntity resourceEntity))
+            if (m_PrefabResourceDic.TryGetValue(prefab.GetInstanceID(), out AssetReferenceEntity referenceEntity))
             {
-                GameEntry.Pool.RegisterInstanceResource(obj.GetInstanceID(), resourceEntity);
+                GameEntry.Pool.RegisterInstanceResource(obj.GetInstanceID(), referenceEntity);
             }
             return obj;
         }
@@ -143,8 +143,8 @@ namespace YouYou
         }
         public async ETTask<PoolObj> SpawnAsync(Sys_PrefabEntity entity, Transform panent = null)
         {
-            ResourceEntity resourceEntity = await GameEntry.Resource.LoadMainAssetAsync(entity.AssetPath);
-            GameObject retObj = resourceEntity.Target as GameObject;
+            AssetReferenceEntity referenceEntity = await GameEntry.Resource.LoadMainAssetAsync(entity.AssetPath);
+            GameObject retObj = referenceEntity.Target as GameObject;
             if (retObj == null)
             {
                 YouYou.GameEntry.LogError(LogCategory.Resource, "找不到Prefab, AssetFullName==" + entity.AssetPath);
@@ -152,7 +152,7 @@ namespace YouYou
             }
             Transform prefab = retObj.transform;
             int prefabId = prefab.gameObject.GetInstanceID();
-            m_PrefabResourceDic[prefabId] = resourceEntity;
+            m_PrefabResourceDic[prefabId] = referenceEntity;
 
             return Spawn(prefab, panent, entity.PoolId, entity.CullDespawned == 1, entity.CullAbove, entity.CullDelay, entity.CullMaxPerPass);
         }
@@ -169,8 +169,8 @@ namespace YouYou
         }
         public PoolObj Spawn(Sys_PrefabEntity entity, Transform panent = null)
         {
-            ResourceEntity resourceEntity = GameEntry.Resource.LoadMainAsset(entity.AssetPath);
-            GameObject retObj = resourceEntity.Target as GameObject;
+            AssetReferenceEntity referenceEntity = GameEntry.Resource.LoadMainAsset(entity.AssetPath);
+            GameObject retObj = referenceEntity.Target as GameObject;
             if (retObj == null)
             {
                 YouYou.GameEntry.LogError(LogCategory.Resource, "找不到Prefab, AssetFullName==" + entity.AssetPath);
@@ -178,7 +178,7 @@ namespace YouYou
             }
             Transform prefab = retObj.transform;
             int prefabId = prefab.gameObject.GetInstanceID();
-            m_PrefabResourceDic[prefabId] = resourceEntity;
+            m_PrefabResourceDic[prefabId] = referenceEntity;
 
             return Spawn(prefab, panent, entity.PoolId, entity.CullDespawned == 1, entity.CullAbove, entity.CullDelay, entity.CullMaxPerPass);
         }

@@ -245,8 +245,8 @@ public class AssetBundleSettings : ScriptableObject
         //第一次循环 把所有的Asset存储到一个列表里
 
         //临时列表
-        List<AssetEntity> tempLst = new List<AssetEntity>();
-        Dictionary<string, AssetEntity> tempDic = new Dictionary<string, AssetEntity>();
+        List<AssetInfoEntity> tempLst = new List<AssetInfoEntity>();
+        Dictionary<string, AssetInfoEntity> tempDic = new Dictionary<string, AssetInfoEntity>();
 
         //循环设置文件夹包括子文件里边的项
         for (int i = 0; i < Datas.Length; i++)
@@ -264,12 +264,12 @@ public class AssetBundleSettings : ScriptableObject
         }
 
         //资源列表
-        List<AssetEntity> assetList = new List<AssetEntity>();
+        List<AssetInfoEntity> assetList = new List<AssetInfoEntity>();
         for (int i = 0; i < tempLst.Count; i++)
         {
-            AssetEntity entity = tempLst[i];
+            AssetInfoEntity entity = tempLst[i];
 
-            AssetEntity newEntity = new AssetEntity();
+            AssetInfoEntity newEntity = new AssetInfoEntity();
             newEntity.AssetFullName = entity.AssetFullName;
             newEntity.AssetBundleName = entity.AssetBundleName;
 
@@ -303,7 +303,7 @@ public class AssetBundleSettings : ScriptableObject
         ms.WriteInt(assetList.Count);
         for (int i = 0; i < assetList.Count; i++)
         {
-            AssetEntity entity = assetList[i];
+            AssetInfoEntity entity = assetList[i];
             ms.WriteUTF8String(entity.AssetFullName);
             ms.WriteUTF8String(entity.AssetBundleName);
 
@@ -336,7 +336,7 @@ public class AssetBundleSettings : ScriptableObject
     /// <summary>
     /// 收集文件信息
     /// </summary>
-    private void CollectFileInfo(List<AssetEntity> tempLst, Dictionary<string, AssetEntity> tempDic, string folderPath)
+    private void CollectFileInfo(List<AssetInfoEntity> tempLst, Dictionary<string, AssetInfoEntity> tempDic, string folderPath)
     {
         DirectoryInfo directory = new DirectoryInfo(folderPath);
         if (directory.Exists == false) return;
@@ -354,7 +354,7 @@ public class AssetBundleSettings : ScriptableObject
             string filePath = file.FullName;
             //Debug.LogError("filePath==" + filePath);
 
-            AssetEntity entity = new AssetEntity();
+            AssetInfoEntity entity = new AssetInfoEntity();
             //相对路径
             entity.AssetFullName = filePath.Substring(filePath.IndexOf("Assets\\")).Replace("\\", "/");
             //Debug.LogError("AssetFullName==" + entity.AssetFullName);

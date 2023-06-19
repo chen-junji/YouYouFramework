@@ -29,7 +29,7 @@ namespace YouYou
             GameObjectPool = new GameObjectPool();
 
             AssetBundlePool = new AssetBundlePool("AssetBundlePool");
-            m_InstanceResourceDic = new Dictionary<int, ResourceEntity>();
+            m_InstanceResourceDic = new Dictionary<int, AssetReferenceEntity>();
             AssetPool = new ResourcePool("AssetPool");
         }
 
@@ -86,8 +86,8 @@ namespace YouYou
             MainEntry.ClassObjectPool.SetResideCount<Dictionary<string, object>>(3);
             MainEntry.ClassObjectPool.SetResideCount<AssetBundleLoaderRoutine>(10);
             MainEntry.ClassObjectPool.SetResideCount<AssetLoaderRoutine>(10);
-            MainEntry.ClassObjectPool.SetResideCount<ResourceEntity>(10);
-            MainEntry.ClassObjectPool.SetResideCount<AssetBundleEntity>(10);
+            MainEntry.ClassObjectPool.SetResideCount<AssetReferenceEntity>(10);
+            MainEntry.ClassObjectPool.SetResideCount<AssetBundleReferenceEntity>(10);
         }
 
         #region 变量对象池
@@ -212,17 +212,17 @@ namespace YouYou
         /// <summary>
         /// 克隆出来的实例资源字典
         /// </summary>
-        private Dictionary<int, ResourceEntity> m_InstanceResourceDic;
+        private Dictionary<int, AssetReferenceEntity> m_InstanceResourceDic;
 
 
         /// <summary>
         /// 把克隆出来的资源 加入实例资源池
         /// </summary>
-        public void RegisterInstanceResource(int instanceId, ResourceEntity resourceEntity)
+        public void RegisterInstanceResource(int instanceId, AssetReferenceEntity referenceEntity)
         {
             //YouYou.GameEntry.LogError("注册到实例字典instanceId=" + instanceId);
-            m_InstanceResourceDic[instanceId] = resourceEntity;
-            resourceEntity.Spawn(true);
+            m_InstanceResourceDic[instanceId] = referenceEntity;
+            referenceEntity.Spawn(true);
         }
 
         /// <summary>
@@ -231,9 +231,9 @@ namespace YouYou
         public void ReleaseInstanceResource(int instanceId)
         {
             //YouYou.GameEntry.LogError("释放实例资源instanceId=" + instanceId);
-            if (m_InstanceResourceDic.TryGetValue(instanceId, out ResourceEntity resourceEntity))
+            if (m_InstanceResourceDic.TryGetValue(instanceId, out AssetReferenceEntity referenceEntity))
             {
-                resourceEntity.Unspawn(true);
+                referenceEntity.Unspawn(true);
                 m_InstanceResourceDic.Remove(instanceId);
             }
         }

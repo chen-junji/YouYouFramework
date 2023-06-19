@@ -6,9 +6,9 @@ using UnityEngine;
 namespace YouYou
 {
     /// <summary>
-    /// 资源实体(AssetBundle和Asset实体)
+    /// Asset引用计数实体
     /// </summary>
-    public class ResourceEntity
+    public class AssetReferenceEntity
     {
         /// <summary>
         /// 资源名称
@@ -73,14 +73,14 @@ namespace YouYou
             MainEntry.ClassObjectPool.Enqueue(this); //把这个资源实体回池
         }
 
-        public static ResourceEntity Create(string name, Object obj)
+        public static AssetReferenceEntity Create(string name, Object obj)
         {
-            ResourceEntity resourceEntity = MainEntry.ClassObjectPool.Dequeue<ResourceEntity>();
-            resourceEntity.ResourceName = name;
-            resourceEntity.Target = obj;
-            resourceEntity.Spawn(false);
-            GameEntry.Pool.AssetPool.Register(resourceEntity);
-            return resourceEntity;
+            AssetReferenceEntity referenceEntity = MainEntry.ClassObjectPool.Dequeue<AssetReferenceEntity>();
+            referenceEntity.ResourceName = name;
+            referenceEntity.Target = obj;
+            referenceEntity.Spawn(false);
+            GameEntry.Pool.AssetPool.Register(referenceEntity);
+            return referenceEntity;
         }
     }
 }

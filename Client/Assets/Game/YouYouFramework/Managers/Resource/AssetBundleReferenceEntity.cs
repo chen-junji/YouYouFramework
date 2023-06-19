@@ -5,37 +5,40 @@ using UnityEngine;
 
 namespace YouYou
 {
-    public class AssetBundleEntity
+    /// <summary>
+    /// AssetBundleå¼•ç”¨è®¡æ•°å®ä½“
+    /// </summary>
+    public class AssetBundleReferenceEntity
     {
         /// <summary>
-        /// ×ÊÔ´Ãû³Æ
+        /// èµ„æºåç§°
         /// </summary>
         public string ResourceName;
 
         /// <summary>
-        /// ¹ØÁªÄ¿±ê
+        /// å…³è”ç›®æ ‡
         /// </summary>
         public AssetBundle Target;
 
         /// <summary>
-        /// ÉÏ´ÎÊ¹ÓÃÊ±¼ä
+        /// ä¸Šæ¬¡ä½¿ç”¨æ—¶é—´
         /// </summary>
         public float LastUseTime { get; private set; }
 
         /// <summary>
-        /// ÒıÓÃ¼ÆÊı
+        /// å¼•ç”¨è®¡æ•°
         /// </summary>
         public int ReferenceCount { get; private set; }
 
 
         /// <summary>
-        /// ¶ÔÏóÈ¡³Ø
+        /// å¯¹è±¡å–æ± 
         /// </summary>
         public void Spawn()
         {
             LastUseTime = Time.time;
 
-            //Èç¹ûÊÇËø¶¨×ÊÔ´°ü ²»ÊÍ·Å
+            //å¦‚æœæ˜¯é”å®šèµ„æºåŒ… ä¸é‡Šæ”¾
             if (GameEntry.Pool.CheckAssetBundleIsLock(ResourceName))
             {
                 ReferenceCount = 1;
@@ -43,7 +46,7 @@ namespace YouYou
         }
 
         /// <summary>
-        /// ¶ÔÏó»Ø³Ø
+        /// å¯¹è±¡å›æ± 
         /// </summary>
         public void Unspawn()
         {
@@ -51,7 +54,7 @@ namespace YouYou
         }
 
         /// <summary>
-        /// ¶ÔÏóÊÇ·ñ¿ÉÒÔÊÍ·Å
+        /// å¯¹è±¡æ˜¯å¦å¯ä»¥é‡Šæ”¾
         /// </summary>
         /// <returns></returns>
         public bool GetCanRelease()
@@ -59,16 +62,16 @@ namespace YouYou
             return ReferenceCount == 0 && Time.time - LastUseTime > GameEntry.Pool.ReleaseAssetBundleInterval;
         }
 
-        public static AssetBundleEntity Create(string name, AssetBundle target)
+        public static AssetBundleReferenceEntity Create(string name, AssetBundle target)
         {
-            AssetBundleEntity assetBundleEntity = MainEntry.ClassObjectPool.Dequeue<AssetBundleEntity>();
+            AssetBundleReferenceEntity assetBundleEntity = MainEntry.ClassObjectPool.Dequeue<AssetBundleReferenceEntity>();
             assetBundleEntity.ResourceName = name;
             assetBundleEntity.Target = target;
             assetBundleEntity.Spawn();
             return assetBundleEntity;
         }
         /// <summary>
-        /// ÊÍ·Å×ÊÔ´
+        /// é‡Šæ”¾èµ„æº
         /// </summary>
         public void Release()
         {
@@ -79,7 +82,7 @@ namespace YouYou
             ReferenceCount = 0;
             Target = null;
 
-            MainEntry.ClassObjectPool.Enqueue(this); //°ÑÕâ¸ö×ÊÔ´ÊµÌå»Ø³Ø
+            MainEntry.ClassObjectPool.Enqueue(this); //æŠŠè¿™ä¸ªèµ„æºå®ä½“å›æ± 
         }
     }
 }

@@ -11,7 +11,7 @@ namespace YouYou
         /// <summary>
         /// 在监视面板显示的信息
         /// </summary>
-        public Dictionary<string, AssetBundleEntity> InspectorDic = new Dictionary<string, AssetBundleEntity>();
+        public Dictionary<string, AssetBundleReferenceEntity> InspectorDic = new Dictionary<string, AssetBundleReferenceEntity>();
 #endif
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace YouYou
         /// <summary>
         /// 资源池字典
         /// </summary>
-        private Dictionary<string, AssetBundleEntity> m_ResourceDic;
+        private Dictionary<string, AssetBundleReferenceEntity> m_ResourceDic;
 
         /// <summary>
         /// 需要移除的Key链表
@@ -36,14 +36,14 @@ namespace YouYou
         public AssetBundlePool(string poolName)
         {
             PoolName = poolName;
-            m_ResourceDic = new Dictionary<string, AssetBundleEntity>();
+            m_ResourceDic = new Dictionary<string, AssetBundleReferenceEntity>();
             m_NeedRemoveKeyList = new LinkedList<string>();
         }
 
         /// <summary>
         /// 注册到资源池
         /// </summary>
-        public void Register(AssetBundleEntity entity)
+        public void Register(AssetBundleReferenceEntity entity)
         {
 #if UNITY_EDITOR
             InspectorDic.Add(entity.ResourceName, entity);
@@ -54,13 +54,13 @@ namespace YouYou
         /// <summary>
         /// 资源取池
         /// </summary>
-        public AssetBundleEntity Spawn(string resourceName)
+        public AssetBundleReferenceEntity Spawn(string resourceName)
         {
-            if (m_ResourceDic.TryGetValue(resourceName, out AssetBundleEntity resourceEntity))
+            if (m_ResourceDic.TryGetValue(resourceName, out AssetBundleReferenceEntity abReferenceEntity))
             {
-                resourceEntity.Spawn();
+                abReferenceEntity.Spawn();
             }
-            return resourceEntity;
+            return abReferenceEntity;
         }
 
         /// <summary>
@@ -71,17 +71,17 @@ namespace YouYou
             var enumerator = m_ResourceDic.GetEnumerator();
             while (enumerator.MoveNext())
             {
-                AssetBundleEntity resourceEntity = enumerator.Current.Value;
-                if (resourceEntity.GetCanRelease())
+                AssetBundleReferenceEntity abReferenceEntity = enumerator.Current.Value;
+                if (abReferenceEntity.GetCanRelease())
                 {
 #if UNITY_EDITOR
-                    if (InspectorDic.ContainsKey(resourceEntity.ResourceName))
+                    if (InspectorDic.ContainsKey(abReferenceEntity.ResourceName))
                     {
-                        InspectorDic.Remove(resourceEntity.ResourceName);
+                        InspectorDic.Remove(abReferenceEntity.ResourceName);
                     }
 #endif
-                    m_NeedRemoveKeyList.AddFirst(resourceEntity.ResourceName);
-                    resourceEntity.Release();
+                    m_NeedRemoveKeyList.AddFirst(abReferenceEntity.ResourceName);
+                    abReferenceEntity.Release();
                 }
             }
 
@@ -106,15 +106,15 @@ namespace YouYou
             var enumerator = m_ResourceDic.GetEnumerator();
             while (enumerator.MoveNext())
             {
-                AssetBundleEntity resourceEntity = enumerator.Current.Value;
+                AssetBundleReferenceEntity abReferenceEntity = enumerator.Current.Value;
 #if UNITY_EDITOR
-                if (InspectorDic.ContainsKey(resourceEntity.ResourceName))
+                if (InspectorDic.ContainsKey(abReferenceEntity.ResourceName))
                 {
-                    InspectorDic.Remove(resourceEntity.ResourceName);
+                    InspectorDic.Remove(abReferenceEntity.ResourceName);
                 }
 #endif
-                m_NeedRemoveKeyList.AddFirst(resourceEntity.ResourceName);
-                resourceEntity.Release();
+                m_NeedRemoveKeyList.AddFirst(abReferenceEntity.ResourceName);
+                abReferenceEntity.Release();
             }
 
             //循环链表 从字典中移除制定的Key
