@@ -110,112 +110,6 @@ public class AssetBundleSettings : ScriptableObject
         Debug.Log("VersionFile生成版本文件完毕");
     }
 
-    //[VerticalGroup("Common/Right")]
-    //[Button(ButtonSizes.Medium)]
-    //[LabelText("资源拷贝到StreamingAsstes")]
-    //public void AssetBundleCopyToStreamingAsstes()
-    //{
-    //    Debug.Log(OutPath);
-    //    string toPath = Application.streamingAssetsPath + "/AssetBundles/";
-
-    //    if (Directory.Exists(toPath))
-    //    {
-    //        Directory.Delete(toPath, true);
-    //    }
-    //    Directory.CreateDirectory(toPath);
-
-    //    IOUtil.CopyDirectory(OutPath, toPath);
-
-    //    //重新生成版本文件
-    //    //1.先读取OutPath里边的版本文件 这个版本文件里 存放了所有的资源包信息
-
-    //    byte[] buffer = IOUtil.GetFileBuffer(OutPath + "/VersionFile.bytes");
-    //    string version = "";
-    //    Dictionary<string, AssetBundleInfoEntity> dic = ResourceManager.GetAssetBundleVersionList(buffer, ref version);
-    //    Dictionary<string, AssetBundleInfoEntity> newDic = new Dictionary<string, AssetBundleInfoEntity>();
-
-    //    DirectoryInfo directory = new DirectoryInfo(toPath);
-
-    //    //拿到文件夹下所有文件
-    //    FileInfo[] arrFiles = directory.GetFiles("*", SearchOption.AllDirectories);
-
-    //    for (int i = 0; i < arrFiles.Length; i++)
-    //    {
-    //        FileInfo file = arrFiles[i];
-    //        string fullName = file.FullName.Replace("\\", "/"); //全名 包含路径扩展名
-    //        string name = fullName.Replace(toPath, "").Replace(".assetbundle", "").Replace(".unity3d", "");
-
-    //        if (name.Equals("AssetInfo.json", System.StringComparison.CurrentCultureIgnoreCase)
-    //            || name.Equals("Windows", System.StringComparison.CurrentCultureIgnoreCase)
-    //            || name.Equals("Windows.manifest", System.StringComparison.CurrentCultureIgnoreCase)
-
-    //            || name.Equals("Android", System.StringComparison.CurrentCultureIgnoreCase)
-    //            || name.Equals("Android.manifest", System.StringComparison.CurrentCultureIgnoreCase)
-
-    //            || name.Equals("iOS", System.StringComparison.CurrentCultureIgnoreCase)
-    //            || name.Equals("iOS.manifest", System.StringComparison.CurrentCultureIgnoreCase)
-    //            )
-    //        {
-    //            File.Delete(file.FullName);
-    //            continue;
-    //        }
-
-    //        AssetBundleInfoEntity entity = null;
-    //        dic.TryGetValue(name, out entity);
-
-
-    //        if (entity != null)
-    //        {
-    //            newDic[name] = entity;
-    //        }
-    //    }
-
-    //    StringBuilder sbContent = new StringBuilder();
-    //    sbContent.AppendLine(version);
-
-    //    foreach (var item in newDic)
-    //    {
-    //        AssetBundleInfoEntity entity = item.Value;
-    //        string strLine = string.Format("{0}|{1}|{2}|{3}|{4}", entity.AssetBundleName, entity.MD5, entity.Size, entity.IsFirstData ? 1 : 0, entity.IsEncrypt ? 1 : 0);
-    //        sbContent.AppendLine(strLine);
-    //    }
-
-    //    IOUtil.CreateTextFile(toPath + "VersionFile.txt", sbContent.ToString());
-
-    //    //=======================
-    //    MMO_MemoryStream ms = new MMO_MemoryStream();
-    //    string str = sbContent.ToString().Trim();
-    //    string[] arr = str.Split('\n');
-    //    int len = arr.Length;
-    //    ms.WriteInt(len);
-    //    for (int i = 0; i < len; i++)
-    //    {
-    //        if (i == 0)
-    //        {
-    //            ms.WriteUTF8String(arr[i]);
-    //        }
-    //        else
-    //        {
-    //            string[] arrInner = arr[i].Split('|');
-    //            ms.WriteUTF8String(arrInner[0]);
-    //            ms.WriteUTF8String(arrInner[1]);
-    //            ms.WriteInt(int.Parse(arrInner[2]));
-    //            ms.WriteByte(byte.Parse(arrInner[3]));
-    //            ms.WriteByte(byte.Parse(arrInner[4]));
-    //        }
-    //    }
-
-    //    string filePath = toPath + "/VersionFile.bytes"; //版本文件路径
-    //    buffer = ms.ToArray();
-    //    buffer = ZlibHelper.CompressBytes(buffer);
-    //    FileStream fs = new FileStream(filePath, FileMode.Create);
-    //    fs.Write(buffer, 0, buffer.Length);
-    //    fs.Close();
-
-    //    AssetDatabase.Refresh();
-    //    Debug.Log("资源拷贝到StreamingAsstes完毕");
-    //}
-
     #region TempPath OutPath
     /// <summary>
     /// 临时目录
@@ -351,8 +245,8 @@ public class AssetBundleSettings : ScriptableObject
         //第一次循环 把所有的Asset存储到一个列表里
 
         //临时列表
-        List<AssetEntity> tempLst = new List<AssetEntity>();
-        Dictionary<string, AssetEntity> tempDic = new Dictionary<string, AssetEntity>();
+        List<AssetInfoEntity> tempLst = new List<AssetInfoEntity>();
+        Dictionary<string, AssetInfoEntity> tempDic = new Dictionary<string, AssetInfoEntity>();
 
         //循环设置文件夹包括子文件里边的项
         for (int i = 0; i < Datas.Length; i++)
@@ -370,12 +264,12 @@ public class AssetBundleSettings : ScriptableObject
         }
 
         //资源列表
-        List<AssetEntity> assetList = new List<AssetEntity>();
+        List<AssetInfoEntity> assetList = new List<AssetInfoEntity>();
         for (int i = 0; i < tempLst.Count; i++)
         {
-            AssetEntity entity = tempLst[i];
+            AssetInfoEntity entity = tempLst[i];
 
-            AssetEntity newEntity = new AssetEntity();
+            AssetInfoEntity newEntity = new AssetInfoEntity();
             newEntity.AssetFullName = entity.AssetFullName;
             newEntity.AssetBundleName = entity.AssetBundleName;
 
@@ -409,7 +303,7 @@ public class AssetBundleSettings : ScriptableObject
         ms.WriteInt(assetList.Count);
         for (int i = 0; i < assetList.Count; i++)
         {
-            AssetEntity entity = assetList[i];
+            AssetInfoEntity entity = assetList[i];
             ms.WriteUTF8String(entity.AssetFullName);
             ms.WriteUTF8String(entity.AssetBundleName);
 
@@ -442,7 +336,7 @@ public class AssetBundleSettings : ScriptableObject
     /// <summary>
     /// 收集文件信息
     /// </summary>
-    private void CollectFileInfo(List<AssetEntity> tempLst, Dictionary<string, AssetEntity> tempDic, string folderPath)
+    private void CollectFileInfo(List<AssetInfoEntity> tempLst, Dictionary<string, AssetInfoEntity> tempDic, string folderPath)
     {
         DirectoryInfo directory = new DirectoryInfo(folderPath);
         if (directory.Exists == false) return;
@@ -460,7 +354,7 @@ public class AssetBundleSettings : ScriptableObject
             string filePath = file.FullName;
             //Debug.LogError("filePath==" + filePath);
 
-            AssetEntity entity = new AssetEntity();
+            AssetInfoEntity entity = new AssetInfoEntity();
             //相对路径
             entity.AssetFullName = filePath.Substring(filePath.IndexOf("Assets\\")).Replace("\\", "/");
             //Debug.LogError("AssetFullName==" + entity.AssetFullName);

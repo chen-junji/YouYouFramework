@@ -22,7 +22,7 @@ public class GameUtil
         }
         return clips.ToArray();
 #else
-        AssetEntity m_CurrAssetEnity = GameEntry.Resource.GetAssetEntity(path);
+        AssetInfoEntity m_CurrAssetEnity = GameEntry.Resource.GetAssetEntity(path);
         AssetBundle bundle = GameEntry.Resource.LoadAssetBundle(m_CurrAssetEnity.AssetBundleName);
         return bundle.LoadAllAssets<AnimationClip>();
 #endif

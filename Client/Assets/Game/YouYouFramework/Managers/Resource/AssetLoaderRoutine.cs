@@ -81,8 +81,8 @@ namespace YouYou
                         GameEntry.LogError(LogCategory.Resource, "资源=>{0} 加载失败", CurrAssetName);
                     }
                     Reset();//一定要早点Reset
-                    OnLoadAssetComplete?.Invoke(obj);
                     MainEntry.ClassObjectPool.Enqueue(this);
+                    OnLoadAssetComplete?.Invoke(obj);
                 }
                 else
                 {

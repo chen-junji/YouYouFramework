@@ -86,8 +86,8 @@ namespace Main
         {
             if (lstUrl.Count < 1)
             {
-                onDownloadMulitComplete?.Invoke(this);
                 MainEntry.ClassObjectPool.Enqueue(this);
+                onDownloadMulitComplete?.Invoke(this);
                 return;
             }
             m_OnDownloadMulitUpdate = onDownloadMulitUpdate;
@@ -106,7 +106,7 @@ namespace Main
             for (LinkedListNode<string> item = lstUrl.First; item != null; item = item.Next)
             {
                 string url = item.Value;
-                AssetBundleInfoEntity entity = MainEntry.ResourceManager.GetAssetBundleInfo(url);
+                VersionFileEntity entity = MainEntry.ResourceManager.GetAssetBundleInfo(url);
                 if (entity != null)
                 {
                     m_DownloadMulitTotalSize += entity.Size;
@@ -128,7 +128,7 @@ namespace Main
 
                 string url = m_NeedDownloadList.First.Value;
 
-                AssetBundleInfoEntity entity = MainEntry.ResourceManager.GetAssetBundleInfo(url);
+                VersionFileEntity entity = MainEntry.ResourceManager.GetAssetBundleInfo(url);
 
                 routine.BeginDownload(url, entity, OnDownloadMulitUpdate, OnDownloadMulitComplete);
                 m_DownloadRoutineList.AddLast(routine);
@@ -160,7 +160,7 @@ namespace Main
             {
                 //创建新的下载器，下载新文件
                 string url = m_NeedDownloadList.First.Value;
-                AssetBundleInfoEntity entity = MainEntry.ResourceManager.GetAssetBundleInfo(url);
+                VersionFileEntity entity = MainEntry.ResourceManager.GetAssetBundleInfo(url);
 
                 DownloadRoutine newRoutine = DownloadRoutine.Create();
                 newRoutine.BeginDownload(url, entity, OnDownloadMulitUpdate, OnDownloadMulitComplete);
@@ -182,8 +182,8 @@ namespace Main
                 m_DownloadMulitCurrSize = m_DownloadMulitTotalSize;
                 m_OnDownloadMulitUpdate?.Invoke(m_DownloadMulitCurrCount, m_DownloadMulitNeedCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
 
-                m_OnDownloadMulitComplete?.Invoke(this);
                 MainEntry.ClassObjectPool.Enqueue(this);
+                m_OnDownloadMulitComplete?.Invoke(this);
                 //Debug.LogError("所有资源下载完毕!!!");
             }
         }

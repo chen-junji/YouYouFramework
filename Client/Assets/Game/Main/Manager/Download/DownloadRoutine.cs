@@ -51,7 +51,7 @@ namespace Main
         /// <summary>
         /// 当前的资源包信息
         /// </summary>
-        private AssetBundleInfoEntity m_CurrAssetBundleInfo;
+        private VersionFileEntity m_CurrAssetBundleInfo;
 
         /// <summary>
         /// 当前重试次数
@@ -78,7 +78,7 @@ namespace Main
         /// <param name="url"></param>
         /// <param name="onUpdate"></param>
         /// <param name="onComplete"></param>
-        public void BeginDownload(string url, AssetBundleInfoEntity assetBundleInfo, Action<string, ulong, float> onUpdate, Action<string, DownloadRoutine> onComplete)
+        public void BeginDownload(string url, VersionFileEntity assetBundleInfo, Action<string, ulong, float> onUpdate, Action<string, DownloadRoutine> onComplete)
         {
             m_CurrFileUrl = url;
             m_CurrAssetBundleInfo = assetBundleInfo;
@@ -242,7 +242,7 @@ namespace Main
             }
 
             //下载完毕
-            //GameEntry.Log("下载完毕=>" + m_UnityWebRequest.url);
+            MainEntry.Log(MainEntry.LogCategory.Resource, "下载完毕=>" + m_UnityWebRequest.url);
             m_CurrDownloaderSize = m_UnityWebRequest.downloadedBytes;
             Sava(m_UnityWebRequest.downloadHandler.data, true);
 
@@ -258,8 +258,8 @@ namespace Main
             //更新可写区的版本信息
             MainEntry.ResourceManager.SaveVersion(m_CurrAssetBundleInfo);
 
-            m_OnComplete?.Invoke(m_CurrFileUrl, this);
             MainEntry.ClassObjectPool.Enqueue(this);
+            m_OnComplete?.Invoke(m_CurrFileUrl, this);
         }
 
         /// <summary>

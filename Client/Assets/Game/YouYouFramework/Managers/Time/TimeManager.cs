@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -136,11 +137,11 @@ namespace YouYou
             return new TimeAction().Init(delayTime, onStar, interval, loop, onUpdate, onComplete, unScaled);
         }
 
-        public async ETTask Delay(float delayTime, bool unScaled = false)
+        public UniTask Delay(float delayTime, bool unScaled = false)
         {
-            ETTask task = ETTask.Create();
-            Create(delayTime, task.SetResult, unScaled: unScaled);
-            await task;
+            var task = new UniTaskCompletionSource();
+            Create(delayTime, () => task.TrySetResult(), unScaled: unScaled);
+            return task.Task;
         }
 
         /// <summary>
@@ -154,12 +155,6 @@ namespace YouYou
                 yield return null;
                 onComplete?.Invoke();
             }
-        }
-        public async ETTask Yield()
-        {
-            ETTask task = ETTask.Create();
-            Yield(task.SetResult);
-            await task;
         }
 
         public void SetTimeScale(float scale)

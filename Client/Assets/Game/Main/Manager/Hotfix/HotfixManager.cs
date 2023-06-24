@@ -22,13 +22,9 @@ namespace Main
             GameObject gameEntry = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/Download/Hotfix/GameEntry.prefab");
             UnityEngine.Object.Instantiate(gameEntry);
             return;
-#elif RESOURCES
-            GameObject gameEntry = Resources.Load<GameObject>("Hotfix/GameEntry.prefab");
-            UnityEngine.Object.Instantiate(gameEntry);
-            return;
 #endif
-
-            MainEntry.ResourceManager.CheckVersionComplete = () =>
+            //初始化CDN的VersionFile信息
+            MainEntry.ResourceManager.InitCDNVersionFile(() =>
             {
                 //下载并加载热更程序集
                 CheckAndDownload(YFConstDefine.HotfixAssetBundlePath, (string fileUrl) =>
@@ -43,10 +39,7 @@ namespace Main
                     AssetBundle prefabAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, fileUrl));
                     UnityEngine.Object.Instantiate(prefabAb.LoadAsset<GameObject>("gameentry.prefab"));
                 });
-            };
-
-            //获取CDN的AssetInfo信息
-            MainEntry.ResourceManager.InitStreamingAssetsBundleInfo();
+            });
 
         }
 

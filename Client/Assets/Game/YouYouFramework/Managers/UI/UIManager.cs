@@ -107,9 +107,9 @@ namespace YouYou
             }
 
             //对象池没有, 克隆新的
-            ResourceEntity resourceEntity = GameEntry.Resource.LoadMainAsset(sys_UIForm.AssetFullName);
-            GameObject uiObj = Object.Instantiate((GameObject)resourceEntity.Target, GameEntry.UI.GetUIGroup(sys_UIForm.UIGroupId).Group);
-            GameEntry.Pool.RegisterInstanceResource(uiObj.GetInstanceID(), resourceEntity);
+            AssetReferenceEntity referenceEntity = GameEntry.Resource.LoadMainAsset(sys_UIForm.AssetFullName);
+            GameObject uiObj = Object.Instantiate((GameObject)referenceEntity.Target, GameEntry.UI.GetUIGroup(sys_UIForm.UIGroupId).Group);
+            GameEntry.Pool.RegisterInstanceResource(uiObj.GetInstanceID(), referenceEntity);
 
             //初始化UI
             formBase = uiObj.GetComponent<UIBase>();

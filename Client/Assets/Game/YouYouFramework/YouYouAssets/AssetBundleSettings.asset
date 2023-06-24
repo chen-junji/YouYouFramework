@@ -49,7 +49,7 @@ MonoBehaviour:
   - Name: "\u8D44\u6E90"
     IsCanEditor: 1
     Overall: 0
-    IsFirstData: 0
+    IsFirstData: 1
     IsEncrypt: 0
     Path:
     - Game/Download/Res/Font
