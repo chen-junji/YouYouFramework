@@ -40,13 +40,24 @@ public static class GameObjectUtil
     /// </summary>
     public static async void AutoLoadSprite(this Image img, string imgPath, bool isSetNativeSize = false)
     {
-        Sprite asset = await GameEntry.Resource.LoadMainAssetAsync<Sprite>(imgPath);
+        Object asset = await GameEntry.Resource.LoadMainAssetAsync<Object>(imgPath);
         if (asset == null)
         {
             Debug.LogError("img==" + img + "==ImgPath==" + imgPath);
             return;
         }
-        img.sprite = asset;
+
+        Sprite obj = null;
+        if (asset is Sprite)
+        {
+            obj = (Sprite)asset;
+        }
+        else
+        {
+            Texture2D texture = (Texture2D)asset;
+            obj = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        }
+        img.sprite = obj;
         if (isSetNativeSize) img.SetNativeSize();
     }
     /// <summary>
