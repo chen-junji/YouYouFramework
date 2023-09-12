@@ -20,17 +20,8 @@ namespace YouYou
 		public string AssetBundleName;
 
 		/// <summary>
-		/// 依赖资源
+		/// 依赖资源包列表
 		/// </summary>
-		public List<AssetDependsEntity> DependsAssetList;
-	}
-
-	/// <summary>
-	/// AssetInfo的Asset依赖项实体
-	/// </summary>
-	public class AssetDependsEntity
-	{
-		//public string AssetFullName;
-		public string AssetBundleName;
+		public List<string> DependsAssetBundleList;
 	}
 }

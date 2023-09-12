@@ -14,20 +14,20 @@ public class TestDotweenAsync : MonoBehaviour
     private async UniTaskVoid TestAsync()
     {
         // 连续执行
-        await transform.DOMove(transform.position + Vector3.up, 1.0f);
-        await transform.DOScale(Vector3.one * 2.0f, 1.0f);
+        //await transform.DOMove(transform.position + Vector3.up, 1.0f);
+        //await transform.DOScale(Vector3.one * 2.0f, 1.0f);
 
-        // UniTask.WhenAll同时运行并等待终止
-        await
-        (
-            transform.DOMove(Vector3.zero, 1.0f).ToUniTask(),
-            transform.DOScale(Vector3.one, 1.0f).ToUniTask()
-        );
+        //// UniTask.WhenAll同时运行并等待终止
+        //await
+        //(
+        //    transform.DOMove(Vector3.zero, 1.0f).ToUniTask(),
+        //    transform.DOScale(Vector3.one, 1.0f).ToUniTask()
+        //);
 
-        //并行Cancellation
-        var ct = this.GetCancellationTokenOnDestroy();
-        await UniTask.WhenAll(
-            transform.DOMoveX(10, 3).WithCancellation(ct),
-            transform.DOScale(10, 3).WithCancellation(ct));
+        ////并行Cancellation
+        //var ct = this.GetCancellationTokenOnDestroy();
+        //await UniTask.WhenAll(
+        //    transform.DOMoveX(10, 3).WithCancellation(ct),
+        //    transform.DOScale(10, 3).WithCancellation(ct));
     }
 }

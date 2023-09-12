@@ -275,18 +275,19 @@ public class AssetBundleSettings : ScriptableObject
 
             assetList.Add(newEntity);
 
-            newEntity.DependsAssetList = new List<AssetDependsEntity>();
+            newEntity.DependsAssetBundleList = new List<string>();
             string[] arr = AssetDatabase.GetDependencies(entity.AssetFullName, true);
             foreach (string str in arr)
             {
-                if (!str.Equals(newEntity.AssetFullName) && !str.IsSuffix(".cs") && tempDic.ContainsKey(str))
+                if (!str.IsSuffix(".cs") && tempDic.ContainsKey(str))
                 {
-                    AssetDependsEntity assetDepends = new AssetDependsEntity();
-                    //assetDepends.AssetFullName = str;
-                    assetDepends.AssetBundleName = tempDic[str].AssetBundleName;
-
-                    //把依赖资源 加入到依赖资源列表
-                    newEntity.DependsAssetList.Add(assetDepends);
+                    //把多余的依赖AB包剔除掉，比如依赖AB包==主AB包， 或者依赖AB包已经存在于DependsAssetBundleList内
+                    if (!newEntity.AssetBundleName.Equals(tempDic[str].AssetBundleName) && 
+                        !newEntity.DependsAssetBundleList.Contains(tempDic[str].AssetBundleName))
+                    {
+                        //把依赖资源 加入到依赖资源列表
+                        newEntity.DependsAssetBundleList.Add(tempDic[str].AssetBundleName);
+                    }
                 }
             }
         }
@@ -307,16 +308,14 @@ public class AssetBundleSettings : ScriptableObject
             ms.WriteUTF8String(entity.AssetFullName);
             ms.WriteUTF8String(entity.AssetBundleName);
 
-            if (entity.DependsAssetList != null)
+            if (entity.DependsAssetBundleList != null)
             {
                 //添加依赖资源
-                int depLen = entity.DependsAssetList.Count;
+                int depLen = entity.DependsAssetBundleList.Count;
                 ms.WriteInt(depLen);
                 for (int j = 0; j < depLen; j++)
                 {
-                    AssetDependsEntity assetDepends = entity.DependsAssetList[j];
-                    //ms.WriteUTF8String(assetDepends.AssetFullName);
-                    ms.WriteUTF8String(assetDepends.AssetBundleName);
+                    ms.WriteUTF8String(entity.DependsAssetBundleList[j]);
                 }
             }
             else

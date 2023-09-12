@@ -635,9 +635,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c45d63e9daba27e4f8e373c922e5b577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAnim: 1
   UIEffectGroups: []
   effectOnOpenPlay: []
-  isAnim: 1
   lblTitle: {fileID: 1801307825571201382}
   lblMessage: {fileID: 114860583820385344}
   btnOK: {fileID: 114928851235647378}
@@ -763,19 +763,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114494938068836528}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: Close
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1929898132902684340
 GameObject:
   m_ObjectHideFlags: 0

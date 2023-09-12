@@ -100,13 +100,10 @@ namespace YouYou
                 depLen = ms.ReadInt();
                 if (depLen > 0)
                 {
-                    entity.DependsAssetList = new List<AssetDependsEntity>(depLen);
+                    entity.DependsAssetBundleList = new List<string>(depLen);
                     for (int j = 0; j < depLen; j++)
                     {
-                        AssetDependsEntity assetDepends = new AssetDependsEntity();
-                        //assetDepends.AssetFullName = ms.ReadUTF8String();
-                        assetDepends.AssetBundleName = ms.ReadUTF8String();
-                        entity.DependsAssetList.Add(assetDepends);
+                        entity.DependsAssetBundleList.Add(ms.ReadUTF8String());
                     }
                 }
 
@@ -195,12 +192,12 @@ namespace YouYou
             if (assetEntity == null) return null;
 
             //加载这个资源所依赖的资源包
-            List<AssetDependsEntity> dependsAssetList = assetEntity.DependsAssetList;
+            List<string> dependsAssetList = assetEntity.DependsAssetBundleList;
             if (dependsAssetList != null)
             {
                 for (int i = 0; i < dependsAssetList.Count; i++)
                 {
-                    await GameEntry.Resource.LoadAssetBundleAsync(dependsAssetList[i].AssetBundleName);
+                    await GameEntry.Resource.LoadAssetBundleAsync(dependsAssetList[i]);
                 }
             }
 
@@ -220,12 +217,12 @@ namespace YouYou
             if (assetEntity == null) return null;
 
             //加载这个资源所依赖的资源包
-            List<AssetDependsEntity> dependsAssetList = assetEntity.DependsAssetList;
+            List<string> dependsAssetList = assetEntity.DependsAssetBundleList;
             if (dependsAssetList != null)
             {
                 for (int i = 0; i < dependsAssetList.Count; i++)
                 {
-                    GameEntry.Resource.LoadAssetBundle(dependsAssetList[i].AssetBundleName);
+                    GameEntry.Resource.LoadAssetBundle(dependsAssetList[i]);
                 }
             }
 
