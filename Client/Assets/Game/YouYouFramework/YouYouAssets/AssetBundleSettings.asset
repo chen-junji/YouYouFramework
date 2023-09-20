@@ -18,20 +18,13 @@ MonoBehaviour:
   AssetBundleSavePath: AssetBundles
   IsCanEditor: 1
   Datas:
-  - Name: "\u58F0\u97F3"
+  - Name: "Hotfix\u7A0B\u5E8F\u96C6"
     IsCanEditor: 1
     Overall: 1
     IsFirstData: 1
     IsEncrypt: 0
     Path:
-    - Game/Download/Sound
-  - Name: "\u81EA\u5B9A\u4E49Shader"
-    IsCanEditor: 1
-    Overall: 1
-    IsFirstData: 1
-    IsEncrypt: 0
-    Path:
-    - Game/Download/Shader
+    - Game/Download/Hotfix
   - Name: "\u6570\u636E\u8868"
     IsCanEditor: 1
     Overall: 1
@@ -41,20 +34,19 @@ MonoBehaviour:
     - Game/Download/DataTable
   - Name: "\u9884\u5236\u4F53"
     IsCanEditor: 1
-    Overall: 1
-    IsFirstData: 1
-    IsEncrypt: 0
-    Path:
-    - Game/Download/Prefab
-  - Name: "\u8D44\u6E90"
-    IsCanEditor: 1
     Overall: 0
     IsFirstData: 1
     IsEncrypt: 0
     Path:
-    - Game/Download/Res/Font
-    - Game/Download/Res/RoleSources
-    - Game/Download/Res/UIRes
+    - Game/Download/Prefab
+  - Name: "\u901A\u7528\u7D20\u6750"
+    IsCanEditor: 1
+    Overall: 1
+    IsFirstData: 1
+    IsEncrypt: 0
+    Path:
+    - Game/Download/Shader
+    - Game/Download/Font
   - Name: "\u573A\u666F"
     IsCanEditor: 1
     Overall: 0
@@ -62,10 +54,10 @@ MonoBehaviour:
     IsEncrypt: 0
     Path:
     - Game/Download/Scenes
-  - Name: "Hotfix\u7A0B\u5E8F\u96C6"
+  - Name: "\u97F3\u4E50"
     IsCanEditor: 1
-    Overall: 1
+    Overall: 0
     IsFirstData: 1
     IsEncrypt: 0
     Path:
-    - Game/Download/Hotfix
+    - Game/Download/Sound

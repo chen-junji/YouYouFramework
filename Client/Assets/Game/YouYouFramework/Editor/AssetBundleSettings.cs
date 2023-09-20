@@ -629,7 +629,7 @@ public class AssetBundleSettings : ScriptableObject
         /// <summary>
         /// 是否初始资源
         /// </summary>
-        public bool IsFirstData;
+        public bool IsFirstData = true;
 
         [LabelText("是否加密")]
         /// <summary>
