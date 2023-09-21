@@ -11,9 +11,9 @@ namespace YouYou
     public class AssetReferenceEntity
     {
         /// <summary>
-        /// 资源名称
+        /// 资源路径
         /// </summary>
-        public string ResourceName;
+        public string AssetPath;
 
         /// <summary>
         /// 关联目标
@@ -66,19 +66,18 @@ namespace YouYou
         /// </summary>
         public void Release()
         {
-            ResourceName = null;
+            AssetPath = null;
             ReferenceCount = 0;
             Target = null;
 
             MainEntry.ClassObjectPool.Enqueue(this); //把这个资源实体回池
         }
 
-        public static AssetReferenceEntity Create(string name, Object obj)
+        public static AssetReferenceEntity Create(string path, Object obj)
         {
             AssetReferenceEntity referenceEntity = MainEntry.ClassObjectPool.Dequeue<AssetReferenceEntity>();
-            referenceEntity.ResourceName = name;
+            referenceEntity.AssetPath = path;
             referenceEntity.Target = obj;
-            referenceEntity.Spawn(false);
             GameEntry.Pool.AssetPool.Register(referenceEntity);
             return referenceEntity;
         }

@@ -23,7 +23,7 @@ namespace Main
             /// <summary>
             /// 资源管理
             /// </summary>
-            Resource,
+            Assets,
             /// <summary>
             /// 网络消息
             /// </summary>
@@ -50,7 +50,7 @@ namespace Main
         /// <summary>
         /// 资源管理器
         /// </summary>
-        public static ResourceManager ResourceManager { get; private set; }
+        public static AssetsManager AssetsManager { get; private set; }
         /// <summary>
         /// 类对象池
         /// </summary>
@@ -95,13 +95,13 @@ namespace Main
 
             //初始化管理器
             Download = new DownloadManager();
-            ResourceManager = new ResourceManager();
+            AssetsManager = new AssetsManager();
             ClassObjectPool = new ClassObjectPool();
             Data = new SysDataMgr();
             Hotfix = new HotfixManager();
 
             Download.Init();
-            ResourceManager.Init();
+            AssetsManager.Init();
             Hotfix.Init();
         }
         private void Update()

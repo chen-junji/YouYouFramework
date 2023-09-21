@@ -58,7 +58,7 @@ namespace YouYou
         public static LocalizationManager Localization { get; private set; }
         public static PoolManager Pool { get; private set; }
         public static YouYouSceneManager Scene { get; private set; }
-        public static ResourceLoaderManager Resource { get; private set; }
+        public static LoaderManager Loader { get; private set; }
         public static UIManager UI { get; private set; }
         public static AudioManager Audio { get; private set; }
         public static CrossPlatformInputManager Input { get; private set; }
@@ -96,7 +96,7 @@ namespace YouYou
             Localization = new LocalizationManager();
             Pool = new PoolManager();
             Scene = new YouYouSceneManager();
-            Resource = new ResourceLoaderManager();
+            Loader = new LoaderManager();
             UI = new UIManager();
             Audio = new AudioManager();
             Input = new CrossPlatformInputManager();
@@ -112,7 +112,7 @@ namespace YouYou
             Localization.Init();
             Pool.Init();
             Scene.Init();
-            Resource.Init();
+            Loader.Init();
             UI.Init();
             Audio.Init();
             Task.Init();
@@ -127,7 +127,7 @@ namespace YouYou
             Procedure.OnUpdate();
             Pool.OnUpdate();
             Scene.OnUpdate();
-            Resource.OnUpdate();
+            Loader.OnUpdate();
             UI.OnUpdate();
             Input.OnUpdate();
             Task.OnUpdate();

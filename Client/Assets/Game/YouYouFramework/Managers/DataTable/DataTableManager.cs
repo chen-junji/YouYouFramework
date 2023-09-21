@@ -61,7 +61,7 @@ namespace YouYou
         {
             OnLoadDataTableComplete = onComplete;
 #if ASSETBUNDLE
-            GameEntry.Resource.LoadAssetBundleAction(YFConstDefine.DataTableAssetBundlePath, onComplete: (AssetBundle bundle) =>
+            GameEntry.Loader.LoadAssetBundleAction(YFConstDefine.DataTableAssetBundlePath, onComplete: (AssetBundle bundle) =>
             {
                 m_DataTableBundle = bundle;
                 LoadDataTable();
@@ -79,11 +79,11 @@ namespace YouYou
 #if EDITORLOAD
             GameEntry.Time.Yield(() =>
             {
-                byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/Game/Download/DataTable/{1}.bytes", MainEntry.ResourceManager.LocalFilePath, dataTableName));
+                byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/Game/Download/DataTable/{1}.bytes", MainEntry.AssetsManager.LocalFilePath, dataTableName));
                 if (onComplete != null) onComplete(buffer);
             });
 #else
-            GameEntry.Resource.LoadAssetAction(GameUtil.GetLastPathName(dataTableName), m_DataTableBundle, onComplete: (UnityEngine.Object obj) =>
+            GameEntry.Loader.LoadAssetAction(GameUtil.GetLastPathName(dataTableName), m_DataTableBundle, onComplete: (UnityEngine.Object obj) =>
             {
                 if (obj == null) return;
                 TextAsset asset = obj as TextAsset;

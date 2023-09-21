@@ -22,7 +22,7 @@ namespace YouYou
         /// <summary>
         /// 资源池字典
         /// </summary>
-        private Dictionary<string, AssetBundleReferenceEntity> m_ResourceDic;
+        private Dictionary<string, AssetBundleReferenceEntity> m_AssetBundleDic;
 
         /// <summary>
         /// 需要移除的Key链表
@@ -36,7 +36,7 @@ namespace YouYou
         public AssetBundlePool(string poolName)
         {
             PoolName = poolName;
-            m_ResourceDic = new Dictionary<string, AssetBundleReferenceEntity>();
+            m_AssetBundleDic = new Dictionary<string, AssetBundleReferenceEntity>();
             m_NeedRemoveKeyList = new LinkedList<string>();
         }
 
@@ -46,9 +46,10 @@ namespace YouYou
         public void Register(AssetBundleReferenceEntity entity)
         {
 #if UNITY_EDITOR
-            InspectorDic.Add(entity.ResourceName, entity);
+            InspectorDic.Add(entity.AssetBundlePath, entity);
 #endif
-            m_ResourceDic.Add(entity.ResourceName, entity);
+            entity.Spawn();
+            m_AssetBundleDic.Add(entity.AssetBundlePath, entity);
         }
 
         /// <summary>
@@ -56,7 +57,7 @@ namespace YouYou
         /// </summary>
         public AssetBundleReferenceEntity Spawn(string resourceName)
         {
-            if (m_ResourceDic.TryGetValue(resourceName, out AssetBundleReferenceEntity abReferenceEntity))
+            if (m_AssetBundleDic.TryGetValue(resourceName, out AssetBundleReferenceEntity abReferenceEntity))
             {
                 abReferenceEntity.Spawn();
             }
@@ -68,19 +69,19 @@ namespace YouYou
         /// </summary>
         public void Release()
         {
-            var enumerator = m_ResourceDic.GetEnumerator();
+            var enumerator = m_AssetBundleDic.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 AssetBundleReferenceEntity abReferenceEntity = enumerator.Current.Value;
                 if (abReferenceEntity.GetCanRelease())
                 {
 #if UNITY_EDITOR
-                    if (InspectorDic.ContainsKey(abReferenceEntity.ResourceName))
+                    if (InspectorDic.ContainsKey(abReferenceEntity.AssetBundlePath))
                     {
-                        InspectorDic.Remove(abReferenceEntity.ResourceName);
+                        InspectorDic.Remove(abReferenceEntity.AssetBundlePath);
                     }
 #endif
-                    m_NeedRemoveKeyList.AddFirst(abReferenceEntity.ResourceName);
+                    m_NeedRemoveKeyList.AddFirst(abReferenceEntity.AssetBundlePath);
                     abReferenceEntity.Release();
                 }
             }
@@ -90,7 +91,7 @@ namespace YouYou
             while (curr != null)
             {
                 string key = curr.Value;
-                m_ResourceDic.Remove(key);
+                m_AssetBundleDic.Remove(key);
 
                 LinkedListNode<string> next = curr.Next;
                 m_NeedRemoveKeyList.Remove(curr);
@@ -98,36 +99,5 @@ namespace YouYou
             }
         }
 
-        /// <summary>
-        /// 释放池内所有资源
-        /// </summary>
-        public void ReleaseAll()
-        {
-            var enumerator = m_ResourceDic.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                AssetBundleReferenceEntity abReferenceEntity = enumerator.Current.Value;
-#if UNITY_EDITOR
-                if (InspectorDic.ContainsKey(abReferenceEntity.ResourceName))
-                {
-                    InspectorDic.Remove(abReferenceEntity.ResourceName);
-                }
-#endif
-                m_NeedRemoveKeyList.AddFirst(abReferenceEntity.ResourceName);
-                abReferenceEntity.Release();
-            }
-
-            //循环链表 从字典中移除制定的Key
-            LinkedListNode<string> curr = m_NeedRemoveKeyList.First;
-            while (curr != null)
-            {
-                string key = curr.Value;
-                m_ResourceDic.Remove(key);
-
-                LinkedListNode<string> next = curr.Next;
-                m_NeedRemoveKeyList.Remove(curr);
-                curr = next;
-            }
-        }
     }
 }

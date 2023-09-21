@@ -11,9 +11,9 @@ namespace YouYou
     public class AssetBundleReferenceEntity
     {
         /// <summary>
-        /// 资源名称
+        /// 资源包路径
         /// </summary>
-        public string ResourceName;
+        public string AssetBundlePath;
 
         /// <summary>
         /// 关联目标
@@ -39,7 +39,7 @@ namespace YouYou
             LastUseTime = Time.time;
 
             //如果是锁定资源包 不释放
-            if (GameEntry.Pool.CheckAssetBundleIsLock(ResourceName))
+            if (GameEntry.Pool.CheckAssetBundleIsLock(AssetBundlePath))
             {
                 ReferenceCount = 1;
             }
@@ -62,12 +62,12 @@ namespace YouYou
             return ReferenceCount == 0 && Time.time - LastUseTime > GameEntry.Pool.ReleaseAssetBundleInterval;
         }
 
-        public static AssetBundleReferenceEntity Create(string name, AssetBundle target)
+        public static AssetBundleReferenceEntity Create(string path, AssetBundle target)
         {
             AssetBundleReferenceEntity assetBundleEntity = MainEntry.ClassObjectPool.Dequeue<AssetBundleReferenceEntity>();
-            assetBundleEntity.ResourceName = name;
+            assetBundleEntity.AssetBundlePath = path;
             assetBundleEntity.Target = target;
-            assetBundleEntity.Spawn();
+            GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
             return assetBundleEntity;
         }
         /// <summary>
@@ -78,7 +78,7 @@ namespace YouYou
             AssetBundle bundle = Target;
             bundle.Unload(false);
 
-            ResourceName = null;
+            AssetBundlePath = null;
             ReferenceCount = 0;
             Target = null;
 

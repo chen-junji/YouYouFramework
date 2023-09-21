@@ -8,7 +8,7 @@ namespace YouYou
     /// <summary>
     /// 资源池
     /// </summary>
-    public class ResourcePool
+    public class AssetPool
     {
 #if UNITY_EDITOR
         /// <summary>
@@ -25,7 +25,7 @@ namespace YouYou
         /// <summary>
         /// 资源池字典
         /// </summary>
-        private Dictionary<string, AssetReferenceEntity> m_ResourceDic;
+        private Dictionary<string, AssetReferenceEntity> m_AssetDic;
 
         /// <summary>
         /// 需要移除的Key链表
@@ -36,10 +36,10 @@ namespace YouYou
         /// 构造函数
         /// </summary>
         /// <param name="poolName">资源池名称</param>
-        public ResourcePool(string poolName)
+        public AssetPool(string poolName)
         {
             PoolName = poolName;
-            m_ResourceDic = new Dictionary<string, AssetReferenceEntity>();
+            m_AssetDic = new Dictionary<string, AssetReferenceEntity>();
             m_NeedRemoveKeyList = new LinkedList<string>();
         }
 
@@ -49,9 +49,10 @@ namespace YouYou
         public void Register(AssetReferenceEntity entity)
         {
 #if UNITY_EDITOR
-            InspectorDic.Add(entity.ResourceName, entity);
+            InspectorDic.Add(entity.AssetPath, entity);
 #endif
-            m_ResourceDic.Add(entity.ResourceName, entity);
+            entity.Spawn(false);
+            m_AssetDic.Add(entity.AssetPath, entity);
         }
 
         /// <summary>
@@ -59,7 +60,7 @@ namespace YouYou
         /// </summary>
         public AssetReferenceEntity Spawn(string resourceName)
         {
-            if (m_ResourceDic.TryGetValue(resourceName, out AssetReferenceEntity referenceEntity))
+            if (m_AssetDic.TryGetValue(resourceName, out AssetReferenceEntity referenceEntity))
             {
                 referenceEntity.Spawn(false);
             }
@@ -71,16 +72,16 @@ namespace YouYou
         /// </summary>
         public void Release()
         {
-            var enumerator = m_ResourceDic.GetEnumerator();
+            var enumerator = m_AssetDic.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 AssetReferenceEntity referenceEntity = enumerator.Current.Value;
                 if (referenceEntity.GetCanRelease())
                 {
 #if UNITY_EDITOR
-                    InspectorDic.Remove(referenceEntity.ResourceName);
+                    InspectorDic.Remove(referenceEntity.AssetPath);
 #endif
-                    m_NeedRemoveKeyList.AddFirst(referenceEntity.ResourceName);
+                    m_NeedRemoveKeyList.AddFirst(referenceEntity.AssetPath);
                     referenceEntity.Release();
                 }
             }
@@ -90,7 +91,7 @@ namespace YouYou
             while (curr != null)
             {
                 string key = curr.Value;
-                m_ResourceDic.Remove(key);
+                m_AssetDic.Remove(key);
 
                 LinkedListNode<string> next = curr.Next;
                 m_NeedRemoveKeyList.Remove(curr);
@@ -98,33 +99,5 @@ namespace YouYou
             }
         }
 
-        /// <summary>
-        /// 释放池内所有资源
-        /// </summary>
-        public void ReleaseAll()
-        {
-            var enumerator = m_ResourceDic.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                AssetReferenceEntity referenceEntity = enumerator.Current.Value;
-#if UNITY_EDITOR
-                InspectorDic.Remove(referenceEntity.ResourceName);
-#endif
-                m_NeedRemoveKeyList.AddFirst(referenceEntity.ResourceName);
-                referenceEntity.Release();
-            }
-
-            //循环链表 从字典中移除制定的Key
-            LinkedListNode<string> curr = m_NeedRemoveKeyList.First;
-            while (curr != null)
-            {
-                string key = curr.Value;
-                m_ResourceDic.Remove(key);
-
-                LinkedListNode<string> next = curr.Next;
-                m_NeedRemoveKeyList.Remove(curr);
-                curr = next;
-            }
-        }
     }
 }

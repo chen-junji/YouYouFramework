@@ -86,7 +86,7 @@ namespace Main
             m_OnComplete = onComplete;
             m_CurrRetry = 0;
 
-            m_DownloadLocalFilePath = string.Format("{0}/{1}", MainEntry.ResourceManager.LocalFilePath, m_CurrFileUrl);
+            m_DownloadLocalFilePath = string.Format("{0}/{1}", MainEntry.AssetsManager.LocalFilePath, m_CurrFileUrl);
 
             //如果本地已有目标文件, 则删除
             if (File.Exists(m_DownloadLocalFilePath)) File.Delete(m_DownloadLocalFilePath);
@@ -230,19 +230,19 @@ namespace Main
                     m_CurrRetry++;
                     if (m_CurrRetry <= MainEntry.Download.Retry)
                     {
-                        MainEntry.Log(MainEntry.LogCategory.Resource, "下载文件URL {0} 出错, 正在进行重试, 当前重试次数{1}", m_UnityWebRequest.url, m_CurrRetry);
+                        MainEntry.Log(MainEntry.LogCategory.Assets, "下载文件URL {0} 出错, 正在进行重试, 当前重试次数{1}", m_UnityWebRequest.url, m_CurrRetry);
                         Reset();
                         DownloadInner();
                         return;
                     }
-                    MainEntry.LogError(MainEntry.LogCategory.Resource, "下载失败, URL {0} Error= {1}", m_UnityWebRequest.url, m_UnityWebRequest.error);
+                    MainEntry.LogError(MainEntry.LogCategory.Assets, "下载失败, URL {0} Error= {1}", m_UnityWebRequest.url, m_UnityWebRequest.error);
                     Reset();
                     MainEntry.ClassObjectPool.Enqueue(this);
                     return;
             }
 
             //下载完毕
-            MainEntry.Log(MainEntry.LogCategory.Resource, "下载完毕=>" + m_UnityWebRequest.url);
+            MainEntry.Log(MainEntry.LogCategory.Assets, "下载完毕=>" + m_UnityWebRequest.url);
             m_CurrDownloaderSize = m_UnityWebRequest.downloadedBytes;
             Sava(m_UnityWebRequest.downloadHandler.data, true);
 
@@ -256,7 +256,7 @@ namespace Main
             if (PlayerPrefs.HasKey(m_CurrFileUrl)) PlayerPrefs.DeleteKey(m_CurrFileUrl);
 
             //更新可写区的版本信息
-            MainEntry.ResourceManager.SaveVersion(m_CurrAssetBundleInfo);
+            MainEntry.AssetsManager.SaveVersion(m_CurrAssetBundleInfo);
 
             MainEntry.ClassObjectPool.Enqueue(this);
             m_OnComplete?.Invoke(m_CurrFileUrl, this);

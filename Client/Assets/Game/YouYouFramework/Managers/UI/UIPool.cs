@@ -80,7 +80,7 @@ namespace YouYou
                 {
                     LinkedListNode<UIBase> next = curr.Next;
 
-                    //GameEntry.Log(LogCategory.Resource, "释放==" + curr.Value.gameObject);
+                    //GameEntry.Log(LogCategory.Loader, "释放==" + curr.Value.gameObject);
                     Release(curr.Value);
 
                     curr = next;
@@ -106,7 +106,7 @@ namespace YouYou
         }
         public void Release(UIBase uIBase)
         {
-            GameEntry.Pool.ReleaseInstanceResource(uIBase.gameObject.GetInstanceID());
+            GameEntry.Pool.ReleaseInstanceAsset(uIBase.gameObject.GetInstanceID());
             m_UIFormList.Remove(uIBase);
             Object.Destroy(uIBase.gameObject);
         }
@@ -120,7 +120,7 @@ namespace YouYou
             {
                 LinkedListNode<UIBase> next = curr.Next;
 
-                GameEntry.Log(LogCategory.Resource, "释放==" + curr.Value.gameObject);
+                GameEntry.Log(LogCategory.Loader, "释放==" + curr.Value.gameObject);
                 Release(curr.Value);
                 curr = next;
             }

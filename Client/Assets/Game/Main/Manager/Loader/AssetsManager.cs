@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 namespace Main
 {
-    public class ResourceManager
+    public class AssetsManager
     {
         /// <summary>
         /// 可写区管理器
@@ -34,7 +34,7 @@ namespace Main
         /// </summary>
         public string LocalFilePath { get; private set; }
 
-        public ResourceManager()
+        public AssetsManager()
         {
             LocalAssetsManager = new LocalAssetsManager();
 
@@ -127,18 +127,18 @@ namespace Main
                 if (request.result == UnityWebRequest.Result.Success)
                 {
                     m_CDNVersionDic = GetAssetBundleVersionList(request.downloadHandler.data, ref m_CDNVersion);
-                    MainEntry.Log(MainEntry.LogCategory.Resource, "OnInitCDNVersionFile");
+                    MainEntry.Log(MainEntry.LogCategory.Assets, "OnInitCDNVersionFile");
                     if (LocalAssetsManager.GetVersionFileExists())
                     {
                         //可写区版本文件存在，加载版本文件信息
                         m_LocalAssetsVersionDic = LocalAssetsManager.GetAssetBundleVersionList(ref m_LocalAssetsVersion);
-                        MainEntry.Log(MainEntry.LogCategory.Resource, "OnInitLocalVersionFile");
+                        MainEntry.Log(MainEntry.LogCategory.Assets, "OnInitLocalVersionFile");
                     }
                     onInitComplete?.Invoke();
                 }
                 else
                 {
-                    Main.MainEntry.Log(MainEntry.LogCategory.Resource, "初始化CDN资源包信息失败，url==" + url);
+                    Main.MainEntry.Log(MainEntry.LogCategory.Assets, "初始化CDN资源包信息失败，url==" + url);
                 }
             }));
         }
@@ -171,10 +171,10 @@ namespace Main
         /// <summary>
         /// 保存资源版本号（用于检查版本更新完毕后 保存）
         /// </summary>
-        public void SetResourceVersion()
+        public void SetAssetVersion()
         {
             m_LocalAssetsVersion = m_CDNVersion;
-            LocalAssetsManager.SetResourceVersion(m_LocalAssetsVersion);
+            LocalAssetsManager.SetAssetVersion(m_LocalAssetsVersion);
         }
         #endregion
 
@@ -202,18 +202,18 @@ namespace Main
         /// </summary>
         public void CheckVersionChange()
         {
-            MainEntry.Log(MainEntry.LogCategory.Resource, "检查更新=>CheckVersionChange(), 版本号=>{0}", m_LocalAssetsVersion);
+            MainEntry.Log(MainEntry.LogCategory.Assets, "检查更新=>CheckVersionChange(), 版本号=>{0}", m_LocalAssetsVersion);
 
             if (LocalAssetsManager.GetVersionFileExists())
             {
                 if (!string.IsNullOrEmpty(m_LocalAssetsVersion) && m_LocalAssetsVersion.Equals(m_CDNVersion))
                 {
-                    MainEntry.Log(MainEntry.LogCategory.Resource, "可写区版本号和CDN版本号一致 进入预加载流程");
+                    MainEntry.Log(MainEntry.LogCategory.Assets, "可写区版本号和CDN版本号一致 进入预加载流程");
                     CheckVersionComplete?.Invoke();
                 }
                 else
                 {
-                    MainEntry.Log(MainEntry.LogCategory.Resource, "可写区版本号和CDN版本号不一致 开始检查更新");
+                    MainEntry.Log(MainEntry.LogCategory.Assets, "可写区版本号和CDN版本号不一致 开始检查更新");
                     BeginCheckVersionChange();
                 }
             }
@@ -252,7 +252,7 @@ namespace Main
             }
             else
             {
-                MainEntry.Log(MainEntry.LogCategory.Resource, "下载初始资源,文件数量==>>" + m_NeedDownloadList.Count);
+                MainEntry.Log(MainEntry.LogCategory.Assets, "下载初始资源,文件数量==>>" + m_NeedDownloadList.Count);
                 MainEntry.Download.BeginDownloadMulit(m_NeedDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
             }
         }
@@ -295,12 +295,12 @@ namespace Main
             }
 
             //删除需要删除的
-            MainEntry.Log(MainEntry.LogCategory.Resource, "删除旧资源=>{0}", deleteList.ToJson());
+            MainEntry.Log(MainEntry.LogCategory.Assets, "删除旧资源=>{0}", deleteList.ToJson());
             LinkedListNode<string> currDel = deleteList.First;
             while (currDel != null)
             {
                 StringBuilder sbr = StringHelper.PoolNew();
-                string filePath = sbr.AppendFormatNoGC("{0}/{1}", MainEntry.ResourceManager.LocalFilePath, currDel.Value).ToString();
+                string filePath = sbr.AppendFormatNoGC("{0}/{1}", MainEntry.AssetsManager.LocalFilePath, currDel.Value).ToString();
                 StringHelper.PoolDel(ref sbr);
 
                 if (File.Exists(filePath)) File.Delete(filePath);
@@ -327,7 +327,7 @@ namespace Main
             CheckVersionBeginDownload?.Invoke();
 
             //进行下载
-            MainEntry.Log(MainEntry.LogCategory.Resource, "下载更新资源,文件数量==>" + needDownloadList.Count + "==>" + needDownloadList.ToJson());
+            MainEntry.Log(MainEntry.LogCategory.Assets, "下载更新资源,文件数量==>" + needDownloadList.Count + "==>" + needDownloadList.ToJson());
             MainEntry.Download.BeginDownloadMulit(needDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
         }
 
@@ -368,12 +368,12 @@ namespace Main
         /// </summary>
         private void OnDownloadMulitComplete()
         {
-            SetResourceVersion();
+            SetAssetVersion();
 
             CheckVersionDownloadComplete?.Invoke();
             MainEntry.ClassObjectPool.Enqueue(m_DownloadingParams);
 
-            MainEntry.Log(MainEntry.LogCategory.Resource, "检查更新下载完毕 进入预加载流程");
+            MainEntry.Log(MainEntry.LogCategory.Assets, "检查更新下载完毕 进入预加载流程");
             CheckVersionComplete?.Invoke();
         }
 

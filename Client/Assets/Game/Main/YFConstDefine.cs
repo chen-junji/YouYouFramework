@@ -17,7 +17,7 @@ namespace Main
 		/// <summary>
 		/// 资源版本号
 		/// </summary>
-		public const string ResourceVersion = "ResourceVersion";
+		public const string AssetVersion = "AssetVersion";
 
 		/// <summary>
 		/// 资源信息文件名称

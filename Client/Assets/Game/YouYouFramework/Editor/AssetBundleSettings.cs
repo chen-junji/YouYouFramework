@@ -22,7 +22,7 @@ public class AssetBundleSettings : ScriptableObject
     [HorizontalGroup("Common", LabelWidth = 75)]
     [VerticalGroup("Common/Left")]
     [LabelText("资源版本号")]
-    public string ResourceVersion = "1.0.0";
+    public string AssetVersion = "1.0.0";
 
     [PropertySpace(10)]
     [VerticalGroup("Common/Left")]
@@ -77,7 +77,7 @@ public class AssetBundleSettings : ScriptableObject
         for (int i = 0; i < len; i++)
         {
             AssetBundleData assetBundleData = Datas[i];
-            if (assetBundleData.IsCanEditor)
+            if (assetBundleData.IsBuild)
             {
                 int lenPath = assetBundleData.Path.Length;
                 for (int j = 0; j < lenPath; j++)
@@ -118,7 +118,7 @@ public class AssetBundleSettings : ScriptableObject
     {
         get
         {
-            return Application.dataPath + "/../" + AssetBundleSavePath + "/" + ResourceVersion + "_Temp/" + CurrBuildTarget;
+            return Application.dataPath + "/../" + AssetBundleSavePath + "/" + AssetVersion + "_Temp/" + CurrBuildTarget;
         }
     }
 
@@ -171,7 +171,7 @@ public class AssetBundleSettings : ScriptableObject
         for (int i = 0; i < len; i++)
         {
             AssetBundleData assetBundleData = Datas[i];
-            if (assetBundleData.IsEncrypt && assetBundleData.IsCanEditor)
+            if (assetBundleData.IsEncrypt && assetBundleData.IsBuild)
             {
                 //如果需要加密
                 for (int j = 0; j < assetBundleData.Path.Length; j++)
@@ -252,7 +252,7 @@ public class AssetBundleSettings : ScriptableObject
         for (int i = 0; i < Datas.Length; i++)
         {
             AssetBundleData assetBundleData = Datas[i];
-            if (assetBundleData.IsCanEditor)
+            if (assetBundleData.IsBuild)
             {
                 for (int j = 0; j < assetBundleData.Path.Length; j++)
                 {
@@ -389,7 +389,7 @@ public class AssetBundleSettings : ScriptableObject
         //拿到文件夹下所有文件
         FileInfo[] arrFiles = directory.GetFiles("*", SearchOption.AllDirectories);
 
-        sbContent.AppendLine(ResourceVersion);
+        sbContent.AppendLine(AssetVersion);
         for (int i = 0; i < arrFiles.Length; i++)
         {
             FileInfo file = arrFiles[i];
@@ -617,11 +617,11 @@ public class AssetBundleSettings : ScriptableObject
         public string Name;
 
         [LabelText("是否要打包")]
-        public bool IsCanEditor = true;
+        public bool IsBuild = true;
 
         [LabelText("文件夹为一个资源包")]
         /// <summary>
-        /// 打成一个资源包
+        /// 文件夹为一个资源包
         /// </summary>
         public bool Overall;
 

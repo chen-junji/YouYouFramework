@@ -20,7 +20,7 @@ namespace YouYou
         /// <summary>
         /// 资源管理
         /// </summary>
-        Resource,
+        Loader,
         /// <summary>
         /// 网络消息
         /// </summary>

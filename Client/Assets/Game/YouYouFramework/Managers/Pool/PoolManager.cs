@@ -22,15 +22,15 @@ namespace YouYou
         /// <summary>
         /// 主资源池
         /// </summary>
-        public ResourcePool AssetPool { get; private set; }
+        public AssetPool AssetPool { get; private set; }
 
         internal PoolManager()
         {
             GameObjectPool = new GameObjectPool();
 
             AssetBundlePool = new AssetBundlePool("AssetBundlePool");
-            m_InstanceResourceDic = new Dictionary<int, AssetReferenceEntity>();
-            AssetPool = new ResourcePool("AssetPool");
+            m_InstanceAssetDic = new Dictionary<int, AssetReferenceEntity>();
+            AssetPool = new AssetPool("AssetPool");
         }
 
         /// <summary>
@@ -212,29 +212,29 @@ namespace YouYou
         /// <summary>
         /// 克隆出来的实例资源字典
         /// </summary>
-        private Dictionary<int, AssetReferenceEntity> m_InstanceResourceDic;
+        private Dictionary<int, AssetReferenceEntity> m_InstanceAssetDic;
 
 
         /// <summary>
         /// 把克隆出来的资源 加入实例资源池
         /// </summary>
-        public void RegisterInstanceResource(int instanceId, AssetReferenceEntity referenceEntity)
+        public void RegisterInstanceAsset(int instanceId, AssetReferenceEntity referenceEntity)
         {
             //YouYou.GameEntry.LogError("注册到实例字典instanceId=" + instanceId);
-            m_InstanceResourceDic[instanceId] = referenceEntity;
+            m_InstanceAssetDic[instanceId] = referenceEntity;
             referenceEntity.Spawn(true);
         }
 
         /// <summary>
         /// 释放实例资源, 从实例字典Remove
         /// </summary>
-        public void ReleaseInstanceResource(int instanceId)
+        public void ReleaseInstanceAsset(int instanceId)
         {
             //YouYou.GameEntry.LogError("释放实例资源instanceId=" + instanceId);
-            if (m_InstanceResourceDic.TryGetValue(instanceId, out AssetReferenceEntity referenceEntity))
+            if (m_InstanceAssetDic.TryGetValue(instanceId, out AssetReferenceEntity referenceEntity))
             {
                 referenceEntity.Unspawn(true);
-                m_InstanceResourceDic.Remove(instanceId);
+                m_InstanceAssetDic.Remove(instanceId);
             }
         }
         #endregion

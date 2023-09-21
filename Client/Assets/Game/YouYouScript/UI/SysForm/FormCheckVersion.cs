@@ -23,9 +23,9 @@ public class FormCheckVersion : MonoBehaviour
 
     private void OnDestroy()
     {
-        MainEntry.ResourceManager.CheckVersionBeginDownload -= OnCheckVersionBeginDownload;
-        MainEntry.ResourceManager.CheckVersionDownloadUpdate -= OnCheckVersionDownloadUpdate;
-        MainEntry.ResourceManager.CheckVersionDownloadComplete -= OnCheckVersionDownloadComplete;
+        MainEntry.AssetsManager.CheckVersionBeginDownload -= OnCheckVersionBeginDownload;
+        MainEntry.AssetsManager.CheckVersionDownloadUpdate -= OnCheckVersionDownloadUpdate;
+        MainEntry.AssetsManager.CheckVersionDownloadComplete -= OnCheckVersionDownloadComplete;
 
         MainEntry.Data.ActionPreloadBegin -= OnPreloadBegin;
         MainEntry.Data.ActionPreloadUpdate -= OnPreloadUpdate;
@@ -33,9 +33,9 @@ public class FormCheckVersion : MonoBehaviour
     }
     private void Start()
     {
-        MainEntry.ResourceManager.CheckVersionBeginDownload += OnCheckVersionBeginDownload;
-        MainEntry.ResourceManager.CheckVersionDownloadUpdate += OnCheckVersionDownloadUpdate;
-        MainEntry.ResourceManager.CheckVersionDownloadComplete += OnCheckVersionDownloadComplete;
+        MainEntry.AssetsManager.CheckVersionBeginDownload += OnCheckVersionBeginDownload;
+        MainEntry.AssetsManager.CheckVersionDownloadUpdate += OnCheckVersionDownloadUpdate;
+        MainEntry.AssetsManager.CheckVersionDownloadComplete += OnCheckVersionDownloadComplete;
 
 
         MainEntry.Data.ActionPreloadBegin += OnPreloadBegin;
@@ -50,7 +50,7 @@ public class FormCheckVersion : MonoBehaviour
     {
         //if (txtSize != null) txtSize.gameObject.SetActive(true);
 
-        //txtVersion.text = string.Format("最新版本 {0}", GameEntry.Resource.ResourceManager.CDNVersion);
+        //txtVersion.text = string.Format("最新版本 {0}", GameEntry.Loader.ResourceManager.CDNVersion);
     }
     private void OnCheckVersionDownloadUpdate(BaseParams baseParams)
     {
@@ -79,7 +79,7 @@ public class FormCheckVersion : MonoBehaviour
     private void OnPreloadBegin()
     {
         //if (txtSize != null) txtSize.gameObject.SetActive(false);
-        //txtVersion.text = string.Format("资源版本号 {0}", GameEntry.Resource.ResourceManager.CDNVersion);
+        //txtVersion.text = string.Format("资源版本号 {0}", GameEntry.Loader.ResourceManager.CDNVersion);
     }
     #endregion
 }

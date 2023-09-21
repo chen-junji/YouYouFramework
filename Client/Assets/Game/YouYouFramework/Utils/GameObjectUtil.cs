@@ -40,7 +40,7 @@ public static class GameObjectUtil
     /// </summary>
     public static async void AutoLoadSprite(this Image img, string imgPath, bool isSetNativeSize = false)
     {
-        Object asset = await GameEntry.Resource.LoadMainAssetAsync<Object>(imgPath);
+        Object asset = await GameEntry.Loader.LoadMainAssetAsync<Object>(imgPath);
         if (asset == null)
         {
             Debug.LogError("img==" + img + "==ImgPath==" + imgPath);
@@ -67,7 +67,7 @@ public static class GameObjectUtil
     {
         if (img != null && !string.IsNullOrEmpty(imgPath))
         {
-            Texture2D asset = await GameEntry.Resource.LoadMainAssetAsync<Texture2D>(imgPath);
+            Texture2D asset = await GameEntry.Loader.LoadMainAssetAsync<Texture2D>(imgPath);
             if (asset == null)
             {
                 Debug.LogError("img==" + img + "==ImgPath==" + imgPath);

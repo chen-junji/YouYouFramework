@@ -103,7 +103,7 @@ namespace YouYou
             }
 
             CurrBGMEntity = entity;
-            AudioClip audioClip = GameEntry.Resource.LoadMainAsset<AudioClip>(CurrBGMEntity.AssetPath);
+            AudioClip audioClip = GameEntry.Loader.LoadMainAsset<AudioClip>(CurrBGMEntity.AssetPath);
             PlayBGM(audioClip, CurrBGMEntity.IsLoop == 1, CurrBGMEntity.IsFadeIn == 1, CurrBGMEntity.Volume);
         }
         public void PlayBGM(AudioClip audioClip, bool isLoop, bool isFadeIn, float entityVolume)
@@ -223,7 +223,7 @@ namespace YouYou
         public void PlayAudio(string audioName, Vector3 point)
         {
             Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName);
-            AudioClip audioClip = GameEntry.Resource.LoadMainAsset<AudioClip>(sys_Audio.AssetPath);
+            AudioClip audioClip = GameEntry.Loader.LoadMainAsset<AudioClip>(sys_Audio.AssetPath);
             AudioSource helper = PlayAudio2(audioClip, sys_Audio.Volume, sys_Audio.Priority);
             if (helper == null) return;
             helper.transform.position = point;
@@ -232,7 +232,7 @@ namespace YouYou
         public void PlayAudio(string audioName)
         {
             Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName);
-            AudioClip audioClip = GameEntry.Resource.LoadMainAsset<AudioClip>(sys_Audio.AssetPath);
+            AudioClip audioClip = GameEntry.Loader.LoadMainAsset<AudioClip>(sys_Audio.AssetPath);
             PlayAudio2(audioClip, sys_Audio.Volume, sys_Audio.Priority);
         }
 

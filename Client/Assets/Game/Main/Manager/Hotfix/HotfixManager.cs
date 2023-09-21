@@ -24,7 +24,7 @@ namespace Main
             return;
 #endif
             //初始化CDN的VersionFile信息
-            MainEntry.ResourceManager.InitCDNVersionFile(() =>
+            MainEntry.AssetsManager.InitCDNVersionFile(() =>
             {
                 //下载并加载热更程序集
                 CheckAndDownload(YFConstDefine.HotfixAssetBundlePath, (string fileUrl) =>
@@ -33,7 +33,7 @@ namespace Main
                     hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, fileUrl));
                     LoadMetadataForAOTAssemblies();
                     System.Reflection.Assembly.Load(hotfixAb.LoadAsset<TextAsset>("Assembly-CSharp.dll.bytes").bytes);
-                    MainEntry.Log(MainEntry.LogCategory.Resource, "Assembly-CSharp.dll加载完毕");
+                    MainEntry.Log(MainEntry.LogCategory.Assets, "Assembly-CSharp.dll加载完毕");
 #endif
 
                     AssetBundle prefabAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, fileUrl));
@@ -45,15 +45,15 @@ namespace Main
 
         private void CheckAndDownload(string url, Action<string> onComplete)
         {
-            bool isEquals = MainEntry.ResourceManager.CheckVersionChangeSingle(url);
+            bool isEquals = MainEntry.AssetsManager.CheckVersionChangeSingle(url);
             if (isEquals)
             {
-                MainEntry.Log(MainEntry.LogCategory.Resource, "资源没变化, 不用重新下载, url==" + url);
+                MainEntry.Log(MainEntry.LogCategory.Assets, "资源没变化, 不用重新下载, url==" + url);
                 onComplete?.Invoke(url);
             }
             else
             {
-                MainEntry.Log(MainEntry.LogCategory.Resource, "资源有更新, 重新下载, url==" + url);
+                MainEntry.Log(MainEntry.LogCategory.Assets, "资源有更新, 重新下载, url==" + url);
                 MainEntry.Download.BeginDownloadSingle(url, onComplete: onComplete);
             }
         }
@@ -80,7 +80,7 @@ namespace Main
                 // 加载assembly对应的dll，会自动为它hook。一旦aot泛型函数的native函数不存在，用解释器版本代码
                 LoadImageErrorCode err = RuntimeApi.LoadMetadataForAOTAssembly(dllBytes, mode);
             }
-            MainEntry.Log(MainEntry.LogCategory.Resource, "补充元数据Dll加载完毕==" + aotMetaAssemblyFiles.ToJson());
+            MainEntry.Log(MainEntry.LogCategory.Assets, "补充元数据Dll加载完毕==" + aotMetaAssemblyFiles.ToJson());
         }
     }
 }

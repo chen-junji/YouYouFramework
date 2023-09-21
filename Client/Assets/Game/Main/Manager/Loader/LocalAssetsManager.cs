@@ -55,9 +55,9 @@ namespace Main
 		/// 保存资源版本号
 		/// </summary>
 		/// <param name="version"></param>
-		public void SetResourceVersion(string version)
+		public void SetAssetVersion(string version)
 		{
-			PlayerPrefs.SetString(YFConstDefine.ResourceVersion, version);
+			PlayerPrefs.SetString(YFConstDefine.AssetVersion, version);
 		}
 		#endregion
 
@@ -81,7 +81,7 @@ namespace Main
 		/// <returns></returns>
 		public Dictionary<string, VersionFileEntity> GetAssetBundleVersionList(ref string version)
 		{
-			version = PlayerPrefs.GetString(YFConstDefine.ResourceVersion);
+			version = PlayerPrefs.GetString(YFConstDefine.AssetVersion);
 			string json = IOUtil.GetFileText(LocalVersionFilePath);
 			return json.ToObject<Dictionary<string, VersionFileEntity>>();
 		}

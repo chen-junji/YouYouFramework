@@ -35,16 +35,16 @@ namespace YouYou
         #region LoadAssetBundle 加载资源包
         public void LoadAssetBundleAsync(string assetBundlePath)
         {
-            CurrAssetBundleInfo = MainEntry.ResourceManager.GetAssetBundleInfo(assetBundlePath);
+            CurrAssetBundleInfo = MainEntry.AssetsManager.GetAssetBundleInfo(assetBundlePath);
 
             //检查文件在可写区是否存在
-            bool isExistsInLocal = MainEntry.ResourceManager.LocalAssetsManager.CheckFileExists(assetBundlePath);
+            bool isExistsInLocal = MainEntry.AssetsManager.LocalAssetsManager.CheckFileExists(assetBundlePath);
             if (isExistsInLocal)
             {
                 if (CurrAssetBundleInfo.IsEncrypt)
                 {
                     //可写区加载, 需要解密
-                    byte[] buffer = MainEntry.ResourceManager.LocalAssetsManager.GetFileBuffer(assetBundlePath);
+                    byte[] buffer = MainEntry.AssetsManager.LocalAssetsManager.GetFileBuffer(assetBundlePath);
                     if (buffer != null)
                     {
                         buffer = SecurityUtil.Xor(buffer);
@@ -73,19 +73,19 @@ namespace YouYou
             }
 
         }
-        public AssetBundle LoadAssetBundle(string assetBundlePath)
+        public static AssetBundle LoadAssetBundle(string assetBundlePath)
         {
-            CurrAssetBundleInfo = MainEntry.ResourceManager.GetAssetBundleInfo(assetBundlePath);
+            VersionFileEntity assetBundleInfo = MainEntry.AssetsManager.GetAssetBundleInfo(assetBundlePath);
 
             //检查文件在可写区是否存在
-            bool isExistsInLocal = MainEntry.ResourceManager.LocalAssetsManager.CheckFileExists(assetBundlePath);
+            bool isExistsInLocal = MainEntry.AssetsManager.LocalAssetsManager.CheckFileExists(assetBundlePath);
 
             if (isExistsInLocal)
             {
-                if (CurrAssetBundleInfo.IsEncrypt)
+                if (assetBundleInfo.IsEncrypt)
                 {
                     //可写区加载, 需要解密
-                    byte[] buffer = MainEntry.ResourceManager.LocalAssetsManager.GetFileBuffer(assetBundlePath);
+                    byte[] buffer = MainEntry.AssetsManager.LocalAssetsManager.GetFileBuffer(assetBundlePath);
                     if (buffer != null)
                     {
                         buffer = SecurityUtil.Xor(buffer);
@@ -99,7 +99,7 @@ namespace YouYou
                 }
             }
 
-            GameEntry.LogError(LogCategory.Resource, "本地没有该资源, 或许要去服务端下载==" + assetBundlePath);
+            GameEntry.LogError(LogCategory.Loader, "本地没有该资源, 或许要去服务端下载==" + assetBundlePath);
             return null;
         }
 
@@ -139,11 +139,11 @@ namespace YouYou
                 AssetBundle assetBundle = CurrAssetBundleCreateRequest.assetBundle;
                 if (assetBundle != null)
                 {
-                    //GameEntry.Log(LogCategory.Resource, "资源包=>{0} 加载完毕", m_CurrAssetBundleInfo.AssetBundleName);
+                    //GameEntry.Log(LogCategory.Loader, "资源包=>{0} 加载完毕", m_CurrAssetBundleInfo.AssetBundleName);
                 }
                 else
                 {
-                    GameEntry.LogError(LogCategory.Resource, "资源包=>{0} 加载失败", CurrAssetBundleInfo.AssetBundleName);
+                    GameEntry.LogError(LogCategory.Loader, "资源包=>{0} 加载失败", CurrAssetBundleInfo.AssetBundleName);
                 }
                 Reset();//一定要早点Reset
                 MainEntry.ClassObjectPool.Enqueue(this);

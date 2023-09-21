@@ -70,13 +70,13 @@ namespace YouYou
             //初始化资源信息
             taskGroup.AddTask((taskRoutine) =>
             {
-                GameEntry.Resource.InitAssetInfo(taskRoutine.Leave);
+                GameEntry.Loader.InitAssetInfo(taskRoutine.Leave);
             });
 
             //加载自定义Shader
             taskGroup.AddTask((taskRoutine) =>
             {
-                GameEntry.Resource.LoadAssetBundleAction(YFConstDefine.CusShadersAssetBundlePath, onComplete: (AssetBundle bundle) =>
+                GameEntry.Loader.LoadAssetBundleAction(YFConstDefine.CusShadersAssetBundlePath, onComplete: (AssetBundle bundle) =>
                 {
                     bundle.LoadAllAssets();
                     Shader.WarmupAllShaders();

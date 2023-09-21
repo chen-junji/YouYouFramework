@@ -82,10 +82,10 @@ namespace Main
         /// <param name="onUpdate"></param>
         public void BeginDownloadSingle(string url, Action<string, ulong, float> onUpdate = null, Action<string> onComplete = null)
         {
-            VersionFileEntity entity = MainEntry.ResourceManager.GetAssetBundleInfo(url);
+            VersionFileEntity entity = MainEntry.AssetsManager.GetAssetBundleInfo(url);
             if (entity == null)
             {
-                MainEntry.LogError(MainEntry.LogCategory.Resource, "无效资源包=>" + url);
+                MainEntry.LogError(MainEntry.LogCategory.Assets, "无效资源包=>" + url);
                 return;
             }
 

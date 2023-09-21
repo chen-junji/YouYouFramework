@@ -12,35 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01aecc1a1ad5afc4f9289263945c2a5d, type: 3}
   m_Name: AssetBundleSettings
   m_EditorClassIdentifier: 
-  ResourceVersion: 1.0.0
-  CurrBuildTarget: 0
+  AssetVersion: 1.0.0
+  CurrBuildTarget: 1
   Options: 272
   AssetBundleSavePath: AssetBundles
   IsCanEditor: 1
   Datas:
   - Name: "Hotfix\u7A0B\u5E8F\u96C6"
-    IsCanEditor: 1
+    IsBuild: 1
     Overall: 1
     IsFirstData: 1
     IsEncrypt: 0
     Path:
     - Game/Download/Hotfix
   - Name: "\u6570\u636E\u8868"
-    IsCanEditor: 1
+    IsBuild: 1
     Overall: 1
     IsFirstData: 1
     IsEncrypt: 1
     Path:
     - Game/Download/DataTable
   - Name: "\u9884\u5236\u4F53"
-    IsCanEditor: 1
+    IsBuild: 1
     Overall: 0
     IsFirstData: 1
     IsEncrypt: 0
     Path:
     - Game/Download/Prefab
   - Name: "\u901A\u7528\u7D20\u6750"
-    IsCanEditor: 1
+    IsBuild: 1
     Overall: 1
     IsFirstData: 1
     IsEncrypt: 0
@@ -48,14 +48,14 @@ MonoBehaviour:
     - Game/Download/Shader
     - Game/Download/Font
   - Name: "\u573A\u666F"
-    IsCanEditor: 1
+    IsBuild: 1
     Overall: 0
     IsFirstData: 1
     IsEncrypt: 0
     Path:
     - Game/Download/Scenes
   - Name: "\u97F3\u4E50"
-    IsCanEditor: 1
+    IsBuild: 1
     Overall: 0
     IsFirstData: 1
     IsEncrypt: 0

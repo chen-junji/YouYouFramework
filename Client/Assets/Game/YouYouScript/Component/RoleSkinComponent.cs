@@ -118,9 +118,9 @@ public class RoleSkinComponent : MonoBehaviour
     {
         if (m_CurrSkinnedMeshRenderer == null) return;
 #if UNITY_EDITOR
-        m_CurrSkinnedMeshRenderer.material = GameEntry.Resource.LoadMainAsset<Material>(materialPath);
+        m_CurrSkinnedMeshRenderer.material = GameEntry.Loader.LoadMainAsset<Material>(materialPath);
 #else
-        m_CurrSkinnedMeshRenderer.sharedMaterial = GameEntry.Resource.LoadMainAsset<Material>(materialPath);
+        m_CurrSkinnedMeshRenderer.sharedMaterial = GameEntry.Loader.LoadMainAsset<Material>(materialPath);
 #endif
     }
 

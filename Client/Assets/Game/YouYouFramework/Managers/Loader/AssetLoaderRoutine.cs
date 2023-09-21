@@ -74,11 +74,11 @@ namespace YouYou
                     Object obj = CurrAssetBundleRequest.asset;
                     if (obj != null)
                     {
-                        //GameEntry.Log(LogCategory.Resource, "资源=>{0} 加载完毕", m_CurrAssetName);
+                        //GameEntry.Log(LogCategory.Loader, "资源=>{0} 加载完毕", m_CurrAssetName);
                     }
                     else
                     {
-                        GameEntry.LogError(LogCategory.Resource, "资源=>{0} 加载失败", CurrAssetName);
+                        GameEntry.LogError(LogCategory.Loader, "资源=>{0} 加载失败", CurrAssetName);
                     }
                     Reset();//一定要早点Reset
                     MainEntry.ClassObjectPool.Enqueue(this);

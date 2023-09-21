@@ -22,8 +22,8 @@ public class GameUtil
         }
         return clips.ToArray();
 #else
-        AssetInfoEntity m_CurrAssetEnity = GameEntry.Resource.GetAssetEntity(path);
-        AssetBundle bundle = GameEntry.Resource.LoadAssetBundle(m_CurrAssetEnity.AssetBundleName);
+        AssetInfoEntity m_CurrAssetEnity = GameEntry.Loader.GetAssetEntity(path);
+        AssetBundle bundle = GameEntry.Loader.LoadAssetBundle(m_CurrAssetEnity.AssetBundleName);
         return bundle.LoadAllAssets<AnimationClip>();
 #endif
     }
@@ -48,11 +48,11 @@ public class GameUtil
     public static GameObject LoadPrefab(PrefabName prefabName)
     {
         Sys_PrefabEntity sys_Prefab = GameEntry.DataTable.Sys_PrefabDBModel.GetEntity(prefabName.ToString());
-        return GameEntry.Resource.LoadMainAsset<GameObject>(sys_Prefab.AssetPath);
+        return GameEntry.Loader.LoadMainAsset<GameObject>(sys_Prefab.AssetPath);
     }
     public static GameObject LoadPrefab(string prefabName)
     {
         Sys_PrefabEntity sys_Prefab = GameEntry.DataTable.Sys_PrefabDBModel.GetEntity(prefabName);
-        return GameEntry.Resource.LoadMainAsset<GameObject>(sys_Prefab.AssetPath);
+        return GameEntry.Loader.LoadMainAsset<GameObject>(sys_Prefab.AssetPath);
     }
 }
