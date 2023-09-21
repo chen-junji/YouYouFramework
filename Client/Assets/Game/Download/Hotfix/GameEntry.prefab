@@ -193,8 +193,8 @@ MonoBehaviour:
     PoolName: Audio
     Pool: {fileID: 0}
   LockedAssetBundle:
-  - download/cusshaders.assetbundle
-  - download/ui/uifont.assetbundle
+  - game/download/shader.assetbundle
+  - game/download/font.assetbundle
   UICamera: {fileID: 4719996667436394925}
   UIRootCanvasScaler: {fileID: 4719996668840302259}
   UIGroups:
