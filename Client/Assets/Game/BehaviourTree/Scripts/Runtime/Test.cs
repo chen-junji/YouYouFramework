@@ -9,7 +9,7 @@ public class Test : MonoBehaviour
 
     private void Start()
     {
-        var bt = BTSO.CloneBehaviourTree();
+        BehaviourTree bt = BTSO.CloneBehaviourTree();
         bt.Start("Debugger Test");
     }
 }

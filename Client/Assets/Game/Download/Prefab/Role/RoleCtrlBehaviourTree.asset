@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa231db0341246708996d6aa475ec454, type: 3}
-  m_Name: BehaviourTree
+  m_Name: RoleCtrlBehaviourTree
   m_EditorClassIdentifier: 
   ViewportRect:
     serializedVersion: 2
-    x: 54
-    y: 1
-    width: 1
-    height: 1
-  InspectorWidth: 468
+    x: 160
+    y: -155
+    width: 0.65751624
+    height: 0.65751624
+  InspectorWidth: 517
   BlackBoardRect:
     serializedVersion: 2
     x: 10
@@ -27,17 +27,17 @@ MonoBehaviour:
     height: 250
   RootNodeId: 1
   AllNodes:
-  - rid: 3884442940481732630
-  - rid: 3884442940481732631
-  - rid: 3884442940481732632
-  - rid: 3884442940481732633
-  - rid: 3884442940481732634
-  - rid: 3884442940481732635
-  - rid: 3884442940481732636
-  - rid: 3884442940481732637
+  - rid: 3884442940481732619
+  - rid: 3884442940481732620
+  - rid: 3884442940481732621
+  - rid: 3884442940481732622
+  - rid: 3884442940481732623
+  - rid: 3884442940481732624
+  - rid: 3884442940481732625
+  - rid: 3884442940481732626
   BBParams:
-  - rid: 3884442940481732638
-  - rid: 3884442940481732639
+  - rid: 3884442940481732627
+  - rid: 3884442940481732628
   CommentBlocks:
   - Comment: log1
     Color: {r: 0, g: 0, b: 0, a: 0.3}
@@ -47,26 +47,26 @@ MonoBehaviour:
     Color: {r: 0, g: 0, b: 0, a: 0.3}
     Position: {x: 698.0816, y: 615.95435}
     NodeIds: 0500000006000000
-  - Comment: log3
+  - Comment: "\u91CA\u653E\u6280\u80FD1"
     Color: {r: 0, g: 0, b: 0, a: 0.3}
     Position: {x: 976.90875, y: 608.35}
     NodeIds: 0700000008000000
   references:
     version: 2
     RefIds:
-    - rid: 3884442940481732630
+    - rid: 3884442940481732619
       type: {class: RootNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 1
         Position: {x: 559.3333, y: 122.66667}
         ChildId: 2
-    - rid: 3884442940481732631
+    - rid: 3884442940481732620
       type: {class: SequenceNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 2
         Position: {x: 556.6667, y: 277.33334}
         ChildIdList: 030000000400000005000000060000000700000008000000
-    - rid: 3884442940481732632
+    - rid: 3884442940481732621
       type: {class: DelayNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 3
@@ -74,7 +74,7 @@ MonoBehaviour:
         DelayTime:
           Key: Delay1
           Value: 0
-    - rid: 3884442940481732633
+    - rid: 3884442940481732622
       type: {class: LogNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 4
@@ -83,7 +83,7 @@ MonoBehaviour:
         Log:
           Key: Log1
           Value: 
-    - rid: 3884442940481732634
+    - rid: 3884442940481732623
       type: {class: DelayNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 5
@@ -91,7 +91,7 @@ MonoBehaviour:
         DelayTime:
           Key: 
           Value: 2
-    - rid: 3884442940481732635
+    - rid: 3884442940481732624
       type: {class: LogNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 6
@@ -100,7 +100,7 @@ MonoBehaviour:
         Log:
           Key: 
           Value: log2
-    - rid: 3884442940481732636
+    - rid: 3884442940481732625
       type: {class: DelayNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 7
@@ -108,21 +108,20 @@ MonoBehaviour:
         DelayTime:
           Key: 
           Value: 3
-    - rid: 3884442940481732637
-      type: {class: LogNode, ns: , asm: Assembly-CSharp}
+    - rid: 3884442940481732626
+      type: {class: SpwnObjNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 8
-        Position: {x: 958, y: 584.6667}
-        Level: 2
-        Log:
+        Position: {x: 963, y: 586}
+        SpwnObjName:
           Key: 
-          Value: log3
-    - rid: 3884442940481732638
+          Value: Skill1
+    - rid: 3884442940481732627
       type: {class: BBParamFloat, ns: , asm: Assembly-CSharp}
       data:
         Key: Delay1
         Value: 1
-    - rid: 3884442940481732639
+    - rid: 3884442940481732628
       type: {class: BBParamString, ns: , asm: Assembly-CSharp}
       data:
         Key: Log1

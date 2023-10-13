@@ -69,7 +69,12 @@ public class BehaviourTree
     /// 黑板
     /// </summary>
     public BlackBoard BlackBoard = new BlackBoard();
-    
+
+    /// <summary>
+    /// 角色控制器（YouYou扩展代码）
+    /// </summary>
+    public RoleCtrl RoleCtrl;
+
     /// <summary>
     /// 是否已初始化
     /// </summary>

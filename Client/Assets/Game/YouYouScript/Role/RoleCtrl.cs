@@ -10,9 +10,16 @@ public class RoleCtrl : MonoBehaviour
     /// </summary>
     public RoleView RoleView { get; private set; }
 
+    [SerializeField]
+    private BehaviourTreeSO BTSO;
+
     protected virtual void Awake()
     {
         RoleView = GetComponent<RoleView>();
+
+        BehaviourTree bt = BTSO.CloneBehaviourTree();
+        bt.RoleCtrl = this;
+        bt.Start("Debugger Test");
     }
 
     public virtual TimelineCtrl CreateSkillTimeLine(string prefabName)
