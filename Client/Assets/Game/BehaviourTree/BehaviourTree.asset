@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa231db0341246708996d6aa475ec454, type: 3}
+  m_Name: BehaviourTree
+  m_EditorClassIdentifier: 
+  ViewportRect:
+    serializedVersion: 2
+    x: -86.666664
+    y: 2.6666667
+    width: 0.7561437
+    height: 0.7561437
+  InspectorWidth: 420
+  BlackBoardRect:
+    serializedVersion: 2
+    x: 10
+    y: 30
+    width: 250
+    height: 250
+  RootNodeId: 1
+  AllNodes:
+  - rid: 8886143299779821589
+  - rid: 8886143299779821590
+  - rid: 8886143299779821591
+  - rid: 8886143299779821592
+  - rid: 8886143299779821593
+  - rid: 8886143299779821594
+  - rid: 8886143299779821595
+  - rid: 8886143299779821596
+  BBParams:
+  - rid: 8886143299779821597
+  - rid: 8886143299779821598
+  CommentBlocks:
+  - Comment: log1
+    Color: {r: 0, g: 0, b: 0, a: 0.3}
+    Position: {x: 390.86487, y: 609.87085}
+    NodeIds: 0300000004000000
+  - Comment: log2
+    Color: {r: 0, g: 0, b: 0, a: 0.3}
+    Position: {x: 698.0816, y: 615.95435}
+    NodeIds: 0500000006000000
+  - Comment: log3
+    Color: {r: 0, g: 0, b: 0, a: 0.3}
+    Position: {x: 976.90875, y: 608.35}
+    NodeIds: 0700000008000000
+  references:
+    version: 2
+    RefIds:
+    - rid: 8886143299779821589
+      type: {class: RootNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 1
+        Position: {x: 559.3333, y: 122.66667}
+        ParentNodeId: 0
+        ChildId: 2
+    - rid: 8886143299779821590
+      type: {class: SequenceNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 2
+        Position: {x: 556.6667, y: 277.33334}
+        ParentNodeId: 1
+        ChildIdList: 030000000400000005000000060000000700000008000000
+    - rid: 8886143299779821591
+      type: {class: DelayNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 3
+        Position: {x: 210, y: 578.6667}
+        ParentNodeId: 2
+        DelayTime:
+          Key: Delay1
+          Value: 0
+    - rid: 8886143299779821592
+      type: {class: LogNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 4
+        Position: {x: 330.6667, y: 578.6667}
+        ParentNodeId: 2
+        Level: 0
+        Log:
+          Key: Log1
+          Value: 
+    - rid: 8886143299779821593
+      type: {class: DelayNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 5
+        Position: {x: 519.3333, y: 578.6667}
+        ParentNodeId: 2
+        DelayTime:
+          Key: 
+          Value: 2
+    - rid: 8886143299779821594
+      type: {class: LogNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 6
+        Position: {x: 655.3334, y: 578.6667}
+        ParentNodeId: 2
+        Level: 1
+        Log:
+          Key: 
+          Value: log2
+    - rid: 8886143299779821595
+      type: {class: DelayNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 7
+        Position: {x: 844, y: 586}
+        ParentNodeId: 2
+        DelayTime:
+          Key: 
+          Value: 3
+    - rid: 8886143299779821596
+      type: {class: LogNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 8
+        Position: {x: 958, y: 584.6667}
+        ParentNodeId: 2
+        Level: 2
+        Log:
+          Key: 
+          Value: log3
+    - rid: 8886143299779821597
+      type: {class: BBParamFloat, ns: , asm: Assembly-CSharp}
+      data:
+        Key: Delay1
+        Value: 1
+    - rid: 8886143299779821598
+      type: {class: BBParamString, ns: , asm: Assembly-CSharp}
+      data:
+        Key: Log1
+        Value: log1

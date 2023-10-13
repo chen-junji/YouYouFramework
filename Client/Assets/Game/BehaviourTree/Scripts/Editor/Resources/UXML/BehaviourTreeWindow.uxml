@@ -1,0 +1,29 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <SplitView style="flex-direction: row; flex-grow: 1; flex-shrink: 0; opacity: 1;">
+        <ui:VisualElement name="left" style="width: 30%;">
+            <uie:Toolbar style="justify-content: center;">
+                <ui:Label text="节点属性" display-tooltip-when-elided="true" />
+            </uie:Toolbar>
+            <ui:ScrollView mode="VerticalAndHorizontal" style="flex-grow: 1;">
+                <ui:VisualElement name="leftContent" style="flex-grow: 1;">
+                    <InspectorView name="inspector" style="flex-grow: 1;" />
+                </ui:VisualElement>
+            </ui:ScrollView>
+        </ui:VisualElement>
+        <ui:VisualElement name="right" style="width: 70%;">
+            <uie:Toolbar style="justify-content: space-between; align-items: stretch;">
+                <ui:DropdownField index="-1" name="dropdownBTSO" style="flex-grow: 0; align-items: stretch; flex-direction: row-reverse; opacity: 1; display: flex; visibility: visible; overflow: hidden; flex-shrink: 0;">
+                    <ui:Label text="选择行为树:" display-tooltip-when-elided="true" />
+                </ui:DropdownField>
+                <uie:ObjectField name="ObjBTSO" style="align-items: stretch; justify-content: flex-start; transform-origin: center; translate: 0 0;">
+                    <ui:Button text="保存" display-tooltip-when-elided="true" name="btnSave" />
+                    <ui:Button text="另存为" display-tooltip-when-elided="true" name="btnSaveAs" />
+                    <ui:Button text="新建" display-tooltip-when-elided="true" name="btnNew" />
+                </uie:ObjectField>
+            </uie:Toolbar>
+            <ui:VisualElement name="rightContent" style="flex-grow: 1;">
+                <BehaviourTreeGraphView focusable="true" name="graphView" allow-scene-objects="false" style="flex-grow: 1;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </SplitView>
+</ui:UXML>
