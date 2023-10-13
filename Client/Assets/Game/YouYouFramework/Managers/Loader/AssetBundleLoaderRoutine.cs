@@ -23,14 +23,19 @@ namespace YouYou
         public AssetBundleCreateRequest CurrAssetBundleCreateRequest { get; private set; }
 
         /// <summary>
+        /// 加载资源包完毕
+        /// </summary>
+        public Action<AssetBundle> OnLoadAssetBundleComplete;
+
+        /// <summary>
         /// 资源包创建请求更新
         /// </summary>
         public Action<float> OnAssetBundleCreateUpdate;
 
         /// <summary>
-        /// 加载资源包完毕
+        /// 资源包下载请求更新（边玩边下载才会触发）
         /// </summary>
-        public Action<AssetBundle> OnLoadAssetBundleComplete;
+        public Action<float> OnAssetBundleDownloadUpdate;
 
         #region LoadAssetBundle 加载资源包
         public void LoadAssetBundleAsync(string assetBundlePath)
@@ -64,7 +69,7 @@ namespace YouYou
                 MainEntry.Download.BeginDownloadSingle(assetBundlePath, (url, currSize, progress) =>
                 {
                     //YouYou.GameEntry.LogError(progress);
-                    OnAssetBundleCreateUpdate?.Invoke(progress);
+                    OnAssetBundleDownloadUpdate?.Invoke(progress);
                 }, (string fileUrl) =>
                 {
                     //下载完毕，从可写区加载
@@ -152,7 +157,7 @@ namespace YouYou
             else
             {
                 //加载进度
-                //OnAssetBundleCreateUpdate?.Invoke(m_CurrAssetBundleCreateRequest.progress);
+                OnAssetBundleCreateUpdate?.Invoke(CurrAssetBundleCreateRequest.progress);
             }
         }
         #endregion

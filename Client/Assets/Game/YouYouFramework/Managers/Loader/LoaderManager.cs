@@ -136,7 +136,7 @@ namespace YouYou
         /// <summary>
         /// 加载资源包
         /// </summary>
-        public void LoadAssetBundleAction(string assetbundlePath, Action<float> onUpdate = null, Action<AssetBundle> onComplete = null)
+        public void LoadAssetBundleAction(string assetbundlePath, Action<AssetBundle> onComplete = null, Action<float> onUpdate = null,Action<float>onDownloadUpdate = null)
         {
             //使用TaskGroup, 加入异步加载队列, 防止高并发导致的重复加载
             AssetBundleTaskGroup.AddTask((taskRoutine) =>
@@ -157,6 +157,7 @@ namespace YouYou
                 m_AssetBundleLoaderList.AddLast(loadRoutine);
                 //资源包加载 监听回调
                 loadRoutine.OnAssetBundleCreateUpdate = onUpdate;
+                loadRoutine.OnAssetBundleDownloadUpdate = onDownloadUpdate;
                 loadRoutine.OnLoadAssetBundleComplete = (AssetBundle assetbundle) =>
                 {
                     //资源包注册到资源池
@@ -173,19 +174,19 @@ namespace YouYou
             AssetBundleTaskGroup.Run();
         }
 
-        public UniTask<AssetBundle> LoadAssetBundleAsync(string assetbundlePath, Action<float> onUpdate = null)
+        public UniTask<AssetBundle> LoadAssetBundleAsync(string assetbundlePath, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null)
         {
             var task = new UniTaskCompletionSource<AssetBundle>();
-            LoadAssetBundleAction(assetbundlePath, onUpdate, (ab) =>
+            LoadAssetBundleAction(assetbundlePath, (ab) =>
             {
                 task.TrySetResult(ab);
-            });
+            }, onUpdate, onDownloadUpdate);
             return task.Task;
         }
         /// <summary>
         /// 加载主资源包和依赖资源包
         /// </summary>
-        public async UniTask<AssetBundle> LoadAssetBundleMainAndDependAsync(string assetFullName, Action<float> onUpdate = null)
+        public async UniTask<AssetBundle> LoadAssetBundleMainAndDependAsync(string assetFullName, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null)
         {
             AssetInfoEntity assetEntity = GameEntry.Loader.GetAssetEntity(assetFullName);
             if (assetEntity == null) return null;
@@ -201,7 +202,7 @@ namespace YouYou
             }
 
             //加载主资源包
-            AssetBundle m_MainAssetBundle = await GameEntry.Loader.LoadAssetBundleAsync(assetEntity.AssetBundleName, onUpdate);
+            AssetBundle m_MainAssetBundle = await GameEntry.Loader.LoadAssetBundleAsync(assetEntity.AssetBundleName, onUpdate, onDownloadUpdate);
             if (m_MainAssetBundle == null)
             {
                 GameEntry.LogError(LogCategory.Loader, "MainAssetBundle not exists " + assetEntity.AssetFullName);
@@ -325,12 +326,12 @@ namespace YouYou
         /// <summary>
         /// 异步加载主资源(自动加载依赖)
         /// </summary>
-        public async UniTask<T> LoadMainAssetAsync<T>(string assetPath, Action<float> onUpdate = null) where T : Object
+        public async UniTask<T> LoadMainAssetAsync<T>(string assetPath, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null) where T : Object
         {
-            AssetReferenceEntity resEntity = await LoadMainAssetAsync(assetPath, onUpdate);
+            AssetReferenceEntity resEntity = await LoadMainAssetAsync(assetPath, onUpdate, onDownloadUpdate);
             return resEntity.Target as T;
         }
-        public async UniTask<AssetReferenceEntity> LoadMainAssetAsync(string assetPath, Action<float> onUpdate = null)
+        public async UniTask<AssetReferenceEntity> LoadMainAssetAsync(string assetPath, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null)
         {
             //从分类资源池(AssetPool)中查找主资源
             AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetPath);
@@ -344,7 +345,7 @@ namespace YouYou
             referenceEntity = AssetReferenceEntity.Create(assetPath, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetPath));
 #else
             //加载主资源包和依赖资源包
-            AssetBundle mainAssetBundle = await GameEntry.Loader.LoadAssetBundleMainAndDependAsync(assetPath, onUpdate);
+            AssetBundle mainAssetBundle = await GameEntry.Loader.LoadAssetBundleMainAndDependAsync(assetPath, onUpdate, onDownloadUpdate);
 
             //从分类资源池(AssetPool)中查找主资源 (再次查找是为了防止高并发情况下，异步加载AssetBundle后，AssetPool内已经有Asset对象了)
             referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetPath);

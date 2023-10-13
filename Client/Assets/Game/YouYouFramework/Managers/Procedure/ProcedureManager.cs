@@ -11,8 +11,8 @@ namespace YouYou
     /// </summary>
     public enum ProcedureState
     {
-        /// <summary>
         None,
+        /// <summary>
         /// 初始化
         /// </summary>
         Launch,
