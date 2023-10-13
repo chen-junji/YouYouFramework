@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <SplitView style="flex-direction: row; flex-grow: 1; flex-shrink: 0; opacity: 1;">
-        <ui:VisualElement name="left" style="width: 30%;">
+        <ui:VisualElement name="left" style="width: 30%; min-width: 400px;">
             <uie:Toolbar style="justify-content: center;">
                 <ui:Label text="节点属性" display-tooltip-when-elided="true" />
             </uie:Toolbar>
