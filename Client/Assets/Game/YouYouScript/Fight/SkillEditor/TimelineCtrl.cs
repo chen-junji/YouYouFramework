@@ -8,25 +8,25 @@ using UnityEngine.Timeline;
 namespace YouYou
 {
     /// <summary>
-    /// 技能控制器
+    /// 鎶�鑳芥帶鍒跺櫒
     /// </summary>
     public class TimelineCtrl : MonoBehaviour
     {
         private PlayableDirector m_CurrPlayableDirector;
 
-        //轨道剪辑触发 委托
+        //杞ㄩ亾鍓緫瑙﹀彂 濮旀墭
         public Action<PlayAnimEventArgs> PlayAnim;
         public Action<PlayResourceEventArgs, float> PlayResource;
         public Action<PlaySoundEventArgs> PlaySound;
         public Action<HurtPointEventArgs> HurtPoint;
 
         /// <summary>
-        /// 停止播放委托
+        /// 鍋滄鎾斁濮旀墭
         /// </summary>
         public Action OnStopped;
 
         /// <summary>
-        /// 攻击结束时间
+        /// 鏀诲嚮缁撴潫鏃堕棿
         /// </summary>
         public float AttackEndTime { get; private set; }
 
