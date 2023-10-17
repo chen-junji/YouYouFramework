@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace YouYou
 {
-    public class AssetBundlePool : MonoBehaviour
+    public class AssetBundlePool
     {
 #if UNITY_EDITOR
         /// <summary>

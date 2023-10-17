@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ViewportRect:
     serializedVersion: 2
-    x: 160
-    y: -155
-    width: 0.65751624
-    height: 0.65751624
-  InspectorWidth: 517
+    x: -61
+    y: -4
+    width: 1
+    height: 1
+  InspectorWidth: 400
   BlackBoardRect:
     serializedVersion: 2
     x: 10
@@ -27,46 +27,47 @@ MonoBehaviour:
     height: 250
   RootNodeId: 1
   AllNodes:
-  - rid: 3884442940481732619
-  - rid: 3884442940481732620
-  - rid: 3884442940481732621
-  - rid: 3884442940481732622
-  - rid: 3884442940481732623
-  - rid: 3884442940481732624
-  - rid: 3884442940481732625
-  - rid: 3884442940481732626
+  - rid: 3884442940481732764
+  - rid: 3884442940481732765
+  - rid: 3884442940481732766
+  - rid: 3884442940481732767
+  - rid: 3884442940481732768
+  - rid: 3884442940481732769
+  - rid: 3884442940481732770
+  - rid: 3884442940481732771
+  - rid: 3884442940481732772
   BBParams:
-  - rid: 3884442940481732627
-  - rid: 3884442940481732628
+  - rid: 3884442940481732773
+  - rid: 3884442940481732774
   CommentBlocks:
   - Comment: log1
     Color: {r: 0, g: 0, b: 0, a: 0.3}
     Position: {x: 390.86487, y: 609.87085}
-    NodeIds: 0300000004000000
+    NodeIds: 030000000400000009000000
   - Comment: log2
     Color: {r: 0, g: 0, b: 0, a: 0.3}
-    Position: {x: 698.0816, y: 615.95435}
+    Position: {x: 400, y: 520}
     NodeIds: 0500000006000000
   - Comment: "\u91CA\u653E\u6280\u80FD1"
     Color: {r: 0, g: 0, b: 0, a: 0.3}
-    Position: {x: 976.90875, y: 608.35}
+    Position: {x: 598, y: 522}
     NodeIds: 0700000008000000
   references:
     version: 2
     RefIds:
-    - rid: 3884442940481732619
+    - rid: 3884442940481732764
       type: {class: RootNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 1
         Position: {x: 559.3333, y: 122.66667}
         ChildId: 2
-    - rid: 3884442940481732620
+    - rid: 3884442940481732765
       type: {class: SequenceNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 2
         Position: {x: 556.6667, y: 277.33334}
         ChildIdList: 030000000400000005000000060000000700000008000000
-    - rid: 3884442940481732621
+    - rid: 3884442940481732766
       type: {class: DelayNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 3
@@ -74,54 +75,62 @@ MonoBehaviour:
         DelayTime:
           Key: Delay1
           Value: 0
-    - rid: 3884442940481732622
+    - rid: 3884442940481732767
       type: {class: LogNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 4
-        Position: {x: 330.6667, y: 578.6667}
+        Position: {x: 284, y: 579}
         Level: 0
         Log:
           Key: Log1
           Value: 
-    - rid: 3884442940481732623
+    - rid: 3884442940481732768
       type: {class: DelayNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 5
-        Position: {x: 519.3333, y: 578.6667}
+        Position: {x: 425, y: 579}
         DelayTime:
           Key: 
           Value: 2
-    - rid: 3884442940481732624
+    - rid: 3884442940481732769
       type: {class: LogNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 6
-        Position: {x: 655.3334, y: 578.6667}
+        Position: {x: 499, y: 579}
         Level: 1
         Log:
           Key: 
           Value: log2
-    - rid: 3884442940481732625
+    - rid: 3884442940481732770
       type: {class: DelayNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 7
-        Position: {x: 844, y: 586}
+        Position: {x: 623, y: 584}
         DelayTime:
           Key: 
           Value: 3
-    - rid: 3884442940481732626
+    - rid: 3884442940481732771
       type: {class: SpwnObjNode, ns: , asm: Assembly-CSharp}
       data:
         Id: 8
-        Position: {x: 963, y: 586}
+        Position: {x: 697, y: 584}
         SpwnObjName:
           Key: 
           Value: Skill1
-    - rid: 3884442940481732627
+    - rid: 3884442940481732772
+      type: {class: SpwnObjNode, ns: , asm: Assembly-CSharp}
+      data:
+        Id: 9
+        Position: {x: 210, y: 579}
+        SpwnObjName:
+          Key: 
+          Value: Skill1
+    - rid: 3884442940481732773
       type: {class: BBParamFloat, ns: , asm: Assembly-CSharp}
       data:
         Key: Delay1
         Value: 1
-    - rid: 3884442940481732628
+    - rid: 3884442940481732774
       type: {class: BBParamString, ns: , asm: Assembly-CSharp}
       data:
         Key: Log1
