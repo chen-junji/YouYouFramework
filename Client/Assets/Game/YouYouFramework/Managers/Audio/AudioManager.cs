@@ -59,7 +59,7 @@ namespace YouYou
                 //淡出
                 if (isFadeOut && interimBGMVolume > 0)
                 {
-                    interimBGMVolume -= Time.deltaTime * 2;//0.5秒淡出时间
+                    interimBGMVolume -= Time.unscaledDeltaTime * 2;//0.5秒淡出时间
                     SetBGMVolume(BGMVolume);//这里是为了刷新音量
                 }
                 else
@@ -90,7 +90,7 @@ namespace YouYou
                 //淡入
                 if (isFadeIn && interimBGMVolume < 1)
                 {
-                    interimBGMVolume += Time.deltaTime * 2;//0.5秒淡入时间
+                    interimBGMVolume += Time.unscaledDeltaTime * 2;//0.5秒淡入时间
                     SetBGMVolume(BGMVolume);//这里是为了刷新音量
                 }
                 else if (interimBGMVolume != 1)
@@ -100,49 +100,6 @@ namespace YouYou
                 }
             }
 
-        }
-
-        private void RefreshMasterVolume(object userData)
-        {
-            SetMasterVolume(GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.MasterVolume));
-        }
-        private void RefreshAudio(object userData)
-        {
-            SetAudioVolume(GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.AudioVolume));
-        }
-        private void RefreshBGM(object userData)
-        {
-            SetBGMVolume(GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.BGMVolume));
-        }
-        public void SetMasterVolume(float volume)
-        {
-            MasterVolume = volume;
-            SetMixerVolume(PlayerPrefsDataMgr.EventName.MasterVolume.ToString(), MasterVolume);
-        }
-        public void SetAudioVolume(float volume)
-        {
-            AudioVolume = volume;
-            SetMixerVolume(PlayerPrefsDataMgr.EventName.AudioVolume.ToString(), AudioVolume);
-        }
-        public void SetBGMVolume(float volume)
-        {
-            BGMVolume = volume;
-            SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), BGMVolume * interimBGMVolume);
-        }
-        private void SetMixerVolume(string key, float volume)
-        {
-            //因为Mixer内我们要修改的音量是db， 而存档里的音量是0-1形式的百分比， 所以这里要做转换
-            volume = (float)(20 * Math.Log10(volume / 1));
-            GameEntry.Instance.MonsterMixer.SetFloat(key, volume);
-        }
-
-        private void OnGamePause(object userData)
-        {
-            int GamePause = userData.ToInt();
-            AudioSourceList.ForEach(x =>
-            {
-                if (x != null) x.mute = GamePause == 1;
-            });
         }
 
         #region BGM
@@ -272,6 +229,49 @@ namespace YouYou
         }
 
         #endregion
+
+        private void RefreshMasterVolume(object userData)
+        {
+            SetMasterVolume(GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.MasterVolume));
+        }
+        private void RefreshAudio(object userData)
+        {
+            SetAudioVolume(GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.AudioVolume));
+        }
+        private void RefreshBGM(object userData)
+        {
+            SetBGMVolume(GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.BGMVolume));
+        }
+        private void OnGamePause(object userData)
+        {
+            int GamePause = userData.ToInt();
+            AudioSourceList.ForEach(x =>
+            {
+                if (x != null) x.mute = GamePause == 1;
+            });
+        }
+
+        public void SetMasterVolume(float volume)
+        {
+            MasterVolume = volume;
+            SetMixerVolume(PlayerPrefsDataMgr.EventName.MasterVolume.ToString(), MasterVolume);
+        }
+        public void SetAudioVolume(float volume)
+        {
+            AudioVolume = volume;
+            SetMixerVolume(PlayerPrefsDataMgr.EventName.AudioVolume.ToString(), AudioVolume);
+        }
+        public void SetBGMVolume(float volume)
+        {
+            BGMVolume = volume;
+            SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), BGMVolume * interimBGMVolume);
+        }
+        private void SetMixerVolume(string key, float volume)
+        {
+            //因为Mixer内我们要修改的音量是db， 而存档里的音量是0-1形式的百分比， 所以这里要做转换
+            volume = (float)(20 * Math.Log10(volume / 1));
+            GameEntry.Instance.MonsterMixer.SetFloat(key, volume);
+        }
 
     }
 }
