@@ -14,7 +14,12 @@ public class TestAudio : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.S))
         {
-            GameEntry.Audio.PlayAudio(AudioName.UIClick);
+            GameEntry.Audio.PlayAudio(AudioName.button_sound);
+        }
+
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+            GameEntry.Audio.PlayBGM(BGMName.button_sound);
         }
     }
 }

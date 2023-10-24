@@ -129,6 +129,7 @@ namespace YouYou
             Scene.OnUpdate();
             Loader.OnUpdate();
             UI.OnUpdate();
+            Audio.OnUpdate();
             Input.OnUpdate();
             Task.OnUpdate();
         }

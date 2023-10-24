@@ -17,6 +17,19 @@ namespace YouYou
         public float BGMVolume { get; private set; }
         public float AudioVolume { get; private set; }
 
+        //目标BGM剪辑
+        private AudioClip targetBGMAudioClip;
+        //目标BGM是否循环
+        private bool targetBGMIsLoop;
+        //目标BGM音量
+        private float targetBGMClipVolume;
+
+        //BGM淡入淡出过渡音量
+        private float interimBGMVolume;
+
+        //是否需要淡入淡出
+        private bool isFadeIn;
+        private bool isFadeOut;
 
         public void Init()
         {
@@ -38,6 +51,55 @@ namespace YouYou
             RefreshMasterVolume(null);
             RefreshBGM(null);
             RefreshAudio(null);
+        }
+        public void OnUpdate()
+        {
+            if (BGMSource.clip != targetBGMAudioClip)
+            {
+                //淡出
+                if (isFadeOut && interimBGMVolume > 0)
+                {
+                    interimBGMVolume -= Time.deltaTime * 2;//0.5秒淡出时间
+                    SetBGMVolume(BGMVolume);//这里是为了刷新音量
+                }
+                else
+                {
+                    //淡出完毕, 或者不需要淡出
+                    if (targetBGMAudioClip != null)
+                    {
+                        //播放新的背景音乐
+                        BGMSource.clip = targetBGMAudioClip;
+                        BGMSource.loop = targetBGMIsLoop;
+                        BGMSource.volume = targetBGMClipVolume;
+                        BGMSource.Play();
+
+                        interimBGMVolume = 0;
+                        SetBGMVolume(BGMVolume);//这里是为了刷新音量
+
+                    }
+                    else
+                    {
+                        //没新的背景音乐 停止播放
+                        BGMSource.Stop();
+                        BGMSource.clip = null;
+                    }
+                }
+            }
+            else
+            {
+                //淡入
+                if (isFadeIn && interimBGMVolume < 1)
+                {
+                    interimBGMVolume += Time.deltaTime * 2;//0.5秒淡入时间
+                    SetBGMVolume(BGMVolume);//这里是为了刷新音量
+                }
+                else if (interimBGMVolume != 1)
+                {
+                    interimBGMVolume = 1;
+                    SetBGMVolume(BGMVolume);//这里是为了刷新音量
+                }
+            }
+
         }
 
         private void RefreshMasterVolume(object userData)
@@ -65,7 +127,7 @@ namespace YouYou
         public void SetBGMVolume(float volume)
         {
             BGMVolume = volume;
-            SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), BGMVolume);
+            SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), BGMVolume * interimBGMVolume);
         }
         private void SetMixerVolume(string key, float volume)
         {
@@ -86,8 +148,6 @@ namespace YouYou
         #region BGM
         public AudioSource BGMSource { get; private set; }
         public Sys_BGMEntity CurrBGMEntity;
-        private TimeAction timeActionIn;
-        private TimeAction timeActionOut;
 
         public void PlayBGM(BGMName audioName)
         {
@@ -104,78 +164,30 @@ namespace YouYou
 
             CurrBGMEntity = entity;
             AudioClip audioClip = GameEntry.Loader.LoadMainAsset<AudioClip>(CurrBGMEntity.AssetPath);
-            PlayBGM(audioClip, CurrBGMEntity.IsLoop == 1, CurrBGMEntity.IsFadeIn == 1, CurrBGMEntity.Volume);
+            PlayBGM(audioClip, CurrBGMEntity.IsLoop == 1, CurrBGMEntity.Volume, CurrBGMEntity.IsFadeIn == 1, CurrBGMEntity.IsFadeOut == 1);
         }
-        public void PlayBGM(AudioClip audioClip, bool isLoop, bool isFadeIn, float entityVolume)
+        public void PlayBGM(AudioClip audioClip, bool isLoop, float volume, bool isFadeIn, bool isFadeOut)
         {
             if (audioClip == null)
             {
                 GameEntry.LogError(LogCategory.Audio, "audioClip==null");
                 return;
             }
-            StopBGM(() =>
-            {
-                BGMSource.clip = audioClip;
-                BGMSource.loop = isLoop;
-                BGMSource.volume = entityVolume;
-                BGMSource.Play();
+            targetBGMAudioClip = audioClip;
+            targetBGMIsLoop = isLoop;
+            targetBGMClipVolume = volume;
+            this.isFadeIn = isFadeIn;
+            this.isFadeOut = isFadeOut;
 
-                if (isFadeIn)
-                {
-                    //把音量逐渐变成Max
-                    if (timeActionIn != null)
-                    {
-                        timeActionIn.Stop();
-                        timeActionIn = null;
-                    }
-                    SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), 0);
-                    int loopCount = 10;
-                    timeActionIn = GameEntry.Time.CreateTimerLoop(this, interval: 0.1f, loop: loopCount, unScaled: true, onUpdate: (int loop) =>
-                    {
-                        //得到一个0-1的音量值
-                        float volume = (loopCount - loop) / (float)loopCount;
-                        SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), BGMVolume * volume);
-                    }, onComplete: () =>
-                    {
-                        timeActionIn = null;
-                    });
-                }
-                else
-                {
-                    SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), BGMVolume);
-                }
-            });
-            GameEntry.Log(LogCategory.Audio, "PlayBGM, Volume=={0}", entityVolume);
+            GameEntry.Log(LogCategory.Audio, "PlayBGM, audioClip=={0}, volume=={1}", audioClip, volume);
         }
 
-        internal void StopBGM(Action volumeOut = null)
+        internal void StopBGM(bool isFadeOut)
         {
-            if (CurrBGMEntity == null || CurrBGMEntity.IsFadeOut == 0)
-            {
-                BGMSource.Stop();
-                volumeOut?.Invoke();
-                return;
-            }
-
-            if (timeActionOut != null)
-            {
-                timeActionOut.Stop();
-                timeActionOut = null;
-            }
             //把音量逐渐变成0 再停止
-            int loopCount = 10;
-            timeActionOut = GameEntry.Time.CreateTimerLoop(this, interval: 0.1f, loop: loopCount, unScaled: true, onUpdate: (int loop) =>
-            {
-                //得到一个0-1的音量值
-                float volume = (loop / (float)loopCount);
-                SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), BGMVolume * volume);
-            }, onComplete: () =>
-            {
-                timeActionOut = null;
-                BGMSource.Stop();
-                volumeOut?.Invoke();
-            });
-            GameEntry.Log(LogCategory.Audio, CurrBGMEntity.Volume + "StopBGM");
+            targetBGMAudioClip = null;
+            this.isFadeOut = isFadeOut;
+            GameEntry.Log(LogCategory.Audio, "StopBGM");
         }
 
         public void PauseBGM(bool isPause)
@@ -188,7 +200,7 @@ namespace YouYou
             {
                 BGMSource.UnPause();
             }
-            GameEntry.Log(LogCategory.Audio, CurrBGMEntity.Volume + "PauseBGM");
+            GameEntry.Log(LogCategory.Audio, BGMSource.clip + "PauseBGM");
 
         }
         #endregion

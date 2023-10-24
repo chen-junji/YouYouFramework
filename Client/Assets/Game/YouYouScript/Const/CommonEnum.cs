@@ -11,11 +11,11 @@ public enum BGMName : uint
 {
     None,
     maintheme1,
+    button_sound,
 }
 public enum AudioName : uint
 {
-    UIClick,
-    UIClose,
+    button_sound,
 }
 public enum SceneGroupName : uint
 {
