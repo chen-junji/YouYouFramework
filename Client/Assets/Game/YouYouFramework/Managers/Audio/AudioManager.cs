@@ -130,7 +130,7 @@ namespace YouYou
                     }
                     SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), 0);
                     int loopCount = 10;
-                    timeActionIn = GameEntry.Time.Create(interval: 0.1f, loop: loopCount, unScaled: true, onUpdate: (int loop) =>
+                    timeActionIn = GameEntry.Time.CreateTimerLoop(this, interval: 0.1f, loop: loopCount, unScaled: true, onUpdate: (int loop) =>
                     {
                         //得到一个0-1的音量值
                         float volume = (loopCount - loop) / (float)loopCount;
@@ -164,7 +164,7 @@ namespace YouYou
             }
             //把音量逐渐变成0 再停止
             int loopCount = 10;
-            timeActionOut = GameEntry.Time.Create(interval: 0.1f, loop: loopCount, unScaled: true, onUpdate: (int loop) =>
+            timeActionOut = GameEntry.Time.CreateTimerLoop(this, interval: 0.1f, loop: loopCount, unScaled: true, onUpdate: (int loop) =>
             {
                 //得到一个0-1的音量值
                 float volume = (loop / (float)loopCount);

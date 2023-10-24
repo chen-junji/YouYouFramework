@@ -39,8 +39,17 @@ namespace YouYou
             }
             else
             {
-                if (!m_SortedDictionary.ContainsKey(tillTime)) m_SortedDictionary.Add(tillTime, new List<TimeAction>());
-                m_SortedDictionary[tillTime].Add(action);
+                if (m_SortedDictionary.TryGetValue(tillTime, out List<TimeAction> lst))
+                {
+                    lst.Add(action);
+                }
+                else
+                {
+                    lst = new List<TimeAction>();
+                    lst.Add(action);
+                    m_SortedDictionary.Add(tillTime, lst);
+
+                }
                 if (tillTime < minTime) minTime = tillTime;
             }
         }
@@ -82,14 +91,14 @@ namespace YouYou
                 }
                 foreach (var item in timeOutTime)
                 {
-                    if (m_SortedDictionary.ContainsKey(item) == false) continue;
-
-                    List<TimeAction> lst = m_SortedDictionary[item];
-                    for (int i = 0; i < lst.Count; i++)
+                    if (m_SortedDictionary.TryGetValue(item, out List<TimeAction> lst))
                     {
-                        lst[i].TillTimeEnd();
+                        for (int i = 0; i < lst.Count; i++)
+                        {
+                            lst[i].TillTimeEnd();
+                        }
+                        m_SortedDictionary.Remove(item);
                     }
-                    m_SortedDictionary.Remove(item);
                 }
                 timeOutTime.Clear();
             }
@@ -122,25 +131,34 @@ namespace YouYou
         }
 
         /// <summary>
-        /// 创建定时器
+        /// 创建定时器，可循环多次
         /// </summary>
-        /// <param name="delayTime">延迟时间</param>
-        /// <param name="onStar">延迟时间结束时调用</param>
         /// <param name="interval">间隔时间</param>
         /// <param name="loop">循环次数</param>
         /// <param name="onUpdate">循环一次时调用</param>
         /// <param name="onComplete">全部循环完毕时调用</param>
         /// <param name="unScaled">是否无视Time.timeScale</param>
         /// <returns>定时器</returns>
-        public TimeAction Create(float delayTime = 1, Action onStar = null, float interval = 0, int loop = 1, Action<int> onUpdate = null, Action onComplete = null, bool unScaled = false)
+        public TimeAction CreateTimerLoop(object target, float interval, int loop = 1, Action<int> onUpdate = null, Action onComplete = null, bool unScaled = false)
         {
-            return new TimeAction().Init(delayTime, onStar, interval, loop, onUpdate, onComplete, unScaled);
+            return new TimeAction().Init(target, interval, loop, onUpdate, onComplete, unScaled);
         }
 
-        public UniTask Delay(float delayTime, bool unScaled = false)
+        /// <summary>
+        /// 等待n秒 只执行一次
+        /// </summary>
+        public TimeAction CreateTimer(object target, float delayTime, Action onComplete, bool unScaled = false)
+        {
+            return new TimeAction().Init(target, delayTime, 1, null, onComplete, unScaled);
+        }
+
+        /// <summary>
+        /// 等待n秒 只执行一次
+        /// </summary>
+        public UniTask Delay(object target, float delayTime, bool unScaled = false)
         {
             var task = new UniTaskCompletionSource();
-            Create(delayTime, () => task.TrySetResult(), unScaled: unScaled);
+            CreateTimer(target, delayTime, () => task.TrySetResult(), unScaled);
             return task.Task;
         }
 

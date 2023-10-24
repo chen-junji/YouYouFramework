@@ -11,11 +11,6 @@ namespace YouYou
     public class TimeAction
     {
         /// <summary>
-        /// 是否运行中
-        /// </summary>
-        public bool IsStart { get; private set; }
-
-        /// <summary>
         /// 临时目标时间点
         /// </summary>
         private float tillTime;
@@ -31,7 +26,7 @@ namespace YouYou
         private float m_Interval;
 
         /// <summary>
-        /// 循环次数(-1表示 无限循环 0也会循环一次)
+        /// 目标循环次数(-1表示 无限循环 0也会循环一次)
         /// </summary>
         private int m_Loop;
 
@@ -44,9 +39,6 @@ namespace YouYou
         /// 是否无视时间缩放 TODO
         /// </summary>
         private bool Unscaled;
-        /// 开始运行
-        /// </summary>
-        public Action OnStartAction { get; private set; }
 
         /// <summary>
         /// 运行中 回调参数表示剩余次数
@@ -59,23 +51,25 @@ namespace YouYou
         public Action OnCompleteAction { get; private set; }
 
         /// <summary>
+        /// 用于判断委托方是不是为null，如果为null则不调用委托， 避免报错
+        /// </summary>
+        public object Target { get; private set; }
+
+        /// <summary>
         /// 初始化
         /// </summary>
-        /// <param name="timeName">定时器名字</param>
-        /// <param name="delayTime">延迟时间</param>
-        /// <param name="interval">间隔</param>
-        /// <param name="loop">循环次数</param>
-        internal TimeAction Init(float delayTime, Action onStar, float interval, int loop, Action<int> onUpdate, Action onComplete, bool unScaled)
+        internal TimeAction Init(object target, float interval, int loop, Action<int> onUpdate, Action onComplete, bool unScaled)
         {
             if (tillTime > 0)
             {
                 YouYou.GameEntry.LogError(LogCategory.Framework, "定时器正在使用中");
                 return null;
             }
+            Target = target;
+
             Unscaled = unScaled;
 
-            tillTime = (Unscaled ? Time.unscaledTime : Time.time) + delayTime;
-            OnStartAction = onStar;
+            tillTime = (Unscaled ? Time.unscaledTime : Time.time) + interval;
 
             m_Interval = interval;
             m_Loop = loop;
@@ -96,8 +90,6 @@ namespace YouYou
             if (tillTime == 0) return;
 
             GameEntry.Time.Remove(tillTime, this, Unscaled);
-            IsStart = false;
-            OnStartAction = null;
             OnUpdateAction = null;
             OnCompleteAction = null;
             tillTime = 0;
@@ -126,44 +118,30 @@ namespace YouYou
         /// </summary>
         public void TillTimeEnd()
         {
-            if (!IsStart)
+            //以下代码 间隔m_Interval 时间 执行一次
+            if (Target == null)
             {
-                if (OnStartAction != null && (OnStartAction.Target == null || OnStartAction.Target.ToString() == "null"))
+                GameEntry.LogWarning(LogCategory.Framework, "TimeAction.OnUpdateAction.Target==null");
+                return;
+            }
+            m_CurrLoop++;
+            OnUpdateAction?.Invoke(m_Loop - m_CurrLoop);
+            if (m_CurrLoop >= m_Loop && m_Loop != -1)//-1表示无限次循环, 那么永远不会执行OnCompleteAction
+            {
+                if (Target == null)
                 {
-                    GameEntry.LogError(LogCategory.Framework, "TimeAction.OnStartAction.Target==null");
+                    GameEntry.LogWarning(LogCategory.Framework, "TimeAction.OnCompleteAction.Target==null");
                     return;
                 }
-                OnStartAction?.Invoke();
+                //完成了，执行OnCompleteAction，结束循环
+                OnCompleteAction?.Invoke();
             }
             else
             {
+                //继续循环
                 tillTime = (Unscaled ? Time.unscaledTime : Time.time) + m_Interval;
+                GameEntry.Time.Register(tillTime, this, Unscaled);
             }
-            IsStart = true;
-
-            //以下代码 间隔m_Interval 时间 执行一次
-
-            if (OnUpdateAction != null && (OnUpdateAction.Target == null || OnUpdateAction.Target.ToString() == "null"))
-            {
-                GameEntry.LogError(LogCategory.Framework, "TimeAction.OnUpdateAction.Target==null");
-                return;
-            }
-            OnUpdateAction?.Invoke(m_Loop - m_CurrLoop);
-            if (m_Loop != -1)
-            {
-                if (m_CurrLoop >= m_Loop)
-                {
-                    if (OnCompleteAction != null && (OnCompleteAction.Target == null || OnCompleteAction.Target.ToString() == "null"))
-                    {
-                        GameEntry.LogError(LogCategory.Framework, "TimeAction.OnCompleteAction.Target==null");
-                        return;
-                    }
-                    OnCompleteAction?.Invoke();
-                    return;
-                }
-                m_CurrLoop++;
-            }
-            GameEntry.Time.Register(tillTime, this, Unscaled);
         }
     }
 }
