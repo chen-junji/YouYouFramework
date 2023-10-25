@@ -13,15 +13,19 @@ namespace YouYou
     {
         public GuideDataMgr GuideDataMgr { get; private set; }
         public PlayerPrefsDataMgr PlayerPrefsDataMgr { get; private set; }
+        public RedDotDataMgr RedDotDataMgr { get; private set; }
+
         internal DataManager()
         {
             GuideDataMgr = new GuideDataMgr();
             PlayerPrefsDataMgr = new PlayerPrefsDataMgr();
+            RedDotDataMgr = new RedDotDataMgr();
         }
         public void Init()
         {
             GuideDataMgr.Init();
             PlayerPrefsDataMgr.Init();
+            RedDotDataMgr.Init();
         }
         public void SaveDataAll()
         {

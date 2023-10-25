@@ -31,11 +31,6 @@ namespace YouYou
         [Header("UI分组")]
         public UIGroup[] UIGroups;
 
-
-        [FoldoutGroup("AudioGroup")]
-        [Header("所有AudioSource的父节点")]
-        public Transform AudioGroup;
-
         [FoldoutGroup("AudioGroup")]
         [Header("声音主混合器")]
         public AudioMixer MonsterMixer;
@@ -65,6 +60,7 @@ namespace YouYou
         public static TaskManager Task { get; private set; }
         public static QualityManager Quality { get; private set; }
         public static GuideManager Guide { get; private set; }
+        public static ReddotMananger Reddot { get; private set; }
 
 
         /// <summary>
@@ -103,6 +99,7 @@ namespace YouYou
             Task = new TaskManager();
             Quality = new QualityManager();
             Guide = new GuideManager();
+            Reddot = new ReddotMananger();
 
             Logger.Init();
             Procedure.Init();
@@ -132,6 +129,7 @@ namespace YouYou
             Audio.OnUpdate();
             Input.OnUpdate();
             Task.OnUpdate();
+            Reddot.OnUpdate();
         }
         private void OnApplicationQuit()
         {
