@@ -6,9 +6,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.WSA;
 using YouYou;
+using static LZ4.LZ4Codec;
 
 public class RedDotCtrl : Singleton<RedDotCtrl>
 {
+    public RedDotCtrl()
+    {
+        //这里改成你自己监听后端回调的代码
+        GameEntry.Event.Common.AddEventListener("E_SVR_MSG_ID_GET_GLOBAL_RED", (x) => ParseTGetGlobalRedRsp(null));
+        GameEntry.Event.Common.AddEventListener("E_SVR_MSG_ID_CLEAR_GLOBAL_RED", (x) => ParseTClearGlobalRedRsp(null));
+    }
+
+    //请求小红点
     private List<int> sVecRedModelsGet = new List<int>();
     private Dictionary<int, string> redModelsGetParams = new Dictionary<int, string>();
     private object sGetRedScheduler = null;
@@ -48,7 +57,7 @@ public class RedDotCtrl : Singleton<RedDotCtrl>
                 req.vectRedModels = sVecRedModelsGet;
                 req.mapExtraData = redModelsGetParams;
 
-                //这里请求后端
+                //这里改成你自己请求后端的代码
                 //MsgManager.sendData(E_SVR_MSG_ID.E_SVR_MSG_ID_GET_GLOBAL_RED, req);
 
                 sVecRedModelsGet.Clear();
@@ -57,7 +66,6 @@ public class RedDotCtrl : Singleton<RedDotCtrl>
             }, true);
         }
     }
-
     public void SetRedDotGetParam(int redDotType, string reqParam)
     {
         if (redModelsGetParams.ContainsKey(redDotType))
@@ -65,7 +73,17 @@ public class RedDotCtrl : Singleton<RedDotCtrl>
         else
             redModelsGetParams.Add(redDotType, reqParam);
     }
+    private void ParseTGetGlobalRedRsp(TGetGlobalRedRsp rsp)
+    {
+        if (rsp.iRet != 0)
+        {
+            GameEntry.LogError(LogCategory.NetWork, "拉取小红点信息出错");
+            return;
+        }
+        RedDotModel.Instance.SetTGetGlobalRedRsp(rsp);
+    }
 
+    //清除小红点
     private List<int> sVecRedModelsCleared = new List<int>();
     private object sClearRedScheduler = null;
     public void SendTClearGlobalRedReq(List<int> vecRedModels)
@@ -102,7 +120,7 @@ public class RedDotCtrl : Singleton<RedDotCtrl>
                 TClearGlobalRedReq req = new TClearGlobalRedReq();
                 req.vecRedModel = sVecRedModelsCleared;
 
-                //请求后端
+                //这里改成你自己请求后端的代码
                 //MsgManager.sendData(E_SVR_MSG_ID.E_SVR_MSG_ID_CLEAR_GLOBAL_RED, req);
 
                 sVecRedModelsCleared.Clear();
@@ -110,8 +128,22 @@ public class RedDotCtrl : Singleton<RedDotCtrl>
             }, true);
         }
     }
+    private void ParseTClearGlobalRedRsp(TClearGlobalRedRsp rsp)
+    {
+        if (rsp.iRet != 0)
+        {
+            GameEntry.LogError(LogCategory.NetWork, "清除小红点信息出错");
+            return;
+        }
+        RedDotModel.Instance.SetTClearGlobalRedRsp(rsp);
+    }
+
 }
 
+
+/// <summary>
+/// 
+/// </summary>
 public class RedDotModel : Observable<RedDotModel, RedDotModel.EventName>
 {
     public enum EventName : uint
@@ -142,14 +174,8 @@ public class RedDotModel : Observable<RedDotModel, RedDotModel.EventName>
         return TGlobalRedInfo;
     }
 
-    public void ParseTGetGlobalRedRsp(TGetGlobalRedRsp rsp)
+    public void SetTGetGlobalRedRsp(TGetGlobalRedRsp rsp)
     {
-        if (rsp.iRet != 0)
-        {
-            GameEntry.LogError(LogCategory.NetWork, "拉取小红点信息出错");
-            return;
-        }
-
         foreach (int key in rsp.mapRedModelResults.Keys)
         {
             mMapGlobalRedInfo[key] = rsp.mapRedModelResults[key];
@@ -158,14 +184,8 @@ public class RedDotModel : Observable<RedDotModel, RedDotModel.EventName>
         Dispatch(EventName.E_SVR_MSG_ID_GET_GLOBAL_RED, rsp.mapRedModelResults);
     }
 
-    public void ParseTClearGlobalRedRsp(TClearGlobalRedRsp rsp)
+    public void SetTClearGlobalRedRsp(TClearGlobalRedRsp rsp)
     {
-        if (rsp.iRet != 0)
-        {
-            GameEntry.LogError(LogCategory.UI, rsp.iRet + "==清除小红点信息出错");
-            return;
-        }
-
         for (int j = 0; j < rsp.vecRedModel.Count; j++)
         {
             int tGlobalRedInfo = rsp.vecRedModel[j];
