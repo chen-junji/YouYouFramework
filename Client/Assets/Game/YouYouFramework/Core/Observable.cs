@@ -2,35 +2,38 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using YouYou;
 
 namespace Main
 {
-    public class DataMgrBase<T> where T : Enum
+    public class Observable<T, K> : Singleton<T>
+        where T : new()
+        where K : Enum
     {
         private CommonEvent CommonEvent;
-        public DataMgrBase()
+        public Observable()
         {
             CommonEvent = new CommonEvent();
         }
 
-        public void Dispatch(T key)
+        public void Dispatch(K key)
         {
             CommonEvent.Dispatch(key.ToString());
         }
-        public void Dispatch(T key, object userData)
+        public void Dispatch(K key, object userData)
         {
             CommonEvent.Dispatch(key.ToString(), userData);
         }
 
-        public void AddEventListener(T key, CommonEvent.OnActionHandler handler)
+        public void AddEventListener(K key, CommonEvent.OnActionHandler handler)
         {
             CommonEvent.AddEventListener(key.ToString(), handler);
         }
-        public void RemoveEventListener(T key, CommonEvent.OnActionHandler handler)
+        public void RemoveEventListener(K key, CommonEvent.OnActionHandler handler)
         {
             CommonEvent.RemoveEventListener(key.ToString(), handler);
         }
-        public void RemoveEventListenerAll(T key)
+        public void RemoveEventListenerAll(K key)
         {
             CommonEvent.RemoveEventListenerAll(key.ToString());
         }

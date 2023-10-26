@@ -27,9 +27,9 @@ public class FormCheckVersion : MonoBehaviour
         MainEntry.AssetsManager.CheckVersionDownloadUpdate -= OnCheckVersionDownloadUpdate;
         MainEntry.AssetsManager.CheckVersionDownloadComplete -= OnCheckVersionDownloadComplete;
 
-        MainEntry.Data.ActionPreloadBegin -= OnPreloadBegin;
-        MainEntry.Data.ActionPreloadUpdate -= OnPreloadUpdate;
-        MainEntry.Data.ActionPreloadComplete -= OnPreloadComplete;
+        MainEntry.Instance.ActionPreloadBegin -= OnPreloadBegin;
+        MainEntry.Instance.ActionPreloadUpdate -= OnPreloadUpdate;
+        MainEntry.Instance.ActionPreloadComplete -= OnPreloadComplete;
     }
     private void Start()
     {
@@ -38,9 +38,9 @@ public class FormCheckVersion : MonoBehaviour
         MainEntry.AssetsManager.CheckVersionDownloadComplete += OnCheckVersionDownloadComplete;
 
 
-        MainEntry.Data.ActionPreloadBegin += OnPreloadBegin;
-        MainEntry.Data.ActionPreloadUpdate += OnPreloadUpdate;
-        MainEntry.Data.ActionPreloadComplete += OnPreloadComplete;
+        MainEntry.Instance.ActionPreloadBegin += OnPreloadBegin;
+        MainEntry.Instance.ActionPreloadUpdate += OnPreloadUpdate;
+        MainEntry.Instance.ActionPreloadComplete += OnPreloadComplete;
 
         //if (txtSize != null) txtSize.gameObject.SetActive(false);
     }

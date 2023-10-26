@@ -111,7 +111,7 @@ namespace Main
         public void InitCDNVersionFile(Action onInitComplete)
         {
             StringBuilder sbr = StringHelper.PoolNew();
-            string url = sbr.AppendFormatNoGC("{0}{1}", MainEntry.Data.CurrChannelConfig.RealSourceUrl, YFConstDefine.VersionFileName).ToString();
+            string url = sbr.AppendFormatNoGC("{0}{1}", SystemModel.Instance.CurrChannelConfig.RealSourceUrl, YFConstDefine.VersionFileName).ToString();
             StringHelper.PoolDel(ref sbr);
 
             IEnumerator UnityWebRequestGet(string url, Action<UnityWebRequest> onComplete)

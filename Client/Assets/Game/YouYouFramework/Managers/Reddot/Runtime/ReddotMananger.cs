@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using YouYou;
 
 /// <summary>
 /// 红点管理器
@@ -24,7 +25,11 @@ public class ReddotMananger
     /// </summary>
     private List<TreeNode> m_TempDirtyNodes;
 
-    
+    /// <summary>
+    /// 服务端ID映射路径
+    /// </summary>
+    private Dictionary<int, string> m_ServerIdOfPath;
+
 
     /// <summary>
     /// 节点数量改变回调
@@ -34,7 +39,7 @@ public class ReddotMananger
     /// <summary>
     /// 节点值改变回调
     /// </summary>
-    public Action<TreeNode,int> NodeValueChangeCallback;
+    public Action<TreeNode, int> NodeValueChangeCallback;
 
     /// <summary>
     /// 路径分隔字符
@@ -77,7 +82,7 @@ public class ReddotMananger
     /// <summary>
     /// 添加节点值监听
     /// </summary>
-    public TreeNode AddListener(string path,Action<int> callback)
+    public TreeNode AddListener(string path, Action<int> callback)
     {
         if (callback == null)
         {
@@ -93,7 +98,7 @@ public class ReddotMananger
     /// <summary>
     /// 移除节点值监听
     /// </summary>
-    public void RemoveListener(string path,Action<int> callback)
+    public void RemoveListener(string path, Action<int> callback)
     {
         if (callback == null)
         {
@@ -116,7 +121,7 @@ public class ReddotMananger
     /// <summary>
     /// 改变节点值
     /// </summary>
-    public void ChangeValue(string path,int newValue)
+    public void ChangeValue(string path, int newValue)
     {
         TreeNode node = GetTreeNode(path);
         node.ChangeValue(newValue);
@@ -146,7 +151,7 @@ public class ReddotMananger
             throw new Exception("路径不合法，不能为空");
         }
 
-        if (m_AllNodes.TryGetValue(path,out TreeNode node))
+        if (m_AllNodes.TryGetValue(path, out TreeNode node))
         {
             return node;
         }
@@ -171,7 +176,7 @@ public class ReddotMananger
                     throw new Exception("路径不合法，不能存在连续的路径分隔符或以路径分隔符开头：" + path);
                 }
 
-                TreeNode child = cur.GetOrAddChild(new RangeString(path,startIndex,endIndex));
+                TreeNode child = cur.GetOrAddChild(new RangeString(path, startIndex, endIndex));
 
                 //更新startIndex
                 startIndex = i + 1;
@@ -251,4 +256,21 @@ public class ReddotMananger
         m_DirtyNodes.Add(node);
     }
 
+
+    /// <summary>
+    /// 设置服务端ID映射路径
+    /// </summary>
+    public void SetServerIdOfPath(int serverId, string path)
+    {
+        m_ServerIdOfPath[serverId] = path;
+        GetTreeNode(path);
+    }
+    /// <summary>
+    /// 获取服务端ID映射路径
+    /// </summary>
+    public string GetServerIdOfPath(int serverId)
+    {
+        m_ServerIdOfPath.TryGetValue(serverId, out string path);
+        return path;
+    }
 }

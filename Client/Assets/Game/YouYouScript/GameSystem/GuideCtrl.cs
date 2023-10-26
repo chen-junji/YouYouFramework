@@ -4,29 +4,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using YouYou;
 
-public class GuideDataMgr
+public class GuideCtrl : Singleton<GuideCtrl>
+{
+
+}
+public class GuideModel : Singleton<GuideModel>
 {
     //单机或网络存档
     private bool b_native = true;
 
     private GuideEntity GuideEntity;
 
-    public void Init()
+    public GuideModel()
     {
+        GameEntry.Event.AddEventListener(EventName.GameEntryOnApplicationQuit, SaveDataAll);
+        GameEntry.Event.AddEventListener(EventName.GameEntryOnApplicationPause, SaveDataAll);
+
         if (b_native)
         {
-            GuideEntity = GameEntry.Data.PlayerPrefsDataMgr.GetObject<GuideEntity>("GuideEntity");
+            GuideEntity = GameEntry.PlayerPrefs.GetObject<GuideEntity>("GuideEntity");
         }
         else
         {
             //这里可以改成网络存档
         }
     }
-    public void SaveDataAll()
+
+    public void SaveDataAll(object userData)
     {
         if (b_native)
         {
-            GameEntry.Data.PlayerPrefsDataMgr.SetObject("GuideEntity", GuideEntity);
+            GameEntry.PlayerPrefs.SetObject("GuideEntity", GuideEntity);
         }
         else
         {

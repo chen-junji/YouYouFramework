@@ -43,10 +43,10 @@ namespace YouYou
             BGMSource.name = "BGMSource";
             BGMSource.outputAudioMixerGroup = GameEntry.Instance.MonsterMixer.FindMatchingGroups("BGM")[0];
 
-            GameEntry.Data.PlayerPrefsDataMgr.AddEventListener(PlayerPrefsDataMgr.EventName.MasterVolume, RefreshMasterVolume);
-            GameEntry.Data.PlayerPrefsDataMgr.AddEventListener(PlayerPrefsDataMgr.EventName.BGMVolume, RefreshBGM);
-            GameEntry.Data.PlayerPrefsDataMgr.AddEventListener(PlayerPrefsDataMgr.EventName.AudioVolume, RefreshAudio);
-            GameEntry.Data.PlayerPrefsDataMgr.AddEventListener(PlayerPrefsDataMgr.EventName.GamePause, OnGamePause);
+            GameEntry.PlayerPrefs.AddEventListener(PlayerPrefsDataMgr.EventName.MasterVolume, RefreshMasterVolume);
+            GameEntry.PlayerPrefs.AddEventListener(PlayerPrefsDataMgr.EventName.BGMVolume, RefreshBGM);
+            GameEntry.PlayerPrefs.AddEventListener(PlayerPrefsDataMgr.EventName.AudioVolume, RefreshAudio);
+            GameEntry.PlayerPrefs.AddEventListener(PlayerPrefsDataMgr.EventName.GamePause, OnGamePause);
 
             RefreshMasterVolume(null);
             RefreshBGM(null);
@@ -232,15 +232,15 @@ namespace YouYou
 
         private void RefreshMasterVolume(object userData)
         {
-            SetMasterVolume(GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.MasterVolume));
+            SetMasterVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsDataMgr.EventName.MasterVolume));
         }
         private void RefreshAudio(object userData)
         {
-            SetAudioVolume(GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.AudioVolume));
+            SetAudioVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsDataMgr.EventName.AudioVolume));
         }
         private void RefreshBGM(object userData)
         {
-            SetBGMVolume(GameEntry.Data.PlayerPrefsDataMgr.GetFloat(PlayerPrefsDataMgr.EventName.BGMVolume));
+            SetBGMVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsDataMgr.EventName.BGMVolume));
         }
         private void OnGamePause(object userData)
         {

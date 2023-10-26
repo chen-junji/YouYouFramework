@@ -26,6 +26,10 @@ public enum SceneGroupName : uint
 public enum EventName : uint
 {
     TestEvent,
+    GameEntryOnUpdate,
+    GameEntryOnApplicationQuit,
+    GameEntryOnApplicationPause,
+    LoadingSceneUpdate,
 }
 
 public enum InputName

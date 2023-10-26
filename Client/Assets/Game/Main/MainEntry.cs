@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,6 +43,19 @@ namespace Main
         private ParamsSettings.DeviceGrade m_CurrDeviceGrade;
         public static ParamsSettings.DeviceGrade CurrDeviceGrade { get; private set; }
 
+        /// <summary>
+        /// Http调用失败后重试次数
+        /// </summary>
+        public static int HttpRetry { get; private set; }
+        /// <summary>
+        /// Http调用失败后重试间隔（秒）
+        /// </summary>
+        public static int HttpRetryInterval { get; private set; }
+
+        //预加载相关事件
+        public event Action ActionPreloadBegin;
+        public event Action<float> ActionPreloadUpdate;
+        public event Action ActionPreloadComplete;
 
         /// <summary>
         /// 下载管理器
@@ -55,23 +69,11 @@ namespace Main
         /// 类对象池
         /// </summary>
         public static ClassObjectPool ClassObjectPool { get; private set; }
-        /// <summary>
-        /// 系统数据管理器
-        /// </summary>
-        public static SysDataMgr Data { get; private set; }
+
         /// <summary>
         /// 热更新管理器
         /// </summary>
         public static HotfixManager Hotfix { get; private set; }
-
-        /// <summary>
-        /// Http调用失败后重试次数
-        /// </summary>
-        public static int HttpRetry { get; private set; }
-        /// <summary>
-        /// Http调用失败后重试间隔（秒）
-        /// </summary>
-        public static int HttpRetryInterval { get; private set; }
 
         /// <summary>
         /// 单例
@@ -93,11 +95,13 @@ namespace Main
             HttpRetry = ParamsSettings.GetGradeParamData(YFConstDefine.Http_Retry, CurrDeviceGrade);
             HttpRetryInterval = ParamsSettings.GetGradeParamData(YFConstDefine.Http_RetryInterval, CurrDeviceGrade);
 
+        }
+        private void Start()
+        {
             //初始化管理器
             Download = new DownloadManager();
             AssetsManager = new AssetsManager();
             ClassObjectPool = new ClassObjectPool();
-            Data = new SysDataMgr();
             Hotfix = new HotfixManager();
 
             Download.Init();
@@ -161,5 +165,17 @@ namespace Main
 #endif
         }
 
+        public void PreloadBegin()
+        {
+            ActionPreloadBegin?.Invoke();
+        }
+        public void PreloadUpdate(float progress)
+        {
+            ActionPreloadUpdate?.Invoke(progress);
+        }
+        public void PreloadComplete()
+        {
+            ActionPreloadComplete?.Invoke();
+        }
     }
 }

@@ -3,16 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using YouYou;
 
+/// <summary>
+/// 主要用于初始化红点树
+/// </summary>
 public class Reddot : MonoBehaviour
 {
     public bool IsRoot;
+
+    [Header("可选：服务端ID可以映射路径")]
+    public int serverId;
 
     void Awake()
     {
         //获取自身路径，动态添加节点
         string Path = GetPath(this);
+        if (serverId > 0)
+        {
+            GameEntry.Reddot.SetServerIdOfPath(serverId, Path);
+        }
+        else
+        {
+            GameEntry.Reddot.GetTreeNode(Path);
+        }
         Debug.Log("初始化红点==" + Path);
-        GameEntry.Reddot.GetTreeNode(Path);
     }
 
     private static string GetPath(Reddot reddot)

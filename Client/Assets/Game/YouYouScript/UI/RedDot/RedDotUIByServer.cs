@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using YouYou;
 using System;
 
-public class RedDotUIByServer : MonoBehaviour
+public class RedDotServerSend : MonoBehaviour
 {
     [Serializable]
     public class RedDotData
@@ -28,13 +28,6 @@ public class RedDotUIByServer : MonoBehaviour
         [Header("可选：红点清除的必要条件2(以下对象都必须可见)")]
         public GameObject[] needObjEnabled;
     }
-
-    [Header("控制的红点对象")]
-    public GameObject imageRed;
-
-    [Header("是否要检查红点可见性（只执行Clear和Request逻辑则不需要）")]
-    public bool checkShow = true;
-
     [Header("红点类型列表（或逻辑）")]
     public List<RedDotData> redDots;
 
@@ -48,17 +41,27 @@ public class RedDotUIByServer : MonoBehaviour
     private bool enableDisableCalled = false;
 
 
-    public bool IsRedDotExist()
+    public void Start()
     {
-        return imageRed != null;
+        StartCoroutine(Start_Enumator());
     }
 
-    public void SetRedDotVisible(bool visible)
+    public IEnumerator Start_Enumator()
     {
-        if (imageRed != null)
+        if (requestOnStart)
         {
-            imageRed.gameObject.SetActive(visible);
+            RequestRedDotType();
         }
+
+        WaitForSeconds wfs = new WaitForSeconds(0.1f);
+        while (RedDotModel.Instance.IsGlobalRedInfoExist() == false)
+        {
+            yield return wfs;
+        }
+
+        InitButtonToggleClear();
+
+        ClearRedDotOnStart();
     }
 
     public void RequestRedDotType()
@@ -75,43 +78,8 @@ public class RedDotUIByServer : MonoBehaviour
 
         if (vecRedModels.Count > 0)
         {
-            GameEntry.Data.RedDotDataMgr.SendTGetGlobalRedReq(vecRedModels);
+            RedDotCtrl.Instance.SendTGetGlobalRedReq(vecRedModels);
         }
-    }
-
-    public void Awake()
-    {
-        //先初始化设置为不可见，避免闪一下
-        SetRedDotVisible(false);
-    }
-
-    public void Start()
-    {
-        if (IsRedDotExist())
-        {
-            GameEntry.Data.RedDotDataMgr.AddEventListener(RedDotDataMgr.EventName.E_SVR_MSG_ID_GET_GLOBAL_RED, InitUI);
-            GameEntry.Data.RedDotDataMgr.AddEventListener(RedDotDataMgr.EventName.E_SVR_MSG_ID_CLEAR_GLOBAL_RED, InitUI);
-        }
-
-        StartCoroutine(Start_Enumator());
-    }
-
-    public IEnumerator Start_Enumator()
-    {
-        if (requestOnStart)
-        {
-            RequestRedDotType();
-        }
-
-        WaitForSeconds wfs = new WaitForSeconds(0.1f);
-        while (GameEntry.Data.RedDotDataMgr.IsGlobalRedInfoExist() == false)
-        {
-            yield return wfs;
-        }
-
-        InitButtonToggleClear();
-
-        ClearRedDotOnStart();
     }
 
     public void OnEnable()
@@ -128,14 +96,9 @@ public class RedDotUIByServer : MonoBehaviour
         enableDisableCalled = true;
 
         WaitForSeconds wfs = new WaitForSeconds(0.1f);
-        while (GameEntry.Data.RedDotDataMgr.IsGlobalRedInfoExist() == false)
+        while (RedDotModel.Instance.IsGlobalRedInfoExist() == false)
         {
             yield return wfs;
-        }
-
-        if (IsRedDotExist())
-        {
-            InitUI();
         }
 
         ClearRedDotOnEnable();
@@ -154,51 +117,12 @@ public class RedDotUIByServer : MonoBehaviour
 
     public void OnDestroy()
     {
-        if (IsRedDotExist())
-        {
-            GameEntry.Data.RedDotDataMgr.RemoveEventListener(RedDotDataMgr.EventName.E_SVR_MSG_ID_GET_GLOBAL_RED, InitUI);
-            GameEntry.Data.RedDotDataMgr.RemoveEventListener(RedDotDataMgr.EventName.E_SVR_MSG_ID_CLEAR_GLOBAL_RED, InitUI);
-        }
-
         ClearRedDotOnDestroy();
 
         if (requestOnDestroy)
         {
             RequestRedDotType();
         }
-    }
-
-    public void InitUI(object userData = null)
-    {
-        if (checkShow == false)
-        {
-            SetRedDotVisible(false);
-            return;
-        }
-
-        string parentName = this.transform.parent.gameObject.name;
-        bool isRedDotVisible = false;
-
-        if (IsRedDotExist())
-        {
-            for (int i = 0; i < redDots.Count; i++)
-            {
-                RedDotData redDotData = redDots[i];
-
-                int tGlobalRedInfo = GameEntry.Data.RedDotDataMgr.GetTGlobalRedInfo(redDotData.redDotType);
-                if (tGlobalRedInfo != 0)
-                {
-                    GameEntry.Log(LogCategory.UI, "RedDotUI.initUI", "parentName = %s, redDotData.redDotType = %d, tGlobalRedInfo = %d",
-                        parentName, redDotData.redDotType, tGlobalRedInfo);
-
-                    if (tGlobalRedInfo > 0)
-                    {
-                        isRedDotVisible = true;
-                    }
-                }
-            }
-        }
-        SetRedDotVisible(isRedDotVisible);
     }
 
     public void InitButtonToggleClear()
@@ -242,14 +166,14 @@ public class RedDotUIByServer : MonoBehaviour
                 List<int> vecRedModelsServer = new List<int>();
                 for (int i = 0; i < redDotTypes.Count; i++)
                 {
-                    int tGlobalRedInfo = GameEntry.Data.RedDotDataMgr.GetTGlobalRedInfo(redDotTypes[i]);
+                    int tGlobalRedInfo = RedDotModel.Instance.GetTGlobalRedInfo(redDotTypes[i]);
                     if (tGlobalRedInfo > 0)
                     {
                         vecRedModelsServer.Add(redDotTypes[i]);
                     }
                 }
 
-                GameEntry.Data.RedDotDataMgr.SendTClearGlobalRedReq(vecRedModelsServer);
+                RedDotCtrl.Instance.SendTClearGlobalRedReq(vecRedModelsServer);
             });
         }
 
@@ -266,14 +190,14 @@ public class RedDotUIByServer : MonoBehaviour
                     List<int> vecRedModelsServer = new List<int>();
                     for (int i = 0; i < redDotTypes.Count; i++)
                     {
-                        int tGlobalRedInfo = GameEntry.Data.RedDotDataMgr.GetTGlobalRedInfo(redDotTypes[i]);
+                        int tGlobalRedInfo = RedDotModel.Instance.GetTGlobalRedInfo(redDotTypes[i]);
                         if (tGlobalRedInfo > 0)
                         {
                             vecRedModelsServer.Add(redDotTypes[i]);
                         }
                     }
 
-                    GameEntry.Data.RedDotDataMgr.SendTClearGlobalRedReq(vecRedModelsServer);
+                    RedDotCtrl.Instance.SendTClearGlobalRedReq(vecRedModelsServer);
                 }
             });
         }
@@ -288,7 +212,7 @@ public class RedDotUIByServer : MonoBehaviour
             RedDotData redDotData = redDots[i];
             if (redDotData.clearOnStart && IsClearable(redDotData))
             {
-                int tGlobalRedInfo = GameEntry.Data.RedDotDataMgr.GetTGlobalRedInfo(redDotData.redDotType);
+                int tGlobalRedInfo = RedDotModel.Instance.GetTGlobalRedInfo(redDotData.redDotType);
                 if (tGlobalRedInfo > 0)
                 {
                     vecRedModelsServer.Add(redDotData.redDotType);
@@ -298,7 +222,7 @@ public class RedDotUIByServer : MonoBehaviour
 
         if (vecRedModelsServer.Count > 0)
         {
-            GameEntry.Data.RedDotDataMgr.SendTClearGlobalRedReq(vecRedModelsServer);
+            RedDotCtrl.Instance.SendTClearGlobalRedReq(vecRedModelsServer);
         }
     }
 
@@ -311,7 +235,7 @@ public class RedDotUIByServer : MonoBehaviour
             RedDotData redDotData = redDots[i];
             if (redDotData.clearOnEnable && enableDisableCalled && IsClearable(redDotData))
             {
-                int tGlobalRedInfo = GameEntry.Data.RedDotDataMgr.GetTGlobalRedInfo(redDotData.redDotType);
+                int tGlobalRedInfo = RedDotModel.Instance.GetTGlobalRedInfo(redDotData.redDotType);
                 if (tGlobalRedInfo > 0)
                 {
                     vecRedModelsServer.Add(redDotData.redDotType);
@@ -321,7 +245,7 @@ public class RedDotUIByServer : MonoBehaviour
 
         if (vecRedModelsServer.Count > 0)
         {
-            GameEntry.Data.RedDotDataMgr.SendTClearGlobalRedReq(vecRedModelsServer);
+            RedDotCtrl.Instance.SendTClearGlobalRedReq(vecRedModelsServer);
         }
     }
 
@@ -334,7 +258,7 @@ public class RedDotUIByServer : MonoBehaviour
             RedDotData redDotData = redDots[i];
             if (redDotData.clearOnDisable && enableDisableCalled && IsClearable(redDotData))
             {
-                int tGlobalRedInfo = GameEntry.Data.RedDotDataMgr.GetTGlobalRedInfo(redDotData.redDotType);
+                int tGlobalRedInfo = RedDotModel.Instance.GetTGlobalRedInfo(redDotData.redDotType);
                 if (tGlobalRedInfo > 0)
                 {
                     vecRedModelsServer.Add(redDotData.redDotType);
@@ -344,7 +268,7 @@ public class RedDotUIByServer : MonoBehaviour
 
         if (vecRedModelsServer.Count > 0)
         {
-            GameEntry.Data.RedDotDataMgr.SendTClearGlobalRedReq(vecRedModelsServer);
+            RedDotCtrl.Instance.SendTClearGlobalRedReq(vecRedModelsServer);
         }
     }
 
@@ -357,7 +281,7 @@ public class RedDotUIByServer : MonoBehaviour
             RedDotData redDotData = redDots[i];
             if (redDotData.clearOnDestroy && IsClearable(redDotData))
             {
-                int tGlobalRedInfo = GameEntry.Data.RedDotDataMgr.GetTGlobalRedInfo(redDotData.redDotType);
+                int tGlobalRedInfo = RedDotModel.Instance.GetTGlobalRedInfo(redDotData.redDotType);
                 if (tGlobalRedInfo > 0)
                 {
                     vecRedModelsServer.Add(redDotData.redDotType);
@@ -367,7 +291,7 @@ public class RedDotUIByServer : MonoBehaviour
 
         if (vecRedModelsServer.Count > 0)
         {
-            GameEntry.Data.RedDotDataMgr.SendTClearGlobalRedReq(vecRedModelsServer);
+            RedDotCtrl.Instance.SendTClearGlobalRedReq(vecRedModelsServer);
         }
     }
 

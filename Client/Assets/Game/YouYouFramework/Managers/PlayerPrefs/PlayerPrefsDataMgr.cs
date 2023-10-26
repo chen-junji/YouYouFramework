@@ -6,7 +6,7 @@ using UnityEngine;
 using YouYou;
 
 
-public class PlayerPrefsDataMgr : DataMgrBase<PlayerPrefsDataMgr.EventName>
+public class PlayerPrefsDataMgr : Observable<PlayerPrefsDataMgr, PlayerPrefsDataMgr.EventName>
 {
     public enum EventName : uint
     {
@@ -37,10 +37,10 @@ public class PlayerPrefsDataMgr : DataMgrBase<PlayerPrefsDataMgr.EventName>
         dicFloat = GetObject<Dictionary<EventName, float>>("dicFloat");
         dicString = GetObject<Dictionary<EventName, string>>("dicString");
 
-        GameEntry.Data.PlayerPrefsDataMgr.SetFloatHas(EventName.MasterVolume, 1);
-        GameEntry.Data.PlayerPrefsDataMgr.SetFloatHas(EventName.AudioVolume, 1);
-        GameEntry.Data.PlayerPrefsDataMgr.SetFloatHas(EventName.BGMVolume, 1);
-        GameEntry.Data.PlayerPrefsDataMgr.SetIntHas(EventName.FrameRate, 2);
+        GameEntry.PlayerPrefs.SetFloatHas(EventName.MasterVolume, 1);
+        GameEntry.PlayerPrefs.SetFloatHas(EventName.AudioVolume, 1);
+        GameEntry.PlayerPrefs.SetFloatHas(EventName.BGMVolume, 1);
+        GameEntry.PlayerPrefs.SetIntHas(EventName.FrameRate, 2);
     }
     public void SaveDataAll()
     {

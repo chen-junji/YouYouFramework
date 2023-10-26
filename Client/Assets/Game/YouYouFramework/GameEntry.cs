@@ -35,7 +35,6 @@ namespace YouYou
         [Header("声音主混合器")]
         public AudioMixer MonsterMixer;
 
-
         [Header("当前语言（要和本地化表的语言字段 一致）")]
         [SerializeField]
         private YouYouLanguage m_CurrLanguage;
@@ -49,7 +48,7 @@ namespace YouYou
         public static ProcedureManager Procedure { get; private set; }
         public static DataTableManager DataTable { get; private set; }
         public static HttpManager Http { get; private set; }
-        public static DataManager Data { get; private set; }
+        public static PlayerPrefsDataMgr PlayerPrefs { get; private set; }
         public static LocalizationManager Localization { get; private set; }
         public static PoolManager Pool { get; private set; }
         public static YouYouSceneManager Scene { get; private set; }
@@ -88,7 +87,7 @@ namespace YouYou
             Procedure = new ProcedureManager();
             DataTable = new DataTableManager();
             Http = new HttpManager();
-            Data = new DataManager();
+            PlayerPrefs = new PlayerPrefsDataMgr();
             Localization = new LocalizationManager();
             Pool = new PoolManager();
             Scene = new YouYouSceneManager();
@@ -105,7 +104,7 @@ namespace YouYou
             Procedure.Init();
             DataTable.Init();
             Http.Init();
-            Data.Init();
+            PlayerPrefs.Init();
             Localization.Init();
             Pool.Init();
             Scene.Init();
@@ -130,17 +129,25 @@ namespace YouYou
             Input.OnUpdate();
             Task.OnUpdate();
             Reddot.OnUpdate();
+
+            GameEntry.Event.Dispatch(EventName.GameEntryOnUpdate);
         }
         private void OnApplicationQuit()
         {
-            Data.SaveDataAll();
+            PlayerPrefs.SaveDataAll();
             Logger.SyncLog();
             Logger.Dispose();
             Fsm.Dispose();
+
+            GameEntry.Event.Dispatch(EventName.GameEntryOnApplicationQuit);
         }
         private void OnApplicationPause(bool pause)
         {
-            if (pause) Data.SaveDataAll();
+            if (pause)
+            {
+                PlayerPrefs.SaveDataAll();
+                GameEntry.Event.Dispatch(EventName.GameEntryOnApplicationPause);
+            }
         }
 
 

@@ -52,7 +52,7 @@ public class GuideManager
         {
             //只触发一次的引导
             case GuideState.Battle1:
-                if (GameEntry.Data.GuideDataMgr.NextGuide != state) return false;
+                if (GuideModel.Instance.NextGuide != state) return false;
                 break;
 
             //每次引导结束
@@ -120,7 +120,7 @@ public class GuideManager
         });
         GuideGroup.Run(()=>
         {
-            GameEntry.Data.GuideDataMgr.GuideCompleteOne(CurrentState);
+            GuideModel.Instance.GuideCompleteOne(CurrentState);
         });
     }
     #endregion
