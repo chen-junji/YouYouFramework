@@ -35,7 +35,7 @@ namespace YouYou
         /// </summary>
         /// <param name="formBase">窗口</param>
         /// <param name="isAdd">true:增加  false:减少</param>
-        internal void SetSortingOrder(UIBase formBase, bool isAdd)
+        internal void SetSortingOrder(UIFormBase formBase, bool isAdd)
         {
             if (!m_UILayerDic.ContainsKey(formBase.SysUIForm.UIGroupId)) return;
 

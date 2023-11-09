@@ -1,49 +1,93 @@
-using UnityEngine;
-using System.Threading.Tasks;
-using YouYou;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
-public class UIFormBase : UIBase
+namespace YouYou
 {
-    [Header("是否窗口动画")]
-    [SerializeField] bool isAnim = false;
-
-    [Header("UI特效分组")]
-    [SerializeField] public List<UIEffectGroup> UIEffectGroups = new List<UIEffectGroup>();
-    [Header("初始播放的特效")]
-    [SerializeField] List<ParticleSystem> effectOnOpenPlay = new List<ParticleSystem>();
-
-    protected override void OnEnable()
+    [RequireComponent(typeof(Canvas))]//脚本依赖
+    [RequireComponent(typeof(GraphicRaycaster))]//脚本依赖
+    public class UIFormBase : MonoBehaviour
     {
-        base.OnEnable();
-#if UNITY_EDITOR
-        transform.SetAsLastSibling();
-#endif
-        if (isAnim) AnimOpen();
-    }
-    protected override void Start()
-    {
-        base.Start();
-        //根据UI层级, 设置特效层级
-        for (int i = 0; i < UIEffectGroups.Count; i++)
+        public Sys_UIFormEntity SysUIForm { get; private set; }
+
+        public Canvas CurrCanvas { get; private set; }
+
+        public float CloseTime { get; private set; }
+
+        //打开时调用
+        public static Action ActionOpen;
+
+        //反切时调用
+        public Action OnBack;
+
+        //是否活跃
+        internal bool IsActive = true;
+
+
+        protected virtual void Awake()
         {
-            UIEffectGroup effectGroup = UIEffectGroups[i];
-            effectGroup.Group.ForEach(x =>
+            if (GetComponent<GraphicRaycaster>() == null) gameObject.AddComponent<GraphicRaycaster>();
+            CurrCanvas = GetComponent<Canvas>();
+        }
+        protected virtual void Start()
+        {
+            GameEntry.Time.Yield(() =>
             {
-                x.SetEffectOrder(CurrCanvas.sortingOrder + effectGroup.Order);
-                x.gameObject.SetLayer("UI");
+                //这里是禁用所有按钮的导航功能，因为用不上, 还可能有意外BUG
+                Button[] buttons = GetComponentsInChildren<Button>(true);
+                for (int i = 0; i < buttons.Length; i++)
+                {
+                    Navigation navigation = buttons[i].navigation;
+                    navigation.mode = Navigation.Mode.None;
+                    buttons[i].navigation = navigation;
+                }
             });
         }
+        protected virtual void OnEnable()
+        {
 
-        //停止特效初始播放, 不需要可以注释
-        ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>();
-        for (int i = 0; i < particles.Length; i++) particles[i].Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        } 
+        protected virtual void OnDisable()
+        {
 
-        //播放设定的初始特效
-        effectOnOpenPlay.ForEach(x => x.Play());
-    }
-    public void AnimOpen()
-    {
-        transform.DoShowScale(0.3f, 1);
+        }
+        protected virtual void OnDestroy()
+        {
+        }
+
+        public void Close()
+        {
+            GameEntry.UI.CloseUIForm(this);
+        }
+
+        internal void Init(Sys_UIFormEntity sysUIForm)
+        {
+            SysUIForm = sysUIForm;
+        }
+        internal void ToOpen()
+        {
+            //设置UI层级
+            if (SysUIForm.DisableUILayer != 1) GameEntry.UI.UILayer.SetSortingOrder(this, true);
+
+            //UI打开时的委托
+            if (ActionOpen != null)
+            {
+                Action onOpenBegin = ActionOpen;
+                ActionOpen = null;
+                onOpenBegin();
+            }
+        }
+        internal void ToClose()
+        {
+            //进行层级管理 减少层级
+            if (SysUIForm.DisableUILayer != 1) GameEntry.UI.UILayer.SetSortingOrder(this, false);
+
+            CloseTime = Time.time;
+            GameEntry.UI.HideUI(this);
+            GameEntry.UI.UIPool.EnQueue(this);
+        }
+
     }
 }

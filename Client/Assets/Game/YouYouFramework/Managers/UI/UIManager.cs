@@ -13,11 +13,11 @@ namespace YouYou
         /// <summary>
         /// 已经打开的UI窗口链表
         /// </summary>
-        private LinkedList<UIBase> m_OpenUIFormList;
+        private LinkedList<UIFormBase> m_OpenUIFormList;
         /// <summary>
         /// 反切链表
         /// </summary>
-        private LinkedList<UIBase> m_ReverseChangeUIList;
+        private LinkedList<UIFormBase> m_ReverseChangeUIList;
 
         internal UILayer UILayer;
 
@@ -36,8 +36,8 @@ namespace YouYou
 
         internal UIManager()
         {
-            m_OpenUIFormList = new LinkedList<UIBase>();
-            m_ReverseChangeUIList = new LinkedList<UIBase>();
+            m_OpenUIFormList = new LinkedList<UIFormBase>();
+            m_ReverseChangeUIList = new LinkedList<UIFormBase>();
 
             UILayer = new UILayer();
             m_UIGroupDic = new Dictionary<byte, UIGroup>();
@@ -80,11 +80,11 @@ namespace YouYou
         #endregion
 
         #region OpenUIForm 打开UI窗口
-        public T OpenUIForm<T>(object userData = null) where T : UIBase
+        public T OpenUIForm<T>(object userData = null) where T : UIFormBase
         {
             return OpenUIForm<T>(typeof(T).Name, userData);
         }
-        public T OpenUIForm<T>(string uiFormName, object userData = null) where T : UIBase
+        public T OpenUIForm<T>(string uiFormName, object userData = null) where T : UIFormBase
         {
             //1,读表
             Sys_UIFormEntity sys_UIForm = GameEntry.DataTable.Sys_UIFormDBModel.GetEntity(uiFormName);
@@ -96,7 +96,7 @@ namespace YouYou
             }
 
             //从对象池里面取
-            UIBase formBase = UIPool.Dequeue(sys_UIForm.Id);
+            UIFormBase formBase = UIPool.Dequeue(sys_UIForm.Id);
             if (formBase != null)
             {
                 m_OpenUIFormList.AddLast(formBase);
@@ -112,11 +112,11 @@ namespace YouYou
             GameEntry.Pool.RegisterInstanceAsset(uiObj.GetInstanceID(), referenceEntity);
 
             //初始化UI
-            formBase = uiObj.GetComponent<UIBase>();
+            formBase = uiObj.GetComponent<UIFormBase>();
             if (formBase == null)
             {
                 GameEntry.LogError(LogCategory.Framework, "该UI界面没有挂载UIBase脚本==" + uiObj);
-                formBase = uiObj.AddComponent<UIBase>();
+                formBase = uiObj.AddComponent<UIFormBase>();
             }
             formBase.CurrCanvas.overrideSorting = true;
             m_OpenUIFormList.AddLast(formBase);
@@ -132,7 +132,7 @@ namespace YouYou
         /// <summary>
         /// 检查反切
         /// </summary>
-        private void CheckReverseChange(Sys_UIFormEntity sys_UIFormEntity, UIBase formBase, bool OpenOrClose)
+        private void CheckReverseChange(Sys_UIFormEntity sys_UIFormEntity, UIFormBase formBase, bool OpenOrClose)
         {
             UIFormShowMode uIFormShowMode = (UIFormShowMode)sys_UIFormEntity.ShowMode;
             if (uIFormShowMode == UIFormShowMode.ReverseChange)
@@ -142,7 +142,7 @@ namespace YouYou
                     //如果之前里面有UI
                     if (m_ReverseChangeUIList.Count > 0)
                     {
-                        UIBase topUIForm = m_ReverseChangeUIList.First.Value;
+                        UIFormBase topUIForm = m_ReverseChangeUIList.First.Value;
                         GameEntry.UI.HideUI(topUIForm);
                     }
                     //GameEntry.Log(LogCategory.UI, "窗口入栈==" + formBase);
@@ -154,7 +154,7 @@ namespace YouYou
 
                     if (m_ReverseChangeUIList.Count > 0)
                     {
-                        UIBase topForms = m_ReverseChangeUIList.First.Value;
+                        UIFormBase topForms = m_ReverseChangeUIList.First.Value;
                         if (topForms.OnBack != null)
                         {
                             Action onBack = topForms.OnBack;
@@ -171,7 +171,7 @@ namespace YouYou
         #region CloseUIForm 关闭UI窗口
         public void CloseUIForm(int uiFormId)
         {
-            for (LinkedListNode<UIBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
+            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
             {
                 if (curr.Value.SysUIForm.Id == uiFormId)
                 {
@@ -182,7 +182,7 @@ namespace YouYou
         }
         internal void CloseUIFormByInstanceID(int instanceID)
         {
-            for (LinkedListNode<UIBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
+            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
             {
                 if (curr.Value.gameObject.GetInstanceID() == instanceID)
                 {
@@ -191,7 +191,7 @@ namespace YouYou
                 }
             }
         }
-        internal void CloseUIForm(UIBase formBase)
+        internal void CloseUIForm(UIFormBase formBase)
         {
             if (!formBase.IsActive) return;
             if (!m_OpenUIFormList.Remove(formBase))
@@ -207,7 +207,7 @@ namespace YouYou
         /// <summary>
         /// 关闭UI窗口
         /// </summary>
-        public void CloseUIForm<T>() where T : UIBase
+        public void CloseUIForm<T>() where T : UIFormBase
         {
             CloseUIForm(typeof(T).Name);
         }
@@ -220,10 +220,10 @@ namespace YouYou
         /// </summary>
         public void CloseAllDefaultUIForm()
         {
-            List<UIBase> lst = new List<UIBase>();
-            for (LinkedListNode<UIBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
+            List<UIFormBase> lst = new List<UIFormBase>();
+            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
             {
-                UIBase formBase = curr.Value;
+                UIFormBase formBase = curr.Value;
                 if (formBase.SysUIForm.UIGroupId != 2) continue;
                 formBase.ToClose();
                 lst.Add(formBase);
@@ -240,7 +240,7 @@ namespace YouYou
         public void Release(string uiFormName)
         {
             int uiFormId = GameEntry.DataTable.Sys_UIFormDBModel.GetEntity(uiFormName).Id;
-            for (LinkedListNode<UIBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
+            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
             {
                 if (curr.Value.SysUIForm.Id == uiFormId)
                 {
@@ -250,7 +250,7 @@ namespace YouYou
             }
             UIPool.Release(uiFormName);
         }
-        public void Release(UIBase uIBase)
+        public void Release(UIFormBase uIBase)
         {
             uIBase.Close();
             UIPool.Release(uIBase);
@@ -260,9 +260,9 @@ namespace YouYou
         /// </summary>
         public void ReleaseAll()
         {
-            for (LinkedListNode<UIBase> curr = m_OpenUIFormList.First; curr != null;)
+            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null;)
             {
-                LinkedListNode<UIBase> next = curr.Next;
+                LinkedListNode<UIFormBase> next = curr.Next;
                 m_OpenUIFormList.Remove(curr.Value);
                 if (curr.Value != null) Object.Destroy(curr.Value.gameObject);
                 curr = next;
@@ -276,7 +276,7 @@ namespace YouYou
         /// <summary>
         /// 显示/激活一个UI
         /// </summary>
-        public void ShowUI(UIBase uiFormBase)
+        public void ShowUI(UIFormBase uiFormBase)
         {
             //GameEntry.Log("ShowUI==" + uiFormBase);
             uiFormBase.IsActive = true;
@@ -285,7 +285,7 @@ namespace YouYou
         /// <summary>
         /// 隐藏/冻结一个UI
         /// </summary>
-        public void HideUI(UIBase uiFormBase)
+        public void HideUI(UIFormBase uiFormBase)
         {
             //GameEntry.Log("HideUI==" + uiFormBase);
             uiFormBase.IsActive = false;
@@ -293,11 +293,11 @@ namespace YouYou
         }
         #endregion
 
-        public T GetUIForm<T>(string uiFormName) where T : UIBase
+        public T GetUIForm<T>(string uiFormName) where T : UIFormBase
         {
             int uiFormId = GameEntry.DataTable.Sys_UIFormDBModel.GetEntity(uiFormName).Id;
             //先看看已打开的窗口有没有
-            for (LinkedListNode<UIBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
+            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
             {
                 if (curr.Value.SysUIForm.Id == uiFormId) return curr.Value as T;
             }
@@ -313,7 +313,7 @@ namespace YouYou
         /// <returns></returns>
         private bool IsExists(int uiFormId)
         {
-            for (LinkedListNode<UIBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
+            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
             {
                 if (curr.Value.SysUIForm.Id == uiFormId) return true;
             }

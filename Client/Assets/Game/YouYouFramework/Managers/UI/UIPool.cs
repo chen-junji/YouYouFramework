@@ -10,7 +10,7 @@ namespace YouYou
         /// <summary>
         /// 对象池中的列表
         /// </summary>
-        private LinkedList<UIBase> m_UIFormList;
+        private LinkedList<UIFormBase> m_UIFormList;
 
         /// <summary>
         /// UI回池后过期时间_秒
@@ -28,7 +28,7 @@ namespace YouYou
 
         public UIPool()
         {
-            m_UIFormList = new LinkedList<UIBase>();
+            m_UIFormList = new LinkedList<UIFormBase>();
 
             UIExpire = Main.MainEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_Expire, Main.MainEntry.CurrDeviceGrade);
             ClearInterval = Main.MainEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_ClearInterval, Main.MainEntry.CurrDeviceGrade);
@@ -47,9 +47,9 @@ namespace YouYou
         /// <summary>
         /// 对象获取
         /// </summary>
-        internal UIBase Dequeue(int uiFormId)
+        internal UIFormBase Dequeue(int uiFormId)
         {
-            for (LinkedListNode<UIBase> curr = m_UIFormList.First; curr != null; curr = curr.Next)
+            for (LinkedListNode<UIFormBase> curr = m_UIFormList.First; curr != null; curr = curr.Next)
             {
                 if (curr.Value.SysUIForm.Id == uiFormId)
                 {
@@ -64,7 +64,7 @@ namespace YouYou
         /// <summary>
         /// 对象回池
         /// </summary>
-        internal void EnQueue(UIBase form)
+        internal void EnQueue(UIFormBase form)
         {
             m_UIFormList.AddLast(form);
         }
@@ -74,11 +74,11 @@ namespace YouYou
         /// </summary>
         internal void CheckClear()
         {
-            for (LinkedListNode<UIBase> curr = m_UIFormList.First; curr != null;)
+            for (LinkedListNode<UIFormBase> curr = m_UIFormList.First; curr != null;)
             {
                 if (curr.Value.SysUIForm.IsLock != 1 && Time.time > curr.Value.CloseTime + UIExpire)
                 {
-                    LinkedListNode<UIBase> next = curr.Next;
+                    LinkedListNode<UIFormBase> next = curr.Next;
 
                     //GameEntry.Log(LogCategory.Loader, "释放==" + curr.Value.gameObject);
                     Release(curr.Value);
@@ -95,7 +95,7 @@ namespace YouYou
         internal void Release(string uiFormName)
         {
             int uiFormId = GameEntry.DataTable.Sys_UIFormDBModel.GetEntity(uiFormName).Id;
-            for (LinkedListNode<UIBase> curr = m_UIFormList.First; curr != null; curr = curr.Next)
+            for (LinkedListNode<UIFormBase> curr = m_UIFormList.First; curr != null; curr = curr.Next)
             {
                 if (curr.Value.SysUIForm.Id == uiFormId)
                 {
@@ -104,7 +104,7 @@ namespace YouYou
                 }
             }
         }
-        public void Release(UIBase uIBase)
+        public void Release(UIFormBase uIBase)
         {
             GameEntry.Pool.ReleaseInstanceAsset(uIBase.gameObject.GetInstanceID());
             m_UIFormList.Remove(uIBase);
@@ -116,9 +116,9 @@ namespace YouYou
         /// </summary>
         internal void ReleaseAll()
         {
-            for (LinkedListNode<UIBase> curr = m_UIFormList.First; curr != null;)
+            for (LinkedListNode<UIFormBase> curr = m_UIFormList.First; curr != null;)
             {
-                LinkedListNode<UIBase> next = curr.Next;
+                LinkedListNode<UIFormBase> next = curr.Next;
 
                 GameEntry.Log(LogCategory.Loader, "释放==" + curr.Value.gameObject);
                 Release(curr.Value);
@@ -126,9 +126,9 @@ namespace YouYou
             }
         }
 
-        public UIBase GetUIForm(int uiFormId)
+        public UIFormBase GetUIForm(int uiFormId)
         {
-            for (LinkedListNode<UIBase> curr = m_UIFormList.First; curr != null; curr = curr.Next)
+            for (LinkedListNode<UIFormBase> curr = m_UIFormList.First; curr != null; curr = curr.Next)
             {
                 if (curr.Value.SysUIForm.Id == uiFormId)
                 {
