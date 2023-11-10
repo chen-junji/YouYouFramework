@@ -8,11 +8,6 @@ namespace YouYou
 {
     public static class GuideUtil
     {
-        public static void ShowOrNextHollow()
-        {
-            FormHollow.ShowDialog();
-        }
-
         /// <summary>
         /// 监听按钮点击, 触发下一步
         /// </summary>

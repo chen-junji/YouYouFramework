@@ -36,10 +36,9 @@ public class GuideManager
     /// <summary>
     /// 触发下一步
     /// </summary>
-    public Action OnNextOne { get { return m_OnNextOne; } set { m_OnNextOne = value; } }
-    public Action m_OnNextOne;
+    public event Action OnNextOne;
 
-    public GuideGroup GuideGroup { get; private set; }
+    public GuideGroup GuideGroup;
 
 
     public bool OnStateEnter(GuideState state)
@@ -71,58 +70,17 @@ public class GuideManager
         if (Main.MainEntry.ParamsSettings.GetGradeParamData("ActiveGuide") == 0) return false;
         if (CurrentState != descGroup) return false;
 
-        GameEntry.UI.CloseUIForm<FormHollow>();
+        //完成当前任务
         if (OnNextOne != null)
         {
             Action onNextOne = OnNextOne;
             OnNextOne = null;
             onNextOne();
         }
+        GuideGroup.TaskGroup.LeaveCurrTask();
 
         //GameEntry.Log(LogCategory.Hollow, "NextGroup:" + descGroup);
         return true;
     }
-
-
-    #region 条件触发判断
-    //第一关 新手引导
-    public void EnterBattle1()
-    {
-        if (!GameEntry.Guide.OnStateEnter(GuideState.Battle1)) return;
-
-        GuideGroup = new GuideGroup();
-        GuideGroup.AddGuide(() =>
-        {
-            //穿透点击按钮, 触发下一步
-            GuideUtil.ShowOrNextHollow();
-        });
-        GuideGroup.AddGuide(() =>
-        {
-            //点击全屏遮罩, 触发下一步
-            GuideUtil.ShowOrNextHollow();
-        });
-        GuideGroup.AddGuide(() =>
-        {
-            //监听按钮点击, 触发下一步
-            Button button = null;
-            GuideUtil.CheckBtnNext(button);
-        });
-        GuideGroup.AddGuide(() =>
-        {
-            //监听开关打开, 触发下一步
-            Toggle toggle = null;
-            GuideUtil.CheckToggleNext(toggle);
-        });
-        GuideGroup.AddGuide(() =>
-        {
-            //监听事件 触发下一步
-            GuideUtil.CheckEventNext("EventName");
-        });
-        GuideGroup.Run(()=>
-        {
-            GuideModel.Instance.GuideCompleteOne(CurrentState);
-        });
-    }
-    #endregion
 
 }

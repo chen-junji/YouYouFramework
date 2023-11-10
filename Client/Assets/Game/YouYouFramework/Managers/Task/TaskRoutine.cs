@@ -23,7 +23,7 @@ namespace YouYou
         /// <summary>
         /// 任务完成
         /// </summary>
-        public Action OnComplete;
+        public event Action OnComplete;
 
         /// <summary>
         /// 停止任务

@@ -16,10 +16,11 @@ public class HollowOutMask : Graphic, ICanvasRaycastFilter
 	[Space(25)]
 	public bool realtimeRefresh = false;
 
-	/// <summary>
-	/// 是否穿透点击
-	/// </summary>
-	protected bool IsAcross = true;
+    /// <summary>
+    /// 是否穿透点击
+    /// </summary>
+    [HideInInspector]
+	public bool IsAcross = true;
 
 	private Vector2 inner_rt;//镂空区域的右上角坐标
 	private Vector2 inner_lb;//镂空区域的左下角坐标

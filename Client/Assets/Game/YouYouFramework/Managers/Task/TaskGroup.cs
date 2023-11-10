@@ -67,10 +67,19 @@ namespace YouYou
             }
         }
 
+        public void LeaveCurrTask()
+        {
+            LinkedListNode<TaskRoutine> curr = m_TaskRoutineList.First;
+            if (curr != null && InTask)
+            {
+                curr.Value.Leave();
+            }
+        }
+
         /// <summary>
         /// 清空所有任务
         /// </summary>
-        public void CreateAllTask()
+        public void ClearAllTask()
         {
             LinkedListNode<TaskRoutine> routine = m_TaskRoutineList.First;
             while (routine != null)
@@ -124,7 +133,7 @@ namespace YouYou
             LinkedListNode<TaskRoutine> curr = m_TaskRoutineList.First;
             if (curr != null)
             {
-                curr.Value.OnComplete = () =>
+                curr.Value.OnComplete += () =>
                 {
                     CurrCount++;
                     OnCompleteOne?.Invoke();
@@ -148,7 +157,7 @@ namespace YouYou
             while (routine != null)
             {
                 LinkedListNode<TaskRoutine> next = routine.Next;
-                routine.Value.OnComplete = () =>
+                routine.Value.OnComplete += () =>
                 {
                     CurrCount++;
                     OnCompleteOne?.Invoke();
