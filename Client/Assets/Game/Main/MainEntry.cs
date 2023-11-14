@@ -64,7 +64,7 @@ namespace Main
         /// <summary>
         /// 资源管理器
         /// </summary>
-        public static AssetsManager Assets { get; private set; }
+        public static CheckVersionManager Assets { get; private set; }
         /// <summary>
         /// 类对象池
         /// </summary>
@@ -100,7 +100,7 @@ namespace Main
         {
             //初始化管理器
             Download = new DownloadManager();
-            Assets = new AssetsManager();
+            Assets = new CheckVersionManager();
             ClassObjectPool = new ClassObjectPool();
             Hotfix = new HotfixManager();
 

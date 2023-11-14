@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 namespace Main
 {
-    public class AssetsManager
+    public class CheckVersionManager
     {
         /// <summary>
         /// 版本文件 管理器
@@ -32,7 +32,7 @@ namespace Main
         public Action CheckVersionComplete;
 
 
-        public AssetsManager()
+        public CheckVersionManager()
         {
             VersionFile = new VersionFileManager();
 
