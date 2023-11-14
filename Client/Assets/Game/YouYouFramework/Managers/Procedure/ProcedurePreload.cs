@@ -70,7 +70,7 @@ namespace YouYou
             //初始化资源信息
             taskGroup.AddTask((taskRoutine) =>
             {
-                GameEntry.Loader.InitAssetInfo(taskRoutine.Leave);
+                GameEntry.Loader.AssetInfo.InitAssetInfo(taskRoutine.Leave);
             });
 
             //加载自定义Shader
@@ -89,13 +89,6 @@ namespace YouYou
             {
                 GameEntry.DataTable.LoadDataAllTable(taskRoutine.Leave);
             });
-
-            //初始化ILRuntime
-            //taskGroup.AddTask((taskRoutine) =>
-            //{
-            //    GameEntry.ILRuntime.Init();
-            //    GameEntry.ILRuntime.OnLoadDataTableComplete = taskRoutine.Leave;
-            //});
 
             taskGroup.OnCompleteOne = () =>
             {

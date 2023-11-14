@@ -64,7 +64,7 @@ namespace Main
         /// <summary>
         /// 资源管理器
         /// </summary>
-        public static AssetsManager AssetsManager { get; private set; }
+        public static AssetsManager Assets { get; private set; }
         /// <summary>
         /// 类对象池
         /// </summary>
@@ -100,12 +100,12 @@ namespace Main
         {
             //初始化管理器
             Download = new DownloadManager();
-            AssetsManager = new AssetsManager();
+            Assets = new AssetsManager();
             ClassObjectPool = new ClassObjectPool();
             Hotfix = new HotfixManager();
 
             Download.Init();
-            AssetsManager.Init();
+            Assets.Init();
             Hotfix.Init();
         }
         private void Update()

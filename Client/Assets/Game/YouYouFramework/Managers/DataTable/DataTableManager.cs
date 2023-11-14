@@ -79,7 +79,7 @@ namespace YouYou
 #if EDITORLOAD
             GameEntry.Time.Yield(() =>
             {
-                byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/Game/Download/DataTable/{1}.bytes", MainEntry.AssetsManager.LocalFilePath, dataTableName));
+                byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/Game/Download/DataTable/{1}.bytes", Application.dataPath, dataTableName));
                 if (onComplete != null) onComplete(buffer);
             });
 #else

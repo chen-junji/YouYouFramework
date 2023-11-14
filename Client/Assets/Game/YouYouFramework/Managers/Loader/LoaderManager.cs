@@ -8,14 +8,14 @@ using Cysharp.Threading.Tasks;
 namespace YouYou
 {
     /// <summary>
-    /// 资源加载管理器
+    /// 资源加载 管理器
     /// </summary>
     public class LoaderManager
     {
         /// <summary>
-        /// 资源信息字典
+        /// 资源依赖信息 管理器
         /// </summary>
-        private Dictionary<string, AssetInfoEntity> m_AssetInfoDic;
+        public AssetInfoManager AssetInfo { get; private set; }
 
         /// <summary>
         /// 资源包加载器链表
@@ -29,7 +29,7 @@ namespace YouYou
 
         public LoaderManager()
         {
-            m_AssetInfoDic = new Dictionary<string, AssetInfoEntity>();
+            AssetInfo = new AssetInfoManager();
             m_AssetBundleLoaderList = new LinkedList<AssetBundleLoaderRoutine>();
             m_AssetLoaderList = new LinkedList<AssetLoaderRoutine>();
         }
@@ -50,83 +50,6 @@ namespace YouYou
             }
         }
 
-        #region InitAssetInfo 初始化资源信息
-        private Action m_InitAssetInfoComplete;
-        /// <summary>
-        /// 初始化资源信息
-        /// </summary>
-        internal async void InitAssetInfo(Action initAssetInfoComplete)
-        {
-            m_InitAssetInfoComplete = initAssetInfoComplete;
-
-            byte[] buffer = MainEntry.AssetsManager.LocalAssetsManager.GetFileBuffer(YFConstDefine.AssetInfoName);
-            if (buffer == null)
-            {
-                //如果可写区没有,从CDN读取
-                string url = string.Format("{0}{1}", SystemModel.Instance.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
-                HttpCallBackArgs args = await GameEntry.Http.GetArgsAsync(url, false);
-                if (!args.HasError)
-                {
-                    GameEntry.Log(LogCategory.Loader, "从CDN初始化资源信息");
-                    InitAssetInfo(args.Data);
-                }
-            }
-            else
-            {
-                GameEntry.Log(LogCategory.Loader, "从可写区初始化资源信息");
-                InitAssetInfo(buffer);
-            }
-        }
-
-        /// <summary>
-        /// 初始化资源信息
-        /// </summary>
-        private void InitAssetInfo(byte[] buffer)
-        {
-            buffer = ZlibHelper.DeCompressBytes(buffer);//解压
-
-            MMO_MemoryStream ms = new MMO_MemoryStream(buffer);
-            int len = ms.ReadInt();
-            int depLen = 0;
-            for (int i = 0; i < len; i++)
-            {
-                AssetInfoEntity entity = new AssetInfoEntity();
-                entity.AssetFullName = ms.ReadUTF8String();
-                entity.AssetBundleName = ms.ReadUTF8String();
-
-                //GameEntry.Log("entity.AssetBundleName=" + entity.AssetBundleName);
-                //GameEntry.Log("entity.AssetFullName=" + entity.AssetFullName);
-
-                depLen = ms.ReadInt();
-                if (depLen > 0)
-                {
-                    entity.DependsAssetBundleList = new List<string>(depLen);
-                    for (int j = 0; j < depLen; j++)
-                    {
-                        entity.DependsAssetBundleList.Add(ms.ReadUTF8String());
-                    }
-                }
-
-                m_AssetInfoDic[entity.AssetFullName] = entity;
-            }
-
-            m_InitAssetInfoComplete?.Invoke();
-        }
-
-        /// <summary>
-        /// 根据资源路径获取资源信息
-        /// </summary>
-        internal AssetInfoEntity GetAssetEntity(string assetFullName)
-        {
-            AssetInfoEntity entity = null;
-            if (m_AssetInfoDic.TryGetValue(assetFullName, out entity))
-            {
-                return entity;
-            }
-            GameEntry.LogError(LogCategory.Loader, "资源不存在, assetFullName=>{0}", assetFullName);
-            return null;
-        }
-        #endregion
 
         #region LoadAssetBundle 加载资源包
         /// <summary>
@@ -188,7 +111,7 @@ namespace YouYou
         /// </summary>
         public async UniTask<AssetBundle> LoadAssetBundleMainAndDependAsync(string assetFullName, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null)
         {
-            AssetInfoEntity assetEntity = GameEntry.Loader.GetAssetEntity(assetFullName);
+            AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(assetFullName);
             if (assetEntity == null) return null;
 
             //加载这个资源所依赖的资源包
@@ -213,7 +136,7 @@ namespace YouYou
 
         public AssetBundle LoadAssetBundleMainAndDepend(string assetFullName)
         {
-            AssetInfoEntity assetEntity = GameEntry.Loader.GetAssetEntity(assetFullName);
+            AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(assetFullName);
             if (assetEntity == null) return null;
 
             //加载这个资源所依赖的资源包

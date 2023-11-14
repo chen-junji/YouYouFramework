@@ -2,6 +2,7 @@ using Main;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 
@@ -40,16 +41,16 @@ namespace YouYou
         #region LoadAssetBundle 加载资源包
         public void LoadAssetBundleAsync(string assetBundlePath)
         {
-            CurrAssetBundleInfo = MainEntry.AssetsManager.GetAssetBundleInfo(assetBundlePath);
+            CurrAssetBundleInfo = MainEntry.Assets.VersionFile.GetVersionFileEntity(assetBundlePath);
 
             //检查文件在可写区是否存在
-            bool isExistsInLocal = MainEntry.AssetsManager.LocalAssetsManager.CheckFileExists(assetBundlePath);
+            bool isExistsInLocal = File.Exists(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
             if (isExistsInLocal)
             {
                 if (CurrAssetBundleInfo.IsEncrypt)
                 {
                     //可写区加载, 需要解密
-                    byte[] buffer = MainEntry.AssetsManager.LocalAssetsManager.GetFileBuffer(assetBundlePath);
+                    byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
                     if (buffer != null)
                     {
                         buffer = SecurityUtil.Xor(buffer);
@@ -80,17 +81,17 @@ namespace YouYou
         }
         public static AssetBundle LoadAssetBundle(string assetBundlePath)
         {
-            VersionFileEntity assetBundleInfo = MainEntry.AssetsManager.GetAssetBundleInfo(assetBundlePath);
+            VersionFileEntity assetBundleInfo = MainEntry.Assets.VersionFile.GetVersionFileEntity(assetBundlePath);
 
             //检查文件在可写区是否存在
-            bool isExistsInLocal = MainEntry.AssetsManager.LocalAssetsManager.CheckFileExists(assetBundlePath);
+            bool isExistsInLocal = File.Exists(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
 
             if (isExistsInLocal)
             {
                 if (assetBundleInfo.IsEncrypt)
                 {
                     //可写区加载, 需要解密
-                    byte[] buffer = MainEntry.AssetsManager.LocalAssetsManager.GetFileBuffer(assetBundlePath);
+                    byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
                     if (buffer != null)
                     {
                         buffer = SecurityUtil.Xor(buffer);

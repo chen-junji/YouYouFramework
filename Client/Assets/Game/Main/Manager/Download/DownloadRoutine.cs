@@ -86,7 +86,7 @@ namespace Main
             m_OnComplete = onComplete;
             m_CurrRetry = 0;
 
-            m_DownloadLocalFilePath = string.Format("{0}/{1}", MainEntry.AssetsManager.LocalFilePath, m_CurrFileUrl);
+            m_DownloadLocalFilePath = string.Format("{0}/{1}", Application.persistentDataPath, m_CurrFileUrl);
 
             //如果本地已有目标文件, 则删除
             if (File.Exists(m_DownloadLocalFilePath)) File.Delete(m_DownloadLocalFilePath);
@@ -256,7 +256,7 @@ namespace Main
             if (PlayerPrefs.HasKey(m_CurrFileUrl)) PlayerPrefs.DeleteKey(m_CurrFileUrl);
 
             //更新可写区的版本信息
-            MainEntry.AssetsManager.SaveVersion(m_CurrAssetBundleInfo);
+            MainEntry.Assets.VersionFile.SaveVersion(m_CurrAssetBundleInfo);
 
             MainEntry.ClassObjectPool.Enqueue(this);
             m_OnComplete?.Invoke(m_CurrFileUrl, this);
