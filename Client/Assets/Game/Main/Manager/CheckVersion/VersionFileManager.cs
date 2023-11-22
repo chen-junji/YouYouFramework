@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 namespace Main
 {
     /// <summary>
-    /// 可写区资源管理器
+    /// 版本文件 管理器
     /// </summary>
     public class VersionFileManager
     {

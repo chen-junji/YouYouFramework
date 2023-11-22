@@ -61,7 +61,10 @@ namespace Main
             {
                 for (LinkedListNode<OnActionHandler> curr = lstHandler.First; curr != null; curr = curr.Next)
                 {
-                    curr.Value?.Invoke(userData);
+                    if (curr.Value.Target != null)
+                    {
+                        curr.Value?.Invoke(userData);
+                    }
                 }
             }
         }
