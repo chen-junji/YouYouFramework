@@ -69,6 +69,7 @@ namespace YouYou
             SceneManager.sceneLoaded += (Scene scene, LoadSceneMode sceneMode) =>
             {
                 if (CurrSceneEntityGroup.Count == 0) return;
+                if (CurrSceneEntityGroup.Find(x => x.ScenePath == scene.path) == null) return;
 
                 //设置列表里的第一个场景为主场景(激活场景)
                 if (scene.path == CurrSceneEntityGroup[0].ScenePath)
@@ -83,6 +84,7 @@ namespace YouYou
             SceneManager.sceneUnloaded += (Scene scene) =>
             {
                 if (CurrSceneEntityGroup.Count == 0) return;
+                if (CurrSceneEntityGroup.Find(x => x.ScenePath == scene.path) == null) return;
 
                 m_CurrUnloadSceneDetailCount++;
                 if (m_CurrUnloadSceneDetailCount == CurrSceneEntityGroup.Count)
