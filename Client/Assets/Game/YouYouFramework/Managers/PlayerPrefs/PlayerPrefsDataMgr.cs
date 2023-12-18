@@ -16,8 +16,6 @@ public class PlayerPrefsDataMgr : Observable<PlayerPrefsDataMgr, PlayerPrefsData
         BGMVolume,
         //音效音量
         AudioVolume,
-        //是否震动
-        IsShake,
         //游戏暂停
         GamePause,
         //最大帧率
