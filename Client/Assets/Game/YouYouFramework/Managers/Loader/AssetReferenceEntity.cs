@@ -75,6 +75,11 @@ namespace YouYou
 
         public static AssetReferenceEntity Create(string path, Object obj)
         {
+            if(obj == null)
+            {
+                return null;
+            }
+
             AssetReferenceEntity referenceEntity = MainEntry.ClassObjectPool.Dequeue<AssetReferenceEntity>();
             referenceEntity.AssetPath = path;
             referenceEntity.Target = obj;

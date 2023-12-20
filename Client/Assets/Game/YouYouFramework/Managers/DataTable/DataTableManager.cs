@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace YouYou
 {
-    public class DataTableManager 
+    public class DataTableManager
     {
         internal Action OnLoadDataTableComplete;
         internal void Init()
@@ -83,10 +83,10 @@ namespace YouYou
                 if (onComplete != null) onComplete(buffer);
             });
 #else
-            GameEntry.Loader.LoadAssetAction(GameUtil.GetLastPathName(dataTableName), m_DataTableBundle, onComplete: (UnityEngine.Object obj) =>
+            GameEntry.Loader.LoadAssetAction(GameUtil.GetLastPathName(dataTableName), m_DataTableBundle, onComplete: (AssetReferenceEntity referenceEntity) =>
             {
-                if (obj == null) return;
-                TextAsset asset = obj as TextAsset;
+                if (referenceEntity == null) return;
+                TextAsset asset = referenceEntity.Target as TextAsset;
                 if (onComplete != null) onComplete(asset.bytes);
             });
 #endif

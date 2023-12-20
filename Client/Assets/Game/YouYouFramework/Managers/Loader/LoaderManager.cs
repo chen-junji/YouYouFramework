@@ -59,7 +59,7 @@ namespace YouYou
         /// <summary>
         /// 加载资源包
         /// </summary>
-        public void LoadAssetBundleAction(string assetbundlePath, Action<AssetBundle> onComplete = null, Action<float> onUpdate = null,Action<float>onDownloadUpdate = null)
+        public void LoadAssetBundleAction(string assetbundlePath, Action<AssetBundle> onComplete = null, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null)
         {
             //使用TaskGroup, 加入异步加载队列, 防止高并发导致的重复加载
             AssetBundleTaskGroup.AddTask((taskRoutine) =>
@@ -194,11 +194,20 @@ namespace YouYou
         /// <summary>
         /// 异步加载
         /// </summary>
-        public void LoadAssetAction(string assetName, AssetBundle assetBundle, Action<float> onUpdate = null, Action<Object> onComplete = null)
+        public void LoadAssetAction(string assetPath, AssetBundle assetBundle, Action<float> onUpdate = null, Action<AssetReferenceEntity> onComplete = null)
         {
             //使用TaskGroup, 加入异步加载队列, 防止高并发导致的重复加载
             AssetTaskGroup.AddTask((taskRoutine) =>
             {
+                //从分类资源池(AssetPool)中查找主资源
+                AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetPath);
+                if (referenceEntity != null)
+                {
+                    onComplete?.Invoke(referenceEntity);
+                    //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
+                    return;
+                }
+
                 AssetLoaderRoutine routine = AssetLoaderRoutine.Create();
 
                 //加入链表开始循环
@@ -210,38 +219,38 @@ namespace YouYou
                 routine.OnLoadAssetComplete = (Object obj) =>
                 {
                     taskRoutine.Leave();
-                    onComplete?.Invoke(obj);
+                    referenceEntity = AssetReferenceEntity.Create(assetPath, obj);
+                    onComplete?.Invoke(referenceEntity);
 
                     //结束循环 回池
                     m_AssetLoaderList.Remove(routine);
                 };
                 //加载资源
-                routine.LoadAssetAsync(assetName, assetBundle);
+                routine.LoadAssetAsync(assetPath, assetBundle);
             });
             AssetTaskGroup.Run();
         }
-        public UniTask<Object> LoadAssetAsync(string assetName, AssetBundle assetBundle, Action<float> onUpdate = null)
+        public UniTask<AssetReferenceEntity> LoadAssetAsync(string assetPath, AssetBundle assetBundle, Action<float> onUpdate = null)
         {
-            var task = new UniTaskCompletionSource<Object>();
-            LoadAssetAction(assetName, assetBundle, onUpdate, (obj) =>
+            var task = new UniTaskCompletionSource<AssetReferenceEntity>();
+            LoadAssetAction(assetPath, assetBundle, onUpdate, (AssetReferenceEntity assetReferenceEntity) =>
             {
-                task.TrySetResult(obj);
+                task.TrySetResult(assetReferenceEntity);
             });
             return task.Task;
         }
 
-        public Object LoadAsset(string assetName, AssetBundle assetBundle)
+        public AssetReferenceEntity LoadAsset(string assetPath, AssetBundle assetBundle)
         {
             //如果这个Asset在异步加载中，则直接堵塞主线程，返回Request.asset
             for (LinkedListNode<AssetLoaderRoutine> curr = m_AssetLoaderList.First; curr != null; curr = curr.Next)
             {
-                if (curr.Value.CurrAssetName == assetName)
+                if (curr.Value.CurrAssetName == assetPath)
                 {
-                    return curr.Value.CurrAssetBundleRequest.asset;
+                    return AssetReferenceEntity.Create(assetPath, curr.Value.CurrAssetBundleRequest.asset);
                 }
             }
-
-            return assetBundle.LoadAsset(assetName);
+            return AssetReferenceEntity.Create(assetPath, assetBundle.LoadAsset(assetPath));
         }
         #endregion
 
@@ -270,18 +279,11 @@ namespace YouYou
             //加载主资源包和依赖资源包
             AssetBundle mainAssetBundle = await GameEntry.Loader.LoadAssetBundleMainAndDependAsync(assetPath, onUpdate, onDownloadUpdate);
 
-            //从分类资源池(AssetPool)中查找主资源 (再次查找是为了防止高并发情况下，异步加载AssetBundle后，AssetPool内已经有Asset对象了)
-            referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetPath);
-            if (referenceEntity != null)
-            {
-                //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
-                return referenceEntity;
-            }
-
-            Object obj = await GameEntry.Loader.LoadAssetAsync(assetPath, mainAssetBundle);
-            referenceEntity = AssetReferenceEntity.Create(assetPath, obj);
+            //加载主资源
+            referenceEntity = await GameEntry.Loader.LoadAssetAsync(assetPath, mainAssetBundle);
 #endif
 
+            if (referenceEntity == null) GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetPath);
             return referenceEntity;
         }
 
@@ -309,11 +311,10 @@ namespace YouYou
             AssetBundle mainAssetBundle = GameEntry.Loader.LoadAssetBundleMainAndDepend(assetPath);
 
             //加载主资源
-            Object obj = GameEntry.Loader.LoadAsset(assetPath, mainAssetBundle);
-            referenceEntity = AssetReferenceEntity.Create(assetPath, obj);
+            referenceEntity = GameEntry.Loader.LoadAsset(assetPath, mainAssetBundle);
 #endif
 
-            if (referenceEntity.Target == null) GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetPath);
+            if (referenceEntity == null) GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetPath);
             return referenceEntity;
         }
         #endregion

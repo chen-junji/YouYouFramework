@@ -64,6 +64,11 @@ namespace YouYou
 
         public static AssetBundleReferenceEntity Create(string path, AssetBundle target)
         {
+            if (target == null)
+            {
+                return null;
+            }
+
             AssetBundleReferenceEntity assetBundleEntity = MainEntry.ClassObjectPool.Dequeue<AssetBundleReferenceEntity>();
             assetBundleEntity.AssetBundlePath = path;
             assetBundleEntity.Target = target;
