@@ -14,7 +14,7 @@ public partial class Sys_SceneEntity : DataTableEntityBase
     /// <summary>
     /// 场景路径
     /// </summary>
-    public string ScenePath;
+    public string AssetFullPath;
 
     /// <summary>
     /// 背景音乐

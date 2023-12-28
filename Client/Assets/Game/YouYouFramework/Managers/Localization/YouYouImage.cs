@@ -22,7 +22,7 @@ namespace YouYou
 
             if (GameEntry.Localization != null)
             {
-                m_Image.AutoLoadSprite(GameEntry.Localization.GetString(m_Localization));
+                m_Image.AutoLoadTexture(GameEntry.Localization.GetString(m_Localization));
             }
         }
     }

@@ -85,22 +85,15 @@ namespace YouYou
 
             //对象池物体克隆请求
             InstanceHandler.InstantiateDelegates += InstantiateDelegate;
-            //对象池物体销毁请求
-            InstanceHandler.DestroyDelegates += DestroyDelegate;
         }
         private GameObject InstantiateDelegate(GameObject prefab, Vector3 pos, Quaternion rot)
         {
             GameObject obj = Object.Instantiate(prefab, pos, rot);
             if (m_PrefabAssetDic.TryGetValue(prefab.GetInstanceID(), out AssetReferenceEntity referenceEntity))
             {
-                GameEntry.Pool.RegisterInstanceAsset(obj.GetInstanceID(), referenceEntity);
+                AutoReleaseHandle.Add(referenceEntity, obj);
             }
             return obj;
-        }
-        private void DestroyDelegate(GameObject instance)
-        {
-            Object.Destroy(instance);
-            GameEntry.Pool.ReleaseInstanceAsset(instance.GetInstanceID());
         }
 
         /// <summary>
@@ -144,11 +137,11 @@ namespace YouYou
         }
         public async UniTask<PoolObj> SpawnAsync(Sys_PrefabEntity entity, Transform panent = null)
         {
-            AssetReferenceEntity referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(entity.AssetPath);
+            AssetReferenceEntity referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(entity.AssetFullPath);
             GameObject retObj = referenceEntity.Target as GameObject;
             if (retObj == null)
             {
-                YouYou.GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullName==" + entity.AssetPath);
+                YouYou.GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullName==" + entity.AssetFullPath);
                 return null;
             }
             Transform prefab = retObj.transform;
@@ -170,11 +163,11 @@ namespace YouYou
         }
         public PoolObj Spawn(Sys_PrefabEntity entity, Transform panent = null)
         {
-            AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(entity.AssetPath);
+            AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(entity.AssetFullPath);
             GameObject retObj = referenceEntity.Target as GameObject;
             if (retObj == null)
             {
-                YouYou.GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullName==" + entity.AssetPath);
+                YouYou.GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullPath==" + entity.AssetFullPath);
                 return null;
             }
             Transform prefab = retObj.transform;
@@ -184,7 +177,7 @@ namespace YouYou
             return Spawn(prefab, panent, entity.PoolId, entity.CullDespawned == 1, entity.CullAbove, entity.CullDelay, entity.CullMaxPerPass);
         }
 
-        public PoolObj Spawn(Transform prefab, Transform panent = null, byte poolId = 1, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
+        public PoolObj Spawn(Transform prefab, Transform parent = null, byte poolId = 1, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
         {
             if (prefab == null)
             {
@@ -209,8 +202,20 @@ namespace YouYou
             //拿到一个实例
             bool isNewInstance = false;
             Transform retTrans = gameObjectPoolEntity.Pool.Spawn(prefab, ref isNewInstance);
-            InitObj(retTrans, panent, prefab.gameObject, prefabPoolInner);
 
+            //初始化实例
+            int instanceID = retTrans.gameObject.GetInstanceID();
+            m_InstanceIdPoolIdDic[instanceID] = prefabPoolInner;
+            if (parent != null)
+            {
+                retTrans.SetParent(parent, false);
+            }
+            else
+            {
+                retTrans.SetParent(prefabPoolInner.spawnPool.transform, false);
+            }
+
+            //初始化实例的PoolObj
             PoolObj poolObj = retTrans.gameObject.GetOrCreatComponent<PoolObj>();
             poolObj.IsNew = isNewInstance;
             if (!poolObj.IsNew) poolObj.OnOpen();
@@ -218,26 +223,6 @@ namespace YouYou
             poolObj.BeginTime();
 
             return poolObj;
-        }
-        void InitObj(Transform retTrans, Transform pannt, GameObject prefab, PrefabPool prefabPool)
-        {
-            int instanceID = retTrans.gameObject.GetInstanceID();
-            m_InstanceIdPoolIdDic[instanceID] = prefabPool;
-
-            if (pannt != null)
-            {
-                retTrans.SetParent(pannt);
-            }
-            else
-            {
-                retTrans.SetParent(prefabPool.spawnPool.transform);
-            }
-            if (prefab != null)
-            {
-                retTrans.localPosition = prefab.transform.localPosition;
-                retTrans.localScale = prefab.transform.localScale;
-                retTrans.localEulerAngles = prefab.transform.localEulerAngles;
-            }
         }
         #endregion
 

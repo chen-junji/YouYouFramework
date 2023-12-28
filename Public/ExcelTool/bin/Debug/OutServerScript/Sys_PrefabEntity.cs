@@ -9,7 +9,7 @@ public partial class Sys_PrefabEntity : DataTableEntityBase
     /// <summary>
     /// 路径
     /// </summary>
-    public string AssetPath;
+    public string AssetFullPath;
 
     /// <summary>
     /// 对象池编号

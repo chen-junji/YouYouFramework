@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 using YouYou;
-
+using Cysharp.Threading.Tasks;
 
 public class GameUtil
 {
@@ -23,7 +23,7 @@ public class GameUtil
         return clips.ToArray();
 #else
         AssetInfoEntity m_CurrAssetEnity = GameEntry.Loader.AssetInfo.GetAssetEntity(path);
-        AssetBundle bundle = GameEntry.Loader.LoadAssetBundle(m_CurrAssetEnity.AssetBundleName);
+        AssetBundle bundle = GameEntry.Loader.LoadAssetBundle(m_CurrAssetEnity.AssetBundleFullPath);
         return bundle.LoadAllAssets<AnimationClip>();
 #endif
     }
@@ -43,16 +43,26 @@ public class GameUtil
     }
 
     /// <summary>
-    /// 加载Prefab
+    /// 加载Prefab并克隆
     /// </summary>
-    public static GameObject LoadPrefab(PrefabName prefabName)
+    public static GameObject LoadPrefabClone(string prefabFullPath, Transform parent = null)
     {
-        Sys_PrefabEntity sys_Prefab = GameEntry.DataTable.Sys_PrefabDBModel.GetEntity(prefabName.ToString());
-        return GameEntry.Loader.LoadMainAsset<GameObject>(sys_Prefab.AssetPath);
+        AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(prefabFullPath);
+        if (referenceEntity != null)
+        {
+            GameObject obj = UnityEngine.Object.Instantiate(referenceEntity.Target as GameObject, parent);
+            AutoReleaseHandle.Add(referenceEntity, obj);
+        }
+        return null;
     }
-    public static GameObject LoadPrefab(string prefabName)
+    public static async UniTask<GameObject> LoadPrefabCloneAsync(string prefabFullPath, Transform parent = null)
     {
-        Sys_PrefabEntity sys_Prefab = GameEntry.DataTable.Sys_PrefabDBModel.GetEntity(prefabName);
-        return GameEntry.Loader.LoadMainAsset<GameObject>(sys_Prefab.AssetPath);
+        AssetReferenceEntity referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(prefabFullPath);
+        if (referenceEntity != null)
+        {
+            GameObject obj = UnityEngine.Object.Instantiate(referenceEntity.Target as GameObject, parent);
+            AutoReleaseHandle.Add(referenceEntity, obj);
+        }
+        return null;
     }
 }

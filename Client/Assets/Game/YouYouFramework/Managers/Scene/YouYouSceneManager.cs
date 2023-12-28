@@ -69,10 +69,10 @@ namespace YouYou
             SceneManager.sceneLoaded += (Scene scene, LoadSceneMode sceneMode) =>
             {
                 if (CurrSceneEntityGroup.Count == 0) return;
-                if (CurrSceneEntityGroup.Find(x => x.ScenePath == scene.path) == null) return;
+                if (CurrSceneEntityGroup.Find(x => x.AssetFullPath == scene.path) == null) return;
 
                 //设置列表里的第一个场景为主场景(激活场景)
-                if (scene.path == CurrSceneEntityGroup[0].ScenePath)
+                if (scene.path == CurrSceneEntityGroup[0].AssetFullPath)
                 {
                     SceneManager.SetActiveScene(scene);
                     //初始化对象池
@@ -84,7 +84,7 @@ namespace YouYou
             SceneManager.sceneUnloaded += (Scene scene) =>
             {
                 if (CurrSceneEntityGroup.Count == 0) return;
-                if (CurrSceneEntityGroup.Find(x => x.ScenePath == scene.path) == null) return;
+                if (CurrSceneEntityGroup.Find(x => x.AssetFullPath == scene.path) == null) return;
 
                 m_CurrUnloadSceneDetailCount++;
                 if (m_CurrUnloadSceneDetailCount == CurrSceneEntityGroup.Count)
@@ -134,7 +134,7 @@ namespace YouYou
                 for (int i = 0; i < CurrSceneEntityGroup.Count; i++)
                 {
                     SceneLoaderRoutine routine = new SceneLoaderRoutine();
-                    routine.UnLoadScene(CurrSceneEntityGroup[i].ScenePath);
+                    routine.UnLoadScene(CurrSceneEntityGroup[i].AssetFullPath);
                 }
             }
             else
@@ -155,7 +155,7 @@ namespace YouYou
             {
                 SceneLoaderRoutine routine = new SceneLoaderRoutine();
                 m_SceneLoaderList.AddLast(routine);
-                routine.LoadScene(CurrSceneEntityGroup[i].ScenePath, (string sceneDetailId, float progress) =>
+                routine.LoadScene(CurrSceneEntityGroup[i].AssetFullPath, (string sceneDetailId, float progress) =>
                 {
                     //记录每个场景明细当前的进度
                     m_TargetProgressDic[sceneDetailId] = progress;
@@ -228,7 +228,7 @@ namespace YouYou
             for (int i = 0; i < CurrSceneEntityGroup.Count; i++)
             {
                 SceneLoaderRoutine routine = new SceneLoaderRoutine();
-                routine.UnLoadScene(CurrSceneEntityGroup[i].ScenePath);
+                routine.UnLoadScene(CurrSceneEntityGroup[i].AssetFullPath);
             }
             m_CurrSceneGroupName = SceneGroupName.None;
             CurrSceneEntityGroup.Clear();

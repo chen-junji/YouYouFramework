@@ -91,7 +91,7 @@ namespace YouYou
             if (sys_UIForm == null) return null;
             if (sys_UIForm.CanMulit == 0 && IsExists(sys_UIForm.Id))
             {
-                GameEntry.LogError(LogCategory.Framework, "不重复打开同一个UI窗口==" + sys_UIForm.Id + "  " + sys_UIForm.AssetFullName);
+                GameEntry.LogError(LogCategory.Framework, "不重复打开同一个UI窗口==" + sys_UIForm.Id + "  " + sys_UIForm.AssetFullPath);
                 return null;
             }
 
@@ -107,9 +107,7 @@ namespace YouYou
             }
 
             //对象池没有, 克隆新的
-            AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(sys_UIForm.AssetFullName);
-            GameObject uiObj = Object.Instantiate((GameObject)referenceEntity.Target, GameEntry.UI.GetUIGroup(sys_UIForm.UIGroupId).Group);
-            GameEntry.Pool.RegisterInstanceAsset(uiObj.GetInstanceID(), referenceEntity);
+            GameObject uiObj = GameUtil.LoadPrefabClone(sys_UIForm.AssetFullPath, GameEntry.UI.GetUIGroup(sys_UIForm.UIGroupId).Group);
 
             //初始化UI
             formBase = uiObj.GetComponent<UIFormBase>();

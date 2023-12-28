@@ -14,7 +14,7 @@ namespace YouYou
             for (int i = 0; i < m_List.Count; i++)
             {
                 Sys_SceneEntity entity = m_List[i];
-                string[] strs = entity.ScenePath.Split('/');
+                string[] strs = entity.AssetFullPath.Split('/');
                 if (strs.Length >= 1)
                 {
                     if (!GroupNameByDic.ContainsKey(entity.SceneGroup))

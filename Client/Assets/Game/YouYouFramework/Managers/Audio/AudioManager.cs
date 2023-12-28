@@ -120,7 +120,7 @@ namespace YouYou
             }
 
             CurrBGMEntity = entity;
-            AudioClip audioClip = GameEntry.Loader.LoadMainAsset<AudioClip>(CurrBGMEntity.AssetPath);
+            AudioClip audioClip = GameEntry.Loader.LoadMainAsset<AudioClip>(CurrBGMEntity.AssetFullPath, BGMSource.gameObject);
             PlayBGM(audioClip, CurrBGMEntity.IsLoop == 1, CurrBGMEntity.Volume, CurrBGMEntity.IsFadeIn == 1, CurrBGMEntity.IsFadeOut == 1);
         }
         public void PlayBGM(AudioClip audioClip, bool isLoop, float volume, bool isFadeIn, bool isFadeOut)
@@ -192,17 +192,24 @@ namespace YouYou
         public void PlayAudio(string audioName, Vector3 point)
         {
             Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName);
-            AudioClip audioClip = GameEntry.Loader.LoadMainAsset<AudioClip>(sys_Audio.AssetPath);
-            AudioSource helper = PlayAudio2(audioClip, sys_Audio.Volume, sys_Audio.Priority);
-            if (helper == null) return;
-            helper.transform.position = point;
-            helper.spatialBlend = 1;
+            AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(sys_Audio.AssetFullPath);
+            AudioSource helper = PlayAudio2(referenceEntity.Target as AudioClip, sys_Audio.Volume, sys_Audio.Priority);
+            if (helper != null)
+            {
+                AutoReleaseHandle.Add(referenceEntity, helper.gameObject);
+                helper.transform.position = point;
+                helper.spatialBlend = 1;
+            }
         }
         public void PlayAudio(string audioName)
         {
             Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName);
-            AudioClip audioClip = GameEntry.Loader.LoadMainAsset<AudioClip>(sys_Audio.AssetPath);
-            PlayAudio2(audioClip, sys_Audio.Volume, sys_Audio.Priority);
+            AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(sys_Audio.AssetFullPath);
+            AudioSource helper = PlayAudio2(referenceEntity.Target as AudioClip, sys_Audio.Volume, sys_Audio.Priority);
+            if (helper != null)
+            {
+                AutoReleaseHandle.Add(referenceEntity, helper.gameObject);
+            }
         }
 
         private AudioSource PlayAudio2(AudioClip audioClip, float volume = 1, int priority = 128)

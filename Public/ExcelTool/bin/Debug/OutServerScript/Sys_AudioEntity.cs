@@ -9,7 +9,7 @@ public partial class Sys_AudioEntity : DataTableEntityBase
     /// <summary>
     /// 路径
     /// </summary>
-    public string AssetPath;
+    public string AssetFullPath;
 
     /// <summary>
     /// 音量（0-1）

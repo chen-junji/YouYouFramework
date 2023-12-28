@@ -29,7 +29,6 @@ namespace YouYou
             GameObjectPool = new GameObjectPool();
 
             AssetBundlePool = new AssetBundlePool("AssetBundlePool");
-            m_InstanceAssetDic = new Dictionary<int, AssetReferenceEntity>();
             AssetPool = new AssetPool("AssetPool");
         }
 
@@ -208,35 +207,5 @@ namespace YouYou
 
         }
 
-        #region 游戏物体对象池
-        /// <summary>
-        /// 克隆出来的实例资源字典
-        /// </summary>
-        private Dictionary<int, AssetReferenceEntity> m_InstanceAssetDic;
-
-
-        /// <summary>
-        /// 把克隆出来的资源 加入实例资源池
-        /// </summary>
-        public void RegisterInstanceAsset(int instanceId, AssetReferenceEntity referenceEntity)
-        {
-            //YouYou.GameEntry.LogError("注册到实例字典instanceId=" + instanceId);
-            m_InstanceAssetDic[instanceId] = referenceEntity;
-            referenceEntity.Spawn(true);
-        }
-
-        /// <summary>
-        /// 释放实例资源, 从实例字典Remove
-        /// </summary>
-        public void ReleaseInstanceAsset(int instanceId)
-        {
-            //YouYou.GameEntry.LogError("释放实例资源instanceId=" + instanceId);
-            if (m_InstanceAssetDic.TryGetValue(instanceId, out AssetReferenceEntity referenceEntity))
-            {
-                referenceEntity.Unspawn(true);
-                m_InstanceAssetDic.Remove(instanceId);
-            }
-        }
-        #endregion
     }
 }

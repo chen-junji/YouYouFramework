@@ -106,7 +106,6 @@ namespace YouYou
         }
         public void Release(UIFormBase uIBase)
         {
-            GameEntry.Pool.ReleaseInstanceAsset(uIBase.gameObject.GetInstanceID());
             m_UIFormList.Remove(uIBase);
             Object.Destroy(uIBase.gameObject);
         }

@@ -1,14 +1,14 @@
-Sys_SceneEntity = { Id = 0, SceneGroup = "", ScenePath = "", BGMId = "" }
+Sys_SceneEntity = { Id = 0, SceneGroup = "", AssetFullPath = "", BGMId = "" }
 
 Sys_SceneEntity.__index = Sys_SceneEntity;
 
-function Sys_SceneEntity.New(Id, SceneGroup, ScenePath, BGMId)
+function Sys_SceneEntity.New(Id, SceneGroup, AssetFullPath, BGMId)
     local self = { };
     setmetatable(self, Sys_SceneEntity);
 
     self.Id = Id;
     self.SceneGroup = SceneGroup;
-    self.ScenePath = ScenePath;
+    self.AssetFullPath = AssetFullPath;
     self.BGMId = BGMId;
 
     return self;

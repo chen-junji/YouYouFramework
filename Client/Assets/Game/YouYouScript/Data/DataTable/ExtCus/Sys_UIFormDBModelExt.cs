@@ -18,13 +18,13 @@ namespace YouYou
                 switch (GameEntry.CurrLanguage)
                 {
                     case YouYouLanguage.Chinese:
-                        entity.AssetFullName = entity.AssetPath_Chinese;
+                        entity.AssetFullPath = entity.AssetPath_Chinese;
                         break;
                     case YouYouLanguage.English:
-                        entity.AssetFullName = string.IsNullOrWhiteSpace(entity.AssetPath_English) ? entity.AssetPath_Chinese : entity.AssetPath_English;
+                        entity.AssetFullPath = string.IsNullOrWhiteSpace(entity.AssetPath_English) ? entity.AssetPath_Chinese : entity.AssetPath_English;
                         break;
                 }
-                string[] strs = entity.AssetFullName.Split('.')[0].Split('/');
+                string[] strs = entity.AssetFullPath.Split('.')[0].Split('/');
                 if (strs.Length >= 1)
                 {
                     string str = strs[strs.Length - 1];

@@ -27,7 +27,7 @@ namespace YouYou
             {
                 Sys_BGMEntity entity = new Sys_BGMEntity();
                 entity.Id = ms.ReadInt();
-                entity.AssetPath = ms.ReadUTF8String();
+                entity.AssetFullPath = ms.ReadUTF8String();
                 entity.Volume = ms.ReadFloat();
                 entity.IsLoop = (byte)ms.ReadByte();
                 entity.IsFadeIn = (byte)ms.ReadByte();

@@ -27,7 +27,7 @@ namespace Hotfix
             {
                 Sys_AudioEntity entity = new Sys_AudioEntity();
                 entity.Id = ms.ReadInt();
-                entity.AssetPath = ms.ReadUTF8String();
+                entity.AssetFullPath = ms.ReadUTF8String();
                 entity.Volume = ms.ReadFloat();
                 entity.Priority = (byte)ms.ReadByte();
 

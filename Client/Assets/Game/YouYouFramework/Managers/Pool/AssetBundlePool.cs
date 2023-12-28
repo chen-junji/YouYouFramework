@@ -48,7 +48,6 @@ namespace YouYou
 #if UNITY_EDITOR
             InspectorDic.Add(entity.AssetBundlePath, entity);
 #endif
-            entity.Spawn();
             m_AssetBundleDic.Add(entity.AssetBundlePath, entity);
         }
 
@@ -59,9 +58,9 @@ namespace YouYou
         {
             if (m_AssetBundleDic.TryGetValue(resourceName, out AssetBundleReferenceEntity abReferenceEntity))
             {
-                abReferenceEntity.Spawn();
+                return abReferenceEntity;
             }
-            return abReferenceEntity;
+            return null;
         }
 
         /// <summary>

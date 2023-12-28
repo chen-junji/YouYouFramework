@@ -27,7 +27,7 @@ namespace YouYou
             {
                 Sys_PrefabEntity entity = new Sys_PrefabEntity();
                 entity.Id = ms.ReadInt();
-                entity.AssetPath = ms.ReadUTF8String();
+                entity.AssetFullPath = ms.ReadUTF8String();
                 entity.PoolId = (byte)ms.ReadByte();
                 entity.CullDespawned = (byte)ms.ReadByte();
                 entity.CullAbove = ms.ReadInt();

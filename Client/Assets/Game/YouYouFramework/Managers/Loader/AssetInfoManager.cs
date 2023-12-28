@@ -61,8 +61,8 @@ namespace YouYou
             for (int i = 0; i < len; i++)
             {
                 AssetInfoEntity entity = new AssetInfoEntity();
-                entity.AssetFullName = ms.ReadUTF8String();
-                entity.AssetBundleName = ms.ReadUTF8String();
+                entity.AssetFullPath = ms.ReadUTF8String();
+                entity.AssetBundleFullPath = ms.ReadUTF8String();
 
                 //GameEntry.Log("entity.AssetBundleName=" + entity.AssetBundleName);
                 //GameEntry.Log("entity.AssetFullName=" + entity.AssetFullName);
@@ -77,7 +77,7 @@ namespace YouYou
                     }
                 }
 
-                m_AssetInfoDic[entity.AssetFullName] = entity;
+                m_AssetInfoDic[entity.AssetFullPath] = entity;
             }
 
             m_InitAssetInfoComplete?.Invoke();

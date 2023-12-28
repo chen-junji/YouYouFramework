@@ -103,10 +103,7 @@ public class RoleSkinComponent : MonoBehaviour
 
         //加载皮肤
         CurrSkin = GameEntry.Pool.GameObjectPool.Spawn(skinName);
-        CurrSkin.transform.SetParent(transform);
-        CurrSkin.transform.localPosition = Vector3.zero;
-        CurrSkin.transform.localScale = Vector3.one;
-        CurrSkin.transform.localEulerAngles = Vector3.zero;
+        CurrSkin.transform.SetParent(transform, false);
 
         m_CurrSkinnedMeshRenderer = CurrSkin.GetComponentInChildren<SkinnedMeshRenderer>();
     }
@@ -118,9 +115,9 @@ public class RoleSkinComponent : MonoBehaviour
     {
         if (m_CurrSkinnedMeshRenderer == null) return;
 #if UNITY_EDITOR
-        m_CurrSkinnedMeshRenderer.material = GameEntry.Loader.LoadMainAsset<Material>(materialPath);
+        m_CurrSkinnedMeshRenderer.material = GameEntry.Loader.LoadMainAsset<Material>(materialPath, m_CurrSkinnedMeshRenderer.gameObject);
 #else
-        m_CurrSkinnedMeshRenderer.sharedMaterial = GameEntry.Loader.LoadMainAsset<Material>(materialPath);
+        m_CurrSkinnedMeshRenderer.sharedMaterial = GameEntry.Loader.LoadMainAsset<Material>(materialPath, m_CurrSkinnedMeshRenderer.gameObject);
 #endif
     }
 

@@ -270,23 +270,23 @@ public class AssetBundleSettings : ScriptableObject
             AssetInfoEntity entity = tempLst[i];
 
             AssetInfoEntity newEntity = new AssetInfoEntity();
-            newEntity.AssetFullName = entity.AssetFullName;
-            newEntity.AssetBundleName = entity.AssetBundleName;
+            newEntity.AssetFullPath = entity.AssetFullPath;
+            newEntity.AssetBundleFullPath = entity.AssetBundleFullPath;
 
             assetList.Add(newEntity);
 
             newEntity.DependsAssetBundleList = new List<string>();
-            string[] arr = AssetDatabase.GetDependencies(entity.AssetFullName, true);
+            string[] arr = AssetDatabase.GetDependencies(entity.AssetFullPath, true);
             foreach (string str in arr)
             {
                 if (!str.IsSuffix(".cs") && tempDic.ContainsKey(str))
                 {
                     //把多余的依赖AB包剔除掉，比如依赖AB包==主AB包， 或者依赖AB包已经存在于DependsAssetBundleList内
-                    if (!newEntity.AssetBundleName.Equals(tempDic[str].AssetBundleName) && 
-                        !newEntity.DependsAssetBundleList.Contains(tempDic[str].AssetBundleName))
+                    if (!newEntity.AssetBundleFullPath.Equals(tempDic[str].AssetBundleFullPath) && 
+                        !newEntity.DependsAssetBundleList.Contains(tempDic[str].AssetBundleFullPath))
                     {
                         //把依赖资源 加入到依赖资源列表
-                        newEntity.DependsAssetBundleList.Add(tempDic[str].AssetBundleName);
+                        newEntity.DependsAssetBundleList.Add(tempDic[str].AssetBundleFullPath);
                     }
                 }
             }
@@ -305,8 +305,8 @@ public class AssetBundleSettings : ScriptableObject
         for (int i = 0; i < assetList.Count; i++)
         {
             AssetInfoEntity entity = assetList[i];
-            ms.WriteUTF8String(entity.AssetFullName);
-            ms.WriteUTF8String(entity.AssetBundleName);
+            ms.WriteUTF8String(entity.AssetFullPath);
+            ms.WriteUTF8String(entity.AssetBundleFullPath);
 
             if (entity.DependsAssetBundleList != null)
             {
@@ -355,12 +355,12 @@ public class AssetBundleSettings : ScriptableObject
 
             AssetInfoEntity entity = new AssetInfoEntity();
             //相对路径
-            entity.AssetFullName = filePath.Substring(filePath.IndexOf("Assets\\")).Replace("\\", "/");
+            entity.AssetFullPath = filePath.Substring(filePath.IndexOf("Assets\\")).Replace("\\", "/");
             //Debug.LogError("AssetFullName==" + entity.AssetFullName);
 
-            entity.AssetBundleName = (GetAssetBundleName(entity.AssetFullName) + ".assetbundle").ToLower();
+            entity.AssetBundleFullPath = (GetAssetBundleName(entity.AssetFullPath) + ".assetbundle").ToLower();
             tempLst.Add(entity);
-            tempDic.Add(entity.AssetFullName, entity);
+            tempDic.Add(entity.AssetFullPath, entity);
         }
     }
     #endregion

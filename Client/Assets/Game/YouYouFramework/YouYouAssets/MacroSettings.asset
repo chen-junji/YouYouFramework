@@ -15,6 +15,9 @@ MonoBehaviour:
   CurrAssetLoadTarget: 1
   Settings:
   - Enabled: 1
+    Name: "\u8C03\u8BD5\u6A21\u5F0F"
+    Macro: DEBUG_MODEL
+  - Enabled: 1
     Name: "\u6253\u5370\u666E\u901A\u65E5\u5FD7"
     Macro: DEBUG_LOG_NORMAL
   - Enabled: 1
@@ -23,6 +26,3 @@ MonoBehaviour:
   - Enabled: 1
     Name: "\u6253\u5370\u9519\u8BEF\u65E5\u5FD7"
     Macro: DEBUG_LOG_ERROR
-  - Enabled: 1
-    Name: "\u8C03\u8BD5\u6A21\u5F0F"
-    Macro: DEBUG_MODEL

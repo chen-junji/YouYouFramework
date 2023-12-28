@@ -32,25 +32,31 @@ namespace YouYou
 
 
         /// <summary>
-        /// 对象取池
+        /// 刷新最后使用时间
         /// </summary>
-        public void Spawn()
+        public void RefeshLastUseTime()
         {
             LastUseTime = Time.time;
-
-            //如果是锁定资源包 不释放
-            if (GameEntry.Pool.CheckAssetBundleIsLock(AssetBundlePath))
-            {
-                ReferenceCount = 1;
-            }
         }
 
         /// <summary>
-        /// 对象回池
+        /// 引用计数+1
         /// </summary>
-        public void Unspawn()
+        public void ReferenceAdd()
         {
-            LastUseTime = Time.time;
+            ReferenceCount++;
+        }
+        /// <summary>
+        /// 引用计数-1
+        /// </summary>
+        public void ReferenceRemove()
+        {
+            RefeshLastUseTime();
+            ReferenceCount--;
+            if (ReferenceCount < 0)
+            {
+                GameEntry.LogError(LogCategory.Loader, "AB引用计数出错， ReferenceCount==" + ReferenceCount);
+            }
         }
 
         /// <summary>
@@ -73,6 +79,13 @@ namespace YouYou
             assetBundleEntity.AssetBundlePath = path;
             assetBundleEntity.Target = target;
             GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
+
+            //如果是锁定资源包, 默认引用计数就是1
+            if (GameEntry.Pool.CheckAssetBundleIsLock(path))
+            {
+                assetBundleEntity.ReferenceAdd();
+            }
+
             return assetBundleEntity;
         }
         /// <summary>
@@ -81,10 +94,9 @@ namespace YouYou
         public void Release()
         {
             AssetBundle bundle = Target;
-            bundle.Unload(false);
+            bundle.Unload(true);
 
             AssetBundlePath = null;
-            ReferenceCount = 0;
             Target = null;
 
             MainEntry.ClassObjectPool.Enqueue(this); //把这个资源实体回池

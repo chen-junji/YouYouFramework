@@ -28,7 +28,7 @@ namespace Hotfix
                 Sys_SceneEntity entity = new Sys_SceneEntity();
                 entity.Id = ms.ReadInt();
                 entity.SceneGroup = ms.ReadUTF8String();
-                entity.ScenePath = ms.ReadUTF8String();
+                entity.AssetFullPath = ms.ReadUTF8String();
                 entity.BGMId = ms.ReadUTF8String();
 
                 m_List.Add(entity);

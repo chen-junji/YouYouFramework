@@ -49,10 +49,9 @@ namespace YouYou
         public void Register(AssetReferenceEntity entity)
         {
 #if UNITY_EDITOR
-            InspectorDic.Add(entity.AssetPath, entity);
+            InspectorDic.Add(entity.AssetFullPath, entity);
 #endif
-            entity.Spawn(false);
-            m_AssetDic.Add(entity.AssetPath, entity);
+            m_AssetDic.Add(entity.AssetFullPath, entity);
         }
 
         /// <summary>
@@ -62,9 +61,9 @@ namespace YouYou
         {
             if (m_AssetDic.TryGetValue(resourceName, out AssetReferenceEntity referenceEntity))
             {
-                referenceEntity.Spawn(false);
+                return referenceEntity;
             }
-            return referenceEntity;
+            return null;
         }
 
         /// <summary>
@@ -79,9 +78,9 @@ namespace YouYou
                 if (referenceEntity.GetCanRelease())
                 {
 #if UNITY_EDITOR
-                    InspectorDic.Remove(referenceEntity.AssetPath);
+                    InspectorDic.Remove(referenceEntity.AssetFullPath);
 #endif
-                    m_NeedRemoveKeyList.AddFirst(referenceEntity.AssetPath);
+                    m_NeedRemoveKeyList.AddFirst(referenceEntity.AssetFullPath);
                     referenceEntity.Release();
                 }
             }

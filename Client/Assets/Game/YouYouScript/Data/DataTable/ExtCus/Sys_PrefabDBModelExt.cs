@@ -15,7 +15,7 @@ namespace YouYou
             for (int i = 0; i < m_List.Count; i++)
             {
                 Sys_PrefabEntity entity = m_List[i];
-                string[] strs = entity.AssetPath.Split('.')[0].Split('/');
+                string[] strs = entity.AssetFullPath.Split('.')[0].Split('/');
                 if (strs.Length >= 1)
                 {
                     string str = strs[strs.Length - 1];

@@ -38,15 +38,9 @@ public static class GameObjectUtil
     /// <summary>
     /// 自动加载图片
     /// </summary>
-    public static async void AutoLoadSprite(this Image img, string imgPath, bool isSetNativeSize = false)
+    public static async void AutoLoadTexture(this Image img, string imgPath, bool isSetNativeSize = false)
     {
-        Object asset = await GameEntry.Loader.LoadMainAssetAsync<Object>(imgPath);
-        if (asset == null)
-        {
-            Debug.LogError("img==" + img + "==ImgPath==" + imgPath);
-            return;
-        }
-
+        Object asset = await GameEntry.Loader.LoadMainAssetAsync<Object>(imgPath, img.gameObject);
         Sprite obj = null;
         if (asset is Sprite)
         {
@@ -63,19 +57,11 @@ public static class GameObjectUtil
     /// <summary>
     /// 自动加载图片
     /// </summary>
-    public static async void AutoLoadSprite(this RawImage img, string imgPath, bool isSetNativeSize = false)
+    public static async void AutoLoadTexture(this RawImage img, string imgPath, bool isSetNativeSize = false)
     {
-        if (img != null && !string.IsNullOrEmpty(imgPath))
-        {
-            Texture2D asset = await GameEntry.Loader.LoadMainAssetAsync<Texture2D>(imgPath);
-            if (asset == null)
-            {
-                Debug.LogError("img==" + img + "==ImgPath==" + imgPath);
-                return;
-            }
-            img.texture = asset;
-            if (isSetNativeSize) img.SetNativeSize();
-        }
+        Texture2D asset = await GameEntry.Loader.LoadMainAssetAsync<Texture2D>(imgPath, img.gameObject);
+        img.texture = asset;
+        if (isSetNativeSize) img.SetNativeSize();
     }
 
     /// <summary>

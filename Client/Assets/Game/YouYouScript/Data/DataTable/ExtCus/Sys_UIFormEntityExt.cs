@@ -8,6 +8,6 @@ namespace YouYou
 {
     public partial class Sys_UIFormEntity
     {
-        public string AssetFullName;
+        public string AssetFullPath;
     }
 }

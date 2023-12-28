@@ -100,9 +100,9 @@ namespace YouYou
         public UniTask<AssetBundle> LoadAssetBundleAsync(string assetbundlePath, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null)
         {
             var task = new UniTaskCompletionSource<AssetBundle>();
-            LoadAssetBundleAction(assetbundlePath, (ab) =>
+            LoadAssetBundleAction(assetbundlePath, (AssetBundle bundle) =>
             {
-                task.TrySetResult(ab);
+                task.TrySetResult(bundle);
             }, onUpdate, onDownloadUpdate);
             return task.Task;
         }
@@ -125,10 +125,10 @@ namespace YouYou
             }
 
             //加载主资源包
-            AssetBundle m_MainAssetBundle = await GameEntry.Loader.LoadAssetBundleAsync(assetEntity.AssetBundleName, onUpdate, onDownloadUpdate);
+            AssetBundle m_MainAssetBundle = await GameEntry.Loader.LoadAssetBundleAsync(assetEntity.AssetBundleFullPath, onUpdate, onDownloadUpdate);
             if (m_MainAssetBundle == null)
             {
-                GameEntry.LogError(LogCategory.Loader, "MainAssetBundle not exists " + assetEntity.AssetFullName);
+                GameEntry.LogError(LogCategory.Loader, "MainAssetBundle not exists " + assetEntity.AssetFullPath);
                 return null;
             }
             return m_MainAssetBundle;
@@ -150,10 +150,10 @@ namespace YouYou
             }
 
             //加载主资源包
-            AssetBundle m_MainAssetBundle = GameEntry.Loader.LoadAssetBundle(assetEntity.AssetBundleName);
+            AssetBundle m_MainAssetBundle = GameEntry.Loader.LoadAssetBundle(assetEntity.AssetBundleFullPath);
             if (m_MainAssetBundle == null)
             {
-                GameEntry.LogError(LogCategory.Loader, "MainAssetBundle not exists " + assetEntity.AssetFullName);
+                GameEntry.LogError(LogCategory.Loader, "MainAssetBundle not exists " + assetEntity.AssetFullPath);
                 return null;
             }
             return m_MainAssetBundle;
@@ -194,13 +194,13 @@ namespace YouYou
         /// <summary>
         /// 异步加载
         /// </summary>
-        public void LoadAssetAction(string assetPath, AssetBundle assetBundle, Action<float> onUpdate = null, Action<AssetReferenceEntity> onComplete = null)
+        public void LoadAssetAction(string assetFullPath, AssetBundle assetBundle, Action<float> onUpdate = null, Action<AssetReferenceEntity> onComplete = null)
         {
             //使用TaskGroup, 加入异步加载队列, 防止高并发导致的重复加载
             AssetTaskGroup.AddTask((taskRoutine) =>
             {
                 //从分类资源池(AssetPool)中查找主资源
-                AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetPath);
+                AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullPath);
                 if (referenceEntity != null)
                 {
                     onComplete?.Invoke(referenceEntity);
@@ -219,54 +219,68 @@ namespace YouYou
                 routine.OnLoadAssetComplete = (Object obj) =>
                 {
                     taskRoutine.Leave();
-                    referenceEntity = AssetReferenceEntity.Create(assetPath, obj);
+                    referenceEntity = AssetReferenceEntity.Create(assetFullPath, obj);
                     onComplete?.Invoke(referenceEntity);
 
                     //结束循环 回池
                     m_AssetLoaderList.Remove(routine);
                 };
                 //加载资源
-                routine.LoadAssetAsync(assetPath, assetBundle);
+                routine.LoadAssetAsync(assetFullPath, assetBundle);
             });
             AssetTaskGroup.Run();
         }
-        public UniTask<AssetReferenceEntity> LoadAssetAsync(string assetPath, AssetBundle assetBundle, Action<float> onUpdate = null)
+        public UniTask<AssetReferenceEntity> LoadAssetAsync(string assetFullPath, AssetBundle assetBundle, Action<float> onUpdate = null)
         {
             var task = new UniTaskCompletionSource<AssetReferenceEntity>();
-            LoadAssetAction(assetPath, assetBundle, onUpdate, (AssetReferenceEntity assetReferenceEntity) =>
+            LoadAssetAction(assetFullPath, assetBundle, onUpdate, (AssetReferenceEntity assetReferenceEntity) =>
             {
                 task.TrySetResult(assetReferenceEntity);
             });
             return task.Task;
         }
 
-        public AssetReferenceEntity LoadAsset(string assetPath, AssetBundle assetBundle)
+        public AssetReferenceEntity LoadAsset(string assetFullPath, AssetBundle assetBundle)
         {
             //如果这个Asset在异步加载中，则直接堵塞主线程，返回Request.asset
             for (LinkedListNode<AssetLoaderRoutine> curr = m_AssetLoaderList.First; curr != null; curr = curr.Next)
             {
-                if (curr.Value.CurrAssetName == assetPath)
+                if (curr.Value.CurrAssetName == assetFullPath)
                 {
-                    return AssetReferenceEntity.Create(assetPath, curr.Value.CurrAssetBundleRequest.asset);
+                    return AssetReferenceEntity.Create(assetFullPath, curr.Value.CurrAssetBundleRequest.asset);
                 }
             }
-            return AssetReferenceEntity.Create(assetPath, assetBundle.LoadAsset(assetPath));
+            return AssetReferenceEntity.Create(assetFullPath, assetBundle.LoadAsset(assetFullPath));
         }
         #endregion
 
         #region LoadMainAsset 加载主资源(自动加载依赖)
         /// <summary>
-        /// 异步加载主资源(自动加载依赖)
+        /// 异步加载主资源，自动加载依赖
         /// </summary>
-        public async UniTask<T> LoadMainAssetAsync<T>(string assetPath, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null) where T : Object
+        /// <param name="target">依赖的游戏物体， 它销毁时会触发引用计数减少</param>
+        public async UniTask<T> LoadMainAssetAsync<T>(string assetFullPath, GameObject target, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null) where T : Object
         {
-            AssetReferenceEntity resEntity = await LoadMainAssetAsync(assetPath, onUpdate, onDownloadUpdate);
-            return resEntity.Target as T;
+            if (target == null)
+            {
+                GameEntry.LogError(LogCategory.Loader, "依赖的游戏物体不可为空");
+                return null;
+            }
+            AssetReferenceEntity referenceEntity = await LoadMainAssetAsync(assetFullPath, onUpdate, onDownloadUpdate);
+            AutoReleaseHandle.Add(referenceEntity, target);
+            return referenceEntity.Target as T;
         }
-        public async UniTask<AssetReferenceEntity> LoadMainAssetAsync(string assetPath, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null)
+        /// <summary>
+        /// 异步加载主资源，自动加载依赖， 注意：这个方法需要自己调用AssetReferenceEntity.ReferenceAdd去管理引用计数
+        /// </summary>
+        /// <param name="assetFullPath"></param>
+        /// <param name="onUpdate"></param>
+        /// <param name="onDownloadUpdate"></param>
+        /// <returns></returns>
+        public async UniTask<AssetReferenceEntity> LoadMainAssetAsync(string assetFullPath, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null)
         {
             //从分类资源池(AssetPool)中查找主资源
-            AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetPath);
+            AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullPath);
             if (referenceEntity != null)
             {
                 //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
@@ -274,30 +288,41 @@ namespace YouYou
             }
 
 #if EDITORLOAD && UNITY_EDITOR
-            referenceEntity = AssetReferenceEntity.Create(assetPath, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetPath));
+            referenceEntity = AssetReferenceEntity.Create(assetFullPath, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetFullPath));
 #else
             //加载主资源包和依赖资源包
-            AssetBundle mainAssetBundle = await GameEntry.Loader.LoadAssetBundleMainAndDependAsync(assetPath, onUpdate, onDownloadUpdate);
+            AssetBundle mainAssetBundle = await GameEntry.Loader.LoadAssetBundleMainAndDependAsync(assetFullPath, onUpdate, onDownloadUpdate);
 
             //加载主资源
-            referenceEntity = await GameEntry.Loader.LoadAssetAsync(assetPath, mainAssetBundle);
+            referenceEntity = await GameEntry.Loader.LoadAssetAsync(assetFullPath, mainAssetBundle);
 #endif
 
-            if (referenceEntity == null) GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetPath);
+            if (referenceEntity == null) GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetFullPath);
             return referenceEntity;
         }
 
         /// <summary>
-        /// 同步加载主资源(自动加载依赖)
+        /// 同步加载主资源, 自动加载依赖
         /// </summary>
-        public T LoadMainAsset<T>(string assetPath) where T : Object
+        /// <param name="target">依赖的游戏物体， 它销毁时会触发引用计数减少</param>
+        public T LoadMainAsset<T>(string assetFullPath, GameObject target) where T : Object
         {
-            return LoadMainAsset(assetPath).Target as T;
+            if (target == null)
+            {
+                GameEntry.LogError(LogCategory.Loader, "依赖的游戏物体不可为空");
+                return null;
+            }
+            AssetReferenceEntity referenceEntity = LoadMainAsset(assetFullPath);
+            AutoReleaseHandle.Add(referenceEntity, target);
+            return referenceEntity.Target as T;
         }
-        public AssetReferenceEntity LoadMainAsset(string assetPath)
+        /// <summary>
+        /// 同步加载主资源, 自动加载依赖， 注意：这个方法需要自己调用AssetReferenceEntity.ReferenceAdd去管理引用计数
+        /// </summary>
+        public AssetReferenceEntity LoadMainAsset(string assetFullPath)
         {
             //从分类资源池(AssetPool)中查找主资源
-            AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetPath);
+            AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullPath);
             if (referenceEntity != null)
             {
                 //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
@@ -305,16 +330,16 @@ namespace YouYou
             }
 
 #if EDITORLOAD && UNITY_EDITOR
-            referenceEntity = AssetReferenceEntity.Create(assetPath, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetPath));
+            referenceEntity = AssetReferenceEntity.Create(assetFullPath, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetFullPath));
 #else
             //加载主资源包和依赖资源包
-            AssetBundle mainAssetBundle = GameEntry.Loader.LoadAssetBundleMainAndDepend(assetPath);
+            AssetBundle mainAssetBundle = GameEntry.Loader.LoadAssetBundleMainAndDepend(assetFullPath);
 
             //加载主资源
-            referenceEntity = GameEntry.Loader.LoadAsset(assetPath, mainAssetBundle);
+            referenceEntity = GameEntry.Loader.LoadAsset(assetFullPath, mainAssetBundle);
 #endif
 
-            if (referenceEntity == null) GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetPath);
+            if (referenceEntity == null) GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetFullPath);
             return referenceEntity;
         }
         #endregion
