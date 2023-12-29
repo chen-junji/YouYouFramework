@@ -116,12 +116,9 @@ namespace YouYou
 
             //加载这个资源所依赖的资源包
             List<string> dependsAssetList = assetEntity.DependsAssetBundleList;
-            if (dependsAssetList != null)
+            for (int i = 0; i < dependsAssetList.Count; i++)
             {
-                for (int i = 0; i < dependsAssetList.Count; i++)
-                {
-                    await GameEntry.Loader.LoadAssetBundleAsync(dependsAssetList[i]);
-                }
+                await GameEntry.Loader.LoadAssetBundleAsync(dependsAssetList[i]);
             }
 
             //加载主资源包
@@ -141,12 +138,9 @@ namespace YouYou
 
             //加载这个资源所依赖的资源包
             List<string> dependsAssetList = assetEntity.DependsAssetBundleList;
-            if (dependsAssetList != null)
+            for (int i = 0; i < dependsAssetList.Count; i++)
             {
-                for (int i = 0; i < dependsAssetList.Count; i++)
-                {
-                    GameEntry.Loader.LoadAssetBundle(dependsAssetList[i]);
-                }
+                GameEntry.Loader.LoadAssetBundle(dependsAssetList[i]);
             }
 
             //加载主资源包
@@ -273,17 +267,13 @@ namespace YouYou
         /// <summary>
         /// 异步加载主资源，自动加载依赖， 注意：这个方法需要自己调用AssetReferenceEntity.ReferenceAdd去管理引用计数
         /// </summary>
-        /// <param name="assetFullPath"></param>
-        /// <param name="onUpdate"></param>
-        /// <param name="onDownloadUpdate"></param>
-        /// <returns></returns>
         public async UniTask<AssetReferenceEntity> LoadMainAssetAsync(string assetFullPath, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null)
         {
             //从分类资源池(AssetPool)中查找主资源
             AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullPath);
             if (referenceEntity != null)
             {
-                //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
+                //GameEntry.Log(LogCategory.Loader, "从分类资源池加载" + referenceEntity.AssetFullPath);
                 return referenceEntity;
             }
 
@@ -297,7 +287,7 @@ namespace YouYou
             referenceEntity = await GameEntry.Loader.LoadAssetAsync(assetFullPath, mainAssetBundle);
 #endif
 
-            if (referenceEntity == null) GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetFullPath);
+            if (referenceEntity == null) GameEntry.LogError(LogCategory.Loader, "资源加载失败,assetFullPath=={0}", assetFullPath);
             return referenceEntity;
         }
 
@@ -325,7 +315,7 @@ namespace YouYou
             AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullPath);
             if (referenceEntity != null)
             {
-                //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
+                //GameEntry.Log(LogCategory.Loader, "从分类资源池加载" + referenceEntity.AssetFullPath);
                 return referenceEntity;
             }
 
@@ -339,7 +329,7 @@ namespace YouYou
             referenceEntity = GameEntry.Loader.LoadAsset(assetFullPath, mainAssetBundle);
 #endif
 
-            if (referenceEntity == null) GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetFullPath);
+            if (referenceEntity == null) GameEntry.LogError(LogCategory.Loader, "资源加载失败,assetFullPath=={0}", assetFullPath);
             return referenceEntity;
         }
         #endregion

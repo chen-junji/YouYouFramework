@@ -17,7 +17,7 @@ public class TestResource : MonoBehaviour
                 Destroy(testGameobject);
             }
 
-            testGameobject = GameUtil.LoadPrefabClone("Assets/Game/Download/Role/RoleSources/cike/zhujiao_cike_animation.prefab");
+            testGameobject = GameUtil.LoadPrefabClone("Assets/Game/Download/Prefab/Role/cike/zhujiao_cike_animation.prefab");
             Debug.Log(testGameobject);
         }
         if (Input.GetKeyUp(KeyCode.D))
@@ -27,7 +27,7 @@ public class TestResource : MonoBehaviour
                 Destroy(testGameobject);
             }
 
-            testGameobject = await GameUtil.LoadPrefabCloneAsync("Assets/Game/Download/Role/RoleSources/cike/zhujiao_cike_animation.prefab");
+            testGameobject = await GameUtil.LoadPrefabCloneAsync("Assets/Game/Download/Prefab/Role/cike/zhujiao_cike_animation.prefab");
             Debug.Log(testGameobject);
         }
     }

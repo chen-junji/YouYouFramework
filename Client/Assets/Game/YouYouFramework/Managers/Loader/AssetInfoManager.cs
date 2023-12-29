@@ -67,10 +67,10 @@ namespace YouYou
                 //GameEntry.Log("entity.AssetBundleName=" + entity.AssetBundleName);
                 //GameEntry.Log("entity.AssetFullName=" + entity.AssetFullName);
 
+                entity.DependsAssetBundleList = new List<string>();
                 depLen = ms.ReadInt();
                 if (depLen > 0)
                 {
-                    entity.DependsAssetBundleList = new List<string>(depLen);
                     for (int j = 0; j < depLen; j++)
                     {
                         entity.DependsAssetBundleList.Add(ms.ReadUTF8String());

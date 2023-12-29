@@ -1,12 +1,9 @@
 using Main;
-using Sirenix.OdinInspector.Editor.Modules;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.WSA;
 using YouYou;
-using static LZ4.LZ4Codec;
 
 public class RedDotCtrl : Singleton<RedDotCtrl>
 {

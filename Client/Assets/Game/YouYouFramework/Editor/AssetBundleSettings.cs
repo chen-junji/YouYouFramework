@@ -494,7 +494,8 @@ public class AssetBundleSettings : ScriptableObject
                     else
                     {
                         //零散资源
-                        return assetFullName.Substring(0, assetFullName.LastIndexOf('.')).ToLower().Replace("assets/", "");
+                        //return assetFullName.Substring(0, assetFullName.LastIndexOf('.')).ToLower().Replace("assets/", "");
+                        return assetFullName.ToLower().Replace("assets/", "");
                     }
                 }
             }
@@ -564,7 +565,8 @@ public class AssetBundleSettings : ScriptableObject
             for (int i = 0; i < arr.Length; i++)
             {
                 AssetBundleBuild build = new AssetBundleBuild();
-                build.assetBundleName = arr[i].Substring(0, arr[i].LastIndexOf('.')).Replace("Assets/", "") + ".ab";
+                //build.assetBundleName = arr[i].Substring(0, arr[i].LastIndexOf('.')).Replace("Assets/", "") + ".ab";
+                build.assetBundleName = arr[i].Replace("Assets/", "") + ".ab";
                 build.assetBundleVariant = "y";
                 build.assetNames = new string[] { arr[i] };
 

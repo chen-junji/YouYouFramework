@@ -19,6 +19,7 @@ public class RoleCtrl : MonoBehaviour
     /// </summary>
     [SerializeField]
     private BehaviourTreeSO BTSO;
+    private BehaviourTree behaviourTree;
 
     protected virtual void Awake()
     {
@@ -30,9 +31,13 @@ public class RoleCtrl : MonoBehaviour
         AnimCompoent.InitAnim(GetComponentInChildren<Animator>());
 
         //初始化行为树
-        BehaviourTree bt = BTSO.CloneBehaviourTree();
-        bt.RoleCtrl = this;
-        bt.Start("Debugger Test");
+        behaviourTree = BTSO.CloneBehaviourTree();
+        behaviourTree.RoleCtrl = this;
+        behaviourTree.Start("Debugger Test");
+    }
+    private void OnDestroy()
+    {
+        behaviourTree.Cancel();
     }
 
     /// <summary>

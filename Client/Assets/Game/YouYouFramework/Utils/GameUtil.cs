@@ -52,6 +52,7 @@ public class GameUtil
         {
             GameObject obj = UnityEngine.Object.Instantiate(referenceEntity.Target as GameObject, parent);
             AutoReleaseHandle.Add(referenceEntity, obj);
+            return obj;
         }
         return null;
     }
@@ -62,6 +63,7 @@ public class GameUtil
         {
             GameObject obj = UnityEngine.Object.Instantiate(referenceEntity.Target as GameObject, parent);
             AutoReleaseHandle.Add(referenceEntity, obj);
+            return obj;
         }
         return null;
     }

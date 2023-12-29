@@ -46,6 +46,7 @@ namespace YouYou
         {
             ReferenceCount++;
 
+#if ASSETBUNDLE
             if (ReferenceCount == 1)
             {
                 AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(AssetFullPath);
@@ -57,6 +58,7 @@ namespace YouYou
                     dependAssetBundleEntity.ReferenceAdd();
                 }
             }
+#endif
         }
         /// <summary>
         /// 引用计数-1
@@ -66,7 +68,8 @@ namespace YouYou
             RefeshLastUseTime();
             ReferenceCount--;
 
-            if(ReferenceCount == 0)
+#if ASSETBUNDLE
+            if (ReferenceCount == 0)
             {
                 AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(AssetFullPath);
                 AssetBundleReferenceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
@@ -77,6 +80,7 @@ namespace YouYou
                     dependAssetBundleEntity.ReferenceRemove();
                 }
             }
+#endif
 
             if (ReferenceCount < 0)
             {

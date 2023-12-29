@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AssetBundleSettings
   m_EditorClassIdentifier: 
   AssetVersion: 1.0.0
-  CurrBuildTarget: 1
+  CurrBuildTarget: 0
   Options: 272
   AssetBundleSavePath: AssetBundles
   IsCanEditor: 1

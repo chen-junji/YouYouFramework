@@ -12,8 +12,9 @@ public class AutoReleaseHandle : MonoBehaviour
     {
         if (target == null)
         {
-            GameObject SceneRoot = null;//DOTO：这里是每个场景的对象池根节点，后续再补
+            GameObject SceneRoot = GameEntry.Pool.GameObjectPool.YouYouObjPool;
             target = SceneRoot;
+            GameEntry.Log(LogCategory.Loader, "因为{0}没有可绑定的target， 所以绑定到了{1}上， 随当前场景销毁而减少引用计数", referenceEntity.AssetFullPath, SceneRoot);
         }
 
         if (target != null)
