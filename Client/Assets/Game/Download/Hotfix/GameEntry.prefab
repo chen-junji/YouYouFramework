@@ -210,7 +210,6 @@ MonoBehaviour:
   - Id: 4
     BaseOrder: 3000
     Group: {fileID: 4719996667817288573}
-  AudioGroup: {fileID: 0}
   MonsterMixer: {fileID: 24100000, guid: b2cf29e1378929c43b3632019690086b, type: 2}
   m_CurrLanguage: 0
 --- !u!1 &4719996667742643965
@@ -467,7 +466,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1280, y: 720}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
