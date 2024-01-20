@@ -517,14 +517,8 @@ public class AssetBundleSettings : ScriptableObject
         string ScriptAssembliesDir = Application.dataPath + "/../" + "HybridCLRData/HotUpdateDlls/" + GetBuildTarget().ToString() + "/Assembly-CSharp.dll";
         File.Copy(ScriptAssembliesDir, Path.Combine(CodeDir, "Assembly-CSharp.dll.bytes"), true);
 
-        List<string> aotMetaAssemblyFiles = new List<string>()
-        {
-            "mscorlib.dll",
-            "System.dll",
-            "System.Core.dll",
-        };
         string aotMetaAssemblyDir = Application.dataPath + "/../" + "HybridCLRData/AssembliesPostIl2CppStrip/" + GetBuildTarget().ToString() + "/";
-        foreach (var aotDllName in aotMetaAssemblyFiles)
+        foreach (var aotDllName in HotfixManager.aotMetaAssemblyFiles)
         {
             File.Copy(aotMetaAssemblyDir + aotDllName, Path.Combine(CodeDir, aotDllName + ".bytes"), true);
         }

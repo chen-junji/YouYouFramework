@@ -9,6 +9,13 @@ namespace Main
     public class HotfixManager
     {
         private static AssetBundle hotfixAb;
+        public static List<string> aotMetaAssemblyFiles = new List<string>()
+        {
+            "mscorlib.dll",
+            "System.dll",
+            "System.Core.dll",
+            "UniTask.dll",
+        };
 
         public HotfixManager()
         {
@@ -29,15 +36,14 @@ namespace Main
                 //下载并加载热更程序集
                 CheckAndDownload(YFConstDefine.HotfixAssetBundlePath, (string fileUrl) =>
                 {
-#if !UNITY_EDITOR
                     hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, fileUrl));
+#if !UNITY_EDITOR
                     LoadMetadataForAOTAssemblies();
                     System.Reflection.Assembly.Load(hotfixAb.LoadAsset<TextAsset>("Assembly-CSharp.dll.bytes").bytes);
                     MainEntry.Log(MainEntry.LogCategory.Assets, "Assembly-CSharp.dll加载完毕");
 #endif
 
-                    AssetBundle prefabAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, fileUrl));
-                    UnityEngine.Object.Instantiate(prefabAb.LoadAsset<GameObject>("gameentry.prefab"));
+                    UnityEngine.Object.Instantiate(hotfixAb.LoadAsset<GameObject>("gameentry.prefab"));
                 });
             });
 
@@ -64,12 +70,6 @@ namespace Main
         /// </summary>
         private static void LoadMetadataForAOTAssemblies()
         {
-            List<string> aotMetaAssemblyFiles = new List<string>()
-            {
-                "mscorlib.dll",
-                "System.dll",
-                "System.Core.dll",
-            };
             /// 注意，补充元数据是给AOT dll补充元数据，而不是给热更新dll补充元数据。
             /// 热更新dll不缺元数据，不需要补充，如果调用LoadMetadataForAOTAssembly会返回错误
             /// 
