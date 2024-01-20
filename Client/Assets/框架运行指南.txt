@@ -1,17 +1,23 @@
 由于EditorLoad模式不需要做任何操作， 直接运行即可， 这里不做介绍
 
 下面介绍一下AssetBundle模式如何使用
-第一步，安装HybridCLR：点击HybridCLR/Installer, 点击安装
+第一步，安装HybridCLR：
+点击HybridCLR/Installer, 点击安装
 
-第二步，切换到AssetBundle模式：点击上方YouYouTool/YouYouEditor, 选择资源加载方式为AssetBundle并点击SaveMacro。
+第二步，切换到AssetBundle模式：
+点击上方YouYouTool/YouYouEditor, 选择资源加载方式为AssetBundle并点击SaveMacro。
 
-第三步，打包AssetBundle：点击YouYouEditor里面的AssetBundleSettings，点击打包到本地CDN
+第三步，打包AssetBundle：
+点击YouYouEditor里面的AssetBundleSettings，点击打包到本地CDN
 
-第四步，部署AssetBundle资源下载站点：可以使用HFS， 具体自己百度查教程， 使用浏览器测试一下能不能下载
+第四步，部署AssetBundle资源下载站点：
+可以使用HFS， 具体自己百度查教程， 使用浏览器测试一下能不能下载
 
-第五步，绑定资源站点地址：打开ChannelConfigEntity脚本， 在SourceUrl字段填上你的地址
+第五步，绑定资源站点地址：
+打开ChannelConfigEntity脚本， 在SourceUrl字段填上你的地址
 
-第六步，在Scene_Launch场景，运行游戏即可
+第六步，在Scene_Launch场景：
+运行游戏即可
 
 
 温馨提示：
