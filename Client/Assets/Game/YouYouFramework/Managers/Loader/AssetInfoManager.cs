@@ -1,4 +1,5 @@
-﻿using Main;
+﻿using Cysharp.Threading.Tasks;
+using Main;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,6 @@ namespace YouYou
         /// </summary>
         private Dictionary<string, AssetInfoEntity> m_AssetInfoDic;
 
-        private Action m_InitAssetInfoComplete;
-
         public AssetInfoManager()
         {
             m_AssetInfoDic = new Dictionary<string, AssetInfoEntity>();
@@ -25,10 +24,8 @@ namespace YouYou
         /// <summary>
         /// 初始化资源信息
         /// </summary>
-        internal async void InitAssetInfo(Action initAssetInfoComplete)
+        internal async UniTask<bool> InitAssetInfo()
         {
-            m_InitAssetInfoComplete = initAssetInfoComplete;
-
             byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/{1}", Application.persistentDataPath, YFConstDefine.AssetInfoName));
             if (buffer == null)
             {
@@ -39,13 +36,16 @@ namespace YouYou
                 {
                     GameEntry.Log(LogCategory.Loader, "从CDN初始化资源信息");
                     InitAssetInfo(args.Data);
+                    return true;
                 }
             }
             else
             {
                 GameEntry.Log(LogCategory.Loader, "从可写区初始化资源信息");
                 InitAssetInfo(buffer);
+                return true;
             }
+            return false;
         }
 
         /// <summary>
@@ -79,8 +79,6 @@ namespace YouYou
 
                 m_AssetInfoDic[entity.AssetFullPath] = entity;
             }
-
-            m_InitAssetInfoComplete?.Invoke();
         }
 
         /// <summary>

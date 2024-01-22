@@ -59,7 +59,7 @@ namespace YouYou
         /// <summary>
         /// 加载资源包
         /// </summary>
-        public void LoadAssetBundleAction(string assetbundlePath, Action<AssetBundle> onComplete = null, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null)
+        private void LoadAssetBundleAction(string assetbundlePath, Action<AssetBundle> onComplete = null, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null)
         {
             //使用TaskGroup, 加入异步加载队列, 防止高并发导致的重复加载
             AssetBundleTaskGroup.AddTask((taskRoutine) =>
@@ -188,12 +188,12 @@ namespace YouYou
         /// <summary>
         /// 异步加载
         /// </summary>
-        public void LoadAssetAction(string assetFullPath, AssetBundle assetBundle, Action<float> onUpdate = null, Action<AssetReferenceEntity> onComplete = null)
+        private void LoadAssetAction(string assetFullPath, AssetBundle assetBundle, Action<float> onUpdate = null, Action<AssetReferenceEntity> onComplete = null)
         {
             //使用TaskGroup, 加入异步加载队列, 防止高并发导致的重复加载
             AssetTaskGroup.AddTask((taskRoutine) =>
             {
-                //从分类资源池(AssetPool)中查找主资源
+                //从分类资源池(AssetPool)中查找资源
                 AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullPath);
                 if (referenceEntity != null)
                 {
@@ -236,6 +236,13 @@ namespace YouYou
 
         public AssetReferenceEntity LoadAsset(string assetFullPath, AssetBundle assetBundle)
         {
+            //从分类资源池(AssetPool)中查找资源
+            AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullPath);
+            if (referenceEntity != null)
+            {
+                //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
+                return referenceEntity;
+            }
             //如果这个Asset在异步加载中，则直接堵塞主线程，返回Request.asset
             for (LinkedListNode<AssetLoaderRoutine> curr = m_AssetLoaderList.First; curr != null; curr = curr.Next)
             {

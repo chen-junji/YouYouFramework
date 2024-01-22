@@ -7,7 +7,6 @@ namespace YouYou
 {
     public class DataTableManager
     {
-        internal Action OnLoadDataTableComplete;
         internal void Init()
         {
         }
@@ -26,27 +25,23 @@ namespace YouYou
         /// </summary>
         private void LoadDataTable()
         {
-            TaskGroup m_TaskGroup = GameEntry.Task.CreateTaskGroup();
             LocalizationDBModel = new LocalizationDBModel();
-            LocalizationDBModel.LoadData(m_TaskGroup);
+            LocalizationDBModel.LoadData();
 
             Sys_UIFormDBModel = new Sys_UIFormDBModel();
-            Sys_UIFormDBModel.LoadData(m_TaskGroup);
+            Sys_UIFormDBModel.LoadData();
 
             Sys_PrefabDBModel = new Sys_PrefabDBModel();
-            Sys_PrefabDBModel.LoadData(m_TaskGroup);
+            Sys_PrefabDBModel.LoadData();
 
             Sys_AudioDBModel = new Sys_AudioDBModel();
-            Sys_AudioDBModel.LoadData(m_TaskGroup);
+            Sys_AudioDBModel.LoadData();
 
             Sys_BGMDBModel = new Sys_BGMDBModel();
-            Sys_BGMDBModel.LoadData(m_TaskGroup);
+            Sys_BGMDBModel.LoadData();
 
             Sys_SceneDBModel = new Sys_SceneDBModel();
-            Sys_SceneDBModel.LoadData(m_TaskGroup);
-
-            m_TaskGroup.OnComplete = OnLoadDataTableComplete;
-            m_TaskGroup.Run(true);
+            Sys_SceneDBModel.LoadData();
         }
 
         /// <summary>
@@ -57,15 +52,11 @@ namespace YouYou
         /// <summary>
         /// 加载表格
         /// </summary>
-        internal void LoadDataAllTable(Action onComplete = null)
+        internal void LoadDataAllTable()
         {
-            OnLoadDataTableComplete = onComplete;
 #if ASSETBUNDLE
-            GameEntry.Loader.LoadAssetBundleAction(YFConstDefine.DataTableAssetBundlePath, onComplete: (AssetBundle bundle) =>
-            {
-                m_DataTableBundle = bundle;
-                LoadDataTable();
-            });
+            m_DataTableBundle = GameEntry.Loader.LoadAssetBundle(YFConstDefine.DataTableAssetBundlePath);
+            LoadDataTable();
 #else
             LoadDataTable();
 #endif
@@ -74,22 +65,18 @@ namespace YouYou
         /// <summary>
         /// 获取表格的字节数组
         /// </summary>
-        public void GetDataTableBuffer(string dataTableName, Action<byte[]> onComplete)
+        public byte[] GetDataTableBuffer(string dataTableName)
         {
 #if EDITORLOAD
-            GameEntry.Time.Yield(() =>
-            {
-                byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/Game/Download/DataTable/{1}.bytes", Application.dataPath, dataTableName));
-                if (onComplete != null) onComplete(buffer);
-            });
+            byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/Game/Download/DataTable/{1}.bytes", Application.dataPath, dataTableName));
+
 #else
-            GameEntry.Loader.LoadAssetAction(GameUtil.GetLastPathName(dataTableName), m_DataTableBundle, onComplete: (AssetReferenceEntity referenceEntity) =>
-            {
-                if (referenceEntity == null) return;
-                TextAsset asset = referenceEntity.Target as TextAsset;
-                if (onComplete != null) onComplete(asset.bytes);
-            });
+            AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadAsset(GameUtil.GetLastPathName(dataTableName), m_DataTableBundle);
+            if (referenceEntity == null) return null;
+            TextAsset asset = referenceEntity.Target as TextAsset;
+            byte[] buffer = asset.bytes;
 #endif
+            return buffer;
         }
     }
 }

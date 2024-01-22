@@ -68,26 +68,29 @@ namespace YouYou
             TaskGroup taskGroup = GameEntry.Task.CreateTaskGroup();
 #if ASSETBUNDLE
             //初始化资源信息
-            taskGroup.AddTask((taskRoutine) =>
+            taskGroup.AddTask(async (taskRoutine) =>
             {
-                GameEntry.Loader.AssetInfo.InitAssetInfo(taskRoutine.Leave);
+                bool isSuccess = await GameEntry.Loader.AssetInfo.InitAssetInfo();
+                if (isSuccess)
+                {
+                    taskRoutine.Leave();
+                }
             });
 
             //加载自定义Shader
-            taskGroup.AddTask((taskRoutine) =>
+            taskGroup.AddTask(async (taskRoutine) =>
             {
-                GameEntry.Loader.LoadAssetBundleAction(YFConstDefine.CusShadersAssetBundlePath, onComplete: (AssetBundle bundle) =>
-                {
-                    bundle.LoadAllAssets();
-                    Shader.WarmupAllShaders();
-                    taskRoutine.Leave();
-                });
+                AssetBundle bundle = await GameEntry.Loader.LoadAssetBundleAsync(YFConstDefine.CusShadersAssetBundlePath);
+                bundle.LoadAllAssets();
+                Shader.WarmupAllShaders();
+                taskRoutine.Leave();
             });
 #endif
             //加载Excel
             taskGroup.AddTask((taskRoutine) =>
             {
-                GameEntry.DataTable.LoadDataAllTable(taskRoutine.Leave);
+                GameEntry.DataTable.LoadDataAllTable();
+                taskRoutine.Leave();
             });
 
             taskGroup.OnCompleteOne = () =>
