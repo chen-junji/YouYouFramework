@@ -82,7 +82,7 @@ namespace YouYou
             {
                 AssetBundle bundle = await GameEntry.Loader.LoadAssetBundleAsync(YFConstDefine.CusShadersAssetBundlePath);
                 bundle.LoadAllAssets();
-                Shader.WarmupAllShaders();
+                //Shader.WarmupAllShaders();
                 taskRoutine.Leave();
             });
 #endif
