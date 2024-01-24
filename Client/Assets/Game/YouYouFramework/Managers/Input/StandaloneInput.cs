@@ -35,8 +35,10 @@ namespace YouYou
         internal override void OnEnter()
         {
             base.OnEnter();
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            //Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         internal override void OnLeave()
         {
