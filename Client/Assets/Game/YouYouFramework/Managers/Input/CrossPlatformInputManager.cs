@@ -11,15 +11,15 @@ namespace YouYou
         //也可以由其他输入设备实现，如kinect、电子传感器等
         public class VirtualAxis
         {
-            public InputName Name { get; private set; }
+            public string Name { get; private set; }
             private float m_Value;
             public bool MatchWithInputManager { get; private set; }
 
 
-            public VirtualAxis(InputName name) : this(name, true)
+            public VirtualAxis(string name) : this(name, true)
             {
             }
-            public VirtualAxis(InputName name, bool matchToInputSettings)
+            public VirtualAxis(string name, bool matchToInputSettings)
             {
                 Name = name;
                 MatchWithInputManager = matchToInputSettings;
@@ -115,20 +115,20 @@ namespace YouYou
                 Cursor.visible = true;
             }
 
-            public override float GetAxis(InputName name, bool raw)
+            public override float GetAxis(string name, bool raw)
             {
                 return 0;
             }
-            public override void SetAxis(InputName name, float value)
+            public override void SetAxis(string name, float value)
             {
             }
-            public override void SetAxisNegative(InputName name)
+            public override void SetAxisNegative(string name)
             {
             }
-            public override void SetAxisPositive(InputName name)
+            public override void SetAxisPositive(string name)
             {
             }
-            public override void SetAxisZero(InputName name)
+            public override void SetAxisZero(string name)
             {
             }
         }
@@ -207,16 +207,16 @@ namespace YouYou
         }
 
         // returns the platform appropriate axis for the given name
-        public float GetAxis(InputName name)
+        public float GetAxis(string name)
         {
             return GetAxis(name, false);
         }
-        public float GetAxisRaw(InputName name)
+        public float GetAxisRaw(string name)
         {
             return GetAxis(name, true);
         }
         // private function handles both types of axis (raw and not raw)
-        private float GetAxis(InputName name, bool raw)
+        private float GetAxis(string name, bool raw)
         {
             return CurrInput.GetAxis(name, raw);
         }
@@ -244,19 +244,19 @@ namespace YouYou
             CurrInput.SetButtonUp(name);
         }
 
-        public void SetAxisPositive(InputName name)
+        public void SetAxisPositive(string name)
         {
             CurrInput.SetAxisPositive(name);
         }
-        public void SetAxisNegative(InputName name)
+        public void SetAxisNegative(string name)
         {
             CurrInput.SetAxisNegative(name);
         }
-        public void SetAxisZero(InputName name)
+        public void SetAxisZero(string name)
         {
             CurrInput.SetAxisZero(name);
         }
-        public void SetAxis(InputName name, float value)
+        public void SetAxis(string name, float value)
         {
             CurrInput.SetAxis(name, value);
         }

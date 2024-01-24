@@ -72,7 +72,7 @@ namespace YouYou
                     screen = isGame ? 720 : 1080;
                     break;
             }
-            Screen.SetResolution((int)(screen * Screen.width / (float)Screen.height), screen, true);
+            Screen.SetResolution((int)(screen * Screen.width / (float)Screen.height), screen, Screen.fullScreen);
         }
 
         public void SetFrameRate(FrameRate frameRate)

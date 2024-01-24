@@ -68,8 +68,8 @@ namespace YouYou
             Vector2 delta = handle.localPosition / maxRadius;
             if (GameEntry.Input != null)
             {
-                GameEntry.Input.SetAxis(InputName.Horizontal, delta.x);
-                GameEntry.Input.SetAxis(InputName.Vertical, delta.y);
+                GameEntry.Input.SetAxis(CommonConst.Horizontal, delta.x);
+                GameEntry.Input.SetAxis(CommonConst.Vertical, delta.y);
             }
             OnChanged?.Invoke(delta);
         }

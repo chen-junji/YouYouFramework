@@ -11,10 +11,11 @@ namespace Main
         private static AssetBundle hotfixAb;
         public static List<string> aotMetaAssemblyFiles = new List<string>()
         {
-            "mscorlib.dll",
-            "System.dll",
-            "System.Core.dll",
-            "UniTask.dll",
+            "mscorlib",
+            "System",
+            "System.Core",
+            "UniTask",
+            "UnityEngine.CoreModule",
         };
 
         public HotfixManager()
@@ -76,7 +77,7 @@ namespace Main
             HomologousImageMode mode = HomologousImageMode.SuperSet;
             foreach (var aotDllName in aotMetaAssemblyFiles)
             {
-                byte[] dllBytes = hotfixAb.LoadAsset<TextAsset>(aotDllName + ".bytes").bytes;
+                byte[] dllBytes = hotfixAb.LoadAsset<TextAsset>(aotDllName + ".dll.bytes").bytes;
                 // 加载assembly对应的dll，会自动为它hook。一旦aot泛型函数的native函数不存在，用解释器版本代码
                 LoadImageErrorCode err = RuntimeApi.LoadMetadataForAOTAssembly(dllBytes, mode);
             }

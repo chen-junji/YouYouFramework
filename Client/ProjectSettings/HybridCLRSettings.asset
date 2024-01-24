@@ -28,6 +28,7 @@ MonoBehaviour:
   - System
   - System.Core
   - UniTask
+  - UnityEngine.CoreModule
   outputLinkFile: HybridCLRData/Generated/link.xml
   outputAOTGenericReferenceFile: HybridCLRData/Generated/AOTGenericReferences.cs
   maxGenericReferenceIteration: 4

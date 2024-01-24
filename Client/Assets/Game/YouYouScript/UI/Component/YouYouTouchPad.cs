@@ -10,15 +10,15 @@ public class YouYouTouchPad : MonoBehaviour, IDragHandler, IEndDragHandler
     public void OnDrag(PointerEventData eventData)
     {
         input = eventData.delta;
-        GameEntry.Input.SetAxis(InputName.MouseX, input.x);
-        GameEntry.Input.SetAxis(InputName.MouseY, input.y);
+        GameEntry.Input.SetAxis(CommonConst.MouseX, input.x);
+        GameEntry.Input.SetAxis(CommonConst.MouseY, input.y);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         input = Vector2.zero;
-        GameEntry.Input.SetAxis(InputName.MouseX, input.x);
-        GameEntry.Input.SetAxis(InputName.MouseY, input.y);
+        GameEntry.Input.SetAxis(CommonConst.MouseX, input.x);
+        GameEntry.Input.SetAxis(CommonConst.MouseY, input.y);
     }
 
     public void SetEnabled(bool enabled)
@@ -26,8 +26,8 @@ public class YouYouTouchPad : MonoBehaviour, IDragHandler, IEndDragHandler
         if (!enabled)
         {
             input = Vector2.zero;
-            GameEntry.Input.SetAxis(InputName.MouseX, input.x);
-            GameEntry.Input.SetAxis(InputName.MouseY, input.y);
+            GameEntry.Input.SetAxis(CommonConst.MouseX, input.x);
+            GameEntry.Input.SetAxis(CommonConst.MouseY, input.y);
         }
         this.enabled = enabled;
     }

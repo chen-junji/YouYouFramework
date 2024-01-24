@@ -34,11 +34,6 @@ public enum EventName : uint
 
 public enum InputName
 {
-    Horizontal,
-    Vertical,
-    MouseX,
-    MouseY,
-    MouseScrollWheel,
     BuyTower,
 }
 

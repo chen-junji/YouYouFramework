@@ -68,8 +68,8 @@ public class CameraCtrl : SingletonMono<CameraCtrl>
     private void LateUpdate()
     {
         //这四行可以搬到外部调用
-        SetCameraRotateX(GameEntry.Input.GetAxis(InputName.MouseX));
-        SetCameraRotateY(GameEntry.Input.GetAxis(InputName.MouseY));
+        SetCameraRotateX(GameEntry.Input.GetAxis(CommonConst.MouseX));
+        SetCameraRotateY(GameEntry.Input.GetAxis(CommonConst.MouseY));
         if (Input.GetKey(KeyCode.K)) SetCameraDistance(Time.deltaTime * 10);
         else if (Input.GetKey(KeyCode.L)) SetCameraDistance(-Time.deltaTime * 10);
 

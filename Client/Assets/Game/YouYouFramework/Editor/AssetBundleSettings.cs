@@ -286,7 +286,7 @@ public class AssetBundleSettings : ScriptableObject
                 if (!str.IsSuffix(".cs") && tempDic.ContainsKey(str))
                 {
                     //把多余的依赖AB包剔除掉，比如依赖AB包==主AB包， 或者依赖AB包已经存在于DependsAssetBundleList内
-                    if (!newEntity.AssetBundleFullPath.Equals(tempDic[str].AssetBundleFullPath) && 
+                    if (!newEntity.AssetBundleFullPath.Equals(tempDic[str].AssetBundleFullPath) &&
                         !newEntity.DependsAssetBundleList.Contains(tempDic[str].AssetBundleFullPath))
                     {
                         //把依赖资源 加入到依赖资源列表
@@ -524,7 +524,7 @@ public class AssetBundleSettings : ScriptableObject
         string aotMetaAssemblyDir = Application.dataPath + "/../" + "HybridCLRData/AssembliesPostIl2CppStrip/" + GetBuildTarget().ToString() + "/";
         foreach (var aotDllName in HotfixManager.aotMetaAssemblyFiles)
         {
-            File.Copy(aotMetaAssemblyDir + aotDllName, Path.Combine(CodeDir, aotDllName + ".bytes"), true);
+            File.Copy(aotMetaAssemblyDir + aotDllName + ".dll", Path.Combine(CodeDir, aotDllName + ".dll.bytes"), true);
         }
 
         AssetDatabase.Refresh();

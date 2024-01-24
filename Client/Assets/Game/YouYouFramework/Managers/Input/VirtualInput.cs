@@ -7,13 +7,9 @@ namespace YouYou
 {
     public abstract class VirtualInput : FsmState<CrossPlatformInputManager>
     {
-        protected Dictionary<InputName, CrossPlatformInputManager.VirtualAxis> m_VirtualAxes =
-            new Dictionary<InputName, CrossPlatformInputManager.VirtualAxis>();
-        // Dictionary to store the name relating to the virtual axes
-        protected Dictionary<InputName, CrossPlatformInputManager.VirtualButton> m_VirtualButtons =
-            new Dictionary<InputName, CrossPlatformInputManager.VirtualButton>();
-        protected List<InputName> m_AlwaysUseVirtual = new List<InputName>();
-        // list of the axis and button names that have been flagged to always use a virtual axis or button
+        protected Dictionary<string, CrossPlatformInputManager.VirtualAxis> m_VirtualAxes = new Dictionary<string, CrossPlatformInputManager.VirtualAxis>();
+        protected Dictionary<InputName, CrossPlatformInputManager.VirtualButton> m_VirtualButtons = new Dictionary<InputName, CrossPlatformInputManager.VirtualButton>();
+        protected List<string> m_AlwaysUseVirtual = new List<string>();
 
 
         internal override void OnLeave()
@@ -112,12 +108,12 @@ namespace YouYou
                 // if we dont want to match to the input manager then always use a virtual axis
                 if (!button.MatchWithInputManager)
                 {
-                    m_AlwaysUseVirtual.Add(button.Name);
+                    m_AlwaysUseVirtual.Add(button.Name.ToString());
                 }
             }
         }
 
-        public CrossPlatformInputManager.VirtualAxis VirtualAxisReference(InputName name)
+        public CrossPlatformInputManager.VirtualAxis VirtualAxisReference(string name)
         {
             if (!m_VirtualAxes.TryGetValue(name, out CrossPlatformInputManager.VirtualAxis axis))
             {
@@ -137,11 +133,11 @@ namespace YouYou
         }
 
 
-        public abstract float GetAxis(InputName name, bool raw);
+        public abstract float GetAxis(string name, bool raw);
 
-        public abstract void SetAxisPositive(InputName name);
-        public abstract void SetAxisNegative(InputName name);
-        public abstract void SetAxisZero(InputName name);
-        public abstract void SetAxis(InputName name, float value);
+        public abstract void SetAxisPositive(string name);
+        public abstract void SetAxisNegative(string name);
+        public abstract void SetAxisZero(string name);
+        public abstract void SetAxis(string name, float value);
     }
 }
