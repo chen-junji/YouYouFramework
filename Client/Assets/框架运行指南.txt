@@ -3,6 +3,7 @@
 下面介绍一下AssetBundle模式如何使用
 第一步，安装HybridCLR：
 点击HybridCLR/Installer, 点击安装
+然后点击HybridCLR/Generate/All
 
 第二步，切换到AssetBundle模式：
 点击上方YouYouTool/YouYouEditor, 选择资源加载方式为AssetBundle并点击SaveMacro。
