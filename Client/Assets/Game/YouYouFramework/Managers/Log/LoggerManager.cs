@@ -8,7 +8,7 @@ namespace YouYou
     /// <summary>
     /// 日志管理器
     /// </summary>
-    public class LoggerManager : IDisposable
+    public class LoggerManager
     {
         private List<string> m_LogArray;
 
@@ -27,6 +27,11 @@ namespace YouYou
             {
                 m_LogPath = ReporterPath + "//" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + "-Start.txt";
             }
+
+            Reporter.Instance.OnLog = (LogType logType, string logCondition) =>
+            {
+                Write(logCondition, logType);
+            };
         }
 
         public void Write(string writeFileData, LogType type)
@@ -100,8 +105,7 @@ namespace YouYou
         {
             if (!string.IsNullOrEmpty(m_LogPath))
             {
-                int len = m_LogArray.Count;
-                for (int i = 0; i < len; i++)
+                for (int i = 0; i < m_LogArray.Count; i++)
                 {
                     CreateFile(m_LogPath, m_LogArray[i]);
                 }
@@ -109,10 +113,5 @@ namespace YouYou
             }
         }
         #endregion
-
-        public void Dispose()
-        {
-            m_LogArray.Clear();
-        }
     }
 }

@@ -9,7 +9,7 @@ namespace YouYou
 	/// <summary>
 	/// 状态机管理器
 	/// </summary>
-	public class FsmManager :  IDisposable
+	public class FsmManager
 	{
 		/// <summary>
 		/// 状态机字典
@@ -25,15 +25,6 @@ namespace YouYou
 		internal FsmManager()
 		{
 			m_FsmDic = new Dictionary<int, FsmBase>();
-		}
-		public void Dispose()
-		{
-			var enumerator = m_FsmDic.GetEnumerator();
-			while (enumerator.MoveNext())
-			{
-				enumerator.Current.Value.ShutDown();
-			}
-			m_FsmDic.Clear();
 		}
 
 		/// <summary>

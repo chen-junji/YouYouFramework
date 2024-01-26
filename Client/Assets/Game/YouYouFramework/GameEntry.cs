@@ -136,8 +136,6 @@ namespace YouYou
         {
             PlayerPrefs.SaveDataAll();
             Logger.SyncLog();
-            Logger.Dispose();
-            Fsm.Dispose();
 
             GameEntry.Event.Dispatch(EventName.GameEntryOnApplicationQuit);
         }

@@ -203,9 +203,14 @@ public class Reporter : MonoBehaviour
 	string maxTextureSize;
 	string systemMemorySize;
 
+	public static Reporter Instance { get; private set; }
+	public Action<LogType, string> OnLog;
+
+
 	void Awake()
 	{
-		Initialize();
+		Instance = this;
+        Initialize();
 	}
 
 	void OnEnable()
@@ -1850,6 +1855,7 @@ public class Reporter : MonoBehaviour
 
 
 		logs.Add(log);
+		OnLog?.Invoke(log.logType, log.condition);
 		if (!collapse || isNew)
 		{
 			bool skip = false;

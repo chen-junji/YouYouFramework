@@ -33,6 +33,10 @@ public class RoleAnimCompoent : MonoBehaviour
         m_AnimationMixerPlayable.SetInputWeight(m_OldAnimId, m_Mix);
         m_AnimationMixerPlayable.SetInputWeight(m_CurrAnimId, 1 - m_Mix);
     }
+    private void OnDestroy()
+    {
+        if (m_PlayableGraph.IsValid()) m_PlayableGraph.Destroy();
+    }
 
 
     /// <summary>
