@@ -6,13 +6,13 @@
 然后点击HybridCLR/Generate/All
 
 第二步，切换到AssetBundle模式：
-点击上方YouYouTool/YouYouEditor, 选择资源加载方式为AssetBundle并点击SaveMacro。
+点击上方YouYouTool/YouYouEditor, 选择资源加载方式为AssetBundle并点击SaveMacro保存。
 
 第三步，打包AssetBundle：
-点击YouYouEditor里面的AssetBundleSettings，点击打包到本地CDN
+点击YouYouEditor里面的AssetBundleSettings，点击BuildAssetBundle，将文件打包到AssetBundles文件夹
 
 第四步，部署AssetBundle资源下载站点：
-可以使用HFS， 具体自己百度查教程， 使用浏览器测试一下能不能下载
+可以使用HFS， 下载文件夹指定到AssetBundles文件夹， 具体自己百度查教程， 使用浏览器测试一下能不能下载
 
 第五步，绑定资源站点地址：
 打开ChannelConfigEntity脚本， 在SourceUrl字段填上你的地址
