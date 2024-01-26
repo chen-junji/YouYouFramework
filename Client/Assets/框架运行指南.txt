@@ -1,12 +1,13 @@
 由于EditorLoad模式不需要做任何操作， 直接运行即可， 这里不做介绍
 
 下面介绍一下AssetBundle模式如何使用
-第一步，安装HybridCLR：
+
+第一步，切换到AssetBundle模式：
+点击上方YouYouTool/YouYouEditor, 选择资源加载方式为AssetBundle并点击SaveMacro保存。
+
+第二步，安装HybridCLR：
 点击HybridCLR/Installer, 点击安装
 然后点击HybridCLR/Generate/All
-
-第二步，切换到AssetBundle模式：
-点击上方YouYouTool/YouYouEditor, 选择资源加载方式为AssetBundle并点击SaveMacro保存。
 
 第三步，打包AssetBundle：
 点击YouYouEditor里面的AssetBundleSettings，点击BuildAssetBundle，将文件打包到AssetBundles文件夹
@@ -24,6 +25,8 @@
 温馨提示：
 一：框架目前自带的HybridCLR只支持Unity2022.3.x长期支持版（正式版 Beta版也不行）， 如果你要切换到其他版本，请去HybridCLR官网了解详情
 
-二：B站上搜YouYou框架， 可以查到框架使用视频教程
+二：因为HybridCLR依赖于IL2CPP，所以安装的Unity需要有WindowsBuildSupport（IL2CPP）模块， 否则点击HybridCLR/Generate/All的时候会报错
 
-三：Test预制体上挂了许多示例脚本，也可以了解框架如何使用
+三：B站上搜YouYou框架， 可以查到框架使用视频教程
+
+四：Test预制体上挂了许多示例脚本，也可以了解框架如何使用
