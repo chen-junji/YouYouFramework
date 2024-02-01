@@ -176,7 +176,7 @@ public class RedDotModel : Observable<RedDotModel, RedDotModel.EventName>
         foreach (int key in rsp.mapRedModelResults.Keys)
         {
             mMapGlobalRedInfo[key] = rsp.mapRedModelResults[key];
-            GameEntry.Reddot.ChangeValue(GameEntry.Reddot.GetServerIdOfPath(key), rsp.mapRedModelResults[key]);
+            ReddotManager.Instance.ChangeValue(ReddotManager.Instance.GetServerIdOfPath(key), rsp.mapRedModelResults[key]);
         }
         Dispatch(EventName.E_SVR_MSG_ID_GET_GLOBAL_RED, rsp.mapRedModelResults);
     }
@@ -189,7 +189,7 @@ public class RedDotModel : Observable<RedDotModel, RedDotModel.EventName>
             if (mMapGlobalRedInfo.ContainsKey(tGlobalRedInfo))
             {
                 mMapGlobalRedInfo[tGlobalRedInfo] = 0;
-                GameEntry.Reddot.ChangeValue(GameEntry.Reddot.GetServerIdOfPath(tGlobalRedInfo), 0);
+                ReddotManager.Instance.ChangeValue(ReddotManager.Instance.GetServerIdOfPath(tGlobalRedInfo), 0);
             }
         }
         Dispatch(EventName.E_SVR_MSG_ID_CLEAR_GLOBAL_RED, rsp.vecRedModel);

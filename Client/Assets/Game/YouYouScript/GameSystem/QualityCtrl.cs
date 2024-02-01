@@ -7,7 +7,7 @@ namespace YouYou
     /// <summary>
     /// 画面品质设置
     /// </summary>
-    public class QualityManager
+    public class QualityCtrl : Singleton<QualityCtrl>
     {
         public enum Quality
         {
@@ -60,7 +60,7 @@ namespace YouYou
             //分辨率
             bool isGame = false;
             int screen = 0;
-            switch (GameEntry.Quality.CurrScreen)
+            switch (CurrScreen)
             {
                 case ScreenLevel.Low:
                     screen = isGame ? 540 : 640;
@@ -91,9 +91,9 @@ namespace YouYou
                     break;
             }
             GameEntry.PlayerPrefs.SetInt(PlayerPrefsDataMgr.EventName.FrameRate, (int)CurrFrameRate);
-//#if UNITY_EDITOR
-//            Application.targetFrameRate = -1;
-//#endif
+            //#if UNITY_EDITOR
+            //            Application.targetFrameRate = -1;
+            //#endif
         }
     }
 }

@@ -41,13 +41,13 @@ public class TreeNode
         {
             if (string.IsNullOrEmpty(m_FullPath))
             {
-                if (Parent == null || Parent == GameEntry.Reddot.Root)
+                if (Parent == null || Parent == ReddotManager.Instance.Root)
                 {
                     m_FullPath = Name;
                 }
                 else
                 {
-                    m_FullPath = Parent.FullPath + GameEntry.Reddot.SplitChar + Name;
+                    m_FullPath = Parent.FullPath + ReddotManager.Instance.SplitChar + Name;
                 }
             }
 
@@ -216,7 +216,7 @@ public class TreeNode
 
         TreeNode child = new TreeNode(key.ToString(), this);
         m_Children.Add(key, child);
-        GameEntry.Reddot.NodeNumChangeCallback?.Invoke();
+        ReddotManager.Instance.NodeNumChangeCallback?.Invoke();
         return child;
     }
 
@@ -235,11 +235,11 @@ public class TreeNode
         if (child != null)
         {
             //子节点被删除 需要进行一次父节点刷新
-            GameEntry.Reddot.MarkDirtyNode(this);
+            ReddotManager.Instance.MarkDirtyNode(this);
 
             m_Children.Remove(key);
 
-            GameEntry.Reddot.NodeNumChangeCallback?.Invoke();
+            ReddotManager.Instance.NodeNumChangeCallback?.Invoke();
 
             return true;
         }
@@ -258,8 +258,8 @@ public class TreeNode
         }
 
         m_Children.Clear();
-        GameEntry.Reddot.MarkDirtyNode(this);
-        GameEntry.Reddot.NodeNumChangeCallback?.Invoke();
+        ReddotManager.Instance.MarkDirtyNode(this);
+        ReddotManager.Instance.NodeNumChangeCallback?.Invoke();
     }
 
     public override string ToString()
@@ -279,9 +279,9 @@ public class TreeNode
 
         Value = newValue;
         m_ChangeCallback?.Invoke(newValue);
-        GameEntry.Reddot.NodeValueChangeCallback?.Invoke(this, Value);
+        ReddotManager.Instance.NodeValueChangeCallback?.Invoke(this, Value);
 
         //标记父节点为脏节点
-        GameEntry.Reddot.MarkDirtyNode(Parent);
+        ReddotManager.Instance.MarkDirtyNode(Parent);
     }
 }

@@ -19,15 +19,15 @@ public class ReddotTreeView : TreeView
 
         useScrollView = true;
 
-        GameEntry.Reddot.NodeNumChangeCallback += Reload;
-        GameEntry.Reddot.NodeValueChangeCallback += Repaint;
+        ReddotManager.Instance.NodeNumChangeCallback += Reload;
+        ReddotManager.Instance.NodeValueChangeCallback += Repaint;
     }
 
     protected override TreeViewItem BuildRoot()
     {
         m_Id = 0;
 
-        m_Root = PreOrder(GameEntry.Reddot.Root);
+        m_Root = PreOrder(ReddotManager.Instance.Root);
         m_Root.depth = -1;
 
         SetupDepthsFromParentsAndChildren(m_Root);
@@ -62,8 +62,8 @@ public class ReddotTreeView : TreeView
 
     public void OnDestory()
     {
-        GameEntry.Reddot.NodeNumChangeCallback -= Reload;
-        GameEntry.Reddot.NodeValueChangeCallback -= Repaint;
+        ReddotManager.Instance.NodeNumChangeCallback -= Reload;
+        ReddotManager.Instance.NodeValueChangeCallback -= Repaint;
     }
 
 

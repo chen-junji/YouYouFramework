@@ -30,7 +30,7 @@ public class TestRedDot : MonoBehaviour
             UnityEngine.Profiling.Profiler.BeginSample("1w FindNode");
             for (int i = 0; i < 10000; i++)
             {
-                GameEntry.Reddot.GetTreeNode("First/Second1/Third1");
+                ReddotManager.Instance.GetTreeNode("First/Second1/Third1");
             }
             UnityEngine.Profiling.Profiler.EndSample();
         }
@@ -41,7 +41,7 @@ public class TestRedDot : MonoBehaviour
             UnityEngine.Profiling.Profiler.BeginSample("1w CreateNode");
             for (int i = 0; i < strs.Count; i++)
             {
-                GameEntry.Reddot.GetTreeNode(strs[i]);
+                ReddotManager.Instance.GetTreeNode(strs[i]);
             }
             UnityEngine.Profiling.Profiler.EndSample();
         }

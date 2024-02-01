@@ -8,7 +8,7 @@ using YouYou;
 /// <summary>
 /// 红点管理器
 /// </summary>
-public class ReddotMananger
+public class ReddotManager : Singleton<ReddotManager>
 {
     /// <summary>
     /// 所有节点集合
@@ -69,7 +69,7 @@ public class ReddotMananger
     }
 
 
-    public ReddotMananger()
+    public ReddotManager()
     {
         SplitChar = '/';
         m_AllNodes = new Dictionary<string, TreeNode>();
@@ -77,6 +77,8 @@ public class ReddotMananger
         m_DirtyNodes = new HashSet<TreeNode>();
         m_TempDirtyNodes = new List<TreeNode>();
         CachedSb = new StringBuilder();
+
+        GameEntry.Event.AddEventListener(EventName.GameEntryOnUpdate, OnUpdate);
     }
 
     /// <summary>
@@ -222,7 +224,7 @@ public class ReddotMananger
     /// <summary>
     /// 管理器轮询
     /// </summary>
-    public void OnUpdate()
+    public void OnUpdate(object userData)
     {
         if (m_DirtyNodes.Count == 0)
         {

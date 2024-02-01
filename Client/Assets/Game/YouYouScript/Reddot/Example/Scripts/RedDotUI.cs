@@ -26,7 +26,7 @@ public class RedDotUI : MonoBehaviour,IPointerClickHandler
     }
     void Start()
     {
-        TreeNode node = GameEntry.Reddot.AddListener(Path, ReddotCallback);
+        TreeNode node = ReddotManager.Instance.AddListener(Path, ReddotCallback);
         gameObject.name = node.FullPath;
     }
 
@@ -47,15 +47,15 @@ public class RedDotUI : MonoBehaviour,IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        int value = GameEntry.Reddot.GetValue(Path);
+        int value = ReddotManager.Instance.GetValue(Path);
 
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            GameEntry.Reddot.ChangeValue(Path, value + 1);
+            ReddotManager.Instance.ChangeValue(Path, value + 1);
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            GameEntry.Reddot.ChangeValue(Path, Mathf.Clamp(value - 1,0, value));
+            ReddotManager.Instance.ChangeValue(Path, Mathf.Clamp(value - 1,0, value));
         }
     }
 }

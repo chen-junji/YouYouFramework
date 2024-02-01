@@ -1,6 +1,6 @@
 ﻿..\..\..\Tables
 ..\..\..\..\Client\Assets\Game\Download\DataTable\
-..\..\..\..\Client\Assets\Game\YouYouScript\Data\DataTable\Create\
+..\..\..\..\Client\Assets\Game\YouYouScript\Proto\DataTable\Create\
 OutLua\
 ..\..\..\..\Client\Assets\Game\Resources\DataTable\
 OutServerScript\

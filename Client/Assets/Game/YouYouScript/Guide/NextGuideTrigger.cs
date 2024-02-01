@@ -23,7 +23,7 @@ public class NextGuideTrigger : MonoBehaviour
             if (name == other.name)
             {
                 //新手引导, 触发下一步
-                GameEntry.Guide.NextGroup(GameEntry.Guide.CurrentState);
+                GuideManager.Instance.NextGroup(GuideManager.Instance.CurrentState);
 
                 TriggerEnter?.Invoke();
             }

@@ -34,7 +34,7 @@ public class FormHollow2 : UIFormBase
             Close();
 
             //进行下一个操作
-            GameEntry.Guide.NextGroup(GameEntry.Guide.CurrentState);
+            GuideManager.Instance.NextGroup(GuideManager.Instance.CurrentState);
         });
     }
 

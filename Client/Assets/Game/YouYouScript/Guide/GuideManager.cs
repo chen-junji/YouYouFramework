@@ -25,9 +25,9 @@ public enum GuideState
 }
 
 /// <summary>
-/// 新手引导管理器
+/// 新手引导
 /// </summary>
-public class GuideManager
+public class GuideManager : Singleton<GuideManager>
 {
     public GuideState CurrentState { get; private set; }       //当前处于哪个状态
 
@@ -56,7 +56,7 @@ public class GuideManager
 
             //每次引导结束
             case GuideState.None:
-                GameEntry.Guide.GuideGroup = null;
+                GuideManager.Instance.GuideGroup = null;
                 break;
         }
 

@@ -95,12 +95,12 @@ public struct RangeString : IEquatable<RangeString>
 
     public override string ToString()
     {
-        GameEntry.Reddot.CachedSb.Clear();
+        ReddotManager.Instance.CachedSb.Clear();
         for (int i = m_StartIndex; i <= m_EndIndex; i++)
         {
-            GameEntry.Reddot.CachedSb.Append(m_Source[i]);
+            ReddotManager.Instance.CachedSb.Append(m_Source[i]);
         }
-        string str = GameEntry.Reddot.CachedSb.ToString();
+        string str = ReddotManager.Instance.CachedSb.ToString();
 
         return str;
     }

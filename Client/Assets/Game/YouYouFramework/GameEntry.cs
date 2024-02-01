@@ -57,9 +57,6 @@ namespace YouYou
         public static AudioManager Audio { get; private set; }
         public static CrossPlatformInputManager Input { get; private set; }
         public static TaskManager Task { get; private set; }
-        public static QualityManager Quality { get; private set; }
-        public static GuideManager Guide { get; private set; }
-        public static ReddotMananger Reddot { get; private set; }
 
 
         /// <summary>
@@ -96,9 +93,6 @@ namespace YouYou
             Audio = new AudioManager();
             Input = new CrossPlatformInputManager();
             Task = new TaskManager();
-            Quality = new QualityManager();
-            Guide = new GuideManager();
-            Reddot = new ReddotMananger();
 
             Logger.Init();
             Procedure.Init();
@@ -128,7 +122,6 @@ namespace YouYou
             Audio.OnUpdate();
             Input.OnUpdate();
             Task.OnUpdate();
-            Reddot.OnUpdate();
 
             GameEntry.Event.Dispatch(EventName.GameEntryOnUpdate);
         }

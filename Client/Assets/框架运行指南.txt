@@ -23,10 +23,14 @@
 
 
 温馨提示：
-一：框架目前自带的HybridCLR只支持Unity2022.3.x长期支持版（正式版 Beta版也不行）， 如果你要切换到其他版本，请去HybridCLR官网了解详情
+一：框架目前自带的HybridCLR支持Unity2020.3.x-2022.3.x,  只支持长期支持版（正式版 Beta版也不行）， 如果你要切换到其他版本，请去HybridCLR官网了解详情
 
 二：因为HybridCLR依赖于IL2CPP，所以安装的Unity需要有WindowsBuildSupport（IL2CPP）模块， 否则点击HybridCLR/Generate/All的时候会报错
 
-三：B站上搜YouYou框架， 可以查到框架使用视频教程
+三: 打包AB包或者打APK, 如果报错了, 先检查一下当前是不是AssetBundle模式, EditorLoad模式是不支持打包的!!
 
-四：Test预制体上挂了许多示例脚本，也可以了解框架如何使用
+四：B站上搜YouYou框架， 可以查到框架使用视频教程
+
+五：Test预制体上挂了许多示例脚本，也可以了解框架如何使用
+
+六: YouYouFramework文件夹的脚本相互引用较多, 建议别删某一个脚本, 而YouYouScript文件夹里面的东西都相对独立, 如果不需要, 可以自己看着删掉

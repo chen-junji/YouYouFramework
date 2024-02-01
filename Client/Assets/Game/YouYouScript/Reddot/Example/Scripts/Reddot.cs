@@ -19,11 +19,11 @@ public class Reddot : MonoBehaviour
         string Path = GetPath(this);
         if (serverId > 0)
         {
-            GameEntry.Reddot.SetServerIdOfPath(serverId, Path);
+            ReddotManager.Instance.SetServerIdOfPath(serverId, Path);
         }
         else
         {
-            GameEntry.Reddot.GetTreeNode(Path);
+            ReddotManager.Instance.GetTreeNode(Path);
         }
         Debug.Log("≥ı ºªØ∫Ïµ„==" + Path);
     }

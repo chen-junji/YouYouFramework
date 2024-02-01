@@ -21,7 +21,7 @@ namespace YouYou
                 button.onClick.RemoveListener(OnNext);
 
                 onNext?.Invoke();
-                GameEntry.Guide.NextGroup(GameEntry.Guide.CurrentState);
+                GuideManager.Instance.NextGroup(GuideManager.Instance.CurrentState);
             }
         }
         /// <summary>
@@ -34,7 +34,7 @@ namespace YouYou
             {
                 if (!isOn) return;
                 toggle.onValueChanged.RemoveListener(OnNext);
-                GameEntry.Guide.NextGroup(GameEntry.Guide.CurrentState);
+                GuideManager.Instance.NextGroup(GuideManager.Instance.CurrentState);
             }
         }
         /// <summary>
@@ -46,7 +46,7 @@ namespace YouYou
             void OnNext(object userData)
             {
                 GameEntry.Event.Common.RemoveEventListener(eventName, OnNext);
-                GameEntry.Guide.NextGroup(GameEntry.Guide.CurrentState);
+                GuideManager.Instance.NextGroup(GuideManager.Instance.CurrentState);
             }
         }
     }
