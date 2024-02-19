@@ -4,11 +4,20 @@ using UnityEngine.UI;
 using System;
 
 
-
+/// <summary>
+/// UI无限列表, 支持n*n
+/// </summary>
 public class UIMultiScroller : MonoBehaviour
 {
-    public enum Arrangement { Horizontal, Vertical, }
-    public Arrangement _movement = Arrangement.Horizontal;
+    public enum Arrangement
+    {
+        Horizontal,
+        Vertical,
+    }
+    /// <summary>
+    /// 滚动方向
+    /// </summary>
+    public Arrangement _movement = Arrangement.Vertical;
 
     /// <summary>
     /// 单行或单列的Item数量
@@ -20,14 +29,14 @@ public class UIMultiScroller : MonoBehaviour
     /// 行间距
     /// </summary>
 
-    [Range(0, 100)] [SerializeField] int spacingX = 5;
-    [Range(0, 100)] [SerializeField] int spacingY = 5;
+    [Range(0, 100)][SerializeField] int spacingX = 5;
+    [Range(0, 100)][SerializeField] int spacingY = 5;
 
     //Item的宽高
     float cellWidth;
     float cellHeight;
-    //默认加载的行数，一般比可显示行数大2~3行
-    int viewCount = 6;
+    //同屏加载的行数，一般比可显示行数大2~3行
+    private int viewCount = 6;
 
     [SerializeField] RectTransform itemPrefab;
     ScrollRect ScrollRect;
@@ -67,13 +76,15 @@ public class UIMultiScroller : MonoBehaviour
         cellWidth = itemPrefab.rect.width;
         cellHeight = itemPrefab.rect.height;
 
+        itemPrefab.gameObject.SetActive(false);
+
         if (_movement == Arrangement.Horizontal)
         {
-            viewCount = Mathf.CeilToInt(ScrollRect.viewport.rect.width / cellWidth * 1.2f);
+            viewCount = Mathf.CeilToInt(ScrollRect.GetComponent<RectTransform>().rect.width / cellWidth * 1.2f);
         }
         else
         {
-            viewCount = Mathf.CeilToInt(ScrollRect.viewport.rect.height / cellHeight * 1.2f);
+            viewCount = Mathf.CeilToInt(ScrollRect.GetComponent<RectTransform>().rect.height / cellHeight * 1.2f);
         }
 
         OnValueChange(Vector2.zero);
@@ -97,17 +108,9 @@ public class UIMultiScroller : MonoBehaviour
         {
             DestroyImmediate(arr[i].gameObject);
         }
-        arr = null;
 
-        if (_itemList != null)
-        {
-            _itemList.Clear();
-        }
-
-        if (_unUsedQueue != null)
-        {
-            _unUsedQueue.Clear();
-        }
+        _itemList?.Clear();
+        _unUsedQueue?.Clear();
         _content.anchoredPosition = new Vector2(0, 1f);
         OnValueChange(Vector2.zero);
     }

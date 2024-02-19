@@ -16,27 +16,15 @@ public class UIRollingScroller : UIScroller, IDragHandler, IEndDragHandler
     //自动滑动到最下方
     private bool isDraging = false;
 
-    public override void Awake()
-    {
-        base.Awake();
-        contentOrignHigh = ScrollRect.content.rect.height;
-    }
     public override void Start()
     {
         base.Start();
+        contentOrignHigh = _content.rect.height;
     }
-
-    public override void OnDestroy()
-    {
-        base.OnDestroy();
-    }
-
-
     public void OnDrag(PointerEventData eventData)
     {
         isDraging = true;
     }
-
     public void OnEndDrag(PointerEventData eventData)
     {
         isDraging = false;
@@ -75,22 +63,22 @@ public class UIRollingScroller : UIScroller, IDragHandler, IEndDragHandler
     private void ChangeConentPos(bool isReLoadData)
     {
         //想要看到最新的消息，Content的Y应该要处在的坐标
-        float tempY = Mathf.Floor(ScrollRect.content.rect.height - contentOrignHigh);
+        float tempY = Mathf.Floor(_content.rect.height - contentOrignHigh);
 
         //求Content目标位置与当前位置的距离
-        float targetYPos = tempY - ScrollRect.content.anchoredPosition3D.y;
+        float targetYPos = tempY - _content.anchoredPosition3D.y;
 
         // 上拉超过半屏则不会自动滚到最新消息的位置
         float autoRollingHigh = contentOrignHigh * 0.9f;
         // 自动滚到最新消息的位置
         if (targetYPos < autoRollingHigh && isDraging == false)
         {
-            ScrollRect.content.DOAnchorPos3D(new Vector3(0f, tempY, 0f), 0.5f);
+            _content.DOAnchorPos3D(new Vector3(0f, tempY, 0f), 0.5f);
         }
         else if (isReLoadData)
         {
             //重新加载的记录则直接跑到最新消息的位置
-            ScrollRect.content.anchoredPosition3D = new Vector3(0f, tempY, 0f);
+            _content.anchoredPosition3D = new Vector3(0f, tempY, 0f);
         }
         else
         {

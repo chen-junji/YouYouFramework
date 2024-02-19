@@ -4,6 +4,10 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine;
 
+
+/// <summary>
+/// UI无限列表, 只支持1*n或者n*1
+/// </summary>
 public class UIScroller : MonoBehaviour
 {
     public enum Arrangement
@@ -14,12 +18,12 @@ public class UIScroller : MonoBehaviour
     /// <summary>
     /// 滚动方向
     /// </summary>
-    public Arrangement _movement = Arrangement.Horizontal;
+    public Arrangement _movement = Arrangement.Vertical;
 
     /// <summary>
     /// 行间距
     /// </summary>
-    [Range(0, 100)] [SerializeField] public float cellPadiding = 0;
+    [Range(0, 100)][SerializeField] public float cellPadiding = 0;
 
     /// <summary>
     /// Item的宽
@@ -32,23 +36,22 @@ public class UIScroller : MonoBehaviour
     private float itemHeight;
 
     /// <summary>
-    /// 默认加载的行数，一般比可显示行数大2~3行
+    /// 同屏加载的行数，一般比可显示行数大2~3行
     /// </summary>
-    public int viewCount;
 
-    public RectTransform itemPrefab;
-    public ScrollRect ScrollRect;
+    protected int viewCount;
+
+    [SerializeField]
+    protected RectTransform itemPrefab;
+
+    protected ScrollRect ScrollRect;
+    protected RectTransform _content;
 
     /// <summary>
     /// 最上位置的索引
     /// </summary>
     private int _index = -1;
-    [HideInInspector]
-    public List<UIScrollIndex> _itemList;
-
-    /// <summary>
-    /// 设置 DataCount 总数量
-    /// </summary>
+    private List<UIScrollIndex> _itemList;
     private int _dataCount;
 
     /// <summary>
@@ -75,34 +78,35 @@ public class UIScroller : MonoBehaviour
         }
     }
 
-    public virtual void Awake()
+    public virtual void Start()
     {
         _itemList = new List<UIScrollIndex>();
         _unUsedItemQueue = new Queue<UIScrollIndex>();
 
+        ScrollRect = GetComponent<ScrollRect>();
+        _content = ScrollRect.content;
+
         itemWidth = itemPrefab.rect.width;
         itemHeight = itemPrefab.rect.height;
 
+        itemPrefab.gameObject.SetActive(false);
+
         if (_movement == Arrangement.Horizontal)
         {
-            viewCount = Mathf.CeilToInt(ScrollRect.viewport.rect.width / itemWidth * 1.2f);
+            viewCount = Mathf.CeilToInt(ScrollRect.GetComponent<RectTransform>().rect.width / itemWidth * 1.5f);
         }
         else
         {
-            viewCount = Mathf.CeilToInt(ScrollRect.viewport.rect.height / itemHeight * 1.2f);
+            viewCount = Mathf.CeilToInt(ScrollRect.GetComponent<RectTransform>().rect.height / itemHeight * 1.5f);
         }
         ScrollRect.onValueChanged.AddListener(OnValueChange);
-    }
 
-    public virtual void Start()
-    {
         OnValueChange(Vector2.zero);
     }
-
     public virtual void OnDestroy()
     {
         itemPrefab = null;
-        ScrollRect.content = null;
+        _content = null;
 
         _itemList = null;
         _unUsedItemQueue = null;
@@ -117,16 +121,15 @@ public class UIScroller : MonoBehaviour
         //当页面数据不满一页的时候，要注意修改 _index的值 为-1 
         _index = -1;
 
-        UIScrollIndex[] arr = ScrollRect.content.GetComponentsInChildren<UIScrollIndex>();
+        UIScrollIndex[] arr = _content.GetComponentsInChildren<UIScrollIndex>();
         for (int i = 0; i < arr.Length; i++)
         {
             DestroyImmediate(arr[i].gameObject);
         }
-        arr = null;
 
-        if (_itemList != null) _itemList.Clear();
-        if (_unUsedItemQueue != null) _unUsedItemQueue.Clear();
-        ScrollRect.content.anchoredPosition = new Vector2(0, 1f);
+        _itemList?.Clear();
+        _unUsedItemQueue?.Clear();
+        _content.anchoredPosition = new Vector2(0, 1f);
         OnValueChange(Vector2.zero);
     }
 
@@ -173,28 +176,24 @@ public class UIScroller : MonoBehaviour
 
     private void CreateItem(int index)
     {
-        UIScrollIndex itemBase;
+        UIScrollIndex itemScrollIndex;
         if (_unUsedItemQueue.Count > 0)
         {
-            itemBase = _unUsedItemQueue.Dequeue();
+            itemScrollIndex = _unUsedItemQueue.Dequeue();
         }
         else
         {
-            itemBase = Instantiate(itemPrefab.gameObject, ScrollRect.content).AddComponent<UIScrollIndex>();
-            if (itemBase.gameObject.activeInHierarchy == false)
+            itemScrollIndex = Instantiate(itemPrefab.gameObject, _content).AddComponent<UIScrollIndex>();
+            if (itemScrollIndex.gameObject.activeInHierarchy == false)
             {
-                itemBase.gameObject.SetActive(true);
+                itemScrollIndex.gameObject.SetActive(true);
             }
         }
-        //if (index < 7 || index == 7)
-        //{
-        //    GameEntry.Log(itemBase.name);
-        //    itemBase.name = index.ToString();
-        //}
+
         //更新坐标
-        itemBase.SetUI(index, GetPosition(index));
-        _itemList.Add(itemBase);
-        OnItemCreate?.Invoke(index, itemBase.gameObject);
+        itemScrollIndex.SetUI(index, GetPosition(index));
+        _itemList.Add(itemScrollIndex);
+        OnItemCreate?.Invoke(index, itemScrollIndex.gameObject);
     }
 
     #region GetPosIndex
@@ -208,11 +207,11 @@ public class UIScroller : MonoBehaviour
         {
             case Arrangement.Horizontal:
                 {
-                    return Mathf.FloorToInt(ScrollRect.content.anchoredPosition.x / -(itemWidth + cellPadiding));
+                    return Mathf.FloorToInt(_content.anchoredPosition.x / -(itemWidth + cellPadiding));
                 }
             case Arrangement.Vertical:
                 {
-                    return Mathf.FloorToInt(ScrollRect.content.anchoredPosition.y / (itemHeight + cellPadiding));
+                    return Mathf.FloorToInt(_content.anchoredPosition.y / (itemHeight + cellPadiding));
                 }
         }
         return 0;
@@ -252,10 +251,10 @@ public class UIScroller : MonoBehaviour
         switch (_movement)
         {
             case Arrangement.Horizontal:
-                ScrollRect.content.sizeDelta = new Vector2(itemWidth * _dataCount + cellPadiding * _dataCountValue, ScrollRect.content.sizeDelta.y);
+                _content.sizeDelta = new Vector2(itemWidth * _dataCount + cellPadiding * _dataCountValue, _content.sizeDelta.y);
                 break;
             case Arrangement.Vertical:
-                ScrollRect.content.sizeDelta = new Vector2(ScrollRect.content.sizeDelta.x, itemHeight * _dataCount + cellPadiding * _dataCountValue);
+                _content.sizeDelta = new Vector2(_content.sizeDelta.x, itemHeight * _dataCount + cellPadiding * _dataCountValue);
                 break;
         }
     }
