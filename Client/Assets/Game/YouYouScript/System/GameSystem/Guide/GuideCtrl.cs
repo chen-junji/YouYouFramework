@@ -1,40 +1,37 @@
+using Main;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity;
-using System;
 using YouYou;
-using System.Threading.Tasks;
-using UnityEngine.UI;
 
 
 public enum GuideState
 {
     /// <summary>
-    /// æœªè§¦å‘å¼•å¯¼
+    /// Î´´¥·¢Òıµ¼
     /// </summary>
     None,
     /// <summary>
-    /// ç¬¬ä¸€å…³,å±€å¤–
+    /// µÚÒ»¹Ø,¾ÖÍâ
     /// </summary>
     Battle1,
     /// <summary>
-    /// ç»“æŸ
+    /// ½áÊø
     /// </summary>
     Finish
 }
-
 /// <summary>
-/// æ–°æ‰‹å¼•å¯¼
+/// ĞÂÊÖÒıµ¼
 /// </summary>
-public class GuideManager : Singleton<GuideManager>
+public class GuideCtrl : Singleton<GuideCtrl>
 {
-    public GuideState CurrentState { get; private set; }       //å½“å‰å¤„äºå“ªä¸ªçŠ¶æ€
+    public GuideState CurrentState { get; private set; }       //µ±Ç°´¦ÓÚÄÄ¸ö×´Ì¬
 
     public event Action<GuideState, GuideState> OnStateChange;
 
     /// <summary>
-    /// è§¦å‘ä¸‹ä¸€æ­¥
+    /// ´¥·¢ÏÂÒ»²½
     /// </summary>
     public event Action OnNextOne;
 
@@ -49,14 +46,14 @@ public class GuideManager : Singleton<GuideManager>
 
         switch (state)
         {
-            //åªè§¦å‘ä¸€æ¬¡çš„å¼•å¯¼
+            //Ö»´¥·¢Ò»´ÎµÄÒıµ¼
             case GuideState.Battle1:
-                if (GuideModel.Instance.NextGuide != state) return false;
+                if (GameEntry.Model.GetModel<GuideModel>().NextGuide != state) return false;
                 break;
 
-            //æ¯æ¬¡å¼•å¯¼ç»“æŸ
+            //Ã¿´ÎÒıµ¼½áÊø
             case GuideState.None:
-                GuideManager.Instance.GuideGroup = null;
+                GuideGroup = null;
                 break;
         }
 
@@ -70,7 +67,7 @@ public class GuideManager : Singleton<GuideManager>
         if (Main.MainEntry.ParamsSettings.GetGradeParamData("ActiveGuide") == 0) return false;
         if (CurrentState != descGroup) return false;
 
-        //å®Œæˆå½“å‰ä»»åŠ¡
+        //Íê³Éµ±Ç°ÈÎÎñ
         if (OnNextOne != null)
         {
             Action onNextOne = OnNextOne;
@@ -82,5 +79,10 @@ public class GuideManager : Singleton<GuideManager>
         //GameEntry.Log(LogCategory.Hollow, "NextGroup:" + descGroup);
         return true;
     }
+}
 
+public class GuideEntity
+{
+    //µ±Ç°ÒÑÍê³ÉµÄĞÂÊÖÒıµ¼
+    public GuideState CurrGuide;
 }

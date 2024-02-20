@@ -1,21 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 
 namespace YouYou
 {
     /// <summary>
-    /// 游戏流程
+    /// ��¼����
     /// </summary>
-    public class ProcedureGame : ProcedureBase
+    public class ProcedureLogin : ProcedureBase
     {
         internal override void OnEnter()
         {
             base.OnEnter();
-            GameEntry.UI.OpenUIForm<FormLoading>();
-            GameEntry.Scene.LoadSceneAction(SceneGroupName.Main, 3);
+            GameEntry.Procedure.ChangeState(ProcedureState.Game);
         }
         internal override void OnUpdate()
         {
@@ -24,9 +22,6 @@ namespace YouYou
         internal override void OnLeave()
         {
             base.OnLeave();
-
-            //退出登录时, 清空业务数据
-            GameEntry.Model.Clear();
         }
         internal override void OnDestroy()
         {

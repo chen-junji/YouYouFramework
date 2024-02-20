@@ -19,7 +19,7 @@ public class ToggleHandler : MonoBehaviour
             if (isOn)
             {
                 GameEntry.Input.SetButtonDown(Name);
-                GameEntry.Event.Common.Dispatch("ToggleIsOn" + Name);
+                GameEntry.Event.Common.Dispatch((int)Name);//ToggleIsOn
             }
             else
             {

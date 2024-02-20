@@ -6,9 +6,9 @@ using UnityEngine;
 using YouYou;
 
 
-public class PlayerPrefsDataMgr : Observable<PlayerPrefsDataMgr, PlayerPrefsDataMgr.EventName>
+public class PlayerPrefsDataMgr : Observable
 {
-    public enum EventName : uint
+    public enum EventName
     {
         //Ö÷ÒôÁ¿
         MasterVolume,
@@ -65,7 +65,7 @@ public class PlayerPrefsDataMgr : Observable<PlayerPrefsDataMgr, PlayerPrefsData
     public void SetInt(EventName key, int value, object param = null)
     {
         dicInt[key] = value;
-        Dispatch(key, param);
+        Dispatch((int)key, param);
     }
     public void SetIntAdd(EventName key, int value)
     {
@@ -87,7 +87,7 @@ public class PlayerPrefsDataMgr : Observable<PlayerPrefsDataMgr, PlayerPrefsData
     public void SetBool(EventName key, bool value, object param = null)
     {
         SetInt(key, value ? 1 : 0);
-        Dispatch(key, param);
+        Dispatch((int)key, param);
     }
     public void SetBoolHas(EventName key, bool value)
     {
@@ -107,7 +107,7 @@ public class PlayerPrefsDataMgr : Observable<PlayerPrefsDataMgr, PlayerPrefsData
     public void SetFloat(EventName key, float value, object param = null)
     {
         dicFloat[key] = value;
-        Dispatch(key, param);
+        Dispatch((int)key, param);
     }
     public void SetFloatAdd(EventName key, float value)
     {
@@ -130,7 +130,7 @@ public class PlayerPrefsDataMgr : Observable<PlayerPrefsDataMgr, PlayerPrefsData
     public void SetString(EventName key, string value, object param = null)
     {
         dicString[key] = value;
-        Dispatch(key, param);
+        Dispatch((int)key, param);
     }
     public void SetStringHas(EventName key, string value)
     {

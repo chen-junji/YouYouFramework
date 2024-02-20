@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace YouYou
 {
-    public class CrossPlatformInputManager
+    public class InputManager
     {
         //虚拟轴和按钮类-适用于移动输入
         //可以映射到触摸操纵杆，倾斜，陀螺仪等，取决于所需的实现。
@@ -138,19 +138,19 @@ namespace YouYou
             Touch,
             KeyboardMouse,
         }
-        public Fsm<CrossPlatformInputManager> CurrFsm { get; private set; }
+        public Fsm<InputManager> CurrFsm { get; private set; }
         public bool MobileDebug;
 
         private VirtualInput CurrInput;
 
 
-        public CrossPlatformInputManager()
+        public InputManager()
         {
             MobileDebug = Main.MainEntry.ParamsSettings.GetGradeParamData("MobileDebug") == 1;
 
             //得到枚举的长度
             int count = Enum.GetNames(typeof(State)).Length;
-            FsmState<CrossPlatformInputManager>[] states = new FsmState<CrossPlatformInputManager>[count];
+            FsmState<InputManager>[] states = new FsmState<InputManager>[count];
             states[(byte)State.None] = new StateNone();
             states[(byte)State.KeyboardMouse] = new StandaloneInput();
             states[(byte)State.Touch] = new MobileInput();

@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace YouYou
 {
-    public abstract class VirtualInput : FsmState<CrossPlatformInputManager>
+    public abstract class VirtualInput : FsmState<InputManager>
     {
-        protected Dictionary<string, CrossPlatformInputManager.VirtualAxis> m_VirtualAxes = new Dictionary<string, CrossPlatformInputManager.VirtualAxis>();
-        protected Dictionary<InputName, CrossPlatformInputManager.VirtualButton> m_VirtualButtons = new Dictionary<InputName, CrossPlatformInputManager.VirtualButton>();
+        protected Dictionary<string, InputManager.VirtualAxis> m_VirtualAxes = new Dictionary<string, InputManager.VirtualAxis>();
+        protected Dictionary<InputName, InputManager.VirtualButton> m_VirtualButtons = new Dictionary<InputName, InputManager.VirtualButton>();
         protected List<string> m_AlwaysUseVirtual = new List<string>();
 
 
@@ -31,7 +31,7 @@ namespace YouYou
                 return m_VirtualButtons[name].GetButton;
             }
 
-            GameEntry.Input.RegisterVirtualButton(new CrossPlatformInputManager.VirtualButton(name));
+            GameEntry.Input.RegisterVirtualButton(new InputManager.VirtualButton(name));
             return m_VirtualButtons[name].GetButton;
         }
         public bool GetButtonDown(InputName name)
@@ -41,7 +41,7 @@ namespace YouYou
                 return m_VirtualButtons[name].GetButtonDown;
             }
 
-            GameEntry.Input.RegisterVirtualButton(new CrossPlatformInputManager.VirtualButton(name));
+            GameEntry.Input.RegisterVirtualButton(new InputManager.VirtualButton(name));
             return m_VirtualButtons[name].GetButtonDown;
         }
         public bool GetButtonUp(InputName name)
@@ -51,7 +51,7 @@ namespace YouYou
                 return m_VirtualButtons[name].GetButtonUp;
             }
 
-            GameEntry.Input.RegisterVirtualButton(new CrossPlatformInputManager.VirtualButton(name));
+            GameEntry.Input.RegisterVirtualButton(new InputManager.VirtualButton(name));
             return m_VirtualButtons[name].GetButtonUp;
         }
 
@@ -59,7 +59,7 @@ namespace YouYou
         {
             if (!m_VirtualButtons.ContainsKey(name))
             {
-                GameEntry.Input.RegisterVirtualButton(new CrossPlatformInputManager.VirtualButton(name));
+                GameEntry.Input.RegisterVirtualButton(new InputManager.VirtualButton(name));
             }
             m_VirtualButtons[name].Pressed();
         }
@@ -67,12 +67,12 @@ namespace YouYou
         {
             if (!m_VirtualButtons.ContainsKey(name))
             {
-                GameEntry.Input.RegisterVirtualButton(new CrossPlatformInputManager.VirtualButton(name));
+                GameEntry.Input.RegisterVirtualButton(new InputManager.VirtualButton(name));
             }
             m_VirtualButtons[name].Released();
         }
 
-        public void RegisterVirtualAxis(CrossPlatformInputManager.VirtualAxis axis)
+        public void RegisterVirtualAxis(InputManager.VirtualAxis axis)
         {
             // check if we already have an axis with that name and log and error if we do
             if (m_VirtualAxes.ContainsKey(axis.Name))
@@ -93,7 +93,7 @@ namespace YouYou
         }
 
 
-        public void RegisterVirtualButton(CrossPlatformInputManager.VirtualButton button)
+        public void RegisterVirtualButton(InputManager.VirtualButton button)
         {
             // check if already have a buttin with that name and log an error if we do
             if (m_VirtualButtons.ContainsKey(button.Name))
@@ -113,20 +113,20 @@ namespace YouYou
             }
         }
 
-        public CrossPlatformInputManager.VirtualAxis VirtualAxisReference(string name)
+        public InputManager.VirtualAxis VirtualAxisReference(string name)
         {
-            if (!m_VirtualAxes.TryGetValue(name, out CrossPlatformInputManager.VirtualAxis axis))
+            if (!m_VirtualAxes.TryGetValue(name, out InputManager.VirtualAxis axis))
             {
-                axis = new CrossPlatformInputManager.VirtualAxis(name);
+                axis = new InputManager.VirtualAxis(name);
                 GameEntry.Input.RegisterVirtualAxis(axis);
             }
             return axis;
         }
-        public CrossPlatformInputManager.VirtualButton VirtualButtonReference(InputName name)
+        public InputManager.VirtualButton VirtualButtonReference(InputName name)
         {
-            if (!m_VirtualButtons.TryGetValue(name, out CrossPlatformInputManager.VirtualButton button))
+            if (!m_VirtualButtons.TryGetValue(name, out InputManager.VirtualButton button))
             {
-                button = new CrossPlatformInputManager.VirtualButton(name);
+                button = new InputManager.VirtualButton(name);
                 GameEntry.Input.RegisterVirtualButton(button);
             }
             return button;

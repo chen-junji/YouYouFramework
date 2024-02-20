@@ -43,10 +43,10 @@ namespace YouYou
             BGMSource.name = "BGMSource";
             BGMSource.outputAudioMixerGroup = GameEntry.Instance.MonsterMixer.FindMatchingGroups("BGM")[0];
 
-            GameEntry.PlayerPrefs.AddEventListener(PlayerPrefsDataMgr.EventName.MasterVolume, RefreshMasterVolume);
-            GameEntry.PlayerPrefs.AddEventListener(PlayerPrefsDataMgr.EventName.BGMVolume, RefreshBGM);
-            GameEntry.PlayerPrefs.AddEventListener(PlayerPrefsDataMgr.EventName.AudioVolume, RefreshAudio);
-            GameEntry.PlayerPrefs.AddEventListener(PlayerPrefsDataMgr.EventName.GamePause, OnGamePause);
+            GameEntry.PlayerPrefs.AddEventListener((int)PlayerPrefsDataMgr.EventName.MasterVolume, RefreshMasterVolume);
+            GameEntry.PlayerPrefs.AddEventListener((int)PlayerPrefsDataMgr.EventName.BGMVolume, RefreshBGM);
+            GameEntry.PlayerPrefs.AddEventListener((int)PlayerPrefsDataMgr.EventName.AudioVolume, RefreshAudio);
+            GameEntry.PlayerPrefs.AddEventListener((int)PlayerPrefsDataMgr.EventName.GamePause, OnGamePause);
 
             RefreshMasterVolume(null);
             RefreshBGM(null);

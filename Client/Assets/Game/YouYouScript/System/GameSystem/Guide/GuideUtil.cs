@@ -21,7 +21,7 @@ namespace YouYou
                 button.onClick.RemoveListener(OnNext);
 
                 onNext?.Invoke();
-                GuideManager.Instance.NextGroup(GuideManager.Instance.CurrentState);
+                GuideCtrl.Instance.NextGroup(GuideCtrl.Instance.CurrentState);
             }
         }
         /// <summary>
@@ -34,19 +34,19 @@ namespace YouYou
             {
                 if (!isOn) return;
                 toggle.onValueChanged.RemoveListener(OnNext);
-                GuideManager.Instance.NextGroup(GuideManager.Instance.CurrentState);
+                GuideCtrl.Instance.NextGroup(GuideCtrl.Instance.CurrentState);
             }
         }
         /// <summary>
         /// 监听事件, 触发下一步
         /// </summary>
-        public static void CheckEventNext(string eventName)
+        public static void CheckEventNext(GuideModel.GUIDE_ID eventName)
         {
-            GameEntry.Event.Common.AddEventListener(eventName, OnNext);
+            GameEntry.Model.GetModel<GuideModel>().AddEventListener((int)eventName, OnNext);
             void OnNext(object userData)
             {
-                GameEntry.Event.Common.RemoveEventListener(eventName, OnNext);
-                GuideManager.Instance.NextGroup(GuideManager.Instance.CurrentState);
+                GameEntry.Model.GetModel<GuideModel>().RemoveEventListener((int)eventName, OnNext);
+                GuideCtrl.Instance.NextGroup(GuideCtrl.Instance.CurrentState);
             }
         }
     }

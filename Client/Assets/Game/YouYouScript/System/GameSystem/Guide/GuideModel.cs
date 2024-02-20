@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using YouYou;
 
-public class GuideCtrl : Singleton<GuideCtrl>
+public class GuideModel : Observable
 {
-
-}
-public class GuideModel : Singleton<GuideModel>
-{
+    public enum GUIDE_ID
+    {
+        EventName
+    }
     //单机或网络存档
     private bool b_native = true;
 
@@ -57,10 +57,4 @@ public class GuideModel : Singleton<GuideModel>
             GameEntry.Log(LogCategory.Guide, "GuideCompleteOne:" + guideState.ToString() + guideState.ToInt());
         }
     }
-}
-
-public class GuideEntity
-{
-    //当前已完成的新手引导
-    public GuideState CurrGuide;
 }

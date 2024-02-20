@@ -54,7 +54,7 @@ public class RedDotServerSend : MonoBehaviour
         }
 
         WaitForSeconds wfs = new WaitForSeconds(0.1f);
-        while (RedDotModel.Instance.IsGlobalRedInfoExist() == false)
+        while (GameEntry.Model.GetModel<RedDotModel>().IsGlobalRedInfoExist() == false)
         {
             yield return wfs;
         }
@@ -96,7 +96,7 @@ public class RedDotServerSend : MonoBehaviour
         enableDisableCalled = true;
 
         WaitForSeconds wfs = new WaitForSeconds(0.1f);
-        while (RedDotModel.Instance.IsGlobalRedInfoExist() == false)
+        while (GameEntry.Model.GetModel<RedDotModel>().IsGlobalRedInfoExist() == false)
         {
             yield return wfs;
         }
@@ -166,7 +166,7 @@ public class RedDotServerSend : MonoBehaviour
                 List<int> vecRedModelsServer = new List<int>();
                 for (int i = 0; i < redDotTypes.Count; i++)
                 {
-                    int tGlobalRedInfo = RedDotModel.Instance.GetTGlobalRedInfo(redDotTypes[i]);
+                    int tGlobalRedInfo = GameEntry.Model.GetModel<RedDotModel>().GetTGlobalRedInfo(redDotTypes[i]);
                     if (tGlobalRedInfo > 0)
                     {
                         vecRedModelsServer.Add(redDotTypes[i]);
@@ -190,7 +190,7 @@ public class RedDotServerSend : MonoBehaviour
                     List<int> vecRedModelsServer = new List<int>();
                     for (int i = 0; i < redDotTypes.Count; i++)
                     {
-                        int tGlobalRedInfo = RedDotModel.Instance.GetTGlobalRedInfo(redDotTypes[i]);
+                        int tGlobalRedInfo = GameEntry.Model.GetModel<RedDotModel>().GetTGlobalRedInfo(redDotTypes[i]);
                         if (tGlobalRedInfo > 0)
                         {
                             vecRedModelsServer.Add(redDotTypes[i]);
@@ -212,7 +212,7 @@ public class RedDotServerSend : MonoBehaviour
             RedDotData redDotData = redDots[i];
             if (redDotData.clearOnStart && IsClearable(redDotData))
             {
-                int tGlobalRedInfo = RedDotModel.Instance.GetTGlobalRedInfo(redDotData.redDotType);
+                int tGlobalRedInfo = GameEntry.Model.GetModel<RedDotModel>().GetTGlobalRedInfo(redDotData.redDotType);
                 if (tGlobalRedInfo > 0)
                 {
                     vecRedModelsServer.Add(redDotData.redDotType);
@@ -235,7 +235,7 @@ public class RedDotServerSend : MonoBehaviour
             RedDotData redDotData = redDots[i];
             if (redDotData.clearOnEnable && enableDisableCalled && IsClearable(redDotData))
             {
-                int tGlobalRedInfo = RedDotModel.Instance.GetTGlobalRedInfo(redDotData.redDotType);
+                int tGlobalRedInfo = GameEntry.Model.GetModel<RedDotModel>().GetTGlobalRedInfo(redDotData.redDotType);
                 if (tGlobalRedInfo > 0)
                 {
                     vecRedModelsServer.Add(redDotData.redDotType);
@@ -258,7 +258,7 @@ public class RedDotServerSend : MonoBehaviour
             RedDotData redDotData = redDots[i];
             if (redDotData.clearOnDisable && enableDisableCalled && IsClearable(redDotData))
             {
-                int tGlobalRedInfo = RedDotModel.Instance.GetTGlobalRedInfo(redDotData.redDotType);
+                int tGlobalRedInfo = GameEntry.Model.GetModel<RedDotModel>().GetTGlobalRedInfo(redDotData.redDotType);
                 if (tGlobalRedInfo > 0)
                 {
                     vecRedModelsServer.Add(redDotData.redDotType);
@@ -281,7 +281,7 @@ public class RedDotServerSend : MonoBehaviour
             RedDotData redDotData = redDots[i];
             if (redDotData.clearOnDestroy && IsClearable(redDotData))
             {
-                int tGlobalRedInfo = RedDotModel.Instance.GetTGlobalRedInfo(redDotData.redDotType);
+                int tGlobalRedInfo = GameEntry.Model.GetModel<RedDotModel>().GetTGlobalRedInfo(redDotData.redDotType);
                 if (tGlobalRedInfo > 0)
                 {
                     vecRedModelsServer.Add(redDotData.redDotType);

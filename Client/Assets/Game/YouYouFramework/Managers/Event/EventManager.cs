@@ -25,24 +25,24 @@ namespace YouYou
 
         public void Dispatch(EventName key)
         {
-            Common.Dispatch(key.ToString());
+            Common.Dispatch((int)key);
         }
         public void Dispatch(EventName key, object userData)
         {
-            Common.Dispatch(key.ToString(), userData);
+            Common.Dispatch((int)key, userData);
         }
 
         public void AddEventListener(EventName key, CommonEvent.OnActionHandler handler)
         {
-            Common.AddEventListener(key.ToString(), handler);
+            Common.AddEventListener((int)key, handler);
         }
         public void RemoveEventListener(EventName key, CommonEvent.OnActionHandler handler)
         {
-            Common.RemoveEventListener(key.ToString(), handler);
+            Common.RemoveEventListener((int)key, handler);
         }
         public void RemoveEventListenerAll(EventName key)
         {
-            Common.RemoveEventListenerAll(key.ToString());
+            Common.RemoveEventListenerAll((int)key);
         }
     }
 }

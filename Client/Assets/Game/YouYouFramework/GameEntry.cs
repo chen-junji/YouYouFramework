@@ -47,6 +47,7 @@ namespace YouYou
         public static FsmManager Fsm { get; private set; }
         public static ProcedureManager Procedure { get; private set; }
         public static DataTableManager DataTable { get; private set; }
+        public static ModelManager Model { get; private set; }
         public static HttpManager Http { get; private set; }
         public static PlayerPrefsDataMgr PlayerPrefs { get; private set; }
         public static LocalizationManager Localization { get; private set; }
@@ -55,7 +56,7 @@ namespace YouYou
         public static LoaderManager Loader { get; private set; }
         public static UIManager UI { get; private set; }
         public static AudioManager Audio { get; private set; }
-        public static CrossPlatformInputManager Input { get; private set; }
+        public static InputManager Input { get; private set; }
         public static TaskManager Task { get; private set; }
 
 
@@ -83,6 +84,7 @@ namespace YouYou
             Fsm = new FsmManager();
             Procedure = new ProcedureManager();
             DataTable = new DataTableManager();
+            Model = new ModelManager();
             Http = new HttpManager();
             PlayerPrefs = new PlayerPrefsDataMgr();
             Localization = new LocalizationManager();
@@ -91,7 +93,7 @@ namespace YouYou
             Loader = new LoaderManager();
             UI = new UIManager();
             Audio = new AudioManager();
-            Input = new CrossPlatformInputManager();
+            Input = new InputManager();
             Task = new TaskManager();
 
             Logger.Init();

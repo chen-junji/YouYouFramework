@@ -7,11 +7,16 @@ using YouYou;
 
 public class RedDotCtrl : Singleton<RedDotCtrl>
 {
+    public enum TestEnum
+    {
+        E_SVR_MSG_ID_GET_GLOBAL_RED,
+        E_SVR_MSG_ID_CLEAR_GLOBAL_RED
+    }
     public RedDotCtrl()
     {
         //这里改成你自己监听后端回调的代码
-        GameEntry.Event.Common.AddEventListener("E_SVR_MSG_ID_GET_GLOBAL_RED", (x) => ParseTGetGlobalRedRsp(null));
-        GameEntry.Event.Common.AddEventListener("E_SVR_MSG_ID_CLEAR_GLOBAL_RED", (x) => ParseTClearGlobalRedRsp(null));
+        GameEntry.Event.Common.AddEventListener((int)TestEnum.E_SVR_MSG_ID_GET_GLOBAL_RED, (x) => ParseTGetGlobalRedRsp(null));
+        GameEntry.Event.Common.AddEventListener((int)TestEnum.E_SVR_MSG_ID_CLEAR_GLOBAL_RED, (x) => ParseTClearGlobalRedRsp(null));
     }
 
     //请求小红点
@@ -77,7 +82,7 @@ public class RedDotCtrl : Singleton<RedDotCtrl>
             GameEntry.LogError(LogCategory.NetWork, "拉取小红点信息出错");
             return;
         }
-        RedDotModel.Instance.SetTGetGlobalRedRsp(rsp);
+        GameEntry.Model.GetModel<RedDotModel>().SetTGetGlobalRedRsp(rsp);
     }
 
     //清除小红点
@@ -132,66 +137,7 @@ public class RedDotCtrl : Singleton<RedDotCtrl>
             GameEntry.LogError(LogCategory.NetWork, "清除小红点信息出错");
             return;
         }
-        RedDotModel.Instance.SetTClearGlobalRedRsp(rsp);
+        GameEntry.Model.GetModel<RedDotModel>().SetTClearGlobalRedRsp(rsp);
     }
 
-}
-
-
-/// <summary>
-/// 
-/// </summary>
-public class RedDotModel : Observable<RedDotModel, RedDotModel.EventName>
-{
-    public enum EventName : uint
-    {
-        //红点获取回调
-        E_SVR_MSG_ID_GET_GLOBAL_RED,
-        //红点清除回调
-        E_SVR_MSG_ID_CLEAR_GLOBAL_RED,
-    }
-
-    /// <summary>
-    /// 后台下发的红点数据
-    /// </summary>
-    private Dictionary<int, int> mMapGlobalRedInfo = new Dictionary<int, int>();
-
-    public bool IsGlobalRedInfoExist()
-    {
-        return mMapGlobalRedInfo.Count != 0;
-    }
-
-    public int GetTGlobalRedInfo(int redDotType)
-    {
-        int TGlobalRedInfo = 0;
-        if (mMapGlobalRedInfo.ContainsKey(redDotType))
-        {
-            TGlobalRedInfo = mMapGlobalRedInfo[redDotType];
-        }
-        return TGlobalRedInfo;
-    }
-
-    public void SetTGetGlobalRedRsp(TGetGlobalRedRsp rsp)
-    {
-        foreach (int key in rsp.mapRedModelResults.Keys)
-        {
-            mMapGlobalRedInfo[key] = rsp.mapRedModelResults[key];
-            ReddotManager.Instance.ChangeValue(ReddotManager.Instance.GetServerIdOfPath(key), rsp.mapRedModelResults[key]);
-        }
-        Dispatch(EventName.E_SVR_MSG_ID_GET_GLOBAL_RED, rsp.mapRedModelResults);
-    }
-
-    public void SetTClearGlobalRedRsp(TClearGlobalRedRsp rsp)
-    {
-        for (int j = 0; j < rsp.vecRedModel.Count; j++)
-        {
-            int tGlobalRedInfo = rsp.vecRedModel[j];
-            if (mMapGlobalRedInfo.ContainsKey(tGlobalRedInfo))
-            {
-                mMapGlobalRedInfo[tGlobalRedInfo] = 0;
-                ReddotManager.Instance.ChangeValue(ReddotManager.Instance.GetServerIdOfPath(tGlobalRedInfo), 0);
-            }
-        }
-        Dispatch(EventName.E_SVR_MSG_ID_CLEAR_GLOBAL_RED, rsp.vecRedModel);
-    }
 }

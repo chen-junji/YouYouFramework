@@ -14,9 +14,9 @@ namespace YouYou
         //第一关 新手引导
         public void EnterBattle1()
         {
-            if (!GuideManager.Instance.OnStateEnter(GuideState.Battle1)) return;
+            if (!GuideCtrl.Instance.OnStateEnter(GuideState.Battle1)) return;
 
-            GuideManager.Instance.GuideGroup = GuideGroup = new GuideGroup();
+            GuideCtrl.Instance.GuideGroup = GuideGroup = new GuideGroup();
             GuideRoutine guideRoutine = null;
 
             //第一步
@@ -59,14 +59,14 @@ namespace YouYou
             GuideGroup.AddGuide(() =>
             {
                 //监听事件 触发下一步
-                GuideUtil.CheckEventNext("EventName");
+                GuideUtil.CheckEventNext(GuideModel.GUIDE_ID.EventName);
             });
 
             //启动新手引导组（大步骤）
             GuideGroup.Run(() =>
             {
                 //多个小步骤全部做完了， 网络存档
-                GuideModel.Instance.GuideCompleteOne(GuideManager.Instance.CurrentState);
+                GameEntry.Model.GetModel<GuideModel>().GuideCompleteOne(GuideCtrl.Instance.CurrentState);
             });
         }
     }

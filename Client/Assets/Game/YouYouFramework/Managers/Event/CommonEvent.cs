@@ -11,13 +11,13 @@ namespace Main
     public class CommonEvent
     {
         public delegate void OnActionHandler(object userData);
-        private Dictionary<string, LinkedList<OnActionHandler>> dic = new Dictionary<string, LinkedList<OnActionHandler>>();
+        private Dictionary<int, LinkedList<OnActionHandler>> dic = new Dictionary<int, LinkedList<OnActionHandler>>();
 
         #region AddEventListener 观察者监听事件
         /// <summary>
         /// 观察者监听事件
         /// </summary>
-        public void AddEventListener(string key, OnActionHandler handler)
+        public void AddEventListener(int key, OnActionHandler handler)
         {
             LinkedList<OnActionHandler> lstHandler = null;
             dic.TryGetValue(key, out lstHandler);
@@ -34,13 +34,13 @@ namespace Main
         /// <summary>
         /// 观察者移除监听事件
         /// </summary>
-        public void RemoveEventListener(string key, OnActionHandler handler)
+        public void RemoveEventListener(int key, OnActionHandler handler)
         {
             LinkedList<OnActionHandler> lstHandler = null;
             dic.TryGetValue(key, out lstHandler);
             if (lstHandler != null) lstHandler.Remove(handler);
         }
-        public void RemoveEventListenerAll(string key)
+        public void RemoveEventListenerAll(int key)
         {
             LinkedList<OnActionHandler> lstHandler = null;
             dic.TryGetValue(key, out lstHandler);
@@ -52,7 +52,7 @@ namespace Main
         /// <summary>
         /// 派发
         /// </summary>
-        public void Dispatch(string key, object userData)
+        public void Dispatch(int key, object userData)
         {
             LinkedList<OnActionHandler> lstHandler = null;
             dic.TryGetValue(key, out lstHandler);
@@ -69,7 +69,7 @@ namespace Main
             }
         }
 
-        public void Dispatch(string key)
+        public void Dispatch(int key)
         {
             Dispatch(key, null);
         }

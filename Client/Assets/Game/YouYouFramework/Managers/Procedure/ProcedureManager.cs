@@ -25,6 +25,10 @@ namespace YouYou
         /// </summary>
         Preload,
         /// <summary>
+        /// 登录
+        /// </summary>
+        Login,
+        /// <summary>
         /// 游戏
         /// </summary>
         Game
@@ -59,6 +63,7 @@ namespace YouYou
             states[(byte)ProcedureState.Launch] = new ProcedureLaunch();
             states[(byte)ProcedureState.CheckVersion] = new ProcedureCheckVersion();
             states[(byte)ProcedureState.Preload] = new ProcedurePreload();
+            states[(byte)ProcedureState.Login] = new ProcedureLogin();
             states[(byte)ProcedureState.Game] = new ProcedureGame();
 
             CurrFsm = GameEntry.Fsm.Create(this, states);

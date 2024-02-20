@@ -20,9 +20,9 @@ namespace YouYou
         {
             base.OnEnter();
             //初始画质设置
-            QualityCtrl.Instance.SetQuality((QualityCtrl.Quality)GameEntry.PlayerPrefs.GetInt(PlayerPrefsDataMgr.EventName.QualityLevel));
-            QualityCtrl.Instance.SetScreen((QualityCtrl.ScreenLevel)GameEntry.PlayerPrefs.GetInt(PlayerPrefsDataMgr.EventName.Screen));
-            QualityCtrl.Instance.SetFrameRate((QualityCtrl.FrameRate)GameEntry.PlayerPrefs.GetInt(PlayerPrefsDataMgr.EventName.FrameRate));
+            GameEntry.Model.GetModel<QualityModel>().SetQuality((QualityModel.Quality)GameEntry.PlayerPrefs.GetInt(PlayerPrefsDataMgr.EventName.QualityLevel));
+            GameEntry.Model.GetModel<QualityModel>().SetScreen((QualityModel.ScreenLevel)GameEntry.PlayerPrefs.GetInt(PlayerPrefsDataMgr.EventName.Screen));
+            GameEntry.Model.GetModel<QualityModel>().SetFrameRate((QualityModel.FrameRate)GameEntry.PlayerPrefs.GetInt(PlayerPrefsDataMgr.EventName.FrameRate));
 
             //获取安卓权限
             permissions.ToList().ForEach(s =>

@@ -10,7 +10,7 @@ namespace YouYou
         public void OnPointerDown(PointerEventData eventData)
         {
             GameEntry.Input.SetButtonDown(Name);
-            GameEntry.Event.Common.Dispatch("ButtonDown" + Name);
+            GameEntry.Event.Common.Dispatch((int)Name);
         }
         public void OnPointerUp(PointerEventData eventData)
         {
