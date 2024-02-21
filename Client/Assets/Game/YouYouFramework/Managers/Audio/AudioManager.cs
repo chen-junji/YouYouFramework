@@ -1,3 +1,4 @@
+using Main;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,10 +44,9 @@ namespace YouYou
             BGMSource.name = "BGMSource";
             BGMSource.outputAudioMixerGroup = GameEntry.Instance.MonsterMixer.FindMatchingGroups("BGM")[0];
 
-            GameEntry.PlayerPrefs.AddEventListener((int)PlayerPrefsDataMgr.EventName.MasterVolume, RefreshMasterVolume);
-            GameEntry.PlayerPrefs.AddEventListener((int)PlayerPrefsDataMgr.EventName.BGMVolume, RefreshBGM);
-            GameEntry.PlayerPrefs.AddEventListener((int)PlayerPrefsDataMgr.EventName.AudioVolume, RefreshAudio);
-            GameEntry.PlayerPrefs.AddEventListener((int)PlayerPrefsDataMgr.EventName.GamePause, OnGamePause);
+            GameEntry.Event.AddEventListener(CommonEventId.MasterVolume, RefreshMasterVolume);
+            GameEntry.Event.AddEventListener(CommonEventId.BGMVolume, RefreshBGM);
+            GameEntry.Event.AddEventListener(CommonEventId.AudioVolume, RefreshAudio);
 
             RefreshMasterVolume(null);
             RefreshBGM(null);
@@ -239,39 +239,41 @@ namespace YouYou
 
         private void RefreshMasterVolume(object userData)
         {
-            SetMasterVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsDataMgr.EventName.MasterVolume));
+            SetMasterVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.MasterVolume));
         }
         private void RefreshAudio(object userData)
         {
-            SetAudioVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsDataMgr.EventName.AudioVolume));
+            SetAudioVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.AudioVolume));
         }
         private void RefreshBGM(object userData)
         {
-            SetBGMVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsDataMgr.EventName.BGMVolume));
-        }
-        private void OnGamePause(object userData)
-        {
-            int GamePause = userData.ToInt();
-            AudioSourceList.ForEach(x =>
-            {
-                if (x != null) x.mute = GamePause == 1;
-            });
+            SetBGMVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.BGMVolume));
         }
 
+        public void SetAllMute(bool mute)
+        {
+            AudioSourceList.ForEach(x =>
+            {
+                if (x != null) x.mute = mute;
+            });
+        }
         public void SetMasterVolume(float volume)
         {
             MasterVolume = volume;
-            SetMixerVolume(PlayerPrefsDataMgr.EventName.MasterVolume.ToString(), MasterVolume);
+            SetMixerVolume(PlayerPrefsConstKey.MasterVolume.ToString(), MasterVolume);
+            GameEntry.Event.Dispatch(CommonEventId.MasterVolume);
         }
         public void SetAudioVolume(float volume)
         {
             AudioVolume = volume;
-            SetMixerVolume(PlayerPrefsDataMgr.EventName.AudioVolume.ToString(), AudioVolume);
+            SetMixerVolume(PlayerPrefsConstKey.AudioVolume.ToString(), AudioVolume);
+            GameEntry.Event.Dispatch(CommonEventId.AudioVolume);
         }
         public void SetBGMVolume(float volume)
         {
             BGMVolume = volume;
-            SetMixerVolume(PlayerPrefsDataMgr.EventName.BGMVolume.ToString(), BGMVolume * interimBGMVolume);
+            SetMixerVolume(PlayerPrefsConstKey.BGMVolume.ToString(), BGMVolume * interimBGMVolume);
+            GameEntry.Event.Dispatch(CommonEventId.BGMVolume);
         }
         private void SetMixerVolume(string key, float volume)
         {

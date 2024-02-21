@@ -7,16 +7,16 @@ using YouYou;
 
 public class RedDotCtrl : Singleton<RedDotCtrl>
 {
-    public enum TestEnum
-    {
-        E_SVR_MSG_ID_GET_GLOBAL_RED,
-        E_SVR_MSG_ID_CLEAR_GLOBAL_RED
-    }
+    //public enum TestEnum
+    //{
+    //    E_SVR_MSG_ID_GET_GLOBAL_RED,
+    //    E_SVR_MSG_ID_CLEAR_GLOBAL_RED
+    //}
     public RedDotCtrl()
     {
         //这里改成你自己监听后端回调的代码
-        GameEntry.Event.Common.AddEventListener((int)TestEnum.E_SVR_MSG_ID_GET_GLOBAL_RED, (x) => ParseTGetGlobalRedRsp(null));
-        GameEntry.Event.Common.AddEventListener((int)TestEnum.E_SVR_MSG_ID_CLEAR_GLOBAL_RED, (x) => ParseTClearGlobalRedRsp(null));
+        //GameEntry.Event.AddEventListener((int)TestEnum.E_SVR_MSG_ID_GET_GLOBAL_RED, (x) => ParseTGetGlobalRedRsp(null));
+        //GameEntry.Event.AddEventListener((int)TestEnum.E_SVR_MSG_ID_CLEAR_GLOBAL_RED, (x) => ParseTClearGlobalRedRsp(null));
     }
 
     //请求小红点

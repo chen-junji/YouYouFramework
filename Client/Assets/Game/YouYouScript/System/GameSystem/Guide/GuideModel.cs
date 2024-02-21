@@ -17,8 +17,8 @@ public class GuideModel : Observable
 
     public GuideModel()
     {
-        GameEntry.Event.AddEventListener(EventName.GameEntryOnApplicationQuit, SaveDataAll);
-        GameEntry.Event.AddEventListener(EventName.GameEntryOnApplicationPause, SaveDataAll);
+        GameEntry.Event.AddEventListener(CommonEventId.GameEntryOnApplicationQuit, SaveDataAll);
+        GameEntry.Event.AddEventListener(CommonEventId.GameEntryOnApplicationPause, SaveDataAll);
 
         if (b_native)
         {

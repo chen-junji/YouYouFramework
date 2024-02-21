@@ -8,17 +8,17 @@ public class TestEvent : MonoBehaviour
 {
     private void OnDestroy()
     {
-        GameEntry.Event.RemoveEventListener(EventName.TestEvent, OnTestEvent);
+        GameEntry.Event.RemoveEventListener(CommonEventId.TestEvent, OnTestEvent);
     }
     void Start()
     {
-        GameEntry.Event.AddEventListener(EventName.TestEvent, OnTestEvent);
+        GameEntry.Event.AddEventListener(CommonEventId.TestEvent, OnTestEvent);
     }
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.A))
         {
-            GameEntry.Event.Dispatch(EventName.TestEvent, 123);
+            GameEntry.Event.Dispatch(CommonEventId.TestEvent, 123);
         }
     }
 

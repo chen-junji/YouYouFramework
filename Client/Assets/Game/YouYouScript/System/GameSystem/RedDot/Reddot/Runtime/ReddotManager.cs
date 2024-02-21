@@ -78,7 +78,7 @@ public class ReddotManager : Singleton<ReddotManager>
         m_TempDirtyNodes = new List<TreeNode>();
         CachedSb = new StringBuilder();
 
-        GameEntry.Event.AddEventListener(EventName.GameEntryOnUpdate, OnUpdate);
+        GameEntry.Event.AddEventListener(CommonEventId.GameEntryOnUpdate, OnUpdate);
     }
 
     /// <summary>

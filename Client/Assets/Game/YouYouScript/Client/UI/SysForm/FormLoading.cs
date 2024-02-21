@@ -29,7 +29,7 @@ public class FormLoading : UIFormBase
     protected override void OnEnable()
     {
         base.OnEnable();
-        GameEntry.Event.AddEventListener(EventName.LoadingSceneUpdate, OnLoadingProgressChange);
+        GameEntry.Event.AddEventListener(CommonEventId.LoadingSceneUpdate, OnLoadingProgressChange);
 
         //txtTip.text = string.Empty;
         //m_Scrollbar.size = 0;
@@ -37,6 +37,6 @@ public class FormLoading : UIFormBase
     protected override void OnDisable()
     {
         base.OnDisable();
-        GameEntry.Event.RemoveEventListener(EventName.LoadingSceneUpdate, OnLoadingProgressChange);
+        GameEntry.Event.RemoveEventListener(CommonEventId.LoadingSceneUpdate, OnLoadingProgressChange);
     }
 }

@@ -1,11 +1,19 @@
+using Main;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using YouYou;
 using static QualityCtrl;
 
-public class QualityModel
+public class QualityModel : Observable
 {
+    public enum EventId
+    {
+        QualityLevel,
+        Screen,
+        FrameRate
+    }
+
     public enum Quality
     {
         Low,
@@ -43,12 +51,14 @@ public class QualityModel
     {
         CurrQuality = quality;
         QualitySettings.SetQualityLevel(CurrQuality.ToInt(), true);
-        GameEntry.PlayerPrefs.SetInt(PlayerPrefsDataMgr.EventName.QualityLevel, (int)quality);
+        GameEntry.PlayerPrefs.SetInt(PlayerPrefsConstKey.QualityLevel, (int)quality);
+        Dispatch((int)EventId.QualityLevel);
     }
     public void SetScreen(ScreenLevel value)
     {
         CurrScreen = value;
-        GameEntry.PlayerPrefs.SetInt(PlayerPrefsDataMgr.EventName.Screen, (int)CurrScreen);
+        GameEntry.PlayerPrefs.SetInt(PlayerPrefsConstKey.Screen, (int)CurrScreen);
+        Dispatch((int)EventId.Screen);
         RefreshScreen();
     }
 
@@ -87,7 +97,8 @@ public class QualityModel
                 Application.targetFrameRate = 60; // 120;
                 break;
         }
-        GameEntry.PlayerPrefs.SetInt(PlayerPrefsDataMgr.EventName.FrameRate, (int)CurrFrameRate);
+        GameEntry.PlayerPrefs.SetInt(PlayerPrefsConstKey.FrameRate, (int)CurrFrameRate);
+        Dispatch((int)EventId.FrameRate);
         //#if UNITY_EDITOR
         //            Application.targetFrameRate = -1;
         //#endif

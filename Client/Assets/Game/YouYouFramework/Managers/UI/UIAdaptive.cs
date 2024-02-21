@@ -11,14 +11,14 @@ public class UIAdaptive : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameEntry.PlayerPrefs.RemoveEventListener((int)PlayerPrefsDataMgr.EventName.Screen, OnCurrScreen);
+        GameEntry.Model.GetModel<QualityModel>().RemoveEventListener((int)QualityModel.EventId.Screen, OnCurrScreen);
     }
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
 
         Offset = -Offset * 2;
-        GameEntry.PlayerPrefs.AddEventListener((int)PlayerPrefsDataMgr.EventName.Screen, OnCurrScreen);
+        GameEntry.Model.GetModel<QualityModel>().AddEventListener((int)QualityModel.EventId.Screen, OnCurrScreen);
         OnCurrScreen(null);
     }
 

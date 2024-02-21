@@ -8,39 +8,51 @@ using UnityEngine;
 
 namespace YouYou
 {
-	/// <summary>
-	/// 事件管理器
-	/// </summary>
-	public class EventManager 
+    public enum CommonEventId
+    {
+        TestEvent,
+        GameEntryOnUpdate,
+        GameEntryOnApplicationQuit,
+        GameEntryOnApplicationPause,
+        LoadingSceneUpdate,
+        MasterVolume,
+        BGMVolume,
+        AudioVolume,
+    }
+
+    /// <summary>
+    /// 事件管理器
+    /// </summary>
+    public class EventManager 
 	{
-		/// <summary>
-		/// 通用事件
-		/// </summary>
-		public CommonEvent Common { get; private set; }
+        /// <summary>
+        /// 通用事件
+        /// </summary>
+        private CommonEvent Common;
 
 		internal EventManager()
 		{
 			Common = new CommonEvent();
 		}
 
-        public void Dispatch(EventName key)
+        public void Dispatch(CommonEventId key)
         {
             Common.Dispatch((int)key);
         }
-        public void Dispatch(EventName key, object userData)
+        public void Dispatch(CommonEventId key, object userData)
         {
             Common.Dispatch((int)key, userData);
         }
 
-        public void AddEventListener(EventName key, CommonEvent.OnActionHandler handler)
+        public void AddEventListener(CommonEventId key, CommonEvent.OnActionHandler handler)
         {
             Common.AddEventListener((int)key, handler);
         }
-        public void RemoveEventListener(EventName key, CommonEvent.OnActionHandler handler)
+        public void RemoveEventListener(CommonEventId key, CommonEvent.OnActionHandler handler)
         {
             Common.RemoveEventListener((int)key, handler);
         }
-        public void RemoveEventListenerAll(EventName key)
+        public void RemoveEventListenerAll(CommonEventId key)
         {
             Common.RemoveEventListenerAll((int)key);
         }

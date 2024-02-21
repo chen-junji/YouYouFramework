@@ -1,10 +1,15 @@
+using Main;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace YouYou
 {
-    public class InputManager
+    public enum InputName
+    {
+        BuyTower,
+    }
+    public class InputManager : Observable
     {
         //虚拟轴和按钮类-适用于移动输入
         //可以映射到触摸操纵杆，倾斜，陀螺仪等，取决于所需的实现。

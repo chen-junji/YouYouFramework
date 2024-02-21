@@ -125,21 +125,21 @@ namespace YouYou
             Input.OnUpdate();
             Task.OnUpdate();
 
-            GameEntry.Event.Dispatch(EventName.GameEntryOnUpdate);
+            GameEntry.Event.Dispatch(CommonEventId.GameEntryOnUpdate);
         }
         private void OnApplicationQuit()
         {
             PlayerPrefs.SaveDataAll();
             Logger.SyncLog();
 
-            GameEntry.Event.Dispatch(EventName.GameEntryOnApplicationQuit);
+            GameEntry.Event.Dispatch(CommonEventId.GameEntryOnApplicationQuit);
         }
         private void OnApplicationPause(bool pause)
         {
             if (pause)
             {
                 PlayerPrefs.SaveDataAll();
-                GameEntry.Event.Dispatch(EventName.GameEntryOnApplicationPause);
+                GameEntry.Event.Dispatch(CommonEventId.GameEntryOnApplicationPause);
             }
         }
 
