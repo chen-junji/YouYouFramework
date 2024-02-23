@@ -32,7 +32,7 @@ namespace YouYou
         {
             m_WebAccountUrl = MainEntry.ParamsSettings.WebAccountUrl;
             m_TestWebAccountUrl = MainEntry.ParamsSettings.TestWebAccountUrl;
-            m_IsTest = Main.MainEntry.ParamsSettings.IsTest;
+            m_IsTest = MainEntry.ParamsSettings.IsTest;
 
         }
 

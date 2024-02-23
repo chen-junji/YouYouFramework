@@ -13,14 +13,6 @@ namespace YouYou
         private LinkedList<UIFormBase> m_UIFormList;
 
         /// <summary>
-        /// UI回池后过期时间_秒
-        /// </summary>
-        public float UIExpire { get; private set; }
-        /// <summary>
-        /// UI释放间隔_秒
-        /// </summary>
-        public float ClearInterval { get; private set; }
-        /// <summary>
         /// 下次运行时间
         /// </summary>
         private float m_NextRunTime = 0f;
@@ -29,13 +21,10 @@ namespace YouYou
         public UIPool()
         {
             m_UIFormList = new LinkedList<UIFormBase>();
-
-            UIExpire = Main.MainEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_Expire, Main.MainEntry.CurrDeviceGrade);
-            ClearInterval = Main.MainEntry.ParamsSettings.GetGradeParamData(YFConstDefine.UI_ClearInterval, Main.MainEntry.CurrDeviceGrade);
         }
         internal void OnUpdate()
         {
-            if (Time.time > m_NextRunTime + ClearInterval)
+            if (Time.time > m_NextRunTime + MainEntry.ParamsSettings.UIClearInterval)
             {
                 m_NextRunTime = Time.time;
 
@@ -76,7 +65,7 @@ namespace YouYou
         {
             for (LinkedListNode<UIFormBase> curr = m_UIFormList.First; curr != null;)
             {
-                if (curr.Value.SysUIForm.IsLock != 1 && Time.time > curr.Value.CloseTime + UIExpire)
+                if (curr.Value.SysUIForm.IsLock != 1 && Time.time > curr.Value.CloseTime + MainEntry.ParamsSettings.UIExpire)
                 {
                     LinkedListNode<UIFormBase> next = curr.Next;
 

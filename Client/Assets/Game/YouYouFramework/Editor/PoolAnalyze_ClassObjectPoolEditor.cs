@@ -1,3 +1,4 @@
+using Main;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -21,7 +22,7 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 		if (GameEntry.Pool != null)
 		{
 			GUILayout.BeginHorizontal("box");
-			GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (GameEntry.Pool.ReleaseClassObjectNextRunTime + GameEntry.Pool.ReleaseClassObjectInterval)), titleStyle);
+			GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (GameEntry.Pool.ReleaseClassObjectNextRunTime + MainEntry.ParamsSettings.PoolReleaseClassObjectInterval)), titleStyle);
 			GUILayout.EndHorizontal();
 		}
 		GUILayout.Space(10);

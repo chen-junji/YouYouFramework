@@ -228,7 +228,7 @@ namespace Main
                 case UnityWebRequest.Result.ProtocolError:
                 case UnityWebRequest.Result.DataProcessingError:
                     m_CurrRetry++;
-                    if (m_CurrRetry <= MainEntry.Download.Retry)
+                    if (m_CurrRetry <= MainEntry.ParamsSettings.DownloadRetry)
                     {
                         MainEntry.Log(MainEntry.LogCategory.Assets, "下载文件URL {0} 出错, 正在进行重试, 当前重试次数{1}", m_UnityWebRequest.url, m_CurrRetry);
                         Reset();

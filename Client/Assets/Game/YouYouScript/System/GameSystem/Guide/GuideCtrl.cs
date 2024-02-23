@@ -40,7 +40,7 @@ public class GuideCtrl : Singleton<GuideCtrl>
 
     public bool OnStateEnter(GuideState state)
     {
-        if (Main.MainEntry.ParamsSettings.GetGradeParamData("ActiveGuide") == 0) return false;
+        if (MainEntry.ParamsSettings.ActiveGuide == false) return false;
 
         if (CurrentState == state) return false;
 
@@ -64,7 +64,7 @@ public class GuideCtrl : Singleton<GuideCtrl>
 
     public bool NextGroup(GuideState descGroup)
     {
-        if (Main.MainEntry.ParamsSettings.GetGradeParamData("ActiveGuide") == 0) return false;
+        if (MainEntry.ParamsSettings.ActiveGuide == false) return false;
         if (CurrentState != descGroup) return false;
 
         //完成当前任务

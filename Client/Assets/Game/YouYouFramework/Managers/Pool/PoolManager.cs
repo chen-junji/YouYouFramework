@@ -37,10 +37,6 @@ namespace YouYou
         /// </summary>
         internal void Init()
         {
-            ReleaseClassObjectInterval = Main.MainEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Pool_ReleaseClassObjectInterval, Main.MainEntry.CurrDeviceGrade);
-            ReleaseAssetBundleInterval = Main.MainEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Pool_ReleaseAssetBundleInterval, Main.MainEntry.CurrDeviceGrade);
-            ReleaseAssetInterval = Main.MainEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Pool_ReleaseAssetInterval, Main.MainEntry.CurrDeviceGrade);
-
             ReleaseClassObjectNextRunTime = Time.time;
             ReleaseAssetBundleNextRunTime = Time.time;
             ReleaseAssetNextRunTime = Time.time;
@@ -155,27 +151,15 @@ namespace YouYou
         #endregion
 
         /// <summary>
-        /// 释放类对象池间隔
-        /// </summary>
-        public int ReleaseClassObjectInterval { get; private set; }
-        /// <summary>
         /// 下次释放类对象运行时间
         /// </summary>
         public float ReleaseClassObjectNextRunTime { get; private set; }
 
         /// <summary>
-        /// 释放AssetBundle池间隔
-        /// </summary>
-        public int ReleaseAssetBundleInterval { get; private set; }
-        /// <summary>
         /// 下次释放AssetBundle池运行时间
         /// </summary>
         public float ReleaseAssetBundleNextRunTime { get; private set; }
 
-        /// <summary>
-        /// 释放Asset池间隔
-        /// </summary>
-        public int ReleaseAssetInterval { get; private set; }
         /// <summary>
         /// 下次释放Asset池运行时间
         /// </summary>
@@ -183,7 +167,7 @@ namespace YouYou
 
         internal void OnUpdate()
         {
-            if (Time.time > ReleaseClassObjectNextRunTime + ReleaseClassObjectInterval)
+            if (Time.time > ReleaseClassObjectNextRunTime + MainEntry.ParamsSettings.PoolReleaseClassObjectInterval)
             {
                 ReleaseClassObjectNextRunTime = Time.time;
                 MainEntry.ClassObjectPool.Release();
@@ -191,14 +175,14 @@ namespace YouYou
             }
 
 #if ASSETBUNDLE
-            if (Time.time > ReleaseAssetBundleNextRunTime + ReleaseAssetBundleInterval)
+            if (Time.time > ReleaseAssetBundleNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetBundleInterval)
             {
                 ReleaseAssetBundleNextRunTime = Time.time;
                 AssetBundlePool.Release();
                 //GameEntry.Log(LogCategory.Normal, "释放AssetBundle池");
             }
 #endif
-            if (Time.time > ReleaseAssetNextRunTime + ReleaseAssetInterval)
+            if (Time.time > ReleaseAssetNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetInterval)
             {
                 ReleaseAssetNextRunTime = Time.time;
                 AssetPool.Release();

@@ -594,7 +594,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ParamsSettings: {fileID: 11400000, guid: 31383792df0064f4aac1120ffd378771, type: 2}
-  m_CurrDeviceGrade: 0
 --- !u!1 &1076819317
 GameObject:
   m_ObjectHideFlags: 0

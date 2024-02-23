@@ -144,15 +144,12 @@ namespace YouYou
             KeyboardMouse,
         }
         public Fsm<InputManager> CurrFsm { get; private set; }
-        public bool MobileDebug;
 
         private VirtualInput CurrInput;
 
 
         public InputManager()
         {
-            MobileDebug = Main.MainEntry.ParamsSettings.GetGradeParamData("MobileDebug") == 1;
-
             //得到枚举的长度
             int count = Enum.GetNames(typeof(State)).Length;
             FsmState<InputManager>[] states = new FsmState<InputManager>[count];
@@ -186,7 +183,7 @@ namespace YouYou
                 state = State.Touch;
 #endif
 #if UNITY_EDITOR
-                state = GameEntry.Input.MobileDebug ? State.Touch : State.KeyboardMouse;
+                state = MainEntry.ParamsSettings.MobileDebug ? State.Touch : State.KeyboardMouse;
 #endif
                 ChangeState(state);
             }

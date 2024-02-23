@@ -65,7 +65,7 @@ namespace YouYou
         /// <returns></returns>
         public bool GetCanRelease()
         {
-            return ReferenceCount == 0 && Time.time - LastUseTime > GameEntry.Pool.ReleaseAssetBundleInterval;
+            return ReferenceCount == 0 && Time.time - LastUseTime > MainEntry.ParamsSettings.PoolReleaseAssetBundleInterval;
         }
 
         public static AssetBundleReferenceEntity Create(string path, AssetBundle target)

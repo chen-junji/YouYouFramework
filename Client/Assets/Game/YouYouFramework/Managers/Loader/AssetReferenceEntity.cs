@@ -94,7 +94,7 @@ namespace YouYou
         /// <returns></returns>
         public bool GetCanRelease()
         {
-            return ReferenceCount == 0 && Time.time - LastUseTime > GameEntry.Pool.ReleaseAssetInterval;
+            return ReferenceCount == 0 && Time.time - LastUseTime > MainEntry.ParamsSettings.PoolReleaseAssetInterval;
         }
 
         /// <summary>

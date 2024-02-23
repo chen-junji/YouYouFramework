@@ -37,21 +37,6 @@ namespace Main
         private ParamsSettings m_ParamsSettings;
         public static ParamsSettings ParamsSettings { get; private set; }
 
-        //当前设备等级
-        [FoldoutGroup("ParamsSettings")]
-        [SerializeField]
-        private ParamsSettings.DeviceGrade m_CurrDeviceGrade;
-        public static ParamsSettings.DeviceGrade CurrDeviceGrade { get; private set; }
-
-        /// <summary>
-        /// Http调用失败后重试次数
-        /// </summary>
-        public static int HttpRetry { get; private set; }
-        /// <summary>
-        /// Http调用失败后重试间隔（秒）
-        /// </summary>
-        public static int HttpRetryInterval { get; private set; }
-
         //预加载相关事件
         public event Action ActionPreloadBegin;
         public event Action<float> ActionPreloadUpdate;
@@ -88,12 +73,7 @@ namespace Main
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
             //此处以后判断如果不是编辑器模式 要根据设备信息判断等级
-            CurrDeviceGrade = m_CurrDeviceGrade;
             ParamsSettings = m_ParamsSettings;
-
-            //初始化系统参数
-            HttpRetry = ParamsSettings.GetGradeParamData(YFConstDefine.Http_Retry, CurrDeviceGrade);
-            HttpRetryInterval = ParamsSettings.GetGradeParamData(YFConstDefine.Http_RetryInterval, CurrDeviceGrade);
 
         }
         private void Start()

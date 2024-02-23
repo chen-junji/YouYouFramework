@@ -1,3 +1,4 @@
+using Main;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ public class PoolAnalyze_AssetPoolEditor : Editor
         if (GameEntry.Pool != null)
         {
             GUILayout.BeginHorizontal("box");
-            GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (GameEntry.Pool.ReleaseAssetNextRunTime + GameEntry.Pool.ReleaseAssetInterval)), titleStyle);
+            GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (GameEntry.Pool.ReleaseAssetNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetInterval)), titleStyle);
             GUILayout.EndHorizontal();
         }
 
@@ -44,7 +45,7 @@ public class PoolAnalyze_AssetPoolEditor : Editor
                 titleStyle.fixedWidth = 50;
                 GUILayout.Label(item.Value.ReferenceCount.ToString(), titleStyle);
 
-                float remain = Mathf.Max(0, GameEntry.Pool.ReleaseAssetInterval - (Time.time - item.Value.LastUseTime));
+                float remain = Mathf.Max(0, MainEntry.ParamsSettings.PoolReleaseAssetInterval - (Time.time - item.Value.LastUseTime));
 
                 GUILayout.Label(remain.ToString(), titleStyle);
                 GUILayout.EndHorizontal();

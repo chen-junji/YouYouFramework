@@ -1,26 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace Main
 {
-    public class SystemCtrl
-    {
-        private static SystemCtrl instance;
-        public static SystemCtrl Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new SystemCtrl();
-                }
-                return instance;
-            }
-        }
-    }
-
     public class SystemModel
     {
         private static SystemModel instance;
@@ -37,12 +21,12 @@ namespace Main
         }
 
         /// <summary>
-        /// æ¸ é“é…ç½®æ•°æ®
+        /// ÇşµÀÅäÖÃÊı¾İ
         /// </summary>
         public ChannelConfigEntity CurrChannelConfig { get; private set; }
 
         /// <summary>
-        /// ç”¨äºè®¡ç®—æ—¶é—´æˆ³çš„æœ¬åœ°æœåŠ¡å™¨æ—¶é—´
+        /// ÓÃÓÚ¼ÆËãÊ±¼ä´ÁµÄ±¾µØ·şÎñÆ÷Ê±¼ä
         /// </summary>
         public long CurrServerTime
         {

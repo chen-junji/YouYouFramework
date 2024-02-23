@@ -42,7 +42,7 @@ namespace YouYou
 
         public static AssetLoaderRoutine Create()
         {
-            AssetLoaderRoutine assetLoaderRoutine = Main.MainEntry.ClassObjectPool.Dequeue<AssetLoaderRoutine>();
+            AssetLoaderRoutine assetLoaderRoutine = MainEntry.ClassObjectPool.Dequeue<AssetLoaderRoutine>();
             return assetLoaderRoutine;
         }
 

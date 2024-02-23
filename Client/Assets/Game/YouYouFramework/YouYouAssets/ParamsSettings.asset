@@ -17,57 +17,15 @@ MonoBehaviour:
   IsTest: 1
   PostIsEncrypt: 0
   PostContentType: 
-  GeneralParams:
-  - Key: MobileDebug
-    Value: 1
-  - Key: ActiveGuide
-    Value: 1
-  GradeParams:
-  - Key: Http_Retry
-    LowValue: 2
-    MiddleValue: 5
-    HighValue: 10
-  - Key: Http_RetryInterval
-    LowValue: 2
-    MiddleValue: 5
-    HighValue: 10
-  - Key: Download_Retry
-    LowValue: 2
-    MiddleValue: 5
-    HighValue: 10
-  - Key: Download_RoutineCount
-    LowValue: 3
-    MiddleValue: 5
-    HighValue: 10
-  - Key: Download_FlushSize
-    LowValue: 512
-    MiddleValue: 1024
-    HighValue: 2048
-  - Key: Pool_ReleaseClassObjectInterval
-    LowValue: 30
-    MiddleValue: 60
-    HighValue: 300
-  - Key: Pool_ReleaseAssetBundleInterval
-    LowValue: 30
-    MiddleValue: 60
-    HighValue: 300
-  - Key: Pool_ReleaseAssetInterval
-    LowValue: 60
-    MiddleValue: 120
-    HighValue: 600
-  - Key: UI_PoolMaxCount
-    LowValue: 3
-    MiddleValue: 5
-    HighValue: 10
-  - Key: UI_Expire
-    LowValue: 30
-    MiddleValue: 60
-    HighValue: 120
-  - Key: UI_ClearInterval
-    LowValue: 30
-    MiddleValue: 60
-    HighValue: 120
-  - Key: Lua_DataTableLife
-    LowValue: 30
-    MiddleValue: 60
-    HighValue: 120
+  HttpRetry: 3
+  HttpRetryInterval: 3
+  DownloadRetry: 3
+  DownloadRoutineCount: 3
+  DownloadFlushSize: 2048
+  PoolReleaseClassObjectInterval: 30
+  PoolReleaseAssetBundleInterval: 30
+  PoolReleaseAssetInterval: 60
+  UIExpire: 30
+  UIClearInterval: 30
+  MobileDebug: 0
+  ActiveGuide: 0

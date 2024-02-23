@@ -15,11 +15,6 @@ namespace Main
         public int DownloadRoutineCount { get; private set; }
 
         /// <summary>
-        /// 连接失败后的重试次数
-        /// </summary>
-        public int Retry { get; private set; }
-
-        /// <summary>
         /// 下载单文件器链表
         /// </summary>
         private LinkedList<DownloadRoutine> m_DownloadSingleRoutineList;
@@ -70,9 +65,6 @@ namespace Main
         }
         internal void Init()
         {
-            Retry = MainEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Download_Retry, MainEntry.CurrDeviceGrade);
-            DownloadRoutineCount = MainEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Download_RoutineCount, MainEntry.CurrDeviceGrade);
-            FlushSize = MainEntry.ParamsSettings.GetGradeParamData(YFConstDefine.Download_FlushSize, MainEntry.CurrDeviceGrade);
         }
 
         /// <summary>

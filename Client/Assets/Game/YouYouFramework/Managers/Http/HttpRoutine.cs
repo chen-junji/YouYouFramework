@@ -160,9 +160,9 @@ namespace Main
             else
             {
                 //报错了 进行重试
-                if (m_CurrRetry > 0) yield return new WaitForSeconds(MainEntry.HttpRetryInterval);
+                if (m_CurrRetry > 0) yield return new WaitForSeconds(MainEntry.ParamsSettings.HttpRetryInterval);
                 m_CurrRetry++;
-                if (m_CurrRetry <= MainEntry.HttpRetry)
+                if (m_CurrRetry <= MainEntry.ParamsSettings.HttpRetry)
                 {
                     switch (data.method)
                     {

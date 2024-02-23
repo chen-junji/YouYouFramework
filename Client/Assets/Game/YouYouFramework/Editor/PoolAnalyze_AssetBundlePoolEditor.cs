@@ -1,3 +1,4 @@
+using Main;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -20,7 +21,7 @@ public class PoolAnalyze_AssetBundlePoolEditor : Editor
 		if (GameEntry.Pool != null)
 		{
 			GUILayout.BeginHorizontal("box");
-			GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (GameEntry.Pool.ReleaseAssetBundleNextRunTime + GameEntry.Pool.ReleaseAssetBundleInterval)), titleStyle);
+			GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (GameEntry.Pool.ReleaseAssetBundleNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetBundleInterval)), titleStyle);
 			GUILayout.EndHorizontal();
 		}
 		//===================资源池变量计数==================

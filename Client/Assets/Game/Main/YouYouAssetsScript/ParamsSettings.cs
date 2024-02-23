@@ -8,134 +8,110 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "YouYouAsset/ParamsSettings")]
 public class ParamsSettings : ScriptableObject
 {
-    [BoxGroup("InitUrl")] public string WebAccountUrl;
-    [BoxGroup("InitUrl")] public string TestWebAccountUrl;
-    [BoxGroup("InitUrl")] public bool IsTest;
-    [BoxGroup("InitUrl")] public bool PostIsEncrypt;//是否加密(如时间戳)
-    [BoxGroup("InitUrl")] public string PostContentType;//设置ContentType
+    #region Http请求相关
+    [BoxGroup("Http请求相关")]
+    [LabelText("正式服请求路径")]
+    public string WebAccountUrl;
 
-    #region 常规数据
-    /// <summary>
-    /// 常规数据
-    /// </summary>
-    [Serializable]
-    public class GeneralParamData
-    {
-        [TableColumnWidth(260, Resizable = false)]
-        /// <summary>
-        /// 参数Key
-        /// </summary>
-        public string Key;
+    [BoxGroup("Http请求相关")]
+    [LabelText("测试服请求路径")]
+    public string TestWebAccountUrl;
 
-        /// <summary>
-        /// 参数值
-        /// </summary>
-        public int Value;
-    }
+    [BoxGroup("Http请求相关")]
+    [LabelText("当前是否测试服")]
+    public bool IsTest;
 
-    [BoxGroup("GeneralParams")]
-    [TableList(ShowIndexLabels = true, AlwaysExpanded = true)]
-    [HideLabel]
-    public GeneralParamData[] GeneralParams;
-    /// <summary>
-    /// 根据key获取参数
-    /// </summary>
-    public int GetGradeParamData(string key)
-    {
-        for (int i = 0; i < GeneralParams.Length; i++)
-        {
-            GeneralParamData gradeParamData = GeneralParams[i];
-            if (gradeParamData.Key.Equals(key, StringComparison.CurrentCultureIgnoreCase))
-            {
-                return gradeParamData.Value;
-            }
-        }
+    [BoxGroup("Http请求相关")]
+    [LabelText("是否加密")]
+    public bool PostIsEncrypt;
 
-        MainEntry.LogError(MainEntry.LogCategory.Framework, "GetGradeParamData Fail key={0}", key);
-        return 0;
-    }
+    [BoxGroup("Http请求相关")]
+    [LabelText("设置Post的ContentType")]
+    public string PostContentType;
     #endregion
 
-    #region 等级数据
+    #region 系统参数
     /// <summary>
-    /// 设备等级
+    /// Http请求的重试次数
     /// </summary>
-    public enum DeviceGrade
-    {
-        Low = 0,
-        Middle = 1,
-        High = 2
-    }
-    /// <summary>
-     /// 等级参数数据
-     /// </summary>
-    [Serializable]
-    public class GradeParamData
-    {
-        [TableColumnWidth(260, Resizable = false)]
-        /// <summary>
-        /// 参数Key
-        /// </summary>
-        public string Key;
-
-        /// <summary>
-        /// 低配值
-        /// </summary>
-        public int LowValue;
-
-        /// <summary>
-        /// 中配值
-        /// </summary>
-        public int MiddleValue;
-
-        /// <summary>
-        /// 高配值
-        /// </summary>
-        public int HighValue;
-
-        /// <summary>
-        /// 获取参数值
-        /// </summary>
-        public int GetValueByGrade(DeviceGrade grade)
-        {
-            switch (grade)
-            {
-                default:
-                case DeviceGrade.Low:
-                    return LowValue;
-                case DeviceGrade.Middle:
-                    return MiddleValue;
-                case DeviceGrade.High:
-                    return HighValue;
-            }
-        }
-    }
-
-    [BoxGroup("GradeParams")]
-    [TableList(ShowIndexLabels = true, AlwaysExpanded = true)]
-    [HideLabel]
-    public GradeParamData[] GradeParams;
-
-    private int m_LenGradeParams = 0;
+    [BoxGroup("系统参数")]
+    [LabelText("Http请求的重试次数")]
+    public int HttpRetry = 3;
 
     /// <summary>
-    /// 根据key和设备等级获取参数
+    /// Http请求的重试间隔
     /// </summary>
-    public int GetGradeParamData(string key, DeviceGrade grade)
-    {
-        m_LenGradeParams = GradeParams.Length;
-        for (int i = 0; i < m_LenGradeParams; i++)
-        {
-            GradeParamData gradeParamData = GradeParams[i];
-            if (gradeParamData.Key.Equals(key, StringComparison.CurrentCultureIgnoreCase))
-            {
-                return gradeParamData.GetValueByGrade(grade);
-            }
-        }
+    [BoxGroup("系统参数")]
+    [LabelText("Http请求的重试间隔")]
+    public int HttpRetryInterval = 3;
 
-        MainEntry.LogError(MainEntry.LogCategory.Framework, "GetGradeParamData Fail key={0}", key);
-        return 0;
-    }
+    /// <summary>
+    /// 下载请求的重试次数
+    /// </summary>
+    [BoxGroup("系统参数")]
+    [LabelText("下载请求的重试次数")]
+    public int DownloadRetry = 3;
+    /// <summary>
+    /// 下载多文件器的数量
+    /// </summary>
+    [BoxGroup("系统参数")]
+    [LabelText("下载多文件器的数量")]
+    public int DownloadRoutineCount = 3;
+    /// <summary>
+    /// 断点续传的存储间隔缓存
+    /// </summary>
+    [BoxGroup("系统参数")]
+    [LabelText("断点续传的存储间隔缓存")]
+    public int DownloadFlushSize = 2048;
+
+    /// <summary>
+    /// 类对象池_释放间隔
+    /// </summary>
+    [BoxGroup("系统参数")]
+    [LabelText("类对象池_释放间隔")]
+    public int PoolReleaseClassObjectInterval = 30;
+    /// <summary>
+    /// AssetBundle池_释放间隔
+    /// </summary>
+    [BoxGroup("系统参数")]
+    [LabelText("AssetBundle池_释放间隔")]
+    public int PoolReleaseAssetBundleInterval = 30;
+    /// <summary>
+    /// Asset池_释放间隔
+    /// </summary>
+    [BoxGroup("系统参数")]
+    [LabelText("Asset池_释放间隔")]
+    public int PoolReleaseAssetInterval = 60;
+
+    /// <summary>
+    /// UI界面池_回池后过期时间_秒
+    /// </summary>
+    [BoxGroup("系统参数")]
+    [LabelText("UI界面池_回池后过期时间_秒")]
+    public int UIExpire = 30;
+
+    /// <summary>
+    /// UI界面池_释放间隔_秒
+    /// </summary>
+    [BoxGroup("系统参数")]
+    [LabelText("UI界面池_释放间隔_秒")]
+    public int UIClearInterval = 30;
     #endregion
-    
+
+    #region 业务系统测试
+    /// <summary>
+    /// 是否测试手机端Input系统
+    /// </summary>
+    [BoxGroup("业务系统测试")]
+    [LabelText("是否测试手机端Input系统")]
+    public bool MobileDebug;
+
+    /// <summary>
+    /// 是否激活新手引导
+    /// </summary>
+    [BoxGroup("业务系统测试")]
+    [LabelText("是否激活新手引导")]
+    public bool ActiveGuide;
+    #endregion
+
 }
