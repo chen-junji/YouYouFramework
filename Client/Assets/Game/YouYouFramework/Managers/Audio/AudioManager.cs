@@ -44,13 +44,9 @@ namespace YouYou
             BGMSource.name = "BGMSource";
             BGMSource.outputAudioMixerGroup = GameEntry.Instance.MonsterMixer.FindMatchingGroups("BGM")[0];
 
-            GameEntry.Event.AddEventListener(CommonEventId.MasterVolume, RefreshMasterVolume);
-            GameEntry.Event.AddEventListener(CommonEventId.BGMVolume, RefreshBGM);
-            GameEntry.Event.AddEventListener(CommonEventId.AudioVolume, RefreshAudio);
-
-            RefreshMasterVolume(null);
-            RefreshBGM(null);
-            RefreshAudio(null);
+            SetMasterVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.MasterVolume));
+            SetAudioVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.AudioVolume));
+            SetBGMVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.BGMVolume));
         }
         public void OnUpdate()
         {
@@ -236,19 +232,6 @@ namespace YouYou
         }
 
         #endregion
-
-        private void RefreshMasterVolume(object userData)
-        {
-            SetMasterVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.MasterVolume));
-        }
-        private void RefreshAudio(object userData)
-        {
-            SetAudioVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.AudioVolume));
-        }
-        private void RefreshBGM(object userData)
-        {
-            SetBGMVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.BGMVolume));
-        }
 
         public void SetAllMute(bool mute)
         {
