@@ -49,7 +49,7 @@ QQ交流群: 185187673
 {
 >使用了Unity官方提供的开源ECS框架, Entitas
 
->可调用GameFramework的任意模块, 开发GamePlay战斗系统逻辑
+>可调用YouYou Framework的任意模块, 开发GamePlay战斗系统逻辑
 
 >基于ECS框架开发了一个Demo, 可运行查看演示
 
@@ -58,9 +58,7 @@ QQ交流群: 185187673
  **MVC框架** 
 ------------------------------------
 {
->使用了Unity官方提供的开源ECS框架, Entitas
-
->可调用GameFramework的任意模块, 开发业务系统逻辑
+>可调用YouYou Framework的任意模块, 开发业务系统逻辑
 
 >基于MVC框架开发了几个业务系统和常用界面, 可运行查看演示
 
