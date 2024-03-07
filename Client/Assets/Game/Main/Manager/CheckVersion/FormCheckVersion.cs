@@ -18,7 +18,7 @@ public class FormCheckVersion : MonoBehaviour
     //private Text txtVersion;
 
     [SerializeField]
-    private Scrollbar scrollbar;
+    private Image progressImg;
 
     private void OnDestroy()
     {
@@ -55,7 +55,7 @@ public class FormCheckVersion : MonoBehaviour
         txtTip.text = string.Format("正在下载{0}/{1}", baseParams.IntParam1, baseParams.IntParam2);
         //if (txtSize != null) txtSize.text = string.Format("{0:f2}M/{1:f2}M", (float)baseParams.ULongParam1 / (1024 * 1024), (float)baseParams.ULongParam2 / (1024 * 1024));
 
-        scrollbar.size = (float)baseParams.IntParam1 / baseParams.IntParam2;
+        progressImg.fillAmount = (float)baseParams.IntParam1 / baseParams.IntParam2;
     }
     private void OnCheckVersionDownloadComplete()
     {
@@ -72,7 +72,7 @@ public class FormCheckVersion : MonoBehaviour
     {
         txtTip.text = string.Format("正在加载资源{0:f0}%", baseParams * 100);
 
-        scrollbar.size = baseParams;
+        progressImg.fillAmount = baseParams;
     }
     private void OnPreloadBegin()
     {

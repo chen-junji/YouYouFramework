@@ -5,10 +5,6 @@ using UnityEngine.Events;
 
 namespace YouYou
 {
-    public enum InputName
-    {
-        BuyTower,
-    }
     public class InputManager : Observable
     {
         //虚拟轴和按钮类-适用于移动输入
@@ -208,7 +204,7 @@ namespace YouYou
             return CurrInput.VirtualButtonReference(name);
         }
 
-        // returns the platform appropriate axis for the given name
+
         public float GetAxis(string name)
         {
             return GetAxis(name, false);
@@ -217,13 +213,12 @@ namespace YouYou
         {
             return GetAxis(name, true);
         }
-        // private function handles both types of axis (raw and not raw)
+
         private float GetAxis(string name, bool raw)
         {
             return CurrInput.GetAxis(name, raw);
         }
 
-        // -- Button handling --
         public bool GetButton(InputName name)
         {
             return CurrInput.GetButton(name);

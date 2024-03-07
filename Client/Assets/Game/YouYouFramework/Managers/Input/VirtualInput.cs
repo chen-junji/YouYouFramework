@@ -74,17 +74,14 @@ namespace YouYou
 
         public void RegisterVirtualAxis(InputManager.VirtualAxis axis)
         {
-            // check if we already have an axis with that name and log and error if we do
             if (m_VirtualAxes.ContainsKey(axis.Name))
             {
-                YouYou.GameEntry.LogError(LogCategory.Framework, "There is already a virtual axis named " + axis.Name + " registered.");
+                YouYou.GameEntry.LogError(LogCategory.Framework, "已经有了一个虚拟轴 " + axis.Name + " 重复注册.");
             }
             else
             {
-                // add any new axes
                 m_VirtualAxes.Add(axis.Name, axis);
 
-                // if we dont want to match with the input manager setting then revert to always using virtual
                 if (!axis.MatchWithInputManager)
                 {
                     m_AlwaysUseVirtual.Add(axis.Name);
@@ -95,17 +92,14 @@ namespace YouYou
 
         public void RegisterVirtualButton(InputManager.VirtualButton button)
         {
-            // check if already have a buttin with that name and log an error if we do
             if (m_VirtualButtons.ContainsKey(button.Name))
             {
                 YouYou.GameEntry.LogError(LogCategory.Framework, "There is already a virtual button named " + button.Name + " registered.");
             }
             else
             {
-                // add any new buttons
                 m_VirtualButtons.Add(button.Name, button);
 
-                // if we dont want to match to the input manager then always use a virtual axis
                 if (!button.MatchWithInputManager)
                 {
                     m_AlwaysUseVirtual.Add(button.Name.ToString());

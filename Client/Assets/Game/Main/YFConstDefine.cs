@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Main
 {
-	/// <summary>
-	/// 常量类
-	/// </summary>
-	public class YFConstDefine
+    /// <summary>
+    /// 常量类
+    /// </summary>
+    public class YFConstDefine
     {
         /// <summary>
         /// 版本文件名称
