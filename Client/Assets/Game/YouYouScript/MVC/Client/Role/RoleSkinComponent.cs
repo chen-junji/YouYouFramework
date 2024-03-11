@@ -73,7 +73,7 @@ public class RoleSkinComponent : MonoBehaviour
     /// <summary>
     /// 当前的皮肤
     /// </summary>
-    public PoolObj CurrSkin { get; private set; }
+    public Transform CurrSkin { get; private set; }
 
     private void Awake()
     {
@@ -103,7 +103,7 @@ public class RoleSkinComponent : MonoBehaviour
 
         //加载皮肤
         CurrSkin = GameEntry.Pool.GameObjectPool.Spawn(skinName);
-        CurrSkin.transform.SetParent(transform, false);
+        CurrSkin.SetParent(transform, false);
 
         m_CurrSkinnedMeshRenderer = CurrSkin.GetComponentInChildren<SkinnedMeshRenderer>();
     }

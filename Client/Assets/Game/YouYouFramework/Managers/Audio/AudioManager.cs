@@ -34,7 +34,7 @@ namespace YouYou
 
         public void Init()
         {
-            AudioSourcePrefab = new GameObject("AudioSource", typeof(AudioSource), typeof(PoolObj)).GetComponent<AudioSource>();
+            AudioSourcePrefab = new GameObject("AudioSource", typeof(AudioSource), typeof(AutoDespawnHandle)).GetComponent<AudioSource>();
             AudioSourcePrefab.transform.SetParent(GameEntry.Instance.transform);
             AudioSourcePrefab.playOnAwake = false;
             AudioSourcePrefab.maxDistance = 20;
@@ -221,7 +221,7 @@ namespace YouYou
 
             if (!helper.loop)
             {
-                PoolObj poolObj = helper.GetComponent<PoolObj>();
+                AutoDespawnHandle poolObj = helper.gameObject.GetOrCreatComponent<AutoDespawnHandle>();
                 poolObj.SetDelayTimeDespawn(audioClip.length);
                 poolObj.OnDespawn = () =>
                 {

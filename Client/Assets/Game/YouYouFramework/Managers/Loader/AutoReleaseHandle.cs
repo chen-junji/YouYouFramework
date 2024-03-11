@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using YouYou;
 
+
+/// <summary>
+/// Asset池, 对象被销毁时, 自动让引用计数-1
+/// </summary>
 public class AutoReleaseHandle : MonoBehaviour
 {
     private List<AssetReferenceEntity> releaseList = new List<AssetReferenceEntity>();
