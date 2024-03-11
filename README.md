@@ -1,4 +1,9 @@
-QQ交流群: 185187673
+YouYou框架QQ交流群：185187673 <br>
+
+YouYou框架使用教程地址：https://www.bilibili.com/video/BV1Fu411s7MV/ <br>
+
+后端框架推荐接入：https://gitee.com/leng_yue/GameDesigner?_from=gitee_search <br>
+
 
  **简介** 
 ------------
@@ -144,7 +149,3 @@ QQ交流群: 185187673
 >画质品质设置，简单封装了Quality设置，分辨率设置，帧率设置等，支持存档和画质切换时的事件派发。
 
 }
-
-
-后端框架推荐接入:<br>
-https://gitee.com/leng_yue/GameDesigner?_from=gitee_search
