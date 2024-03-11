@@ -23,11 +23,7 @@ public class AutoReleaseHandle : MonoBehaviour
 
         if (target != null)
         {
-            AutoReleaseHandle handle = target.GetComponent<AutoReleaseHandle>();
-            if (handle == null)
-            {
-                handle = target.AddComponent<AutoReleaseHandle>();
-            }
+            AutoReleaseHandle handle = target.GetOrCreatComponent<AutoReleaseHandle>();
             handle.releaseList.Add(referenceEntity);
             referenceEntity.ReferenceAdd();
         }
