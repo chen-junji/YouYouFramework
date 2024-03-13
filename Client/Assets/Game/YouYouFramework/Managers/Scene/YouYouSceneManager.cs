@@ -20,7 +20,7 @@ namespace YouYou
         /// <summary>
         /// 当前加载的场景组
         /// </summary>
-        private SceneGroupName m_CurrSceneGroupName;
+        private string m_CurrSceneGroupName;
 
         /// <summary>
         /// 本次场景加载的最大数量
@@ -96,16 +96,20 @@ namespace YouYou
             };
         }
 
+        /// <summary>
+        /// 加载场景
+        /// </summary>
         public UniTask LoadSceneAsync(SceneGroupName sceneName, int sceneLoadCount = -1)
         {
             var task = new UniTaskCompletionSource();
             LoadSceneAction(sceneName, sceneLoadCount, () => task.TrySetResult());
             return task.Task;
         }
-        /// <summary>
-        /// 加载场景
-        /// </summary>
         public void LoadSceneAction(SceneGroupName sceneName, int sceneLoadCount = -1, Action onComplete = null)
+        {
+            LoadSceneAction(sceneName.ToString(), sceneLoadCount, onComplete);
+        }
+        public void LoadSceneAction(string sceneName, int sceneLoadCount = -1, Action onComplete = null)
         {
             if (m_CurrSceneIsLoading)
             {
@@ -230,7 +234,7 @@ namespace YouYou
                 SceneLoaderRoutine routine = new SceneLoaderRoutine();
                 routine.UnLoadScene(CurrSceneEntityGroup[i].AssetFullPath);
             }
-            m_CurrSceneGroupName = SceneGroupName.None;
+            m_CurrSceneGroupName = SceneGroupName.None.ToString();
             CurrSceneEntityGroup.Clear();
         }
 

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 namespace YouYou
 {
@@ -13,7 +13,7 @@ namespace YouYou
         internal override void OnEnter()
         {
             base.OnEnter();
-            GameEntry.Procedure.ChangeState(ProcedureState.Game);
+            GameEntry.Procedure.ChangeState(ProcedureState.Main);
         }
         internal override void OnUpdate()
         {

@@ -15,7 +15,7 @@ namespace YouYou
     {
         protected override void OnYouYouBehaviourPlay(Playable playable, FrameData info)
         {
-            CameraCtrl.Instance.CameraShake();
+            CameraFollowCtrl.Instance.CameraShake();
         }
 
         protected override void OnYouYouBehaviourStop(Playable playable, FrameData info)

@@ -31,12 +31,9 @@ namespace YouYou
 
             OnProgressUpdate = onProgressUpdate;
 
-#if EDITORLOAD || RESOURCES
-            m_CurrAsync = SceneManager.LoadSceneAsync(sceneFullPath , LoadSceneMode.Additive);
-#else
+#if ASSETBUNDLE
             //加载场景的资源包
             await GameEntry.Loader.LoadAssetBundleMainAndDependAsync(sceneFullPath);
-            m_CurrAsync = SceneManager.LoadSceneAsync(sceneFullPath, LoadSceneMode.Additive);
 
             //场景只需要给AssetBundle做引用计数， 不需要给Asset做引用计数
             AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(sceneFullPath);
@@ -48,6 +45,7 @@ namespace YouYou
                 dependAssetBundleEntity.ReferenceAdd();
             }
 #endif
+            m_CurrAsync = SceneManager.LoadSceneAsync(sceneFullPath, LoadSceneMode.Additive);
         }
 
         /// <summary>
@@ -55,8 +53,7 @@ namespace YouYou
         /// </summary>
         public void UnLoadScene(string sceneFullPath)
         {
-            m_CurrAsync = SceneManager.UnloadSceneAsync(sceneFullPath);
-
+#if ASSETBUNDLE
             //场景只需要给AssetBundle做引用计数， 不需要给Asset做引用计数
             AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(sceneFullPath);
             AssetBundleReferenceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
@@ -66,6 +63,8 @@ namespace YouYou
                 AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
                 dependAssetBundleEntity.ReferenceRemove();
             }
+#endif
+            m_CurrAsync = SceneManager.UnloadSceneAsync(sceneFullPath);
         }
 
         /// <summary>

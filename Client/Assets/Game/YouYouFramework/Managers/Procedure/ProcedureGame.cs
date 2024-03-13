@@ -14,8 +14,6 @@ namespace YouYou
         internal override void OnEnter()
         {
             base.OnEnter();
-            GameEntry.UI.OpenUIForm<FormLoading>();
-            GameEntry.Scene.LoadSceneAction(SceneGroupName.Main, 3);
         }
         internal override void OnUpdate()
         {

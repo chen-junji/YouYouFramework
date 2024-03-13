@@ -20,7 +20,7 @@ public enum AudioName : uint
 public enum SceneGroupName : uint
 {
     None,
-    Main,
+    GameDemo,
 }
 public enum InputName : uint
 {

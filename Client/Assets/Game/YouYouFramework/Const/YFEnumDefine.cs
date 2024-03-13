@@ -35,11 +35,11 @@ namespace YouYou
         Pool,
 
         /// <summary>
-        /// 张三(程序员姓名)
+        /// 张三(程序员)
         /// </summary>
         ZhangSan,
         /// <summary>
-        /// 李四(程序员姓名)
+        /// 李四(程序员)
         /// </summary>
         LiSi
     }
