@@ -1,19 +1,15 @@
-由于EditorLoad模式不需要做任何操作， 直接运行即可， 这里不做介绍
-
-下面介绍一下AssetBundle模式如何使用
-
 第一步，切换到AssetBundle模式：
-点击上方YouYouTool/YouYouEditor, 选择资源加载方式为AssetBundle并点击SaveMacro保存。
+点击Unity菜单栏/YouYouTool/YouYouEditor/MacroSettings, 选择资源加载方式为AssetBundle并点击SaveMacro保存。
 
 第二步，安装HybridCLR：
-点击HybridCLR/Installer, 点击安装
+点击Unity菜单栏/HybridCLR/Installer, 点击Install进行安装
 然后点击HybridCLR/Generate/All
 
 第三步，打包AssetBundle：
-点击YouYouEditor里面的AssetBundleSettings，点击BuildAssetBundle，将文件打包到AssetBundles文件夹
+点击Unity菜单栏/YouYouTool/YouYouEditor/AssetBundleSettings，点击BuildAssetBundle，将文件打包到AssetBundles文件夹
 
 第四步，部署AssetBundle资源下载站点：
-可以使用HFS， 下载文件夹指定到AssetBundles文件夹， 具体自己百度查教程， 使用浏览器测试一下能不能下载
+可以使用HFS， 下载文件夹指定到AssetBundles文件夹， 具体自己百度查教程， 
 
 第五步，绑定资源站点地址：
 打开ChannelConfigEntity脚本， 在SourceUrl字段填上你的地址
@@ -29,8 +25,4 @@
 
 三: 打包AB包或者打APK, 如果报错了, 先检查一下当前是不是AssetBundle模式, EditorLoad模式是不支持打包的!!
 
-四：B站上搜YouYou框架， 可以查到框架使用视频教程
-
-五：Test预制体上挂了许多示例脚本，也可以了解框架如何使用
-
-六: YouYouFramework文件夹的脚本相互引用较多, 建议别删某一个脚本, 而YouYouScript文件夹里面的东西都相对独立, 如果不需要, 可以自己看着删掉
+四: 如果下载失败, 首先在浏览器测试一下能不能下载, 然后对比一下浏览器的下载路径和框架错误日志提示的下载路径是否一致

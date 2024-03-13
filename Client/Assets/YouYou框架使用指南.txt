@@ -1,0 +1,20 @@
+
+
+文件夹介绍:
+Assets/Game/Download: 需要打AssetBundle并进行热更新的资源通常都放在这里面
+
+Assets/Game/Resources: 不需要热更新的资源, 例如: Reporter错误日志弹窗
+
+Assets/Game/Main: 核心代码文件夹, 包含了"检查更新","下载初始资源", "Reporter错误日志弹窗" 等逻辑
+
+Assets/Game/YouYouFramework: 框架代码文件夹, 包含了几乎所有框架模块
+
+Assets/Game/YouYouPackges: 外部插件包文件夹, 提供了各种可选的插件包, 跟框架代码不耦合, 不需要的话可以删掉
+例如:行为树框架, Camera旋转缩放跟随控制器, 摇杆, 红点系统, 技能编辑器, UI无限列表等等
+
+Assets/Game/YouYouScript: 业务代码文件夹, 提供了ECS和MVC两种写法, 游戏代码逻辑都可以写在这里面
+
+Assets/Game/YouYouTest: 测试范例文件夹, 提供了游戏Demo和测试范例脚本, 用于了解框架的API, 跟框架代码不耦合, 不需要的话可以删掉
+
+温馨提示：
+一：B站上搜YouYou框架， 可以查到框架使用视频教程
