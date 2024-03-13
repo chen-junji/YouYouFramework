@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using YouYou;
 
+
+/// <summary>
+/// 备注: 如果你没有打AssetBundle包并部署资源, 是无法下载的, 看看代码范例就好
+/// </summary>
 public class TestDownload : MonoBehaviour
 {
     void Update()

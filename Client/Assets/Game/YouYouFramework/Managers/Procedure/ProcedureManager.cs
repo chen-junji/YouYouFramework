@@ -35,7 +35,7 @@ namespace YouYou
         Main
     }
     /// <summary>
-    /// 流程管理器
+    /// 流程管理器, 本质上就是个状态机, 使用方法可以参考TestFsm脚本
     /// </summary>
     public class ProcedureManager 
     {

@@ -70,7 +70,7 @@ namespace YouYou
                 {
                     //GameEntry.Log("资源包在资源池中存在 从资源池中加载AssetBundle");
                     onComplete?.Invoke(assetBundleEntity.Target);
-                    taskRoutine.Leave();
+                    taskRoutine.TaskComplete();
                     return;
                 }
 
@@ -86,7 +86,7 @@ namespace YouYou
                     //资源包注册到资源池
                     AssetBundleReferenceEntity.Create(assetbundlePath, assetbundle);
 
-                    taskRoutine.Leave();
+                    taskRoutine.TaskComplete();
                     onComplete?.Invoke(assetbundle);
 
                     m_AssetBundleLoaderList.Remove(loadRoutine);
@@ -212,7 +212,7 @@ namespace YouYou
                 //资源加载 结果 回调
                 routine.OnLoadAssetComplete = (Object obj) =>
                 {
-                    taskRoutine.Leave();
+                    taskRoutine.TaskComplete();
                     referenceEntity = AssetReferenceEntity.Create(assetFullPath, obj);
                     onComplete?.Invoke(referenceEntity);
 

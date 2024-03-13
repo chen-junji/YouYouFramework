@@ -18,6 +18,7 @@ namespace YouYou
         MasterVolume,
         BGMVolume,
         AudioVolume,
+        ChangeLanguage,
     }
 
     /// <summary>

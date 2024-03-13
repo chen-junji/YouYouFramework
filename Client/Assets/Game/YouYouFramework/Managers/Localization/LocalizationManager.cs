@@ -33,10 +33,10 @@ namespace YouYou
                 case SystemLanguage.ChineseSimplified:
                 case SystemLanguage.ChineseTraditional:
                 case SystemLanguage.Chinese:
-                    GameEntry.CurrLanguage = YouYouLanguage.Chinese;
+                    ChangeLanguage(YouYouLanguage.Chinese);
                     break;
                 case SystemLanguage.English:
-                    GameEntry.CurrLanguage = YouYouLanguage.English;
+                    ChangeLanguage(YouYouLanguage.English);
                     break;
             }
 #endif
@@ -45,9 +45,6 @@ namespace YouYou
         /// <summary>
         /// 获取本地化文本内容
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
         public string GetString(string key, params object[] args)
         {
             string value = null;
@@ -56,6 +53,13 @@ namespace YouYou
                 return string.Format(value, args);
             }
             return value;
+        }
+
+        public void ChangeLanguage(YouYouLanguage language)
+        {
+            GameEntry.CurrLanguage = language;
+            GameEntry.DataTable.LocalizationDBModel.LoadData();
+            GameEntry.Event.Dispatch(CommonEventId.ChangeLanguage);
         }
 
     }

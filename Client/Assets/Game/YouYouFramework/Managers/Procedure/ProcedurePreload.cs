@@ -90,7 +90,7 @@ namespace YouYou
             taskGroup.AddTask((taskRoutine) =>
             {
                 GameEntry.DataTable.LoadDataAllTable();
-                taskRoutine.Leave();
+                taskRoutine.TaskComplete();
             });
 
             taskGroup.OnCompleteOne = () =>

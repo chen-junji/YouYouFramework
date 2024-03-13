@@ -43,7 +43,7 @@ namespace YouYou
             {
                 HttpRoutine.Create().Get(url, (HttpCallBackArgs ret) =>
                 {
-                    taskRoutine.Leave();
+                    taskRoutine.TaskComplete();
                     if (ret.HasError)
                     {
                         Debug.LogError("UITipLogOut");
@@ -84,7 +84,7 @@ namespace YouYou
             {
                 HttpRoutine.Create().Post(url, json, (HttpCallBackArgs ret) =>
                 {
-                    taskRoutine.Leave();
+                    taskRoutine.TaskComplete();
                     if (ret.HasError)
                     {
                         Debug.LogError("UITipLogOut");

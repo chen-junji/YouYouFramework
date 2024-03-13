@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +20,16 @@ namespace YouYou
         }
         private void Start()
         {
-            if (GameEntry.Localization != null && !string.IsNullOrEmpty(m_Localization))
+            GameEntry.Event.AddEventListener(CommonEventId.ChangeLanguage, OnChangeLanguage);
+            OnChangeLanguage(null);
+        }
+        private void OnDestroy()
+        {
+            GameEntry.Event.RemoveEventListener(CommonEventId.ChangeLanguage, OnChangeLanguage);
+        }
+        private void OnChangeLanguage(object userData)
+        {
+            if (!string.IsNullOrEmpty(m_Localization))
             {
                 string text = GameEntry.Localization.GetString(m_Localization);
                 if (!string.IsNullOrWhiteSpace(text)) m_YouYouText.text = text;

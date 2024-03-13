@@ -1,18 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using YouYou;
 
 public class TestInput : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] Button button;
+
+    private void Awake()
     {
-        
+        button.onClick.AddListener(() =>
+        {
+            //手机端, 点击按钮触发Input
+            GameEntry.Input.SetButtonUp(InputName.BuyTower);
+        });
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            //PC端, 键盘按下A, 触发Input
+            GameEntry.Input.SetButtonUp(InputName.BuyTower);
+        }
+
+        if (GameEntry.Input.GetButtonUp(InputName.BuyTower))
+        {
+            //监听Input触发, 打印日志
+            GameEntry.Log(LogCategory.ZhangSan, InputName.BuyTower.ToString());
+        }
     }
 }

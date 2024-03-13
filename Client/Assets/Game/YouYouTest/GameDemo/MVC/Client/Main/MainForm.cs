@@ -6,20 +6,23 @@ using YouYou;
 
 public class MainForm : UIFormBase
 {
-    [SerializeField] List<Button> btnList;
+    [SerializeField] Transform BtnGroup;
 
     protected override void Awake()
     {
         base.Awake();
-        for (int i = 0; i < btnList.Count; i++)
+        foreach (Transform child in BtnGroup)
         {
-            Button button = btnList[i];
-            button.onClick.AddListener(() =>
+            Button button = child.GetComponent<Button>();
+            if (button != null)
             {
-                GameEntry.Procedure.ChangeState(ProcedureState.None);
-                GameEntry.UI.OpenUIForm<LoadingForm>();
-                GameEntry.Scene.LoadSceneAction(button.GetComponentInChildren<Text>().text);
-            });
+                button.onClick.AddListener(() =>
+                {
+                    GameEntry.Procedure.ChangeState(ProcedureState.None);
+                    GameEntry.UI.OpenUIForm<LoadingForm>();
+                    GameEntry.Scene.LoadSceneAction(button.GetComponentInChildren<Text>().text);
+                });
+            }
         }
     }
 }

@@ -63,7 +63,7 @@ namespace YouYou
             }
             else
             {
-                taskRoutine.Enter();
+                taskRoutine.TaskBegin();
             }
         }
 
@@ -72,7 +72,7 @@ namespace YouYou
             LinkedListNode<TaskRoutine> curr = m_TaskRoutineList.First;
             if (curr != null && InTask)
             {
-                curr.Value.Leave();
+                curr.Value.TaskComplete();
             }
         }
 
@@ -142,7 +142,7 @@ namespace YouYou
                     m_TaskRoutineList.Remove(curr);
                     CheckTask();
                 };
-                curr.Value.Enter();
+                curr.Value.TaskBegin();
             }
             else
             {
@@ -165,7 +165,7 @@ namespace YouYou
                     OnCompleteOne?.Invoke();
                     if (CurrCount == TotalCount) Dispose();
                 };
-                routine.Value.Enter();
+                routine.Value.TaskBegin();
                 routine = next;
             }
         }

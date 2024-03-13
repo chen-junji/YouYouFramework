@@ -1,17 +1,12 @@
 
 public enum PrefabName : uint
 {
-    Player,
-    Monster,
-    UIGlobal_HUD,
-    UIGlobal_HeaderBar,
-    Buff_xuanyun,
+    Skill1,
 }
 public enum BGMName : uint
 {
     None,
     maintheme1,
-    button_sound,
 }
 public enum AudioName : uint
 {

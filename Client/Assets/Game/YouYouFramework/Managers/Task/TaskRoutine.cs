@@ -36,22 +36,17 @@ namespace YouYou
         public object TaskData;
 
         /// <summary>
-        /// 进入任务
+        /// 任务开始
         /// </summary>
-        public void Enter()
+        public void TaskBegin()
         {
             if (CurrTask != null) CurrTask(this);
-            else Leave();
+            else TaskComplete();
         }
-        public void OnUpdate()
-        {
-            if (CurrTask != null && CurrTask.Target == null) Leave();
-        }
-
         /// <summary>
-        /// 离开任务
+        /// 任务完成
         /// </summary>
-        public void Leave()
+        public void TaskComplete()
         {
             if (OnComplete != null)
             {
@@ -59,6 +54,11 @@ namespace YouYou
                 OnComplete = null;
                 CurrTask = null;
             }
+        }
+
+        public void OnUpdate()
+        {
+            if (CurrTask != null && CurrTask.Target == null) TaskComplete();
         }
     }
 }

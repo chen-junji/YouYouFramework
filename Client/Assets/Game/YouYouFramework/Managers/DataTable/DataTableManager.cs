@@ -25,8 +25,8 @@ namespace YouYou
         /// </summary>
         private void LoadDataTable()
         {
+            //LocalizationDBModel不需要在这里LoadData, 而是在LocalizationManager里面LoadData
             LocalizationDBModel = new LocalizationDBModel();
-            LocalizationDBModel.LoadData();
 
             Sys_UIFormDBModel = new Sys_UIFormDBModel();
             Sys_UIFormDBModel.LoadData();
