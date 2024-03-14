@@ -1,9 +1,7 @@
-using Main;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using YouYou;
-using static QualityCtrl;
 
 public class QualityModel : Observable
 {
