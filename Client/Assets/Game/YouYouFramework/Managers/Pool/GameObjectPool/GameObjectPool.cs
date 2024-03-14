@@ -238,8 +238,8 @@ namespace YouYou
                 prefabPool.DespawnInstance(despawnTransf);
             }
 
-            AutoDespawnHandle poolObj = despawnTransf.GetComponent<AutoDespawnHandle>();
-            poolObj.StopTime();
+            AutoDespawnHandle handle = despawnTransf.GetComponent<AutoDespawnHandle>();
+            if (handle != null) handle.StopTime();
         }
 
         /// <summary>
