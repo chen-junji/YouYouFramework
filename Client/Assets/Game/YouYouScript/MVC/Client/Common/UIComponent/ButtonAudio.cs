@@ -7,7 +7,7 @@ namespace YouYou
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Button))]//脚本依赖
-    public class AudioButton : MonoBehaviour
+    public class ButtonAudio : MonoBehaviour
     {
         [SerializeField] private AudioName[] AudioNames = new AudioName[] { };
         private AudioName audioName;

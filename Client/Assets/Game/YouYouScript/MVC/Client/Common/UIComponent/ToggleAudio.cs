@@ -7,7 +7,7 @@ namespace YouYou
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Toggle))]//脚本依赖
-    public class AudioToggle : MonoBehaviour
+    public class ToggleAudio : MonoBehaviour
     {
         [SerializeField] private bool IsOffPlay;
 

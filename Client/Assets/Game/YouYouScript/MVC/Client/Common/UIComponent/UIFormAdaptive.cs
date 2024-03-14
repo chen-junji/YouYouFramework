@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using YouYou;
 
-public class UIAdaptive : MonoBehaviour
+public class UIFormAdaptive : MonoBehaviour
 {
     private float Offset = 30;
     private RectTransform rectTransform;

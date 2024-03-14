@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 长按按钮判定
 /// </summary>
-public class PressedButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class ButtonPressed : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
 	private float delay = 1f;
 	private float lastIsDownTime;
