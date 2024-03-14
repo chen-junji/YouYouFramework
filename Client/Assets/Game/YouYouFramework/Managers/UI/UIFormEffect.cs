@@ -11,9 +11,6 @@ namespace YouYou
     [RequireComponent(typeof(Canvas))]//脚本依赖
     public class UIFormEffect : MonoBehaviour
     {
-        [Header("是否窗口动画")]
-        [SerializeField] bool isAnim = false;
-
         [Header("UI特效分组")]
         [SerializeField] public List<UIEffectGroup> UIEffectGroups = new List<UIEffectGroup>();
         [Header("初始播放的特效")]
@@ -46,12 +43,6 @@ namespace YouYou
 #if UNITY_EDITOR
             transform.SetAsLastSibling();
 #endif
-            if (isAnim) AnimOpen();
-        }
-
-        public void AnimOpen()
-        {
-            transform.DoShowScale(0.3f, 1);
         }
 
     }
