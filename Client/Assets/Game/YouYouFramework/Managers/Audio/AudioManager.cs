@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -244,16 +245,19 @@ namespace YouYou
         {
             MasterVolume = volume;
             SetMixerVolume(PlayerPrefsConstKey.MasterVolume, MasterVolume);
+            GameEntry.PlayerPrefs.SetFloat(PlayerPrefsConstKey.MasterVolume, MasterVolume);
         }
         public void SetAudioVolume(float volume)
         {
             AudioVolume = volume;
             SetMixerVolume(PlayerPrefsConstKey.AudioVolume, AudioVolume);
+            GameEntry.PlayerPrefs.SetFloat(PlayerPrefsConstKey.AudioVolume, AudioVolume);
         }
         public void SetBGMVolume(float volume)
         {
             BGMVolume = volume;
             SetMixerVolume(PlayerPrefsConstKey.BGMVolume, BGMVolume * interimBGMVolume);
+            GameEntry.PlayerPrefs.SetFloat(PlayerPrefsConstKey.BGMVolume, BGMVolume);
         }
         private void SetMixerVolume(string key, float volume)
         {
@@ -268,6 +272,7 @@ namespace YouYou
         public void SetMasterMute(bool mute)
         {
             SetMasterVolume(mute ? 0 : GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.MasterVolume));
+            GameEntry.PlayerPrefs.SetBool(PlayerPrefsConstKey.MasterMute, mute);
         }
     }
 }
