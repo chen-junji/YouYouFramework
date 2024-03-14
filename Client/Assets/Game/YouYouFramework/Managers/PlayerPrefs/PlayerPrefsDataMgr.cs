@@ -2,6 +2,7 @@ using Main;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using YouYou;
 
@@ -13,11 +14,6 @@ public class PlayerPrefsDataMgr
         dicInt = GetObject<Dictionary<string, int>>("dicInt");
         dicFloat = GetObject<Dictionary<string, float>>("dicFloat");
         dicString = GetObject<Dictionary<string, string>>("dicString");
-
-        GameEntry.PlayerPrefs.SetFloatHas(PlayerPrefsConstKey.MasterVolume, 1);
-        GameEntry.PlayerPrefs.SetFloatHas(PlayerPrefsConstKey.AudioVolume, 1);
-        GameEntry.PlayerPrefs.SetFloatHas(PlayerPrefsConstKey.BGMVolume, 1);
-        GameEntry.PlayerPrefs.SetIntHas(PlayerPrefsConstKey.FrameRate, 2);
     }
     public void SaveDataAll()
     {

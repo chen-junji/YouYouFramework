@@ -45,6 +45,13 @@ public class QualityModel : Observable
     public FrameRate CurrFrameRate { get; private set; }
 
 
+    public QualityModel()
+    {
+        GameEntry.PlayerPrefs.SetIntHas(PlayerPrefsConstKey.FrameRate, 2);
+        GameEntry.PlayerPrefs.SetIntHas(PlayerPrefsConstKey.Screen, 2);
+        GameEntry.PlayerPrefs.SetIntHas(PlayerPrefsConstKey.QualityLevel, 2);
+    }
+
     public void SetQuality(Quality quality)
     {
         CurrQuality = quality;

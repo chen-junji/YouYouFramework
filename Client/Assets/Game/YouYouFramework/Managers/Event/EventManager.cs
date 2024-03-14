@@ -15,9 +15,6 @@ namespace YouYou
         GameEntryOnApplicationQuit,
         GameEntryOnApplicationPause,
         LoadingSceneUpdate,
-        MasterVolume,
-        BGMVolume,
-        AudioVolume,
         ChangeLanguage,
     }
 

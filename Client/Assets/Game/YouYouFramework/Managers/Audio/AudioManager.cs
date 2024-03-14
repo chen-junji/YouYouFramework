@@ -44,9 +44,16 @@ namespace YouYou
             BGMSource.name = "BGMSource";
             BGMSource.outputAudioMixerGroup = GameEntry.Instance.MonsterMixer.FindMatchingGroups("BGM")[0];
 
+            GameEntry.PlayerPrefs.SetFloatHas(PlayerPrefsConstKey.MasterVolume, 1);
+            GameEntry.PlayerPrefs.SetFloatHas(PlayerPrefsConstKey.AudioVolume, 1);
+            GameEntry.PlayerPrefs.SetFloatHas(PlayerPrefsConstKey.BGMVolume, 1);
+            GameEntry.PlayerPrefs.SetBoolHas(PlayerPrefsConstKey.MasterMute, false);
+
             SetMasterVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.MasterVolume));
             SetAudioVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.AudioVolume));
             SetBGMVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.BGMVolume));
+
+            SetMasterMute(GameEntry.PlayerPrefs.GetBool(PlayerPrefsConstKey.MasterMute));
         }
         public void OnUpdate()
         {
@@ -233,30 +240,20 @@ namespace YouYou
 
         #endregion
 
-        public void SetAllMute(bool mute)
-        {
-            AudioSourceList.ForEach(x =>
-            {
-                if (x != null) x.mute = mute;
-            });
-        }
         public void SetMasterVolume(float volume)
         {
             MasterVolume = volume;
-            SetMixerVolume(PlayerPrefsConstKey.MasterVolume.ToString(), MasterVolume);
-            GameEntry.Event.Dispatch(CommonEventId.MasterVolume);
+            SetMixerVolume(PlayerPrefsConstKey.MasterVolume, MasterVolume);
         }
         public void SetAudioVolume(float volume)
         {
             AudioVolume = volume;
-            SetMixerVolume(PlayerPrefsConstKey.AudioVolume.ToString(), AudioVolume);
-            GameEntry.Event.Dispatch(CommonEventId.AudioVolume);
+            SetMixerVolume(PlayerPrefsConstKey.AudioVolume, AudioVolume);
         }
         public void SetBGMVolume(float volume)
         {
             BGMVolume = volume;
-            SetMixerVolume(PlayerPrefsConstKey.BGMVolume.ToString(), BGMVolume * interimBGMVolume);
-            GameEntry.Event.Dispatch(CommonEventId.BGMVolume);
+            SetMixerVolume(PlayerPrefsConstKey.BGMVolume, BGMVolume * interimBGMVolume);
         }
         private void SetMixerVolume(string key, float volume)
         {
@@ -265,5 +262,12 @@ namespace YouYou
             GameEntry.Instance.MonsterMixer.SetFloat(key, volume);
         }
 
+        /// <summary>
+        /// 设置根节点(全部)静音
+        /// </summary>
+        public void SetMasterMute(bool mute)
+        {
+            SetMasterVolume(mute ? 0 : GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.MasterVolume));
+        }
     }
 }
