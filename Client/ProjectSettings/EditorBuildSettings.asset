@@ -45,9 +45,6 @@ EditorBuildSettings:
     path: Assets/Game/YouYouTest/TestPool/TestPool.unity
     guid: da1b5bc52bda2d94293f63e303334f93
   - enabled: 1
-    path: Assets/Game/YouYouTest/TestProcedure/TestProcedure.unity
-    guid: 9e927938d9cfea343bc64e617b0f6bd9
-  - enabled: 1
     path: Assets/Game/YouYouTest/TestScene/TestScene.unity
     guid: 33e5f418d505757479fb37b1b2348d34
   - enabled: 1
