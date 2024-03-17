@@ -73,7 +73,7 @@ namespace YouYou
                 bool isSuccess = await GameEntry.Loader.AssetInfo.InitAssetInfo();
                 if (isSuccess)
                 {
-                    taskRoutine.Leave();
+                    taskRoutine.TaskComplete();
                 }
             });
 
@@ -83,7 +83,7 @@ namespace YouYou
                 AssetBundle bundle = await GameEntry.Loader.LoadAssetBundleAsync(YFConstDefine.CusShadersAssetBundlePath);
                 bundle.LoadAllAssets();
                 //Shader.WarmupAllShaders();
-                taskRoutine.Leave();
+                taskRoutine.TaskComplete();
             });
 #endif
             //加载Excel
