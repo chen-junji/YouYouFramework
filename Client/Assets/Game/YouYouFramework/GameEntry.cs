@@ -48,7 +48,7 @@ namespace YouYou
         public static ProcedureManager Procedure { get; private set; }
         public static DataTableManager DataTable { get; private set; }
         public static ModelManager Model { get; private set; }
-        public static PlayerPrefsDataMgr PlayerPrefs { get; private set; }
+        public static PlayerPrefsManager PlayerPrefs { get; private set; }
         public static HttpManager Http { get; private set; }
         public static LocalizationManager Localization { get; private set; }
         public static PoolManager Pool { get; private set; }
@@ -85,7 +85,7 @@ namespace YouYou
             Procedure = new ProcedureManager();
             DataTable = new DataTableManager();
             Model = new ModelManager();
-            PlayerPrefs = new PlayerPrefsDataMgr();
+            PlayerPrefs = new PlayerPrefsManager();
             Http = new HttpManager();
             Localization = new LocalizationManager();
             Pool = new PoolManager();

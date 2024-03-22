@@ -10,11 +10,11 @@ AssetBundle打包成功后, 存放的文件夹
 Client/Assets/Plugins:
 框架用到的程序集或插件
 
-Client/Assets/Resources: 
-不需要热更新的资源, 例如: Reporter错误日志弹窗
-
 Client/Assets/Game/Download: 
 需要打AssetBundle并进行热更新的Unity资源通常都放在这里面
+
+Client/Assets/Game/Resources: 
+不需要热更新的资源, 例如: Reporter错误日志弹窗
 
 Client/Assets/Game/YouYouFramework: 
 框架代码文件夹, 包含了几乎所有框架模块
