@@ -23,6 +23,10 @@ namespace YouYou
         public Camera UICamera;
 
         [FoldoutGroup("UIGroup")]
+        [Header("根画布")]
+        public Canvas UIRootCanvas;
+
+        [FoldoutGroup("UIGroup")]
         [Header("根画布的缩放")]
         public CanvasScaler UIRootCanvasScaler;
         public RectTransform UIRootRectTransform { get; private set; }

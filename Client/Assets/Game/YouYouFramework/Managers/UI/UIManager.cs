@@ -53,6 +53,8 @@ namespace YouYou
                 m_UIGroupDic[GameEntry.Instance.UIGroups[i].Id] = GameEntry.Instance.UIGroups[i];
             }
             UILayer.Init(GameEntry.Instance.UIGroups);
+
+            ChangeCanvasRanderMode(RenderMode.ScreenSpaceOverlay);
         }
         internal void OnUpdate()
         {
@@ -352,6 +354,12 @@ namespace YouYou
                     }
                 }
             }
+        }
+
+        public void ChangeCanvasRanderMode(RenderMode renderMode)
+        {
+            GameEntry.Instance.UIRootCanvas.renderMode = renderMode;
+            GameEntry.Instance.UICamera.enabled = renderMode != RenderMode.ScreenSpaceOverlay;
         }
 
     }

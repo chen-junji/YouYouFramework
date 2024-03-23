@@ -141,6 +141,7 @@ MonoBehaviour:
   - game/download/shader.assetbundle
   - game/download/font.assetbundle
   UICamera: {fileID: 4719996667436394925}
+  UIRootCanvas: {fileID: 4719996668840302258}
   UIRootCanvasScaler: {fileID: 4719996668840302259}
   UIGroups:
   - Id: 1
@@ -152,9 +153,6 @@ MonoBehaviour:
   - Id: 3
     BaseOrder: 1000
     Group: {fileID: 4719996668981915509}
-  - Id: 4
-    BaseOrder: 3000
-    Group: {fileID: 4719996667817288573}
   MonsterMixer: {fileID: 24100000, guid: b2cf29e1378929c43b3632019690086b, type: 2}
   m_CurrLanguage: 0
 --- !u!1 &4719996667742643965
@@ -260,41 +258,6 @@ MonoBehaviour:
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
---- !u!1 &4719996667817288562
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4719996667817288573}
-  m_Layer: 5
-  m_Name: UIHUDGroup
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &4719996667817288573
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4719996667817288562}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4719996668840302257}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4719996668493931826
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,7 +326,6 @@ RectTransform:
   - {fileID: 4719996667742643964}
   - {fileID: 4719996668863134619}
   - {fileID: 4719996668981915509}
-  - {fileID: 4719996667817288573}
   m_Father: {fileID: 4719996668493931837}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -392,7 +354,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &4719996668840302259
 MonoBehaviour:
