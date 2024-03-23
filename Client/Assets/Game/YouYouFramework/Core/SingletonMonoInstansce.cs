@@ -2,20 +2,23 @@ using UnityEngine;
 using System.Collections;
 
 
-public class SingletonMonoInstansce<T> : MonoBehaviour where T : MonoBehaviour
+namespace YouYou
 {
-    private static T instance;
-    public static T Instance
+    public class SingletonMonoInstansce<T> : MonoBehaviour where T : MonoBehaviour
     {
-        get
+        private static T instance;
+        public static T Instance
         {
-            if (instance == null)
+            get
             {
-                GameObject obj = new GameObject(typeof(T).Name);
-                DontDestroyOnLoad(obj);
-                instance = obj.GetOrCreatComponent<T>();
+                if (instance == null)
+                {
+                    GameObject obj = new GameObject(typeof(T).Name);
+                    DontDestroyOnLoad(obj);
+                    instance = obj.GetOrCreatComponent<T>();
+                }
+                return instance;
             }
-            return instance;
         }
     }
 }

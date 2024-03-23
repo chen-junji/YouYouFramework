@@ -157,7 +157,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6474783685647019029}
   - component: {fileID: 9050499796931951842}
-  - component: {fileID: 1904646927088038293}
   m_Layer: 0
   m_Name: CameraCtrl
   m_TagString: Untagged
@@ -201,11 +200,3 @@ MonoBehaviour:
   m_ZoomSpeed: 10
   m_ZoomLimit: {x: -12, y: -2}
   MainCamera: {fileID: 8135654770932224211}
---- !u!81 &1904646927088038293
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7832803100058453530}
-  m_Enabled: 1

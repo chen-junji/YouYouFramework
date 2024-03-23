@@ -22,8 +22,11 @@ namespace YouYou
         //反切时调用
         public Action OnBack;
 
-        //是否活跃
+        //是否活跃（防止有人自己改了gameObject.SetAcitve() 所以这里做了数值备份）
         internal bool IsActive = true;
+
+        //当前canvas的sortingOrder（防止有人自己改了canvas.sortingOrder 所以这里做了数值备份）
+        internal int sortingOrder = 0;
 
 
         protected virtual void Awake()
@@ -48,7 +51,7 @@ namespace YouYou
         protected virtual void OnEnable()
         {
 
-        } 
+        }
         protected virtual void OnDisable()
         {
 
@@ -69,7 +72,7 @@ namespace YouYou
         internal void ToOpen()
         {
             //设置UI层级
-            if (SysUIForm.DisableUILayer != 1) GameEntry.UI.UILayer.SetSortingOrder(this, true);
+            GameEntry.UI.SetSortingOrder(this, true);
 
             //UI打开时的委托
             if (ActionOpen != null)
@@ -82,11 +85,22 @@ namespace YouYou
         internal void ToClose()
         {
             //进行层级管理 减少层级
-            if (SysUIForm.DisableUILayer != 1) GameEntry.UI.UILayer.SetSortingOrder(this, false);
+            GameEntry.UI.SetSortingOrder(this, false);
 
             CloseTime = Time.time;
             GameEntry.UI.HideUI(this);
-            GameEntry.UI.UIPool.EnQueue(this);
+            GameEntry.UI.EnQueue(this);
+        }
+
+        internal void SetSortingOrder(int sortingOrder)
+        {
+            if (SysUIForm.DisableUILayer == 1)
+            {
+                return;
+            }
+            this.sortingOrder = sortingOrder;
+            CurrCanvas.overrideSorting = true;
+            CurrCanvas.sortingOrder = sortingOrder;
         }
 
     }

@@ -19,11 +19,11 @@ namespace YouYou
         /// </summary>
         private LinkedList<UIFormBase> m_ReverseChangeUIList;
 
-        internal UILayer UILayer;
-
         private Dictionary<byte, UIGroup> m_UIGroupDic;
 
-        internal UIPool UIPool;
+        private UILayer UILayer;
+
+        private UIPool UIPool;
 
         /// <summary>
         /// 标准分辨率比值
@@ -116,7 +116,6 @@ namespace YouYou
                 GameEntry.LogError(LogCategory.Framework, "该UI界面没有挂载UIBase脚本==" + uiObj);
                 formBase = uiObj.AddComponent<UIFormBase>();
             }
-            formBase.CurrCanvas.overrideSorting = true;
             m_OpenUIFormList.AddLast(formBase);
 
             CheckReverseChange(sys_UIForm, formBase, true);
@@ -191,16 +190,18 @@ namespace YouYou
         }
         internal void CloseUIForm(UIFormBase formBase)
         {
-            if (!formBase.IsActive) return;
-            if (!m_OpenUIFormList.Remove(formBase))
+            if (!formBase.IsActive)
             {
                 //YouYou.GameEntry.LogError(formBase + "==已经是关闭状态了");
                 return;
             }
-            formBase.ToClose();
+            if (m_OpenUIFormList.Remove(formBase))
+            {
+                formBase.ToClose();
 
-            //判断反切UI
-            CheckReverseChange(formBase.SysUIForm, formBase, false);
+                //判断反切UI
+                CheckReverseChange(formBase.SysUIForm, formBase, false);
+            }
         }
         /// <summary>
         /// 关闭UI窗口
@@ -219,14 +220,19 @@ namespace YouYou
         public void CloseAllDefaultUIForm()
         {
             List<UIFormBase> lst = new List<UIFormBase>();
-            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
+            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.Last; curr != null; curr = curr.Previous)
             {
-                UIFormBase formBase = curr.Value;
-                if (formBase.SysUIForm.UIGroupId != 2) continue;
-                formBase.ToClose();
-                lst.Add(formBase);
+                lst.Add(curr.Value);
             }
-            lst.ForEach(x => m_OpenUIFormList.Remove(x));
+            for (int i = 0; i < lst.Count; i++)
+            {
+                UIFormBase formBase = lst[i];
+                if (formBase.SysUIForm.UIGroupId != 2) continue;
+                if (m_OpenUIFormList.Remove(formBase))
+                {
+                    formBase.ToClose();
+                }
+            }
             m_ReverseChangeUIList.Clear();
         }
         #endregion
@@ -316,6 +322,36 @@ namespace YouYou
                 if (curr.Value.SysUIForm.Id == uiFormId) return true;
             }
             return false;
+        }
+
+        internal void EnQueue(UIFormBase form)
+        {
+            UIPool.EnQueue(form);
+        }
+
+        internal void SetSortingOrder(UIFormBase formBase, bool isAdd)
+        {
+            LinkedListNode<UIFormBase> findNode = m_OpenUIFormList.FindLast(formBase);
+            if (findNode != null)
+            {
+                UILayer.SetSortingOrder(findNode.Value, isAdd);
+                if (isAdd)
+                {
+                    findNode.Value.SetSortingOrder(UILayer.GetCurrSortingOrder(findNode.Value));
+                }
+                else
+                {
+                    for (LinkedListNode<UIFormBase> curr = findNode; curr != null; curr = curr.Next)
+                    {
+                        //如果当前界面不是最后打开的界面， 那么则需要把更晚打开的界面的sortingOrder全都刷新一下
+                        if (curr.Value.SysUIForm.UIGroupId != formBase.SysUIForm.UIGroupId)
+                        {
+                            continue;
+                        }
+                        findNode.Value.SetSortingOrder(findNode.Value.sortingOrder - 10);
+                    }
+                }
+            }
         }
 
     }

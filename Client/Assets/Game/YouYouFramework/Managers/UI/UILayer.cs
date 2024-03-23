@@ -19,7 +19,6 @@ namespace YouYou
         /// <summary>
         /// 初始化基础排序
         /// </summary>
-        /// <param name="groups"></param>
         internal void Init(UIGroup[] groups)
         {
             int len = groups.Length;
@@ -37,7 +36,14 @@ namespace YouYou
         /// <param name="isAdd">true:增加  false:减少</param>
         internal void SetSortingOrder(UIFormBase formBase, bool isAdd)
         {
-            if (!m_UILayerDic.ContainsKey(formBase.SysUIForm.UIGroupId)) return;
+            if (formBase.SysUIForm.DisableUILayer == 1)
+            {
+                return;
+            }
+            if (m_UILayerDic.ContainsKey(formBase.SysUIForm.UIGroupId) == false)
+            {
+                return;
+            }
 
             if (isAdd)
             {
@@ -45,13 +51,13 @@ namespace YouYou
             }
             else
             {
-                if (formBase.CurrCanvas.sortingOrder == m_UILayerDic[formBase.SysUIForm.UIGroupId])
-                {
-                    m_UILayerDic[formBase.SysUIForm.UIGroupId] -= 10;
-                }
+                m_UILayerDic[formBase.SysUIForm.UIGroupId] -= 10;
             }
+        }
 
-            formBase.CurrCanvas.sortingOrder = m_UILayerDic[formBase.SysUIForm.UIGroupId];
+        internal int GetCurrSortingOrder(UIFormBase formBase)
+        {
+            return m_UILayerDic[formBase.SysUIForm.UIGroupId];
         }
     }
 }

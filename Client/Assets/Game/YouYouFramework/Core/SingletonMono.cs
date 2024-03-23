@@ -1,33 +1,36 @@
 using UnityEngine;
 
 
-/// <summary>
-/// 单例(Mono)
-/// </summary>
-public class SingletonMono<T> : MonoBehaviour where T : SingletonMono<T>
+namespace YouYou
 {
-    private static T instance;
-    public static T Instance
+    /// <summary>
+    /// 单例(Mono)
+    /// </summary>
+    public class SingletonMono<T> : MonoBehaviour where T : SingletonMono<T>
     {
-        get
+        private static T instance;
+        public static T Instance
         {
-            if (instance == null) instance = FindObjectOfType<T>(true);
-            return instance;
+            get
+            {
+                if (instance == null) instance = FindObjectOfType<T>(true);
+                return instance;
+            }
         }
-    }
-    protected virtual void Awake()
-    {
-        if (instance != null && instance != this)
+        protected virtual void Awake()
         {
-            Destroy(gameObject);
+            if (instance != null && instance != this)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                instance = GetComponent<T>();
+            }
         }
-        else
+        protected virtual void OnDestroy()
         {
-            instance = GetComponent<T>();
+            if (instance == this) instance = null;
         }
-    }
-    protected virtual void OnDestroy()
-    {
-        if (instance == this) instance = null;
     }
 }

@@ -11,7 +11,6 @@ namespace YouYou
     /// </summary>
     public enum ProcedureState
     {
-        None,
         /// <summary>
         /// 初始化
         /// </summary>
@@ -29,9 +28,8 @@ namespace YouYou
         /// </summary>
         Login,
         /// <summary>
-        /// 游戏
+        /// 游戏主流程
         /// </summary>
-        Game,
         Main
     }
     /// <summary>
@@ -60,13 +58,11 @@ namespace YouYou
             //得到枚举的长度
             int count = Enum.GetNames(typeof(ProcedureState)).Length;
             FsmState<ProcedureManager>[] states = new FsmState<ProcedureManager>[count];
-            states[(byte)ProcedureState.None] = new ProcedureNone();
             states[(byte)ProcedureState.Launch] = new ProcedureLaunch();
             states[(byte)ProcedureState.CheckVersion] = new ProcedureCheckVersion();
             states[(byte)ProcedureState.Preload] = new ProcedurePreload();
             states[(byte)ProcedureState.Login] = new ProcedureLogin();
             states[(byte)ProcedureState.Main] = new ProcedureMain();
-            states[(byte)ProcedureState.Game] = new ProcedureGame();
 
             CurrFsm = GameEntry.Fsm.Create(this, states);
         }

@@ -12,7 +12,7 @@ public class TestEvent : MonoBehaviour
         GameEntry.Event.RemoveEventListener(CommonEventId.TestEvent, OnTestEvent);
 
         //移除监听某个Model内的某个数据刷新的事件
-        GameEntry.Model.GetModel<GuideModel>().RemoveEventListener((int)GuideModel.GUIDE_ID.EventName, OnTestEvent);
+        GameEntry.Model.GetModel<TestModel>().RemoveEventListener((int)TestModel.TestEvent.TestEvent1, OnTestEvent);
     }
     void Start()
     {
@@ -20,7 +20,7 @@ public class TestEvent : MonoBehaviour
         GameEntry.Event.AddEventListener(CommonEventId.TestEvent, OnTestEvent);
 
         //监听某个Model内的某个数据刷新的事件
-        GameEntry.Model.GetModel<GuideModel>().AddEventListener((int)GuideModel.GUIDE_ID.EventName, OnTestEvent);
+        GameEntry.Model.GetModel<TestModel>().AddEventListener((int)TestModel.TestEvent.TestEvent1, OnTestEvent);
     }
     void Update()
     {
@@ -33,7 +33,7 @@ public class TestEvent : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.S))
         {
             //触发某个Model内的某个数据刷新的事件
-            GameEntry.Model.GetModel<GuideModel>().Dispatch((int)GuideModel.GUIDE_ID.EventName);
+            GameEntry.Model.GetModel<TestModel>().Dispatch((int)TestModel.TestEvent.TestEvent1);
         }
     }
 
