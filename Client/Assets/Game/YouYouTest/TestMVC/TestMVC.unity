@@ -436,7 +436,7 @@ GameObject:
   - component: {fileID: 1634543952}
   - component: {fileID: 1634543953}
   m_Layer: 0
-  m_Name: SceneCtrl
+  m_Name: TestMVCSceneCtrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
