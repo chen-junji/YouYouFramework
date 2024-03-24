@@ -276,7 +276,7 @@ namespace Main
             m_PrevWriteSize = len;
 
             m_CurrWaitFlushSize += count;
-            if (m_CurrWaitFlushSize >= MainEntry.Download.FlushSize || downloadComplete)
+            if (m_CurrWaitFlushSize >= MainEntry.ParamsSettings.DownloadFlushSize || downloadComplete)
             {
                 //YouYou.GameEntry.LogError("写入磁盘" + m_CurrFileUrl);
                 m_CurrWaitFlushSize = 0;

@@ -10,10 +10,6 @@ namespace Main
     /// </summary>
     public class DownloadManager
     {
-        public int FlushSize { get; private set; }
-
-        public int DownloadRoutineCount { get; private set; }
-
         /// <summary>
         /// 下载单文件器链表
         /// </summary>

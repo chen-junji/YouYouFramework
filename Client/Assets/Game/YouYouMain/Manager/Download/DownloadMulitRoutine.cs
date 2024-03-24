@@ -121,7 +121,7 @@ namespace Main
             }
 
             //下载器数量
-            int routineCount = Mathf.Min(MainEntry.Download.DownloadRoutineCount, m_DownloadMulitNeedCount);
+            int routineCount = Mathf.Min(MainEntry.ParamsSettings.DownloadRoutineCount, m_DownloadMulitNeedCount);
             for (int i = 0; i < routineCount; i++)
             {
                 DownloadRoutine routine = DownloadRoutine.Create();
