@@ -15,57 +15,28 @@ namespace YouYou
         /// </summary>
         private LinkedList<TaskGroup> m_TaskGroupList;
 
-        private TaskGroup CommonGroup;
-
         public TaskManager()
         {
             m_TaskGroupList = new LinkedList<TaskGroup>();
-            CommonGroup = new TaskGroup();
         }
-
         internal void Init()
         {
-            CommonGroup.OnComplete = () =>
-            {
-                GameEntry.UI.CloseUIForm<CircleForm>();
-            };
         }
         public void OnUpdate()
         {
-#if DEBUG_MODEL
-            if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyUp(KeyCode.E))
-            {
-                CommonGroup.LogTask();
-                LinkedListNode<TaskGroup> taskGroup = m_TaskGroupList.First;
-                while (taskGroup != null)
-                {
-                    YouYou.GameEntry.LogError(LogCategory.Framework, "======================");
-                    taskGroup.Value.LogTask();
-                    taskGroup = taskGroup.Next;
-                }
-            }
-#endif
-            UpdateItem();
-        }
-
-        private void UpdateItem()
-        {
-            CommonGroup.OnUpdate();
             LinkedListNode<TaskGroup> taskGroup = m_TaskGroupList.First;
             while (taskGroup != null)
             {
                 taskGroup.Value.OnUpdate();
                 taskGroup = taskGroup.Next;
-            }
-        }
 
-        /// <summary>
-        /// 添加异步任务 (等待异步时会有 转圈等待UI遮罩)
-        /// </summary>
-        public void AddTaskCommon(Action<TaskRoutine> task, bool isTask = true)
-        {
-            CommonGroup.AddTask(task, isTask);
-            CommonGroup.Run(false, () => GameEntry.UI.OpenUIForm<CircleForm>());
+#if DEBUG_MODEL
+                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyUp(KeyCode.E))
+                {
+                    taskGroup.Value.LogTask();
+                }
+#endif
+            }
         }
 
         /// <summary>

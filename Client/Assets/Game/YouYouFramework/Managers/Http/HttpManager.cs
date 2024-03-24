@@ -39,22 +39,27 @@ namespace YouYou
         #region Get
         public void GetArgs(string url, bool loadingCircle = false, HttpSendDataCallBack callBack = null)
         {
-            GameEntry.Task.AddTaskCommon((taskRoutine) =>
+            if (loadingCircle)
             {
-                HttpRoutine.Create().Get(url, (HttpCallBackArgs ret) =>
+                CircleCtrl.Instance.CircleOpen();
+            }
+
+            HttpRoutine.Create().Get(url, (HttpCallBackArgs ret) =>
+            {
+                if (loadingCircle)
                 {
-                    taskRoutine.TaskComplete();
-                    if (ret.HasError)
-                    {
-                        Debug.LogError("UITipLogOut");
-                        //GameEntry.Instance.UITipLogOut.SetValue(() => GetArgs(url, loadingCircle, callBack));
-                    }
-                    else
-                    {
-                        callBack?.Invoke(ret);
-                    }
-                });
-            }, loadingCircle);
+                    CircleCtrl.Instance.CircleClose();
+                }
+
+                if (ret.HasError)
+                {
+                    DialogForm.ShowForm(ret.Value, "网络请求错误");
+                }
+                else
+                {
+                    callBack?.Invoke(ret);
+                }
+            });
         }
         public void Get(string url, bool loadingCircle = false, Action<string> callBack = null)
         {
@@ -80,22 +85,27 @@ namespace YouYou
         #region Post
         public void PostArgs(string url, string json = null, bool loadingCircle = false, HttpSendDataCallBack callBack = null)
         {
-            GameEntry.Task.AddTaskCommon((taskRoutine) =>
+            if (loadingCircle)
             {
-                HttpRoutine.Create().Post(url, json, (HttpCallBackArgs ret) =>
+                CircleCtrl.Instance.CircleOpen();
+            }
+
+            HttpRoutine.Create().Post(url, json, (HttpCallBackArgs ret) =>
+            {
+                if (loadingCircle)
                 {
-                    taskRoutine.TaskComplete();
-                    if (ret.HasError)
-                    {
-                        Debug.LogError("UITipLogOut");
-                        //GameEntry.Instance.UITipLogOut.SetValue(() => PostArgs(url, json, loadingCircle, callBack));
-                    }
-                    else
-                    {
-                        callBack?.Invoke(ret);
-                    }
-                });
-            }, loadingCircle);
+                    CircleCtrl.Instance.CircleClose();
+                }
+
+                if (ret.HasError)
+                {
+                    DialogForm.ShowForm(ret.Value, "网络请求错误");
+                }
+                else
+                {
+                    callBack?.Invoke(ret);
+                }
+            });
         }
         public void Post(string url, string json = null, bool loadingCircle = false, Action<string> callBack = null)
         {
