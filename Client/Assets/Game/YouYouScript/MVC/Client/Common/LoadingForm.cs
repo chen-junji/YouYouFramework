@@ -23,7 +23,10 @@ public class LoadingForm : UIFormBase
         txtTip.text = string.Format("正在进入场景, 加载进度 {0}%", Math.Floor(varFloat * 100));
         m_Scrollbar.size = varFloat;
 
-        if (varFloat == 1) Close();
+        if (varFloat == 1)
+        {
+            Close();
+        }
     }
 
     protected override void OnEnable()

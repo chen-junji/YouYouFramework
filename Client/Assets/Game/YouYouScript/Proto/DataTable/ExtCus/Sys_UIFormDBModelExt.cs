@@ -34,6 +34,7 @@ namespace YouYou
                     }
                     else
                     {
+                        entity.UIFromName = str;
                         NameByDic.Add(str, entity);
                     }
                 }

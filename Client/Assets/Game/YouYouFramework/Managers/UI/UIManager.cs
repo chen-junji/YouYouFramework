@@ -17,7 +17,7 @@ namespace YouYou
         /// <summary>
         /// 反切链表
         /// </summary>
-        private LinkedList<UIFormBase> m_ReverseChangeUIList;
+        private LinkedList<string> m_ReverseChangeUIList;
 
         private Dictionary<byte, UIGroup> m_UIGroupDic;
 
@@ -37,7 +37,7 @@ namespace YouYou
         internal UIManager()
         {
             m_OpenUIFormList = new LinkedList<UIFormBase>();
-            m_ReverseChangeUIList = new LinkedList<UIFormBase>();
+            m_ReverseChangeUIList = new LinkedList<string>();
 
             UILayer = new UILayer();
             m_UIGroupDic = new Dictionary<byte, UIGroup>();
@@ -82,30 +82,35 @@ namespace YouYou
         #endregion
 
         #region OpenUIForm 打开UI窗口
-        public T OpenUIForm<T>(object userData = null) where T : UIFormBase
+        public T OpenUIForm<T>() where T : UIFormBase
         {
-            return OpenUIForm<T>(typeof(T).Name, userData);
+            return OpenUIForm(typeof(T).Name) as T;
         }
-        public T OpenUIForm<T>(string uiFormName, object userData = null) where T : UIFormBase
+        public UIFormBase OpenUIForm(string uiFormName)
         {
-            //1,读表
             Sys_UIFormEntity sys_UIForm = GameEntry.DataTable.Sys_UIFormDBModel.GetEntity(uiFormName);
-            if (sys_UIForm == null) return null;
+            if (sys_UIForm == null)
+            {
+                return null;
+            }
             if (sys_UIForm.CanMulit == 0 && IsExists(sys_UIForm.Id))
             {
                 GameEntry.LogError(LogCategory.Framework, "不重复打开同一个UI窗口==" + sys_UIForm.Id + "  " + sys_UIForm.AssetFullPath);
                 return null;
             }
-
+            UIFormBase uiFormBase = OpenUIForm(sys_UIForm);
+            CheckReverseClose(uiFormBase);
+            return uiFormBase;
+        }
+        private UIFormBase OpenUIForm(Sys_UIFormEntity sys_UIForm)
+        {
             //从对象池里面取
             UIFormBase formBase = UIPool.Dequeue(sys_UIForm.Id);
             if (formBase != null)
             {
                 m_OpenUIFormList.AddLast(formBase);
-                CheckReverseChange(sys_UIForm, formBase, true);
-
-                formBase.ToOpen();
-                return formBase as T;
+                SetSortingOrder(formBase, true);
+                return formBase;
             }
 
             //对象池没有, 克隆新的
@@ -118,93 +123,15 @@ namespace YouYou
                 GameEntry.LogError(LogCategory.Framework, "该UI界面没有挂载UIBase脚本==" + uiObj);
                 formBase = uiObj.AddComponent<UIFormBase>();
             }
-            m_OpenUIFormList.AddLast(formBase);
-
-            CheckReverseChange(sys_UIForm, formBase, true);
-
             formBase.Init(sys_UIForm);
-            formBase.ToOpen();
 
-            return formBase as T;
-        }
-
-        /// <summary>
-        /// 检查反切
-        /// </summary>
-        private void CheckReverseChange(Sys_UIFormEntity sys_UIFormEntity, UIFormBase formBase, bool OpenOrClose)
-        {
-            UIFormShowMode uIFormShowMode = (UIFormShowMode)sys_UIFormEntity.ShowMode;
-            if (uIFormShowMode == UIFormShowMode.ReverseChange)
-            {
-                if (OpenOrClose)
-                {
-                    //如果之前里面有UI
-                    if (m_ReverseChangeUIList.Count > 0)
-                    {
-                        UIFormBase topUIForm = m_ReverseChangeUIList.First.Value;
-                        GameEntry.UI.HideUI(topUIForm);
-                    }
-                    //GameEntry.Log(LogCategory.UI, "窗口入栈==" + formBase);
-                    m_ReverseChangeUIList.AddFirst(formBase);
-                }
-                else
-                {
-                    m_ReverseChangeUIList.Remove(formBase);
-
-                    if (m_ReverseChangeUIList.Count > 0)
-                    {
-                        UIFormBase topForms = m_ReverseChangeUIList.First.Value;
-                        if (topForms.OnBack != null)
-                        {
-                            Action onBack = topForms.OnBack;
-                            topForms.OnBack = null;
-                            onBack();
-                        }
-                        GameEntry.UI.ShowUI(topForms);
-                    }
-                }
-            }
+            m_OpenUIFormList.AddLast(formBase);
+            SetSortingOrder(formBase, true);
+            return formBase;
         }
         #endregion
 
         #region CloseUIForm 关闭UI窗口
-        public void CloseUIForm(int uiFormId)
-        {
-            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
-            {
-                if (curr.Value.SysUIForm.Id == uiFormId)
-                {
-                    CloseUIForm(curr.Value);
-                    break;
-                }
-            }
-        }
-        internal void CloseUIFormByInstanceID(int instanceID)
-        {
-            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
-            {
-                if (curr.Value.gameObject.GetInstanceID() == instanceID)
-                {
-                    CloseUIForm(curr.Value);
-                    break;
-                }
-            }
-        }
-        internal void CloseUIForm(UIFormBase formBase)
-        {
-            if (!formBase.IsActive)
-            {
-                //YouYou.GameEntry.LogError(formBase + "==已经是关闭状态了");
-                return;
-            }
-            if (m_OpenUIFormList.Remove(formBase))
-            {
-                formBase.ToClose();
-
-                //判断反切UI
-                CheckReverseChange(formBase.SysUIForm, formBase, false);
-            }
-        }
         /// <summary>
         /// 关闭UI窗口
         /// </summary>
@@ -214,13 +141,41 @@ namespace YouYou
         }
         public void CloseUIForm(string uiFormName)
         {
-            CloseUIForm(GameEntry.DataTable.Sys_UIFormDBModel.GetEntity(uiFormName).Id);
+            CloseUIForm(GameEntry.DataTable.Sys_UIFormDBModel.GetEntity(uiFormName));
         }
+        public void CloseUIForm(Sys_UIFormEntity sys_UIForm)
+        {
+            for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.First; curr != null; curr = curr.Next)
+            {
+                if (curr.Value.SysUIForm.Id == sys_UIForm.Id)
+                {
+                    CloseUIForm(curr.Value);
+                    break;
+                }
+            }
+        }
+        public void CloseUIForm(UIFormBase formBase)
+        {
+            if (!formBase.IsActive)
+            {
+                //YouYou.GameEntry.LogError(formBase + "==已经是关闭状态了");
+                return;
+            }
+            if (m_OpenUIFormList.Remove(formBase))
+            {
+                SetSortingOrder(formBase, false);
+                UIPool.EnQueue(formBase);
+            }
+            CheckReverseOpen(formBase);
+        }
+
         /// <summary>
         /// 关闭所有"Default"组的UI窗口
         /// </summary>
         public void CloseAllDefaultUIForm()
         {
+            m_ReverseChangeUIList.Clear();
+
             List<UIFormBase> lst = new List<UIFormBase>();
             for (LinkedListNode<UIFormBase> curr = m_OpenUIFormList.Last; curr != null; curr = curr.Previous)
             {
@@ -230,12 +185,8 @@ namespace YouYou
             {
                 UIFormBase formBase = lst[i];
                 if (formBase.SysUIForm.UIGroupId != 2) continue;
-                if (m_OpenUIFormList.Remove(formBase))
-                {
-                    formBase.ToClose();
-                }
+                CloseUIForm(formBase);
             }
-            m_ReverseChangeUIList.Clear();
         }
         #endregion
 
@@ -258,7 +209,7 @@ namespace YouYou
         }
         public void Release(UIFormBase uIBase)
         {
-            uIBase.Close();
+            GameEntry.UI.CloseUIForm(uIBase);
             UIPool.Release(uIBase);
         }
         /// <summary>
@@ -275,27 +226,6 @@ namespace YouYou
             }
             UIPool.ReleaseAll();
             m_ReverseChangeUIList.Clear();
-        }
-        #endregion
-
-        #region 显示和隐藏
-        /// <summary>
-        /// 显示/激活一个UI
-        /// </summary>
-        public void ShowUI(UIFormBase uiFormBase)
-        {
-            //GameEntry.Log("ShowUI==" + uiFormBase);
-            uiFormBase.IsActive = true;
-            uiFormBase.gameObject.SetActive(true);
-        }
-        /// <summary>
-        /// 隐藏/冻结一个UI
-        /// </summary>
-        public void HideUI(UIFormBase uiFormBase)
-        {
-            //GameEntry.Log("HideUI==" + uiFormBase);
-            uiFormBase.IsActive = false;
-            uiFormBase.gameObject.SetActive(false);
         }
         #endregion
 
@@ -326,12 +256,7 @@ namespace YouYou
             return false;
         }
 
-        internal void EnQueue(UIFormBase form)
-        {
-            UIPool.EnQueue(form);
-        }
-
-        internal void SetSortingOrder(UIFormBase formBase, bool isAdd)
+        private void SetSortingOrder(UIFormBase formBase, bool isAdd)
         {
             LinkedListNode<UIFormBase> findNode = m_OpenUIFormList.FindLast(formBase);
             if (findNode != null)
@@ -360,6 +285,51 @@ namespace YouYou
         {
             GameEntry.Instance.UIRootCanvas.renderMode = renderMode;
             GameEntry.Instance.UICamera.enabled = renderMode != RenderMode.ScreenSpaceOverlay;
+        }
+
+        /// <summary>
+        /// 检查反切，关闭上一个界面
+        /// </summary>
+        internal void CheckReverseClose(UIFormBase formBase)
+        {
+            UIFormShowMode uIFormShowMode = (UIFormShowMode)formBase.SysUIForm.ShowMode;
+            if (uIFormShowMode != UIFormShowMode.ReverseChange)
+            {
+                return;
+            }
+
+            //如果之前里面有UI
+            if (m_ReverseChangeUIList.Count > 0)
+            {
+                Sys_UIFormEntity sys_UIForm = GameEntry.DataTable.Sys_UIFormDBModel.GetEntity(m_ReverseChangeUIList.Last.Value);
+                CloseUIForm(sys_UIForm);
+            }
+            //GameEntry.Log(LogCategory.UI, "窗口入栈==" + formBase);
+            m_ReverseChangeUIList.AddLast(formBase.SysUIForm.UIFromName);
+        }
+        /// <summary>
+        /// 检查反切, 打开上一个界面
+        /// </summary>
+        internal void CheckReverseOpen(UIFormBase formBase)
+        {
+            UIFormShowMode uIFormShowMode = (UIFormShowMode)formBase.SysUIForm.ShowMode;
+            if (uIFormShowMode != UIFormShowMode.ReverseChange)
+            {
+                return;
+            }
+
+            m_ReverseChangeUIList.Remove(formBase.SysUIForm.UIFromName);
+            if (m_ReverseChangeUIList.Count > 0)
+            {
+                Sys_UIFormEntity sys_UIForm = GameEntry.DataTable.Sys_UIFormDBModel.GetEntity(m_ReverseChangeUIList.Last.Value);
+                UIFormBase topForms = OpenUIForm(sys_UIForm);
+                if (topForms.OnBack != null)
+                {
+                    Action onBack = topForms.OnBack;
+                    topForms.OnBack = null;
+                    onBack();
+                }
+            }
         }
 
     }

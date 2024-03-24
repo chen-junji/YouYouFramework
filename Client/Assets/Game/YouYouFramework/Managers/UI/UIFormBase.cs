@@ -14,10 +14,7 @@ namespace YouYou
 
         public Canvas CurrCanvas { get; private set; }
 
-        public float CloseTime { get; private set; }
-
-        //打开时调用
-        public static Action ActionOpen;
+        public float CloseTime { get; internal set; }
 
         //反切时调用
         public Action OnBack;
@@ -68,28 +65,6 @@ namespace YouYou
         internal void Init(Sys_UIFormEntity sysUIForm)
         {
             SysUIForm = sysUIForm;
-        }
-        internal void ToOpen()
-        {
-            //设置UI层级
-            GameEntry.UI.SetSortingOrder(this, true);
-
-            //UI打开时的委托
-            if (ActionOpen != null)
-            {
-                Action onOpenBegin = ActionOpen;
-                ActionOpen = null;
-                onOpenBegin();
-            }
-        }
-        internal void ToClose()
-        {
-            //进行层级管理 减少层级
-            GameEntry.UI.SetSortingOrder(this, false);
-
-            CloseTime = Time.time;
-            GameEntry.UI.HideUI(this);
-            GameEntry.UI.EnQueue(this);
         }
 
         internal void SetSortingOrder(int sortingOrder)

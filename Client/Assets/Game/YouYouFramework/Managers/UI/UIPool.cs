@@ -42,7 +42,8 @@ namespace YouYou
             {
                 if (curr.Value.SysUIForm.Id == uiFormId)
                 {
-                    GameEntry.UI.ShowUI(curr.Value);
+                    curr.Value.IsActive = true;
+                    curr.Value.gameObject.SetActive(true);
                     m_UIFormList.Remove(curr.Value);
                     return curr.Value;
                 }
@@ -53,9 +54,12 @@ namespace YouYou
         /// <summary>
         /// 对象回池
         /// </summary>
-        internal void EnQueue(UIFormBase form)
+        internal void EnQueue(UIFormBase formBase)
         {
-            m_UIFormList.AddLast(form);
+            formBase.CloseTime = Time.time;
+            formBase.IsActive = false;
+            formBase.gameObject.SetActive(false);
+            m_UIFormList.AddLast(formBase);
         }
 
         /// <summary>
