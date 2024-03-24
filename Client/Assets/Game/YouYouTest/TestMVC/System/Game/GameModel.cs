@@ -5,4 +5,8 @@ using YouYou;
 
 public class GameModel : Observable
 {
+    public enum TestEvent
+    {
+        TestEvent1,
+    }
 }
