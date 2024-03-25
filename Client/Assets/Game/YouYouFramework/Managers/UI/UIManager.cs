@@ -291,7 +291,7 @@ namespace YouYou
                 {
                     for (LinkedListNode<UIFormBase> curr = findNode; curr != null; curr = curr.Next)
                     {
-                        //如果当前界面不是最后打开的界面， 那么则需要把更晚打开的界面的sortingOrder全都刷新一下
+                        //假如我现在打开了界面1-2-3-4, 然后关闭了界面2, 那么就需要把界面3和界面4的Order给刷新一下(界面1就不用刷新了)
                         if (curr.Value.SysUIForm.UIGroupId != formBase.SysUIForm.UIGroupId)
                         {
                             continue;
