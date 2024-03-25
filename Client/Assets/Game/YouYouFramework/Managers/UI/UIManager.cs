@@ -287,16 +287,16 @@ namespace YouYou
             else
             {
                 LinkedListNode<UIFormBase> findNode = m_OpenUIFormList.FindLast(formBase);
-                if (findNode != null)
+                if (findNode != null && findNode.Next != null)
                 {
-                    for (LinkedListNode<UIFormBase> curr = findNode; curr != null; curr = curr.Next)
+                    for (LinkedListNode<UIFormBase> curr = findNode.Next; curr != null; curr = curr.Next)
                     {
                         //假如我现在打开了界面1-2-3-4, 然后关闭了界面2, 那么就需要把界面3和界面4的Order给刷新一下(界面1就不用刷新了)
                         if (curr.Value.SysUIForm.UIGroupId != formBase.SysUIForm.UIGroupId)
                         {
                             continue;
                         }
-                        findNode.Value.SetSortingOrder(findNode.Value.sortingOrder - 10);
+                        curr.Value.SetSortingOrder(curr.Value.sortingOrder - 10);
                     }
                 }
             }
