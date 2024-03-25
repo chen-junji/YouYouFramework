@@ -5,6 +5,20 @@ using UnityEngine.Playables;
 
 namespace YouYou
 {
+    public class PlaySoundPlayable : BasePlayableAsset<PlaySoundPlayableBehaviour, PlaySoundEventArgs>
+    {
+    }
+    public class PlaySoundPlayableBehaviour : BasePlayableBehaviour<PlaySoundEventArgs>
+    {
+        protected override void OnYouYouBehaviourPlay(Playable playable, FrameData info)
+        {
+            CurrTimelineCtrl.PlaySound?.Invoke(CurrArgs);
+        }
+        protected override void OnYouYouBehaviourStop(Playable playable, FrameData info)
+        {
+
+        }
+    }
     [System.Serializable]
     public class PlaySoundEventArgs
     {
@@ -19,19 +33,5 @@ namespace YouYou
         /// </summary>
         [Header("ÉùÒôÎÄ¼þ")]
         public AudioClip AudioClip;
-    }
-    public class PlaySoundPlayable : BasePlayableAsset<PlaySoundPlayableBehaviour, PlaySoundEventArgs>
-    {
-    }
-    public class PlaySoundPlayableBehaviour : BasePlayableBehaviour<PlaySoundEventArgs>
-    {
-        protected override void OnYouYouBehaviourPlay(Playable playable, FrameData info)
-        {
-            CurrTimelineCtrl.PlaySound?.Invoke(CurrArgs);
-        }
-        protected override void OnYouYouBehaviourStop(Playable playable, FrameData info)
-        {
-
-        }
     }
 }

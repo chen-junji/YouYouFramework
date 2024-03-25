@@ -49,6 +49,14 @@ public class RoleCtrl : MonoBehaviour
         timelineCtrl.transform.position = transform.position;
         timelineCtrl.transform.rotation = transform.rotation;
 
+        timelineCtrl.CameraShake = (args) =>
+        {
+            CameraFollowCtrl.Instance.CameraShake();
+        };
+        timelineCtrl.HurtPoint = (args) =>
+        {
+
+        };
         timelineCtrl.PlayAnim = (args) =>
         {
             AnimCompoent.PlayAnim(args.AnimationClip);
@@ -63,7 +71,6 @@ public class RoleCtrl : MonoBehaviour
         {
             GameEntry.Audio.PlayAudio(args.AudioClip, transform.position);
         };
-
         return timelineCtrl;
     }
 }

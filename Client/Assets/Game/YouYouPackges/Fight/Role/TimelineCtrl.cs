@@ -15,10 +15,11 @@ public class TimelineCtrl : MonoBehaviour
     private PlayableDirector m_CurrPlayableDirector;
 
     //轨道剪辑触发 委托
+    public Action<CameraShakeEventArgs> CameraShake;
+    public Action<HurtPointEventArgs> HurtPoint;
     public Action<PlayAnimEventArgs> PlayAnim;
     public Action<PlayResourceEventArgs, float> PlayResource;
     public Action<PlaySoundEventArgs> PlaySound;
-    public Action<HurtPointEventArgs> HurtPoint;
 
     /// <summary>
     /// 停止播放委托

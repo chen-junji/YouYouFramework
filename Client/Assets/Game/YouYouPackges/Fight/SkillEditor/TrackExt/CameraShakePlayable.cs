@@ -5,9 +5,6 @@ using UnityEngine.Playables;
 
 namespace YouYou
 {
-    public class CameraShakeEventArgs
-    {
-    }
     public class CameraShakePlayable : BasePlayableAsset<CameraShakePlayableBehaviour, CameraShakeEventArgs>
     {
     }
@@ -15,12 +12,15 @@ namespace YouYou
     {
         protected override void OnYouYouBehaviourPlay(Playable playable, FrameData info)
         {
-            CameraFollowCtrl.Instance.CameraShake();
+            CurrTimelineCtrl.CameraShake?.Invoke(CurrArgs);
         }
 
         protected override void OnYouYouBehaviourStop(Playable playable, FrameData info)
         {
 
         }
+    }
+    public class CameraShakeEventArgs
+    {
     }
 }

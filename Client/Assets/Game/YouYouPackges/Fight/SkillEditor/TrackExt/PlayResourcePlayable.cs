@@ -2,10 +2,24 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Playables;
-using YouYou;
 
 namespace YouYou
 {
+    public class PlayResourcePlayable : BasePlayableAsset<PlayResourcePlayableBehaviour, PlayResourceEventArgs>
+    {
+    }
+    public class PlayResourcePlayableBehaviour : BasePlayableBehaviour<PlayResourceEventArgs>
+    {
+        protected override void OnYouYouBehaviourPlay(Playable playable, FrameData info)
+        {
+            CurrTimelineCtrl.PlayResource?.Invoke(CurrArgs, (float)End);
+        }
+
+        protected override void OnYouYouBehaviourStop(Playable playable, FrameData info)
+        {
+
+        }
+    }
     [System.Serializable]
     public class PlayResourceEventArgs
     {
@@ -38,20 +52,5 @@ namespace YouYou
         [Header("Ëõ·Å")]
         public Vector3 Scale = Vector3.one;
 
-    }
-    public class PlayResourcePlayable : BasePlayableAsset<PlayResourcePlayableBehaviour, PlayResourceEventArgs>
-    {
-    }
-    public class PlayResourcePlayableBehaviour : BasePlayableBehaviour<PlayResourceEventArgs>
-    {
-        protected override void OnYouYouBehaviourPlay(Playable playable, FrameData info)
-        {
-            CurrTimelineCtrl.PlayResource?.Invoke(CurrArgs, (float)End);
-        }
-
-        protected override void OnYouYouBehaviourStop(Playable playable, FrameData info)
-        {
-
-        }
     }
 }

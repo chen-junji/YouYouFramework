@@ -5,21 +5,6 @@ using UnityEngine.Playables;
 
 namespace YouYou
 {
-    [System.Serializable]
-    public class HurtPointEventArgs
-    {
-        [Header("伤害范围")]
-        public int hurtRange = 5;
-
-        [Header("伤害值")]
-        public int hurtValue = 10;
-
-        [Header("Buff类别")]
-        public BuffCategory buffCategory;
-
-        [Header("Buff值, 例如眩晕1.2秒 则填1.2")]
-        public float buffValue;
-    }
     public class HurtPointPlayable : BasePlayableAsset<HurtPointPlayableBehaviour, HurtPointEventArgs>
     {
     }
@@ -34,5 +19,20 @@ namespace YouYou
         {
 
         }
+    }
+    [System.Serializable]
+    public class HurtPointEventArgs
+    {
+        [Header("伤害范围")]
+        public int hurtRange = 5;
+
+        [Header("伤害值")]
+        public int hurtValue = 10;
+
+        [Header("Buff类别")]
+        public BuffCategory buffCategory;
+
+        [Header("Buff值, 例如眩晕1.2秒 则填1.2")]
+        public float buffValue;
     }
 }
