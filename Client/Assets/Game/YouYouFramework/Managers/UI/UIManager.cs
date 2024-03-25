@@ -164,9 +164,10 @@ namespace YouYou
                 //YouYou.GameEntry.LogError(formBase + "==已经是关闭状态了");
                 return;
             }
-            if (m_OpenUIFormList.Remove(formBase))
+            if (m_OpenUIFormList.Contains(formBase))
             {
                 SetSortingOrder(formBase, false);
+                m_OpenUIFormList.Remove(formBase);
                 UIPool.EnQueue(formBase);
             }
 
