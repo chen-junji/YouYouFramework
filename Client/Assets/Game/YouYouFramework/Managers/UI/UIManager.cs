@@ -279,15 +279,15 @@ namespace YouYou
 
         private void SetSortingOrder(UIFormBase formBase, bool isAdd)
         {
-            LinkedListNode<UIFormBase> findNode = m_OpenUIFormList.FindLast(formBase);
-            if (findNode != null)
+            UILayer.SetSortingOrder(formBase, isAdd);
+            if (isAdd)
             {
-                UILayer.SetSortingOrder(findNode.Value, isAdd);
-                if (isAdd)
-                {
-                    findNode.Value.SetSortingOrder(UILayer.GetCurrSortingOrder(findNode.Value));
-                }
-                else
+                formBase.SetSortingOrder(UILayer.GetCurrSortingOrder(formBase));
+            }
+            else
+            {
+                LinkedListNode<UIFormBase> findNode = m_OpenUIFormList.FindLast(formBase);
+                if (findNode != null)
                 {
                     for (LinkedListNode<UIFormBase> curr = findNode; curr != null; curr = curr.Next)
                     {
