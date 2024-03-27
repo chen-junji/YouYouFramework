@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 222404220355911358}
   - component: {fileID: 114922071614295164}
   m_Layer: 5
-  m_Name: BG
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 222429828257713556}
   - component: {fileID: 114860583820385344}
   m_Layer: 5
-  m_Name: LblMessage
+  m_Name: Txt_Message
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 114722432435062292}
   - component: {fileID: 7219367504164690206}
   m_Layer: 5
-  m_Name: BtnCancel
+  m_Name: Btn_Cancel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -460,7 +460,7 @@ GameObject:
   - component: {fileID: 224265456832955910}
   - component: {fileID: 8987883665308716625}
   m_Layer: 5
-  m_Name: BtnContent
+  m_Name: LayoutGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -526,7 +526,8 @@ GameObject:
   - component: {fileID: 114578842348527822}
   - component: {fileID: 223515463783518598}
   - component: {fileID: 114093970811876944}
-  - component: {fileID: 5675065671438365084}
+  - component: {fileID: 2797990472901106891}
+  - component: {fileID: 711330128305053106}
   m_Layer: 5
   m_Name: DialogForm
   m_TagString: Untagged
@@ -632,7 +633,24 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 32567
---- !u!114 &5675065671438365084
+--- !u!114 &2797990472901106891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777274405152220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57eb7c15612322c4b929a325ad4bc16a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BindDatas: []
+  m_ClassName: DialogForm
+  m_Namespace: 
+  m_CodePath: E:\Projects\Demo\YouYouFramework\Client\Assets/Game/YouYouScript/MVC/Client/Common/Dialog
+  m_BindComs: []
+--- !u!114 &711330128305053106
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -644,10 +662,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c45d63e9daba27e4f8e373c922e5b577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lblTitle: {fileID: 1801307825571201382}
-  lblMessage: {fileID: 114860583820385344}
-  btnOK: {fileID: 114928851235647378}
-  btnCancel: {fileID: 114722432435062292}
 --- !u!1 &1889557595891920
 GameObject:
   m_ObjectHideFlags: 0
@@ -662,7 +676,7 @@ GameObject:
   - component: {fileID: 114928851235647378}
   - component: {fileID: 392963648442489215}
   m_Layer: 5
-  m_Name: BtnOK
+  m_Name: Btn_OK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -796,7 +810,7 @@ GameObject:
   - component: {fileID: 1801307825571201382}
   - component: {fileID: 3182780860766444090}
   m_Layer: 5
-  m_Name: YouYouTextTitle
+  m_Name: Txt_Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -887,7 +901,7 @@ GameObject:
   - component: {fileID: 4708158939293864043}
   - component: {fileID: 4953553119564841073}
   m_Layer: 5
-  m_Name: imgContent
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

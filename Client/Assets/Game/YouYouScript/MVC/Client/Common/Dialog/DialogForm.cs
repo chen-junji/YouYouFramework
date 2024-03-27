@@ -9,32 +9,8 @@ using YouYou;
 /// <summary>
 /// 提示窗口
 /// </summary>
-public class DialogForm : UIFormBase
+public partial class DialogForm : UIFormBase
 {
-    /// <summary>
-    /// 标题
-    /// </summary>
-    [SerializeField]
-    private Text lblTitle;
-
-    /// <summary>
-    /// 内容
-    /// </summary>
-    [SerializeField]
-    private Text lblMessage;
-
-    /// <summary>
-    /// 确定按钮
-    /// </summary>
-    [SerializeField]
-    private Button btnOK;
-
-    /// <summary>
-    /// 取消按钮
-    /// </summary>
-    [SerializeField]
-    private Button btnCancel;
-
     private Action m_OkAction;
 
     private Action m_CancelAction;
@@ -43,12 +19,14 @@ public class DialogForm : UIFormBase
     protected override void Awake()
     {
         base.Awake();
-        btnOK.onClick.AddListener(() =>
+        GetBindComponents(gameObject);
+
+        m_Btn_OK.onClick.AddListener(() =>
         {
             m_OkAction?.Invoke();
             Close();
         });
-        btnCancel.onClick.AddListener(() =>
+        m_Btn_Cancel.onClick.AddListener(() =>
         {
             m_CancelAction?.Invoke();
             Close();
@@ -64,19 +42,19 @@ public class DialogForm : UIFormBase
     private void SetUI(string message = "", string title = "提示", DialogFormType type = DialogFormType.Affirm, Action okAction = null, Action cancelAction = null)
     {
         //窗口内容
-        lblTitle.text = title;
-        lblMessage.text = message;
+        m_Txt_Title.text = title;
+        m_Txt_Message.text = message;
 
         //点击按钮的类型
         switch (type)
         {
             case DialogFormType.Affirm:
-                btnOK.gameObject.SetActive(true);
-                btnCancel.gameObject.SetActive(false);
+                m_Btn_OK.gameObject.SetActive(true);
+                m_Btn_Cancel.gameObject.SetActive(false);
                 break;
             case DialogFormType.AffirmAndCancel:
-                btnCancel.gameObject.SetActive(true);
-                btnOK.gameObject.SetActive(true);
+                m_Btn_Cancel.gameObject.SetActive(true);
+                m_Btn_OK.gameObject.SetActive(true);
                 break;
         }
 

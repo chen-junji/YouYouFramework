@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 114578842348527822}
   - component: {fileID: 223515463783518598}
   - component: {fileID: 114093970811876944}
+  - component: {fileID: 5658539886964115017}
   - component: {fileID: 5655510506085581095}
   m_Layer: 5
   m_Name: GameForm
@@ -119,6 +120,23 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 32567
+--- !u!114 &5658539886964115017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777274405152220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57eb7c15612322c4b929a325ad4bc16a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BindDatas: []
+  m_ClassName: GameForm
+  m_Namespace: 
+  m_CodePath: E:\Projects\Demo\YouYouFramework\Client\Assets/Game/YouYouTest/TestMVC/Client/Game
+  m_BindComs: []
 --- !u!114 &5655510506085581095
 MonoBehaviour:
   m_ObjectHideFlags: 0

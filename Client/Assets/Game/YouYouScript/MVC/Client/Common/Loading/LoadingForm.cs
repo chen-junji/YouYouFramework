@@ -10,18 +10,13 @@ using YouYou;
 /// <summary>
 /// "加载"界面
 /// </summary>
-public class LoadingForm : UIFormBase
+public partial class LoadingForm : UIFormBase
 {
-    [SerializeField]
-    private Scrollbar m_Scrollbar;
-    [SerializeField]
-    private Text txtTip;
-
     private void OnLoadingProgressChange(object userData)
     {
         VarFloat varFloat = (VarFloat)userData;
-        txtTip.text = string.Format("正在进入场景, 加载进度 {0}%", Math.Floor(varFloat * 100));
-        m_Scrollbar.size = varFloat;
+        m_Txt_Tip.text = string.Format("正在进入场景, 加载进度 {0}%", Math.Floor(varFloat * 100));
+        m_Sbar_Progress.size = varFloat;
 
         if (varFloat == 1)
         {
@@ -34,8 +29,8 @@ public class LoadingForm : UIFormBase
         base.OnEnable();
         GameEntry.Event.AddEventListener(CommonEventId.LoadingSceneUpdate, OnLoadingProgressChange);
 
-        //txtTip.text = string.Empty;
-        //m_Scrollbar.size = 0;
+        //m_Txt_Tip.text = string.Empty;
+        //m_Sbar_Progress.size = 0;
     }
     protected override void OnDisable()
     {

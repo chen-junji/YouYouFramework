@@ -5,6 +5,9 @@ using System;
 using BindData = ComponentAutoBindTool.BindData;
 using System.Reflection;
 using System.IO;
+using static Codice.Client.BaseCommands.BranchExplorer.ExplorerData.BrExTreeBuilder.BrExFilter;
+using System.Linq;
+using DG.Tweening.Plugins.Core.PathCore;
 
 [CustomEditor(typeof(ComponentAutoBindTool))]
 public class ComponentAutoBindToolInspector : Editor
@@ -23,8 +26,6 @@ public class ComponentAutoBindToolInspector : Editor
     private string m_HelperTypeName;
     private int m_HelperTypeNameIndex;
 
-    private AutoBindGlobalSetting m_Setting;
-
     private SerializedProperty m_Namespace;
     private SerializedProperty m_ClassName;
     private SerializedProperty m_CodePath;
@@ -37,28 +38,13 @@ public class ComponentAutoBindToolInspector : Editor
 
         m_HelperTypeNames = GetTypeNames(typeof(IAutoBindRuleHelper), s_AssemblyNames);
 
-        string[] paths = AssetDatabase.FindAssets("t:AutoBindGlobalSetting");
-        if (paths.Length == 0)
-        {
-            Debug.LogError("不存在AutoBindGlobalSetting");
-            return;
-        }
-        if (paths.Length > 1)
-        {
-            Debug.LogError("AutoBindGlobalSetting数量大于1");
-            return;
-        }
-        string path = AssetDatabase.GUIDToAssetPath(paths[0]);
-        m_Setting = AssetDatabase.LoadAssetAtPath<AutoBindGlobalSetting>(path);
-
-
         m_Namespace = serializedObject.FindProperty("m_Namespace");
         m_ClassName = serializedObject.FindProperty("m_ClassName");
         m_CodePath = serializedObject.FindProperty("m_CodePath");
 
-        m_Namespace.stringValue = string.IsNullOrEmpty(m_Namespace.stringValue) ? m_Setting.Namespace : m_Namespace.stringValue;
+        m_Namespace.stringValue = string.IsNullOrEmpty(m_Namespace.stringValue) ? GetDefaultNamespace() : m_Namespace.stringValue;
         m_ClassName.stringValue = string.IsNullOrEmpty(m_ClassName.stringValue) ? m_Target.gameObject.name : m_ClassName.stringValue;
-        m_CodePath.stringValue = string.IsNullOrEmpty(m_CodePath.stringValue) ? m_Setting.CodePath : m_CodePath.stringValue;
+        m_CodePath.stringValue = string.IsNullOrEmpty(m_CodePath.stringValue) ? GetDefaultCodePath() : m_CodePath.stringValue;
 
         serializedObject.ApplyModifiedProperties();
     }
@@ -255,9 +241,9 @@ public class ComponentAutoBindToolInspector : Editor
     {
         EditorGUILayout.BeginHorizontal();
         m_Namespace.stringValue = EditorGUILayout.TextField(new GUIContent("命名空间："), m_Namespace.stringValue);
-        if (GUILayout.Button("默认设置"))
+        if (GUILayout.Button("默认命名空间"))
         {
-            m_Namespace.stringValue = m_Setting.Namespace;
+            m_Namespace.stringValue = GetDefaultNamespace();
         }
         EditorGUILayout.EndHorizontal();
 
@@ -275,15 +261,15 @@ public class ComponentAutoBindToolInspector : Editor
         if (GUILayout.Button("选择路径"))
         {
             string temp = m_CodePath.stringValue;
-            m_CodePath.stringValue = EditorUtility.OpenFolderPanel("选择代码保存路径", Application.dataPath, "");
+            m_CodePath.stringValue = EditorUtility.OpenFolderPanel("选择代码保存路径", temp, "");
             if (string.IsNullOrEmpty(m_CodePath.stringValue))
             {
                 m_CodePath.stringValue = temp;
             }
         }
-        if (GUILayout.Button("默认设置"))
+        if (GUILayout.Button("默认代码保存路径"))
         {
-            m_CodePath.stringValue = m_Setting.CodePath;
+            m_CodePath.stringValue = GetDefaultCodePath();
         }
         EditorGUILayout.EndHorizontal();
     }
@@ -423,7 +409,7 @@ public class ComponentAutoBindToolInspector : Editor
         GameObject go = m_Target.gameObject;
 
         string className = !string.IsNullOrEmpty(m_Target.ClassName) ? m_Target.ClassName : go.name;
-        string codePath = !string.IsNullOrEmpty(m_Target.CodePath) ? m_Target.CodePath : m_Setting.CodePath;
+        string codePath = !string.IsNullOrEmpty(m_Target.CodePath) ? m_Target.CodePath : GetDefaultCodePath();
 
         if (!Directory.Exists(codePath))
         {
@@ -508,12 +494,13 @@ public class ComponentAutoBindToolInspector : Editor
             }
 
             //类名
-            sw.WriteLine($"\tpublic partial class {className} : MonoBehaviour");
+            sw.WriteLine($"\tpublic partial class {className} : UIFormBase");
             sw.WriteLine("\t{");
 
-            sw.WriteLine("\t\tvoid Start()");
+            sw.WriteLine("\t\tprotected override void Awake()");
             sw.WriteLine("\t\t{");
 
+            sw.WriteLine("\t\t\tbase.Awake();");
             sw.WriteLine("\t\t\tGetBindComponents(gameObject);");
 
             sw.WriteLine("\t\t}");
@@ -528,5 +515,37 @@ public class ComponentAutoBindToolInspector : Editor
         Debug.Log($"{className}业务层脚本 生成完毕");
         AssetDatabase.Refresh();
 
+    }
+
+    /// <summary>
+    /// 获取默认命名空间
+    /// </summary>
+    private string GetDefaultNamespace()
+    {
+        return "";
+    }
+    /// <summary>
+    /// 获取默认脚本保存路径
+    /// </summary>
+    private string GetDefaultCodePath()
+    {
+        var guids = AssetDatabase.FindAssets(m_ClassName.stringValue);
+        if (guids.Length > 0)
+        {
+            for (int i = 0; i < guids.Length; i++)
+            {
+                string[] strings = AssetDatabase.GUIDToAssetPath(guids[i]).Split("/");
+                string relativePath = strings[strings.Length - 1];
+                if (relativePath.Equals($"{m_ClassName.stringValue}.cs"))
+                {
+                    return System.IO.Path.Join(Directory.GetCurrentDirectory(), AssetDatabase.GUIDToAssetPath(guids[i]).Replace("/" + relativePath, ""));
+                }
+            }
+        }
+        else
+        {
+            Debug.Log($"Assets下没有该文件：{m_ClassName.stringValue}.cs");
+        }
+        return "";
     }
 }

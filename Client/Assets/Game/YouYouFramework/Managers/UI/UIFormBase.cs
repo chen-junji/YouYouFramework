@@ -8,6 +8,7 @@ namespace YouYou
 {
     [RequireComponent(typeof(Canvas))]//脚本依赖
     [RequireComponent(typeof(GraphicRaycaster))]//脚本依赖
+    [RequireComponent(typeof(ComponentAutoBindTool))]//脚本依赖
     public class UIFormBase : MonoBehaviour
     {
         public Sys_UIFormEntity SysUIForm { get; private set; }

@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 4924211624598744535}
   - component: {fileID: -5664927416487369774}
   - component: {fileID: 5733407909340928816}
-  - component: {fileID: 5907784960008152361}
   - component: {fileID: 908938218087949918}
   - component: {fileID: 9179069276492436272}
+  - component: {fileID: 488843945047444490}
+  - component: {fileID: 5907784960008152361}
   m_Layer: 5
   m_Name: CircleForm
   m_TagString: Untagged
@@ -31,10 +32,10 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4924211625147861628}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -58,7 +59,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -79,19 +82,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 55
---- !u!114 &5907784960008152361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4924211624598744534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8df092354f7c9e34aa71c1e15f94299a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  circleTrans: {fileID: 4601131757084660224}
 --- !u!222 &908938218087949918
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -130,6 +120,39 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &488843945047444490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924211624598744534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57eb7c15612322c4b929a325ad4bc16a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BindDatas:
+  - Name: Trans_Circle
+    BindCom: {fileID: 4601131757084660224}
+  m_ClassName: CircleForm
+  m_Namespace: 
+  m_CodePath: E:/Projects/Demo/YouYouFramework/Client/Assets/Game/YouYouScript/MVC/Client/Common/Circle
+  m_BindComs:
+  - {fileID: 4601131757084660224}
+--- !u!114 &5907784960008152361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924211624598744534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8df092354f7c9e34aa71c1e15f94299a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circleTrans: {fileID: 4601131757084660224}
 --- !u!1 &4924211625147861619
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,10 +181,10 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4601131757084660224}
   m_Father: {fileID: 4924211624598744535}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -218,7 +241,7 @@ GameObject:
   - component: {fileID: 4423339003915773266}
   - component: {fileID: 770490153612528434}
   m_Layer: 5
-  m_Name: Circle
+  m_Name: Trans_Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -234,9 +257,9 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4924211625147861628}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
