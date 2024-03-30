@@ -13,9 +13,9 @@ namespace YouYou
         internal override void OnEnter()
         {
             base.OnEnter();
-            MainEntry.Assets.VersionFile.SetAssetVersion(null);//不检测版本号, 而是直接检测MD5
-            MainEntry.Assets.CheckVersionComplete = () => GameEntry.Procedure.ChangeState(ProcedureState.Preload);
-            MainEntry.Assets.CheckVersionChange();
+            MainEntry.CheckVersion.VersionFile.SetAssetVersion(null);//不检测版本号, 而是直接检测MD5
+            MainEntry.CheckVersion.CheckVersionComplete = () => GameEntry.Procedure.ChangeState(ProcedureState.Preload);
+            MainEntry.CheckVersion.CheckVersionChange();
 
         }
     }

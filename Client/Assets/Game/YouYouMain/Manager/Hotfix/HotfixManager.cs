@@ -32,7 +32,7 @@ namespace Main
             return;
 #endif
             //初始化CDN的VersionFile信息
-            MainEntry.Assets.VersionFile.InitCDNVersionFile(() =>
+            MainEntry.CheckVersion.VersionFile.InitCDNVersionFile(() =>
             {
                 //下载并加载热更程序集
                 CheckAndDownload(YFConstDefine.HotfixAssetBundlePath, (string fileUrl) =>
@@ -52,7 +52,7 @@ namespace Main
 
         private void CheckAndDownload(string url, Action<string> onComplete)
         {
-            bool isEquals = MainEntry.Assets.CheckVersionChangeSingle(url);
+            bool isEquals = MainEntry.CheckVersion.CheckVersionChangeSingle(url);
             if (isEquals)
             {
                 MainEntry.Log(MainEntry.LogCategory.Assets, "资源没变化, 不用重新下载, url==" + url);

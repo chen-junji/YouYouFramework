@@ -1760,10 +1760,10 @@ public class Reporter : MonoBehaviour
 		fps = 1f / elapsed;
 		lastUpdate = Time.realtimeSinceStartup;
 		calculateStartIndex();
-		if (!show && isGestureDone())
+		if (!show && isGestureDone() && Debug.isDebugBuild)
 		{
-#if !UNITY_EDITOR && DEBUG_MODEL
-			doShow();
+#if !UNITY_EDITOR
+            doShow();
 #endif
 		}
 

@@ -106,7 +106,7 @@ namespace Main
             for (LinkedListNode<string> item = lstUrl.First; item != null; item = item.Next)
             {
                 string url = item.Value;
-                VersionFileEntity entity = MainEntry.Assets.VersionFile.GetVersionFileEntity(url);
+                VersionFileEntity entity = MainEntry.CheckVersion.VersionFile.GetVersionFileEntity(url);
                 if (entity != null)
                 {
                     m_DownloadMulitTotalSize += entity.Size;
@@ -128,7 +128,7 @@ namespace Main
 
                 string url = m_NeedDownloadList.First.Value;
 
-                VersionFileEntity entity = MainEntry.Assets.VersionFile.GetVersionFileEntity(url);
+                VersionFileEntity entity = MainEntry.CheckVersion.VersionFile.GetVersionFileEntity(url);
 
                 routine.BeginDownload(url, entity, OnDownloadMulitUpdate, OnDownloadMulitComplete);
                 m_DownloadRoutineList.AddLast(routine);
@@ -160,7 +160,7 @@ namespace Main
             {
                 //创建新的下载器，下载新文件
                 string url = m_NeedDownloadList.First.Value;
-                VersionFileEntity entity = MainEntry.Assets.VersionFile.GetVersionFileEntity(url);
+                VersionFileEntity entity = MainEntry.CheckVersion.VersionFile.GetVersionFileEntity(url);
 
                 DownloadRoutine newRoutine = DownloadRoutine.Create();
                 newRoutine.BeginDownload(url, entity, OnDownloadMulitUpdate, OnDownloadMulitComplete);

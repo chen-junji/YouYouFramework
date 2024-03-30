@@ -30,12 +30,10 @@ namespace YouYou
                 taskGroup.Value.OnUpdate();
                 taskGroup = taskGroup.Next;
 
-#if DEBUG_MODEL
-                if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyUp(KeyCode.E))
+                if (Debug.isDebugBuild && Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyUp(KeyCode.E))
                 {
                     taskGroup.Value.LogTask();
                 }
-#endif
             }
         }
 

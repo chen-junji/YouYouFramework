@@ -256,7 +256,7 @@ namespace Main
             if (PlayerPrefs.HasKey(m_CurrFileUrl)) PlayerPrefs.DeleteKey(m_CurrFileUrl);
 
             //更新可写区的版本信息
-            MainEntry.Assets.VersionFile.SaveVersion(m_CurrAssetBundleInfo);
+            MainEntry.CheckVersion.VersionFile.SaveVersion(m_CurrAssetBundleInfo);
 
             MainEntry.ClassObjectPool.Enqueue(this);
             m_OnComplete?.Invoke(m_CurrFileUrl, this);

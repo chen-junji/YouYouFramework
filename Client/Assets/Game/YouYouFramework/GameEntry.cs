@@ -74,9 +74,11 @@ namespace YouYou
             Log(LogCategory.Procedure, "GameEntry.OnAwake()");
             Instance = this;
 
-            UIRootRectTransform = UIRootCanvasScaler.GetComponent<RectTransform>();
+            //屏幕常亮
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
             CurrLanguage = m_CurrLanguage;
+            UIRootRectTransform = UIRootCanvasScaler.GetComponent<RectTransform>();
         }
         private void Start()
         {
@@ -151,6 +153,11 @@ namespace YouYou
         public static void Log(LogCategory catetory, object message, params object[] args)
         {
 #if DEBUG_LOG_NORMAL
+            //由于性能原因，项目正式上线后， 即使开启了DEBUG_LOG_NORMAL也依然不打印普通日志， 只打印警告日志和错误日志
+            if (!Debug.isDebugBuild)
+            {
+                return;
+            }
             string value = string.Empty;
             if (args.Length == 0)
             {
@@ -160,7 +167,7 @@ namespace YouYou
             {
                 value = string.Format(message.ToString(), args);
             }
-            Debug.Log(string.Format("youyouLog=={0}=={1}", catetory.ToString(), value));
+            Debug.Log(string.Format("GameEntryLog=={0}=={1}", catetory.ToString(), value));
 #endif
         }
 
@@ -176,7 +183,7 @@ namespace YouYou
             {
                 value = string.Format(message.ToString(), args);
             }
-            Debug.LogWarning(string.Format("youyouLog=={0}=={1}", catetory.ToString(), value));
+            Debug.LogWarning(string.Format("GameEntryLog=={0}=={1}", catetory.ToString(), value));
 #endif
         }
 
@@ -192,7 +199,7 @@ namespace YouYou
             {
                 value = string.Format(message.ToString(), args);
             }
-            Debug.LogError(string.Format("youyouLog=={0}=={1}", catetory.ToString(), value));
+            Debug.LogError(string.Format("GameEntryLog=={0}=={1}", catetory.ToString(), value));
 #endif
         }
 

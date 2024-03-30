@@ -70,7 +70,7 @@ namespace Main
         /// <param name="onUpdate"></param>
         public void BeginDownloadSingle(string url, Action<string, ulong, float> onUpdate = null, Action<string> onComplete = null)
         {
-            VersionFileEntity entity = MainEntry.Assets.VersionFile.GetVersionFileEntity(url);
+            VersionFileEntity entity = MainEntry.CheckVersion.VersionFile.GetVersionFileEntity(url);
             if (entity == null)
             {
                 MainEntry.LogError(MainEntry.LogCategory.Assets, "无效资源包=>" + url);

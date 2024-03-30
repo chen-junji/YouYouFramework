@@ -28,13 +28,10 @@ namespace YouYou
                 m_LogPath = ReporterPath + "//" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + "-Start.txt";
             }
 
-            Reporter.Instance.OnLog = (LogType logType, string logCondition) =>
-            {
-                Write(logCondition, logType);
-            };
+            Reporter.Instance.OnLog = Write;
         }
 
-        public void Write(string writeFileData, LogType type)
+        private void Write(LogType type, string writeFileData)
         {
             if (m_CurrLogCount >= m_LogMaxCapacity)
             {

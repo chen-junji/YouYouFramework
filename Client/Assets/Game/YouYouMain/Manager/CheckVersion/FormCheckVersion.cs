@@ -22,9 +22,9 @@ public class FormCheckVersion : MonoBehaviour
 
     private void OnDestroy()
     {
-        MainEntry.Assets.CheckVersionBeginDownload -= OnCheckVersionBeginDownload;
-        MainEntry.Assets.CheckVersionDownloadUpdate -= OnCheckVersionDownloadUpdate;
-        MainEntry.Assets.CheckVersionDownloadComplete -= OnCheckVersionDownloadComplete;
+        MainEntry.CheckVersion.CheckVersionBeginDownload -= OnCheckVersionBeginDownload;
+        MainEntry.CheckVersion.CheckVersionDownloadUpdate -= OnCheckVersionDownloadUpdate;
+        MainEntry.CheckVersion.CheckVersionDownloadComplete -= OnCheckVersionDownloadComplete;
 
         MainEntry.Instance.ActionPreloadBegin -= OnPreloadBegin;
         MainEntry.Instance.ActionPreloadUpdate -= OnPreloadUpdate;
@@ -32,9 +32,9 @@ public class FormCheckVersion : MonoBehaviour
     }
     private void Start()
     {
-        MainEntry.Assets.CheckVersionBeginDownload += OnCheckVersionBeginDownload;
-        MainEntry.Assets.CheckVersionDownloadUpdate += OnCheckVersionDownloadUpdate;
-        MainEntry.Assets.CheckVersionDownloadComplete += OnCheckVersionDownloadComplete;
+        MainEntry.CheckVersion.CheckVersionBeginDownload += OnCheckVersionBeginDownload;
+        MainEntry.CheckVersion.CheckVersionDownloadUpdate += OnCheckVersionDownloadUpdate;
+        MainEntry.CheckVersion.CheckVersionDownloadComplete += OnCheckVersionDownloadComplete;
 
         MainEntry.Instance.ActionPreloadBegin += OnPreloadBegin;
         MainEntry.Instance.ActionPreloadUpdate += OnPreloadUpdate;

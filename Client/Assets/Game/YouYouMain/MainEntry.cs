@@ -47,16 +47,16 @@ namespace Main
         /// </summary>
         public static DownloadManager Download { get; private set; }
         /// <summary>
-        /// 资源管理器
+        /// 检查更新管理器
         /// </summary>
-        public static CheckVersionManager Assets { get; private set; }
+        public static CheckVersionManager CheckVersion { get; private set; }
         /// <summary>
         /// 类对象池
         /// </summary>
         public static ClassObjectPool ClassObjectPool { get; private set; }
 
         /// <summary>
-        /// 热更新管理器
+        /// 代码热更新管理器
         /// </summary>
         public static HotfixManager Hotfix { get; private set; }
 
@@ -68,24 +68,18 @@ namespace Main
         private void Awake()
         {
             Instance = this;
-
-            //屏幕常亮
-            Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
-            //此处以后判断如果不是编辑器模式 要根据设备信息判断等级
             ParamsSettings = m_ParamsSettings;
-
         }
         private void Start()
         {
             //初始化管理器
             Download = new DownloadManager();
-            Assets = new CheckVersionManager();
+            CheckVersion = new CheckVersionManager();
             ClassObjectPool = new ClassObjectPool();
             Hotfix = new HotfixManager();
 
             Download.Init();
-            Assets.Init();
+            CheckVersion.Init();
             Hotfix.Init();
         }
         private void Update()
@@ -97,9 +91,14 @@ namespace Main
             Download.Dispose();
         }
 
-        public static void Log(LogCategory catetory, object message, params object[] args)
+        internal static void Log(LogCategory catetory, object message, params object[] args)
         {
 #if DEBUG_LOG_NORMAL
+            //由于性能原因，项目正式上线后， 即使开启了DEBUG_LOG_NORMAL也依然不打印普通日志， 只打印警告日志和错误日志
+            if (!Debug.isDebugBuild)
+            {
+                return;
+            }
             string value = string.Empty;
             if (args.Length == 0)
             {
@@ -109,11 +108,11 @@ namespace Main
             {
                 value = string.Format(message.ToString(), args);
             }
-            Debug.Log(string.Format("youyouLog=={0}=={1}", catetory.ToString(), value));
+            Debug.Log(string.Format("MainEntryLog=={0}=={1}", catetory.ToString(), value));
 #endif
         }
 
-        public static void LogWarning(LogCategory catetory, object message, params object[] args)
+        internal static void LogWarning(LogCategory catetory, object message, params object[] args)
         {
 #if DEBUG_LOG_WARNING
             string value = string.Empty;
@@ -125,11 +124,11 @@ namespace Main
             {
                 value = string.Format(message.ToString(), args);
             }
-            Debug.LogWarning(string.Format("youyouLog=={0}=={1}", catetory.ToString(), value));
+            Debug.LogWarning(string.Format("MainEntryLog=={0}=={1}", catetory.ToString(), value));
 #endif
         }
 
-        public static void LogError(LogCategory catetory, object message, params object[] args)
+        internal static void LogError(LogCategory catetory, object message, params object[] args)
         {
 #if DEBUG_LOG_ERROR
             string value = string.Empty;
@@ -141,7 +140,7 @@ namespace Main
             {
                 value = string.Format(message.ToString(), args);
             }
-            Debug.LogError(string.Format("youyouLog=={0}=={1}", catetory.ToString(), value));
+            Debug.LogError(string.Format("MainEntryLog=={0}=={1}", catetory.ToString(), value));
 #endif
         }
 
