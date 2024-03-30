@@ -63,7 +63,7 @@ public class MacroSettings : ScriptableObject
         EditorBuildSettingsScene[] arrScene = EditorBuildSettings.scenes;
         for (int i = 0; i < arrScene.Length; i++)
         {
-            if (arrScene[i].path.IndexOf("download", StringComparison.CurrentCultureIgnoreCase) > -1)
+            if (arrScene[i].path.IndexOf("Game/Download/") > -1)
             {
                 arrScene[i].enabled = !CurrAssetLoadTarget.ToString().Equals("ASSETBUNDLE");
             }
@@ -79,6 +79,9 @@ public class MacroSettings : ScriptableObject
         for (int i = 0; i < definesL.Count; i++) macor += string.Format("{0};", definesL[i]);
 
         PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, macor);
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, macor);
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, macor);
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, macor);
         AssetDatabase.SaveAssets();
         Debug.Log("Sava Macro Success====" + macor);
 #endif

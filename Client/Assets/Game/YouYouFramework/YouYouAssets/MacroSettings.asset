@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrAssetLoadTarget: 1
   Settings:
-  - Enabled: 0
+  - Enabled: 1
     Name: "\u6253\u5370\u666E\u901A\u65E5\u5FD7"
     Macro: DEBUG_LOG_NORMAL
-  - Enabled: 0
+  - Enabled: 1
     Name: "\u6253\u5370\u8B66\u544A\u65E5\u5FD7"
     Macro: DEBUG_LOG_WARNING
-  - Enabled: 0
+  - Enabled: 1
     Name: "\u6253\u5370\u9519\u8BEF\u65E5\u5FD7"
     Macro: DEBUG_LOG_ERROR

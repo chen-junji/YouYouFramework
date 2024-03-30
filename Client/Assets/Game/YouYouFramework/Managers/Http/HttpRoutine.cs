@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
+using YouYou;
 
 namespace Main
 {
@@ -99,9 +100,9 @@ namespace Main
         /// <param name="url"></param>
         private void GetUrl(string url)
         {
-            MainEntry.Log(MainEntry.LogCategory.NetWork, "Get请求:{0}, {1}次重试", m_Url, m_CurrRetry);
+            GameEntry.Log(LogCategory.NetWork, "Get请求:{0}, {1}次重试", m_Url, m_CurrRetry);
             UnityWebRequest data = UnityWebRequest.Get(url);
-            MainEntry.Instance.StartCoroutine(Request(data));
+            GameEntry.Instance.StartCoroutine(Request(data));
         }
         #endregion
 
@@ -135,8 +136,8 @@ namespace Main
                     unityWeb.SetRequestHeader("Content-Type", MainEntry.ParamsSettings.PostContentType);
             }
 
-            MainEntry.Log(MainEntry.LogCategory.NetWork, "Post请求:{0}, {1}次重试==>>{2}", m_Url, m_CurrRetry, m_Json);
-            MainEntry.Instance.StartCoroutine(Request(unityWeb));
+            GameEntry.Log(LogCategory.NetWork, "Post请求:{0}, {1}次重试==>>{2}", m_Url, m_CurrRetry, m_Json);
+            GameEntry.Instance.StartCoroutine(Request(unityWeb));
         }
         #endregion
 
@@ -181,7 +182,10 @@ namespace Main
                 m_CallBackArgs.Value = data.error;
             }
 
-            if (!string.IsNullOrWhiteSpace(m_CallBackArgs.Value)) MainEntry.Log(MainEntry.LogCategory.NetWork, "WebAPI回调:{0}, ==>>{1}", m_Url, m_CallBackArgs.ToJson());
+            if (!string.IsNullOrWhiteSpace(m_CallBackArgs.Value))
+            {
+                GameEntry.Log(LogCategory.NetWork, "WebAPI回调:{0}, ==>>{1}", m_Url, m_CallBackArgs.ToJson());
+            }
             m_CallBack?.Invoke(m_CallBackArgs);
 
             m_CurrRetry = 0;
