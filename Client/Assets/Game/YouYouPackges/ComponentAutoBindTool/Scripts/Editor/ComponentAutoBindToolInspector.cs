@@ -444,8 +444,10 @@ public class ComponentAutoBindToolInspector : Editor
             }
             sw.WriteLine("");
 
-            sw.WriteLine("\t\tprivate void GetBindComponents(GameObject go)");
+            sw.WriteLine("\t\tprotected override void GetBindComponents(GameObject go)");
             sw.WriteLine("\t\t{");
+
+            sw.WriteLine("\t\t\tbase.GetBindComponents(go);");
 
             //获取autoBindTool上的Component
             sw.WriteLine($"\t\t\tComponentAutoBindTool autoBindTool = go.GetComponent<ComponentAutoBindTool>();");
@@ -471,50 +473,6 @@ public class ComponentAutoBindToolInspector : Editor
         }
         Debug.Log($"{className}.BindComponents脚本 生成完毕");
         AssetDatabase.Refresh();
-
-        //生成业务脚本
-        if (File.Exists($"{codePath}/{className}.cs"))
-        {
-            Debug.Log($"{className}业务层脚本 已存在, 不再生成业务层脚本");
-            return;
-        }
-        using (StreamWriter sw = new StreamWriter($"{codePath}/{className}.cs"))
-        {
-            sw.WriteLine("using UnityEngine;");
-            sw.WriteLine("");
-
-            sw.WriteLine("//自动生成于：" + DateTime.Now);
-
-            if (!string.IsNullOrEmpty(m_Target.Namespace))
-            {
-                //命名空间
-                sw.WriteLine("namespace " + m_Target.Namespace);
-                sw.WriteLine("{");
-                sw.WriteLine("");
-            }
-
-            //类名
-            sw.WriteLine($"\tpublic partial class {className} : UIFormBase");
-            sw.WriteLine("\t{");
-
-            sw.WriteLine("\t\tprotected override void Awake()");
-            sw.WriteLine("\t\t{");
-
-            sw.WriteLine("\t\t\tbase.Awake();");
-            sw.WriteLine("\t\t\tGetBindComponents(gameObject);");
-
-            sw.WriteLine("\t\t}");
-
-            sw.WriteLine("\t}");
-
-            if (!string.IsNullOrEmpty(m_Target.Namespace))
-            {
-                sw.WriteLine("}");
-            }
-        }
-        Debug.Log($"{className}业务层脚本 生成完毕");
-        AssetDatabase.Refresh();
-
     }
 
     /// <summary>

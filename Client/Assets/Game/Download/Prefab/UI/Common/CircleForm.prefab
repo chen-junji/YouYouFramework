@@ -137,7 +137,7 @@ MonoBehaviour:
     BindCom: {fileID: 4601131757084660224}
   m_ClassName: CircleForm
   m_Namespace: 
-  m_CodePath: E:/Projects/Demo/YouYouFramework/Client/Assets/Game/YouYouScript/MVC/Client/Common/Circle
+  m_CodePath: D:\Project\Demo\YouYou\YouYouFramework\Client\Assets/Game/YouYouScript/MVC/Client/Common/Circle
   m_BindComs:
   - {fileID: 4601131757084660224}
 --- !u!114 &5907784960008152361
@@ -152,7 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8df092354f7c9e34aa71c1e15f94299a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  circleTrans: {fileID: 4601131757084660224}
 --- !u!1 &4924211625147861619
 GameObject:
   m_ObjectHideFlags: 0

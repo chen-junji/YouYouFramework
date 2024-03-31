@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-//自动生成于：2024/3/27 16:13:10
+//自动生成于：2024/3/31 18:55:20
 	public partial class DialogForm
 	{
 		private Text m_Txt_Title;
@@ -9,8 +9,9 @@ using UnityEngine.UI;
 		private Button m_Btn_OK;
 		private Button m_Btn_Cancel;
 
-		private void GetBindComponents(GameObject go)
+		protected override void GetBindComponents(GameObject go)
 		{
+			base.GetBindComponents(go);
 			ComponentAutoBindTool autoBindTool = go.GetComponent<ComponentAutoBindTool>();
 
 			m_Txt_Title = autoBindTool.GetBindComponent<Text>(0);

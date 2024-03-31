@@ -645,11 +645,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57eb7c15612322c4b929a325ad4bc16a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BindDatas: []
+  BindDatas:
+  - Name: Txt_Title
+    BindCom: {fileID: 1801307825571201382}
+  - Name: Txt_Message
+    BindCom: {fileID: 114860583820385344}
+  - Name: Btn_OK
+    BindCom: {fileID: 114928851235647378}
+  - Name: Btn_Cancel
+    BindCom: {fileID: 114722432435062292}
   m_ClassName: DialogForm
   m_Namespace: 
-  m_CodePath: E:\Projects\Demo\YouYouFramework\Client\Assets/Game/YouYouScript/MVC/Client/Common/Dialog
-  m_BindComs: []
+  m_CodePath: D:\Project\Demo\YouYou\YouYouFramework\Client\Assets/Game/YouYouScript/MVC/Client/Common/Dialog
+  m_BindComs:
+  - {fileID: 1801307825571201382}
+  - {fileID: 114860583820385344}
+  - {fileID: 114928851235647378}
+  - {fileID: 114722432435062292}
 --- !u!114 &711330128305053106
 MonoBehaviour:
   m_ObjectHideFlags: 0

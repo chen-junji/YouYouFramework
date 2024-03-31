@@ -19,8 +19,6 @@ public partial class DialogForm : UIFormBase
     protected override void Awake()
     {
         base.Awake();
-        GetBindComponents(gameObject);
-
         m_Btn_OK.onClick.AddListener(() =>
         {
             m_OkAction?.Invoke();

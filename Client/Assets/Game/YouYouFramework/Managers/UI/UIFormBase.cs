@@ -31,6 +31,7 @@ namespace YouYou
         {
             if (GetComponent<GraphicRaycaster>() == null) gameObject.AddComponent<GraphicRaycaster>();
             CurrCanvas = GetComponent<Canvas>();
+            GetBindComponents(gameObject);
         }
         protected virtual void Start()
         {
@@ -79,5 +80,8 @@ namespace YouYou
             CurrCanvas.sortingOrder = sortingOrder;
         }
 
+        protected virtual void GetBindComponents(GameObject go)
+        {
+        }
     }
 }

@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-//自动生成于：2024/3/27 15:28:22
+//自动生成于：2024/3/31 18:56:14
 	public partial class LoadingForm
 	{
 		private Scrollbar m_Sbar_Progress;
 		private Text m_Txt_Tip;
 
-		private void GetBindComponents(GameObject go)
+		protected override void GetBindComponents(GameObject go)
 		{
+			base.GetBindComponents(go);
 			ComponentAutoBindTool autoBindTool = go.GetComponent<ComponentAutoBindTool>();
 
 			m_Sbar_Progress = autoBindTool.GetBindComponent<Scrollbar>(0);
