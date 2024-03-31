@@ -416,8 +416,8 @@ public class ComponentAutoBindToolInspector : Editor
             Debug.LogError($"{go.name}的代码保存路径{codePath}无效");
         }
 
-        //生成BindComponents脚本
-        using (StreamWriter sw = new StreamWriter($"{codePath}/{className}.BindComponents.cs"))
+        //生成Bind脚本
+        using (StreamWriter sw = new StreamWriter($"{codePath}/{className}.Bind.cs"))
         {
             sw.WriteLine("using UnityEngine;");
             sw.WriteLine("using UnityEngine.UI;");
@@ -471,7 +471,7 @@ public class ComponentAutoBindToolInspector : Editor
                 sw.WriteLine("}");
             }
         }
-        Debug.Log($"{className}.BindComponents脚本 生成完毕");
+        Debug.Log($"{className}.Bind 脚本生成完毕");
         AssetDatabase.Refresh();
     }
 

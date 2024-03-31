@@ -1,10 +1,11 @@
 using UnityEngine;
+using YouYou;
 
-//自动生成于：2024/3/27 14:36:11
-	public partial class AutoBindTest : MonoBehaviour
-	{
-		void Start()
-		{
-			GetBindComponents(gameObject);
-		}
-	}
+public partial class AutoBindTest : ComponentAutoBindBase
+{
+    protected override void Awake()
+    {
+        base.Awake();
+        Debug.Log("m_Txt_Test3.text==" + m_Txt_Test3.text);
+    }
+}

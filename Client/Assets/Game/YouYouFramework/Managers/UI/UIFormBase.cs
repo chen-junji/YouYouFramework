@@ -8,8 +8,7 @@ namespace YouYou
 {
     [RequireComponent(typeof(Canvas))]//脚本依赖
     [RequireComponent(typeof(GraphicRaycaster))]//脚本依赖
-    [RequireComponent(typeof(ComponentAutoBindTool))]//脚本依赖
-    public class UIFormBase : MonoBehaviour
+    public class UIFormBase : ComponentAutoBindBase
     {
         public Sys_UIFormEntity SysUIForm { get; private set; }
 
@@ -27,11 +26,11 @@ namespace YouYou
         internal int sortingOrder = 0;
 
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             if (GetComponent<GraphicRaycaster>() == null) gameObject.AddComponent<GraphicRaycaster>();
             CurrCanvas = GetComponent<Canvas>();
-            GetBindComponents(gameObject);
         }
         protected virtual void Start()
         {
@@ -78,10 +77,6 @@ namespace YouYou
             this.sortingOrder = sortingOrder;
             CurrCanvas.overrideSorting = true;
             CurrCanvas.sortingOrder = sortingOrder;
-        }
-
-        protected virtual void GetBindComponents(GameObject go)
-        {
         }
     }
 }
