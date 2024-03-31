@@ -1,11 +1,11 @@
-using Main;
+using YouYouMain;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// 资源加载器

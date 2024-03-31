@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Linq;
-using YouYou;
+using YouYouFramework;
 using UnityEngine.EventSystems;
 
 public class YouYouTouchPad : MonoBehaviour, IDragHandler, IEndDragHandler

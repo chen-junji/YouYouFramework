@@ -37,7 +37,7 @@ public class BaseParams
 
     public static BaseParams Create()
     {
-        BaseParams baseParams = Main.MainEntry.ClassObjectPool.Dequeue<BaseParams>();
+        BaseParams baseParams = YouYouMain.MainEntry.ClassObjectPool.Dequeue<BaseParams>();
         baseParams.Reset();
         return baseParams;
     }

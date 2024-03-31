@@ -1,5 +1,5 @@
 ﻿using System;
-using YouYou;
+using YouYouFramework;
 
 /// <summary>
 /// 范围字符串

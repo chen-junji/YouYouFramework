@@ -6,7 +6,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Main
+namespace YouYouMain
 {
     /// <summary>
     /// 版本文件 管理器
@@ -99,7 +99,7 @@ namespace Main
                 }
                 else
                 {
-                    Main.MainEntry.Log(MainEntry.LogCategory.Assets, "初始化CDN资源包信息失败，url==" + url);
+                    YouYouMain.MainEntry.Log(MainEntry.LogCategory.Assets, "初始化CDN资源包信息失败，url==" + url);
                 }
             }));
         }

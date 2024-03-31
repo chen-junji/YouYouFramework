@@ -1,9 +1,9 @@
-using Main;
+using YouYouMain;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// 检查更新流程

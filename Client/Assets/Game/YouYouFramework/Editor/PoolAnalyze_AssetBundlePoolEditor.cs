@@ -1,9 +1,9 @@
-using Main;
+using YouYouMain;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using YouYou;
+using YouYouFramework;
 
 [CustomEditor(typeof(PoolAnalyze_AssetBundlePool))]
 public class PoolAnalyze_AssetBundlePoolEditor : Editor

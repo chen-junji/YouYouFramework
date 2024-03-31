@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace YouYou
+namespace YouYouFramework
 {
     public class MobileInput : VirtualInput
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Timeline;
 
-namespace YouYou
+namespace YouYouFramework
 {
     [TrackColor(0f, 222 / 255f, 1)]
     [TrackClipType(typeof(CameraShakePlayable))]

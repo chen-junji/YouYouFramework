@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// Sys_Scene数据管理

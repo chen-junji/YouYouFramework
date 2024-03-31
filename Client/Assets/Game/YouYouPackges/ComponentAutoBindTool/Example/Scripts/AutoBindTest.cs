@@ -1,5 +1,5 @@
 using UnityEngine;
-using YouYou;
+using YouYouFramework;
 
 public partial class AutoBindTest : ComponentAutoBindBase
 {

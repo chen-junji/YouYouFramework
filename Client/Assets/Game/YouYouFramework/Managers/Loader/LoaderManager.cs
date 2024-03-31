@@ -1,11 +1,11 @@
-using Main;
+using YouYouMain;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Cysharp.Threading.Tasks;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// 资源加载 管理器

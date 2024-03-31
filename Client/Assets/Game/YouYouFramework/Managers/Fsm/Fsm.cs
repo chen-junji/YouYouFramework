@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 
-namespace YouYou
+namespace YouYouFramework
 {
 	/// <summary>
 	/// 状态机

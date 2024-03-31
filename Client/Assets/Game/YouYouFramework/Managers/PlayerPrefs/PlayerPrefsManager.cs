@@ -1,4 +1,4 @@
-using Main;
+using YouYouMain;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Threading;
 using UnityEngine;
 
 
-namespace YouYou
+namespace YouYouFramework
 {
     public class PlayerPrefsManager
     {

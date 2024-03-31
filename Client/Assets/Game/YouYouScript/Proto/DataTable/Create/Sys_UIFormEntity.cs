@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
       /// Sys_UIForm实体

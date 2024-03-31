@@ -1,4 +1,4 @@
-using Main;
+using YouYouMain;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// Playable视图基类

@@ -1,11 +1,11 @@
 using Cysharp.Threading.Tasks;
-using Main;
+using YouYouMain;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// 场景管理器

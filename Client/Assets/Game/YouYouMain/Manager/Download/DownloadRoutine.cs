@@ -5,7 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Main
+namespace YouYouMain
 {
     /// <summary>
     /// 下载器

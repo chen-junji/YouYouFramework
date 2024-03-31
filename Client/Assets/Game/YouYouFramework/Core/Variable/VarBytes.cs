@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// byte[]变量

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace YouYou
+namespace YouYouFramework
 {
     public partial class Sys_UIFormDBModel
     {
@@ -47,7 +47,7 @@ namespace YouYou
             {
                 return NameByDic[name];
             }
-            YouYou.GameEntry.LogError(LogCategory.Framework, "没有找到资源, Name==" + name);
+            YouYouFramework.GameEntry.LogError(LogCategory.Framework, "没有找到资源, Name==" + name);
             return null;
         }
     }

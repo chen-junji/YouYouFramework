@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using YouYou;
+using YouYouFramework;
 
 /// <summary>
 /// 树节点

@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using YouYou;
+using YouYouFramework;
 using System;
 using Object = UnityEngine.Object;
-using Main;
+using YouYouMain;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// 场景加载和卸载器

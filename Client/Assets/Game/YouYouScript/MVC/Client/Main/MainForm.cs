@@ -1,9 +1,9 @@
-using Main;
+using YouYouMain;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using YouYou;
+using YouYouFramework;
 
 public partial class MainForm : UIFormBase
 {

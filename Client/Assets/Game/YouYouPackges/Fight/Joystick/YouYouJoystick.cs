@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 
-namespace YouYou
+namespace YouYouFramework
 {
     public class YouYouJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
     {

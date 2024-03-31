@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System;
 using Object = UnityEngine.Object;
 
-namespace YouYou
+namespace YouYouFramework
 {
     public class UIManager
     {

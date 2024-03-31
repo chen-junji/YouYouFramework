@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using YouYou;
+using YouYouFramework;
 
 /// <summary>
 /// Он©уузужё╛х╚фа©и╣Ц╩В

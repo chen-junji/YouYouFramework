@@ -1,4 +1,4 @@
-using Main;
+using YouYouMain;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.IO;
 using UnityEngine;
 
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// 资源包加载器

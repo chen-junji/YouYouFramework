@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace YouYou
+namespace YouYouFramework
 {
     public abstract class VirtualInput : FsmState<InputManager>
     {
@@ -76,7 +76,7 @@ namespace YouYou
         {
             if (m_VirtualAxes.ContainsKey(axis.Name))
             {
-                YouYou.GameEntry.LogError(LogCategory.Framework, "已经有了一个虚拟轴 " + axis.Name + " 重复注册.");
+                YouYouFramework.GameEntry.LogError(LogCategory.Framework, "已经有了一个虚拟轴 " + axis.Name + " 重复注册.");
             }
             else
             {
@@ -94,7 +94,7 @@ namespace YouYou
         {
             if (m_VirtualButtons.ContainsKey(button.Name))
             {
-                YouYou.GameEntry.LogError(LogCategory.Framework, "There is already a virtual button named " + button.Name + " registered.");
+                YouYouFramework.GameEntry.LogError(LogCategory.Framework, "There is already a virtual button named " + button.Name + " registered.");
             }
             else
             {

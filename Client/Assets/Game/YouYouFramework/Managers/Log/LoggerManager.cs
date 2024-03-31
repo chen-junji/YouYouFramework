@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// 日志管理器

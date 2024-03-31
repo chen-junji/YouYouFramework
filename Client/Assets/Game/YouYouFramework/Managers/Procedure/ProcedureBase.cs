@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// 流程状态基类

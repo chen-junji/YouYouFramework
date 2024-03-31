@@ -1,4 +1,4 @@
-using Main;
+using YouYouMain;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -7,7 +7,7 @@ using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
-using YouYou;
+using YouYouFramework;
 
 [CreateAssetMenu(menuName = "YouYouAsset/AssetBundleSettings")]
 public class AssetBundleSettings : ScriptableObject

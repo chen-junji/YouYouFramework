@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using DG.Tweening;
-using YouYou;
+using YouYouFramework;
 
 /// <summary>
 /// 摄像机跟随 控制器

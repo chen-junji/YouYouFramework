@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using YouYou;
+using YouYouFramework;
 
 /// <summary>
 /// 新手引导, 下一步触发器

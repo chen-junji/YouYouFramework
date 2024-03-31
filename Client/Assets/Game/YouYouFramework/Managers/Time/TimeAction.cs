@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// 定时器
@@ -62,7 +62,7 @@ namespace YouYou
         {
             if (tillTime > 0)
             {
-                YouYou.GameEntry.LogError(LogCategory.Framework, "定时器正在使用中");
+                YouYouFramework.GameEntry.LogError(LogCategory.Framework, "定时器正在使用中");
                 return null;
             }
             Target = target;

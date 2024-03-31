@@ -1,5 +1,5 @@
 //===================================================
-using YouYou;
+using YouYouFramework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using Cysharp.Threading.Tasks;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// 游戏物体对象池
@@ -141,7 +141,7 @@ namespace YouYou
             GameObject retObj = referenceEntity.Target as GameObject;
             if (retObj == null)
             {
-                YouYou.GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullName==" + entity.AssetFullPath);
+                YouYouFramework.GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullName==" + entity.AssetFullPath);
                 return null;
             }
             Transform prefab = retObj.transform;
@@ -167,7 +167,7 @@ namespace YouYou
             GameObject retObj = referenceEntity.Target as GameObject;
             if (retObj == null)
             {
-                YouYou.GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullPath==" + entity.AssetFullPath);
+                YouYouFramework.GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullPath==" + entity.AssetFullPath);
                 return null;
             }
             Transform prefab = retObj.transform;

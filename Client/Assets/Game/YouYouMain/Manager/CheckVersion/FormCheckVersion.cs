@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Main;
+using YouYouMain;
 
 /// <summary>
 /// 这个界面脚本不做热更, 所以不继承UIFormBase

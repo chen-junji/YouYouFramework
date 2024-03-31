@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Main
+namespace YouYouMain
 {
     /// <summary>
     /// AssetBundle版本文件信息

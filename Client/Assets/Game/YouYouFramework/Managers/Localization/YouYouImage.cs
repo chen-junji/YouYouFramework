@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace YouYou
+namespace YouYouFramework
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Image))]//脚本依赖

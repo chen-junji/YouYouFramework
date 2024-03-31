@@ -1,8 +1,8 @@
-using Main;
+using YouYouMain;
 using UnityEngine;
 using UnityEngine.Playables;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// Playable控制器基类

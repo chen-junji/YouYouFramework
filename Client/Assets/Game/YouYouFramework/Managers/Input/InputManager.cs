@@ -1,9 +1,9 @@
-using Main;
+using YouYouMain;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace YouYou
+namespace YouYouFramework
 {
     public class InputManager : Observable
     {

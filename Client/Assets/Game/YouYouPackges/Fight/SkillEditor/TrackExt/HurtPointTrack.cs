@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Timeline;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// PlaySoundπÏµ¿∂®“Â

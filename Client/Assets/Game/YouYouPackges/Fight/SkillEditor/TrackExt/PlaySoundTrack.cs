@@ -1,6 +1,6 @@
 using UnityEngine.Timeline;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// PlaySound轨道定义

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// µÇÂ¼Á÷³Ì

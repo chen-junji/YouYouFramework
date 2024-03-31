@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Main;
+using YouYouMain;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// 池管理器

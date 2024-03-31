@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// 变量泛型基类

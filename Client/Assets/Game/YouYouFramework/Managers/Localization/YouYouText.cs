@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace YouYou
+namespace YouYouFramework
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Text))]//脚本依赖

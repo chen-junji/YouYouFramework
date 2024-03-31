@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-namespace YouYou
+namespace YouYouFramework
 {
     public class CameraShakePlayable : BasePlayableAsset<CameraShakePlayableBehaviour, CameraShakeEventArgs>
     {

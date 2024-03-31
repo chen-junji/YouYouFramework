@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// 流程状态

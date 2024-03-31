@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
-using YouYou;
+using YouYouFramework;
 
 public class RoleAnimCompoent : MonoBehaviour
 {

@@ -1,9 +1,9 @@
-using Main;
+using YouYouMain;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// Asset引用计数实体

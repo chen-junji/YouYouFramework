@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using YouYou;
+using YouYouFramework;
 
 public class RoleAgentCompoent : MonoBehaviour
 {

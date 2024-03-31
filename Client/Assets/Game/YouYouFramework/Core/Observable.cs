@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Main;
+using YouYouMain;
 
-namespace YouYou
+namespace YouYouFramework
 {
     public class Observable
     {

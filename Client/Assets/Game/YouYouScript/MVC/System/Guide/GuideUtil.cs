@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace YouYou
+namespace YouYouFramework
 {
     public static class GuideUtil
     {

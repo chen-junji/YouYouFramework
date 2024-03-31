@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using YouYou;
+using YouYouFramework;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Toggle))]//脚本依赖

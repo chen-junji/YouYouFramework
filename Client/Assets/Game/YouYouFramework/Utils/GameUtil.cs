@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System;
-using YouYou;
+using YouYouFramework;
 using Cysharp.Threading.Tasks;
-using Main;
+using YouYouMain;
 
 public class GameUtil
 {

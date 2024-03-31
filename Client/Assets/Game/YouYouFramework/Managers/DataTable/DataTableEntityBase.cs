@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// 数据表实体基类

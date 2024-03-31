@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-using YouYou;
+using YouYouFramework;
 
 /// <summary>
 /// 红点管理器

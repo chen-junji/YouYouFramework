@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace YouYou
+namespace YouYouFramework
 {
     /// <summary>
     /// 任务执行器

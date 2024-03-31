@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace YouYou
+namespace YouYouFramework
 {
     public class ButtonHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {

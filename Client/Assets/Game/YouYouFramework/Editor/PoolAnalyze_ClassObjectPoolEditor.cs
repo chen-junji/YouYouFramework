@@ -1,9 +1,9 @@
-using Main;
+using YouYouMain;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using YouYou;
+using YouYouFramework;
 
 [CustomEditor(typeof(PoolAnalyze_ClassObjectPool))]
 public class PoolAnalyze_ClassObjectPoolEditor : Editor
@@ -35,7 +35,7 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 
 		if (GameEntry.Pool != null)
 		{
-			foreach (var item in Main.MainEntry.ClassObjectPool.InspectorDic)
+			foreach (var item in YouYouMain.MainEntry.ClassObjectPool.InspectorDic)
 			{
 				GUILayout.BeginHorizontal("box");
 				GUILayout.Label(item.Key.Name);
@@ -46,7 +46,7 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 
 				int key = item.Key.GetHashCode();
 				byte resideCount = 0;
-				Main.MainEntry.ClassObjectPool.ClassObjectCount.TryGetValue(key, out resideCount);
+				YouYouMain.MainEntry.ClassObjectPool.ClassObjectCount.TryGetValue(key, out resideCount);
 
 				GUILayout.Label(resideCount.ToString(), titleStyle);
 				GUILayout.EndHorizontal();

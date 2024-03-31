@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace YouYou
+namespace YouYouFramework
 {
     public class Guide_Battle1 : Singleton<Guide_Battle1>
     {

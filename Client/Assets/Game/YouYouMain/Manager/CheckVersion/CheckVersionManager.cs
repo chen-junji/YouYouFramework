@@ -6,7 +6,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Main
+namespace YouYouMain
 {
     public class CheckVersionManager
     {

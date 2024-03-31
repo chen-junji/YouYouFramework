@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace YouYou
+namespace YouYouFramework
 {
     public partial class Sys_SceneDBModel
     {

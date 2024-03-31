@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Main
+namespace YouYouMain
 {
     public class SystemModel
     {

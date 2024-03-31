@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using YouYou;
+using YouYouFramework;
 
 /// <summary>
 /// 主要用于初始化红点树

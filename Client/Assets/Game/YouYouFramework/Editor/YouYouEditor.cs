@@ -8,7 +8,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using YouYou;
+using YouYouFramework;
 
 public class YouYouEditor : OdinMenuEditorWindow
 {

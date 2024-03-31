@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using YouYou;
+using YouYouFramework;
 
 [RequireComponent(typeof(Toggle))]
 public class ToggleHandler : MonoBehaviour

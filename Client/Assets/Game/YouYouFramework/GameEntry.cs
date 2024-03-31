@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-namespace YouYou
+namespace YouYouFramework
 {
     public class GameEntry : MonoBehaviour
     {

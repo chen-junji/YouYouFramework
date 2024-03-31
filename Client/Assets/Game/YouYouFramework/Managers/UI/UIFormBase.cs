@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace YouYou
+namespace YouYouFramework
 {
     [RequireComponent(typeof(Canvas))]//脚本依赖
     [RequireComponent(typeof(GraphicRaycaster))]//脚本依赖
