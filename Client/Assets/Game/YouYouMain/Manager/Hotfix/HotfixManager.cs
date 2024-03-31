@@ -26,28 +26,31 @@ namespace YouYouMain
         }
         public void Init()
         {
-#if EDITORLOAD
-            GameObject gameEntry = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/Download/Hotfix/GameEntry.prefab");
-            UnityEngine.Object.Instantiate(gameEntry);
-            return;
-#endif
-            //初始化CDN的VersionFile信息
-            MainEntry.CheckVersion.VersionFile.InitCDNVersionFile(() =>
+            if (MainEntry.IsAssetBundleMode)
             {
-                //下载并加载热更程序集
-                CheckAndDownload(YFConstDefine.HotfixAssetBundlePath, (string fileUrl) =>
+                //初始化CDN的VersionFile信息
+                MainEntry.CheckVersion.VersionFile.InitCDNVersionFile(() =>
                 {
-                    hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, fileUrl));
+                    //下载并加载热更程序集
+                    CheckAndDownload(YFConstDefine.HotfixAssetBundlePath, (string fileUrl) =>
+                    {
+                        hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, fileUrl));
 #if !UNITY_EDITOR
-                    LoadMetadataForAOTAssemblies();
-                    System.Reflection.Assembly.Load(hotfixAb.LoadAsset<TextAsset>("Assembly-CSharp.dll.bytes").bytes);
-                    MainEntry.Log(MainEntry.LogCategory.Assets, "Assembly-CSharp.dll加载完毕");
+                        LoadMetadataForAOTAssemblies();
+                        System.Reflection.Assembly.Load(hotfixAb.LoadAsset<TextAsset>("Assembly-CSharp.dll.bytes").bytes);
+                        MainEntry.Log(MainEntry.LogCategory.Assets, "Assembly-CSharp.dll加载完毕");
 #endif
-
-                    UnityEngine.Object.Instantiate(hotfixAb.LoadAsset<GameObject>("gameentry.prefab"));
+                        UnityEngine.Object.Instantiate(hotfixAb.LoadAsset<GameObject>("gameentry.prefab"));
+                    });
                 });
-            });
-
+            }
+            else
+            {
+#if UNITY_EDITOR
+                GameObject gameEntry = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/Download/Hotfix/GameEntry.prefab");
+                UnityEngine.Object.Instantiate(gameEntry);
+#endif
+            }
         }
 
         private void CheckAndDownload(string url, Action<string> onComplete)
