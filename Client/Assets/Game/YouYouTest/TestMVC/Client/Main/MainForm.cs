@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using YouYou;
 
-public class MainForm : UIFormBase
+public partial class MainForm : UIFormBase
 {
     [SerializeField] Transform BtnGroup;
 

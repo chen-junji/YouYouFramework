@@ -148,7 +148,7 @@ MonoBehaviour:
   BindDatas: []
   m_ClassName: MainForm
   m_Namespace: 
-  m_CodePath: E:\Projects\Demo\YouYouFramework\Client\Assets/Game/YouYouTest/TestMVC/Client/Main
+  m_CodePath: Assets/Game/YouYouTest/TestMVC/Client/Main
   m_BindComs: []
 --- !u!1 &71979463026398883
 GameObject:

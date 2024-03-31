@@ -410,6 +410,8 @@ public class ComponentAutoBindToolInspector : Editor
 
         string className = !string.IsNullOrEmpty(m_Target.ClassName) ? m_Target.ClassName : go.name;
         string codePath = !string.IsNullOrEmpty(m_Target.CodePath) ? m_Target.CodePath : GetDefaultCodePath();
+        //把短路径变成完整路径
+        codePath = System.IO.Path.Join(Directory.GetCurrentDirectory(), codePath);
 
         if (!Directory.Exists(codePath))
         {
@@ -496,7 +498,7 @@ public class ComponentAutoBindToolInspector : Editor
                 string relativePath = strings[strings.Length - 1];
                 if (relativePath.Equals($"{m_ClassName.stringValue}.cs"))
                 {
-                    return System.IO.Path.Join(Directory.GetCurrentDirectory(), AssetDatabase.GUIDToAssetPath(guids[i]).Replace("/" + relativePath, ""));
+                    return AssetDatabase.GUIDToAssetPath(guids[i]).Replace("/" + relativePath, "");
                 }
             }
         }

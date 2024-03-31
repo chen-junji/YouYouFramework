@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-//自动生成于：2024/3/31 19:09:21
+//自动生成于：2024/3/31 19:40:41
 	public partial class LoadingForm
 	{
 		private Scrollbar m_Sbar_Progress;

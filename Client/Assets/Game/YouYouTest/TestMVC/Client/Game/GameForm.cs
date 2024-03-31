@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using YouYou;
 
-public class GameForm : UIFormBase
+public partial class GameForm : UIFormBase
 {
     internal static void ShowForm()
     {

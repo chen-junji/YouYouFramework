@@ -221,7 +221,7 @@ MonoBehaviour:
     BindCom: {fileID: 114456746691187612}
   m_ClassName: LoadingForm
   m_Namespace: 
-  m_CodePath: D:\Project\Demo\YouYou\YouYouFramework\Client\Assets/Game/YouYouScript/MVC/Client/Common/Loading
+  m_CodePath: Assets/Game/YouYouScript/MVC/Client/Common/Loading
   m_BindComs:
   - {fileID: 114920402508223366}
   - {fileID: 114456746691187612}

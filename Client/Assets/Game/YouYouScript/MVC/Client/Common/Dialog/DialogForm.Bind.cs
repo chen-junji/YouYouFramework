@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-//自动生成于：2024/3/31 19:11:01
+//自动生成于：2024/3/31 19:39:57
 	public partial class DialogForm
 	{
 		private Text m_Txt_Title;

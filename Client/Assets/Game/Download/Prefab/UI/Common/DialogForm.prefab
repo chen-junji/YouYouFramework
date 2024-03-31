@@ -656,7 +656,7 @@ MonoBehaviour:
     BindCom: {fileID: 114722432435062292}
   m_ClassName: DialogForm
   m_Namespace: 
-  m_CodePath: D:\Project\Demo\YouYou\YouYouFramework\Client\Assets/Game/YouYouScript/MVC/Client/Common/Dialog
+  m_CodePath: Assets/Game/YouYouScript/MVC/Client/Common/Dialog
   m_BindComs:
   - {fileID: 1801307825571201382}
   - {fileID: 114860583820385344}

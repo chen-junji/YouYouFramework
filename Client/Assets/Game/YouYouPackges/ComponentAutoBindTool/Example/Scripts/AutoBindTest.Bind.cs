@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-//自动生成于：2024/3/31 19:30:24
+//自动生成于：2024/3/31 19:38:26
 	public partial class AutoBindTest
 	{
 		private Image m_Img_Test1;

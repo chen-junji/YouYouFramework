@@ -42,4 +42,6 @@ Client/Assets/Game/YouYouTest:
 
 五: YouYouTest文件夹内的提供的Scene场景, 不支持直接运行, 因为它们依赖YouYouFramework, 必须先运行Scene_Launch场景, 再跳转过来
 
-六：Git上打了标签的，比如3.0就是稳定版，直接拉Master不是稳定版 可能会有各种小BUG，但可以去官方Q群反馈给我，我这边可以修复
+六: YouYouTest文件夹内的东西默认是没有做热更新的，因为它们只是作为API示例场景，如果需要做热更新，那么就需要把素材搬到Download文件夹再进行打包才可以
+
+七：Git上打了标签的，比如3.0就是稳定版，直接拉Master不是稳定版 可能会有各种小BUG，但可以去官方Q群反馈给我，我这边可以修复
