@@ -60,14 +60,11 @@ namespace Assets.Scripts.ECS.System
 
         private GameObject CreateModel(GameEntity entity)
         {
-#if EDITORLOAD
-            GameObject obj = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/YouYouScript/ECS/Prefabs/Capsule.prefab");
+            GameObject obj = Resources.Load<GameObject>("TestECSCapsule");
             GameObject capsule = GameObject.Instantiate(obj);
             MeshRenderer meshRenderer = capsule.GetComponent<MeshRenderer>();
             entity.AddColor(meshRenderer.material, Color.red, Color.blue);
             return capsule;
-#endif
-            return null;
         }
     }
 }

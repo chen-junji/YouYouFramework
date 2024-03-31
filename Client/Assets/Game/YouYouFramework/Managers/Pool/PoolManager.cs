@@ -174,14 +174,16 @@ namespace YouYou
                 //GameEntry.Log(LogCategory.Normal, "释放类对象池");
             }
 
-#if ASSETBUNDLE
-            if (Time.time > ReleaseAssetBundleNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetBundleInterval)
+            if (MainEntry.IsAssetBundleMode)
             {
-                ReleaseAssetBundleNextRunTime = Time.time;
-                AssetBundlePool.Release();
-                //GameEntry.Log(LogCategory.Normal, "释放AssetBundle池");
+                if (Time.time > ReleaseAssetBundleNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetBundleInterval)
+                {
+                    ReleaseAssetBundleNextRunTime = Time.time;
+                    AssetBundlePool.Release();
+                    //GameEntry.Log(LogCategory.Normal, "释放AssetBundle池");
+                }
             }
-#endif
+
             if (Time.time > ReleaseAssetNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetInterval)
             {
                 ReleaseAssetNextRunTime = Time.time;

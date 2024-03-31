@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5286866044723893287}
   - component: {fileID: 1480206904390801084}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: TestECSCapsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

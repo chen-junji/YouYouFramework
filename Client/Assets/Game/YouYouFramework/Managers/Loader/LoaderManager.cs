@@ -284,17 +284,25 @@ namespace YouYou
                 return referenceEntity;
             }
 
-#if EDITORLOAD && UNITY_EDITOR
-            referenceEntity = AssetReferenceEntity.Create(assetFullPath, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetFullPath));
-#else
-            //加载主资源包和依赖资源包
-            AssetBundle mainAssetBundle = await GameEntry.Loader.LoadAssetBundleMainAndDependAsync(assetFullPath, onUpdate, onDownloadUpdate);
+            if (MainEntry.IsAssetBundleMode)
+            {
+                //加载主资源包和依赖资源包
+                AssetBundle mainAssetBundle = await GameEntry.Loader.LoadAssetBundleMainAndDependAsync(assetFullPath, onUpdate, onDownloadUpdate);
 
-            //加载主资源
-            referenceEntity = await GameEntry.Loader.LoadAssetAsync(assetFullPath, mainAssetBundle);
+                //加载主资源
+                referenceEntity = await GameEntry.Loader.LoadAssetAsync(assetFullPath, mainAssetBundle);
+            }
+            else
+            {
+#if UNITY_EDITOR
+                referenceEntity = AssetReferenceEntity.Create(assetFullPath, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetFullPath));
 #endif
+            }
 
-            if (referenceEntity == null) GameEntry.LogError(LogCategory.Loader, "资源加载失败,assetFullPath=={0}", assetFullPath);
+            if (referenceEntity == null)
+            {
+                GameEntry.LogError(LogCategory.Loader, "资源加载失败,assetFullPath=={0}", assetFullPath);
+            }
             return referenceEntity;
         }
 
@@ -326,17 +334,25 @@ namespace YouYou
                 return referenceEntity;
             }
 
-#if EDITORLOAD && UNITY_EDITOR
-            referenceEntity = AssetReferenceEntity.Create(assetFullPath, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetFullPath));
-#else
-            //加载主资源包和依赖资源包
-            AssetBundle mainAssetBundle = GameEntry.Loader.LoadAssetBundleMainAndDepend(assetFullPath);
+            if (MainEntry.IsAssetBundleMode)
+            {
+                //加载主资源包和依赖资源包
+                AssetBundle mainAssetBundle = GameEntry.Loader.LoadAssetBundleMainAndDepend(assetFullPath);
 
-            //加载主资源
-            referenceEntity = GameEntry.Loader.LoadAsset(assetFullPath, mainAssetBundle);
+                //加载主资源
+                referenceEntity = GameEntry.Loader.LoadAsset(assetFullPath, mainAssetBundle);
+            }
+            else
+            {
+#if UNITY_EDITOR
+                referenceEntity = AssetReferenceEntity.Create(assetFullPath, UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(assetFullPath));
 #endif
+            }
 
-            if (referenceEntity == null) GameEntry.LogError(LogCategory.Loader, "资源加载失败,assetFullPath=={0}", assetFullPath);
+            if (referenceEntity == null)
+            {
+                GameEntry.LogError(LogCategory.Loader, "资源加载失败,assetFullPath=={0}", assetFullPath);
+            }
             return referenceEntity;
         }
         #endregion

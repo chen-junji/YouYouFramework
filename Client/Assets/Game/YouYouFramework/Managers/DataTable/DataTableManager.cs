@@ -54,12 +54,11 @@ namespace YouYou
         /// </summary>
         internal void LoadDataAllTable()
         {
-#if ASSETBUNDLE
-            m_DataTableBundle = GameEntry.Loader.LoadAssetBundle(YFConstDefine.DataTableAssetBundlePath);
+            if (MainEntry.IsAssetBundleMode)
+            {
+                m_DataTableBundle = GameEntry.Loader.LoadAssetBundle(YFConstDefine.DataTableAssetBundlePath);
+            }
             LoadDataTable();
-#else
-            LoadDataTable();
-#endif
         }
 
         /// <summary>
@@ -67,16 +66,17 @@ namespace YouYou
         /// </summary>
         public byte[] GetDataTableBuffer(string dataTableName)
         {
-#if EDITORLOAD
-            byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/Game/Download/DataTable/{1}.bytes", Application.dataPath, dataTableName));
-
-#else
-            AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadAsset(GameUtil.GetLastPathName(dataTableName), m_DataTableBundle);
-            if (referenceEntity == null) return null;
-            TextAsset asset = referenceEntity.Target as TextAsset;
-            byte[] buffer = asset.bytes;
-#endif
-            return buffer;
+            if (MainEntry.IsAssetBundleMode)
+            {
+                AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadAsset(GameUtil.GetLastPathName(dataTableName), m_DataTableBundle);
+                if (referenceEntity == null) return null;
+                TextAsset asset = referenceEntity.Target as TextAsset;
+                return asset.bytes;
+            }
+            else
+            {
+                return IOUtil.GetFileBuffer(string.Format("{0}/Game/Download/DataTable/{1}.bytes", Application.dataPath, dataTableName));
+            }
         }
     }
 }

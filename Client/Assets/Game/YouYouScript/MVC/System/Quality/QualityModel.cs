@@ -50,6 +50,11 @@ public class QualityModel : Observable
         GameEntry.PlayerPrefs.SetIntHas(PlayerPrefsConstKey.FrameRate, 2);
         GameEntry.PlayerPrefs.SetIntHas(PlayerPrefsConstKey.Screen, 2);
         GameEntry.PlayerPrefs.SetIntHas(PlayerPrefsConstKey.QualityLevel, 2);
+
+        //≥ı ºª≠÷ …Ë÷√
+        SetQuality((Quality)GameEntry.PlayerPrefs.GetInt(PlayerPrefsConstKey.QualityLevel));
+        SetScreen((ScreenLevel)GameEntry.PlayerPrefs.GetInt(PlayerPrefsConstKey.Screen));
+        SetFrameRate((FrameRate)GameEntry.PlayerPrefs.GetInt(PlayerPrefsConstKey.FrameRate));
     }
 
     public void SetQuality(Quality quality)

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+using Main;
 
 namespace YouYou
 {
@@ -19,22 +19,20 @@ namespace YouYou
         internal override void OnEnter()
         {
             base.OnEnter();
-            //初始画质设置
-            GameEntry.Model.GetModel<QualityModel>().SetQuality((QualityModel.Quality)GameEntry.PlayerPrefs.GetInt(PlayerPrefsConstKey.QualityLevel));
-            GameEntry.Model.GetModel<QualityModel>().SetScreen((QualityModel.ScreenLevel)GameEntry.PlayerPrefs.GetInt(PlayerPrefsConstKey.Screen));
-            GameEntry.Model.GetModel<QualityModel>().SetFrameRate((QualityModel.FrameRate)GameEntry.PlayerPrefs.GetInt(PlayerPrefsConstKey.FrameRate));
-
             //获取安卓权限
             permissions.ToList().ForEach(s =>
             {
                 //if (!Permission.HasUserAuthorizedPermission(s)) Permission.RequestUserPermission(s);
             });
 
-#if EDITORLOAD
-            GameEntry.Procedure.ChangeState(ProcedureState.Preload);
-#elif ASSETBUNDLE
-            GameEntry.Procedure.ChangeState(ProcedureState.CheckVersion);
-#endif
+            if (MainEntry.IsAssetBundleMode)
+            {
+                GameEntry.Procedure.ChangeState(ProcedureState.CheckVersion);
+            }
+            else
+            {
+                GameEntry.Procedure.ChangeState(ProcedureState.Preload);
+            }
         }
     }
 }

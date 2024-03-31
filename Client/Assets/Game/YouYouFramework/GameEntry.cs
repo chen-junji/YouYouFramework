@@ -63,22 +63,16 @@ namespace YouYou
         public static InputManager Input { get; private set; }
         public static TaskManager Task { get; private set; }
 
-
-        /// <summary>
-        /// 单例
-        /// </summary>
         public static GameEntry Instance { get; private set; }
-
         private void Awake()
         {
             Log(LogCategory.Procedure, "GameEntry.OnAwake()");
             Instance = this;
+            CurrLanguage = m_CurrLanguage;
+            UIRootRectTransform = UIRootCanvasScaler.GetComponent<RectTransform>();
 
             //屏幕常亮
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
-            CurrLanguage = m_CurrLanguage;
-            UIRootRectTransform = UIRootCanvasScaler.GetComponent<RectTransform>();
         }
         private void Start()
         {

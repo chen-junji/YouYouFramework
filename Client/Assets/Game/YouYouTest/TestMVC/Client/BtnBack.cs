@@ -11,8 +11,8 @@ public class BtnBack : MonoBehaviour
         GetComponent<Button>().onClick.AddListener(() =>
         {
             GameEntry.Log(LogCategory.ZhangSan, "回到上一级场景");
-            GameEntry.Scene.UnLoadCurrScene();
-            GameEntry.UI.OpenUIForm<MainForm>();
+            GameEntry.UI.OpenUIForm<LoadingForm>();
+            GameEntry.Scene.LoadSceneAction(SceneGroupName.Main);
         });
     }
 }

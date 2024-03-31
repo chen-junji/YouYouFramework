@@ -11,7 +11,8 @@ public class ProcedureMain : ProcedureBase
     internal override void OnEnter()
     {
         base.OnEnter();
-        GameEntry.UI.OpenUIForm<MainForm>();
+        GameEntry.UI.OpenUIForm<LoadingForm>();
+        GameEntry.Scene.LoadSceneAction(SceneGroupName.Main);
     }
     internal override void OnLeave()
     {

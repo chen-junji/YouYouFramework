@@ -61,14 +61,19 @@ namespace Main
         public static HotfixManager Hotfix { get; private set; }
 
         /// <summary>
-        /// 单例
+        /// 当前是否为AssetBundle模式
         /// </summary>
-        public static MainEntry Instance { get; private set; }
+        public static bool IsAssetBundleMode { get; private set; }
 
+        public static MainEntry Instance { get; private set; }
         private void Awake()
         {
             Instance = this;
             ParamsSettings = m_ParamsSettings;
+
+#if ASSETBUNDLE
+            IsAssetBundleMode = true;
+#endif
         }
         private void Start()
         {

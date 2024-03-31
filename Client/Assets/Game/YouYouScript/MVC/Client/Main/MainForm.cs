@@ -1,3 +1,4 @@
+using Main;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,11 @@ public partial class MainForm : UIFormBase
             {
                 button.onClick.AddListener(() =>
                 {
+                    if (MainEntry.IsAssetBundleMode)
+                    {
+                        GameEntry.LogError(LogCategory.Framework, "当前是AssetBundle加载模式，不支持加载YouYouTest文件夹内的测试场景， 因为它们没有放在Download文件夹内打包，所以不支持热更新和AssetBundle加载");
+                        return;
+                    }
                     GameEntry.UI.CloseAllDefaultUIForm();
                     GameEntry.UI.OpenUIForm<LoadingForm>();
                     GameEntry.Scene.LoadSceneAction(button.GetComponentInChildren<Text>().text);

@@ -46,19 +46,20 @@ namespace YouYou
         {
             ReferenceCount++;
 
-#if ASSETBUNDLE
-            if (ReferenceCount == 1)
+            if (MainEntry.IsAssetBundleMode)
             {
-                AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(AssetFullPath);
-                AssetBundleReferenceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
-                assetBundleEntity.ReferenceAdd();
-                for (int i = 0; i < assetEntity.DependsAssetBundleList.Count; i++)
+                if (ReferenceCount == 1)
                 {
-                    AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
-                    dependAssetBundleEntity.ReferenceAdd();
+                    AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(AssetFullPath);
+                    AssetBundleReferenceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
+                    assetBundleEntity.ReferenceAdd();
+                    for (int i = 0; i < assetEntity.DependsAssetBundleList.Count; i++)
+                    {
+                        AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
+                        dependAssetBundleEntity.ReferenceAdd();
+                    }
                 }
             }
-#endif
         }
         /// <summary>
         /// 引用计数-1
@@ -68,19 +69,20 @@ namespace YouYou
             RefeshLastUseTime();
             ReferenceCount--;
 
-#if ASSETBUNDLE
-            if (ReferenceCount == 0)
+            if (MainEntry.IsAssetBundleMode)
             {
-                AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(AssetFullPath);
-                AssetBundleReferenceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
-                assetBundleEntity.ReferenceRemove();
-                for (int i = 0; i < assetEntity.DependsAssetBundleList.Count; i++)
+                if (ReferenceCount == 0)
                 {
-                    AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
-                    dependAssetBundleEntity.ReferenceRemove();
+                    AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(AssetFullPath);
+                    AssetBundleReferenceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
+                    assetBundleEntity.ReferenceRemove();
+                    for (int i = 0; i < assetEntity.DependsAssetBundleList.Count; i++)
+                    {
+                        AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
+                        dependAssetBundleEntity.ReferenceRemove();
+                    }
                 }
             }
-#endif
 
             if (ReferenceCount < 0)
             {

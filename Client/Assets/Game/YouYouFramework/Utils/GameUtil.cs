@@ -5,6 +5,7 @@ using System.IO;
 using System;
 using YouYou;
 using Cysharp.Threading.Tasks;
+using Main;
 
 public class GameUtil
 {
@@ -13,19 +14,27 @@ public class GameUtil
     /// </summary>
     public static AnimationClip[] LoadInitRoleAnimationsByFBX(string path)
     {
-#if EDITORLOAD && UNITY_EDITOR
-        UnityEngine.Object[] objs = UnityEditor.AssetDatabase.LoadAllAssetsAtPath(path);
-        List<AnimationClip> clips = new List<AnimationClip>();
-        foreach (var item in objs)
+        if (MainEntry.IsAssetBundleMode)
         {
-            if (item is AnimationClip) clips.Add(item as AnimationClip);
+            AssetInfoEntity m_CurrAssetEnity = GameEntry.Loader.AssetInfo.GetAssetEntity(path);
+            AssetBundle bundle = GameEntry.Loader.LoadAssetBundle(m_CurrAssetEnity.AssetBundleFullPath);
+            return bundle.LoadAllAssets<AnimationClip>();
         }
-        return clips.ToArray();
-#else
-        AssetInfoEntity m_CurrAssetEnity = GameEntry.Loader.AssetInfo.GetAssetEntity(path);
-        AssetBundle bundle = GameEntry.Loader.LoadAssetBundle(m_CurrAssetEnity.AssetBundleFullPath);
-        return bundle.LoadAllAssets<AnimationClip>();
+        else
+        {
+            AnimationClip[] clipArray = null;
+#if UNITY_EDITOR
+            UnityEngine.Object[] objs = UnityEditor.AssetDatabase.LoadAllAssetsAtPath(path);
+            List<AnimationClip> clips = new List<AnimationClip>();
+            foreach (var item in objs)
+            {
+                if (item is AnimationClip) clips.Add(item as AnimationClip);
+            }
+            clipArray = clips.ToArray();
 #endif
+            return clipArray;
+        }
+
     }
 
     /// <summary>

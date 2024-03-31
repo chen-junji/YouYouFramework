@@ -20,7 +20,6 @@ public class TestMVCSceneCtrl : SingletonMono<TestMVCSceneCtrl>
         //监听某个Model内的某个数据刷新的事件
         GameEntry.Model.GetModel<GameModel>().AddEventListener((int)GameModel.TestEvent.TestEvent1, OnTestEvent1);
 
-        GameForm.ShowForm();
         GameEntry.Input.SetEnable(true);
 
         DialogForm.ShowForm("框架内部流程全部加载完毕, 已经进入登录流程", "登录流程");
