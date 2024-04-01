@@ -126,7 +126,7 @@ public class YouYouEditor : OdinMenuEditorWindow
 
 
     #region GetAssetsPath 收集多个文件的路径到剪切板
-    [MenuItem("YouYouTools/收集多个文件的路径到剪切板")]
+    [MenuItem("Assets/收集多个文件的路径到剪切板")]
     public static void GetAssetsPath()
     {
         Object[] objs = Selection.objects;
@@ -136,7 +136,7 @@ public class YouYouEditor : OdinMenuEditorWindow
             relatepath += AssetDatabase.GetAssetPath(objs[i]);
             if (i < objs.Length - 1) relatepath += "\n";
         }
-        Clipboard.Copy(relatepath);
+        GUIUtility.systemCopyBuffer = relatepath;
         AssetDatabase.Refresh();
     }
     #endregion
