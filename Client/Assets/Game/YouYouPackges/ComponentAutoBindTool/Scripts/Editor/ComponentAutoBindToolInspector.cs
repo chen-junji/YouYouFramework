@@ -5,9 +5,7 @@ using System;
 using BindData = ComponentAutoBindTool.BindData;
 using System.Reflection;
 using System.IO;
-using static Codice.Client.BaseCommands.BranchExplorer.ExplorerData.BrExTreeBuilder.BrExFilter;
-using System.Linq;
-using DG.Tweening.Plugins.Core.PathCore;
+
 
 [CustomEditor(typeof(ComponentAutoBindTool))]
 public class ComponentAutoBindToolInspector : Editor

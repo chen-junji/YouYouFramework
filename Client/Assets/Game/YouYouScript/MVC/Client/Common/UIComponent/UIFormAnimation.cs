@@ -7,9 +7,6 @@ public class UIFormAnimation : MonoBehaviour
 {
     private void OnEnable()
     {
-#if UNITY_EDITOR
-        transform.SetAsLastSibling();
-#endif
         AnimOpen();
     }
 

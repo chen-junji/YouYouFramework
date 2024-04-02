@@ -48,7 +48,9 @@ namespace YouYouFramework
         }
         protected virtual void OnEnable()
         {
-
+#if UNITY_EDITOR
+            transform.SetAsLastSibling();
+#endif
         }
         protected virtual void OnDisable()
         {

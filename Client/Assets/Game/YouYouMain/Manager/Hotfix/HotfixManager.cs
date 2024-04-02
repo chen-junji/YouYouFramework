@@ -37,9 +37,11 @@ namespace YouYouMain
                         hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, fileUrl));
 #if !UNITY_EDITOR
                         LoadMetadataForAOTAssemblies();
-                        System.Reflection.Assembly.Load(hotfixAb.LoadAsset<TextAsset>("Assembly-CSharp.dll.bytes").bytes);
+                        TextAsset hotfixAsset = hotfixAb.LoadAsset<TextAsset>("Assembly-CSharp.dll.bytes");
+                        System.Reflection.Assembly.Load(hotfixAsset.bytes);
                         MainEntry.Log(MainEntry.LogCategory.Assets, "Assembly-CSharp.dll加载完毕");
 #endif
+
                         UnityEngine.Object.Instantiate(hotfixAb.LoadAsset<GameObject>("gameentry.prefab"));
                     });
                 });

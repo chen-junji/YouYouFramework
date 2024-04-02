@@ -70,9 +70,6 @@ public class AssetBundleSettings : ScriptableObject
     [LabelText("打包到本地CDN")]
     public void BuildAssetBundle()
     {
-#if !ASSETBUNDLE
-        Debug.LogError("请在YouYouEditor窗口下，把加载模式切换到AssetBundle， 才可以进行打包");
-#else
         CopyHofixDll();
 
         builds.Clear();
@@ -111,7 +108,6 @@ public class AssetBundleSettings : ScriptableObject
 
         CreateVersionFile();
         Debug.Log("VersionFile生成版本文件完毕");
-#endif
     }
 
     #region TempPath OutPath
