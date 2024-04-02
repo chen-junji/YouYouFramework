@@ -259,7 +259,7 @@ namespace ExcelTool
             StringBuilder sbr = new StringBuilder();
             sbr.Append("using System.Collections;\r\n");
             sbr.Append("\r\n");
-            sbr.Append("namespace YouYou\r\n");
+            sbr.Append("namespace YouYouFramework\r\n");
             sbr.Append("{\r\n");
             sbr.Append("    /// <summary>\r\n");
             sbr.AppendFormat("      /// {0}实体\r\n", fileName);
@@ -296,7 +296,7 @@ namespace ExcelTool
             sbr.Append("using System.Collections.Generic;\r\n");
             sbr.Append("using System;\r\n");
             sbr.Append("\r\n");
-            sbr.Append("namespace YouYou\r\n");
+            sbr.Append("namespace YouYouFramework\r\n");
             sbr.Append("{\r\n");
             sbr.Append("    /// <summary>\r\n");
             sbr.AppendFormat("    /// {0}数据管理\r\n", fileName);
