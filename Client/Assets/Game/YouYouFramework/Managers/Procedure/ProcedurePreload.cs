@@ -96,6 +96,13 @@ namespace YouYouFramework
                 taskRoutine.TaskComplete();
             });
 
+            //初始化多语言(因为多语言是读表的，所以得先加载Excel再初始化多语言)
+            taskGroup.AddTask((taskRoutine) =>
+            {
+                GameEntry.Localization.Init();
+                taskRoutine.TaskComplete();
+            });
+
             taskGroup.OnCompleteOne = () =>
             {
                 m_TargetProgress = taskGroup.CurrCount / (float)taskGroup.TotalCount;

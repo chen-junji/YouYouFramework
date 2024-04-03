@@ -100,7 +100,6 @@ namespace YouYouFramework
             DataTable.Init();
             PlayerPrefs.Init();
             Http.Init();
-            Localization.Init();
             Pool.Init();
             Scene.Init();
             Loader.Init();
