@@ -11,32 +11,29 @@ namespace YouYouFramework
 {
     public class GameEntry : MonoBehaviour
     {
-        [FoldoutGroup("ResourceGroup")]
-        [Header("游戏物体对象池分组")]
-        public GameObjectPoolEntity[] GameObjectPoolGroups;
-
-        [FoldoutGroup("ResourceGroup")]
-        [Header("对象池锁定的资源包")]
-        public string[] LockedAssetBundle;
-
-        [FoldoutGroup("UIGroup")]
+        [FoldoutGroup("UI框架相关")]
         [Header("UI摄像机")]
         public Camera UICamera;
 
-        [FoldoutGroup("UIGroup")]
+        [FoldoutGroup("UI框架相关")]
         [Header("根画布")]
         public Canvas UIRootCanvas;
 
-        [FoldoutGroup("UIGroup")]
+        [FoldoutGroup("UI框架相关")]
         [Header("根画布的缩放")]
         public CanvasScaler UIRootCanvasScaler;
         public RectTransform UIRootRectTransform { get; private set; }
 
-        [FoldoutGroup("UIGroup")]
+        [FoldoutGroup("UI框架相关")]
         [Header("UI分组")]
         public UIGroup[] UIGroups;
 
-        [FoldoutGroup("AudioGroup")]
+        [Header("游戏物体对象池分组")]
+        public GameObjectPoolEntity[] GameObjectPoolGroups;
+
+        [Header("对象池锁定的资源包")]
+        public string[] LockedAssetBundle;
+
         [Header("声音主混合器")]
         public AudioMixer MonsterMixer;
 
@@ -44,6 +41,7 @@ namespace YouYouFramework
         [SerializeField]
         private YouYouLanguage m_CurrLanguage;
         public static YouYouLanguage CurrLanguage;
+
 
         //管理器属性
         public static LoggerManager Logger { get; private set; }
