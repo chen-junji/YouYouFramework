@@ -5,7 +5,7 @@ using UnityEngine;
 namespace YouYouMain
 {
     /// <summary>
-    /// AssetBundle版本文件信息
+    /// AssetBundle版本文件, VersionFile.json的数据实体
     /// </summary>
     public class VersionFileEntity
     {

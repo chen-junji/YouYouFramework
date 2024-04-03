@@ -41,7 +41,7 @@ namespace YouYouFramework
         #region LoadAssetBundle 加载资源包
         public void LoadAssetBundleAsync(string assetBundlePath)
         {
-            CurrAssetBundleInfo = MainEntry.CheckVersion.VersionFile.GetVersionFileEntity(assetBundlePath);
+            CurrAssetBundleInfo = VersionCDNModel.Instance.GetVersionFileEntity(assetBundlePath);
 
             //检查文件在可写区是否存在
             bool isExistsInLocal = File.Exists(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
@@ -81,7 +81,7 @@ namespace YouYouFramework
         }
         public static AssetBundle LoadAssetBundle(string assetBundlePath)
         {
-            VersionFileEntity assetBundleInfo = MainEntry.CheckVersion.VersionFile.GetVersionFileEntity(assetBundlePath);
+            VersionFileEntity assetBundleInfo = VersionCDNModel.Instance.GetVersionFileEntity(assetBundlePath);
 
             //检查文件在可写区是否存在
             bool isExistsInLocal = File.Exists(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));

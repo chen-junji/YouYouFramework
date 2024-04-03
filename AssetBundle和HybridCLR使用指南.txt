@@ -9,7 +9,8 @@
 点击Unity菜单栏/YouYouTool/YouYouEditor/AssetBundleSettings，点击BuildAssetBundle，文件会打包到AssetBundles文件夹
 
 第四步，部署AssetBundle资源下载站点：
-可以使用HFS， 下载文件夹指定到AssetBundles文件夹， 具体自己百度查教程， 
+可以使用HFS， 资源站点 指定到 Client/AssetBundles 文件夹， 自己百度查教程
+HFS官网: https://www.rejetto.com/hfs/?f=dl
 
 第五步，绑定资源站点地址：
 打开ChannelConfigEntity脚本， 在SourceUrl字段填上你的地址

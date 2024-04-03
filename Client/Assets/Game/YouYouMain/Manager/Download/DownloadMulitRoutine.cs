@@ -8,7 +8,7 @@ namespace YouYouMain
     /// <summary>
     /// 下载多文件器
     /// </summary>
-    public class DownloadMulitRoutine : IDisposable
+    public class DownloadMulitRoutine
     {
         public DownloadMulitRoutine()
         {
@@ -20,12 +20,6 @@ namespace YouYouMain
         {
             return new DownloadMulitRoutine();
             //return MainEntry.ClassObjectPool.Dequeue<DownloadMulitRoutine>();
-        }
-        public void Dispose()
-        {
-            m_DownloadMulitCurrSizeDic.Clear();
-            m_DownloadRoutineList.Clear();
-            m_NeedDownloadList.Clear();
         }
         internal void OnUpdate()
         {
@@ -80,9 +74,6 @@ namespace YouYouMain
         /// <summary>
         /// 下载多个文件
         /// </summary>
-        /// <param name="lstUrl"></param>
-        /// <param name="onDownloadMulitUpdate"></param>
-        /// <param name="onDownloadMulitComplete"></param>
         internal void BeginDownloadMulit(LinkedList<string> lstUrl, Action<int, int, ulong, ulong> onDownloadMulitUpdate, Action<DownloadMulitRoutine> onDownloadMulitComplete)
         {
             if (lstUrl.Count < 1)
@@ -94,20 +85,11 @@ namespace YouYouMain
             m_OnDownloadMulitUpdate = onDownloadMulitUpdate;
             m_OnDownloadMulitComplete = onDownloadMulitComplete;
 
-            m_NeedDownloadList.Clear();
-            m_DownloadMulitCurrSizeDic.Clear();
-
-            m_DownloadMulitNeedCount = 0;
-            m_DownloadMulitCurrCount = 0;
-
-            m_DownloadMulitTotalSize = 0;
-            m_DownloadMulitCurrSize = 0;
-
             //1.把需要下载的加入下载队列
             for (LinkedListNode<string> item = lstUrl.First; item != null; item = item.Next)
             {
                 string url = item.Value;
-                VersionFileEntity entity = MainEntry.CheckVersion.VersionFile.GetVersionFileEntity(url);
+                VersionFileEntity entity = VersionCDNModel.Instance.GetVersionFileEntity(url);
                 if (entity != null)
                 {
                     m_DownloadMulitTotalSize += entity.Size;
@@ -126,18 +108,19 @@ namespace YouYouMain
             for (int i = 0; i < routineCount; i++)
             {
                 DownloadRoutine routine = DownloadRoutine.Create();
+                m_DownloadRoutineList.AddLast(routine);
 
                 string url = m_NeedDownloadList.First.Value;
-
-                VersionFileEntity entity = MainEntry.CheckVersion.VersionFile.GetVersionFileEntity(url);
-
-                routine.BeginDownload(url, entity, OnDownloadMulitUpdate, OnDownloadMulitComplete);
-                m_DownloadRoutineList.AddLast(routine);
+                VersionFileEntity entity = VersionCDNModel.Instance.GetVersionFileEntity(url);
+                routine.BeginDownload(url, entity, OnDownloadUpdateOne, OnDownloadCompleteOne);
 
                 m_NeedDownloadList.RemoveFirst();
             }
         }
-        private void OnDownloadMulitUpdate(string url, ulong currDownSize, float progress)
+        /// <summary>
+        /// 单个文件下载进度更新
+        /// </summary>
+        private void OnDownloadUpdateOne(string url, ulong currDownSize, float progress)
         {
             m_DownloadMulitCurrSizeDic[url] = currDownSize;
 
@@ -154,24 +137,20 @@ namespace YouYouMain
 
             m_OnDownloadMulitUpdate?.Invoke(m_DownloadMulitCurrCount, m_DownloadMulitNeedCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
         }
-        private void OnDownloadMulitComplete(string fileUrl, DownloadRoutine routine)
+        /// <summary>
+        /// 单个文件下载完毕
+        /// </summary>
+        private void OnDownloadCompleteOne(string fileUrl, DownloadRoutine routine)
         {
             //检查队列中是否有要下载的数量
             if (m_NeedDownloadList.Count > 0)
             {
-                //创建新的下载器，下载新文件
+                //复用原有的下载器，下载新文件
                 string url = m_NeedDownloadList.First.Value;
-                VersionFileEntity entity = MainEntry.CheckVersion.VersionFile.GetVersionFileEntity(url);
-
-                DownloadRoutine newRoutine = DownloadRoutine.Create();
-                newRoutine.BeginDownload(url, entity, OnDownloadMulitUpdate, OnDownloadMulitComplete);
+                VersionFileEntity entity = VersionCDNModel.Instance.GetVersionFileEntity(url);
+                routine.BeginDownload(url, entity, OnDownloadUpdateOne, OnDownloadCompleteOne);
 
                 m_NeedDownloadList.RemoveFirst();
-            }
-            else
-            {
-                //下载器回池
-                m_DownloadRoutineList.Remove(routine);
             }
 
             m_DownloadMulitCurrCount++;

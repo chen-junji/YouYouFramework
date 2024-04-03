@@ -16,10 +16,6 @@ namespace YouYouFramework
         /// </summary>
         Launch,
         /// <summary>
-        /// 检查更新
-        /// </summary>
-        CheckVersion,
-        /// <summary>
         /// 预加载
         /// </summary>
         Preload,
@@ -59,7 +55,6 @@ namespace YouYouFramework
             int count = Enum.GetNames(typeof(ProcedureState)).Length;
             FsmState<ProcedureManager>[] states = new FsmState<ProcedureManager>[count];
             states[(byte)ProcedureState.Launch] = new ProcedureLaunch();
-            states[(byte)ProcedureState.CheckVersion] = new ProcedureCheckVersion();
             states[(byte)ProcedureState.Preload] = new ProcedurePreload();
             states[(byte)ProcedureState.Login] = new ProcedureLogin();
             states[(byte)ProcedureState.Main] = new ProcedureMain();
@@ -79,22 +74,10 @@ namespace YouYouFramework
             CurrFsm.ChangeState((sbyte)state);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TData"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
         public void SetData<TData>(string key, TData value)
         {
             CurrFsm.SetData(key, value);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TData"></typeparam>
-        /// <param name="key"></param>
-        /// <returns></returns>
         public TData GetDada<TData>(string key)
         {
             return CurrFsm.GetDada<TData>(key);

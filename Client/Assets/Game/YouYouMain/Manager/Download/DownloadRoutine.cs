@@ -75,9 +75,6 @@ namespace YouYouMain
         /// <summary>
         /// 开始下载
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="onUpdate"></param>
-        /// <param name="onComplete"></param>
         public void BeginDownload(string url, VersionFileEntity assetBundleInfo, Action<string, ulong, float> onUpdate, Action<string, DownloadRoutine> onComplete)
         {
             m_CurrFileUrl = url;
@@ -152,7 +149,6 @@ namespace YouYouMain
         /// <summary>
         /// 下载
         /// </summary>
-        /// <param name="url"></param>
         private void Download(string url)
         {
             m_UnityWebRequest = UnityWebRequest.Get(url);
@@ -161,8 +157,6 @@ namespace YouYouMain
         /// <summary>
         /// 下载
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="beginPos"></param>
         private void Download(string url, uint beginPos)
         {
             m_UnityWebRequest = UnityWebRequest.Get(url);
@@ -175,7 +169,7 @@ namespace YouYouMain
             return new DownloadRoutine();
             //return MainEntry.ClassObjectPool.Dequeue<DownloadRoutine>();
         }
-        public void Reset()
+        private void Reset()
         {
             if (m_UnityWebRequest != null)
             {
@@ -257,7 +251,7 @@ namespace YouYouMain
             if (PlayerPrefs.HasKey(m_CurrFileUrl)) PlayerPrefs.DeleteKey(m_CurrFileUrl);
 
             //更新可写区的版本信息
-            MainEntry.CheckVersion.VersionFile.SaveVersion(m_CurrAssetBundleInfo);
+            VersionLocalModel.Instance.SaveVersion(m_CurrAssetBundleInfo);
 
             //MainEntry.ClassObjectPool.Enqueue(this);
             m_OnComplete?.Invoke(m_CurrFileUrl, this);

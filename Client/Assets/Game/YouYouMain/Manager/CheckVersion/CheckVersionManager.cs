@@ -11,11 +11,6 @@ namespace YouYouMain
     public class CheckVersionManager
     {
         /// <summary>
-        /// 版本文件 管理器
-        /// </summary>
-        public VersionFileManager VersionFile { get; private set; }
-
-        /// <summary>
         /// 需要下载的资源包列表
         /// </summary>
         private LinkedList<string> m_NeedDownloadList;
@@ -29,13 +24,11 @@ namespace YouYouMain
         internal event Action<BaseParams> CheckVersionDownloadUpdate;
         public event Action CheckVersionDownloadComplete;
 
-        public Action CheckVersionComplete;
+        private Action CheckVersionComplete;
 
 
         public CheckVersionManager()
         {
-            VersionFile = new VersionFileManager();
-
             m_NeedDownloadList = new LinkedList<string>();
         }
 
@@ -46,15 +39,22 @@ namespace YouYouMain
         /// <summary>
         /// 检查更新
         /// </summary>
-        public void CheckVersionChange()
+        public void CheckVersionChange(Action onComplete)
         {
-            MainEntry.Log("检查更新=>CheckVersionChange(), 版本号=>{0}", VersionFile.LocalAssetsVersion);
+            CheckVersionComplete = onComplete;
 
-            if (VersionFile.GetVersionFileExists())
+            //去资源站点请求CDN的版本文件信息
+            VersionFileCtrl.Instance.SendCDNVersionFile(CheckVersionChange);
+        }
+        private void CheckVersionChange()
+        {
+            MainEntry.Log("检查更新=>CheckVersionChange(), 版本号=>{0}", VersionLocalModel.Instance.LocalAssetsVersion);
+
+            if (VersionLocalModel.Instance.GetVersionFileExists())
             {
-                if (!string.IsNullOrEmpty(VersionFile.LocalAssetsVersion) && VersionFile.LocalAssetsVersion.Equals(VersionFile.CDNVersion))
+                if (!string.IsNullOrEmpty(VersionLocalModel.Instance.LocalAssetsVersion) && VersionLocalModel.Instance.LocalAssetsVersion.Equals(VersionCDNModel.Instance.CDNVersion))
                 {
-                    MainEntry.Log("可写区版本号和CDN版本号一致 进入预加载流程");
+                    MainEntry.Log("可写区版本号和CDN版本号一致 不需要检查更新");
                     CheckVersionComplete?.Invoke();
                 }
                 else
@@ -80,7 +80,7 @@ namespace YouYouMain
 
             m_NeedDownloadList.Clear();
 
-            var enumerator = VersionFile.m_CDNVersionDic.GetEnumerator();
+            var enumerator = VersionCDNModel.Instance.VersionDic.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 VersionFileEntity entity = enumerator.Current.Value;
@@ -116,13 +116,13 @@ namespace YouYouMain
             LinkedList<string> needDownloadList = new LinkedList<string>();
 
             //找出需要删除的文件
-            var enumerator = VersionFile.m_LocalAssetsVersionDic.GetEnumerator();
+            var enumerator = VersionLocalModel.Instance.LocalAssetsVersionDic.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 string assetBundleName = enumerator.Current.Key;
 
                 VersionFileEntity cdnAssetBundleInfo = null;
-                if (VersionFile.m_CDNVersionDic.TryGetValue(assetBundleName, out cdnAssetBundleInfo))
+                if (VersionCDNModel.Instance.VersionDic.TryGetValue(assetBundleName, out cdnAssetBundleInfo))
                 {
                     //可写区有 CDN也有
                     if (!cdnAssetBundleInfo.MD5.Equals(enumerator.Current.Value.MD5, StringComparison.CurrentCultureIgnoreCase))
@@ -154,13 +154,13 @@ namespace YouYouMain
             }
 
             //检查需要下载的
-            enumerator = VersionFile.m_CDNVersionDic.GetEnumerator();
+            enumerator = VersionCDNModel.Instance.VersionDic.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 VersionFileEntity cdnAssetBundleInfo = enumerator.Current.Value;
                 if (cdnAssetBundleInfo.IsFirstData)//检查初始资源
                 {
-                    if (!VersionFile.m_LocalAssetsVersionDic.ContainsKey(cdnAssetBundleInfo.AssetBundleName))
+                    if (!VersionLocalModel.Instance.LocalAssetsVersionDic.ContainsKey(cdnAssetBundleInfo.AssetBundleName))
                     {
                         //如果可写区没有 加入下载链表
                         needDownloadList.AddLast(cdnAssetBundleInfo.AssetBundleName);
@@ -192,12 +192,12 @@ namespace YouYouMain
         /// </summary>
         private void OnDownloadMulitComplete()
         {
-            VersionFile.SetAssetVersion(VersionFile.CDNVersion);
+            VersionLocalModel.Instance.SetAssetVersion(VersionCDNModel.Instance.CDNVersion);
 
             CheckVersionDownloadComplete?.Invoke();
             //MainEntry.ClassObjectPool.Enqueue(m_DownloadingParams);
 
-            MainEntry.Log("检查更新下载完毕 进入预加载流程");
+            MainEntry.Log("检查更新下载完毕, 进入预加载流程");
             CheckVersionComplete?.Invoke();
         }
 
@@ -207,9 +207,9 @@ namespace YouYouMain
         /// </summary>
         public bool CheckVersionChangeSingle(string assetBundleName)
         {
-            if (VersionFile.m_CDNVersionDic.TryGetValue(assetBundleName, out VersionFileEntity cdnAssetBundleInfo))
+            if (VersionCDNModel.Instance.VersionDic.TryGetValue(assetBundleName, out VersionFileEntity cdnAssetBundleInfo))
             {
-                if (VersionFile.m_LocalAssetsVersionDic.TryGetValue(cdnAssetBundleInfo.AssetBundleName, out VersionFileEntity LocalAssetsAssetBundleInfo))
+                if (VersionLocalModel.Instance.LocalAssetsVersionDic.TryGetValue(cdnAssetBundleInfo.AssetBundleName, out VersionFileEntity LocalAssetsAssetBundleInfo))
                 {
                     //可写区有 CDN也有 验证MD5
                     return cdnAssetBundleInfo.MD5.Equals(LocalAssetsAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase);

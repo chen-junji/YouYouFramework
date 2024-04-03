@@ -25,22 +25,6 @@ namespace YouYouMain
             m_DownloadSingleRoutineList = new LinkedList<DownloadRoutine>();
             m_DownloadMulitRoutineList = new LinkedList<DownloadMulitRoutine>();
         }
-        internal void Dispose()
-        {
-            m_DownloadSingleRoutineList.Clear();
-
-            //调用下载多文件器的Dispose()
-            var mulitRoutine = m_DownloadMulitRoutineList.First;
-            while (mulitRoutine != null)
-            {
-                mulitRoutine.Value.Dispose();
-                mulitRoutine = mulitRoutine.Next;
-            }
-            m_DownloadMulitRoutineList.Clear();
-        }
-        /// <summary>
-        /// 更新
-        /// </summary>
         internal void OnUpdate()
         {
             //调用下载单文件器的OnUpdate()
@@ -66,11 +50,9 @@ namespace YouYouMain
         /// <summary>
         /// 下载单个文件
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="onUpdate"></param>
         public void BeginDownloadSingle(string url, Action<string, ulong, float> onUpdate = null, Action<string> onComplete = null)
         {
-            VersionFileEntity entity = MainEntry.CheckVersion.VersionFile.GetVersionFileEntity(url);
+            VersionFileEntity entity = VersionCDNModel.Instance.GetVersionFileEntity(url);
             if (entity == null)
             {
                 MainEntry.LogError("无效资源包=>" + url);
@@ -78,20 +60,17 @@ namespace YouYouMain
             }
 
             DownloadRoutine routine = DownloadRoutine.Create();
+            m_DownloadSingleRoutineList.AddLast(routine);
             routine.BeginDownload(url, entity, onUpdate, onComplete: (string fileUrl, DownloadRoutine r) =>
             {
                 m_DownloadSingleRoutineList.Remove(routine);
                 if (onComplete != null) onComplete(fileUrl);
             });
-            m_DownloadSingleRoutineList.AddLast(routine);
         }
 
         /// <summary>
         /// 下载多个文件
         /// </summary>
-        /// <param name="lstUrl"></param>
-        /// <param name="onDownloadMulitUpdate"></param>
-        /// <param name="onDownloadMulitComplete"></param>
         public void BeginDownloadMulit(LinkedList<string> lstUrl, Action<int, int, ulong, ulong> onDownloadMulitUpdate = null, Action onDownloadMulitComplete = null)
         {
             DownloadMulitRoutine mulitRoutine = DownloadMulitRoutine.Create();

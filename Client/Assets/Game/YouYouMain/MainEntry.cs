@@ -24,6 +24,7 @@ namespace YouYouMain
         /// 下载管理器
         /// </summary>
         public static DownloadManager Download { get; private set; }
+
         /// <summary>
         /// 检查更新管理器
         /// </summary>
@@ -58,7 +59,32 @@ namespace YouYouMain
 
             Download.Init();
             CheckVersion.Init();
-            Hotfix.Init();
+
+            if (IsAssetBundleMode)
+            {
+                VersionLocalModel.Instance.SetAssetVersion(null);//不检测版本号, 而是直接检测MD5
+
+                //资源检查更新
+                CheckVersion.CheckVersionChange(() =>
+                {
+                    //加载Hotfix代码(HybridCLR)
+                    Hotfix.Init(() =>
+                    {
+                        //启动YouYouFramework框架入口
+                        GameObject gameEntry = Hotfix.hotfixAb.LoadAsset<GameObject>("gameentry.prefab");
+                        Instantiate(gameEntry);
+                    });
+                });
+            }
+            else
+            {
+#if UNITY_EDITOR
+                //启动YouYouFramework框架入口
+                GameObject gameEntry = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/Download/Hotfix/GameEntry.prefab");
+                Instantiate(gameEntry);
+#endif
+            }
+
         }
         private void Update()
         {
@@ -66,7 +92,19 @@ namespace YouYouMain
         }
         private void OnApplicationQuit()
         {
-            Download.Dispose();
+        }
+
+        public void PreloadBegin()
+        {
+            ActionPreloadBegin?.Invoke();
+        }
+        public void PreloadUpdate(float progress)
+        {
+            ActionPreloadUpdate?.Invoke(progress);
+        }
+        public void PreloadComplete()
+        {
+            ActionPreloadComplete?.Invoke();
         }
 
         internal static void Log(params object[] args)
@@ -96,17 +134,5 @@ namespace YouYouMain
 #endif
         }
 
-        public void PreloadBegin()
-        {
-            ActionPreloadBegin?.Invoke();
-        }
-        public void PreloadUpdate(float progress)
-        {
-            ActionPreloadUpdate?.Invoke(progress);
-        }
-        public void PreloadComplete()
-        {
-            ActionPreloadComplete?.Invoke();
-        }
     }
 }

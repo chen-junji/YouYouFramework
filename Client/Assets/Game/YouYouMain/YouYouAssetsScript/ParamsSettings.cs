@@ -52,10 +52,10 @@ public class ParamsSettings : ScriptableObject
     [LabelText("下载请求的重试次数")]
     public int DownloadRetry = 3;
     /// <summary>
-    /// 下载多文件器的数量
+    /// 下载器的数量
     /// </summary>
     [BoxGroup("系统参数")]
-    [LabelText("下载多文件器的数量")]
+    [LabelText("下载器的数量")]
     public int DownloadRoutineCount = 3;
     /// <summary>
     /// 断点续传的存储间隔缓存

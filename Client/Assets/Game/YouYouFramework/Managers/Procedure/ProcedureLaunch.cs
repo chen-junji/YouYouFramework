@@ -25,14 +25,7 @@ namespace YouYouFramework
                 //if (!Permission.HasUserAuthorizedPermission(s)) Permission.RequestUserPermission(s);
             });
 
-            if (MainEntry.IsAssetBundleMode)
-            {
-                GameEntry.Procedure.ChangeState(ProcedureState.CheckVersion);
-            }
-            else
-            {
-                GameEntry.Procedure.ChangeState(ProcedureState.Preload);
-            }
+            GameEntry.Procedure.ChangeState(ProcedureState.Preload);
         }
     }
 }
