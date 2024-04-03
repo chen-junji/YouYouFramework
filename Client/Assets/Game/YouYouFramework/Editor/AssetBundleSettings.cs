@@ -518,7 +518,7 @@ public class AssetBundleSettings : ScriptableObject
         File.Copy(ScriptAssembliesDir, Path.Combine(CodeDir, "Assembly-CSharp.dll.bytes"), true);
 
         string aotMetaAssemblyDir = Application.dataPath + "/../" + "HybridCLRData/AssembliesPostIl2CppStrip/" + GetBuildTarget().ToString() + "/";
-        foreach (var aotDllName in HotfixManager.aotMetaAssemblyFiles)
+        foreach (var aotDllName in HotfixCtrl.aotMetaAssemblyFiles)
         {
             File.Copy(aotMetaAssemblyDir + aotDllName + ".dll", Path.Combine(CodeDir, aotDllName + ".dll.bytes"), true);
         }

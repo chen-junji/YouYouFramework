@@ -26,16 +26,6 @@ namespace YouYouMain
         public static DownloadManager Download { get; private set; }
 
         /// <summary>
-        /// 检查更新管理器
-        /// </summary>
-        public static CheckVersionManager CheckVersion { get; private set; }
-
-        /// <summary>
-        /// 代码热更新管理器
-        /// </summary>
-        public static HotfixManager Hotfix { get; private set; }
-
-        /// <summary>
         /// 当前是否为AssetBundle模式
         /// </summary>
         public static bool IsAssetBundleMode { get; private set; }
@@ -54,24 +44,22 @@ namespace YouYouMain
         {
             //初始化管理器
             Download = new DownloadManager();
-            CheckVersion = new CheckVersionManager();
-            Hotfix = new HotfixManager();
 
             Download.Init();
-            CheckVersion.Init();
 
             if (IsAssetBundleMode)
             {
                 VersionLocalModel.Instance.SetAssetVersion(null);//不检测版本号, 而是直接检测MD5
 
                 //资源检查更新
-                CheckVersion.CheckVersionChange(() =>
+                CheckVersionCtrl.Instance.CheckVersionChange(() =>
                 {
                     //加载Hotfix代码(HybridCLR)
-                    Hotfix.Init(() =>
+                    HotfixCtrl hotfixCtrl = new HotfixCtrl();
+                    hotfixCtrl.LoadHotifx(() =>
                     {
                         //启动YouYouFramework框架入口
-                        GameObject gameEntry = Hotfix.hotfixAb.LoadAsset<GameObject>("gameentry.prefab");
+                        GameObject gameEntry = hotfixCtrl.hotfixAb.LoadAsset<GameObject>("gameentry.prefab");
                         Instantiate(gameEntry);
                     });
                 });

@@ -16,7 +16,7 @@ public class VersionLocalModel
     /// <summary>
     /// 可写区 版本文件路径
     /// </summary>
-    public string LocalVersionFilePath
+    public string VersionFilePath
     {
         get
         {
@@ -27,24 +27,23 @@ public class VersionLocalModel
     /// <summary>
     /// 可写区资源版本号
     /// </summary>
-    public string LocalAssetsVersion;
+    public string AssetsVersion;
 
     /// <summary>
     /// 可写区资源包信息
     /// </summary>
-    public Dictionary<string, VersionFileEntity> LocalAssetsVersionDic = new Dictionary<string, VersionFileEntity>();
+    public Dictionary<string, VersionFileEntity> VersionDic = new Dictionary<string, VersionFileEntity>();
 
     /// <summary>
     /// 保存可写区版本信息
     /// </summary>
-    /// <param name="entity"></param>
     public void SaveVersion(VersionFileEntity entity)
     {
-        LocalAssetsVersionDic[entity.AssetBundleName] = entity;
+        VersionDic[entity.AssetBundleName] = entity;
 
         //保存版本文件
-        string json = LocalAssetsVersionDic.ToJson();
-        IOUtil.CreateTextFile(LocalVersionFilePath, json);
+        string json = VersionDic.ToJson();
+        IOUtil.CreateTextFile(VersionFilePath, json);
     }
 
     /// <summary>
@@ -52,16 +51,15 @@ public class VersionLocalModel
     /// </summary>
     public void SetAssetVersion(string version)
     {
-        LocalAssetsVersion = version;
+        AssetsVersion = version;
         PlayerPrefs.SetString(YFConstDefine.AssetVersion, version);
     }
 
     /// <summary>
     /// 获取可写区版本文件是否存在
     /// </summary>
-    /// <returns></returns>
     public bool GetVersionFileExists()
     {
-        return File.Exists(LocalVersionFilePath);
+        return File.Exists(VersionFilePath);
     }
 }

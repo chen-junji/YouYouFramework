@@ -124,7 +124,7 @@ namespace YouYouFramework
                     //web加密
                     m_Dic["deviceIdentifier"] = DeviceUtil.DeviceIdentifier;
                     m_Dic["deviceModel"] = DeviceUtil.DeviceModel;
-                    long t = SystemModel.Instance.CurrServerTime;
+                    long t = ChannelModel.Instance.CurrServerTime;
                     m_Dic["sign"] = EncryptUtil.Md5(string.Format("{0}:{1}", t, DeviceUtil.DeviceIdentifier));
                     m_Dic["t"] = t;
 
