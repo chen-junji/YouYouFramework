@@ -18,10 +18,10 @@ public class AutoDespawnHandle : MonoBehaviour
 
     public void SetDelayTimeDespawn(float delayTime)
     {
+        DelayTimeDespawn = delayTime;
         if (DelayTimeDespawn <= 0) return;
 
         StopTime();
-        DelayTimeDespawn = delayTime;
         coroutine = StartCoroutine(DelayDespawn());
     }
 
