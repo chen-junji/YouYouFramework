@@ -22,7 +22,7 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 		if (GameEntry.Pool != null)
 		{
 			GUILayout.BeginHorizontal("box");
-			GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (MainEntry.ClassObjectPool.ReleaseNextRunTime + MainEntry.ParamsSettings.PoolReleaseClassObjectInterval)), titleStyle);
+			GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (GameEntry.Pool.ClassObjectPool.ReleaseNextRunTime + MainEntry.ParamsSettings.PoolReleaseClassObjectInterval)), titleStyle);
 			GUILayout.EndHorizontal();
 		}
 		GUILayout.Space(10);
@@ -35,7 +35,7 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 
 		if (GameEntry.Pool != null)
 		{
-			foreach (var item in YouYouMain.MainEntry.ClassObjectPool.InspectorDic)
+			foreach (var item in GameEntry.Pool.ClassObjectPool.InspectorDic)
 			{
 				GUILayout.BeginHorizontal("box");
 				GUILayout.Label(item.Key.Name);
@@ -46,7 +46,7 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 
 				int key = item.Key.GetHashCode();
 				byte resideCount = 0;
-				YouYouMain.MainEntry.ClassObjectPool.ClassObjectCount.TryGetValue(key, out resideCount);
+                GameEntry.Pool.ClassObjectPool.ClassObjectCount.TryGetValue(key, out resideCount);
 
 				GUILayout.Label(resideCount.ToString(), titleStyle);
 				GUILayout.EndHorizontal();
@@ -62,7 +62,7 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 
 		if (GameEntry.Pool != null)
 		{
-			foreach (var item in GameEntry.Pool.VarObjectInspectorDic)
+			foreach (var item in GameEntry.Pool.VarObjectPool.VarObjectInspectorDic)
 			{
 				GUILayout.BeginHorizontal("box");
 				GUILayout.Label(item.Key.Name);

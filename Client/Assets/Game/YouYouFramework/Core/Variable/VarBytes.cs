@@ -15,7 +15,7 @@ namespace YouYouFramework
         /// <returns></returns>
         public static VarBytes Alloc()
         {
-            VarBytes var = GameEntry.Pool.DequeueVarObject<VarBytes>();
+            VarBytes var = GameEntry.Pool.VarObjectPool.DequeueVarObject<VarBytes>();
             var.Value = null;
             var.Retain();
             return var;

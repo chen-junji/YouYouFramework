@@ -16,7 +16,7 @@ namespace YouYouFramework
         /// <returns></returns>
         public static VarInt Alloc()
         {
-            VarInt var = GameEntry.Pool.DequeueVarObject<VarInt>();
+            VarInt var = GameEntry.Pool.VarObjectPool.DequeueVarObject<VarInt>();
             var.Value = 0;
             var.Retain();
             return var;

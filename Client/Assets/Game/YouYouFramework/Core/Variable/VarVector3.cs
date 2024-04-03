@@ -12,7 +12,7 @@ namespace YouYouFramework
         /// <returns></returns>
         public static VarVector3 Alloc()
         {
-            VarVector3 var = GameEntry.Pool.DequeueVarObject<VarVector3>();
+            VarVector3 var = GameEntry.Pool.VarObjectPool.DequeueVarObject<VarVector3>();
             var.Value = Vector3.zero; ;
             var.Retain();
             return var;

@@ -16,7 +16,7 @@ namespace YouYouFramework
         /// <returns></returns>
         public static VarString Alloc()
         {
-            VarString var = GameEntry.Pool.DequeueVarObject<VarString>();
+            VarString var = GameEntry.Pool.VarObjectPool.DequeueVarObject<VarString>();
             var.Value = string.Empty;
             var.Retain();
             return var;

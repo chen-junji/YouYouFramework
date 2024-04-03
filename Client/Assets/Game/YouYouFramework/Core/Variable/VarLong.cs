@@ -16,7 +16,7 @@ namespace YouYouFramework
         /// <returns></returns>
         public static VarLong Alloc()
         {
-            VarLong var = GameEntry.Pool.DequeueVarObject<VarLong>();
+            VarLong var = GameEntry.Pool.VarObjectPool.DequeueVarObject<VarLong>();
             var.Value = 0;
             var.Retain();
             return var;

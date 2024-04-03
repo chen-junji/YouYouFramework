@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
-using YouYouFramework;
+using YouYouMain;
 
-namespace YouYouMain
+namespace YouYouFramework
 {
     /// <summary>
     /// Http发送数据的回调委托
@@ -57,7 +57,7 @@ namespace YouYouMain
         }
         public static HttpRoutine Create()
         {
-            return MainEntry.ClassObjectPool.Dequeue<HttpRoutine>();
+            return GameEntry.Pool.ClassObjectPool.Dequeue<HttpRoutine>();
         }
 
         #region SendData 发送web数据
@@ -193,14 +193,14 @@ namespace YouYouMain
             if (m_Dic != null)
             {
                 m_Dic.Clear();
-                MainEntry.ClassObjectPool.Enqueue(m_Dic);
+                GameEntry.Pool.ClassObjectPool.Enqueue(m_Dic);
             }
             m_CallBackArgs.Data = null;
             data.Dispose();
             data = null;
 
             //Debug.Log("把http访问器回池");
-            MainEntry.ClassObjectPool.Enqueue(this);
+            GameEntry.Pool.ClassObjectPool.Enqueue(this);
         }
         #endregion
     }

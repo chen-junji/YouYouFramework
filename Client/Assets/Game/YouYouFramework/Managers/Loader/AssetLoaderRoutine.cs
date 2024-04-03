@@ -42,7 +42,7 @@ namespace YouYouFramework
 
         public static AssetLoaderRoutine Create()
         {
-            AssetLoaderRoutine assetLoaderRoutine = MainEntry.ClassObjectPool.Dequeue<AssetLoaderRoutine>();
+            AssetLoaderRoutine assetLoaderRoutine = GameEntry.Pool.ClassObjectPool.Dequeue<AssetLoaderRoutine>();
             return assetLoaderRoutine;
         }
 
@@ -81,7 +81,7 @@ namespace YouYouFramework
                         GameEntry.LogError(LogCategory.Loader, string.Format("资源=>{0} 加载失败", CurrAssetName));
                     }
                     Reset();//一定要早点Reset
-                    MainEntry.ClassObjectPool.Enqueue(this);
+                    GameEntry.Pool.ClassObjectPool.Enqueue(this);
                     OnLoadAssetComplete?.Invoke(obj);
                 }
                 else

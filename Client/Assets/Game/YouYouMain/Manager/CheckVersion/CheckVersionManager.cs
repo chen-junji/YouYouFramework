@@ -26,7 +26,7 @@ namespace YouYouMain
         private BaseParams m_DownloadingParams;
 
         public event Action CheckVersionBeginDownload;
-        public event Action<BaseParams> CheckVersionDownloadUpdate;
+        internal event Action<BaseParams> CheckVersionDownloadUpdate;
         public event Action CheckVersionDownloadComplete;
 
         public Action CheckVersionComplete;
@@ -195,7 +195,7 @@ namespace YouYouMain
             VersionFile.SetAssetVersion(VersionFile.CDNVersion);
 
             CheckVersionDownloadComplete?.Invoke();
-            MainEntry.ClassObjectPool.Enqueue(m_DownloadingParams);
+            //MainEntry.ClassObjectPool.Enqueue(m_DownloadingParams);
 
             MainEntry.Log("检查更新下载完毕 进入预加载流程");
             CheckVersionComplete?.Invoke();

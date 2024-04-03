@@ -28,10 +28,6 @@ namespace YouYouMain
         /// 检查更新管理器
         /// </summary>
         public static CheckVersionManager CheckVersion { get; private set; }
-        /// <summary>
-        /// 类对象池
-        /// </summary>
-        public static ClassObjectPool ClassObjectPool { get; private set; }
 
         /// <summary>
         /// 代码热更新管理器
@@ -58,7 +54,6 @@ namespace YouYouMain
             //初始化管理器
             Download = new DownloadManager();
             CheckVersion = new CheckVersionManager();
-            ClassObjectPool = new ClassObjectPool();
             Hotfix = new HotfixManager();
 
             Download.Init();
@@ -68,7 +63,6 @@ namespace YouYouMain
         private void Update()
         {
             Download.OnUpdate();
-            ClassObjectPool.OnUpdate();
         }
         private void OnApplicationQuit()
         {

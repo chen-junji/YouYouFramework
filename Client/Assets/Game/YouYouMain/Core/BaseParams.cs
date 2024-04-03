@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using YouYouMain;
 
 /// <summary>
 /// 基础参数
 /// </summary>
-public class BaseParams
+internal class BaseParams
 {
     public int IntParam1;
     public int IntParam2;
@@ -35,11 +34,12 @@ public class BaseParams
     public Vector3 Vector3Param1;
 
 
-    public static BaseParams Create()
+    internal static BaseParams Create()
     {
-        BaseParams baseParams = MainEntry.ClassObjectPool.Dequeue<BaseParams>();
-        baseParams.Reset();
-        return baseParams;
+        return new BaseParams();
+        //BaseParams baseParams = MainEntry.ClassObjectPool.Dequeue<BaseParams>();
+        //baseParams.Reset();
+        //return baseParams;
     }
     /// <summary>
     /// 重置

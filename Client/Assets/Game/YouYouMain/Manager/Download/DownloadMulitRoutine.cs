@@ -18,7 +18,8 @@ namespace YouYouMain
         }
         public static DownloadMulitRoutine Create()
         {
-            return MainEntry.ClassObjectPool.Dequeue<DownloadMulitRoutine>();
+            return new DownloadMulitRoutine();
+            //return MainEntry.ClassObjectPool.Dequeue<DownloadMulitRoutine>();
         }
         public void Dispose()
         {
@@ -86,7 +87,7 @@ namespace YouYouMain
         {
             if (lstUrl.Count < 1)
             {
-                MainEntry.ClassObjectPool.Enqueue(this);
+                //MainEntry.ClassObjectPool.Enqueue(this);
                 onDownloadMulitComplete?.Invoke(this);
                 return;
             }
@@ -182,7 +183,7 @@ namespace YouYouMain
                 m_DownloadMulitCurrSize = m_DownloadMulitTotalSize;
                 m_OnDownloadMulitUpdate?.Invoke(m_DownloadMulitCurrCount, m_DownloadMulitNeedCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
 
-                MainEntry.ClassObjectPool.Enqueue(this);
+                //MainEntry.ClassObjectPool.Enqueue(this);
                 m_OnDownloadMulitComplete?.Invoke(this);
                 //Debug.LogError("所有资源下载完毕!!!");
             }

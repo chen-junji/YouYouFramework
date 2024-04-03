@@ -107,7 +107,7 @@ namespace YouYouFramework
             AssetFullPath = null;
             Target = null;
 
-            MainEntry.ClassObjectPool.Enqueue(this); //把这个资源实体回池
+            GameEntry.Pool.ClassObjectPool.Enqueue(this); //把这个资源实体回池
         }
 
         public static AssetReferenceEntity Create(string assetFullPath, Object obj)
@@ -117,7 +117,7 @@ namespace YouYouFramework
                 return null;
             }
 
-            AssetReferenceEntity referenceEntity = MainEntry.ClassObjectPool.Dequeue<AssetReferenceEntity>();
+            AssetReferenceEntity referenceEntity = GameEntry.Pool.ClassObjectPool.Dequeue<AssetReferenceEntity>();
             referenceEntity.AssetFullPath = assetFullPath;
             referenceEntity.Target = obj;
             GameEntry.Loader.MainAssetPool.Register(referenceEntity);

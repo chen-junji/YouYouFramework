@@ -16,7 +16,7 @@ namespace YouYouFramework
         /// <returns></returns>
         public static VarTransform Alloc()
         {
-            VarTransform var = GameEntry.Pool.DequeueVarObject<VarTransform>();
+            VarTransform var = GameEntry.Pool.VarObjectPool.DequeueVarObject<VarTransform>();
             var.Value = null;
             var.Retain();
             return var;

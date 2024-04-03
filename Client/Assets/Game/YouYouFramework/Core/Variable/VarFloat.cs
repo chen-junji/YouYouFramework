@@ -16,7 +16,7 @@ namespace YouYouFramework
         /// <returns></returns>
         public static VarFloat Alloc()
         {
-            VarFloat var = GameEntry.Pool.DequeueVarObject<VarFloat>();
+            VarFloat var = GameEntry.Pool.VarObjectPool.DequeueVarObject<VarFloat>();
             var.Value = 0;
             var.Retain();
             return var;

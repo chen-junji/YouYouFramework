@@ -15,7 +15,7 @@ namespace YouYouFramework
         /// <returns></returns>
         public static VarBool Alloc()
         {
-            VarBool var = GameEntry.Pool.DequeueVarObject<VarBool>();
+            VarBool var = GameEntry.Pool.VarObjectPool.DequeueVarObject<VarBool>();
             var.Value = false;
             var.Retain();
             return var;

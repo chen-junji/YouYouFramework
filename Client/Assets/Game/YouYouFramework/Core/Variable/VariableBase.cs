@@ -45,7 +45,7 @@ namespace YouYouFramework
             if (ReferenceCount < 1)
             {
                 //回池操作
-                GameEntry.Pool.EnqueueVarObject(this);
+                GameEntry.Pool.VarObjectPool.EnqueueVarObject(this);
             }
         }
     }

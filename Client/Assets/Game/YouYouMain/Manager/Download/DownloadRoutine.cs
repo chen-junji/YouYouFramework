@@ -172,7 +172,8 @@ namespace YouYouMain
 
         public static DownloadRoutine Create()
         {
-            return MainEntry.ClassObjectPool.Dequeue<DownloadRoutine>();
+            return new DownloadRoutine();
+            //return MainEntry.ClassObjectPool.Dequeue<DownloadRoutine>();
         }
         public void Reset()
         {
@@ -237,7 +238,7 @@ namespace YouYouMain
                     }
                     MainEntry.LogError("下载失败, URL {0} Error= {1}", m_UnityWebRequest.url, m_UnityWebRequest.error);
                     Reset();
-                    MainEntry.ClassObjectPool.Enqueue(this);
+                    //MainEntry.ClassObjectPool.Enqueue(this);
                     return;
             }
 
@@ -258,7 +259,7 @@ namespace YouYouMain
             //更新可写区的版本信息
             MainEntry.CheckVersion.VersionFile.SaveVersion(m_CurrAssetBundleInfo);
 
-            MainEntry.ClassObjectPool.Enqueue(this);
+            //MainEntry.ClassObjectPool.Enqueue(this);
             m_OnComplete?.Invoke(m_CurrFileUrl, this);
         }
 

@@ -76,7 +76,7 @@ namespace YouYouFramework
                 return null;
             }
 
-            AssetBundleReferenceEntity assetBundleEntity = MainEntry.ClassObjectPool.Dequeue<AssetBundleReferenceEntity>();
+            AssetBundleReferenceEntity assetBundleEntity = GameEntry.Pool.ClassObjectPool.Dequeue<AssetBundleReferenceEntity>();
             assetBundleEntity.AssetBundlePath = path;
             assetBundleEntity.Target = target;
             GameEntry.Loader.AssetBundlePool.Register(assetBundleEntity);
@@ -100,7 +100,7 @@ namespace YouYouFramework
             AssetBundlePath = null;
             Target = null;
 
-            MainEntry.ClassObjectPool.Enqueue(this); //把这个资源实体回池
+            GameEntry.Pool.ClassObjectPool.Enqueue(this); //把这个资源实体回池
         }
 
         /// <summary>
