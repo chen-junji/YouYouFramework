@@ -9,7 +9,7 @@ namespace YouYouFramework
     /// <summary>
     /// 主资源池(只做主资源的引用计数)
     /// </summary>
-    public class MainAssetPool
+    public class AssetPool
     {
 #if UNITY_EDITOR
         /// <summary>
@@ -36,7 +36,7 @@ namespace YouYouFramework
         /// <summary>
         /// 构造函数
         /// </summary>
-        public MainAssetPool()
+        public AssetPool()
         {
             m_AssetDic = new Dictionary<string, AssetReferenceEntity>();
             m_NeedRemoveKeyList = new LinkedList<string>();

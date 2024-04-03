@@ -24,7 +24,7 @@ namespace YouYouFramework
         /// <summary>
         /// 主资源池
         /// </summary>
-        public MainAssetPool MainAssetPool { get; private set; }
+        public AssetPool MainAssetPool { get; private set; }
 
         /// <summary>
         /// 资源包加载器链表
@@ -40,7 +40,7 @@ namespace YouYouFramework
         {
             AssetInfo = new AssetInfoManager();
             AssetBundlePool = new AssetBundlePool();
-            MainAssetPool = new MainAssetPool();
+            MainAssetPool = new AssetPool();
             m_AssetBundleLoaderList = new LinkedList<AssetBundleLoaderRoutine>();
             m_AssetLoaderList = new LinkedList<AssetLoaderRoutine>();
         }
