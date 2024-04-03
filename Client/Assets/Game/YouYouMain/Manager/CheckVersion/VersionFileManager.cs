@@ -88,18 +88,18 @@ namespace YouYouMain
                 if (request.result == UnityWebRequest.Result.Success)
                 {
                     m_CDNVersionDic = GetAssetBundleVersionList(request.downloadHandler.data, ref m_CDNVersion);
-                    MainEntry.Log(MainEntry.LogCategory.Assets, "OnInitCDNVersionFile");
+                    MainEntry.Log("OnInitCDNVersionFile");
                     if (GetVersionFileExists())
                     {
                         //可写区版本文件存在，加载版本文件信息
                         m_LocalAssetsVersionDic = GetAssetBundleVersionList(ref m_LocalAssetsVersion);
-                        MainEntry.Log(MainEntry.LogCategory.Assets, "OnInitLocalVersionFile");
+                        MainEntry.Log("OnInitLocalVersionFile");
                     }
                     onInitComplete?.Invoke();
                 }
                 else
                 {
-                    YouYouMain.MainEntry.Log(MainEntry.LogCategory.Assets, "初始化CDN资源包信息失败，url==" + url);
+                    MainEntry.Log("初始化CDN资源包信息失败，url==" + url);
                 }
             }));
         }

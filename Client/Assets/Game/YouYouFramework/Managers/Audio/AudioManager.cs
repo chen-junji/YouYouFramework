@@ -140,7 +140,7 @@ namespace YouYouFramework
             this.isFadeIn = isFadeIn;
             this.isFadeOut = isFadeOut;
 
-            GameEntry.Log(LogCategory.Audio, "PlayBGM, audioClip=={0}, volume=={1}", audioClip, volume);
+            GameEntry.Log(LogCategory.Audio, string.Format("PlayBGM, audioClip=={0}, volume=={1}", audioClip, volume));
         }
 
         internal void StopBGM(bool isFadeOut)

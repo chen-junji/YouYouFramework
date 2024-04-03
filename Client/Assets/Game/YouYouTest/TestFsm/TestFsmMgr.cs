@@ -75,22 +75,22 @@ public class TestFsmState1 : FsmState<TestFsmMgr>
     internal override void OnEnter()
     {
         base.OnEnter();
-        GameEntry.Log(LogCategory.ZhangSan, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>> OnEnter()");
+        GameEntry.Log(LogCategory.Normal, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>> OnEnter()");
     }
     internal override void OnLeave()
     {
         base.OnLeave();
-        GameEntry.Log(LogCategory.ZhangSan, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>> OnLeave()");
+        GameEntry.Log(LogCategory.Normal, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>> OnLeave()");
     }
     internal override void OnUpdate()
     {
         base.OnUpdate();
-        GameEntry.Log(LogCategory.ZhangSan, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>OnUpdate()");
+        GameEntry.Log(LogCategory.Normal, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>OnUpdate()");
     }
     internal override void OnDestroy()
     {
         base.OnDestroy();
-        GameEntry.Log(LogCategory.ZhangSan, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>OnDestroy()");
+        GameEntry.Log(LogCategory.Normal, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>OnDestroy()");
     }
 
 }
@@ -99,11 +99,11 @@ public class TestFsmState2 : FsmState<TestFsmMgr>
     internal override void OnEnter()
     {
         base.OnEnter();
-        GameEntry.Log(LogCategory.ZhangSan, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>> OnEnter()");
+        GameEntry.Log(LogCategory.Normal, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>> OnEnter()");
     }
     internal override void OnLeave()
     {
         base.OnLeave();
-        GameEntry.Log(LogCategory.ZhangSan, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>> OnLeave()");
+        GameEntry.Log(LogCategory.Normal, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>> OnLeave()");
     }
 }

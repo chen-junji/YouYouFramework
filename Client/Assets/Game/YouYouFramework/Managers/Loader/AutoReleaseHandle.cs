@@ -18,7 +18,7 @@ public class AutoReleaseHandle : MonoBehaviour
         {
             GameObject SceneRoot = GameEntry.Pool.GameObjectPool.YouYouObjPool;
             target = SceneRoot;
-            GameEntry.Log(LogCategory.Loader, "因为{0}没有可绑定的target， 所以绑定到了{1}上， 随当前场景销毁而减少引用计数", referenceEntity.AssetFullPath, SceneRoot);
+            GameEntry.Log(LogCategory.Loader, string.Format("因为{0}没有可绑定的target， 所以绑定到了{1}上， 随当前场景销毁而减少引用计数", referenceEntity.AssetFullPath, SceneRoot));
         }
 
         if (target != null)

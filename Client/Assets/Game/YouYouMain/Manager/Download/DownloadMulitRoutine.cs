@@ -116,7 +116,7 @@ namespace YouYouMain
                 }
                 else
                 {
-                    MainEntry.LogError(MainEntry.LogCategory.Assets, "无效资源包=>" + url);
+                    MainEntry.LogError("无效资源包=>" + url);
                 }
             }
 

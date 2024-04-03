@@ -73,7 +73,7 @@ namespace YouYouMain
             VersionFileEntity entity = MainEntry.CheckVersion.VersionFile.GetVersionFileEntity(url);
             if (entity == null)
             {
-                MainEntry.LogError(MainEntry.LogCategory.Assets, "无效资源包=>" + url);
+                MainEntry.LogError("无效资源包=>" + url);
                 return;
             }
 

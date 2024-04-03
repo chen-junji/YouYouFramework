@@ -48,18 +48,18 @@ namespace YouYouMain
         /// </summary>
         public void CheckVersionChange()
         {
-            MainEntry.Log(MainEntry.LogCategory.Assets, "检查更新=>CheckVersionChange(), 版本号=>{0}", VersionFile.LocalAssetsVersion);
+            MainEntry.Log("检查更新=>CheckVersionChange(), 版本号=>{0}", VersionFile.LocalAssetsVersion);
 
             if (VersionFile.GetVersionFileExists())
             {
                 if (!string.IsNullOrEmpty(VersionFile.LocalAssetsVersion) && VersionFile.LocalAssetsVersion.Equals(VersionFile.CDNVersion))
                 {
-                    MainEntry.Log(MainEntry.LogCategory.Assets, "可写区版本号和CDN版本号一致 进入预加载流程");
+                    MainEntry.Log("可写区版本号和CDN版本号一致 进入预加载流程");
                     CheckVersionComplete?.Invoke();
                 }
                 else
                 {
-                    MainEntry.Log(MainEntry.LogCategory.Assets, "可写区版本号和CDN版本号不一致 开始检查更新");
+                    MainEntry.Log("可写区版本号和CDN版本号不一致 开始检查更新");
                     BeginCheckVersionChange();
                 }
             }
@@ -97,7 +97,7 @@ namespace YouYouMain
             }
             else
             {
-                MainEntry.Log(MainEntry.LogCategory.Assets, "下载初始资源,文件数量==>>" + m_NeedDownloadList.Count);
+                MainEntry.Log("下载初始资源,文件数量==>>" + m_NeedDownloadList.Count);
                 MainEntry.Download.BeginDownloadMulit(m_NeedDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
             }
         }
@@ -139,7 +139,7 @@ namespace YouYouMain
             }
 
             //删除需要删除的
-            MainEntry.Log(MainEntry.LogCategory.Assets, "删除旧资源=>{0}", deleteList.ToJson());
+            MainEntry.Log("删除旧资源=>{0}", deleteList.ToJson());
             LinkedListNode<string> currDel = deleteList.First;
             while (currDel != null)
             {
@@ -171,7 +171,7 @@ namespace YouYouMain
             CheckVersionBeginDownload?.Invoke();
 
             //进行下载
-            MainEntry.Log(MainEntry.LogCategory.Assets, "下载更新资源,文件数量==>" + needDownloadList.Count + "==>" + needDownloadList.ToJson());
+            MainEntry.Log("下载更新资源,文件数量==>" + needDownloadList.Count + "==>" + needDownloadList.ToJson());
             MainEntry.Download.BeginDownloadMulit(needDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
         }
         /// <summary>
@@ -197,7 +197,7 @@ namespace YouYouMain
             CheckVersionDownloadComplete?.Invoke();
             MainEntry.ClassObjectPool.Enqueue(m_DownloadingParams);
 
-            MainEntry.Log(MainEntry.LogCategory.Assets, "检查更新下载完毕 进入预加载流程");
+            MainEntry.Log("检查更新下载完毕 进入预加载流程");
             CheckVersionComplete?.Invoke();
         }
 

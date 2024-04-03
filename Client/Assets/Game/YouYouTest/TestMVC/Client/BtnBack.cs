@@ -10,7 +10,7 @@ public class BtnBack : MonoBehaviour
     {
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            GameEntry.Log(LogCategory.ZhangSan, "回到上一级场景");
+            GameEntry.Log(LogCategory.Normal, "回到上一级场景");
             GameEntry.UI.OpenUIForm<LoadingForm>();
             GameEntry.Scene.LoadSceneAction(SceneGroupName.Main);
         });

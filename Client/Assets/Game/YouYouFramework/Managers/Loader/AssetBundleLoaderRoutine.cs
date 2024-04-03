@@ -145,11 +145,11 @@ namespace YouYouFramework
                 AssetBundle assetBundle = CurrAssetBundleCreateRequest.assetBundle;
                 if (assetBundle != null)
                 {
-                    //GameEntry.Log(LogCategory.Loader, "资源包=>{0} 加载完毕", m_CurrAssetBundleInfo.AssetBundleName);
+                    //GameEntry.Log(LogCategory.Loader, string.Format("资源包=>{0} 加载完毕", m_CurrAssetBundleInfo.AssetBundleName));
                 }
                 else
                 {
-                    GameEntry.LogError(LogCategory.Loader, "资源包=>{0} 加载失败", CurrAssetBundleInfo.AssetBundleName);
+                    GameEntry.LogError(LogCategory.Loader, string.Format("资源包=>{0} 加载失败", CurrAssetBundleInfo.AssetBundleName));
                 }
                 Reset();//一定要早点Reset
                 MainEntry.ClassObjectPool.Enqueue(this);

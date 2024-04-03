@@ -37,10 +37,10 @@ public class TestDownload : MonoBehaviour
     }
     private void OnDownloadMulitComplete()
     {
-        GameEntry.Log(LogCategory.ZhangSan, "下载完毕");
+        GameEntry.Log(LogCategory.Normal, "下载完毕");
     }
     private void OnDownloadMulitUpdate(int t1, int t2, ulong t3, ulong t4)
     {
-        GameEntry.Log(LogCategory.ZhangSan, string.Format("下载中 当前数量{0}/{1}  当前大小(字节){2}/{3}", t1, t2, t3, t4));
+        GameEntry.Log(LogCategory.Normal, string.Format("下载中 当前数量{0}/{1}  当前大小(字节){2}/{3}", t1, t2, t3, t4));
     }
 }

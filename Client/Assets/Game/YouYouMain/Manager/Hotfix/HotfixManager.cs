@@ -39,7 +39,7 @@ namespace YouYouMain
                         LoadMetadataForAOTAssemblies();
                         TextAsset hotfixAsset = hotfixAb.LoadAsset<TextAsset>("Assembly-CSharp.dll.bytes");
                         System.Reflection.Assembly.Load(hotfixAsset.bytes);
-                        MainEntry.Log(MainEntry.LogCategory.Assets, "Assembly-CSharp.dll加载完毕");
+                        MainEntry.Log("Assembly-CSharp.dll加载完毕");
 #endif
 
                         UnityEngine.Object.Instantiate(hotfixAb.LoadAsset<GameObject>("gameentry.prefab"));
@@ -60,12 +60,12 @@ namespace YouYouMain
             bool isEquals = MainEntry.CheckVersion.CheckVersionChangeSingle(url);
             if (isEquals)
             {
-                MainEntry.Log(MainEntry.LogCategory.Assets, "资源没变化, 不用重新下载, url==" + url);
+                MainEntry.Log("资源没变化, 不用重新下载, url==" + url);
                 onComplete?.Invoke(url);
             }
             else
             {
-                MainEntry.Log(MainEntry.LogCategory.Assets, "资源有更新, 重新下载, url==" + url);
+                MainEntry.Log("资源有更新, 重新下载, url==" + url);
                 MainEntry.Download.BeginDownloadSingle(url, onComplete: onComplete);
             }
         }
@@ -86,7 +86,7 @@ namespace YouYouMain
                 // 加载assembly对应的dll，会自动为它hook。一旦aot泛型函数的native函数不存在，用解释器版本代码
                 LoadImageErrorCode err = RuntimeApi.LoadMetadataForAOTAssembly(dllBytes, mode);
             }
-            MainEntry.Log(MainEntry.LogCategory.Assets, "补充元数据Dll加载完毕==" + aotMetaAssemblyFiles.ToJson());
+            MainEntry.Log("补充元数据Dll加载完毕==" + aotMetaAssemblyFiles.ToJson());
         }
     }
 }

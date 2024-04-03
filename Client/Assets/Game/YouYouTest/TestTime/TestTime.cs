@@ -13,10 +13,10 @@ public class TestTime : MonoBehaviour
         {
             action = GameEntry.Time.CreateTimerLoop(this, 1f, 10, (int loop) =>
             {
-                GameEntry.Log(LogCategory.ZhangSan, "运行中 剩余次数=" + loop);
+                GameEntry.Log(LogCategory.Normal, "运行中 剩余次数=" + loop);
             }, () =>
             {
-                GameEntry.Log(LogCategory.ZhangSan, "定时器运行完毕");
+                GameEntry.Log(LogCategory.Normal, "定时器运行完毕");
             }, false);
         }
 
@@ -30,7 +30,7 @@ public class TestTime : MonoBehaviour
         {
             GameEntry.Time.CreateTimer(this, 1, () =>
             {
-                GameEntry.Log(LogCategory.ZhangSan, "延迟1秒等待结束时");
+                GameEntry.Log(LogCategory.Normal, "延迟1秒等待结束时");
             });
         }
 
@@ -42,16 +42,16 @@ public class TestTime : MonoBehaviour
 
     private async void Attack()
     {
-        GameEntry.Log(LogCategory.ZhangSan, "怪物SetActive(true)");
+        GameEntry.Log(LogCategory.Normal, "怪物SetActive(true)");
 
         await GameEntry.Time.Delay(this, 1);
-        GameEntry.Log(LogCategory.ZhangSan, "怪物出生动画播完");
+        GameEntry.Log(LogCategory.Normal, "怪物出生动画播完");
 
         await GameEntry.Time.Delay(this, 1);
-        GameEntry.Log(LogCategory.ZhangSan, "怪物丢炸弹动画播完");
+        GameEntry.Log(LogCategory.Normal, "怪物丢炸弹动画播完");
 
         await GameEntry.Time.Delay(this, 1);
-        GameEntry.Log(LogCategory.ZhangSan, "怪物遁地动画播完");
-        GameEntry.Log(LogCategory.ZhangSan, "怪物SetActive(false)");
+        GameEntry.Log(LogCategory.Normal, "怪物遁地动画播完");
+        GameEntry.Log(LogCategory.Normal, "怪物SetActive(false)");
     }
 }

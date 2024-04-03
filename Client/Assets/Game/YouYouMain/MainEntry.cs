@@ -2,35 +2,13 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace YouYouMain
 {
     public class MainEntry : MonoBehaviour
     {
-        /// <summary>
-        /// 日志分类
-        /// </summary>
-        public enum LogCategory
-        {
-            /// <summary>
-            /// 框架日志
-            /// </summary>
-            Framework,
-            /// <summary>
-            /// 流程
-            /// </summary>
-            Procedure,
-            /// <summary>
-            /// 资源管理
-            /// </summary>
-            Assets,
-            /// <summary>
-            /// 网络消息
-            /// </summary>
-            NetWork
-        }
-
         //全局参数设置
         [FoldoutGroup("ParamsSettings")]
         [SerializeField]
@@ -96,56 +74,30 @@ namespace YouYouMain
             Download.Dispose();
         }
 
-        internal static void Log(LogCategory catetory, object message, params object[] args)
+        internal static void Log(params object[] args)
         {
 #if DEBUG_LOG_NORMAL
-            //由于性能原因，项目正式上线后， 即使开启了DEBUG_LOG_NORMAL也依然不打印普通日志， 只打印警告日志和错误日志
+            //由于性能原因，如果在Build Settings中没有勾上“Development Build”
+            //即使开启了DEBUG_LOG_NORMAL也依然不打印普通日志， 只打印警告日志和错误日志
             if (!Debug.isDebugBuild)
             {
                 return;
             }
-            string value = string.Empty;
-            if (args.Length == 0)
-            {
-                value = message.ToString();
-            }
-            else
-            {
-                value = string.Format(message.ToString(), args);
-            }
-            Debug.Log(string.Format("MainEntryLog=={0}=={1}", catetory.ToString(), value));
+            Debug.Log("MainEntryLog - " + args.Aggregate("", (current, message) => current + (" - " + message)));
 #endif
         }
 
-        internal static void LogWarning(LogCategory catetory, object message, params object[] args)
+        internal static void LogWarning(params object[] args)
         {
 #if DEBUG_LOG_WARNING
-            string value = string.Empty;
-            if (args.Length == 0)
-            {
-                value = message.ToString();
-            }
-            else
-            {
-                value = string.Format(message.ToString(), args);
-            }
-            Debug.LogWarning(string.Format("MainEntryLog=={0}=={1}", catetory.ToString(), value));
+            Debug.LogWarning("MainEntryLog - " + args.Aggregate("", (current, message) => current + (" - " + message)));
 #endif
         }
 
-        internal static void LogError(LogCategory catetory, object message, params object[] args)
+        internal static void LogError(params object[] args)
         {
 #if DEBUG_LOG_ERROR
-            string value = string.Empty;
-            if (args.Length == 0)
-            {
-                value = message.ToString();
-            }
-            else
-            {
-                value = string.Format(message.ToString(), args);
-            }
-            Debug.LogError(string.Format("MainEntryLog=={0}=={1}", catetory.ToString(), value));
+            Debug.LogError("MainEntryLog - " + args.Aggregate("", (current, message) => current + (" - " + message)));
 #endif
         }
 

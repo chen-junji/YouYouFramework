@@ -15,12 +15,12 @@ public class TestLocalization : MonoBehaviour
             if (GameEntry.CurrLanguage == YouYouLanguage.Chinese)
             {
                 GameEntry.Localization.ChangeLanguage(YouYouLanguage.English);
-                GameEntry.Log(LogCategory.ZhangSan, GameEntry.Localization.GetString("测试文本"));
+                GameEntry.Log(LogCategory.Normal, GameEntry.Localization.GetString("测试文本"));
             }
             else if (GameEntry.CurrLanguage == YouYouLanguage.English)
             {
                 GameEntry.Localization.ChangeLanguage(YouYouLanguage.Chinese);
-                GameEntry.Log(LogCategory.ZhangSan, GameEntry.Localization.GetString("测试文本"));
+                GameEntry.Log(LogCategory.Normal, GameEntry.Localization.GetString("测试文本"));
             }
         });
     }

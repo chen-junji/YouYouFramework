@@ -78,7 +78,7 @@ namespace YouYouFramework
                     }
                     else
                     {
-                        GameEntry.LogError(LogCategory.Loader, "资源=>{0} 加载失败", CurrAssetName);
+                        GameEntry.LogError(LogCategory.Loader, string.Format("资源=>{0} 加载失败", CurrAssetName));
                     }
                     Reset();//一定要早点Reset
                     MainEntry.ClassObjectPool.Enqueue(this);

@@ -17,7 +17,7 @@ public class TestPlayerPrefs : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.S))
         {
             //获取本地存档
-            GameEntry.Log(LogCategory.ZhangSan, GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.MasterVolume));
+            GameEntry.Log(LogCategory.Normal, GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.MasterVolume));
         }
 
         if (Input.GetKeyUp(KeyCode.D))

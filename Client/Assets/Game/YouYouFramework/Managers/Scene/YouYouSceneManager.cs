@@ -113,7 +113,7 @@ namespace YouYouFramework
         {
             if (m_CurrSceneIsLoading)
             {
-                GameEntry.LogError(LogCategory.Framework, "场景{0}正在加载中", m_CurrSceneGroupName);
+                GameEntry.LogError(LogCategory.Framework, string.Format("场景{0}正在加载中", m_CurrSceneGroupName));
                 return;
             }
             m_CurrSceneIsLoading = true;
@@ -121,7 +121,7 @@ namespace YouYouFramework
             m_OnComplete = onComplete;
             if (m_CurrSceneGroupName == sceneName)
             {
-                GameEntry.LogError(LogCategory.Framework, "正在重复加载场景{0}", sceneName);
+                GameEntry.LogError(LogCategory.Framework, string.Format("正在重复加载场景{0}", sceneName));
                 m_OnComplete?.Invoke();
                 return;
             }
@@ -203,7 +203,7 @@ namespace YouYouFramework
 
                 if (m_CurrProgress == 1)
                 {
-                    GameEntry.Log(LogCategory.Scene, "场景加载完毕=={0}", CurrSceneEntityGroup.ToJson());
+                    GameEntry.Log(LogCategory.Scene, string.Format("场景加载完毕=={0}", CurrSceneEntityGroup.ToJson()));
                     m_CurrSceneIsLoading = false;
                     m_OnComplete?.Invoke();
                 }

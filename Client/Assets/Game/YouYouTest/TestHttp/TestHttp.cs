@@ -18,7 +18,7 @@ public class TestHttp : MonoBehaviour
             //Get请求, 自动判断HasError
             GameEntry.Http.Get("Test/AAA", callBack: (string json) =>
             {
-                GameEntry.Log(LogCategory.ZhangSan, json);
+                GameEntry.Log(LogCategory.Normal, json);
             });
         }
         if (Input.GetKeyUp(KeyCode.S))
@@ -28,7 +28,7 @@ public class TestHttp : MonoBehaviour
             {
                 if (!callBackArgs.HasError)
                 {
-                    GameEntry.Log(LogCategory.ZhangSan, callBackArgs.Value);
+                    GameEntry.Log(LogCategory.Normal, callBackArgs.Value);
                 }
             });
         }
@@ -37,20 +37,20 @@ public class TestHttp : MonoBehaviour
             //Post请求
             GameEntry.Http.Post("Test/AAA", callBack: (string json) =>
             {
-                GameEntry.Log(LogCategory.ZhangSan, json);
+                GameEntry.Log(LogCategory.Normal, json);
             });
         }
         if (Input.GetKeyUp(KeyCode.D))
         {
             //Post请求 
             string json = await GameEntry.Http.PostAsync("Test/AAA");
-            GameEntry.Log(LogCategory.ZhangSan, json);
+            GameEntry.Log(LogCategory.Normal, json);
         }
         if (Input.GetKeyUp(KeyCode.D))
         {
             //Post请求, 自动弹出转圈UI, 屏蔽玩家点击
             string json = await GameEntry.Http.PostAsync("Test/AAA", loadingCircle: true);
-            GameEntry.Log(LogCategory.ZhangSan, json);
+            GameEntry.Log(LogCategory.Normal, json);
         }
     }
 }

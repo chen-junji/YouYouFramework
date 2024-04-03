@@ -28,7 +28,7 @@ public class TestInput : MonoBehaviour
         if (GameEntry.Input.GetButtonUp(InputName.BuyTower))
         {
             //监听Input触发, 打印日志
-            GameEntry.Log(LogCategory.ZhangSan, InputName.BuyTower.ToString());
+            GameEntry.Log(LogCategory.Normal, InputName.BuyTower.ToString());
         }
     }
 }

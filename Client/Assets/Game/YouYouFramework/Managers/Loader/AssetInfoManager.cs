@@ -91,7 +91,7 @@ namespace YouYouFramework
             {
                 return entity;
             }
-            GameEntry.LogError(LogCategory.Loader, "资源不存在, assetFullName=>{0}", assetFullName);
+            GameEntry.LogError(LogCategory.Loader, string.Format("资源不存在, assetFullName=>{0}", assetFullName));
             return null;
         }
 

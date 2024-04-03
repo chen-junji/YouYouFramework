@@ -24,14 +24,14 @@ public class SpwnObjNode : BaseActionNode
     protected override void OnStart()
     {
         TimelineCtrl timelineCtrl = Owner.RoleCtrl.CreateSkillTimeLine(SpwnObjName.Value);
-        GameEntry.Log(LogCategory.ZhangSan, "开始释放技能 Skill1");
+        GameEntry.Log(LogCategory.Skill, "开始释放技能 Skill1");
         timelineCtrl.OnStopped = () =>
         {
             Finish(true);
-            GameEntry.Log(LogCategory.ZhangSan, "技能释放完毕 Skill1");
+            GameEntry.Log(LogCategory.Skill, "技能释放完毕 Skill1");
 
             Owner.Restart();
-            GameEntry.Log(LogCategory.ZhangSan, "重启行为树");
+            GameEntry.Log(LogCategory.Skill, "重启行为树");
         };
     }
 

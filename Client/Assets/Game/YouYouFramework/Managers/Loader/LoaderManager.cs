@@ -301,7 +301,7 @@ namespace YouYouFramework
 
             if (referenceEntity == null)
             {
-                GameEntry.LogError(LogCategory.Loader, "资源加载失败,assetFullPath=={0}", assetFullPath);
+                GameEntry.LogError(LogCategory.Loader, string.Format("资源加载失败,assetFullPath=={0}", assetFullPath));
             }
             return referenceEntity;
         }
@@ -351,7 +351,7 @@ namespace YouYouFramework
 
             if (referenceEntity == null)
             {
-                GameEntry.LogError(LogCategory.Loader, "资源加载失败,assetFullPath=={0}", assetFullPath);
+                GameEntry.LogError(LogCategory.Loader, string.Format("资源加载失败,assetFullPath=={0}", assetFullPath));
             }
             return referenceEntity;
         }

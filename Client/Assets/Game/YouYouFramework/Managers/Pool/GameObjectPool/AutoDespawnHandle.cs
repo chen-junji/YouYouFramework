@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using UnityEngine;
 using YouYouFramework;
+using static Reporter;
 
 
 /// <summary>
@@ -19,7 +20,16 @@ public class AutoDespawnHandle : MonoBehaviour
     public void SetDelayTimeDespawn(float delayTime)
     {
         DelayTimeDespawn = delayTime;
-        if (DelayTimeDespawn <= 0) return;
+        if (DelayTimeDespawn < 0)
+        {
+            GameEntry.LogError(LogCategory.Pool, "DelayTimeDespawn不允许小于0");
+            return;
+        }
+        if (DelayTimeDespawn == 0)
+        {
+            GameEntry.Pool.GameObjectPool.Despawn(transform);
+            return;
+        }
 
         StopTime();
         coroutine = StartCoroutine(DelayDespawn());
@@ -30,7 +40,7 @@ public class AutoDespawnHandle : MonoBehaviour
         if (coroutine != null)
         {
             StopCoroutine(coroutine);
-            coroutine = null; 
+            coroutine = null;
         }
     }
 

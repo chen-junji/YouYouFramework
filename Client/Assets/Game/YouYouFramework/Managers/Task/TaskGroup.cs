@@ -173,13 +173,13 @@ namespace YouYouFramework
         public void LogTask()
         {
             GameEntry.LogError(LogCategory.Framework, "======================");
-            GameEntry.LogError(LogCategory.Framework, "InTask={0}", InTask);
+            GameEntry.LogError(LogCategory.Framework, string.Format("InTask={0}", InTask));
             LinkedListNode<TaskRoutine> routine = m_TaskRoutineList.First;
             while (routine != null)
             {
                 GameEntry.LogError(LogCategory.Framework, routine.Value);
                 GameEntry.LogError(LogCategory.Framework, routine.Value.CurrTask);
-                GameEntry.LogError(LogCategory.Framework, "{0}=========={1}", routine.Value.CurrTask.Target, routine.Value.CurrTask.Method);
+                GameEntry.LogError(LogCategory.Framework, string.Format("{0}=========={1}", routine.Value.CurrTask.Target), routine.Value.CurrTask.Method);
                 routine = routine.Next;
             }
         }

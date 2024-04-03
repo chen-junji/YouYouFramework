@@ -12,21 +12,21 @@ public class TestDataTable : MonoBehaviour
         {
             //根据ID获取某一行配置数据
             Sys_UIFormEntity entity = GameEntry.DataTable.Sys_UIFormDBModel.GetDic(1);
-            GameEntry.Log(LogCategory.ZhangSan, entity.ToJson());
+            GameEntry.Log(LogCategory.Normal, entity.ToJson());
         }
 
         if (Input.GetKeyUp(KeyCode.S))
         {
             //获取所有配置数据
             List<Sys_UIFormEntity> lst = GameEntry.DataTable.Sys_UIFormDBModel.GetList();
-            GameEntry.Log(LogCategory.ZhangSan, lst.ToJson());
+            GameEntry.Log(LogCategory.Normal, lst.ToJson());
         }
 
         if (Input.GetKeyUp(KeyCode.D))
         {
             //根据名字获取配置数据
             Sys_UIFormEntity entity = GameEntry.DataTable.Sys_UIFormDBModel.GetEntity("FormDialog"); ;
-            GameEntry.Log(LogCategory.ZhangSan, entity.ToJson());
+            GameEntry.Log(LogCategory.Normal, entity.ToJson());
         }
     }
 #endif

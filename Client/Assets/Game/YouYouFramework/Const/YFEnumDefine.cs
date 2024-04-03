@@ -26,22 +26,34 @@ namespace YouYouFramework
         /// </summary>
         NetWork,
         /// <summary>
-        /// 新手引导
+        /// UI管理
         /// </summary>
-        Guide,
         UI,
+        /// <summary>
+        /// 音效管理
+        /// </summary>
         Audio,
+        /// <summary>
+        /// 场景管理
+        /// </summary>
         Scene,
+        /// <summary>
+        /// 对象池
+        /// </summary>
         Pool,
 
         /// <summary>
-        /// 张三(程序员)
+        /// 业务通用日志
         /// </summary>
-        ZhangSan,
+        Normal,
         /// <summary>
-        /// 李四(程序员)
+        /// 新手引导
         /// </summary>
-        LiSi
+        Guide,
+        /// <summary>
+        /// 技能系统相关日志
+        /// </summary>
+        Skill
     }
 
     /// <summary>

@@ -2,6 +2,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -144,56 +145,30 @@ namespace YouYouFramework
         }
 
 
-        public static void Log(LogCategory catetory, object message, params object[] args)
+        public static void Log(LogCategory catetory, params object[] args)
         {
 #if DEBUG_LOG_NORMAL
-            //由于性能原因，项目正式上线后， 即使开启了DEBUG_LOG_NORMAL也依然不打印普通日志， 只打印警告日志和错误日志
+            //由于性能原因，如果在Build Settings中没有勾上“Development Build”
+            //即使开启了DEBUG_LOG_NORMAL也依然不打印普通日志， 只打印警告日志和错误日志
             if (!Debug.isDebugBuild)
             {
                 return;
             }
-            string value = string.Empty;
-            if (args.Length == 0)
-            {
-                value = message.ToString();
-            }
-            else
-            {
-                value = string.Format(message.ToString(), args);
-            }
-            Debug.Log(string.Format("GameEntryLog=={0}=={1}", catetory.ToString(), value));
+            Debug.Log("GameEntryLog - " + catetory.ToString() + args.Aggregate("", (current, message) => current + (" - " + message)));
 #endif
         }
 
-        public static void LogWarning(LogCategory catetory, object message, params object[] args)
+        public static void LogWarning(LogCategory catetory, params object[] args)
         {
 #if DEBUG_LOG_WARNING
-            string value = string.Empty;
-            if (args.Length == 0)
-            {
-                value = message.ToString();
-            }
-            else
-            {
-                value = string.Format(message.ToString(), args);
-            }
-            Debug.LogWarning(string.Format("GameEntryLog=={0}=={1}", catetory.ToString(), value));
+            Debug.LogWarning("GameEntryLog - " + catetory.ToString() + args.Aggregate("", (current, message) => current + (" - " + message)));
 #endif
         }
 
-        public static void LogError(LogCategory catetory, object message, params object[] args)
+        public static void LogError(LogCategory catetory, params object[] args)
         {
 #if DEBUG_LOG_ERROR
-            string value = string.Empty;
-            if (args.Length == 0)
-            {
-                value = message.ToString();
-            }
-            else
-            {
-                value = string.Format(message.ToString(), args);
-            }
-            Debug.LogError(string.Format("GameEntryLog=={0}=={1}", catetory.ToString(), value));
+            Debug.LogError("GameEntryLog - " + catetory.ToString() + args.Aggregate("", (current, message) => current + (" - " + message)));
 #endif
         }
 
