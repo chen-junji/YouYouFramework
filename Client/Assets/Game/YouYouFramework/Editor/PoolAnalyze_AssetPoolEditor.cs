@@ -22,7 +22,7 @@ public class PoolAnalyze_AssetPoolEditor : Editor
         if (GameEntry.Pool != null)
         {
             GUILayout.BeginHorizontal("box");
-            GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (GameEntry.Pool.ReleaseAssetNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetInterval)), titleStyle);
+            GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (GameEntry.Loader.MainAssetPool.ReleaseNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetInterval)), titleStyle);
             GUILayout.EndHorizontal();
         }
 
@@ -37,7 +37,7 @@ public class PoolAnalyze_AssetPoolEditor : Editor
 
         if (GameEntry.Pool != null)
         {
-            foreach (var item in GameEntry.Pool.AssetPool.InspectorDic)
+            foreach (var item in GameEntry.Loader.MainAssetPool.InspectorDic)
             {
                 GUILayout.BeginHorizontal("box");
                 GUILayout.Label(item.Key);

@@ -21,7 +21,7 @@ public class PoolAnalyze_AssetBundlePoolEditor : Editor
 		if (GameEntry.Pool != null)
 		{
 			GUILayout.BeginHorizontal("box");
-			GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (GameEntry.Pool.ReleaseAssetBundleNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetBundleInterval)), titleStyle);
+			GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (GameEntry.Loader.AssetBundlePool.ReleaseNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetBundleInterval)), titleStyle);
 			GUILayout.EndHorizontal();
 		}
 		//===================资源池变量计数==================
@@ -35,14 +35,14 @@ public class PoolAnalyze_AssetBundlePoolEditor : Editor
 
 		if (GameEntry.Pool != null)
 		{
-			foreach (var item in GameEntry.Pool.AssetBundlePool.InspectorDic)
+			foreach (var item in GameEntry.Loader.AssetBundlePool.InspectorDic)
 			{
 				GUILayout.BeginHorizontal("box");
 				GUILayout.Label(item.Key);
 
 				titleStyle.fixedWidth = 50;
 				GUILayout.Label(item.Value.ReferenceCount.ToString(), titleStyle);
-				float remain = Mathf.Max(0, GameEntry.Pool.ReleaseAssetBundleNextRunTime - (Time.time - item.Value.LastUseTime));
+				float remain = Mathf.Max(0, GameEntry.Loader.AssetBundlePool.ReleaseNextRunTime - (Time.time - item.Value.LastUseTime));
 
 				GUILayout.Label(remain.ToString(), titleStyle);
 				GUILayout.EndHorizontal();

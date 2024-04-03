@@ -51,11 +51,11 @@ namespace YouYouFramework
                 if (ReferenceCount == 1)
                 {
                     AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(AssetFullPath);
-                    AssetBundleReferenceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
+                    AssetBundleReferenceEntity assetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
                     assetBundleEntity.ReferenceAdd();
                     for (int i = 0; i < assetEntity.DependsAssetBundleList.Count; i++)
                     {
-                        AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
+                        AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
                         dependAssetBundleEntity.ReferenceAdd();
                     }
                 }
@@ -74,11 +74,11 @@ namespace YouYouFramework
                 if (ReferenceCount == 0)
                 {
                     AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(AssetFullPath);
-                    AssetBundleReferenceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
+                    AssetBundleReferenceEntity assetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
                     assetBundleEntity.ReferenceRemove();
                     for (int i = 0; i < assetEntity.DependsAssetBundleList.Count; i++)
                     {
-                        AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
+                        AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
                         dependAssetBundleEntity.ReferenceRemove();
                     }
                 }
@@ -120,7 +120,7 @@ namespace YouYouFramework
             AssetReferenceEntity referenceEntity = MainEntry.ClassObjectPool.Dequeue<AssetReferenceEntity>();
             referenceEntity.AssetFullPath = assetFullPath;
             referenceEntity.Target = obj;
-            GameEntry.Pool.AssetPool.Register(referenceEntity);
+            GameEntry.Loader.MainAssetPool.Register(referenceEntity);
             return referenceEntity;
         }
     }

@@ -15,21 +15,10 @@ namespace YouYouFramework
         /// 游戏物体对象池
         /// </summary>
         public GameObjectPool GameObjectPool { get; private set; }
-        /// <summary>
-        /// 资源包池
-        /// </summary>
-        public AssetBundlePool AssetBundlePool { get; private set; }
-        /// <summary>
-        /// 主资源池
-        /// </summary>
-        public AssetPool AssetPool { get; private set; }
 
         internal PoolManager()
         {
             GameObjectPool = new GameObjectPool();
-
-            AssetBundlePool = new AssetBundlePool("AssetBundlePool");
-            AssetPool = new AssetPool("AssetPool");
         }
 
         /// <summary>
@@ -37,40 +26,13 @@ namespace YouYouFramework
         /// </summary>
         internal void Init()
         {
-            ReleaseClassObjectNextRunTime = Time.time;
-            ReleaseAssetBundleNextRunTime = Time.time;
-            ReleaseAssetNextRunTime = Time.time;
 
-            m_LockedAssetBundleLength = GameEntry.Instance.LockedAssetBundle.Length;
             InitClassReside();
 
             GameObjectPool.Init();
         }
 
         //============================
-
-
-        /// <summary>
-        /// 锁定的资源包数组长度
-        /// </summary>
-        private int m_LockedAssetBundleLength;
-
-        /// <summary>
-        /// 检查资源包是否锁定
-        /// </summary>
-        /// <param name="assetBundleName">资源包名称</param>
-        /// <returns></returns>
-        public bool CheckAssetBundleIsLock(string assetBundleName)
-        {
-            for (int i = 0; i < m_LockedAssetBundleLength; i++)
-            {
-                if (GameEntry.Instance.LockedAssetBundle[i].Equals(assetBundleName, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
 
         /// <summary>
         /// 初始化常用类常驻数量
@@ -150,47 +112,8 @@ namespace YouYouFramework
 
         #endregion
 
-        /// <summary>
-        /// 下次释放类对象运行时间
-        /// </summary>
-        public float ReleaseClassObjectNextRunTime { get; private set; }
-
-        /// <summary>
-        /// 下次释放AssetBundle池运行时间
-        /// </summary>
-        public float ReleaseAssetBundleNextRunTime { get; private set; }
-
-        /// <summary>
-        /// 下次释放Asset池运行时间
-        /// </summary>
-        public float ReleaseAssetNextRunTime { get; private set; }
-
         internal void OnUpdate()
         {
-            if (Time.time > ReleaseClassObjectNextRunTime + MainEntry.ParamsSettings.PoolReleaseClassObjectInterval)
-            {
-                ReleaseClassObjectNextRunTime = Time.time;
-                MainEntry.ClassObjectPool.Release();
-                //GameEntry.Log(LogCategory.Normal, "释放类对象池");
-            }
-
-            if (MainEntry.IsAssetBundleMode)
-            {
-                if (Time.time > ReleaseAssetBundleNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetBundleInterval)
-                {
-                    ReleaseAssetBundleNextRunTime = Time.time;
-                    AssetBundlePool.Release();
-                    //GameEntry.Log(LogCategory.Normal, "释放AssetBundle池");
-                }
-            }
-
-            if (Time.time > ReleaseAssetNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetInterval)
-            {
-                ReleaseAssetNextRunTime = Time.time;
-                AssetPool.Release();
-                //GameEntry.Log(LogCategory.Normal, "释放Asset池");
-            }
-
         }
 
     }

@@ -18,6 +18,15 @@ namespace YouYouFramework
         public AssetInfoManager AssetInfo { get; private set; }
 
         /// <summary>
+        /// 资源包池
+        /// </summary>
+        public AssetBundlePool AssetBundlePool { get; private set; }
+        /// <summary>
+        /// 主资源池
+        /// </summary>
+        public MainAssetPool MainAssetPool { get; private set; }
+
+        /// <summary>
         /// 资源包加载器链表
         /// </summary>
         private LinkedList<AssetBundleLoaderRoutine> m_AssetBundleLoaderList;
@@ -30,6 +39,8 @@ namespace YouYouFramework
         public LoaderManager()
         {
             AssetInfo = new AssetInfoManager();
+            AssetBundlePool = new AssetBundlePool();
+            MainAssetPool = new MainAssetPool();
             m_AssetBundleLoaderList = new LinkedList<AssetBundleLoaderRoutine>();
             m_AssetLoaderList = new LinkedList<AssetLoaderRoutine>();
         }
@@ -39,6 +50,9 @@ namespace YouYouFramework
         }
         internal void OnUpdate()
         {
+            AssetBundlePool.OnUpdate();
+            MainAssetPool.OnUpdate();
+
             for (LinkedListNode<AssetBundleLoaderRoutine> curr = m_AssetBundleLoaderList.First; curr != null; curr = curr.Next)
             {
                 curr.Value.OnUpdate();
@@ -65,7 +79,7 @@ namespace YouYouFramework
             AssetBundleTaskGroup.AddTask((taskRoutine) =>
             {
                 //判断资源包是否存在于AssetBundlePool
-                AssetBundleReferenceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
+                AssetBundleReferenceEntity assetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetbundlePath);
                 if (assetBundleEntity != null)
                 {
                     //GameEntry.Log("资源包在资源池中存在 从资源池中加载AssetBundle");
@@ -155,7 +169,7 @@ namespace YouYouFramework
         public AssetBundle LoadAssetBundle(string assetbundlePath)
         {
             //判断资源包是否存在于AssetBundlePool
-            AssetBundleReferenceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetbundlePath);
+            AssetBundleReferenceEntity assetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetbundlePath);
             if (assetBundleEntity != null)
             {
                 //GameEntry.Log("资源包在资源池中存在 从资源池中加载AssetBundle");
@@ -194,7 +208,7 @@ namespace YouYouFramework
             AssetTaskGroup.AddTask((taskRoutine) =>
             {
                 //从分类资源池(AssetPool)中查找资源
-                AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullPath);
+                AssetReferenceEntity referenceEntity = GameEntry.Loader.MainAssetPool.Spawn(assetFullPath);
                 if (referenceEntity != null)
                 {
                     onComplete?.Invoke(referenceEntity);
@@ -237,7 +251,7 @@ namespace YouYouFramework
         public AssetReferenceEntity LoadAsset(string assetFullPath, AssetBundle assetBundle)
         {
             //从分类资源池(AssetPool)中查找资源
-            AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullPath);
+            AssetReferenceEntity referenceEntity = GameEntry.Loader.MainAssetPool.Spawn(assetFullPath);
             if (referenceEntity != null)
             {
                 //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
@@ -277,7 +291,7 @@ namespace YouYouFramework
         public async UniTask<AssetReferenceEntity> LoadMainAssetAsync(string assetFullPath, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null)
         {
             //从分类资源池(AssetPool)中查找主资源
-            AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullPath);
+            AssetReferenceEntity referenceEntity = GameEntry.Loader.MainAssetPool.Spawn(assetFullPath);
             if (referenceEntity != null)
             {
                 //GameEntry.Log(LogCategory.Loader, "从分类资源池加载" + referenceEntity.AssetFullPath);
@@ -327,7 +341,7 @@ namespace YouYouFramework
         public AssetReferenceEntity LoadMainAsset(string assetFullPath)
         {
             //从分类资源池(AssetPool)中查找主资源
-            AssetReferenceEntity referenceEntity = GameEntry.Pool.AssetPool.Spawn(assetFullPath);
+            AssetReferenceEntity referenceEntity = GameEntry.Loader.MainAssetPool.Spawn(assetFullPath);
             if (referenceEntity != null)
             {
                 //GameEntry.Log(LogCategory.Loader, "从分类资源池加载" + referenceEntity.AssetFullPath);

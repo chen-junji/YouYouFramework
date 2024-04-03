@@ -2,6 +2,7 @@ using YouYouMain;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace YouYouFramework
 {
@@ -78,10 +79,10 @@ namespace YouYouFramework
             AssetBundleReferenceEntity assetBundleEntity = MainEntry.ClassObjectPool.Dequeue<AssetBundleReferenceEntity>();
             assetBundleEntity.AssetBundlePath = path;
             assetBundleEntity.Target = target;
-            GameEntry.Pool.AssetBundlePool.Register(assetBundleEntity);
+            GameEntry.Loader.AssetBundlePool.Register(assetBundleEntity);
 
             //如果是锁定资源包, 默认引用计数就是1
-            if (GameEntry.Pool.CheckAssetBundleIsLock(path))
+            if (CheckAssetBundleIsLock(path))
             {
                 assetBundleEntity.ReferenceAdd();
             }
@@ -101,5 +102,22 @@ namespace YouYouFramework
 
             MainEntry.ClassObjectPool.Enqueue(this); //把这个资源实体回池
         }
+
+        /// <summary>
+        /// 检查资源包是否锁定
+        /// </summary>
+        private static bool CheckAssetBundleIsLock(string assetBundleName)
+        {
+            string[] LockedAssetBundle = GameEntry.Instance.LockedAssetBundle;
+            for (int i = 0; i < LockedAssetBundle.Length; i++)
+            {
+                if (LockedAssetBundle[i].Equals(assetBundleName, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }

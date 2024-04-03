@@ -1,10 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using YouYouMain;
 
 namespace YouYouFramework
 {
+    /// <summary>
+    /// 资源包池, 主资源包和依赖资源包都做引用计数 
+    /// </summary>
     public class AssetBundlePool
     {
 #if UNITY_EDITOR
@@ -13,11 +17,6 @@ namespace YouYouFramework
         /// </summary>
         public Dictionary<string, AssetBundleReferenceEntity> InspectorDic = new Dictionary<string, AssetBundleReferenceEntity>();
 #endif
-
-        /// <summary>
-        /// 资源池名称
-        /// </summary>
-        public string PoolName { get; private set; }
 
         /// <summary>
         /// 资源池字典
@@ -30,14 +29,31 @@ namespace YouYouFramework
         private LinkedList<string> m_NeedRemoveKeyList;
 
         /// <summary>
+        /// 下次释放AssetBundle池运行时间
+        /// </summary>
+        public float ReleaseNextRunTime { get; private set; }
+
+        /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="poolName">资源池名称</param>
-        public AssetBundlePool(string poolName)
+        public AssetBundlePool()
         {
-            PoolName = poolName;
             m_AssetBundleDic = new Dictionary<string, AssetBundleReferenceEntity>();
             m_NeedRemoveKeyList = new LinkedList<string>();
+
+            ReleaseNextRunTime = Time.time;
+        }
+        internal void OnUpdate()
+        {
+            if (MainEntry.IsAssetBundleMode)
+            {
+                if (Time.time > ReleaseNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetBundleInterval)
+                {
+                    ReleaseNextRunTime = Time.time;
+                    Release();
+                    //GameEntry.Log(LogCategory.Normal, "释放AssetBundle池");
+                }
+            }
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using YouYouMain;
 
 /// <summary>
 /// 基础参数
@@ -37,7 +37,7 @@ public class BaseParams
 
     public static BaseParams Create()
     {
-        BaseParams baseParams = YouYouMain.MainEntry.ClassObjectPool.Dequeue<BaseParams>();
+        BaseParams baseParams = MainEntry.ClassObjectPool.Dequeue<BaseParams>();
         baseParams.Reset();
         return baseParams;
     }

@@ -8,12 +8,19 @@ namespace YouYouMain
 	/// <summary>
 	/// 类对象池
 	/// </summary>
-	public class ClassObjectPool : IDisposable
-	{
-		/// <summary>
-		/// 类对象在池中的常驻数量
-		/// </summary>
-		public Dictionary<int, byte> ClassObjectCount
+	public class ClassObjectPool
+    {
+#if UNITY_EDITOR
+        /// <summary>
+        /// 在监视面板显示的信息
+        /// </summary>
+        public Dictionary<Type, int> InspectorDic = new Dictionary<Type, int>();
+#endif
+
+        /// <summary>
+        /// 类对象在池中的常驻数量
+        /// </summary>
+        public Dictionary<int, byte> ClassObjectCount
 		{
 			get;
 			private set;
@@ -24,21 +31,27 @@ namespace YouYouMain
 		/// </summary>
 		private Dictionary<int, Queue<object>> m_ClassObjectPoolDic;
 
-#if UNITY_EDITOR
-		/// <summary>
-		/// 在监视面板显示的信息
-		/// </summary>
-		public Dictionary<Type, int> InspectorDic = new Dictionary<Type, int>();
-#endif
+        /// <summary>
+        /// 下次释放类对象运行时间
+        /// </summary>
+        public float ReleaseNextRunTime { get; private set; }
+
 
 		public ClassObjectPool()
 		{
 			ClassObjectCount = new Dictionary<int, byte>();
 			m_ClassObjectPoolDic = new Dictionary<int, Queue<object>>();
-		}
-		internal void OnUpdate()
-        {
 
+            ReleaseNextRunTime = Time.time;
+        }
+        internal void OnUpdate()
+        {
+            if (Time.time > ReleaseNextRunTime + MainEntry.ParamsSettings.PoolReleaseClassObjectInterval)
+            {
+                ReleaseNextRunTime = Time.time;
+                MainEntry.ClassObjectPool.Release();
+                //GameEntry.Log(LogCategory.Normal, "释放类对象池");
+            }
         }
 
 		#region SetResideCount 设置类常驻数量
@@ -195,9 +208,5 @@ namespace YouYouMain
 			}
 		}
 
-		public void Dispose()
-		{
-			m_ClassObjectPoolDic.Clear();
-		}
 	}
 }

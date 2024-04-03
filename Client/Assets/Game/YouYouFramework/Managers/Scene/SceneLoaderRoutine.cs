@@ -39,11 +39,11 @@ namespace YouYouFramework
 
                 //场景只需要给AssetBundle做引用计数， 不需要给Asset做引用计数
                 AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(sceneFullPath);
-                AssetBundleReferenceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
+                AssetBundleReferenceEntity assetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
                 assetBundleEntity.ReferenceAdd();
                 for (int i = 0; i < assetEntity.DependsAssetBundleList.Count; i++)
                 {
-                    AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
+                    AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
                     dependAssetBundleEntity.ReferenceAdd();
                 }
             }
@@ -59,11 +59,11 @@ namespace YouYouFramework
             {
                 //场景只需要给AssetBundle做引用计数， 不需要给Asset做引用计数
                 AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(sceneFullPath);
-                AssetBundleReferenceEntity assetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
+                AssetBundleReferenceEntity assetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
                 assetBundleEntity.ReferenceRemove();
                 for (int i = 0; i < assetEntity.DependsAssetBundleList.Count; i++)
                 {
-                    AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Pool.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
+                    AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
                     dependAssetBundleEntity.ReferenceRemove();
                 }
             }

@@ -68,6 +68,7 @@ namespace YouYouMain
         private void Update()
         {
             Download.OnUpdate();
+            ClassObjectPool.OnUpdate();
         }
         private void OnApplicationQuit()
         {
