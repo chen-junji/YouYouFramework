@@ -141,4 +141,19 @@ public class YouYouEditor : OdinMenuEditorWindow
     }
     #endregion
 
+    #region GetAssetsPath 收集多个文件的名字到剪切板
+    [MenuItem("Assets/收集多个文件的名字到剪切板")]
+    public static void GetAssetsName()
+    {
+        Object[] objs = Selection.objects;
+        string relatepath = string.Empty;
+        for (int i = 0; i < objs.Length; i++)
+        {
+            relatepath += objs[i].name;
+            if (i < objs.Length - 1) relatepath += "\n";
+        }
+        GUIUtility.systemCopyBuffer = relatepath;
+        AssetDatabase.Refresh();
+    }
+    #endregion
 }
