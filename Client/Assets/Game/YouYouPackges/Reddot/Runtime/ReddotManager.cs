@@ -92,7 +92,7 @@ public class ReddotManager
         m_TempDirtyNodes = new List<TreeNode>();
         CachedSb = new StringBuilder();
 
-        GameEntry.Event.AddEventListener(CommonEventId.GameEntryOnUpdate, OnUpdate);
+        new GameObject("ReddotUpdate", typeof(ReddotUpdate));
     }
 
     /// <summary>
@@ -238,7 +238,7 @@ public class ReddotManager
     /// <summary>
     /// 管理器轮询
     /// </summary>
-    public void OnUpdate(object userData)
+    public void OnUpdate()
     {
         if (m_DirtyNodes.Count == 0)
         {
