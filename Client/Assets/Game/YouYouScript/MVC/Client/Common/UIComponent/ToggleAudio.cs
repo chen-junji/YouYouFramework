@@ -10,8 +10,8 @@ public class ToggleAudio : MonoBehaviour
 {
     [SerializeField] private bool IsOffPlay;
 
-    [SerializeField] private AudioName[] AudioNames = new AudioName[] { };
-    private AudioName audioName;
+    [SerializeField] private string[] AudioNames = new string[] { };
+    private string audioName;
 
     private Toggle m_Toggle;
 

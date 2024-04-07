@@ -13,7 +13,7 @@ public class TestInput : MonoBehaviour
         button.onClick.AddListener(() =>
         {
             //手机端, 点击按钮触发Input
-            GameEntry.Input.SetButtonUp(InputName.BuyTower);
+            GameEntry.Input.SetButtonUp(InputKey.BuyTower);
         });
     }
 
@@ -22,13 +22,13 @@ public class TestInput : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.A))
         {
             //PC端, 键盘按下A, 触发Input
-            GameEntry.Input.SetButtonUp(InputName.BuyTower);
+            GameEntry.Input.SetButtonUp(InputKey.BuyTower);
         }
 
-        if (GameEntry.Input.GetButtonUp(InputName.BuyTower))
+        if (GameEntry.Input.GetButtonUp(InputKey.BuyTower))
         {
             //监听Input触发, 打印日志
-            GameEntry.Log(LogCategory.Normal, InputName.BuyTower.ToString());
+            GameEntry.Log(LogCategory.Normal, InputKey.BuyTower.ToString());
         }
     }
 }

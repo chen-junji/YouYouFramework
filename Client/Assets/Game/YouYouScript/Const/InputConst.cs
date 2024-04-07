@@ -7,3 +7,7 @@ public class InputConst
     public const string Horizontal = "Horizontal";
     public const string Vertical = "Vertical";
 }
+public enum InputKey
+{
+    BuyTower,
+}

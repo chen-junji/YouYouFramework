@@ -46,17 +46,17 @@ namespace YouYouFramework
         //该按钮的Get/Down/Up状态
         public class VirtualButton
         {
-            public InputName Name { get; private set; }
+            public InputKey Name { get; private set; }
             public bool MatchWithInputManager { get; private set; }
 
             private int m_LastPressedFrame = -5;
             private int m_ReleasedFrame = -5;
             private bool m_Pressed;
 
-            public VirtualButton(InputName name) : this(name, true)
+            public VirtualButton(InputKey name) : this(name, true)
             {
             }
-            public VirtualButton(InputName name, bool matchToInputSettings)
+            public VirtualButton(InputKey name, bool matchToInputSettings)
             {
                 this.Name = name;
                 MatchWithInputManager = matchToInputSettings;
@@ -199,7 +199,7 @@ namespace YouYouFramework
             CurrInput.RegisterVirtualButton(button);
         }
 
-        public VirtualButton VirtualButtonReference(InputName name)
+        public VirtualButton VirtualButtonReference(InputKey name)
         {
             return CurrInput.VirtualButtonReference(name);
         }
@@ -219,24 +219,24 @@ namespace YouYouFramework
             return CurrInput.GetAxis(name, raw);
         }
 
-        public bool GetButton(InputName name)
+        public bool GetButton(InputKey name)
         {
             return CurrInput.GetButton(name);
         }
-        public bool GetButtonDown(InputName name)
+        public bool GetButtonDown(InputKey name)
         {
             return CurrInput.GetButtonDown(name);
         }
-        public bool GetButtonUp(InputName name)
+        public bool GetButtonUp(InputKey name)
         {
             return CurrInput.GetButtonUp(name);
         }
 
-        public void SetButtonDown(InputName name)
+        public void SetButtonDown(InputKey name)
         {
             CurrInput.SetButtonDown(name);
         }
-        public void SetButtonUp(InputName name)
+        public void SetButtonUp(InputKey name)
         {
             CurrInput.SetButtonUp(name);
         }

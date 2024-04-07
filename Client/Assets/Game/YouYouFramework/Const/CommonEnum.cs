@@ -1,24 +1,20 @@
 
-public enum PrefabName : uint
+public class PrefabName
 {
-    Skill1,
+    public const string Skill1 = "Skill1";
 }
-public enum BGMName : uint
+public class BGMName
 {
-    None,
-    maintheme1,
+    public const string None = "None";
+    public const string maintheme1 = "maintheme1";
 }
-public enum AudioName : uint
+public class AudioName
 {
-    button_sound,
+    public const string button_sound = "button_sound";
 }
-public enum SceneGroupName : uint
+public class SceneGroupName
 {
-    None,
-    Main,
-    TestMVC,
-}
-public enum InputName : uint
-{
-    BuyTower,
+    public const string None = "None";
+    public const string Main = "Main";
+    public const string TestMVC = "TestMVC";
 }

@@ -8,8 +8,8 @@ using YouYouFramework;
 [RequireComponent(typeof(Button))]//脚本依赖
 public class ButtonAudio : MonoBehaviour
 {
-    [SerializeField] private AudioName[] AudioNames = new AudioName[] { };
-    private AudioName audioName;
+    [SerializeField] private string[] AudioNames = new string[] { };
+    private string audioName;
 
     private Button m_Button;
 

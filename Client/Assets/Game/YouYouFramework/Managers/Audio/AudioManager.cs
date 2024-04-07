@@ -110,10 +110,6 @@ namespace YouYouFramework
         public AudioSource BGMSource { get; private set; }
         public Sys_BGMEntity CurrBGMEntity;
 
-        public void PlayBGM(BGMName audioName)
-        {
-            PlayBGM(audioName.ToString());
-        }
         public void PlayBGM(string audioName)
         {
             Sys_BGMEntity entity = GameEntry.DataTable.Sys_BGMDBModel.GetEntity(audioName);
@@ -173,14 +169,6 @@ namespace YouYouFramework
         public void PlayAudio(AudioClip audioClip, float volume = 1, int priority = 128)
         {
             PlayAudio2(audioClip, volume, priority);
-        }
-        public void PlayAudio(AudioName audioName)
-        {
-            PlayAudio(audioName.ToString());
-        }
-        public void PlayAudio(AudioName audioName, Vector3 point)
-        {
-            PlayAudio(audioName.ToString(), point);
         }
         public void PlayAudio(AudioClip audioClip, Vector3 point, float volume = 1, int priority = 128)
         {

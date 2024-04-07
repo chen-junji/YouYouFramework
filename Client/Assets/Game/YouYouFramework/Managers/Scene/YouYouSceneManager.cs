@@ -99,15 +99,11 @@ namespace YouYouFramework
         /// <summary>
         /// 加载场景
         /// </summary>
-        public UniTask LoadSceneAsync(SceneGroupName sceneName, int sceneLoadCount = -1)
+        public UniTask LoadSceneAsync(string sceneName, int sceneLoadCount = -1)
         {
             var task = new UniTaskCompletionSource();
             LoadSceneAction(sceneName, sceneLoadCount, () => task.TrySetResult());
             return task.Task;
-        }
-        public void LoadSceneAction(SceneGroupName sceneName, int sceneLoadCount = -1, Action onComplete = null)
-        {
-            LoadSceneAction(sceneName.ToString(), sceneLoadCount, onComplete);
         }
         public void LoadSceneAction(string sceneName, int sceneLoadCount = -1, Action onComplete = null)
         {
@@ -234,7 +230,7 @@ namespace YouYouFramework
                 SceneLoaderRoutine routine = new SceneLoaderRoutine();
                 routine.UnLoadScene(CurrSceneEntityGroup[i].AssetFullPath);
             }
-            m_CurrSceneGroupName = SceneGroupName.None.ToString();
+            m_CurrSceneGroupName = SceneGroupName.None;
             CurrSceneEntityGroup.Clear();
         }
 
