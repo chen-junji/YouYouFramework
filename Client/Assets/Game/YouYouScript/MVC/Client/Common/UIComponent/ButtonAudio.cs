@@ -8,26 +8,30 @@ using YouYouFramework;
 [RequireComponent(typeof(Button))]//脚本依赖
 public class ButtonAudio : MonoBehaviour
 {
-    [SerializeField] private string[] AudioNames = new string[] { };
-    private string audioName;
+    [SerializeField]
+    private List<AudioClip> audioClips = new List<AudioClip>();
 
     private Button m_Button;
 
     private void Start()
     {
-        m_Button = GetComponent<Button>();
+        if (audioClips.Count == 0)
+        {
+            GameEntry.LogError(LogCategory.Audio, "没有绑定AudioClip");
+            return;
+        }
 
-        if (AudioNames.Length == 0)
+        AudioClip audioClip = audioClips[Random.Range(0, audioClips.Count)];
+        if (audioClip == null)
         {
-            audioName = AudioName.button_sound;
+            GameEntry.LogError(LogCategory.Audio, "audioClip==null");
+            return;
         }
-        else
-        {
-            audioName = AudioNames[Random.Range(0, AudioNames.Length)];
-        }
+
+        m_Button = GetComponent<Button>();
         m_Button.onClick.AddListener(() =>
         {
-            GameEntry.Audio.PlayAudio(audioName);
+            GameEntry.Audio.PlayAudio(audioClip);
         });
     }
 }

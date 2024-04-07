@@ -8,28 +8,33 @@ using YouYouFramework;
 [RequireComponent(typeof(Toggle))]//脚本依赖
 public class ToggleAudio : MonoBehaviour
 {
-    [SerializeField] private bool IsOffPlay;
+    [SerializeField] 
+    private bool IsOffPlay;
 
-    [SerializeField] private string[] AudioNames = new string[] { };
-    private string audioName;
+    [SerializeField] 
+    private List<AudioClip> audioClips = new List<AudioClip>();
 
     private Toggle m_Toggle;
 
     void Start()
     {
-        if (AudioNames.Length == 0)
+        if (audioClips.Count == 0)
         {
-            audioName = AudioName.button_sound;
+            GameEntry.LogError(LogCategory.Audio, "没有绑定AudioClip");
+            return;
         }
-        else
+
+        AudioClip audioClip = audioClips[Random.Range(0, audioClips.Count)];
+        if (audioClip == null)
         {
-            audioName = AudioNames[Random.Range(0, AudioNames.Length)];
+            GameEntry.LogError(LogCategory.Audio, "audioClip==null");
+            return;
         }
 
         m_Toggle = GetComponent<Toggle>();
         m_Toggle.onValueChanged.AddListener((isOn) =>
         {
-            if (IsOffPlay || isOn) GameEntry.Audio.PlayAudio(audioName);
+            if (IsOffPlay || isOn) GameEntry.Audio.PlayAudio(audioClip);
         });
     }
 }
