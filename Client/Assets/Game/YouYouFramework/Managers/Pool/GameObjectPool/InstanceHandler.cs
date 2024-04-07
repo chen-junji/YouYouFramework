@@ -6,8 +6,8 @@ namespace YouYouFramework
 {
     public static class InstanceHandler
     {
-        public delegate GameObject InstantiateDelegate(GameObject prefab);
-        public delegate void DestroyDelegate(GameObject instance);
+        public delegate GameObject InstantiateDelegate(PrefabPool prefabPool);
+        public delegate void DestroyDelegate(GameObject instance, PrefabPool prefabPool);
 
         /// <summary>
         /// 可以用来拦截Instantiate来实现你自己的处理
@@ -22,26 +22,26 @@ namespace YouYouFramework
         /// <summary>
         /// 克隆对象
         /// </summary>
-        internal static GameObject InstantiatePrefab(GameObject prefab)
+        internal static GameObject InstantiatePrefab(PrefabPool prefabPool)
         {
             if (InstantiateDelegates != null)
             {
-                return InstantiateDelegates(prefab);
+                return InstantiateDelegates(prefabPool);
             }
             else
             {
-                return Object.Instantiate(prefab);
+                return Object.Instantiate(prefabPool.prefab);
             }
         }
 
         /// <summary>
         /// 销毁对象
         /// </summary>
-        internal static void DestroyInstance(GameObject instance)
+        internal static void DestroyInstance(GameObject instance, PrefabPool prefabPool)
         {
             if (DestroyDelegates != null)
             {
-                DestroyDelegates(instance);
+                DestroyDelegates(instance, prefabPool);
             }
             else
             {

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Cysharp.Threading.Tasks;
-using static UnityEditor.PlayerSettings;
 
 namespace YouYouFramework
 {
@@ -18,17 +17,17 @@ namespace YouYouFramework
         /// <summary>
         /// 游戏物体对象池字典
         /// </summary>
-        public Dictionary<byte, GameObjectPoolEntity> m_SpawnPoolDic;
+        public Dictionary<byte, GameObjectPoolEntity> spawnPoolDic = new Dictionary<byte, GameObjectPoolEntity>();
 
         /// <summary>
         /// Key==GameObject的InstanceId
         /// </summary>
-        private Dictionary<int, PrefabPool> m_InstanceIdPoolIdDic;
+        private Dictionary<int, PrefabPool> instanceIdPoolIdDic = new Dictionary<int, PrefabPool>();
 
         /// <summary>
         /// Key==Prefab的InstanceId
         /// </summary>
-        private Dictionary<int, AssetReferenceEntity> m_PrefabAssetDic;
+        private Dictionary<int, AssetReferenceEntity> prefabAssetDic = new Dictionary<int, AssetReferenceEntity>();
 
         public GameObject YouYouObjPool { get; private set; }
 
@@ -50,7 +49,7 @@ namespace YouYouFramework
                     pool.transform.localPosition = Vector3.zero;
                     pool.transform.localPosition = Vector3.zero;
                     entity.Pool = pool;
-                    m_SpawnPoolDic[entity.PoolId] = entity;
+                    spawnPoolDic[entity.PoolId] = entity;
                 }
             }
         }
@@ -73,46 +72,45 @@ namespace YouYouFramework
                     pool.transform.localPosition = Vector3.zero;
                     pool.transform.localPosition = Vector3.zero;
                     entity.Pool = pool;
-                    m_SpawnPoolDic[entity.PoolId] = entity;
+                    spawnPoolDic[entity.PoolId] = entity;
                 }
             }
         }
 
         public GameObjectPool()
         {
-            m_SpawnPoolDic = new Dictionary<byte, GameObjectPoolEntity>();
-            m_InstanceIdPoolIdDic = new Dictionary<int, PrefabPool>();
-            m_PrefabAssetDic = new Dictionary<int, AssetReferenceEntity>();
-
             //对象池物体克隆请求
             InstanceHandler.InstantiateDelegates += InstantiateDelegate;
+            InstanceHandler.DestroyDelegates += DestroyDelegate;
         }
-        private GameObject InstantiateDelegate(GameObject prefab)
+        private GameObject InstantiateDelegate(PrefabPool prefabPool)
         {
-            GameObject obj = Object.Instantiate(prefab);
-            if (m_PrefabAssetDic.TryGetValue(prefab.GetInstanceID(), out AssetReferenceEntity referenceEntity))
+            GameObject prefab = prefabPool.prefab;
+            GameObject inst = Object.Instantiate(prefab);
+            inst.transform.SetParent(prefabPool.spawnPool.transform, false);
+
+            //让资源的引用计数+1
+            if (prefabAssetDic.TryGetValue(prefab.GetInstanceID(), out AssetReferenceEntity referenceEntity))
             {
-                AutoReleaseHandle.Add(referenceEntity, obj);
+                AutoReleaseHandle.Add(referenceEntity, inst);
             }
-            return obj;
+
+            //把实例映射到实例字典上
+            int instanceID = inst.GetInstanceID();
+            instanceIdPoolIdDic[instanceID] = prefabPool;
+
+            return inst;
         }
+        private void DestroyDelegate(GameObject inst, PrefabPool prefabPool)
+        {
+            instanceIdPoolIdDic.Remove(inst.GetInstanceID());
+            Object.Destroy(inst);
+        }
+
 
         /// <summary>
         /// 预加载对象池
         /// </summary>
-        public void PreloadObj(PrefabName prefabName, int count)
-        {
-            List<GameObject> preloadList = new List<GameObject>();
-            for (int i = 0; i < count; i++)
-            {
-                GameObject poolObj = Spawn(prefabName);
-                preloadList.Add(poolObj);
-            }
-            for (int i = 0; i < count; i++)
-            {
-                Despawn(preloadList[i]);
-            }
-        }
         public void PreloadObj(GameObject prefab, int count)
         {
             List<GameObject> preloadList = new List<GameObject>();
@@ -128,12 +126,9 @@ namespace YouYouFramework
         }
 
         #region Spawn 从对象池中获取对象
-        /// <summary>
-        /// 从对象池中获取对象
-        /// </summary>
-        public async UniTask<GameObject> SpawnAsync(PrefabName prefabName)
+        public async UniTask<GameObject> SpawnAsync(string prefabName)
         {
-            Sys_PrefabEntity sys_Prefab = GameEntry.DataTable.Sys_PrefabDBModel.GetEntity(prefabName.ToString());
+            Sys_PrefabEntity sys_Prefab = GameEntry.DataTable.Sys_PrefabDBModel.GetEntity(prefabName);
             return await SpawnAsync(sys_Prefab);
         }
         public async UniTask<GameObject> SpawnAsync(Sys_PrefabEntity entity)
@@ -145,17 +140,14 @@ namespace YouYouFramework
                 GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullName==" + entity.AssetFullPath);
                 return null;
             }
-            int prefabId = prefab.gameObject.GetInstanceID();
-            m_PrefabAssetDic[prefabId] = referenceEntity;
+            prefabAssetDic[prefab.GetInstanceID()] = referenceEntity;
 
             return Spawn(prefab, entity.PoolId, entity.CullDespawned == 1, entity.CullAbove, entity.CullDelay, entity.CullMaxPerPass);
         }
 
-        public GameObject Spawn(PrefabName prefabName)
-        {
-            Sys_PrefabEntity sys_Prefab = GameEntry.DataTable.Sys_PrefabDBModel.GetEntity(prefabName.ToString());
-            return Spawn(sys_Prefab);
-        }
+        /// <summary>
+        /// 从对象池中获取对象
+        /// </summary>
         public GameObject Spawn(string prefabName)
         {
             Sys_PrefabEntity sys_Prefab = GameEntry.DataTable.Sys_PrefabDBModel.GetEntity(prefabName);
@@ -170,12 +162,10 @@ namespace YouYouFramework
                 GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullPath==" + entity.AssetFullPath);
                 return null;
             }
-            int prefabId = prefab.gameObject.GetInstanceID();
-            m_PrefabAssetDic[prefabId] = referenceEntity;
+            prefabAssetDic[prefab.GetInstanceID()] = referenceEntity;
 
             return Spawn(prefab, entity.PoolId, entity.CullDespawned == 1, entity.CullAbove, entity.CullDelay, entity.CullMaxPerPass);
         }
-
         public GameObject Spawn(GameObject prefab, byte poolId = 1, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
         {
             if (prefab == null)
@@ -183,32 +173,24 @@ namespace YouYouFramework
                 return null;
             }
             //拿到对象池
-            GameObjectPoolEntity gameObjectPoolEntity = m_SpawnPoolDic[poolId];
+            GameObjectPoolEntity gameObjectPoolEntity = spawnPoolDic[poolId];
 
-            PrefabPool prefabPoolInner = gameObjectPoolEntity.Pool.GetPrefabPool(prefab);
-            if (prefabPoolInner == null)
+            PrefabPool prefabPool = gameObjectPoolEntity.Pool.GetPrefabPool(prefab);
+            if (prefabPool == null)
             {
                 //对象池配置
-                prefabPoolInner = new PrefabPool(prefab);
-                prefabPoolInner.cullDespawned = cullDespawned;
-                prefabPoolInner.cullAbove = cullAbove;
-                prefabPoolInner.cullDelay = cullDelay;
-                prefabPoolInner.cullMaxPerPass = cullMaxPerPass;
+                prefabPool = new PrefabPool(prefab);
+                prefabPool.cullDespawned = cullDespawned;
+                prefabPool.cullAbove = cullAbove;
+                prefabPool.cullDelay = cullDelay;
+                prefabPool.cullMaxPerPass = cullMaxPerPass;
 
-                gameObjectPoolEntity.Pool.CreatePrefabPool(prefabPoolInner);
+                gameObjectPoolEntity.Pool.CreatePrefabPool(prefabPool);
             }
 
             //拿到一个实例
             bool isNewInstance = false;
-
-            GameObject inst = prefabPoolInner.SpawnInstance(ref isNewInstance);
-            inst.transform.SetParent(prefabPoolInner.spawnPool.transform, false);
-            inst.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-
-            //把实例映射到字典上
-            int instanceID = inst.GetInstanceID();
-            m_InstanceIdPoolIdDic[instanceID] = prefabPoolInner;
-
+            GameObject inst = prefabPool.SpawnInstance(ref isNewInstance);
             return inst;
         }
         #endregion
@@ -222,13 +204,12 @@ namespace YouYouFramework
             if (inst == null) return;
 
             int instanceID = inst.GetInstanceID();
-            if (m_InstanceIdPoolIdDic.TryGetValue(instanceID, out PrefabPool prefabPool))
+            if (instanceIdPoolIdDic.TryGetValue(instanceID, out PrefabPool prefabPool))
             {
                 if (prefabPool.spawnPool == null) return;
 
-                m_InstanceIdPoolIdDic.Remove(instanceID);
-
-                inst.transform.SetParent(prefabPool.spawnPool.transform);
+                inst.transform.SetParent(prefabPool.spawnPool.transform, false);
+                inst.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                 prefabPool.DespawnInstance(inst);
             }
 
@@ -265,10 +246,8 @@ namespace YouYouFramework
         public void Release(GameObject inst)
         {
             int instanceID = inst.GetInstanceID();
-            if (m_InstanceIdPoolIdDic.TryGetValue(instanceID, out PrefabPool prefabPool))
+            if (instanceIdPoolIdDic.TryGetValue(instanceID, out PrefabPool prefabPool))
             {
-                m_InstanceIdPoolIdDic.Remove(instanceID);
-
                 prefabPool.Release(inst);
             }
             else

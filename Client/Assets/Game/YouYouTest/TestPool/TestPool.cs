@@ -12,13 +12,13 @@ public class TestPool : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.A))
         {
             //从对象池内取对象
-            GameObject obj = await GameEntry.Pool.GameObjectPool.SpawnAsync(PrefabName.Skill1);
+            GameObject obj = await GameEntry.Pool.GameObjectPool.SpawnAsync(PrefabName.Skill1.ToString());
             objList.Add(obj);
         }
         if (Input.GetKeyUp(KeyCode.S))
         {
             //从对象池内取对象
-            GameObject obj = GameEntry.Pool.GameObjectPool.Spawn(PrefabName.Skill1);
+            GameObject obj = GameEntry.Pool.GameObjectPool.Spawn(PrefabName.Skill1.ToString());
             objList.Add(obj);
 
             //3秒后自动回池

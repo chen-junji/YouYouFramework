@@ -85,14 +85,14 @@ namespace YouYouFramework
                 {
                     if (inst != null)
                     {
-                        InstanceHandler.DestroyInstance(inst);
+                        InstanceHandler.DestroyInstance(inst, this);
                     }
                 }
                 foreach (GameObject inst in spawnedList)
                 {
                     if (inst != null)
                     {
-                        InstanceHandler.DestroyInstance(inst);
+                        InstanceHandler.DestroyInstance(inst, this);
                     }
                 }
             }
@@ -141,7 +141,7 @@ namespace YouYouFramework
         private GameObject SpawnNew()
         {
             //使用InstanceHandler，克隆对象
-            GameObject inst = InstanceHandler.InstantiatePrefab(prefab);
+            GameObject inst = InstanceHandler.InstantiatePrefab(this);
             spawnedList.AddLast(inst);
 
 #if UNITY_EDITOR
@@ -187,7 +187,7 @@ namespace YouYouFramework
 
                     GameObject inst = despawnedList.Last.Value;
                     despawnedList.RemoveLast();
-                    InstanceHandler.DestroyInstance(inst);
+                    InstanceHandler.DestroyInstance(inst, this);
                 }
             }
             cullingActive = false;
@@ -204,7 +204,7 @@ namespace YouYouFramework
             {
                 GameEntry.LogError(LogCategory.Pool, "该对象不在池内, inst==" + inst);
             }
-            InstanceHandler.DestroyInstance(inst);
+            InstanceHandler.DestroyInstance(inst, this);
         }
 
     }
