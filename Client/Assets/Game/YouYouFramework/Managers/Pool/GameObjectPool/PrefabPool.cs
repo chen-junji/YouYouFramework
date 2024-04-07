@@ -19,22 +19,22 @@ namespace YouYouFramework
         /// <summary>
         /// 是否开启缓存池自动清理模式
         /// </summary>
-        public bool cullDespawned = false;
+        public bool cullDespawned;
 
         /// <summary>
         /// 缓存池自动清理但是始终保留几个对象不清理
         /// </summary>
-        public int cullAbove = 50;
+        public int cullAbove;
 
         /// <summary>
         /// 多长时间清理一次单位是秒
         /// </summary>
-        public int cullDelay = 60;
+        public int cullDelay;
 
         /// <summary>
         /// 每次清理几个
         /// </summary>
-        public int cullMaxPerPass = 5;
+        public int cullMaxPerPass;
 
         /// <summary>
         /// 总池的引用
@@ -70,9 +70,29 @@ namespace YouYouFramework
             }
         }
 
-        public PrefabPool(GameObject prefab)
+        public PrefabPool(GameObject prefab, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 60, int cullMaxPerPass = 30)
         {
             this.prefab = prefab;
+            this.cullDespawned = cullDespawned;
+            this.cullAbove = cullAbove;
+            this.cullDelay = cullDelay;
+            this.cullMaxPerPass = cullMaxPerPass;
+
+            if (cullAbove > 0)
+            {
+                for (int i = 0; i < cullAbove; i++)
+                {
+                    //使用InstanceHandler，预加载克隆对象
+                    GameObject inst = InstanceHandler.InstantiatePrefab(this);
+                    inst.SetActive(false);
+                    despawnedList.AddLast(inst);
+
+#if UNITY_EDITOR
+                    //对象名字后缀
+                    inst.name += (TotalCount + 1).ToString("#000");
+#endif
+                }
+            }
         }
         /// <summary>
         /// 销毁自身对象池
@@ -106,14 +126,13 @@ namespace YouYouFramework
         /// <summary>
         /// 从池内取对象，如果没有则克隆新的
         /// </summary>
-        internal GameObject SpawnInstance(ref bool isNewInstance)
+        internal GameObject SpawnInstance()
         {
             GameObject inst;
 
             if (despawnedList.Count == 0)
             {
                 //池内没对象了，克隆新对象
-                isNewInstance = true;
                 inst = SpawnNew();
             }
             else
@@ -130,7 +149,6 @@ namespace YouYouFramework
 
                 spawnedList.AddLast(inst);
                 inst.SetActive(true);
-
             }
             return inst;
         }

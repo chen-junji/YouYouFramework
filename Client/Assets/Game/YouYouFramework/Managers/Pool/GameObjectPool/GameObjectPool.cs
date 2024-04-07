@@ -127,62 +127,66 @@ namespace YouYouFramework
         /// <summary>
         /// 预加载对象池
         /// </summary>
-        public void PreloadObj(GameObject prefab, int count)
+        public void PreloadObj(GameObject prefab, byte poolId = 1, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
         {
-            List<GameObject> preloadList = new List<GameObject>();
-            for (int i = 0; i < count; i++)
+            //拿到分类池
+            spawnPoolDic.TryGetValue(poolId, out GameObjectPoolEntity gameObjectPoolEntity);
+            if (gameObjectPoolEntity == null)
             {
-                GameObject poolObj = Spawn(prefab);
-                preloadList.Add(poolObj);
+                GameEntry.LogError(LogCategory.Pool, "gameObjectPoolEntity==null");
+                return;
             }
-            for (int i = 0; i < count; i++)
-            {
-                Despawn(preloadList[i]);
-            }
+
+            //对象池配置
+            PrefabPool prefabPool = new PrefabPool(prefab, cullDespawned, cullAbove, cullDelay, cullMaxPerPass);
+            gameObjectPoolEntity.Pool.AddPrefabPool(prefabPool);
         }
 
         #region Spawn 从对象池中获取对象
         /// <summary>
         /// 从对象池中获取对象
         /// </summary>
-        public GameObject Spawn(GameObject prefab, byte poolId = 1, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
+        public GameObject Spawn(GameObject prefab, byte poolId = 1)
         {
             if (prefab == null)
             {
+                GameEntry.LogError(LogCategory.Pool, "prefab==null");
                 return null;
             }
-            //拿到对象池
-            GameObjectPoolEntity gameObjectPoolEntity = spawnPoolDic[poolId];
+
+            //拿到分类池
+            spawnPoolDic.TryGetValue(poolId, out GameObjectPoolEntity gameObjectPoolEntity);
+            if (gameObjectPoolEntity == null)
+            {
+                GameEntry.LogError(LogCategory.Pool, "gameObjectPoolEntity==null");
+                return null;
+            }
 
             PrefabPool prefabPool = gameObjectPoolEntity.Pool.GetPrefabPool(prefab);
             if (prefabPool == null)
             {
                 //对象池配置
                 prefabPool = new PrefabPool(prefab);
-                prefabPool.cullDespawned = cullDespawned;
-                prefabPool.cullAbove = cullAbove;
-                prefabPool.cullDelay = cullDelay;
-                prefabPool.cullMaxPerPass = cullMaxPerPass;
-
-                gameObjectPoolEntity.Pool.CreatePrefabPool(prefabPool);
+                gameObjectPoolEntity.Pool.AddPrefabPool(prefabPool);
             }
 
             //拿到一个实例
-            bool isNewInstance = false;
-            GameObject inst = prefabPool.SpawnInstance(ref isNewInstance);
+            GameObject inst = prefabPool.SpawnInstance();
             return inst;
         }
-        public GameObject Spawn(string prefabFullPath, byte poolId = 1, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
+        public GameObject Spawn(string prefabFullPath, byte poolId = 1)
         {
             AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(prefabFullPath);
             GameObject prefab = referenceEntity.Target as GameObject;
-            return Spawn(prefab, poolId, cullDespawned, cullAbove, cullDelay, cullMaxPerPass);
+            prefabAssetDic[prefab.GetInstanceID()] = referenceEntity;
+            return Spawn(prefab, poolId);
         }
-        public async UniTask<GameObject> SpawnAsync(string prefabFullPath, byte poolId = 1, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
+        public async UniTask<GameObject> SpawnAsync(string prefabFullPath, byte poolId = 1)
         {
             AssetReferenceEntity referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(prefabFullPath);
             GameObject prefab = referenceEntity.Target as GameObject;
-            return Spawn(prefab, poolId, cullDespawned, cullAbove, cullDelay, cullMaxPerPass);
+            prefabAssetDic[prefab.GetInstanceID()] = referenceEntity;
+            return Spawn(prefab, poolId);
         }
         #endregion
 

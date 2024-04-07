@@ -206,7 +206,7 @@ namespace YouYouFramework
 
         private AudioSource PlayAudio2(AudioClip audioClip, float volume = 1, int priority = 128)
         {
-            AudioSource helper = GameEntry.Pool.GameObjectPool.Spawn(AudioSourcePrefab.gameObject, poolId: 2).GetComponent<AudioSource>();
+            AudioSource helper = GameEntry.Pool.GameObjectPool.Spawn(AudioSourcePrefab.gameObject, 2).GetComponent<AudioSource>();
             AudioSourceList.Add(helper);
             helper.clip = audioClip;
             helper.mute = false;
