@@ -43,7 +43,6 @@ public class TimelineCtrl : MonoBehaviour
     }
     private void OnPlayableDirectorStopped(PlayableDirector playableDirector)
     {
-        GameEntry.Pool.GameObjectPool.Despawn(transform);
         OnStopped?.Invoke();
     }
     private void OnEnable()
