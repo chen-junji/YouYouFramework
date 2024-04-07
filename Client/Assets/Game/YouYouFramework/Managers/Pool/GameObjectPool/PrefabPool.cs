@@ -14,12 +14,7 @@ namespace YouYouFramework
         /// <summary>
         /// 预制件
         /// </summary>
-        public Transform prefab;
-
-        /// <summary>
-        /// 基于性能原因而存储的预制件GameObject的引用
-        /// </summary>
-        public GameObject prefabGO;
+        public GameObject prefab;
 
         /// <summary>
         /// 是否开启缓存池自动清理模式
@@ -47,34 +42,6 @@ namespace YouYouFramework
         public SpawnPool spawnPool;
 
 
-        public PrefabPool(Transform prefab)
-        {
-            this.prefab = prefab;
-            prefabGO = prefab.gameObject;
-        }
-        /// <summary>
-        /// 销毁自身对象池
-        /// </summary>
-        internal void SelfDestruct()
-        {
-            foreach (Transform inst in _despawned)
-                if (inst != null && spawnPool != null)
-                    InstanceHandler.DestroyInstance(inst.gameObject);
-
-            foreach (Transform inst in _spawned)
-                if (inst != null && spawnPool != null)
-                    InstanceHandler.DestroyInstance(inst.gameObject);
-
-            _spawned.Clear();
-            _despawned.Clear();
-
-            prefab = null;
-            prefabGO = null;
-            spawnPool = null;
-
-        }
-
-
         /// <summary>
         /// 定时清理协程是否正在运行中？
         /// </summary>
@@ -83,11 +50,11 @@ namespace YouYouFramework
         /// <summary>
         /// 已被取池的对象
         /// </summary>
-        internal LinkedList<Transform> _spawned = new LinkedList<Transform>();
+        internal LinkedList<GameObject> spawnedList = new LinkedList<GameObject>();
         /// <summary>
         /// 在池内的对象
         /// </summary>
-        internal LinkedList<Transform> _despawned = new LinkedList<Transform>();
+        internal LinkedList<GameObject> despawnedList = new LinkedList<GameObject>();
 
         /// <summary>
         /// 当前对象的最大数量（包括在池内的, 已被取池的）
@@ -97,44 +64,73 @@ namespace YouYouFramework
             get
             {
                 int count = 0;
-                count += _spawned.Count;
-                count += _despawned.Count;
+                count += spawnedList.Count;
+                count += despawnedList.Count;
                 return count;
             }
+        }
+
+        public PrefabPool(GameObject prefab)
+        {
+            this.prefab = prefab;
+        }
+        /// <summary>
+        /// 销毁自身对象池
+        /// </summary>
+        internal void SelfDestruct()
+        {
+            if (spawnPool != null)
+            {
+                foreach (GameObject inst in despawnedList)
+                {
+                    if (inst != null)
+                    {
+                        InstanceHandler.DestroyInstance(inst);
+                    }
+                }
+                foreach (GameObject inst in spawnedList)
+                {
+                    if (inst != null)
+                    {
+                        InstanceHandler.DestroyInstance(inst);
+                    }
+                }
+            }
+
+            despawnedList.Clear();
+            spawnedList.Clear();
+
+            prefab = null;
+            spawnPool = null;
         }
 
         /// <summary>
         /// 从池内取对象，如果没有则克隆新的
         /// </summary>
-        internal Transform SpawnInstance(Vector3 pos, Quaternion rot, ref bool isNewInstance)
+        internal GameObject SpawnInstance(ref bool isNewInstance)
         {
-            isNewInstance = false;
+            GameObject inst;
 
-            Transform inst;
-
-            if (_despawned.Count == 0)
+            if (despawnedList.Count == 0)
             {
                 //池内没对象了，克隆新对象
                 isNewInstance = true;
-                inst = SpawnNew(pos, rot);
+                inst = SpawnNew();
             }
             else
             {
                 //从池里拿对象
-                inst = _despawned.First.Value;
-                _despawned.RemoveFirst();
+                inst = despawnedList.First.Value;
+                despawnedList.RemoveFirst();
 
                 if (inst == null)
                 {
-                    YouYouFramework.GameEntry.Log(YouYouFramework.LogCategory.Pool, "池内拿出来的对象是null， 被私自Destroy了, Prefab==" + prefab);
+                    GameEntry.Log(LogCategory.Pool, "池内拿出来的对象是null， 被私自Destroy了, Prefab==" + prefab);
                     return null;
                 }
 
-                _spawned.AddLast(inst);
-
-                inst.position = pos;
-                inst.rotation = rot;
-                inst.gameObject.SetActive(true);
+                spawnedList.AddLast(inst);
+                inst.SetActive(true);
 
             }
             return inst;
@@ -142,15 +138,11 @@ namespace YouYouFramework
         /// <summary>
         /// 克隆新的对象
         /// </summary>
-        private Transform SpawnNew(Vector3 pos, Quaternion rot)
+        private GameObject SpawnNew()
         {
-            if (pos == Vector3.zero) pos = spawnPool.transform.position;
-            if (rot == Quaternion.identity) rot = spawnPool.transform.rotation;
-
             //使用InstanceHandler，克隆对象
-            GameObject instGO = InstanceHandler.InstantiatePrefab(prefabGO, pos, rot);
-            Transform inst = instGO.transform;
-            _spawned.AddLast(inst);
+            GameObject inst = InstanceHandler.InstantiatePrefab(prefab);
+            spawnedList.AddLast(inst);
 
 #if UNITY_EDITOR
             //对象名字后缀
@@ -162,12 +154,12 @@ namespace YouYouFramework
         /// <summary>
         /// 对象回池
         /// </summary>
-        public bool DespawnInstance(Transform xform)
+        public bool DespawnInstance(GameObject inst)
         {
-            _spawned.Remove(xform);
-            _despawned.AddLast(xform);
+            spawnedList.Remove(inst);
+            despawnedList.AddLast(inst);
 
-            xform.gameObject.SetActive(false);
+            inst.SetActive(false);
 
             if (!cullingActive && cullDespawned && TotalCount > cullAbove)
             {
@@ -191,11 +183,11 @@ namespace YouYouFramework
                 {
                     //保留几个对象
                     if (TotalCount <= cullAbove) break;
-                    if (_despawned.Count == 0) break;
+                    if (despawnedList.Count == 0) break;
 
-                    Transform inst = _despawned.Last.Value;
-                    _despawned.RemoveLast();
-                    InstanceHandler.DestroyInstance(inst.gameObject);
+                    GameObject inst = despawnedList.Last.Value;
+                    despawnedList.RemoveLast();
+                    InstanceHandler.DestroyInstance(inst);
                 }
             }
             cullingActive = false;
@@ -205,10 +197,14 @@ namespace YouYouFramework
         /// <summary>
         /// 直接完全释放
         /// </summary>
-        public void Release(Transform xform)
+        public void Release(GameObject inst)
         {
-            _spawned.Remove(xform);
-            InstanceHandler.DestroyInstance(xform.gameObject);
+            bool isRemove = spawnedList.Remove(inst);
+            if (isRemove)
+            {
+                GameEntry.LogError(LogCategory.Pool, "该对象不在池内, inst==" + inst);
+            }
+            InstanceHandler.DestroyInstance(inst);
         }
 
     }

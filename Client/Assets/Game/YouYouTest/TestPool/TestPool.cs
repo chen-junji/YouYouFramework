@@ -5,20 +5,20 @@ using YouYouFramework;
 
 public class TestPool : MonoBehaviour
 {
-    List<Transform> objList = new List<Transform>();
+    List<GameObject> objList = new List<GameObject>();
 
     async void Update()
     {
         if (Input.GetKeyUp(KeyCode.A))
         {
             //从对象池内取对象
-            Transform obj = await GameEntry.Pool.GameObjectPool.SpawnAsync(PrefabName.Skill1);
+            GameObject obj = await GameEntry.Pool.GameObjectPool.SpawnAsync(PrefabName.Skill1);
             objList.Add(obj);
         }
         if (Input.GetKeyUp(KeyCode.S))
         {
             //从对象池内取对象
-            Transform obj = GameEntry.Pool.GameObjectPool.Spawn(PrefabName.Skill1);
+            GameObject obj = GameEntry.Pool.GameObjectPool.Spawn(PrefabName.Skill1);
             objList.Add(obj);
 
             //3秒后自动回池

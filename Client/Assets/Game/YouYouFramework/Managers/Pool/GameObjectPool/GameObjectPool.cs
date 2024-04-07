@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Cysharp.Threading.Tasks;
+using static UnityEditor.PlayerSettings;
 
 namespace YouYouFramework
 {
@@ -86,9 +87,9 @@ namespace YouYouFramework
             //对象池物体克隆请求
             InstanceHandler.InstantiateDelegates += InstantiateDelegate;
         }
-        private GameObject InstantiateDelegate(GameObject prefab, Vector3 pos, Quaternion rot)
+        private GameObject InstantiateDelegate(GameObject prefab)
         {
-            GameObject obj = Object.Instantiate(prefab, pos, rot);
+            GameObject obj = Object.Instantiate(prefab);
             if (m_PrefabAssetDic.TryGetValue(prefab.GetInstanceID(), out AssetReferenceEntity referenceEntity))
             {
                 AutoReleaseHandle.Add(referenceEntity, obj);
@@ -101,10 +102,10 @@ namespace YouYouFramework
         /// </summary>
         public void PreloadObj(PrefabName prefabName, int count)
         {
-            List<Transform> preloadList = new List<Transform>();
+            List<GameObject> preloadList = new List<GameObject>();
             for (int i = 0; i < count; i++)
             {
-                Transform poolObj = Spawn(prefabName);
+                GameObject poolObj = Spawn(prefabName);
                 preloadList.Add(poolObj);
             }
             for (int i = 0; i < count; i++)
@@ -112,12 +113,12 @@ namespace YouYouFramework
                 Despawn(preloadList[i]);
             }
         }
-        public void PreloadObj(Transform prefab, int count)
+        public void PreloadObj(GameObject prefab, int count)
         {
-            List<Transform> preloadList = new List<Transform>();
+            List<GameObject> preloadList = new List<GameObject>();
             for (int i = 0; i < count; i++)
             {
-                Transform poolObj = Spawn(prefab);
+                GameObject poolObj = Spawn(prefab);
                 preloadList.Add(poolObj);
             }
             for (int i = 0; i < count; i++)
@@ -130,54 +131,52 @@ namespace YouYouFramework
         /// <summary>
         /// 从对象池中获取对象
         /// </summary>
-        public async UniTask<Transform> SpawnAsync(PrefabName prefabName, Transform panent = null)
+        public async UniTask<GameObject> SpawnAsync(PrefabName prefabName)
         {
             Sys_PrefabEntity sys_Prefab = GameEntry.DataTable.Sys_PrefabDBModel.GetEntity(prefabName.ToString());
-            return await SpawnAsync(sys_Prefab, panent);
+            return await SpawnAsync(sys_Prefab);
         }
-        public async UniTask<Transform> SpawnAsync(Sys_PrefabEntity entity, Transform panent = null)
+        public async UniTask<GameObject> SpawnAsync(Sys_PrefabEntity entity)
         {
             AssetReferenceEntity referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(entity.AssetFullPath);
-            GameObject retObj = referenceEntity.Target as GameObject;
-            if (retObj == null)
+            GameObject prefab = referenceEntity.Target as GameObject;
+            if (prefab == null)
             {
-                YouYouFramework.GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullName==" + entity.AssetFullPath);
+                GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullName==" + entity.AssetFullPath);
                 return null;
             }
-            Transform prefab = retObj.transform;
             int prefabId = prefab.gameObject.GetInstanceID();
             m_PrefabAssetDic[prefabId] = referenceEntity;
 
-            return Spawn(prefab, panent, entity.PoolId, entity.CullDespawned == 1, entity.CullAbove, entity.CullDelay, entity.CullMaxPerPass);
+            return Spawn(prefab, entity.PoolId, entity.CullDespawned == 1, entity.CullAbove, entity.CullDelay, entity.CullMaxPerPass);
         }
 
-        public Transform Spawn(PrefabName prefabName, Transform panent = null)
+        public GameObject Spawn(PrefabName prefabName)
         {
             Sys_PrefabEntity sys_Prefab = GameEntry.DataTable.Sys_PrefabDBModel.GetEntity(prefabName.ToString());
-            return Spawn(sys_Prefab, panent);
+            return Spawn(sys_Prefab);
         }
-        public Transform Spawn(string prefabName, Transform panent = null)
+        public GameObject Spawn(string prefabName)
         {
             Sys_PrefabEntity sys_Prefab = GameEntry.DataTable.Sys_PrefabDBModel.GetEntity(prefabName);
-            return Spawn(sys_Prefab, panent);
+            return Spawn(sys_Prefab);
         }
-        public Transform Spawn(Sys_PrefabEntity entity, Transform panent = null)
+        public GameObject Spawn(Sys_PrefabEntity entity)
         {
             AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(entity.AssetFullPath);
-            GameObject retObj = referenceEntity.Target as GameObject;
-            if (retObj == null)
+            GameObject prefab = referenceEntity.Target as GameObject;
+            if (prefab == null)
             {
-                YouYouFramework.GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullPath==" + entity.AssetFullPath);
+                GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullPath==" + entity.AssetFullPath);
                 return null;
             }
-            Transform prefab = retObj.transform;
             int prefabId = prefab.gameObject.GetInstanceID();
             m_PrefabAssetDic[prefabId] = referenceEntity;
 
-            return Spawn(prefab, panent, entity.PoolId, entity.CullDespawned == 1, entity.CullAbove, entity.CullDelay, entity.CullMaxPerPass);
+            return Spawn(prefab, entity.PoolId, entity.CullDespawned == 1, entity.CullAbove, entity.CullDelay, entity.CullMaxPerPass);
         }
 
-        public Transform Spawn(Transform prefab, Transform parent = null, byte poolId = 1, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
+        public GameObject Spawn(GameObject prefab, byte poolId = 1, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
         {
             if (prefab == null)
             {
@@ -201,21 +200,16 @@ namespace YouYouFramework
 
             //拿到一个实例
             bool isNewInstance = false;
-            Transform retTrans = gameObjectPoolEntity.Pool.Spawn(prefab, ref isNewInstance);
 
-            //初始化实例
-            int instanceID = retTrans.gameObject.GetInstanceID();
+            GameObject inst = prefabPoolInner.SpawnInstance(ref isNewInstance);
+            inst.transform.SetParent(prefabPoolInner.spawnPool.transform, false);
+            inst.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+
+            //把实例映射到字典上
+            int instanceID = inst.GetInstanceID();
             m_InstanceIdPoolIdDic[instanceID] = prefabPoolInner;
-            if (parent != null)
-            {
-                retTrans.SetParent(parent, false);
-            }
-            else
-            {
-                retTrans.SetParent(prefabPoolInner.spawnPool.transform, false);
-            }
 
-            return retTrans;
+            return inst;
         }
         #endregion
 
@@ -223,22 +217,22 @@ namespace YouYouFramework
         /// <summary>
         /// 对象回池
         /// </summary>
-        public void Despawn(Transform despawnTransf)
+        public void Despawn(GameObject inst)
         {
-            if (despawnTransf == null) return;
+            if (inst == null) return;
 
-            int instanceID = despawnTransf.gameObject.GetInstanceID();
+            int instanceID = inst.GetInstanceID();
             if (m_InstanceIdPoolIdDic.TryGetValue(instanceID, out PrefabPool prefabPool))
             {
                 if (prefabPool.spawnPool == null) return;
 
                 m_InstanceIdPoolIdDic.Remove(instanceID);
 
-                despawnTransf.SetParent(prefabPool.spawnPool.transform);
-                prefabPool.DespawnInstance(despawnTransf);
+                inst.transform.SetParent(prefabPool.spawnPool.transform);
+                prefabPool.DespawnInstance(inst);
             }
 
-            AutoDespawnHandle handle = despawnTransf.GetComponent<AutoDespawnHandle>();
+            AutoDespawnHandle handle = inst.GetComponent<AutoDespawnHandle>();
             if (handle != null) handle.StopTime();
         }
 
@@ -257,7 +251,7 @@ namespace YouYouFramework
                     {
                         if (item.gameObject.activeInHierarchy)
                         {
-                            Despawn(item);
+                            Despawn(item.gameObject);
                         }
                     }
                 }
@@ -268,14 +262,18 @@ namespace YouYouFramework
         /// <summary>
         /// 直接释放对象
         /// </summary>
-        public void Release(Transform instance)
+        public void Release(GameObject inst)
         {
-            int instanceID = instance.gameObject.GetInstanceID();
+            int instanceID = inst.GetInstanceID();
             if (m_InstanceIdPoolIdDic.TryGetValue(instanceID, out PrefabPool prefabPool))
             {
                 m_InstanceIdPoolIdDic.Remove(instanceID);
 
-                prefabPool.Release(instance);
+                prefabPool.Release(inst);
+            }
+            else
+            {
+                GameEntry.LogError(LogCategory.Pool, "该对象不在池内, inst==" + inst);
             }
         }
 

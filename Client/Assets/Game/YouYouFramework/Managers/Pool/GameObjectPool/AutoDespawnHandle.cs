@@ -27,7 +27,7 @@ public class AutoDespawnHandle : MonoBehaviour
         }
         if (DelayTimeDespawn == 0)
         {
-            GameEntry.Pool.GameObjectPool.Despawn(transform);
+            GameEntry.Pool.GameObjectPool.Despawn(gameObject);
             return;
         }
 
@@ -48,7 +48,7 @@ public class AutoDespawnHandle : MonoBehaviour
     {
         yield return new WaitForSeconds(DelayTimeDespawn);
         OnDespawn?.Invoke();
-        GameEntry.Pool.GameObjectPool.Despawn(transform);
+        GameEntry.Pool.GameObjectPool.Despawn(gameObject);
     }
 
 }

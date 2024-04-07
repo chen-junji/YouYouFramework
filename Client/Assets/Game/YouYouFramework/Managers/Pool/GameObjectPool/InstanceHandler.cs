@@ -6,7 +6,7 @@ namespace YouYouFramework
 {
     public static class InstanceHandler
     {
-        public delegate GameObject InstantiateDelegate(GameObject prefab, Vector3 pos, Quaternion rot);
+        public delegate GameObject InstantiateDelegate(GameObject prefab);
         public delegate void DestroyDelegate(GameObject instance);
 
         /// <summary>
@@ -22,15 +22,15 @@ namespace YouYouFramework
         /// <summary>
         /// 克隆对象
         /// </summary>
-        internal static GameObject InstantiatePrefab(GameObject prefab, Vector3 pos, Quaternion rot)
+        internal static GameObject InstantiatePrefab(GameObject prefab)
         {
             if (InstantiateDelegates != null)
             {
-                return InstantiateDelegates(prefab, pos, rot);
+                return InstantiateDelegates(prefab);
             }
             else
             {
-                return Object.Instantiate(prefab, pos, rot);
+                return Object.Instantiate(prefab);
             }
         }
 

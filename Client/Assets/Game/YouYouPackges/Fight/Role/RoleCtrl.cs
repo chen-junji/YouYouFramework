@@ -63,8 +63,8 @@ public class RoleCtrl : MonoBehaviour
         };
         timelineCtrl.PlayResource = (args, delayTime) =>
         {
-            Transform poolObj = GameEntry.Pool.GameObjectPool.Spawn(args.PrefabName);
-            poolObj.SetPositionAndRotation(transform.position, transform.rotation);
+            GameObject poolObj = GameEntry.Pool.GameObjectPool.Spawn(args.PrefabName);
+            poolObj.transform.SetPositionAndRotation(transform.position, transform.rotation);
             poolObj.gameObject.GetOrCreatComponent<AutoDespawnHandle>().SetDelayTimeDespawn(delayTime);
         };
         timelineCtrl.PlaySound = (args) =>
