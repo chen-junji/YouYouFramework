@@ -43,9 +43,9 @@ public class RoleCtrl : MonoBehaviour
     /// <summary>
     /// 创建技能效果的Timeline
     /// </summary>
-    public virtual TimelineCtrl CreateSkillTimeLine(string prefabName)
+    public virtual TimelineCtrl CreateSkillTimeLine(string prefabFullPath)
     {
-        TimelineCtrl timelineCtrl = GameEntry.Pool.GameObjectPool.Spawn(prefabName).GetComponent<TimelineCtrl>();
+        TimelineCtrl timelineCtrl = GameEntry.Pool.GameObjectPool.Spawn(prefabFullPath).GetComponent<TimelineCtrl>();
         timelineCtrl.transform.position = transform.position;
         timelineCtrl.transform.rotation = transform.rotation;
 
@@ -63,7 +63,7 @@ public class RoleCtrl : MonoBehaviour
         };
         timelineCtrl.PlayResource = (args, delayTime) =>
         {
-            GameObject poolObj = GameEntry.Pool.GameObjectPool.Spawn(args.PrefabName);
+            GameObject poolObj = GameEntry.Pool.GameObjectPool.Spawn(args.PrefabFullPath);
             poolObj.transform.SetPositionAndRotation(transform.position, transform.rotation);
             poolObj.gameObject.GetOrCreatComponent<AutoDespawnHandle>().SetDelayTimeDespawn(delayTime);
         };

@@ -14,7 +14,6 @@ namespace YouYouFramework
 
         public LocalizationDBModel LocalizationDBModel { get; private set; }
         public Sys_UIFormDBModel Sys_UIFormDBModel { get; private set; }
-        public Sys_PrefabDBModel Sys_PrefabDBModel { get; private set; }
         public Sys_BGMDBModel Sys_BGMDBModel { get; private set; }
         public Sys_AudioDBModel Sys_AudioDBModel { get; private set; }
         public Sys_SceneDBModel Sys_SceneDBModel { get; private set; }
@@ -30,9 +29,6 @@ namespace YouYouFramework
 
             Sys_UIFormDBModel = new Sys_UIFormDBModel();
             Sys_UIFormDBModel.LoadData();
-
-            Sys_PrefabDBModel = new Sys_PrefabDBModel();
-            Sys_PrefabDBModel.LoadData();
 
             Sys_AudioDBModel = new Sys_AudioDBModel();
             Sys_AudioDBModel.LoadData();

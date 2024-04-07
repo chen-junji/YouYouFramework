@@ -142,46 +142,9 @@ namespace YouYouFramework
         }
 
         #region Spawn 从对象池中获取对象
-        public async UniTask<GameObject> SpawnAsync(string prefabName)
-        {
-            Sys_PrefabEntity sys_Prefab = GameEntry.DataTable.Sys_PrefabDBModel.GetEntity(prefabName);
-            return await SpawnAsync(sys_Prefab);
-        }
-        public async UniTask<GameObject> SpawnAsync(Sys_PrefabEntity entity)
-        {
-            AssetReferenceEntity referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(entity.AssetFullPath);
-            GameObject prefab = referenceEntity.Target as GameObject;
-            if (prefab == null)
-            {
-                GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullName==" + entity.AssetFullPath);
-                return null;
-            }
-            prefabAssetDic[prefab.GetInstanceID()] = referenceEntity;
-
-            return Spawn(prefab, entity.PoolId, entity.CullDespawned == 1, entity.CullAbove, entity.CullDelay, entity.CullMaxPerPass);
-        }
-
         /// <summary>
         /// 从对象池中获取对象
         /// </summary>
-        public GameObject Spawn(string prefabName)
-        {
-            Sys_PrefabEntity sys_Prefab = GameEntry.DataTable.Sys_PrefabDBModel.GetEntity(prefabName);
-            return Spawn(sys_Prefab);
-        }
-        public GameObject Spawn(Sys_PrefabEntity entity)
-        {
-            AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(entity.AssetFullPath);
-            GameObject prefab = referenceEntity.Target as GameObject;
-            if (prefab == null)
-            {
-                GameEntry.LogError(LogCategory.Loader, "找不到Prefab, AssetFullPath==" + entity.AssetFullPath);
-                return null;
-            }
-            prefabAssetDic[prefab.GetInstanceID()] = referenceEntity;
-
-            return Spawn(prefab, entity.PoolId, entity.CullDespawned == 1, entity.CullAbove, entity.CullDelay, entity.CullMaxPerPass);
-        }
         public GameObject Spawn(GameObject prefab, byte poolId = 1, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
         {
             if (prefab == null)
@@ -208,6 +171,18 @@ namespace YouYouFramework
             bool isNewInstance = false;
             GameObject inst = prefabPool.SpawnInstance(ref isNewInstance);
             return inst;
+        }
+        public GameObject Spawn(string prefabFullPath, byte poolId = 1, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
+        {
+            AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(prefabFullPath);
+            GameObject prefab = referenceEntity.Target as GameObject;
+            return Spawn(prefab, poolId, cullDespawned, cullAbove, cullDelay, cullMaxPerPass);
+        }
+        public async UniTask<GameObject> SpawnAsync(string prefabFullPath, byte poolId = 1, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
+        {
+            AssetReferenceEntity referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(prefabFullPath);
+            GameObject prefab = referenceEntity.Target as GameObject;
+            return Spawn(prefab, poolId, cullDespawned, cullAbove, cullDelay, cullMaxPerPass);
         }
         #endregion
 

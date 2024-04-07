@@ -16,9 +16,9 @@ public class SpwnObjNode : BaseActionNode
     public override FieldInfo[] FieldInfos => fieldInfos;
 
     /// <summary>
-    /// 要取的对象名称
+    /// 要取的对象路径
     /// </summary>
-    [BBParamInfo(Name = "要取的对象名称")]
+    [BBParamInfo(Name = "要取的对象路径")]
     public BBParamString SpwnObjName;
 
     protected override void OnStart()

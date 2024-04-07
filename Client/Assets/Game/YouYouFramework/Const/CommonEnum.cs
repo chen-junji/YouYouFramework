@@ -1,7 +1,7 @@
 
-public class PrefabName
+public class PrefabFullPath
 {
-    public const string Skill1 = "Skill1";
+    public const string Skill1 = "Assets/Game/Download/Prefab/Skill/Skill1.prefab";
 }
 public class BGMName
 {

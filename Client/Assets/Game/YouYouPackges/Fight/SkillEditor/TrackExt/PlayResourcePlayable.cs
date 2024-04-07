@@ -29,8 +29,7 @@ namespace YouYouFramework
         private void OnCurrResourceChanged()
         {
             string path = UnityEditor.AssetDatabase.GetAssetPath(CurrResource);
-            PrefabPath = path;
-            PrefabName = CurrResource.name;
+            PrefabFullPath = path;
         }
 #endif
 
@@ -38,10 +37,7 @@ namespace YouYouFramework
         public DynamicTarget Target;
 
         [Header("预设路径")]
-        public string PrefabPath;
-
-        [Header("预设名称")]
-        public string PrefabName;
+        public string PrefabFullPath;
 
         [Header("偏移")]
         public Vector3 Offset;
