@@ -89,21 +89,37 @@ namespace YouYouFramework
             GameObject inst = Object.Instantiate(prefab);
             inst.transform.SetParent(prefabPool.spawnPool.transform, false);
 
-            //让资源的引用计数+1
-            if (prefabAssetDic.TryGetValue(prefab.GetInstanceID(), out AssetReferenceEntity referenceEntity))
-            {
-                AutoReleaseHandle.Add(referenceEntity, inst);
-            }
-
-            //把实例映射到实例字典上
+            //从实例字典上 映射实例
             int instanceID = inst.GetInstanceID();
             instanceIdPoolIdDic[instanceID] = prefabPool;
+
+            //让资源的引用计数+1
+            if (prefabPool.TotalCount == 1)
+            {
+                if (prefabAssetDic.TryGetValue(prefab.GetInstanceID(), out AssetReferenceEntity referenceEntity))
+                {
+                    referenceEntity.ReferenceAdd();
+                }
+            }
 
             return inst;
         }
         private void DestroyDelegate(GameObject inst, PrefabPool prefabPool)
         {
-            instanceIdPoolIdDic.Remove(inst.GetInstanceID());
+            int instanceID = inst.GetInstanceID();
+
+            //从实例字典上 移除实例
+            instanceIdPoolIdDic.Remove(instanceID);
+
+            //让资源的引用计数-1
+            if (prefabPool.TotalCount == 0)
+            {
+                if (prefabAssetDic.TryGetValue(instanceID, out AssetReferenceEntity referenceEntity))
+                {
+                    referenceEntity.ReferenceRemove();
+                }
+            }
+
             Object.Destroy(inst);
         }
 
