@@ -46,9 +46,10 @@ public class RoleCtrl : MonoBehaviour
     public virtual TimelineCtrl CreateSkillTimeLine(string prefabFullPath)
     {
         TimelineCtrl timelineCtrl = GameEntry.Pool.GameObjectPool.Spawn(prefabFullPath).GetComponent<TimelineCtrl>();
-        timelineCtrl.transform.position = transform.position;
-        timelineCtrl.transform.rotation = transform.rotation;
-
+        timelineCtrl.OnStopped += () =>
+        {
+            GameEntry.Pool.GameObjectPool.Despawn(timelineCtrl.gameObject);
+        };
         timelineCtrl.CameraShake = (args) =>
         {
             CameraFollowCtrl.Instance.CameraShake();
@@ -71,6 +72,10 @@ public class RoleCtrl : MonoBehaviour
         {
             GameEntry.Audio.PlayAudio(args.AudioClip, transform.position);
         };
+
+        timelineCtrl.transform.position = transform.position;
+        timelineCtrl.transform.rotation = transform.rotation;
+
         return timelineCtrl;
     }
 }

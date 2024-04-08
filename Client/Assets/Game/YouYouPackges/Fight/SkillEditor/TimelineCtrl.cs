@@ -24,7 +24,7 @@ public class TimelineCtrl : MonoBehaviour
     /// <summary>
     /// 停止播放委托
     /// </summary>
-    public Action OnStopped;
+    public event Action OnStopped;
 
     /// <summary>
     /// 攻击结束时间
@@ -43,7 +43,9 @@ public class TimelineCtrl : MonoBehaviour
     }
     private void OnPlayableDirectorStopped(PlayableDirector playableDirector)
     {
-        OnStopped?.Invoke();
+        var temp = OnStopped;
+        OnStopped = null;
+        temp?.Invoke();
     }
     private void OnEnable()
     {

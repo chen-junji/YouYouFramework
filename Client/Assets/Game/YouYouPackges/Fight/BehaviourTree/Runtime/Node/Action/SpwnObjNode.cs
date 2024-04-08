@@ -25,7 +25,7 @@ public class SpwnObjNode : BaseActionNode
     {
         TimelineCtrl timelineCtrl = Owner.RoleCtrl.CreateSkillTimeLine(SpwnObjName.Value);
         GameEntry.Log(LogCategory.Skill, "开始释放技能 Skill1");
-        timelineCtrl.OnStopped = () =>
+        timelineCtrl.OnStopped += () =>
         {
             Finish(true);
             GameEntry.Log(LogCategory.Skill, "技能释放完毕 Skill1");
