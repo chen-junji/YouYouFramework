@@ -9,8 +9,8 @@ namespace YouYouFramework
         public struct KeyCodeItem
         {
             public KeyCode KeyCode;
-            public InputKey Name;
-            public KeyCodeItem(KeyCode keyCode, InputKey name)
+            public InputKeyCode Name;
+            public KeyCodeItem(KeyCode keyCode, InputKeyCode name)
             {
                 KeyCode = keyCode;
                 Name = name;

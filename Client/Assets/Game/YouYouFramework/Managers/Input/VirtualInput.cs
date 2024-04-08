@@ -8,7 +8,7 @@ namespace YouYouFramework
     public abstract class VirtualInput : FsmState<InputManager>
     {
         protected Dictionary<string, InputManager.VirtualAxis> m_VirtualAxes = new Dictionary<string, InputManager.VirtualAxis>();
-        protected Dictionary<InputKey, InputManager.VirtualButton> m_VirtualButtons = new Dictionary<InputKey, InputManager.VirtualButton>();
+        protected Dictionary<InputKeyCode, InputManager.VirtualButton> m_VirtualButtons = new Dictionary<InputKeyCode, InputManager.VirtualButton>();
         protected List<string> m_AlwaysUseVirtual = new List<string>();
 
 
@@ -24,7 +24,7 @@ namespace YouYouFramework
             }
         }
 
-        public bool GetButton(InputKey name)
+        public bool GetButton(InputKeyCode name)
         {
             if (m_VirtualButtons.ContainsKey(name))
             {
@@ -34,7 +34,7 @@ namespace YouYouFramework
             GameEntry.Input.RegisterVirtualButton(new InputManager.VirtualButton(name));
             return m_VirtualButtons[name].GetButton;
         }
-        public bool GetButtonDown(InputKey name)
+        public bool GetButtonDown(InputKeyCode name)
         {
             if (m_VirtualButtons.ContainsKey(name))
             {
@@ -44,7 +44,7 @@ namespace YouYouFramework
             GameEntry.Input.RegisterVirtualButton(new InputManager.VirtualButton(name));
             return m_VirtualButtons[name].GetButtonDown;
         }
-        public bool GetButtonUp(InputKey name)
+        public bool GetButtonUp(InputKeyCode name)
         {
             if (m_VirtualButtons.ContainsKey(name))
             {
@@ -55,7 +55,7 @@ namespace YouYouFramework
             return m_VirtualButtons[name].GetButtonUp;
         }
 
-        public void SetButtonDown(InputKey name)
+        public void SetButtonDown(InputKeyCode name)
         {
             if (!m_VirtualButtons.ContainsKey(name))
             {
@@ -63,7 +63,7 @@ namespace YouYouFramework
             }
             m_VirtualButtons[name].Pressed();
         }
-        public void SetButtonUp(InputKey name)
+        public void SetButtonUp(InputKeyCode name)
         {
             if (!m_VirtualButtons.ContainsKey(name))
             {
@@ -116,7 +116,7 @@ namespace YouYouFramework
             }
             return axis;
         }
-        public InputManager.VirtualButton VirtualButtonReference(InputKey name)
+        public InputManager.VirtualButton VirtualButtonReference(InputKeyCode name)
         {
             if (!m_VirtualButtons.TryGetValue(name, out InputManager.VirtualButton button))
             {

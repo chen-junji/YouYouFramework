@@ -7,7 +7,7 @@ using YouYouFramework;
 [RequireComponent(typeof(Toggle))]
 public class ToggleHandler : MonoBehaviour
 {
-    [SerializeField] InputKey Name;
+    [SerializeField] InputKeyCode Name;
 
     private Toggle toggle;
 
