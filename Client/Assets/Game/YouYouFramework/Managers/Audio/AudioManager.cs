@@ -19,30 +19,17 @@ namespace YouYouFramework
         public float BGMVolume { get; private set; }
         public float AudioVolume { get; private set; }
 
-        //目标BGM剪辑
-        private AudioClip targetBGMAudioClip;
-        //目标BGM是否循环
-        private bool targetBGMIsLoop;
-        //目标BGM音量
-        private float targetBGMClipVolume;
-
-        //BGM淡入淡出过渡音量
-        private float interimBGMVolume;
-
-        //是否需要淡入淡出
-        private bool isFadeIn;
-        private bool isFadeOut;
-
         public void Init()
         {
-            AudioSourcePrefab = new GameObject("AudioSource", typeof(AudioSource), typeof(AutoDespawnHandle)).GetComponent<AudioSource>();
-            AudioSourcePrefab.transform.SetParent(GameEntry.Instance.transform);
-            AudioSourcePrefab.playOnAwake = false;
-            AudioSourcePrefab.maxDistance = 20;
-            AudioSourcePrefab.outputAudioMixerGroup = GameEntry.Instance.MonsterMixer.FindMatchingGroups("Audio")[0];
+            audioRoutinePrefab = new GameObject("AudioSource", typeof(AudioRoutine), typeof(AutoDespawnHandle), typeof(AudioSource)).GetComponent<AudioRoutine>();
+            audioRoutinePrefab.Init();
+            audioRoutinePrefab.transform.SetParent(GameEntry.Instance.transform);
+            audioRoutinePrefab.AudioSource.playOnAwake = false;
+            audioRoutinePrefab.AudioSource.maxDistance = 20;
+            audioRoutinePrefab.AudioSource.outputAudioMixerGroup = GameEntry.Instance.MonsterMixer.FindMatchingGroups("Audio")[0];
 
-            BGMSource = Object.Instantiate(AudioSourcePrefab, GameEntry.Instance.transform);
-            BGMSource.name = "BGMSource";
+            BGMSource = new GameObject("BGMSource", typeof(AudioSource)).GetComponent<AudioSource>();
+            BGMSource.transform.SetParent(GameEntry.Instance.transform);
             BGMSource.outputAudioMixerGroup = GameEntry.Instance.MonsterMixer.FindMatchingGroups("BGM")[0];
 
             GameEntry.PlayerPrefs.SetFloatHas(PlayerPrefsConstKey.MasterVolume, 1);
@@ -57,6 +44,95 @@ namespace YouYouFramework
             SetMasterMute(GameEntry.PlayerPrefs.GetBool(PlayerPrefsConstKey.MasterMute));
         }
         public void OnUpdate()
+        {
+            OnBGMUpdate();
+        }
+
+        #region BGM
+        public AudioSource BGMSource { get; private set; }
+
+        //目标BGM剪辑
+        private AudioClip targetBGMAudioClip;
+        //目标BGM是否循环
+        private bool targetBGMIsLoop;
+        //目标BGM音量
+        private float targetBGMClipVolume;
+
+        //BGM淡入淡出过渡音量
+        private float interimBGMVolume;
+
+        //是否需要淡入淡出
+        private bool isFadeIn;
+        private bool isFadeOut;
+
+        private AssetReferenceEntity currBGMReferenceEntity;
+
+        public void PlayBGM(string audioName)
+        {
+            Sys_BGMEntity entity = GameEntry.DataTable.Sys_BGMDBModel.GetEntity(audioName);
+            if (entity == null)
+            {
+                GameEntry.LogError(LogCategory.Audio, "CurrBGMEntity==null, audioName==" + audioName);
+                return;
+            }
+
+            AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(entity.AssetFullPath);
+            PlayBGM(referenceEntity.Target as AudioClip, entity.IsLoop == 1, entity.Volume, entity.IsFadeIn == 1, entity.IsFadeOut == 1, referenceEntity);
+        }
+        public void PlayBGM(AudioClip audioClip, bool isLoop, float volume, bool isFadeIn, bool isFadeOut, AssetReferenceEntity referenceEntity = null)
+        {
+            if (audioClip == null)
+            {
+                GameEntry.LogError(LogCategory.Audio, "audioClip==null");
+                return;
+            }
+            targetBGMAudioClip = audioClip;
+            targetBGMIsLoop = isLoop;
+            targetBGMClipVolume = volume;
+            this.isFadeIn = isFadeIn;
+            this.isFadeOut = isFadeOut;
+
+            //这里要保证BGM过渡时间小于Asset池释放时间, 否则会在过渡到一半的时候AudioClip就变成null了, 但一般情况下是不会出问题的
+            if (currBGMReferenceEntity != null)
+            {
+                currBGMReferenceEntity.ReferenceRemove();
+            }
+            currBGMReferenceEntity = referenceEntity;
+
+            GameEntry.Log(LogCategory.Audio, string.Format("PlayBGM, audioClip=={0}, volume=={1}", audioClip, volume));
+        }
+
+        public void StopBGM(bool isFadeOut)
+        {
+            //把音量逐渐变成0 再停止
+            targetBGMAudioClip = null;
+            this.isFadeOut = isFadeOut;
+
+            //这里要保证BGM过渡时间小于Asset池释放时间, 否则会在过渡到一半的时候AudioClip就变成null了, 但一般情况下是不会出问题的
+            if (currBGMReferenceEntity != null)
+            {
+                currBGMReferenceEntity.ReferenceRemove();
+            }
+            currBGMReferenceEntity = null;
+
+            GameEntry.Log(LogCategory.Audio, "StopBGM");
+        }
+
+        public void PauseBGM(bool isPause)
+        {
+            if (isPause)
+            {
+                BGMSource.Pause();
+            }
+            else
+            {
+                BGMSource.UnPause();
+            }
+            GameEntry.Log(LogCategory.Audio, BGMSource.clip + "PauseBGM");
+
+        }
+
+        private void OnBGMUpdate()
         {
             if (BGMSource.clip != targetBGMAudioClip)
             {
@@ -103,128 +179,66 @@ namespace YouYouFramework
                     SetBGMVolume(BGMVolume);//这里是为了刷新音量
                 }
             }
-
-        }
-
-        #region BGM
-        public AudioSource BGMSource { get; private set; }
-        public Sys_BGMEntity CurrBGMEntity;
-
-        public void PlayBGM(string audioName)
-        {
-            Sys_BGMEntity entity = GameEntry.DataTable.Sys_BGMDBModel.GetEntity(audioName);
-            if (entity == null)
-            {
-                GameEntry.LogError(LogCategory.Audio, "CurrBGMEntity==null, audioName==" + audioName);
-                return;
-            }
-
-            CurrBGMEntity = entity;
-            AudioClip audioClip = GameEntry.Loader.LoadMainAsset<AudioClip>(CurrBGMEntity.AssetFullPath, BGMSource.gameObject);
-            PlayBGM(audioClip, CurrBGMEntity.IsLoop == 1, CurrBGMEntity.Volume, CurrBGMEntity.IsFadeIn == 1, CurrBGMEntity.IsFadeOut == 1);
-        }
-        public void PlayBGM(AudioClip audioClip, bool isLoop, float volume, bool isFadeIn, bool isFadeOut)
-        {
-            if (audioClip == null)
-            {
-                GameEntry.LogError(LogCategory.Audio, "audioClip==null");
-                return;
-            }
-            targetBGMAudioClip = audioClip;
-            targetBGMIsLoop = isLoop;
-            targetBGMClipVolume = volume;
-            this.isFadeIn = isFadeIn;
-            this.isFadeOut = isFadeOut;
-
-            GameEntry.Log(LogCategory.Audio, string.Format("PlayBGM, audioClip=={0}, volume=={1}", audioClip, volume));
-        }
-
-        internal void StopBGM(bool isFadeOut)
-        {
-            //把音量逐渐变成0 再停止
-            targetBGMAudioClip = null;
-            this.isFadeOut = isFadeOut;
-            GameEntry.Log(LogCategory.Audio, "StopBGM");
-        }
-
-        public void PauseBGM(bool isPause)
-        {
-            if (isPause)
-            {
-                BGMSource.Pause();
-            }
-            else
-            {
-                BGMSource.UnPause();
-            }
-            GameEntry.Log(LogCategory.Audio, BGMSource.clip + "PauseBGM");
-
         }
         #endregion
 
         #region 音效
-        private AudioSource AudioSourcePrefab;
-        private List<AudioSource> AudioSourceList = new List<AudioSource>();
+        private AudioRoutine audioRoutinePrefab;
 
-        public void PlayAudio(AudioClip audioClip, float volume = 1, int priority = 128)
-        {
-            PlayAudio2(audioClip, volume, priority);
-        }
-        public void PlayAudio(AudioClip audioClip, Vector3 point, float volume = 1, int priority = 128)
-        {
-            AudioSource audioSource = PlayAudio2(audioClip, volume, priority);
-            if (audioSource == null)
-            {
-                Debug.LogError("audioSource==null");
-                return;
-            }
-            audioSource.transform.position = point;
-            audioSource.spatialBlend = 1;
-        }
         public void PlayAudio(string audioName, Vector3 point)
         {
             Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName);
             AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(sys_Audio.AssetFullPath);
-            AudioSource helper = PlayAudio2(referenceEntity.Target as AudioClip, sys_Audio.Volume, sys_Audio.Priority);
-            if (helper != null)
-            {
-                AutoReleaseHandle.Add(referenceEntity, helper.gameObject);
-                helper.transform.position = point;
-                helper.spatialBlend = 1;
-            }
+
+            AudioRoutine routine = CreateAudioRoutine(referenceEntity.Target as AudioClip, sys_Audio.Volume, sys_Audio.Priority, referenceEntity);
+            routine.AudioSource.spatialBlend = 1;
+            routine.transform.position = point;
         }
         public void PlayAudio(string audioName)
         {
             Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName);
             AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(sys_Audio.AssetFullPath);
-            AudioSource helper = PlayAudio2(referenceEntity.Target as AudioClip, sys_Audio.Volume, sys_Audio.Priority);
-            if (helper != null)
-            {
-                AutoReleaseHandle.Add(referenceEntity, helper.gameObject);
-            }
+
+            AudioRoutine routine = CreateAudioRoutine(referenceEntity.Target as AudioClip, sys_Audio.Volume, sys_Audio.Priority, referenceEntity);
+            routine.AudioSource.spatialBlend = 0;
+        }
+        public void PlayAudio(AudioClip audioClip, Vector3 point, float volume = 1, int priority = 128)
+        {
+            AudioRoutine routine = CreateAudioRoutine(audioClip, volume, priority);
+            routine.AudioSource.spatialBlend = 1;
+            routine.transform.position = point;
+        }
+        public void PlayAudio(AudioClip audioClip, float volume = 1, int priority = 128)
+        {
+            AudioRoutine routine = CreateAudioRoutine(audioClip, volume, priority);
+            routine.AudioSource.spatialBlend = 0;
         }
 
-        private AudioSource PlayAudio2(AudioClip audioClip, float volume = 1, int priority = 128)
+        private AudioRoutine CreateAudioRoutine(AudioClip audioClip, float volume, int priority, AssetReferenceEntity referenceEntity = null)
         {
-            AudioSource helper = GameEntry.Pool.GameObjectPool.Spawn(AudioSourcePrefab.gameObject, 2).GetComponent<AudioSource>();
-            AudioSourceList.Add(helper);
-            helper.clip = audioClip;
-            helper.mute = false;
-            helper.volume = volume;
-            helper.priority = priority;
-            helper.spatialBlend = 0;
-            helper.Play();
+            AudioRoutine routine = GameEntry.Pool.GameObjectPool.Spawn(audioRoutinePrefab.gameObject, 2).GetComponent<AudioRoutine>();
+            routine.AudioSource.clip = audioClip;
+            routine.AudioSource.volume = volume;
+            routine.AudioSource.priority = priority;
+            routine.AudioSource.Play();
 
-            if (!helper.loop)
+            //音效资源做引用计数
+            routine.ReferenceEntity = referenceEntity;
+            if (routine.ReferenceEntity != null)
             {
-                AutoDespawnHandle poolObj = helper.gameObject.GetOrCreatComponent<AutoDespawnHandle>();
-                poolObj.SetDelayTimeDespawn(audioClip.length);
-                poolObj.OnDespawn = () =>
-                {
-                    AudioSourceList.Remove(helper);
-                };
+                routine.ReferenceEntity.ReferenceAdd();
             }
-            return helper;
+            //这里需要注意: 如果AudioSource.loop==true则会有问题, 循环播放的音效不需要使用AudioManager, 自己挂AudioSource去播放就行了
+            routine.AutoDespawnHandle.SetDelayTimeDespawn(audioClip.length);
+            routine.AutoDespawnHandle.OnDespawn = () =>
+            {
+                routine.AudioSource.clip = null;
+                if (routine.ReferenceEntity != null)
+                {
+                    routine.ReferenceEntity.ReferenceRemove();
+                }
+            };
+            return routine;
         }
 
         #endregion
