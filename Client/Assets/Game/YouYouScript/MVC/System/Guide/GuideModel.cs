@@ -21,8 +21,8 @@ public class GuideModel
 
     public GuideModel()
     {
-        GameEntry.Event.AddEventListener(CommonEventId.GameEntryOnApplicationQuit, SaveDataAll);
-        GameEntry.Event.AddEventListener(CommonEventId.GameEntryOnApplicationPause, SaveDataAll);
+        GameEntry.ApplicationQuitAction += SaveDataAll;
+        GameEntry.ApplicationPauseAction += SaveDataAll;
 
         if (b_native)
         {
@@ -34,7 +34,7 @@ public class GuideModel
         }
     }
 
-    public void SaveDataAll(object userData)
+    public void SaveDataAll()
     {
         if (b_native)
         {

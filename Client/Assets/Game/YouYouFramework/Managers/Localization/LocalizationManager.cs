@@ -24,6 +24,8 @@ namespace YouYouFramework
 
     public class LocalizationManager 
     {
+        public event Action ChangeLanguageAction;
+
         internal void Init()
         {
 #if !UNITY_EDITOR
@@ -59,7 +61,7 @@ namespace YouYouFramework
         {
             GameEntry.CurrLanguage = language;
             GameEntry.DataTable.LocalizationDBModel.LoadData();
-            GameEntry.Event.Dispatch(CommonEventId.ChangeLanguage);
+            ChangeLanguageAction?.Invoke();
         }
 
     }

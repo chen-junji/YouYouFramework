@@ -22,14 +22,14 @@ namespace YouYouFramework
         }
         private void Start()
         {
-            GameEntry.Event.AddEventListener(CommonEventId.ChangeLanguage, OnChangeLanguage);
-            OnChangeLanguage(null);
+            GameEntry.Localization.ChangeLanguageAction += OnChangeLanguage;
+            OnChangeLanguage();
         }
         private void OnDestroy()
         {
-            GameEntry.Event.RemoveEventListener(CommonEventId.ChangeLanguage, OnChangeLanguage);
+            GameEntry.Localization.ChangeLanguageAction -= OnChangeLanguage;
         }
-        private void OnChangeLanguage(object userData)
+        private void OnChangeLanguage()
         {
             if (!string.IsNullOrEmpty(m_Localization))
             {

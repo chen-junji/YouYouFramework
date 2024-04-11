@@ -12,9 +12,8 @@ using YouYouFramework;
 /// </summary>
 public partial class LoadingForm : UIFormBase
 {
-    private void OnLoadingProgressChange(object userData)
+    private void OnLoadingProgressChange(float varFloat)
     {
-        VarFloat varFloat = (VarFloat)userData;
         m_Txt_Tip.text = string.Format("正在进入场景, 加载进度 {0}%", Math.Floor(varFloat * 100));
         m_Sbar_Progress.size = varFloat;
 
@@ -27,7 +26,7 @@ public partial class LoadingForm : UIFormBase
     protected override void OnEnable()
     {
         base.OnEnable();
-        GameEntry.Event.AddEventListener(CommonEventId.LoadingSceneUpdate, OnLoadingProgressChange);
+        GameEntry.Scene.LoadingUpdateAction += OnLoadingProgressChange;
 
         //m_Txt_Tip.text = string.Empty;
         //m_Sbar_Progress.size = 0;
@@ -35,6 +34,6 @@ public partial class LoadingForm : UIFormBase
     protected override void OnDisable()
     {
         base.OnDisable();
-        GameEntry.Event.RemoveEventListener(CommonEventId.LoadingSceneUpdate, OnLoadingProgressChange);
+        GameEntry.Scene.LoadingUpdateAction -= OnLoadingProgressChange;
     }
 }

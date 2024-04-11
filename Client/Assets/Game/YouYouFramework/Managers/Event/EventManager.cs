@@ -11,11 +11,6 @@ namespace YouYouFramework
     public enum CommonEventId
     {
         TestEvent,
-        GameEntryOnUpdate,
-        GameEntryOnApplicationQuit,
-        GameEntryOnApplicationPause,
-        LoadingSceneUpdate,
-        ChangeLanguage,
     }
 
     /// <summary>

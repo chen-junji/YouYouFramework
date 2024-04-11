@@ -163,9 +163,7 @@ namespace YouYouFramework
             }
         }
 
-        /// <summary>
-        /// 更新
-        /// </summary>
+        public event Action<float> LoadingUpdateAction;
         internal void OnUpdate()
         {
             if (m_CurrSceneIsLoading)
@@ -191,10 +189,7 @@ namespace YouYouFramework
                         m_CurrProgress += Time.deltaTime * 0.8f;
                     }
                     m_CurrProgress = Mathf.Min(m_CurrProgress, targetProgress);//这里是为了防止进度超过100%， 比如完成了显示102%
-
-                    VarFloat varFloat = new VarFloat();
-                    varFloat.Value = m_CurrProgress;
-                    GameEntry.Event.Dispatch(CommonEventId.LoadingSceneUpdate, varFloat);
+                    LoadingUpdateAction?.Invoke(m_CurrProgress);
                 }
 
                 if (m_CurrProgress == 1)

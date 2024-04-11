@@ -62,6 +62,12 @@ namespace YouYouFramework
         public static InputManager Input { get; private set; }
         public static TaskManager Task { get; private set; }
 
+
+        public static event Action ApplicationQuitAction;
+        public static event Action OnUpdateAction;
+        public static event Action ApplicationPauseAction;
+
+
         public static GameEntry Instance { get; private set; }
         private void Awake()
         {
@@ -123,21 +129,21 @@ namespace YouYouFramework
             Input.OnUpdate();
             Task.OnUpdate();
 
-            GameEntry.Event.Dispatch(CommonEventId.GameEntryOnUpdate);
+            OnUpdateAction?.Invoke();
         }
         private void OnApplicationQuit()
         {
             PlayerPrefs.SaveDataAll();
             Logger.SyncLog();
 
-            GameEntry.Event.Dispatch(CommonEventId.GameEntryOnApplicationQuit);
+            ApplicationQuitAction?.Invoke();
         }
         private void OnApplicationPause(bool pause)
         {
             if (pause)
             {
                 PlayerPrefs.SaveDataAll();
-                GameEntry.Event.Dispatch(CommonEventId.GameEntryOnApplicationPause);
+                ApplicationPauseAction?.Invoke();
             }
         }
 
