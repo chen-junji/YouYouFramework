@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using YouYouFramework;
 
-public class GameModel : Observable
+public class GameModel
 {
-    public enum TestEvent
+    public event Action TestEvent;
+
+    internal void DispatchTestEvent()
     {
-        TestEvent1,
+        TestEvent?.Invoke();
     }
 }

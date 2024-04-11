@@ -40,13 +40,18 @@ namespace YouYouFramework
         /// <summary>
         /// 监听事件, 触发下一步
         /// </summary>
-        public static void CheckEventNext(GuideModel.GUIDE_ID eventName)
+        public static void CheckEventNext(GuideModel.GuideEventEnum eventName)
         {
-            GameEntry.Model.GetModel<GuideModel>().AddEventListener((int)eventName, OnNext);
-            void OnNext(object userData)
+            GameEntry.Model.GetModel<GuideModel>().ActionGuide += OnNext;
+
+            void OnNext(GuideModel.GuideEventEnum guideEventEnum)
             {
-                GameEntry.Model.GetModel<GuideModel>().RemoveEventListener((int)eventName, OnNext);
-                GuideCtrl.Instance.NextGroup(GuideCtrl.Instance.CurrentState);
+                if (guideEventEnum == eventName)
+                {
+                    GameEntry.Model.GetModel<GuideModel>().ActionGuide -= OnNext;
+
+                    GuideCtrl.Instance.NextGroup(GuideCtrl.Instance.CurrentState);
+                }
             }
         }
     }

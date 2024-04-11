@@ -3,13 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using YouYouFramework;
+using System;
 
-public class GuideModel : Observable
+public class GuideModel
 {
-    public enum GUIDE_ID
+    public enum GuideEventEnum
     {
-        EventName
+        TestEvent1
     }
+
+    public Action<GuideEventEnum> ActionGuide;
+
     //µ¥»ú»òÍøÂç´æµµ
     private bool b_native = true;
 

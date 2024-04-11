@@ -59,7 +59,7 @@ namespace YouYouFramework
             GuideGroup.AddGuide(() =>
             {
                 //监听事件 触发下一步
-                GuideUtil.CheckEventNext(GuideModel.GUIDE_ID.EventName);
+                GuideUtil.CheckEventNext(GuideModel.GuideEventEnum.TestEvent1);
             });
 
             //启动新手引导组（大步骤）

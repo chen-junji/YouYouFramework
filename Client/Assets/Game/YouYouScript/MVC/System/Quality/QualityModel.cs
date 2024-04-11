@@ -1,10 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using YouYouFramework;
 
-public class QualityModel : Observable
+public class QualityModel
 {
+    public Action ScreenChange;
+    public Action QualityLevelChange;
+    public Action FrameRateChange;
+
     public enum EventId
     {
         QualityLevel,
@@ -62,19 +67,13 @@ public class QualityModel : Observable
         CurrQuality = quality;
         QualitySettings.SetQualityLevel(CurrQuality.ToInt(), true);
         GameEntry.PlayerPrefs.SetInt(PlayerPrefsConstKey.QualityLevel, (int)quality);
-        Dispatch((int)EventId.QualityLevel);
+        QualityLevelChange?.Invoke();
     }
     public void SetScreen(ScreenLevel value)
     {
         CurrScreen = value;
         GameEntry.PlayerPrefs.SetInt(PlayerPrefsConstKey.Screen, (int)CurrScreen);
-        Dispatch((int)EventId.Screen);
-        RefreshScreen();
-    }
 
-    public void RefreshScreen()
-    {
-        //·Ö±æÂÊ
         bool isGame = false;
         int screen = 0;
         switch (CurrScreen)
@@ -90,6 +89,7 @@ public class QualityModel : Observable
                 break;
         }
         Screen.SetResolution((int)(screen * Screen.width / (float)Screen.height), screen, Screen.fullScreen);
+        ScreenChange?.Invoke();
     }
 
     public void SetFrameRate(FrameRate frameRate)
@@ -108,7 +108,7 @@ public class QualityModel : Observable
                 break;
         }
         GameEntry.PlayerPrefs.SetInt(PlayerPrefsConstKey.FrameRate, (int)CurrFrameRate);
-        Dispatch((int)EventId.FrameRate);
+        FrameRateChange?.Invoke();
         //#if UNITY_EDITOR
         //            Application.targetFrameRate = -1;
         //#endif

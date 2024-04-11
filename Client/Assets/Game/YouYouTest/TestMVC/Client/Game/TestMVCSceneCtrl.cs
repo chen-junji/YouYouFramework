@@ -13,12 +13,12 @@ public class TestMVCSceneCtrl : SingletonMono<TestMVCSceneCtrl>
     {
         base.OnDestroy();
         //移除监听某个Model内的某个数据刷新的事件
-        GameEntry.Model.GetModel<GameModel>().RemoveEventListener((int)GameModel.TestEvent.TestEvent1, OnTestEvent1);
+        GameEntry.Model.GetModel<GameModel>().TestEvent -= OnTestEvent;
     }
     void Start()
     {
         //监听某个Model内的某个数据刷新的事件
-        GameEntry.Model.GetModel<GameModel>().AddEventListener((int)GameModel.TestEvent.TestEvent1, OnTestEvent1);
+        GameEntry.Model.GetModel<GameModel>().TestEvent += OnTestEvent;
 
         GameEntry.Input.SetEnable(true);
 
@@ -31,11 +31,11 @@ public class TestMVCSceneCtrl : SingletonMono<TestMVCSceneCtrl>
         if (Input.GetKeyUp(KeyCode.S))
         {
             //触发某个Model内的某个数据刷新的事件
-            GameEntry.Model.GetModel<GameModel>().Dispatch((int)GameModel.TestEvent.TestEvent1);
+            GameEntry.Model.GetModel<GameModel>().DispatchTestEvent();
         }
     }
 
-    private void OnTestEvent1(object userData)
+    private void OnTestEvent()
     {
 
     }

@@ -10,7 +10,7 @@ namespace YouYouFramework
         public void OnPointerDown(PointerEventData eventData)
         {
             GameEntry.Input.SetButtonDown(Name);
-            GameEntry.Input.Dispatch((int)Name);
+            GameEntry.Input.ActionInput?.Invoke(Name);
         }
         public void OnPointerUp(PointerEventData eventData)
         {

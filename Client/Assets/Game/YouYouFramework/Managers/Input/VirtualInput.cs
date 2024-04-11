@@ -7,8 +7,8 @@ namespace YouYouFramework
 {
     public abstract class VirtualInput : FsmState<InputManager>
     {
-        protected Dictionary<string, InputManager.VirtualAxis> m_VirtualAxes = new Dictionary<string, InputManager.VirtualAxis>();
-        protected Dictionary<InputKeyCode, InputManager.VirtualButton> m_VirtualButtons = new Dictionary<InputKeyCode, InputManager.VirtualButton>();
+        protected Dictionary<string, VirtualAxis> m_VirtualAxes = new Dictionary<string, VirtualAxis>();
+        protected Dictionary<InputKeyCode, VirtualButton> m_VirtualButtons = new Dictionary<InputKeyCode, VirtualButton>();
         protected List<string> m_AlwaysUseVirtual = new List<string>();
 
 
@@ -31,7 +31,7 @@ namespace YouYouFramework
                 return m_VirtualButtons[name].GetButton;
             }
 
-            GameEntry.Input.RegisterVirtualButton(new InputManager.VirtualButton(name));
+            GameEntry.Input.RegisterVirtualButton(new VirtualButton(name));
             return m_VirtualButtons[name].GetButton;
         }
         public bool GetButtonDown(InputKeyCode name)
@@ -41,7 +41,7 @@ namespace YouYouFramework
                 return m_VirtualButtons[name].GetButtonDown;
             }
 
-            GameEntry.Input.RegisterVirtualButton(new InputManager.VirtualButton(name));
+            GameEntry.Input.RegisterVirtualButton(new VirtualButton(name));
             return m_VirtualButtons[name].GetButtonDown;
         }
         public bool GetButtonUp(InputKeyCode name)
@@ -51,7 +51,7 @@ namespace YouYouFramework
                 return m_VirtualButtons[name].GetButtonUp;
             }
 
-            GameEntry.Input.RegisterVirtualButton(new InputManager.VirtualButton(name));
+            GameEntry.Input.RegisterVirtualButton(new VirtualButton(name));
             return m_VirtualButtons[name].GetButtonUp;
         }
 
@@ -59,7 +59,7 @@ namespace YouYouFramework
         {
             if (!m_VirtualButtons.ContainsKey(name))
             {
-                GameEntry.Input.RegisterVirtualButton(new InputManager.VirtualButton(name));
+                GameEntry.Input.RegisterVirtualButton(new VirtualButton(name));
             }
             m_VirtualButtons[name].Pressed();
         }
@@ -67,16 +67,16 @@ namespace YouYouFramework
         {
             if (!m_VirtualButtons.ContainsKey(name))
             {
-                GameEntry.Input.RegisterVirtualButton(new InputManager.VirtualButton(name));
+                GameEntry.Input.RegisterVirtualButton(new VirtualButton(name));
             }
             m_VirtualButtons[name].Released();
         }
 
-        public void RegisterVirtualAxis(InputManager.VirtualAxis axis)
+        public void RegisterVirtualAxis(VirtualAxis axis)
         {
             if (m_VirtualAxes.ContainsKey(axis.Name))
             {
-                YouYouFramework.GameEntry.LogError(LogCategory.Framework, "已经有了一个虚拟轴 " + axis.Name + " 重复注册.");
+                GameEntry.LogError(LogCategory.Framework, "已经有了一个虚拟轴 " + axis.Name + " 重复注册.");
             }
             else
             {
@@ -90,11 +90,11 @@ namespace YouYouFramework
         }
 
 
-        public void RegisterVirtualButton(InputManager.VirtualButton button)
+        public void RegisterVirtualButton(VirtualButton button)
         {
             if (m_VirtualButtons.ContainsKey(button.Name))
             {
-                YouYouFramework.GameEntry.LogError(LogCategory.Framework, "There is already a virtual button named " + button.Name + " registered.");
+                GameEntry.LogError(LogCategory.Framework, "There is already a virtual button named " + button.Name + " registered.");
             }
             else
             {
@@ -107,20 +107,20 @@ namespace YouYouFramework
             }
         }
 
-        public InputManager.VirtualAxis VirtualAxisReference(string name)
+        public VirtualAxis VirtualAxisReference(string name)
         {
-            if (!m_VirtualAxes.TryGetValue(name, out InputManager.VirtualAxis axis))
+            if (!m_VirtualAxes.TryGetValue(name, out VirtualAxis axis))
             {
-                axis = new InputManager.VirtualAxis(name);
+                axis = new VirtualAxis(name);
                 GameEntry.Input.RegisterVirtualAxis(axis);
             }
             return axis;
         }
-        public InputManager.VirtualButton VirtualButtonReference(InputKeyCode name)
+        public VirtualButton VirtualButtonReference(InputKeyCode name)
         {
-            if (!m_VirtualButtons.TryGetValue(name, out InputManager.VirtualButton button))
+            if (!m_VirtualButtons.TryGetValue(name, out VirtualButton button))
             {
-                button = new InputManager.VirtualButton(name);
+                button = new VirtualButton(name);
                 GameEntry.Input.RegisterVirtualButton(button);
             }
             return button;

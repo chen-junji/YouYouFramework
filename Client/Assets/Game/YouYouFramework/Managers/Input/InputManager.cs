@@ -5,134 +5,8 @@ using UnityEngine.Events;
 
 namespace YouYouFramework
 {
-    public class InputManager : Observable
+    public class InputManager
     {
-        //虚拟轴和按钮类-适用于移动输入
-        //可以映射到触摸操纵杆，倾斜，陀螺仪等，取决于所需的实现。
-        //也可以由其他输入设备实现，如kinect、电子传感器等
-        public class VirtualAxis
-        {
-            public string Name { get; private set; }
-            private float m_Value;
-            public bool MatchWithInputManager { get; private set; }
-
-
-            public VirtualAxis(string name) : this(name, true)
-            {
-            }
-            public VirtualAxis(string name, bool matchToInputSettings)
-            {
-                Name = name;
-                MatchWithInputManager = matchToInputSettings;
-            }
-
-            public void Update(float value)
-            {
-                m_Value = value;
-            }
-
-            public float GetValue
-            {
-                get { return m_Value; }
-            }
-
-            public float GetValueRaw
-            {
-                get { return m_Value; }
-            }
-        }
-
-        //一个控制器游戏对象(例如。一个虚拟GUI按钮)应该调用这个类的'pressed'函数。然后其他对象可以读取
-        //该按钮的Get/Down/Up状态
-        public class VirtualButton
-        {
-            public InputKeyCode Name { get; private set; }
-            public bool MatchWithInputManager { get; private set; }
-
-            private int m_LastPressedFrame = -5;
-            private int m_ReleasedFrame = -5;
-            private bool m_Pressed;
-
-            public VirtualButton(InputKeyCode name) : this(name, true)
-            {
-            }
-            public VirtualButton(InputKeyCode name, bool matchToInputSettings)
-            {
-                this.Name = name;
-                MatchWithInputManager = matchToInputSettings;
-            }
-
-            /// <summary>
-            /// 按下
-            /// </summary>
-            public void Pressed()
-            {
-                if (m_Pressed)
-                {
-                    return;
-                }
-                m_Pressed = true;
-                m_LastPressedFrame = Time.frameCount;
-            }
-
-            /// <summary>
-            /// 松开
-            /// </summary>
-            public void Released()
-            {
-                m_Pressed = false;
-                m_ReleasedFrame = Time.frameCount;
-            }
-
-            // these are the states of the button which can be read via the cross platform input system
-            public bool GetButton
-            {
-                get { return m_Pressed; }
-            }
-
-            public bool GetButtonDown
-            {
-                get
-                {
-                    return m_LastPressedFrame - Time.frameCount == -1;
-                }
-            }
-
-            public bool GetButtonUp
-            {
-                get
-                {
-                    return (m_ReleasedFrame == Time.frameCount - 1);
-                }
-            }
-        }
-
-        public class StateNone : VirtualInput
-        {
-            internal override void OnEnter()
-            {
-                base.OnEnter();
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-
-            public override float GetAxis(string name, bool raw)
-            {
-                return 0;
-            }
-            public override void SetAxis(string name, float value)
-            {
-            }
-            public override void SetAxisNegative(string name)
-            {
-            }
-            public override void SetAxisPositive(string name)
-            {
-            }
-            public override void SetAxisZero(string name)
-            {
-            }
-        }
         public enum State
         {
             None,
@@ -142,6 +16,8 @@ namespace YouYouFramework
         public Fsm<InputManager> CurrFsm { get; private set; }
 
         private VirtualInput CurrInput;
+
+        public Action<InputKeyCode> ActionInput;
 
 
         public InputManager()

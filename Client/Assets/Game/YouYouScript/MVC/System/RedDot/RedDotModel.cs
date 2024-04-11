@@ -1,37 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using YouYouFramework;
 
-/// <summary>
-/// 
-/// </summary>
-public class RedDotModel : Observable
+
+public class RedDotModel
 {
-    public enum EventName
-    {
-        //红点获取回调
-        E_SVR_MSG_ID_GET_GLOBAL_RED,
-        //红点清除回调
-        E_SVR_MSG_ID_CLEAR_GLOBAL_RED,
-    }
+    //红点获取
+    public Action<Dictionary<int, int>> GetRedDotAction;
+
+    //红点清除
+    public Action<List<int>> ClearRedDotAction;
 
     /// <summary>
     /// 后台下发的红点数据
     /// </summary>
-    private Dictionary<int, int> mMapGlobalRedInfo = new Dictionary<int, int>();
+    private Dictionary<int, int> mapGlobalRedInfo = new Dictionary<int, int>();
 
     public bool IsGlobalRedInfoExist()
     {
-        return mMapGlobalRedInfo.Count != 0;
+        return mapGlobalRedInfo.Count != 0;
     }
 
     public int GetTGlobalRedInfo(int redDotType)
     {
         int TGlobalRedInfo = 0;
-        if (mMapGlobalRedInfo.ContainsKey(redDotType))
+        if (mapGlobalRedInfo.ContainsKey(redDotType))
         {
-            TGlobalRedInfo = mMapGlobalRedInfo[redDotType];
+            TGlobalRedInfo = mapGlobalRedInfo[redDotType];
         }
         return TGlobalRedInfo;
     }
@@ -40,10 +37,10 @@ public class RedDotModel : Observable
     {
         foreach (int key in rsp.mapRedModelResults.Keys)
         {
-            mMapGlobalRedInfo[key] = rsp.mapRedModelResults[key];
+            mapGlobalRedInfo[key] = rsp.mapRedModelResults[key];
             ReddotManager.Instance.ChangeValue(ReddotManager.Instance.GetServerIdOfPath(key), rsp.mapRedModelResults[key]);
         }
-        Dispatch((int)EventName.E_SVR_MSG_ID_GET_GLOBAL_RED, rsp.mapRedModelResults);
+        GetRedDotAction?.Invoke(rsp.mapRedModelResults);
     }
 
     public void SetTClearGlobalRedRsp(TClearGlobalRedRsp rsp)
@@ -51,12 +48,12 @@ public class RedDotModel : Observable
         for (int j = 0; j < rsp.vecRedModel.Count; j++)
         {
             int tGlobalRedInfo = rsp.vecRedModel[j];
-            if (mMapGlobalRedInfo.ContainsKey(tGlobalRedInfo))
+            if (mapGlobalRedInfo.ContainsKey(tGlobalRedInfo))
             {
-                mMapGlobalRedInfo[tGlobalRedInfo] = 0;
+                mapGlobalRedInfo[tGlobalRedInfo] = 0;
                 ReddotManager.Instance.ChangeValue(ReddotManager.Instance.GetServerIdOfPath(tGlobalRedInfo), 0);
             }
         }
-        Dispatch((int)EventName.E_SVR_MSG_ID_CLEAR_GLOBAL_RED, rsp.vecRedModel);
+        ClearRedDotAction?.Invoke(rsp.vecRedModel);
     }
 }
