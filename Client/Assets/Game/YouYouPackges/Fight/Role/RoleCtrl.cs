@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 using YouYouFramework;
@@ -52,7 +52,8 @@ public class RoleCtrl : MonoBehaviour
         };
         timelineCtrl.CameraShake = (args) =>
         {
-            CameraFollowCtrl.Instance.CameraShake();
+            //这里需要接入CameraFollow范例工程， 才可以使用震屏效果
+            //CameraFollowCtrl.Instance.CameraShake();
         };
         timelineCtrl.HurtPoint = (args) =>
         {

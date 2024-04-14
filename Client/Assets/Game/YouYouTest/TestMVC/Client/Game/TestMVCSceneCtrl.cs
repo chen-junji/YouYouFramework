@@ -26,8 +26,6 @@ public class TestMVCSceneCtrl : SingletonMono<TestMVCSceneCtrl>
     }
     private void Update()
     {
-        CameraFollowCtrl.Instance.transform.position = roleCtrl.transform.position;
-
         if (Input.GetKeyUp(KeyCode.S))
         {
             //触发某个Model内的某个数据刷新的事件
