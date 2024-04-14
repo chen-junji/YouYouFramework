@@ -4,7 +4,7 @@ using UnityEngine;
 using YouYouFramework;
 
 /// <summary>
-/// ÓÎÏ·Ö÷Á÷³Ì
+/// æ¸¸æˆä¸»æµç¨‹
 /// </summary>
 public class ProcedureMain : ProcedureBase
 {
@@ -18,7 +18,7 @@ public class ProcedureMain : ProcedureBase
     {
         base.OnLeave();
 
-        //ÍË³öµÇÂ¼Ê±, Çå¿ÕÒµÎñÊı¾İ
+        //é€€å‡ºç™»å½•æ—¶, æ¸…ç©ºä¸šåŠ¡æ•°æ®
         GameEntry.Model.Clear();
     }
 }
