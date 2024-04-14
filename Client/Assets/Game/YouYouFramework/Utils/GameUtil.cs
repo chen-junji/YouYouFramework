@@ -14,27 +14,7 @@ public class GameUtil
     /// </summary>
     public static AnimationClip[] LoadInitRoleAnimationsByFBX(string path)
     {
-        if (MainEntry.IsAssetBundleMode)
-        {
-            AssetInfoEntity m_CurrAssetEnity = GameEntry.Loader.AssetInfo.GetAssetEntity(path);
-            AssetBundle bundle = GameEntry.Loader.LoadAssetBundle(m_CurrAssetEnity.AssetBundleFullPath);
-            return bundle.LoadAllAssets<AnimationClip>();
-        }
-        else
-        {
-            AnimationClip[] clipArray = null;
-#if UNITY_EDITOR
-            UnityEngine.Object[] objs = UnityEditor.AssetDatabase.LoadAllAssetsAtPath(path);
-            List<AnimationClip> clips = new List<AnimationClip>();
-            foreach (var item in objs)
-            {
-                if (item is AnimationClip) clips.Add(item as AnimationClip);
-            }
-            clipArray = clips.ToArray();
-#endif
-            return clipArray;
-        }
-
+        return GameEntry.Loader.LoadMainAssetAll<AnimationClip>(path);
     }
 
     /// <summary>

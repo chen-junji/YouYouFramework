@@ -369,6 +369,33 @@ namespace YouYouFramework
             }
             return referenceEntity;
         }
+
+        /// <summary>
+        /// 同步加载所有资源, 自动加载依赖
+        /// </summary>
+        public T[] LoadMainAssetAll<T>(string assetFullPath) where T : Object
+        {
+            if (MainEntry.IsAssetBundleMode)
+            {
+                AssetInfoEntity m_CurrAssetEnity = GameEntry.Loader.AssetInfo.GetAssetEntity(assetFullPath);
+                AssetBundle bundle = GameEntry.Loader.LoadAssetBundle(m_CurrAssetEnity.AssetBundleFullPath);
+                return bundle.LoadAllAssets<T>();
+            }
+            else
+            {
+                T[] clipArray = null;
+#if UNITY_EDITOR
+                Object[] objs = UnityEditor.AssetDatabase.LoadAllAssetsAtPath(assetFullPath);
+                List<T> clips = new List<T>();
+                foreach (var item in objs)
+                {
+                    if (item is T) clips.Add(item as T);
+                }
+                clipArray = clips.ToArray();
+#endif
+                return clipArray;
+            }
+        }
         #endregion
     }
 }
