@@ -65,7 +65,7 @@ namespace YouYouFramework
         /// </summary>
         private void BeginTask()
         {
-            TaskGroup taskGroup = GameEntry.Task.CreateTaskGroup();
+            TaskGroup taskGroup = TaskManager.Instance.CreateTaskGroup();
 
             if (MainEntry.IsAssetBundleMode)
             {

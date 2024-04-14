@@ -60,7 +60,6 @@ namespace YouYouFramework
         public static UIManager UI { get; private set; }
         public static AudioManager Audio { get; private set; }
         public static InputManager Input { get; private set; }
-        public static TaskManager Task { get; private set; }
 
 
         public static event Action ApplicationQuitAction;
@@ -99,7 +98,6 @@ namespace YouYouFramework
             UI = new UIManager();
             Audio = new AudioManager();
             Input = new InputManager();
-            Task = new TaskManager();
 
             Logger.Init();
             Procedure.Init();
@@ -111,7 +109,6 @@ namespace YouYouFramework
             Loader.Init();
             UI.Init();
             Audio.Init();
-            Task.Init();
 
             //进入第一个流程
             Procedure.ChangeState(ProcedureState.Launch);
@@ -127,7 +124,6 @@ namespace YouYouFramework
             UI.OnUpdate();
             Audio.OnUpdate();
             Input.OnUpdate();
-            Task.OnUpdate();
 
             OnUpdateAction?.Invoke();
         }

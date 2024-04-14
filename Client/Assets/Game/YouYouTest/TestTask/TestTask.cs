@@ -22,7 +22,7 @@ public class TestTask : MonoBehaviour
             CreateTaskGroup();
             if (!taskGroup.InTask)
             {
-                //²¢ÐÐÖ´ÐÐ
+                //å¹¶è¡Œæ‰§è¡Œ
                 taskGroup.Run(true);
             }
         }
@@ -31,7 +31,7 @@ public class TestTask : MonoBehaviour
             CreateTaskGroup();
             if (!taskGroup.InTask)
             {
-                //Ë³ÐòÖ´ÐÐ
+                //é¡ºåºæ‰§è¡Œ
                 taskGroup.Run(false);
             }
         }
@@ -46,7 +46,7 @@ public class TestTask : MonoBehaviour
             taskGroup = null;
         }
 
-        taskGroup = GameEntry.Task.CreateTaskGroup();
+        taskGroup = TaskManager.Instance.CreateTaskGroup();
         taskGroup.AddTask(async (TaskRoutine taskRoutine) =>
         {
             Debug.Log(1111);

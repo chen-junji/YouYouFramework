@@ -1,9 +1,9 @@
+using System;
 using UnityEngine;
 
 /// <summary>
-/// 单例(查找或创建Gameobject)
+/// 鍗曚緥(鏌ユ壘鎴栧垱寤篏ameobject)
 /// </summary>
-/// <typeparam name="T"></typeparam>
 public class SingletonMonoInstansce<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T instance;
@@ -13,9 +13,11 @@ public class SingletonMonoInstansce<T> : MonoBehaviour where T : MonoBehaviour
         {
             if (instance == null)
             {
-                GameObject obj = new GameObject(typeof(T).Name);
+                Type type = typeof(T);
+                GameObject obj = new GameObject(type.Name, type);
                 DontDestroyOnLoad(obj);
-                instance = obj.GetOrCreatComponent<T>();
+                obj.hideFlags = HideFlags.HideInHierarchy;
+                instance = obj.GetComponent<T>();
             }
             return instance;
         }
