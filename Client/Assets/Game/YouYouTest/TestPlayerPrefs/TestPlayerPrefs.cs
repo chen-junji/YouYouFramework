@@ -9,20 +9,20 @@ public class TestPlayerPrefs : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.A))
         {
-            //ĞÔÄÜºÃ, ´æÈë±¾µØ´æµµ
-            GameEntry.PlayerPrefs.SetFloat(PlayerPrefsConstKey.MasterVolume, 1);
-            GameEntry.PlayerPrefs.SetFloat(PlayerPrefsConstKey.AudioVolume, 1);
-            GameEntry.PlayerPrefs.SetFloat(PlayerPrefsConstKey.BGMVolume, 1);
+            //æ€§èƒ½å¥½, å­˜å…¥æœ¬åœ°å­˜æ¡£
+            PlayerPrefsManager.Instance.SetFloat(PlayerPrefsConstKey.MasterVolume, 1);
+            PlayerPrefsManager.Instance.SetFloat(PlayerPrefsConstKey.AudioVolume, 1);
+            PlayerPrefsManager.Instance.SetFloat(PlayerPrefsConstKey.BGMVolume, 1);
         }
         if (Input.GetKeyUp(KeyCode.S))
         {
-            //»ñÈ¡±¾µØ´æµµ
-            GameEntry.Log(LogCategory.Normal, GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.MasterVolume));
+            //è·å–æœ¬åœ°å­˜æ¡£
+            GameEntry.Log(LogCategory.Normal, PlayerPrefsManager.Instance.GetFloat(PlayerPrefsConstKey.MasterVolume));
         }
 
         if (Input.GetKeyUp(KeyCode.D))
         {
-            //ĞÔÄÜ²î
+            //æ€§èƒ½å·®
             PlayerPrefs.SetFloat("TestKey", 0.5f);
         }
     }

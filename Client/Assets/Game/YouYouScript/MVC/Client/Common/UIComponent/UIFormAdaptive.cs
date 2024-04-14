@@ -11,14 +11,14 @@ public class UIFormAdaptive : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameEntry.Model.GetModel<QualityModel>().ScreenChange -= OnCurrScreen;
+        //GameEntry.Model.GetModel<QualityModel>().ScreenChange -= OnCurrScreen;
     }
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
 
         Offset = -Offset * 2;
-        GameEntry.Model.GetModel<QualityModel>().ScreenChange += OnCurrScreen;
+        //GameEntry.Model.GetModel<QualityModel>().ScreenChange += OnCurrScreen;
         OnCurrScreen();
     }
 

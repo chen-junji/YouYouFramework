@@ -51,7 +51,6 @@ namespace YouYouFramework
         public static ProcedureManager Procedure { get; private set; }
         public static DataTableManager DataTable { get; private set; }
         public static ModelManager Model { get; private set; }
-        public static PlayerPrefsManager PlayerPrefs { get; private set; }
         public static HttpManager Http { get; private set; }
         public static LocalizationManager Localization { get; private set; }
         public static PoolManager Pool { get; private set; }
@@ -89,7 +88,6 @@ namespace YouYouFramework
             Procedure = new ProcedureManager();
             DataTable = new DataTableManager();
             Model = new ModelManager();
-            PlayerPrefs = new PlayerPrefsManager();
             Http = new HttpManager();
             Localization = new LocalizationManager();
             Pool = new PoolManager();
@@ -102,7 +100,6 @@ namespace YouYouFramework
             Logger.Init();
             Procedure.Init();
             DataTable.Init();
-            PlayerPrefs.Init();
             Http.Init();
             Pool.Init();
             Scene.Init();
@@ -129,7 +126,6 @@ namespace YouYouFramework
         }
         private void OnApplicationQuit()
         {
-            PlayerPrefs.SaveDataAll();
             Logger.SyncLog();
 
             ApplicationQuitAction?.Invoke();
@@ -138,7 +134,6 @@ namespace YouYouFramework
         {
             if (pause)
             {
-                PlayerPrefs.SaveDataAll();
                 ApplicationPauseAction?.Invoke();
             }
         }

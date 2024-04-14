@@ -32,16 +32,16 @@ namespace YouYouFramework
             BGMSource.transform.SetParent(GameEntry.Instance.transform);
             BGMSource.outputAudioMixerGroup = GameEntry.Instance.MonsterMixer.FindMatchingGroups("BGM")[0];
 
-            GameEntry.PlayerPrefs.SetFloatHas(PlayerPrefsConstKey.MasterVolume, 1);
-            GameEntry.PlayerPrefs.SetFloatHas(PlayerPrefsConstKey.AudioVolume, 1);
-            GameEntry.PlayerPrefs.SetFloatHas(PlayerPrefsConstKey.BGMVolume, 1);
-            GameEntry.PlayerPrefs.SetBoolHas(PlayerPrefsConstKey.MasterMute, false);
+            PlayerPrefsManager.Instance.SetFloatHas(PlayerPrefsConstKey.MasterVolume, 1);
+            PlayerPrefsManager.Instance.SetFloatHas(PlayerPrefsConstKey.AudioVolume, 1);
+            PlayerPrefsManager.Instance.SetFloatHas(PlayerPrefsConstKey.BGMVolume, 1);
+            PlayerPrefsManager.Instance.SetBoolHas(PlayerPrefsConstKey.MasterMute, false);
 
-            SetMasterVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.MasterVolume));
-            SetAudioVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.AudioVolume));
-            SetBGMVolume(GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.BGMVolume));
+            SetMasterVolume(PlayerPrefsManager.Instance.GetFloat(PlayerPrefsConstKey.MasterVolume));
+            SetAudioVolume(PlayerPrefsManager.Instance.GetFloat(PlayerPrefsConstKey.AudioVolume));
+            SetBGMVolume(PlayerPrefsManager.Instance.GetFloat(PlayerPrefsConstKey.BGMVolume));
 
-            SetMasterMute(GameEntry.PlayerPrefs.GetBool(PlayerPrefsConstKey.MasterMute));
+            SetMasterMute(PlayerPrefsManager.Instance.GetBool(PlayerPrefsConstKey.MasterMute));
         }
         public void OnUpdate()
         {
@@ -247,19 +247,19 @@ namespace YouYouFramework
         {
             MasterVolume = volume;
             SetMixerVolume(PlayerPrefsConstKey.MasterVolume, MasterVolume);
-            GameEntry.PlayerPrefs.SetFloat(PlayerPrefsConstKey.MasterVolume, MasterVolume);
+            PlayerPrefsManager.Instance.SetFloat(PlayerPrefsConstKey.MasterVolume, MasterVolume);
         }
         public void SetAudioVolume(float volume)
         {
             AudioVolume = volume;
             SetMixerVolume(PlayerPrefsConstKey.AudioVolume, AudioVolume);
-            GameEntry.PlayerPrefs.SetFloat(PlayerPrefsConstKey.AudioVolume, AudioVolume);
+            PlayerPrefsManager.Instance.SetFloat(PlayerPrefsConstKey.AudioVolume, AudioVolume);
         }
         public void SetBGMVolume(float volume)
         {
             BGMVolume = volume;
             SetMixerVolume(PlayerPrefsConstKey.BGMVolume, BGMVolume * interimBGMVolume);
-            GameEntry.PlayerPrefs.SetFloat(PlayerPrefsConstKey.BGMVolume, BGMVolume);
+            PlayerPrefsManager.Instance.SetFloat(PlayerPrefsConstKey.BGMVolume, BGMVolume);
         }
         private void SetMixerVolume(string key, float volume)
         {
@@ -273,8 +273,8 @@ namespace YouYouFramework
         /// </summary>
         public void SetMasterMute(bool mute)
         {
-            SetMasterVolume(mute ? 0 : GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.MasterVolume));
-            GameEntry.PlayerPrefs.SetBool(PlayerPrefsConstKey.MasterMute, mute);
+            SetMasterVolume(mute ? 0 : PlayerPrefsManager.Instance.GetFloat(PlayerPrefsConstKey.MasterVolume));
+            PlayerPrefsManager.Instance.SetBool(PlayerPrefsConstKey.MasterMute, mute);
         }
     }
 }
