@@ -44,7 +44,6 @@ namespace YouYouFramework
 
 
         //管理器属性
-        public static LoggerManager Logger { get; private set; }
         public static EventManager Event { get; private set; }
         public static TimeManager Time { get; private set; }
         public static FsmManager Fsm { get; private set; }
@@ -81,7 +80,6 @@ namespace YouYouFramework
         {
             Log(LogCategory.Procedure, "GameEntry.OnStart()");
 
-            Logger = new LoggerManager();
             Event = new EventManager();
             Time = new TimeManager();
             Fsm = new FsmManager();
@@ -97,7 +95,6 @@ namespace YouYouFramework
             Audio = new AudioManager();
             Input = new InputManager();
 
-            Logger.Init();
             Procedure.Init();
             DataTable.Init();
             Http.Init();
@@ -126,8 +123,6 @@ namespace YouYouFramework
         }
         private void OnApplicationQuit()
         {
-            Logger.SyncLog();
-
             ApplicationQuitAction?.Invoke();
         }
         private void OnApplicationPause(bool pause)

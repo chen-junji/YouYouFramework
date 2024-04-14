@@ -203,28 +203,23 @@ public class Reporter : MonoBehaviour
 	string maxTextureSize;
 	string systemMemorySize;
 
-	public static Reporter Instance { get; private set; }
-	public Action<LogType, string> OnLog;
-
 
 	void Awake()
 	{
-		Instance = this;
         Initialize();
+		LoggerCtrl.Instance.Init();
 	}
-
 	void OnEnable()
 	{
 		if (logs.Count == 0)//if recompile while in play mode
 			clear();
 	}
-
 	void OnDisable()
 	{
 
 	}
 
-	void addSample()
+    void addSample()
 	{
 
 		Sample sample = new Sample();
@@ -1855,7 +1850,7 @@ public class Reporter : MonoBehaviour
 
 
 		logs.Add(log);
-		OnLog?.Invoke(log.logType, log.condition);
+		LoggerCtrl.Instance.Write(log.logType, log.condition);
 		if (!collapse || isNew)
 		{
 			bool skip = false;
@@ -1910,8 +1905,9 @@ public class Reporter : MonoBehaviour
 		PlayerPrefs.SetInt("Reporter_showLog", (showLog == true) ? 1 : 0);
 		PlayerPrefs.SetInt("Reporter_showWarning", (showWarning == true) ? 1 : 0);
 		PlayerPrefs.SetInt("Reporter_showError", (showError == true) ? 1 : 0);
-
 		PlayerPrefs.Save();
+
+		LoggerCtrl.Instance.SyncLog();
 	}
 
 	//read build information 
