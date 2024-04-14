@@ -10,17 +10,17 @@ public class RoleAgentCompoent : MonoBehaviour
     public NavMeshAgent Agent { get; private set; }
 
     /// <summary>
-    /// Â·¾­µã
+    /// è·¯ç»ç‚¹
     /// </summary>
     private Vector3[] m_VectorPath;
 
     /// <summary>
-    /// µ±Ç°Â·¾­µãË÷Òı
+    /// å½“å‰è·¯ç»ç‚¹ç´¢å¼•
     /// </summary>
     private int m_CurrPointIndex;
 
     /// <summary>
-    /// ×ªÉíÍê±Ï
+    /// è½¬èº«å®Œæ¯•
     /// </summary>
     private bool m_TurnComplete = false;
 
@@ -28,8 +28,8 @@ public class RoleAgentCompoent : MonoBehaviour
     private Vector3 beginPos;
     private Vector3 dir;
     private Vector3 rotation;
-    [SerializeField] float runSpeed = 10; //ËÙ¶È
-    private float modifyRunSpeed = 10;//ĞŞÕıËÙ¶È
+    [SerializeField] float runSpeed = 10; //é€Ÿåº¦
+    private float modifyRunSpeed = 10;//ä¿®æ­£é€Ÿåº¦
 
     private NavMeshPath path;
 
@@ -47,7 +47,7 @@ public class RoleAgentCompoent : MonoBehaviour
             return;
         }
 
-        //Èç¹ûÕû¸öÂ·¾¶×ßÍêÁË ÇĞ»»´ı»ú
+        //å¦‚æœæ•´ä¸ªè·¯å¾„èµ°å®Œäº† åˆ‡æ¢å¾…æœº
         if (m_CurrPointIndex >= m_VectorPath.Length)
         {
             m_VectorPath = null;
@@ -63,7 +63,7 @@ public class RoleAgentCompoent : MonoBehaviour
             dir = (endPos - beginPos).normalized;
 
             rotation = dir;
-            //Á¢¿Ì×ªÉí
+            //ç«‹åˆ»è½¬èº«
             rotation.y = 0;
             transform.rotation = Quaternion.LookRotation(rotation);
 
@@ -71,13 +71,13 @@ public class RoleAgentCompoent : MonoBehaviour
         }
         Agent.Move(dir * Time.deltaTime * modifyRunSpeed);
 
-        //ÅĞ¶ÏÊÇ·ñÓ¦¸ÃÏòÏÂÒ»¸öµãÒÆ¶¯
+        //åˆ¤æ–­æ˜¯å¦åº”è¯¥å‘ä¸‹ä¸€ä¸ªç‚¹ç§»åŠ¨
         float dis = Vector3.Distance(transform.position, beginPos);
 
-        //µ±µ½´ïÁÙÊ±Ä¿±êµãÁË
+        //å½“åˆ°è¾¾ä¸´æ—¶ç›®æ ‡ç‚¹äº†
         if (dis >= Vector3.Distance(endPos, beginPos))
         {
-            //Î»ÖÃĞŞÕı
+            //ä½ç½®ä¿®æ­£
             SetPostionAndRotation(endPos, transform.rotation);
 
             m_TurnComplete = false;
@@ -88,8 +88,7 @@ public class RoleAgentCompoent : MonoBehaviour
     public void SetPostionAndRotation(Vector3 pos, Quaternion rot)
     {
         Agent.enabled = false;
-        transform.position = pos;
-        transform.rotation = rot;
+        transform.SetPositionAndRotation(pos, rot);
         Agent.enabled = true;
     }
 
@@ -100,7 +99,7 @@ public class RoleAgentCompoent : MonoBehaviour
         //runSpeed = 10;
         modifyRunSpeed = runSpeed;
 
-        //¼ÆËãÂ·¾¶
+        //è®¡ç®—è·¯å¾„
         Agent.CalculatePath(targetPos, path);
 
         if (path.status == NavMeshPathStatus.PathComplete)
@@ -117,16 +116,16 @@ public class RoleAgentCompoent : MonoBehaviour
     public void JoystickMove(Vector2 dir)
     {
         if (dir == Vector2.zero) return;
-        //1.ÉèÖÃ¸¨ÖúÆ÷Î»ÖÃ
+        //1.è®¾ç½®è¾…åŠ©å™¨ä½ç½®
         //GameEntry.Data.RoleDataMgr.CurrPlayerMoveHelper.transform.position = new Vector3(transform.position.x + dir.x, transform.position.y, transform.position.z + dir.y);
 
-        ////2.ÈÃ¸¨ÖúÆ÷½øĞĞĞı×ª
+        ////2.è®©è¾…åŠ©å™¨è¿›è¡Œæ—‹è½¬
         //GameEntry.Data.RoleDataMgr.CurrPlayerMoveHelper.transform.RotateAround(transform.position, Vector3.up, CameraCtrl.Instance.transform.localEulerAngles.y);//- 90
 
-        ////3.µÃµ½ÕæÕıÒªÒÆ¶¯µÄ·½Ïò
+        ////3.å¾—åˆ°çœŸæ­£è¦ç§»åŠ¨çš„æ–¹å‘
         //Vector3 direction = GameEntry.Data.RoleDataMgr.CurrPlayerMoveHelper.transform.position - transform.position;
 
-        //direction.Normalize();//¹éÒ»»¯£¬È·±£Á¦¶ÈÒ»ÖÂ
+        //direction.Normalize();//å½’ä¸€åŒ–ï¼Œç¡®ä¿åŠ›åº¦ä¸€è‡´
         //direction = direction * Time.deltaTime * modifyRunSpeed;
         //transform.rotation = Quaternion.LookRotation(direction);
         //Agent.Move(direction);

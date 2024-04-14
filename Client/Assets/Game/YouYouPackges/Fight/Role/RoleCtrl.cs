@@ -14,13 +14,6 @@ public class RoleCtrl : MonoBehaviour
     /// </summary>
     public RoleAgentCompoent Agent { get; private set; }
 
-    /// <summary>
-    /// 行为树SO
-    /// </summary>
-    [SerializeField]
-    private BehaviourTreeSO BTSO;
-    private BehaviourTree behaviourTree;
-
     protected virtual void Awake()
     {
         //初始化导航系统
@@ -29,15 +22,6 @@ public class RoleCtrl : MonoBehaviour
         //初始化动画系统
         AnimCompoent = GetComponent<RoleAnimCompoent>();
         AnimCompoent.InitAnim(GetComponentInChildren<Animator>());
-
-        //初始化行为树
-        behaviourTree = BTSO.CloneBehaviourTree();
-        behaviourTree.RoleCtrl = this;
-        behaviourTree.Start("Debugger Test");
-    }
-    private void OnDestroy()
-    {
-        behaviourTree.Cancel();
     }
 
     /// <summary>

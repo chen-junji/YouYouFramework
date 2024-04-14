@@ -13,6 +13,7 @@ public class ProcedureMain : ProcedureBase
         base.OnEnter();
         GameEntry.UI.OpenUIForm<LoadingForm>();
         GameEntry.Scene.LoadSceneAction(SceneGroupName.Main);
+        GameEntry.Input.SetEnable(true);
     }
     internal override void OnLeave()
     {
@@ -20,5 +21,6 @@ public class ProcedureMain : ProcedureBase
 
         //退出登录时, 清空业务数据
         GameEntry.Model.Clear();
+        GameEntry.Input.SetEnable(false);
     }
 }
