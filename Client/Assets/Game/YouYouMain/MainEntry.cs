@@ -10,7 +10,6 @@ namespace YouYouMain
     public class MainEntry : MonoBehaviour
     {
         //全局参数设置
-        [FoldoutGroup("ParamsSettings")]
         [SerializeField]
         private ParamsSettings m_ParamsSettings;
         public static ParamsSettings ParamsSettings { get; private set; }
