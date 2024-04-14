@@ -84,7 +84,7 @@ YouYou框架使用教程地址：https://www.bilibili.com/video/BV1Fu411s7MV/ <b
 
 >可调用YouYou Framework的任意模块
 
->基于MVC框架开发了几个业务系统和常用界面，可运行查看演示
+>基于MVC框架开发了几个常见的业务系统的范例，可运行查看演示
 
 } 
 
