@@ -8,19 +8,19 @@ public class TestEvent : MonoBehaviour
 {
     private void OnDestroy()
     {
-        //移除监听全局事件
+        //绉婚櫎鐩戝惉鍏ㄥ眬浜嬩欢
         GameEntry.Event.RemoveEventListener(CommonEventId.TestEvent, OnTestEvent);
     }
     void Start()
     {
-        //监听全局事件
+        //鐩戝惉鍏ㄥ眬浜嬩欢
         GameEntry.Event.AddEventListener(CommonEventId.TestEvent, OnTestEvent);
     }
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.A))
         {
-            //触发全局事件
+            //瑙﹀彂鍏ㄥ眬浜嬩欢
             GameEntry.Event.Dispatch(CommonEventId.TestEvent, 123);
         }
     }

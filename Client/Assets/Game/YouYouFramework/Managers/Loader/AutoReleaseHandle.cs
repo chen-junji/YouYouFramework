@@ -6,7 +6,7 @@ using YouYouFramework;
 
 
 /// <summary>
-/// Asset³Ø, ¶ÔÏó±»Ïú»ÙÊ±, ×Ô¶¯ÈÃÒıÓÃ¼ÆÊı-1
+/// Assetæ± , å¯¹è±¡è¢«é”€æ¯æ—¶, è‡ªåŠ¨è®©å¼•ç”¨è®¡æ•°-1
 /// </summary>
 public class AutoReleaseHandle : MonoBehaviour
 {
@@ -18,7 +18,7 @@ public class AutoReleaseHandle : MonoBehaviour
         {
             GameObject SceneRoot = GameEntry.Pool.GameObjectPool.YouYouObjPool;
             target = SceneRoot;
-            GameEntry.Log(LogCategory.Loader, string.Format("ÒòÎª{0}Ã»ÓĞ¿É°ó¶¨µÄtarget£¬ ËùÒÔ°ó¶¨µ½ÁË{1}ÉÏ£¬ Ëæµ±Ç°³¡¾°Ïú»Ù¶ø¼õÉÙÒıÓÃ¼ÆÊı", referenceEntity.AssetFullPath, SceneRoot));
+            GameEntry.Log(LogCategory.Loader, string.Format("å› ä¸º{0}æ²¡æœ‰å¯ç»‘å®šçš„targetï¼Œ æ‰€ä»¥ç»‘å®šåˆ°äº†{1}ä¸Šï¼Œ éšå½“å‰åœºæ™¯é”€æ¯è€Œå‡å°‘å¼•ç”¨è®¡æ•°", referenceEntity.AssetFullPath, SceneRoot));
         }
 
         if (target != null)

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace YouYouFramework
 {
     public partial class Sys_BGMDBModel
@@ -21,7 +22,7 @@ namespace YouYouFramework
                     string str = strs[strs.Length - 1];
                     if (NameByDic.ContainsKey(str))
                     {
-                        GameEntry.LogError(LogCategory.Framework, "√˚≥∆”–÷ÿ∏¥! ==" + str);
+                        GameEntry.LogError(LogCategory.Framework, "ÂêçÁß∞ÊúâÈáçÂ§ç! ==" + str);
                     }
                     else
                     {
@@ -37,7 +38,7 @@ namespace YouYouFramework
             {
                 return NameByDic[name];
             }
-            YouYouFramework.GameEntry.LogError(LogCategory.Framework, "√ª”–’“µΩ◊ ‘¥, Name==" + name);
+            YouYouFramework.GameEntry.LogError(LogCategory.Framework, "Ê≤°ÊúâÊâæÂà∞ËµÑÊ∫ê, Name==" + name);
             return null;
         }
     }

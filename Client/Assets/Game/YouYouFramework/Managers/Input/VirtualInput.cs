@@ -76,7 +76,7 @@ namespace YouYouFramework
         {
             if (m_VirtualAxes.ContainsKey(axis.Name))
             {
-                GameEntry.LogError(LogCategory.Framework, "已经有了一个虚拟轴 " + axis.Name + " 重复注册.");
+                GameEntry.LogError(LogCategory.Framework, "宸茬粡鏈変簡涓�涓櫄鎷熻酱 " + axis.Name + " 閲嶅娉ㄥ唽.");
             }
             else
             {

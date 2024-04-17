@@ -4,37 +4,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using YouYouMain;
 
+
 namespace YouYouFramework
 {
     /// <summary>
-    /// ×ÊÔ´°ü³Ø, Ö÷×ÊÔ´°üºÍÒÀÀµ×ÊÔ´°ü¶¼×öÒıÓÃ¼ÆÊı 
+    /// èµ„æºåŒ…æ± , ä¸»èµ„æºåŒ…å’Œä¾èµ–èµ„æºåŒ…éƒ½åšå¼•ç”¨è®¡æ•° 
     /// </summary>
     public class AssetBundlePool
     {
 #if UNITY_EDITOR
         /// <summary>
-        /// ÔÚ¼àÊÓÃæ°åÏÔÊ¾µÄĞÅÏ¢
+        /// åœ¨ç›‘è§†é¢æ¿æ˜¾ç¤ºçš„ä¿¡æ¯
         /// </summary>
         public Dictionary<string, AssetBundleReferenceEntity> InspectorDic = new Dictionary<string, AssetBundleReferenceEntity>();
 #endif
 
         /// <summary>
-        /// ×ÊÔ´³Ø×Öµä
+        /// èµ„æºæ± å­—å…¸
         /// </summary>
         private Dictionary<string, AssetBundleReferenceEntity> m_AssetBundleDic;
 
         /// <summary>
-        /// ĞèÒªÒÆ³ıµÄKeyÁ´±í
+        /// éœ€è¦ç§»é™¤çš„Keyé“¾è¡¨
         /// </summary>
         private LinkedList<string> m_NeedRemoveKeyList;
 
         /// <summary>
-        /// ÏÂ´ÎÊÍ·ÅAssetBundle³ØÔËĞĞÊ±¼ä
+        /// ä¸‹æ¬¡é‡Šæ”¾AssetBundleæ± è¿è¡Œæ—¶é—´
         /// </summary>
         public float ReleaseNextRunTime { get; private set; }
 
         /// <summary>
-        /// ¹¹Ôìº¯Êı
+        /// æ„é€ å‡½æ•°
         /// </summary>
         public AssetBundlePool()
         {
@@ -51,13 +52,13 @@ namespace YouYouFramework
                 {
                     ReleaseNextRunTime = Time.time;
                     Release();
-                    //GameEntry.Log(LogCategory.Normal, "ÊÍ·ÅAssetBundle³Ø");
+                    //GameEntry.Log(LogCategory.Normal, "é‡Šæ”¾AssetBundleæ± ");
                 }
             }
         }
 
         /// <summary>
-        /// ×¢²áµ½×ÊÔ´³Ø
+        /// æ³¨å†Œåˆ°èµ„æºæ± 
         /// </summary>
         public void Register(AssetBundleReferenceEntity entity)
         {
@@ -68,7 +69,7 @@ namespace YouYouFramework
         }
 
         /// <summary>
-        /// ×ÊÔ´È¡³Ø
+        /// èµ„æºå–æ± 
         /// </summary>
         public AssetBundleReferenceEntity Spawn(string resourceName)
         {
@@ -80,7 +81,7 @@ namespace YouYouFramework
         }
 
         /// <summary>
-        /// ÊÍ·Å×ÊÔ´³ØÖĞ¿ÉÊÍ·Å×ÊÔ´
+        /// é‡Šæ”¾èµ„æºæ± ä¸­å¯é‡Šæ”¾èµ„æº
         /// </summary>
         public void Release()
         {
@@ -101,7 +102,7 @@ namespace YouYouFramework
                 }
             }
 
-            //Ñ­»·Á´±í ´Ó×ÖµäÖĞÒÆ³ıÖÆ¶¨µÄKey
+            //å¾ªç¯é“¾è¡¨ ä»å­—å…¸ä¸­ç§»é™¤åˆ¶å®šçš„Key
             LinkedListNode<string> curr = m_NeedRemoveKeyList.First;
             while (curr != null)
             {

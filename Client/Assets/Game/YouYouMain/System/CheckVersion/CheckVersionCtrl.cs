@@ -18,9 +18,9 @@ public class CheckVersionCtrl
         m_NeedDownloadList = new LinkedList<string>();
     }
 
-    #region È¥×ÊÔ´Õ¾µãÇëÇóCDNµÄ°æ±¾ÎÄ¼şĞÅÏ¢
+    #region å»èµ„æºç«™ç‚¹è¯·æ±‚CDNçš„ç‰ˆæœ¬æ–‡ä»¶ä¿¡æ¯
     /// <summary>
-    /// È¥×ÊÔ´Õ¾µãÇëÇóCDNµÄ°æ±¾ÎÄ¼şĞÅÏ¢
+    /// å»èµ„æºç«™ç‚¹è¯·æ±‚CDNçš„ç‰ˆæœ¬æ–‡ä»¶ä¿¡æ¯
     /// </summary>
     public void SendCDNVersionFile(Action onInitComplete)
     {
@@ -38,20 +38,20 @@ public class CheckVersionCtrl
         }
         MainEntry.Instance.StartCoroutine(UnityWebRequestGet(url, (request) =>
         {
-            //CDN°æ±¾ÎÄ¼şÇëÇó³É¹¦
+            //CDNç‰ˆæœ¬æ–‡ä»¶è¯·æ±‚æˆåŠŸ
             if (request.result == UnityWebRequest.Result.Success)
             {
-                //¼ÓÔØCDN°æ±¾ÎÄ¼şĞÅÏ¢
+                //åŠ è½½CDNç‰ˆæœ¬æ–‡ä»¶ä¿¡æ¯
                 LoadCDNVersionFile(request.downloadHandler.data);
 
-                //¼ÓÔØ¿ÉĞ´Çø°æ±¾ÎÄ¼şĞÅÏ¢
+                //åŠ è½½å¯å†™åŒºç‰ˆæœ¬æ–‡ä»¶ä¿¡æ¯
                 LoadLocalVersionFile();
 
                 onInitComplete?.Invoke();
             }
             else
             {
-                MainEntry.Log("³õÊ¼»¯CDN×ÊÔ´°üĞÅÏ¢Ê§°Ü£¬url==" + url);
+                MainEntry.Log("åˆå§‹åŒ–CDNèµ„æºåŒ…ä¿¡æ¯å¤±è´¥ï¼Œurl==" + url);
             }
         }));
     }
@@ -88,7 +88,7 @@ public class CheckVersionCtrl
     }
     private void LoadLocalVersionFile()
     {
-        //ÅĞ¶Ï¿ÉĞ´Çø°æ±¾ÎÄ¼şÊÇ·ñ´æÔÚ
+        //åˆ¤æ–­å¯å†™åŒºç‰ˆæœ¬æ–‡ä»¶æ˜¯å¦å­˜åœ¨
         if (VersionLocalModel.Instance.GetVersionFileExists())
         {
             string json = IOUtil.GetFileText(VersionLocalModel.Instance.VersionFilePath);
@@ -99,14 +99,14 @@ public class CheckVersionCtrl
     }
     #endregion
 
-    #region ¼ì²é¸üĞÂÏà¹ØÂß¼­
+    #region æ£€æŸ¥æ›´æ–°ç›¸å…³é€»è¾‘
     /// <summary>
-    /// ĞèÒªÏÂÔØµÄ×ÊÔ´°üÁĞ±í
+    /// éœ€è¦ä¸‹è½½çš„èµ„æºåŒ…åˆ—è¡¨
     /// </summary>
     private LinkedList<string> m_NeedDownloadList;
 
     /// <summary>
-    /// ¼ì²é°æ±¾¸üĞÂÏÂÔØÊ±ºòµÄ²ÎÊı
+    /// æ£€æŸ¥ç‰ˆæœ¬æ›´æ–°ä¸‹è½½æ—¶å€™çš„å‚æ•°
     /// </summary>
     private BaseParams m_DownloadingParams;
 
@@ -117,41 +117,41 @@ public class CheckVersionCtrl
     private Action CheckVersionComplete;
 
     /// <summary>
-    /// ¼ì²é¸üĞÂ
+    /// æ£€æŸ¥æ›´æ–°
     /// </summary>
     public void CheckVersionChange(Action onComplete)
     {
         CheckVersionComplete = onComplete;
 
-        //È¥×ÊÔ´Õ¾µãÇëÇóCDNµÄ°æ±¾ÎÄ¼şĞÅÏ¢
+        //å»èµ„æºç«™ç‚¹è¯·æ±‚CDNçš„ç‰ˆæœ¬æ–‡ä»¶ä¿¡æ¯
         SendCDNVersionFile(CheckVersionChange);
     }
     private void CheckVersionChange()
     {
-        MainEntry.Log("¼ì²é¸üĞÂ=>CheckVersionChange(), °æ±¾ºÅ=>{0}", VersionLocalModel.Instance.AssetsVersion);
+        MainEntry.Log("æ£€æŸ¥æ›´æ–°=>CheckVersionChange(), ç‰ˆæœ¬å·=>{0}", VersionLocalModel.Instance.AssetsVersion);
 
         if (VersionLocalModel.Instance.GetVersionFileExists())
         {
             if (!string.IsNullOrEmpty(VersionLocalModel.Instance.AssetsVersion) && VersionLocalModel.Instance.AssetsVersion.Equals(VersionCDNModel.Instance.Version))
             {
-                MainEntry.Log("¿ÉĞ´Çø°æ±¾ºÅºÍCDN°æ±¾ºÅÒ»ÖÂ ²»ĞèÒª¼ì²é¸üĞÂ");
+                MainEntry.Log("å¯å†™åŒºç‰ˆæœ¬å·å’ŒCDNç‰ˆæœ¬å·ä¸€è‡´ ä¸éœ€è¦æ£€æŸ¥æ›´æ–°");
                 CheckVersionComplete?.Invoke();
             }
             else
             {
-                MainEntry.Log("¿ÉĞ´Çø°æ±¾ºÅºÍCDN°æ±¾ºÅ²»Ò»ÖÂ ¿ªÊ¼¼ì²é¸üĞÂ");
+                MainEntry.Log("å¯å†™åŒºç‰ˆæœ¬å·å’ŒCDNç‰ˆæœ¬å·ä¸ä¸€è‡´ å¼€å§‹æ£€æŸ¥æ›´æ–°");
                 BeginCheckVersionChange();
             }
         }
         else
         {
-            //ÏÂÔØ³õÊ¼×ÊÔ´
+            //ä¸‹è½½åˆå§‹èµ„æº
             DownloadInitResources();
         }
     }
 
     /// <summary>
-    /// ÏÂÔØ³õÊ¼×ÊÔ´
+    /// ä¸‹è½½åˆå§‹èµ„æº
     /// </summary>
     private void DownloadInitResources()
     {
@@ -170,32 +170,32 @@ public class CheckVersionCtrl
             }
         }
 
-        //Èç¹ûÃ»ÓĞ³õÊ¼×ÊÔ´ Ö±½Ó¼ì²é¸üĞÂ
+        //å¦‚æœæ²¡æœ‰åˆå§‹èµ„æº ç›´æ¥æ£€æŸ¥æ›´æ–°
         if (m_NeedDownloadList.Count == 0)
         {
             BeginCheckVersionChange();
         }
         else
         {
-            MainEntry.Log("ÏÂÔØ³õÊ¼×ÊÔ´,ÎÄ¼şÊıÁ¿==>>" + m_NeedDownloadList.Count);
+            MainEntry.Log("ä¸‹è½½åˆå§‹èµ„æº,æ–‡ä»¶æ•°é‡==>>" + m_NeedDownloadList.Count);
             MainEntry.Download.BeginDownloadMulit(m_NeedDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
         }
     }
 
     /// <summary>
-    /// ¿ªÊ¼¼ì²é¸üĞÂ
+    /// å¼€å§‹æ£€æŸ¥æ›´æ–°
     /// </summary>
     private void BeginCheckVersionChange()
     {
         m_DownloadingParams = BaseParams.Create();
 
-        //ĞèÒªÉ¾³ıµÄÎÄ¼ş
+        //éœ€è¦åˆ é™¤çš„æ–‡ä»¶
         LinkedList<string> deleteList = new LinkedList<string>();
 
-        //ĞèÒªÏÂÔØµÄÎÄ¼ş
+        //éœ€è¦ä¸‹è½½çš„æ–‡ä»¶
         LinkedList<string> needDownloadList = new LinkedList<string>();
 
-        //ÕÒ³öĞèÒªÉ¾³ıµÄÎÄ¼ş
+        //æ‰¾å‡ºéœ€è¦åˆ é™¤çš„æ–‡ä»¶
         var enumerator = VersionLocalModel.Instance.VersionDic.GetEnumerator();
         while (enumerator.MoveNext())
         {
@@ -204,22 +204,22 @@ public class CheckVersionCtrl
             VersionFileEntity cdnAssetBundleInfo = null;
             if (VersionCDNModel.Instance.VersionDic.TryGetValue(assetBundleName, out cdnAssetBundleInfo))
             {
-                //¿ÉĞ´ÇøÓĞ CDNÒ²ÓĞ
+                //å¯å†™åŒºæœ‰ CDNä¹Ÿæœ‰
                 if (!cdnAssetBundleInfo.MD5.Equals(enumerator.Current.Value.MD5, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    //Èç¹ûMD5²»Ò»ÖÂ ¼ÓÈëÏÂÔØÁ´±í
+                    //å¦‚æœMD5ä¸ä¸€è‡´ åŠ å…¥ä¸‹è½½é“¾è¡¨
                     needDownloadList.AddLast(assetBundleName);
                 }
             }
             else
             {
-                //¿ÉĞ´ÇøÓĞ CDNÉÏÃ»ÓĞ ¼ÓÈëÉ¾³ıÁ´±í
+                //å¯å†™åŒºæœ‰ CDNä¸Šæ²¡æœ‰ åŠ å…¥åˆ é™¤é“¾è¡¨
                 deleteList.AddLast(assetBundleName);
             }
         }
 
-        //É¾³ıĞèÒªÉ¾³ıµÄ
-        MainEntry.Log("É¾³ı¾É×ÊÔ´=>{0}", deleteList.ToJson());
+        //åˆ é™¤éœ€è¦åˆ é™¤çš„
+        MainEntry.Log("åˆ é™¤æ—§èµ„æº=>{0}", deleteList.ToJson());
         LinkedListNode<string> currDel = deleteList.First;
         while (currDel != null)
         {
@@ -233,16 +233,16 @@ public class CheckVersionCtrl
             currDel = next;
         }
 
-        //¼ì²éĞèÒªÏÂÔØµÄ
+        //æ£€æŸ¥éœ€è¦ä¸‹è½½çš„
         enumerator = VersionCDNModel.Instance.VersionDic.GetEnumerator();
         while (enumerator.MoveNext())
         {
             VersionFileEntity cdnAssetBundleInfo = enumerator.Current.Value;
-            if (cdnAssetBundleInfo.IsFirstData)//¼ì²é³õÊ¼×ÊÔ´
+            if (cdnAssetBundleInfo.IsFirstData)//æ£€æŸ¥åˆå§‹èµ„æº
             {
                 if (!VersionLocalModel.Instance.VersionDic.ContainsKey(cdnAssetBundleInfo.AssetBundleName))
                 {
-                    //Èç¹û¿ÉĞ´ÇøÃ»ÓĞ ¼ÓÈëÏÂÔØÁ´±í
+                    //å¦‚æœå¯å†™åŒºæ²¡æœ‰ åŠ å…¥ä¸‹è½½é“¾è¡¨
                     needDownloadList.AddLast(cdnAssetBundleInfo.AssetBundleName);
                 }
             }
@@ -250,12 +250,12 @@ public class CheckVersionCtrl
 
         CheckVersionBeginDownload?.Invoke();
 
-        //½øĞĞÏÂÔØ
-        MainEntry.Log("ÏÂÔØ¸üĞÂ×ÊÔ´,ÎÄ¼şÊıÁ¿==>" + needDownloadList.Count + "==>" + needDownloadList.ToJson());
+        //è¿›è¡Œä¸‹è½½
+        MainEntry.Log("ä¸‹è½½æ›´æ–°èµ„æº,æ–‡ä»¶æ•°é‡==>" + needDownloadList.Count + "==>" + needDownloadList.ToJson());
         MainEntry.Download.BeginDownloadMulit(needDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
     }
     /// <summary>
-    /// ÏÂÔØ½øĞĞÖĞ
+    /// ä¸‹è½½è¿›è¡Œä¸­
     /// </summary>
     private void OnDownloadMulitUpdate(int t1, int t2, ulong t3, ulong t4)
     {
@@ -268,7 +268,7 @@ public class CheckVersionCtrl
         CheckVersionDownloadUpdate?.Invoke(m_DownloadingParams);
     }
     /// <summary>
-    /// ÏÂÔØÍê±Ï
+    /// ä¸‹è½½å®Œæ¯•
     /// </summary>
     private void OnDownloadMulitComplete()
     {
@@ -277,7 +277,7 @@ public class CheckVersionCtrl
         CheckVersionDownloadComplete?.Invoke();
         //MainEntry.ClassObjectPool.Enqueue(m_DownloadingParams);
 
-        MainEntry.Log("¼ì²é¸üĞÂÏÂÔØÍê±Ï, ½øÈëÔ¤¼ÓÔØÁ÷³Ì");
+        MainEntry.Log("æ£€æŸ¥æ›´æ–°ä¸‹è½½å®Œæ¯•, è¿›å…¥é¢„åŠ è½½æµç¨‹");
         CheckVersionComplete?.Invoke();
     }
     #endregion

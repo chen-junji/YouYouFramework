@@ -10,7 +10,7 @@ public class BtnBack : MonoBehaviour
     {
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            GameEntry.Log(LogCategory.Normal, "»Øµ½ÉÏÒ»¼¶³¡¾°");
+            GameEntry.Log(LogCategory.Normal, "å›žåˆ°ä¸Šä¸€çº§åœºæ™¯");
             GameEntry.UI.OpenUIForm<LoadingForm>();
             GameEntry.Scene.LoadSceneAction(SceneGroupName.Main);
         });

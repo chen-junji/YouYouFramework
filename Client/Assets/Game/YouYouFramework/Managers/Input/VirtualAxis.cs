@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace YouYouFramework
 {
-    //ĞéÄâÖáºÍ°´Å¥Àà-ÊÊÓÃÓÚÒÆ¶¯ÊäÈë
-    //¿ÉÒÔÓ³Éäµ½´¥Ãş²Ù×İ¸Ë£¬ÇãĞ±£¬ÍÓÂİÒÇµÈ£¬È¡¾öÓÚËùĞèµÄÊµÏÖ¡£
-    //Ò²¿ÉÒÔÓÉÆäËûÊäÈëÉè±¸ÊµÏÖ£¬Èçkinect¡¢µç×Ó´«¸ĞÆ÷µÈ
+    //è™šæ‹Ÿè½´å’ŒæŒ‰é’®ç±»-é€‚ç”¨äºç§»åŠ¨è¾“å…¥
+    //å¯ä»¥æ˜ å°„åˆ°è§¦æ‘¸æ“çºµæ†ï¼Œå€¾æ–œï¼Œé™€èºä»ªç­‰ï¼Œå–å†³äºæ‰€éœ€çš„å®ç°ã€‚
+    //ä¹Ÿå¯ä»¥ç”±å…¶ä»–è¾“å…¥è®¾å¤‡å®ç°ï¼Œå¦‚kinectã€ç”µå­ä¼ æ„Ÿå™¨ç­‰
     public class VirtualAxis
     {
         public string Name { get; private set; }

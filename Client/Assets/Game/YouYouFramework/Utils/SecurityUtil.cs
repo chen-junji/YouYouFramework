@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+
 public sealed class SecurityUtil
 {
     #region xorScale 异或因子

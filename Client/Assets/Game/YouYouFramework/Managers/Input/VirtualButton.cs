@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+
 namespace YouYouFramework
 {
-    //Ò»¸ö¿ØÖÆÆ÷ÓÎÏ·¶ÔÏó(ÀıÈç¡£Ò»¸öĞéÄâGUI°´Å¥)Ó¦¸Ãµ÷ÓÃÕâ¸öÀàµÄ'pressed'º¯Êı¡£È»ºóÆäËû¶ÔÏó¿ÉÒÔ¶ÁÈ¡
-    //¸Ã°´Å¥µÄGet/Down/Up×´Ì¬
+    //ä¸€ä¸ªæ§åˆ¶å™¨æ¸¸æˆå¯¹è±¡(ä¾‹å¦‚ã€‚ä¸€ä¸ªè™šæ‹ŸGUIæŒ‰é’®)åº”è¯¥è°ƒç”¨è¿™ä¸ªç±»çš„'pressed'å‡½æ•°ã€‚ç„¶åå…¶ä»–å¯¹è±¡å¯ä»¥è¯»å–
+    //è¯¥æŒ‰é’®çš„Get/Down/UpçŠ¶æ€
     public class VirtualButton
     {
         public InputKeyCode Name { get; private set; }
@@ -24,7 +26,7 @@ namespace YouYouFramework
         }
 
         /// <summary>
-        /// °´ÏÂ
+        /// æŒ‰ä¸‹
         /// </summary>
         public void Pressed()
         {
@@ -37,7 +39,7 @@ namespace YouYouFramework
         }
 
         /// <summary>
-        /// ËÉ¿ª
+        /// æ¾å¼€
         /// </summary>
         public void Released()
         {
@@ -45,7 +47,7 @@ namespace YouYouFramework
             m_ReleasedFrame = Time.frameCount;
         }
 
-        // ÕâĞ©ÊÇ°´Å¥µÄ×´Ì¬£¬¿ÉÒÔÍ¨¹ı¿çÆ½Ì¨ÊäÈëÏµÍ³¶ÁÈ¡
+        // è¿™äº›æ˜¯æŒ‰é’®çš„çŠ¶æ€ï¼Œå¯ä»¥é€šè¿‡è·¨å¹³å°è¾“å…¥ç³»ç»Ÿè¯»å–
         public bool GetButton
         {
             get { return m_Pressed; }

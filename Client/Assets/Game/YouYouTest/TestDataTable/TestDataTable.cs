@@ -10,21 +10,21 @@ public class TestDataTable : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.A))
         {
-            //¸ù¾İID»ñÈ¡Ä³Ò»ĞĞÅäÖÃÊı¾İ
+            //æ ¹æ®IDè·å–æŸä¸€è¡Œé…ç½®æ•°æ®
             Sys_UIFormEntity entity = GameEntry.DataTable.Sys_UIFormDBModel.GetDic(1);
             GameEntry.Log(LogCategory.Normal, entity.ToJson());
         }
 
         if (Input.GetKeyUp(KeyCode.S))
         {
-            //»ñÈ¡ËùÓĞÅäÖÃÊı¾İ
+            //è·å–æ‰€æœ‰é…ç½®æ•°æ®
             List<Sys_UIFormEntity> lst = GameEntry.DataTable.Sys_UIFormDBModel.GetList();
             GameEntry.Log(LogCategory.Normal, lst.ToJson());
         }
 
         if (Input.GetKeyUp(KeyCode.D))
         {
-            //¸ù¾İÃû×Ö»ñÈ¡ÅäÖÃÊı¾İ
+            //æ ¹æ®åå­—è·å–é…ç½®æ•°æ®
             Sys_UIFormEntity entity = GameEntry.DataTable.Sys_UIFormDBModel.GetEntity("FormDialog"); ;
             GameEntry.Log(LogCategory.Normal, entity.ToJson());
         }

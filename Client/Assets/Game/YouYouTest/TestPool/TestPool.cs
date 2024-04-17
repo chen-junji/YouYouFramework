@@ -11,17 +11,17 @@ public class TestPool : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.A))
         {
-            //从对象池内取对象
+            //浠庡璞℃睜鍐呭彇瀵硅薄
             GameObject obj = await GameEntry.Pool.GameObjectPool.SpawnAsync(PrefabFullPath.Skill1);
             objList.Add(obj);
         }
         if (Input.GetKeyUp(KeyCode.S))
         {
-            //从对象池内取对象
+            //浠庡璞℃睜鍐呭彇瀵硅薄
             GameObject obj = GameEntry.Pool.GameObjectPool.Spawn(PrefabFullPath.Skill1);
             objList.Add(obj);
 
-            //3秒后自动回池
+            //3绉掑悗鑷姩鍥炴睜
             AutoDespawnHandle autoDespawnHandle = obj.gameObject.GetOrCreatComponent<AutoDespawnHandle>();
             autoDespawnHandle.SetDelayTimeDespawn(3);
             autoDespawnHandle.OnDespawn = () =>
@@ -31,7 +31,7 @@ public class TestPool : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.D))
         {
-            //回池对象
+            //鍥炴睜瀵硅薄
             if (objList.Count > 0) GameEntry.Pool.GameObjectPool.Despawn(objList[0]);
         }
     }

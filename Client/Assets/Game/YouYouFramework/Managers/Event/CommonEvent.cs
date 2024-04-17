@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace YouYouMain
+namespace YouYouFramework
 {
     /// <summary>
     /// 通用事件

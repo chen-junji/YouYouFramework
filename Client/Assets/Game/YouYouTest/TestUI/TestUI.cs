@@ -9,13 +9,13 @@ public class TestUI : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.A))
         {
-            //·½Ê½1, ²»´ø³õÊ¼»¯
+            //æ–¹å¼1, ä¸å¸¦åˆå§‹åŒ–
             GameEntry.UI.OpenUIForm<DialogForm>();
         }
         if (Input.GetKeyUp(KeyCode.S))
         {
-            //·½Ê½2, ´ø³õÊ¼»¯
-            DialogForm.ShowForm("¿ò¼ÜÄÚ²¿Á÷³ÌÈ«²¿¼ÓÔØÍê±Ï, ÒÑ¾­½øÈëµÇÂ¼Á÷³Ì", "µÇÂ¼Á÷³Ì");
+            //æ–¹å¼2, å¸¦åˆå§‹åŒ–
+            DialogForm.ShowForm("æ¡†æ¶å†…éƒ¨æµç¨‹å…¨éƒ¨åŠ è½½å®Œæ¯•, å·²ç»è¿›å…¥ç™»å½•æµç¨‹", "ç™»å½•æµç¨‹");
         }
     }
 }

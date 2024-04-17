@@ -6,7 +6,7 @@ using YouYouMain;
 
 
 /// <summary>
-/// AssetBundle°æ±¾ÎÄ¼ş, ±¾µØ¿ÉĞ´ÇøµÄVersionFile.jsonµÄModel
+/// AssetBundleç‰ˆæœ¬æ–‡ä»¶, æœ¬åœ°å¯å†™åŒºçš„VersionFile.jsonçš„Model
 /// </summary>
 public class VersionLocalModel
 {
@@ -14,7 +14,7 @@ public class VersionLocalModel
 
 
     /// <summary>
-    /// ¿ÉĞ´Çø °æ±¾ÎÄ¼şÂ·¾¶
+    /// å¯å†™åŒº ç‰ˆæœ¬æ–‡ä»¶è·¯å¾„
     /// </summary>
     public string VersionFilePath
     {
@@ -25,29 +25,29 @@ public class VersionLocalModel
     }
 
     /// <summary>
-    /// ¿ÉĞ´Çø×ÊÔ´°æ±¾ºÅ
+    /// å¯å†™åŒºèµ„æºç‰ˆæœ¬å·
     /// </summary>
     public string AssetsVersion;
 
     /// <summary>
-    /// ¿ÉĞ´Çø×ÊÔ´°üĞÅÏ¢
+    /// å¯å†™åŒºèµ„æºåŒ…ä¿¡æ¯
     /// </summary>
     public Dictionary<string, VersionFileEntity> VersionDic = new Dictionary<string, VersionFileEntity>();
 
     /// <summary>
-    /// ±£´æ¿ÉĞ´Çø°æ±¾ĞÅÏ¢
+    /// ä¿å­˜å¯å†™åŒºç‰ˆæœ¬ä¿¡æ¯
     /// </summary>
     public void SaveVersion(VersionFileEntity entity)
     {
         VersionDic[entity.AssetBundleName] = entity;
 
-        //±£´æ°æ±¾ÎÄ¼ş
+        //ä¿å­˜ç‰ˆæœ¬æ–‡ä»¶
         string json = VersionDic.ToJson();
         IOUtil.CreateTextFile(VersionFilePath, json);
     }
 
     /// <summary>
-    /// ±£´æ¿ÉĞ´Çø×ÊÔ´°æ±¾ºÅ
+    /// ä¿å­˜å¯å†™åŒºèµ„æºç‰ˆæœ¬å·
     /// </summary>
     public void SetAssetVersion(string version)
     {
@@ -56,7 +56,7 @@ public class VersionLocalModel
     }
 
     /// <summary>
-    /// »ñÈ¡¿ÉĞ´Çø°æ±¾ÎÄ¼şÊÇ·ñ´æÔÚ
+    /// è·å–å¯å†™åŒºç‰ˆæœ¬æ–‡ä»¶æ˜¯å¦å­˜åœ¨
     /// </summary>
     public bool GetVersionFileExists()
     {

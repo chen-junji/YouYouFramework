@@ -8,12 +8,12 @@ public class ChannelModel
     public static ChannelModel Instance { get; private set; } = new ChannelModel();
 
     /// <summary>
-    /// ÇşµÀÅäÖÃÊı¾İ
+    /// æ¸ é“é…ç½®æ•°æ®
     /// </summary>
     public ChannelConfigEntity CurrChannelConfig { get; private set; }
 
     /// <summary>
-    /// ÓÃÓÚ¼ÆËãÊ±¼ä´ÁµÄ±¾µØ·şÎñÆ÷Ê±¼ä
+    /// ç”¨äºè®¡ç®—æ—¶é—´æˆ³çš„æœ¬åœ°æœåŠ¡å™¨æ—¶é—´
     /// </summary>
     public long CurrServerTime
     {

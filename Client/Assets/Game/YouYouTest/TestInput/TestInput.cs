@@ -12,7 +12,7 @@ public class TestInput : MonoBehaviour
     {
         button.onClick.AddListener(() =>
         {
-            //ÊÖ»ú¶Ë, µã»÷°´Å¥´¥·¢Input
+            //æ‰‹æœºç«¯, ç‚¹å‡»æŒ‰é’®è§¦å‘Input
             GameEntry.Input.SetButtonUp(InputKeyCode.BuyTower);
         });
     }
@@ -21,13 +21,13 @@ public class TestInput : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.A))
         {
-            //PC¶Ë, ¼üÅÌ°´ÏÂA, ´¥·¢Input
+            //PCç«¯, é”®ç›˜æŒ‰ä¸‹A, è§¦å‘Input
             GameEntry.Input.SetButtonUp(InputKeyCode.BuyTower);
         }
 
         if (GameEntry.Input.GetButtonUp(InputKeyCode.BuyTower))
         {
-            //¼àÌıInput´¥·¢, ´òÓ¡ÈÕÖ¾
+            //ç›‘å¬Inputè§¦å‘, æ‰“å°æ—¥å¿—
             GameEntry.Log(LogCategory.Normal, InputKeyCode.BuyTower.ToString());
         }
     }

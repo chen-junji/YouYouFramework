@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ComponentAutoBindTool))]//Ω≈±æ“¿¿µ
+[RequireComponent(typeof(ComponentAutoBindTool))]//ËÑöÊú¨‰æùËµñ
 public class ComponentAutoBindBase : MonoBehaviour
 {
     protected virtual void Awake()

@@ -6,8 +6,8 @@ using YouYouFramework;
 
 
 /// <summary>
-/// ±¸×¢: ÔÚUnity²Ëµ¥À¸/YouYouTool/YouYouEditor/ParamsSettingsÄÚ,ÅäÖÃÁËHttpµÄÇëÇóÂ·¾¶, Èç:127.0.0.1:8083
-/// ±¸×¢2:Èç¹ûÃ»ÓĞºó¶Ë¸øÄãÌá¹©½Ó¿Ú, Õâ¸ö·½·¨ÊÇÎŞ·¨µ÷ÓÃµÄ, ¿´¿´´úÂë·¶Àı¾ÍºÃ 
+/// å¤‡æ³¨: åœ¨Unityèœå•æ /YouYouTool/YouYouEditor/ParamsSettingså†…,é…ç½®äº†Httpçš„è¯·æ±‚è·¯å¾„, å¦‚:127.0.0.1:8083
+/// å¤‡æ³¨2:å¦‚æœæ²¡æœ‰åç«¯ç»™ä½ æä¾›æ¥å£, è¿™ä¸ªæ–¹æ³•æ˜¯æ— æ³•è°ƒç”¨çš„, çœ‹çœ‹ä»£ç èŒƒä¾‹å°±å¥½ 
 /// </summary>
 public class TestHttp : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class TestHttp : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.A))
         {
-            //GetÇëÇó, ×Ô¶¯ÅĞ¶ÏHasError
+            //Getè¯·æ±‚, è‡ªåŠ¨åˆ¤æ–­HasError
             GameEntry.Http.Get("Test/AAA", callBack: (string json) =>
             {
                 GameEntry.Log(LogCategory.Normal, json);
@@ -23,7 +23,7 @@ public class TestHttp : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.S))
         {
-            //GetÇëÇó
+            //Getè¯·æ±‚
             GameEntry.Http.GetArgs("Test/AAA", callBack: (HttpCallBackArgs callBackArgs) =>
             {
                 if (!callBackArgs.HasError)
@@ -34,7 +34,7 @@ public class TestHttp : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.W))
         {
-            //PostÇëÇó
+            //Postè¯·æ±‚
             GameEntry.Http.Post("Test/AAA", callBack: (string json) =>
             {
                 GameEntry.Log(LogCategory.Normal, json);
@@ -42,13 +42,13 @@ public class TestHttp : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.D))
         {
-            //PostÇëÇó 
+            //Postè¯·æ±‚ 
             string json = await GameEntry.Http.PostAsync("Test/AAA");
             GameEntry.Log(LogCategory.Normal, json);
         }
         if (Input.GetKeyUp(KeyCode.D))
         {
-            //PostÇëÇó, ×Ô¶¯µ¯³ö×ªÈ¦UI, ÆÁ±ÎÍæ¼Òµã»÷
+            //Postè¯·æ±‚, è‡ªåŠ¨å¼¹å‡ºè½¬åœˆUI, å±è”½ç©å®¶ç‚¹å‡»
             string json = await GameEntry.Http.PostAsync("Test/AAA", loadingCircle: true);
             GameEntry.Log(LogCategory.Normal, json);
         }

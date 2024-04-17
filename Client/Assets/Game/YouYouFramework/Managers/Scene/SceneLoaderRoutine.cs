@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using YouYouFramework;
 using System;
-using Object = UnityEngine.Object;
 using YouYouMain;
+
 
 namespace YouYouFramework
 {

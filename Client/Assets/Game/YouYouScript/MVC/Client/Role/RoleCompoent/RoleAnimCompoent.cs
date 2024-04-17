@@ -14,7 +14,7 @@ public class RoleAnimCompoent : MonoBehaviour
     private PlayableGraph m_PlayableGraph;
     private AnimationPlayableOutput m_AnimationPlayableOutput;
     private AnimationMixerPlayable m_AnimationMixerPlayable;
-    private static int m_AnimCount = 100;//¿ÉÒÔ´óÓÚÊµ¼ÊÊıÁ¿, ²»ÄÜĞ¡ÓÚÊµ¼ÊÊıÁ¿
+    private static int m_AnimCount = 100;//å¯ä»¥å¤§äºå®é™…æ•°é‡, ä¸èƒ½å°äºå®é™…æ•°é‡
 
     private Coroutine CoroutineDelayAnim;
 
@@ -25,11 +25,11 @@ public class RoleAnimCompoent : MonoBehaviour
 
     private void Update()
     {
-        //»ìºÏ¶¯»­¸üĞÂ
+        //æ··åˆåŠ¨ç”»æ›´æ–°
         if (m_Mix == 0) return;
         m_Mix = Mathf.Max(0, m_Mix - Time.deltaTime * m_CurrentMixSpeed);
 
-        //¶¯»­¹ı¶È
+        //åŠ¨ç”»è¿‡åº¦
         m_AnimationMixerPlayable.SetInputWeight(m_OldAnimId, m_Mix);
         m_AnimationMixerPlayable.SetInputWeight(m_CurrAnimId, 1 - m_Mix);
     }
@@ -40,21 +40,21 @@ public class RoleAnimCompoent : MonoBehaviour
 
 
     /// <summary>
-    /// ³õÊ¼»¯¶¯»­ÏµÍ³
+    /// åˆå§‹åŒ–åŠ¨ç”»ç³»ç»Ÿ
     /// </summary>
     public void InitAnim(Animator animator)
     {
-        //³õÊ¼»¯Playable
+        //åˆå§‹åŒ–Playable
         if (animator == null) return;
         if (m_PlayableGraph.IsValid()) m_PlayableGraph.Destroy();
         m_PlayableGraph = PlayableGraph.Create("PlayableGraph_" + animator.name);
 
-        //´´½¨»ìºÏPlayable
+        //åˆ›å»ºæ··åˆPlayable
         m_AnimationPlayableOutput = AnimationPlayableOutput.Create(m_PlayableGraph, "output", animator);
         m_AnimationMixerPlayable = AnimationMixerPlayable.Create(m_PlayableGraph, m_AnimCount);
         m_AnimationPlayableOutput.SetSourcePlayable(m_AnimationMixerPlayable, 0);
 
-        //Çå¿Õ×Öµä
+        //æ¸…ç©ºå­—å…¸
         m_RoleAnimInfoDic.Clear();
 
         if (firstClips != null)
@@ -99,7 +99,7 @@ public class RoleAnimCompoent : MonoBehaviour
         playable.SetTime(0);
         playable.Play();
 
-        //Çå¿ÕÔ­ÓĞ¶¯»­
+        //æ¸…ç©ºåŸæœ‰åŠ¨ç”»
         for (int i = 0; i < m_AnimCount; i++) m_AnimationMixerPlayable.SetInputWeight(i, 0);
         m_OldAnimId = m_CurrAnimId;
         m_CurrAnimId = roleAnimInfo.inputPort;
@@ -124,11 +124,11 @@ public class RoleAnimCompoent : MonoBehaviour
     }
 
     /// <summary>
-    /// ¼ÓÔØ¶¯»­½øÈëPlayable¼¯ºÏ
+    /// åŠ è½½åŠ¨ç”»è¿›å…¥Playableé›†åˆ
     /// </summary>
     public void LoadAnimation(AnimationClip animationClip)
     {
-        //×ÖµäµÄ³¤¶È×÷Îª¶¯»­Ë÷Òı
+        //å­—å…¸çš„é•¿åº¦ä½œä¸ºåŠ¨ç”»ç´¢å¼•
         int inputPort = m_RoleAnimInfoDic.Count;
 
         AnimationClipPlayable animationClipPlayable = AnimationClipPlayable.Create(m_PlayableGraph, animationClip);
@@ -148,7 +148,7 @@ public class RoleAnimCompoent : MonoBehaviour
         public int inputPort;
         public AnimationClipPlayable CurrPlayable;
         /// <summary>
-        /// ÊÇ·ñÕıÔÚ²¥·Å
+        /// æ˜¯å¦æ­£åœ¨æ’­æ”¾
         /// </summary>
         public bool IsPlaying;
     }

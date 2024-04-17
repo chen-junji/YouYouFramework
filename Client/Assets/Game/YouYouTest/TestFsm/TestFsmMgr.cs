@@ -6,7 +6,7 @@ using YouYouFramework;
 
 
 /// <summary>
-/// Ä³¸ö×´Ì¬»úµÄ¹ÜÀíÆ÷
+/// æŸä¸ªçŠ¶æ€æœºçš„ç®¡ç†å™¨
 /// </summary>
 public class TestFsmMgr
 {
@@ -18,12 +18,12 @@ public class TestFsmMgr
     }
 
     /// <summary>
-    /// µ±Ç°×´Ì¬»ú
+    /// å½“å‰çŠ¶æ€æœº
     /// </summary>
     public Fsm<TestFsmMgr> CurrFsm { get; private set; }
 
     /// <summary>
-    /// µ±Ç°×´Ì¬Type
+    /// å½“å‰çŠ¶æ€Type
     /// </summary>
     public TestFsmState CurrProcedureState
     {
@@ -35,7 +35,7 @@ public class TestFsmMgr
 
     internal void Init()
     {
-        //µÃµ½Ã¶¾ÙµÄ³¤¶È
+        //å¾—åˆ°æšä¸¾çš„é•¿åº¦
         int count = Enum.GetNames(typeof(TestFsmState)).Length;
         FsmState<TestFsmMgr>[] states = new FsmState<TestFsmMgr>[count];
         states[(byte)TestFsmState.None] = new TestFsmStateNone();
@@ -50,7 +50,7 @@ public class TestFsmMgr
     }
 
     /// <summary>
-    /// ÇĞ»»×´Ì¬
+    /// åˆ‡æ¢çŠ¶æ€
     /// </summary>
     public void ChangeState(TestFsmState state)
     {

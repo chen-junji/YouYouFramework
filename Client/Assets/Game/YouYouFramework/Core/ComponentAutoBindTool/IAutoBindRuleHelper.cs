@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
+
 
 /// <summary>
 /// 自动绑定规则辅助器接口

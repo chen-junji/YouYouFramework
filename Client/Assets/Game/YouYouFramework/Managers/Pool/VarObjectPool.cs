@@ -2,72 +2,75 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using YouYouFramework;
 
-/// <summary>
-/// ±äÁ¿¶ÔÏó³Ø,  Ò²ÊÇÔÚÀà¶ÔÏó³ØÈ¡µÄ±äÁ¿¶ÔÏó, Ö»²»¹ı°üÁËÒ»²ã
-/// </summary>
-public class VarObjectPool
+
+namespace YouYouFramework
 {
     /// <summary>
-    /// ±äÁ¿¶ÔÏó³ØËø
+    /// å˜é‡å¯¹è±¡æ± ,  ä¹Ÿæ˜¯åœ¨ç±»å¯¹è±¡æ± å–çš„å˜é‡å¯¹è±¡, åªä¸è¿‡åŒ…äº†ä¸€å±‚
     /// </summary>
-    private object m_VarObjectLock = new object();
+    public class VarObjectPool
+    {
+        /// <summary>
+        /// å˜é‡å¯¹è±¡æ± é”
+        /// </summary>
+        private object m_VarObjectLock = new object();
 
 #if UNITY_EDITOR
-    /// <summary>
-    /// ÔÚ¼àÊÓÃæ°åÏÔÊ¾µÄĞÅÏ¢
-    /// </summary>
-    public Dictionary<Type, int> VarObjectInspectorDic = new Dictionary<Type, int>();
+        /// <summary>
+        /// åœ¨ç›‘è§†é¢æ¿æ˜¾ç¤ºçš„ä¿¡æ¯
+        /// </summary>
+        public Dictionary<Type, int> VarObjectInspectorDic = new Dictionary<Type, int>();
 #endif
 
-    /// <summary>
-    /// È¡³öÒ»¸ö±äÁ¿¶ÔÏó
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public T DequeueVarObject<T>() where T : VariableBase, new()
-    {
-        lock (m_VarObjectLock)
+        /// <summary>
+        /// å–å‡ºä¸€ä¸ªå˜é‡å¯¹è±¡
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T DequeueVarObject<T>() where T : VariableBase, new()
         {
-            T item = GameEntry.Pool.ClassObjectPool.Dequeue<T>();
+            lock (m_VarObjectLock)
+            {
+                T item = GameEntry.Pool.ClassObjectPool.Dequeue<T>();
 #if UNITY_EDITOR
-            Type t = item.GetType();
-            if (VarObjectInspectorDic.ContainsKey(t))
-            {
-                VarObjectInspectorDic[t]++;
-            }
-            else
-            {
-                VarObjectInspectorDic[t] = 1;
-            }
-#endif
-            return item;
-        }
-    }
-
-    /// <summary>
-    /// ±äÁ¿¶ÔÏó»Ø³Ø
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="item"></param>
-    public void EnqueueVarObject<T>(T item) where T : VariableBase
-    {
-        lock (m_VarObjectLock)
-        {
-            GameEntry.Pool.ClassObjectPool.Enqueue(item);
-#if UNITY_EDITOR
-            Type t = item.GetType();
-            if (VarObjectInspectorDic.ContainsKey(t))
-            {
-                VarObjectInspectorDic[t]--;
-                if (VarObjectInspectorDic[t] == 0)
+                Type t = item.GetType();
+                if (VarObjectInspectorDic.ContainsKey(t))
                 {
-                    VarObjectInspectorDic.Remove(t);
+                    VarObjectInspectorDic[t]++;
                 }
-            }
+                else
+                {
+                    VarObjectInspectorDic[t] = 1;
+                }
 #endif
+                return item;
+            }
         }
-    }
 
+        /// <summary>
+        /// å˜é‡å¯¹è±¡å›æ± 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="item"></param>
+        public void EnqueueVarObject<T>(T item) where T : VariableBase
+        {
+            lock (m_VarObjectLock)
+            {
+                GameEntry.Pool.ClassObjectPool.Enqueue(item);
+#if UNITY_EDITOR
+                Type t = item.GetType();
+                if (VarObjectInspectorDic.ContainsKey(t))
+                {
+                    VarObjectInspectorDic[t]--;
+                    if (VarObjectInspectorDic[t] == 0)
+                    {
+                        VarObjectInspectorDic.Remove(t);
+                    }
+                }
+#endif
+            }
+        }
+
+    }
 }

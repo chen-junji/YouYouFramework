@@ -6,25 +6,25 @@ using YouYouMain;
 
 
 /// <summary>
-/// AssetBundle°æ±¾ÎÄ¼ş, ÔÆ¶Ë×ÊÔ´Õ¾µãµÄVersionFile.bytesµÄModel
+/// AssetBundleç‰ˆæœ¬æ–‡ä»¶, äº‘ç«¯èµ„æºç«™ç‚¹çš„VersionFile.bytesçš„Model
 /// </summary>
 public class VersionCDNModel
 {
     public static VersionCDNModel Instance { get; private set; } = new VersionCDNModel();
 
     /// <summary>
-    /// CDN×ÊÔ´°æ±¾ºÅ
+    /// CDNèµ„æºç‰ˆæœ¬å·
     /// </summary>
     public string Version;
 
     /// <summary>
-    /// CDN×ÊÔ´°üĞÅÏ¢
+    /// CDNèµ„æºåŒ…ä¿¡æ¯
     /// </summary>
     public Dictionary<string, VersionFileEntity> VersionDic = new Dictionary<string, VersionFileEntity>();
 
 
     /// <summary>
-    /// »ñÈ¡CDNÉÏµÄ×ÊÔ´°üµÄ°æ±¾ĞÅÏ¢(Õâ¸ö·½·¨Ò»¶¨ÒªÄÜ·µ»ØĞÅÏ¢)
+    /// è·å–CDNä¸Šçš„èµ„æºåŒ…çš„ç‰ˆæœ¬ä¿¡æ¯(è¿™ä¸ªæ–¹æ³•ä¸€å®šè¦èƒ½è¿”å›ä¿¡æ¯)
     /// </summary>
     public VersionFileEntity GetVersionFileEntity(string assetbundlePath)
     {
@@ -34,7 +34,7 @@ public class VersionCDNModel
     }
 
     /// <summary>
-    /// µ¥¸öÎÄ¼ş¼ì²é¸üĞÂ(True==²»ĞèÒª¸üĞÂ)
+    /// å•ä¸ªæ–‡ä»¶æ£€æŸ¥æ›´æ–°(True==ä¸éœ€è¦æ›´æ–°)
     /// </summary>
     public bool CheckVersionChangeSingle(string assetBundleName)
     {
@@ -42,10 +42,10 @@ public class VersionCDNModel
         {
             if (VersionLocalModel.Instance.VersionDic.TryGetValue(cdnAssetBundleInfo.AssetBundleName, out VersionFileEntity LocalAssetsAssetBundleInfo))
             {
-                //¿ÉĞ´ÇøÓĞ CDNÒ²ÓĞ ÑéÖ¤MD5
+                //å¯å†™åŒºæœ‰ CDNä¹Ÿæœ‰ éªŒè¯MD5
                 return cdnAssetBundleInfo.MD5.Equals(LocalAssetsAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase);
             }
         }
-        return false;//CDN²»´æÔÚ
+        return false;//CDNä¸å­˜åœ¨
     }
 }

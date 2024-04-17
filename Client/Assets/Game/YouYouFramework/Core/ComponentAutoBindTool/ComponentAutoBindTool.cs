@@ -1,6 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+
+
 /// <summary>
 /// 组件自动绑定工具
 /// </summary>
