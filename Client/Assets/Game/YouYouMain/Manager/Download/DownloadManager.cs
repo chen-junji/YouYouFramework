@@ -43,9 +43,6 @@ namespace YouYouMain
                 mulitRoutine = mulitRoutine.Next;
             }
         }
-        internal void Init()
-        {
-        }
 
         /// <summary>
         /// 下载单个文件

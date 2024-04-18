@@ -10,14 +10,14 @@ public class TestPlayerPrefs : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.A))
         {
             //性能好, 存入本地存档
-            PlayerPrefsManager.Instance.SetFloat(PlayerPrefsConstKey.MasterVolume, 1);
-            PlayerPrefsManager.Instance.SetFloat(PlayerPrefsConstKey.AudioVolume, 1);
-            PlayerPrefsManager.Instance.SetFloat(PlayerPrefsConstKey.BGMVolume, 1);
+            GameEntry.PlayerPrefs.SetFloat(PlayerPrefsConstKey.MasterVolume, 1);
+            GameEntry.PlayerPrefs.SetFloat(PlayerPrefsConstKey.AudioVolume, 1);
+            GameEntry.PlayerPrefs.SetFloat(PlayerPrefsConstKey.BGMVolume, 1);
         }
         if (Input.GetKeyUp(KeyCode.S))
         {
             //获取本地存档
-            GameEntry.Log(LogCategory.Normal, PlayerPrefsManager.Instance.GetFloat(PlayerPrefsConstKey.MasterVolume));
+            GameEntry.Log(LogCategory.Normal, GameEntry.PlayerPrefs.GetFloat(PlayerPrefsConstKey.MasterVolume));
         }
 
         if (Input.GetKeyUp(KeyCode.D))

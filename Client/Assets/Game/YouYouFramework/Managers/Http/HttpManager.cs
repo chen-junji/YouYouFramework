@@ -29,12 +29,11 @@ namespace YouYouFramework
         public string RealIpAndPort { get { return m_IsTest ? m_TestWebAccountUrl : m_WebAccountUrl; } }
 
 
-        internal void Init()
+        public HttpManager()
         {
             m_WebAccountUrl = MainEntry.ParamsSettings.WebAccountUrl;
             m_TestWebAccountUrl = MainEntry.ParamsSettings.TestWebAccountUrl;
             m_IsTest = MainEntry.ParamsSettings.IsTest;
-
         }
 
         #region Get

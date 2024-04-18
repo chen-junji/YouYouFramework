@@ -26,24 +26,6 @@ namespace YouYouFramework
     {
         public event Action ChangeLanguageAction;
 
-        internal void Init()
-        {
-#if !UNITY_EDITOR
-            switch (Application.systemLanguage)
-            {
-                default:
-                case SystemLanguage.ChineseSimplified:
-                case SystemLanguage.ChineseTraditional:
-                case SystemLanguage.Chinese:
-                    ChangeLanguage(YouYouLanguage.Chinese);
-                    break;
-                case SystemLanguage.English:
-                    ChangeLanguage(YouYouLanguage.English);
-                    break;
-            }
-#endif
-        }
-
         /// <summary>
         /// 获取本地化文本内容
         /// </summary>
@@ -62,6 +44,27 @@ namespace YouYouFramework
             GameEntry.CurrLanguage = language;
             GameEntry.DataTable.LocalizationDBModel.LoadData();
             ChangeLanguageAction?.Invoke();
+        }
+
+        /// <summary>
+        /// 根据当前系统语言, 切换游戏语言
+        /// </summary>
+        public void ChangeLanguageToSystem()
+        {
+#if !UNITY_EDITOR
+            switch (Application.systemLanguage)
+            {
+                default:
+                case SystemLanguage.ChineseSimplified:
+                case SystemLanguage.ChineseTraditional:
+                case SystemLanguage.Chinese:
+                    ChangeLanguage(YouYouLanguage.Chinese);
+                    break;
+                case SystemLanguage.English:
+                    ChangeLanguage(YouYouLanguage.English);
+                    break;
+            }
+#endif
         }
 
     }

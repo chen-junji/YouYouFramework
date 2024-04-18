@@ -12,6 +12,18 @@ namespace YouYouFramework
     public class UIManager
     {
         /// <summary>
+        /// UI窗口的显示类型
+        /// </summary>
+        public enum UIFormShowMode
+        {
+            Normal = 0,
+            /// <summary>
+            /// 反切
+            /// </summary>
+            ReverseChange = 1,
+        }
+
+        /// <summary>
         /// 已经打开的UI窗口链表
         /// </summary>
         private LinkedList<UIFormBase> m_OpenUIFormList;
@@ -39,22 +51,18 @@ namespace YouYouFramework
         {
             m_OpenUIFormList = new LinkedList<UIFormBase>();
             m_ReverseChangeUIList = new LinkedList<string>();
+            m_UIGroupDic = new Dictionary<byte, UIGroup>();
 
             UILayer = new UILayer();
-            m_UIGroupDic = new Dictionary<byte, UIGroup>();
             UIPool = new UIPool();
 
-        }
-        internal void Init()
-        {
             StandardScreen = GameEntry.Instance.UIRootCanvasScaler.referenceResolution.x / GameEntry.Instance.UIRootCanvasScaler.referenceResolution.y;
-
             for (int i = 0; i < GameEntry.Instance.UIGroups.Length; i++)
             {
                 m_UIGroupDic[GameEntry.Instance.UIGroups[i].Id] = GameEntry.Instance.UIGroups[i];
             }
-            UILayer.Init(GameEntry.Instance.UIGroups);
 
+            //设置默认渲染模式
             ChangeCanvasRanderMode(RenderMode.ScreenSpaceOverlay);
         }
         internal void OnUpdate()
@@ -303,6 +311,9 @@ namespace YouYouFramework
             }
         }
 
+        /// <summary>
+        /// 切换UI渲染模式
+        /// </summary>
         public void ChangeCanvasRanderMode(RenderMode renderMode)
         {
             GameEntry.Instance.UIRootCanvas.renderMode = renderMode;

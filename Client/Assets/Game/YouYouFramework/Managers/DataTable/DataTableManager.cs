@@ -8,11 +8,6 @@ namespace YouYouFramework
 {
     public class DataTableManager
     {
-        internal void Init()
-        {
-        }
-
-
         public LocalizationDBModel LocalizationDBModel { get; private set; }
         public Sys_UIFormDBModel Sys_UIFormDBModel { get; private set; }
         public Sys_BGMDBModel Sys_BGMDBModel { get; private set; }

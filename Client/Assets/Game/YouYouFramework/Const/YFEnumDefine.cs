@@ -56,31 +56,4 @@ namespace YouYouFramework
         Skill
     }
 
-    /// <summary>
-    /// 提示窗口,按钮显示方式
-    /// </summary>
-    public enum DialogFormType
-    {
-        /// <summary>
-        /// 确定按钮
-        /// </summary>
-        Affirm,
-        /// <summary>
-        /// 确定,取消按钮
-        /// </summary>
-        AffirmAndCancel
-    }
-
-    /// <summary>
-    /// UI窗口的显示类型
-    /// </summary>
-    public enum UIFormShowMode
-    {
-        Normal = 0,
-        /// <summary>
-        /// 反切
-        /// </summary>
-        ReverseChange = 1,
-    }
-
 }

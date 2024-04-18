@@ -15,9 +15,9 @@ namespace YouYouMain
         public static ParamsSettings ParamsSettings { get; private set; }
 
         //预加载相关事件
-        public event Action ActionPreloadBegin;
-        public event Action<float> ActionPreloadUpdate;
-        public event Action ActionPreloadComplete;
+        public Action ActionPreloadBegin;
+        public Action<float> ActionPreloadUpdate;
+        public Action ActionPreloadComplete;
 
         /// <summary>
         /// 下载管理器
@@ -44,23 +44,20 @@ namespace YouYouMain
             //初始化管理器
             Download = new DownloadManager();
 
-            Download.Init();
-
             if (IsAssetBundleMode)
             {
-                VersionLocalModel.Instance.SetAssetVersion(null);//不检测版本号, 而是直接检测MD5
+                //这里不比对总版本号, 而是直接遍历所有AB包的MD5进行比对, 如果要比对总版本号, 就把这句代码注释掉
+                VersionLocalModel.Instance.SetAssetVersion(null);
 
-                //资源检查更新
+                //检查更新, 下载初始资源
                 CheckVersionCtrl.Instance.CheckVersionChange(() =>
                 {
                     //加载Hotfix代码(HybridCLR)
-                    HotfixCtrl hotfixCtrl = new HotfixCtrl();
-                    hotfixCtrl.LoadHotifx(() =>
-                    {
-                        //启动YouYouFramework框架入口
-                        GameObject gameEntry = hotfixCtrl.hotfixAb.LoadAsset<GameObject>("gameentry.prefab");
-                        Instantiate(gameEntry);
-                    });
+                    HotfixCtrl.Instance.LoadHotifx();
+
+                    //启动YouYouFramework框架入口
+                    GameObject gameEntry = HotfixCtrl.Instance.hotfixAb.LoadAsset<GameObject>("gameentry.prefab");
+                    Instantiate(gameEntry);
                 });
             }
             else
@@ -77,22 +74,6 @@ namespace YouYouMain
         {
             Download.OnUpdate();
         }
-        private void OnApplicationQuit()
-        {
-        }
-
-        public void PreloadBegin()
-        {
-            ActionPreloadBegin?.Invoke();
-        }
-        public void PreloadUpdate(float progress)
-        {
-            ActionPreloadUpdate?.Invoke(progress);
-        }
-        public void PreloadComplete()
-        {
-            ActionPreloadComplete?.Invoke();
-        }
 
         internal static void Log(params object[] args)
         {
@@ -106,14 +87,12 @@ namespace YouYouMain
             Debug.Log("MainEntryLog - " + args.Aggregate("", (current, message) => current + (" - " + message)));
 #endif
         }
-
         internal static void LogWarning(params object[] args)
         {
 #if DEBUG_LOG_WARNING
             Debug.LogWarning("MainEntryLog - " + args.Aggregate("", (current, message) => current + (" - " + message)));
 #endif
         }
-
         internal static void LogError(params object[] args)
         {
 #if DEBUG_LOG_ERROR

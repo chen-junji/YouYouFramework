@@ -11,6 +11,8 @@ using YouYouMain;
 /// </summary>
 public class HotfixCtrl
 {
+    public static HotfixCtrl Instance { get; private set; } = new();
+
     public AssetBundle hotfixAb;
     public static List<string> aotMetaAssemblyFiles = new List<string>()
         {
@@ -27,16 +29,17 @@ public class HotfixCtrl
         System.Data.AcceptRejectRule acceptRejectRule = System.Data.AcceptRejectRule.None;
         System.Net.WebSockets.WebSocketReceiveResult webSocketReceiveResult = null;
     }
-    public void LoadHotifx(Action onComplete)
+    public void LoadHotifx()
     {
         hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, YFConstDefine.HotfixAssetBundlePath));
 #if !UNITY_EDITOR
-            LoadMetadataForAOTAssemblies();
-            TextAsset hotfixAsset = hotfixAb.LoadAsset<TextAsset>("Assembly-CSharp.dll.bytes");
-            System.Reflection.Assembly.Load(hotfixAsset.bytes);
-            MainEntry.Log("Assembly-CSharp.dll加载完毕");
+        LoadMetadataForAOTAssemblies();
+
+        //加载热更Dll
+        TextAsset hotfixAsset = hotfixAb.LoadAsset<TextAsset>("Assembly-CSharp.dll.bytes");
+        System.Reflection.Assembly.Load(hotfixAsset.bytes);
+        MainEntry.Log("Assembly-CSharp.dll加载完毕");
 #endif
-        onComplete?.Invoke();
     }
 
     /// <summary>

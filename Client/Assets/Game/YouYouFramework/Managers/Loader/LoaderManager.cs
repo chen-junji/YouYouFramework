@@ -44,9 +44,8 @@ namespace YouYouFramework
             MainAssetPool = new AssetPool();
             m_AssetBundleLoaderList = new LinkedList<AssetBundleLoaderRoutine>();
             m_AssetLoaderList = new LinkedList<AssetLoaderRoutine>();
-        }
-        internal void Init()
-        {
+
+            //加载时间最短, 但加载时帧率下降最严重
             Application.backgroundLoadingPriority = ThreadPriority.High;
         }
         internal void OnUpdate()

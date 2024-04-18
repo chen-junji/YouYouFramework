@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace YouYouFramework
 {
+    /// <summary>
+    /// 所有平台的Input检测父类
+    /// </summary>
     public abstract class VirtualInput : FsmState<InputManager>
     {
         protected Dictionary<string, VirtualAxis> m_VirtualAxes = new Dictionary<string, VirtualAxis>();

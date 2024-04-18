@@ -15,17 +15,11 @@ namespace YouYouFramework
         public UILayer()
         {
             m_UILayerDic = new Dictionary<byte, ushort>();
-        }
 
-        /// <summary>
-        /// 初始化基础排序
-        /// </summary>
-        internal void Init(UIGroup[] groups)
-        {
-            int len = groups.Length;
-            for (int i = 0; i < len; i++)
+            //初始化基础排序
+            for (int i = 0; i < GameEntry.Instance.UIGroups.Length; i++)
             {
-                UIGroup group = groups[i];
+                UIGroup group = GameEntry.Instance.UIGroups[i];
                 m_UILayerDic[group.Id] = group.BaseOrder;
             }
         }

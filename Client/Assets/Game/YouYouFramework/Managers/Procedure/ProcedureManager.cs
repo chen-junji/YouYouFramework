@@ -59,6 +59,7 @@ namespace YouYouFramework
             states[(byte)ProcedureState.Login] = new ProcedureLogin();
             states[(byte)ProcedureState.Main] = new ProcedureMain();
 
+            //创建流程的状态机
             CurrFsm = GameEntry.Fsm.Create(this, states);
         }
         internal void OnUpdate()

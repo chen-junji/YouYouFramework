@@ -45,9 +45,7 @@ namespace YouYouFramework
             m_ClassObjectPoolDic = new Dictionary<int, Queue<object>>();
 
             ReleaseNextRunTime = Time.time;
-        }
-        public void Init()
-        {
+
             //初始化常用类常驻数量
             SetResideCount<HttpRoutine>(3);
             SetResideCount<Dictionary<string, object>>(3);

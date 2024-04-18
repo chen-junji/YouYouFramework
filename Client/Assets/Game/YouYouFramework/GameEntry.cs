@@ -10,6 +10,9 @@ using UnityEngine.UI;
 
 namespace YouYouFramework
 {
+    /// <summary>
+    /// 游戏框架入口, 几乎所有框架模块都在这里调用
+    /// </summary>
     public class GameEntry : MonoBehaviour
     {
         [FoldoutGroup("UI框架相关")]
@@ -59,11 +62,8 @@ namespace YouYouFramework
         public static UIManager UI { get; private set; }
         public static AudioManager Audio { get; private set; }
         public static InputManager Input { get; private set; }
-
-
-        public static event Action ApplicationQuitAction;
-        public static event Action OnUpdateAction;
-        public static event Action ApplicationPauseAction;
+        public static PlayerPrefsManager PlayerPrefs { get; private set; }
+        public static TaskManager Task { get; private set; }
 
 
         public static GameEntry Instance { get; private set; }
@@ -81,6 +81,7 @@ namespace YouYouFramework
         {
             Log(LogCategory.Procedure, "GameEntry.OnStart()");
 
+            //在new的构造函数中, 构造自身, 模块之间不可互相调用, 因为其他模块可能是null
             Event = new EventManager();
             Time = new TimeManager();
             Fsm = new FsmManager();
@@ -95,14 +96,11 @@ namespace YouYouFramework
             UI = new UIManager();
             Audio = new AudioManager();
             Input = new InputManager();
+            PlayerPrefs = new PlayerPrefsManager();
+            Task = new TaskManager();
 
+            //在Init中, 模块之间可互相调用
             Procedure.Init();
-            DataTable.Init();
-            Http.Init();
-            Pool.Init();
-            Scene.Init();
-            Loader.Init();
-            UI.Init();
             Audio.Init();
 
             //进入第一个流程
@@ -119,18 +117,16 @@ namespace YouYouFramework
             UI.OnUpdate();
             Audio.OnUpdate();
             Input.OnUpdate();
-
-            OnUpdateAction?.Invoke();
         }
         private void OnApplicationQuit()
         {
-            ApplicationQuitAction?.Invoke();
+            PlayerPrefs.SaveDataAll();
         }
         private void OnApplicationPause(bool pause)
         {
             if (pause)
             {
-                ApplicationPauseAction?.Invoke();
+                PlayerPrefs.SaveDataAll();
             }
         }
 

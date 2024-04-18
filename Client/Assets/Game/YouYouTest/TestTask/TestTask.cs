@@ -46,7 +46,7 @@ public class TestTask : MonoBehaviour
             taskGroup = null;
         }
 
-        taskGroup = TaskManager.Instance.CreateTaskGroup();
+        taskGroup = GameEntry.Task.CreateTaskGroup();
         taskGroup.AddTask(async (TaskRoutine taskRoutine) =>
         {
             Debug.Log(1111);

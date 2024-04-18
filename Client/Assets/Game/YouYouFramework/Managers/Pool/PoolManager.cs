@@ -36,10 +36,5 @@ namespace YouYouFramework
         {
             ClassObjectPool.OnUpdate();
         }
-        internal void Init()
-        {
-            GameObjectPool.Init();
-            ClassObjectPool.Init();
-        }
     }
 }

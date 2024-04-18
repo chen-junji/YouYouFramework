@@ -31,11 +31,13 @@ namespace YouYouFramework
         public GameObject YouYouObjPool { get; private set; }
 
 
-        /// <summary>
-        /// 初始化跨场景不销毁的对象池
-        /// </summary>
-        public void Init()
+        public GameObjectPool()
         {
+            //对象池物体克隆请求
+            InstanceHandler.InstantiateDelegates += InstantiateDelegate;
+            InstanceHandler.DestroyDelegates += DestroyDelegate;
+
+            //初始化跨场景不销毁的对象池
             for (int i = 0; i < GameEntry.Instance.GameObjectPoolGroups.Length; i++)
             {
                 GameObjectPoolEntity entity = GameEntry.Instance.GameObjectPoolGroups[i];
@@ -51,36 +53,6 @@ namespace YouYouFramework
                     spawnPoolDic[entity.PoolId] = entity;
                 }
             }
-        }
-        /// <summary>
-        /// 初始化跨场景销毁的对象池
-        /// </summary>
-        internal void InitScenePool()
-        {
-            if (YouYouObjPool == null) YouYouObjPool = new GameObject("YouYouObjPool");
-
-            for (int i = 0; i < GameEntry.Instance.GameObjectPoolGroups.Length; i++)
-            {
-                GameObjectPoolEntity entity = GameEntry.Instance.GameObjectPoolGroups[i];
-
-                if (!entity.IsGlobal)
-                {
-                    //创建对象池
-                    SpawnPool pool = new GameObject(entity.PoolName + "Pool").AddComponent<SpawnPool>();
-                    pool.transform.SetParent(YouYouObjPool.transform);
-                    pool.transform.localPosition = Vector3.zero;
-                    pool.transform.localPosition = Vector3.zero;
-                    entity.Pool = pool;
-                    spawnPoolDic[entity.PoolId] = entity;
-                }
-            }
-        }
-
-        public GameObjectPool()
-        {
-            //对象池物体克隆请求
-            InstanceHandler.InstantiateDelegates += InstantiateDelegate;
-            InstanceHandler.DestroyDelegates += DestroyDelegate;
         }
         private GameObject InstantiateDelegate(PrefabPool prefabPool)
         {
@@ -122,6 +94,29 @@ namespace YouYouFramework
             Object.Destroy(inst);
         }
 
+        /// <summary>
+        /// 初始化跨场景销毁的对象池
+        /// </summary>
+        internal void InitScenePool()
+        {
+            if (YouYouObjPool == null) YouYouObjPool = new GameObject("YouYouObjPool");
+
+            for (int i = 0; i < GameEntry.Instance.GameObjectPoolGroups.Length; i++)
+            {
+                GameObjectPoolEntity entity = GameEntry.Instance.GameObjectPoolGroups[i];
+
+                if (!entity.IsGlobal)
+                {
+                    //创建对象池
+                    SpawnPool pool = new GameObject(entity.PoolName + "Pool").AddComponent<SpawnPool>();
+                    pool.transform.SetParent(YouYouObjPool.transform);
+                    pool.transform.localPosition = Vector3.zero;
+                    pool.transform.localPosition = Vector3.zero;
+                    entity.Pool = pool;
+                    spawnPoolDic[entity.PoolId] = entity;
+                }
+            }
+        }
 
         /// <summary>
         /// 预加载对象池

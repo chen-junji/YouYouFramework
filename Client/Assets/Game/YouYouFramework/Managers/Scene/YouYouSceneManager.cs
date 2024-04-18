@@ -62,10 +62,8 @@ namespace YouYouFramework
             m_SceneLoaderList = new LinkedList<SceneLoaderRoutine>();
             m_TargetProgressDic = new Dictionary<string, float>();
             CurrSceneEntityGroup = new List<Sys_SceneEntity>();
-        }
 
-        internal void Init()
-        {
+            //监听单个场景加载完毕
             SceneManager.sceneLoaded += (Scene scene, LoadSceneMode sceneMode) =>
             {
                 if (CurrSceneEntityGroup.Count == 0) return;
@@ -81,6 +79,8 @@ namespace YouYouFramework
 
                 m_TargetProgressDic[scene.path] = 1;
             };
+
+            //监听单个场景卸载完毕
             SceneManager.sceneUnloaded += (Scene scene) =>
             {
                 if (CurrSceneEntityGroup.Count == 0) return;
