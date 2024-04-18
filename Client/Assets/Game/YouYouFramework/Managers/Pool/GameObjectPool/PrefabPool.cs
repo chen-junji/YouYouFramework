@@ -212,9 +212,9 @@ namespace YouYouFramework
         }
 
         /// <summary>
-        /// 直接完全释放
+        /// 直接销毁
         /// </summary>
-        public void Release(GameObject inst)
+        public void Destroy(GameObject inst)
         {
             bool isRemove = spawnedList.Remove(inst);
             if (isRemove)

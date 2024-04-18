@@ -230,14 +230,14 @@ namespace YouYouFramework
         #endregion
 
         /// <summary>
-        /// 直接释放对象
+        /// 直接销毁对象
         /// </summary>
-        public void Release(GameObject inst)
+        public void Destroy(GameObject inst)
         {
             int instanceID = inst.GetInstanceID();
             if (instanceIdPoolIdDic.TryGetValue(instanceID, out PrefabPool prefabPool))
             {
-                prefabPool.Release(inst);
+                prefabPool.Destroy(inst);
             }
             else
             {
