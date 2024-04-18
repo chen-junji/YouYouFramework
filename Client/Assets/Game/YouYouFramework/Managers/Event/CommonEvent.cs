@@ -11,7 +11,7 @@ namespace YouYouFramework
     public class CommonEvent
     {
         public delegate void OnActionHandler(object userData);
-        private Dictionary<int, LinkedList<OnActionHandler>> dic = new Dictionary<int, LinkedList<OnActionHandler>>();
+        private Dictionary<int, List<OnActionHandler>> actionHandlerDic = new();
 
         #region AddEventListener 观察者监听事件
         /// <summary>
@@ -19,14 +19,13 @@ namespace YouYouFramework
         /// </summary>
         public void AddEventListener(int key, OnActionHandler handler)
         {
-            LinkedList<OnActionHandler> lstHandler = null;
-            dic.TryGetValue(key, out lstHandler);
+            actionHandlerDic.TryGetValue(key, out List<OnActionHandler> lstHandler);
             if (lstHandler == null)
             {
-                lstHandler = new LinkedList<OnActionHandler>();
-                dic[key] = lstHandler;
+                lstHandler = new();
+                actionHandlerDic[key] = lstHandler;
             }
-            lstHandler.AddLast(handler);
+            lstHandler.Add(handler);
         }
         #endregion
 
@@ -36,39 +35,33 @@ namespace YouYouFramework
         /// </summary>
         public void RemoveEventListener(int key, OnActionHandler handler)
         {
-            LinkedList<OnActionHandler> lstHandler = null;
-            dic.TryGetValue(key, out lstHandler);
-            if (lstHandler != null) lstHandler.Remove(handler);
+            actionHandlerDic.TryGetValue(key, out List<OnActionHandler> lstHandler);
+            lstHandler?.Remove(handler);
         }
         public void RemoveEventListenerAll(int key)
         {
-            LinkedList<OnActionHandler> lstHandler = null;
-            dic.TryGetValue(key, out lstHandler);
-            if (lstHandler != null) lstHandler.Clear();
+            actionHandlerDic.TryGetValue(key, out List<OnActionHandler> lstHandler);
+            lstHandler?.Clear();
         }
         #endregion
 
         #region Dispatch 派发
         /// <summary>
-        /// 派发
+        /// 派发者派发事件
         /// </summary>
         public void Dispatch(int key, object userData)
         {
-            LinkedList<OnActionHandler> lstHandler = null;
-            dic.TryGetValue(key, out lstHandler);
-
-            if (lstHandler != null && lstHandler.Count > 0)
+            if (actionHandlerDic.TryGetValue(key, out List<OnActionHandler> lstHandler))
             {
-                for (LinkedListNode<OnActionHandler> curr = lstHandler.First; curr != null; curr = curr.Next)
+                lstHandler.ForEach((OnActionHandler handler) =>
                 {
-                    if (curr.Value.Target != null)
+                    if (handler.Target != null)
                     {
-                        curr.Value?.Invoke(userData);
+                        handler?.Invoke(userData);
                     }
-                }
+                });
             }
         }
-
         public void Dispatch(int key)
         {
             Dispatch(key, null);
