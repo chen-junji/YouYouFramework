@@ -6,12 +6,12 @@ using YouYouFramework;
 public class AudioRoutine : MonoBehaviour
 {
     public AudioSource AudioSource;
-    public AutoDespawnHandle AutoDespawnHandle;
+    public GameObjectDespawnHandle AutoDespawnHandle;
     public AssetReferenceEntity ReferenceEntity;
 
     public void Init()
     {
         AudioSource = GetComponent<AudioSource>();
-        AutoDespawnHandle = GetComponent<AutoDespawnHandle>();
+        AutoDespawnHandle = GetComponent<GameObjectDespawnHandle>();
     }
 }

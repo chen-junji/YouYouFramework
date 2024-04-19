@@ -10,7 +10,7 @@ namespace YouYouFramework
     /// <summary>
     /// GameObject池, 对象定时自动回池
     /// </summary>
-    public class AutoDespawnHandle : MonoBehaviour
+    public class GameObjectDespawnHandle : MonoBehaviour
     {
         private Coroutine coroutine;
         private float DelayTimeDespawn;

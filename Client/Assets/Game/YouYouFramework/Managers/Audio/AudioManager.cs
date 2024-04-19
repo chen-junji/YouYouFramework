@@ -22,7 +22,7 @@ namespace YouYouFramework
 
         public AudioManager()
         {
-            audioRoutinePrefab = new GameObject("AudioSource", typeof(AudioRoutine), typeof(AutoDespawnHandle), typeof(AudioSource)).GetComponent<AudioRoutine>();
+            audioRoutinePrefab = new GameObject("AudioSource", typeof(AudioRoutine), typeof(GameObjectDespawnHandle), typeof(AudioSource)).GetComponent<AudioRoutine>();
             audioRoutinePrefab.Init();
             audioRoutinePrefab.transform.SetParent(GameEntry.Instance.transform);
             audioRoutinePrefab.AudioSource.playOnAwake = false;

@@ -202,7 +202,7 @@ namespace YouYouFramework
                 prefabPool.DespawnInstance(inst);
             }
 
-            AutoDespawnHandle handle = inst.GetComponent<AutoDespawnHandle>();
+            GameObjectDespawnHandle handle = inst.GetComponent<GameObjectDespawnHandle>();
             if (handle != null) handle.StopTime();
         }
 

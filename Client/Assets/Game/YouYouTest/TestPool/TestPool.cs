@@ -22,7 +22,7 @@ public class TestPool : MonoBehaviour
             objList.Add(obj);
 
             //3秒后自动回池
-            AutoDespawnHandle autoDespawnHandle = obj.gameObject.GetOrCreatComponent<AutoDespawnHandle>();
+            GameObjectDespawnHandle autoDespawnHandle = obj.gameObject.GetOrCreatComponent<GameObjectDespawnHandle>();
             autoDespawnHandle.SetDelayTimeDespawn(3);
             autoDespawnHandle.OnDespawn = () =>
             {
