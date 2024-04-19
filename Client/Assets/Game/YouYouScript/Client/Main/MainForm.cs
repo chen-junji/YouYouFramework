@@ -7,12 +7,10 @@ using YouYouFramework;
 
 public partial class MainForm : UIFormBase
 {
-    [SerializeField] Transform BtnGroup;
-
     protected override void Awake()
     {
         base.Awake();
-        foreach (Transform child in BtnGroup)
+        foreach (Transform child in m_Trans_BtnGroup)
         {
             Button button = child.GetComponent<Button>();
             if (button != null)

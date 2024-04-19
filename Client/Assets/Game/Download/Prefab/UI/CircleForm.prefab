@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 5733407909340928816}
   - component: {fileID: 908938218087949918}
   - component: {fileID: 9179069276492436272}
-  - component: {fileID: 488843945047444490}
   - component: {fileID: 5907784960008152361}
+  - component: {fileID: 488843945047444490}
   m_Layer: 5
   m_Name: CircleForm
   m_TagString: Untagged
@@ -120,6 +120,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5907784960008152361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4924211624598744534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8df092354f7c9e34aa71c1e15f94299a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &488843945047444490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,18 +152,6 @@ MonoBehaviour:
   m_CodePath: Assets/Game/YouYouScript/MVC/Client/Common/Circle
   m_BindComs:
   - {fileID: 4601131757084660224}
---- !u!114 &5907784960008152361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4924211624598744534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8df092354f7c9e34aa71c1e15f94299a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4924211625147861619
 GameObject:
   m_ObjectHideFlags: 0

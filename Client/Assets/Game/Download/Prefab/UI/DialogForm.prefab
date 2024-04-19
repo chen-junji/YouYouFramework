@@ -369,7 +369,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e634aadd0312c9747ac7e06092dfcf68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioNames: 00000000
+  audioClips:
+  - {fileID: 8300000, guid: 34afa23951f18cf4290a6baf785341e1, type: 3}
 --- !u!1 &1453049102072746
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,8 +527,8 @@ GameObject:
   - component: {fileID: 114578842348527822}
   - component: {fileID: 223515463783518598}
   - component: {fileID: 114093970811876944}
-  - component: {fileID: 2797990472901106891}
   - component: {fileID: 711330128305053106}
+  - component: {fileID: 2797990472901106891}
   m_Layer: 5
   m_Name: DialogForm
   m_TagString: Untagged
@@ -633,6 +634,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 32567
+--- !u!114 &711330128305053106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777274405152220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c45d63e9daba27e4f8e373c922e5b577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2797990472901106891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -662,18 +675,6 @@ MonoBehaviour:
   - {fileID: 114860583820385344}
   - {fileID: 114928851235647378}
   - {fileID: 114722432435062292}
---- !u!114 &711330128305053106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1777274405152220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c45d63e9daba27e4f8e373c922e5b577, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1889557595891920
 GameObject:
   m_ObjectHideFlags: 0
@@ -808,7 +809,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e634aadd0312c9747ac7e06092dfcf68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioNames: 00000000
+  audioClips:
+  - {fileID: 8300000, guid: 34afa23951f18cf4290a6baf785341e1, type: 3}
 --- !u!1 &1929898132902684340
 GameObject:
   m_ObjectHideFlags: 0

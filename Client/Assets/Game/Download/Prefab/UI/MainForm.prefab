@@ -132,7 +132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50e1e63dee55429469e1d69afd6761ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BtnGroup: {fileID: 1737038206707321480}
 --- !u!114 &4342711753586229899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,11 +144,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57eb7c15612322c4b929a325ad4bc16a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BindDatas: []
+  BindDatas:
+  - Name: Trans_BtnGroup
+    BindCom: {fileID: 1737038206707321480}
   m_ClassName: MainForm
   m_Namespace: 
-  m_CodePath: Assets/Game/YouYouTest/TestMVC/Client/Main
-  m_BindComs: []
+  m_CodePath: Assets/Game/YouYouScript/Client/Main
+  m_BindComs:
+  - {fileID: 1737038206707321480}
 --- !u!1 &71979463026398883
 GameObject:
   m_ObjectHideFlags: 0
@@ -2525,7 +2527,7 @@ GameObject:
   - component: {fileID: 2486021656991778644}
   - component: {fileID: 1399521162812310013}
   m_Layer: 5
-  m_Name: BtnGroup
+  m_Name: Trans_BtnGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
