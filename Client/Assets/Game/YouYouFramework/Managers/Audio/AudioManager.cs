@@ -79,6 +79,7 @@ namespace YouYouFramework
             }
 
             AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(entity.AssetFullPath);
+            referenceEntity.ReferenceAdd();
             PlayBGM(referenceEntity.Target as AudioClip, entity.IsLoop == 1, entity.Volume, entity.IsFadeIn == 1, entity.IsFadeOut == 1, referenceEntity);
         }
         public void PlayBGM(AudioClip audioClip, bool isLoop, float volume, bool isFadeIn, bool isFadeOut, AssetReferenceEntity referenceEntity = null)
