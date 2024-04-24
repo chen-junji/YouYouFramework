@@ -35,7 +35,7 @@ namespace YouYouFramework
             coroutine = StartCoroutine(DelayDespawn());
         }
 
-        public void StopTime()
+        private void StopTime()
         {
             if (coroutine != null)
             {

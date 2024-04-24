@@ -201,9 +201,6 @@ namespace YouYouFramework
                 inst.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                 prefabPool.DespawnInstance(inst);
             }
-
-            GameObjectDespawnHandle handle = inst.GetComponent<GameObjectDespawnHandle>();
-            if (handle != null) handle.StopTime();
         }
 
         /// <summary>
