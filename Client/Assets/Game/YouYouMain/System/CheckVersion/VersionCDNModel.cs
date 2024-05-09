@@ -28,8 +28,7 @@ public class VersionCDNModel
     /// </summary>
     public VersionFileEntity GetVersionFileEntity(string assetbundlePath)
     {
-        VersionFileEntity entity = null;
-        VersionDic.TryGetValue(assetbundlePath, out entity);
+        VersionDic.TryGetValue(assetbundlePath, out VersionFileEntity entity);
         return entity;
     }
 

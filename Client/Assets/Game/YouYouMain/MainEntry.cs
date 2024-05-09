@@ -50,6 +50,7 @@ namespace YouYouMain
                 VersionLocalModel.Instance.SetAssetVersion(null);
 
                 //检查更新, 下载初始资源
+                CheckVersionCtrl.Instance.Init();
                 CheckVersionCtrl.Instance.CheckVersionChange(() =>
                 {
                     //加载Hotfix代码(HybridCLR)
@@ -84,19 +85,19 @@ namespace YouYouMain
             {
                 return;
             }
-            Debug.Log("MainEntryLog - " + args.Aggregate("", (current, message) => current + (" - " + message)));
+            Debug.Log("MainEntryLog" + args.Aggregate("", (current, message) => current + (" - " + message)));
 #endif
         }
         internal static void LogWarning(params object[] args)
         {
 #if DEBUG_LOG_WARNING
-            Debug.LogWarning("MainEntryLog - " + args.Aggregate("", (current, message) => current + (" - " + message)));
+            Debug.LogWarning("MainEntryLog" + args.Aggregate("", (current, message) => current + (" - " + message)));
 #endif
         }
         internal static void LogError(params object[] args)
         {
 #if DEBUG_LOG_ERROR
-            Debug.LogError("MainEntryLog - " + args.Aggregate("", (current, message) => current + (" - " + message)));
+            Debug.LogError("MainEntryLog" + args.Aggregate("", (current, message) => current + (" - " + message)));
 #endif
         }
 

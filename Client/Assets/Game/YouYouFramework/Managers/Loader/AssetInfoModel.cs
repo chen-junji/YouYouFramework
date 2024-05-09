@@ -31,7 +31,7 @@ namespace YouYouFramework
             byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/{1}", Application.persistentDataPath, YFConstDefine.AssetInfoName));
             if (buffer != null)
             {
-                GameEntry.Log(LogCategory.Loader, "从可写区初始化资源信息");
+                GameEntry.Log(LogCategory.Loader, "从可写区初始化资源依赖信息");
                 InitAssetInfo(buffer);
                 return true;
             }
@@ -40,6 +40,7 @@ namespace YouYouFramework
             byte[] buff = await WebRequestUtil.LoadStreamingBytesAsync(YFConstDefine.AssetInfoName);
             if (buff != null)
             {
+                GameEntry.Log(LogCategory.Loader, "从只读区初始化资源依赖信息");
                 InitAssetInfo(buff);
                 return true;
             }
@@ -49,7 +50,7 @@ namespace YouYouFramework
             HttpCallBackArgs args = await GameEntry.Http.GetArgsAsync(url, false);
             if (!args.HasError)
             {
-                GameEntry.Log(LogCategory.Loader, "从CDN初始化资源信息");
+                GameEntry.Log(LogCategory.Loader, "从CDN初始化资源依赖信息");
                 InitAssetInfo(args.Data);
                 return true;
             }

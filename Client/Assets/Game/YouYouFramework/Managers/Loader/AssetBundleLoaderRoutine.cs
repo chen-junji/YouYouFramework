@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Sirenix.Serialization;
 
 
 namespace YouYouFramework
@@ -16,7 +17,7 @@ namespace YouYouFramework
         /// <summary>
         /// 当前的资源包信息
         /// </summary>
-        public VersionFileEntity CurrAssetBundleInfo { get; private set; }
+        public VersionFileEntity CurrVersionFile { get; private set; }
 
         /// <summary>
         /// 资源包创建请求
@@ -41,13 +42,13 @@ namespace YouYouFramework
         #region LoadAssetBundle 加载资源包
         public async void LoadAssetBundleAsync(string assetBundlePath)
         {
-            CurrAssetBundleInfo = VersionCDNModel.Instance.GetVersionFileEntity(assetBundlePath);
+            CurrVersionFile = VersionLocalModel.Instance.GetVersionFileEntity(assetBundlePath);
 
             //检查文件在可写区是否存在
             bool isExistsInLocal = File.Exists(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
             if (isExistsInLocal)
             {
-                if (CurrAssetBundleInfo.IsEncrypt)
+                if (CurrVersionFile.IsEncrypt)
                 {
                     //可写区加载, 需要解密
                     byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
@@ -66,15 +67,21 @@ namespace YouYouFramework
             }
 
             //如果可写区没有 那么就从只读区获取
-            byte[] buff = await WebRequestUtil.LoadStreamingBytesAsync(assetBundlePath);
-            if (buff != null)
+            if (CurrVersionFile.IsEncrypt)
             {
-                if (CurrAssetBundleInfo.IsEncrypt)
+                //如果资源包是加密的,则解密
+                byte[] buff = await WebRequestUtil.LoadStreamingBytesAsync(assetBundlePath);
+                if (buff != null)
                 {
-                    //如果资源包是加密的,则解密
                     buff = SecurityUtil.Xor(buff);
+                    CurrAssetBundleCreateRequest = AssetBundle.LoadFromMemoryAsync(buff);
+                    return;
                 }
-                CurrAssetBundleCreateRequest = AssetBundle.LoadFromMemoryAsync(buff);
+            }
+            else
+            {
+                //只读区加载, 不用解密
+                CurrAssetBundleCreateRequest = AssetBundle.LoadFromFileAsync(string.Format("{0}/AssetBundles/{1}", Application.streamingAssetsPath, assetBundlePath));
                 return;
             }
 
@@ -92,14 +99,13 @@ namespace YouYouFramework
         }
         public static AssetBundle LoadAssetBundle(string assetBundlePath)
         {
-            VersionFileEntity assetBundleInfo = VersionCDNModel.Instance.GetVersionFileEntity(assetBundlePath);
+            VersionFileEntity versionFile = VersionLocalModel.Instance.GetVersionFileEntity(assetBundlePath);
 
             //检查文件在可写区是否存在
             bool isExistsInLocal = File.Exists(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
-
             if (isExistsInLocal)
             {
-                if (assetBundleInfo.IsEncrypt)
+                if (versionFile.IsEncrypt)
                 {
                     //可写区加载, 需要解密
                     byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
@@ -114,6 +120,19 @@ namespace YouYouFramework
                     //可写区加载, 不用解密
                     return AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
                 }
+            }
+
+            //如果可写区没有 那么就从只读区获取
+            if (versionFile.IsEncrypt)
+            {
+                //只读区加载, 需要解密
+                GameEntry.LogError(LogCategory.Loader, "只读区暂时不支持同步加载==" + assetBundlePath);
+                //return null;
+            }
+            else
+            {
+                //只读区加载, 不用解密
+                return AssetBundle.LoadFromFile(string.Format("{0}/AssetBundles/{1}", Application.streamingAssetsPath, assetBundlePath));
             }
 
             GameEntry.LogError(LogCategory.Loader, "本地没有该资源, 或许要去服务端下载==" + assetBundlePath);
@@ -160,7 +179,7 @@ namespace YouYouFramework
                 }
                 else
                 {
-                    GameEntry.LogError(LogCategory.Loader, string.Format("资源包=>{0} 加载失败", CurrAssetBundleInfo.AssetBundleName));
+                    GameEntry.LogError(LogCategory.Loader, string.Format("资源包=>{0} 加载失败", CurrVersionFile.AssetBundleName));
                 }
                 Reset();//一定要早点Reset
                 GameEntry.Pool.ClassObjectPool.Enqueue(this);

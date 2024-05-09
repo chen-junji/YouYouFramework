@@ -179,7 +179,7 @@ namespace YouYouFramework
             //如果这个AssetBundle在异步加载中，则直接堵塞主线程，返回Request.assetBundle
             for (LinkedListNode<AssetBundleLoaderRoutine> curr = m_AssetBundleLoaderList.First; curr != null; curr = curr.Next)
             {
-                if (curr.Value.CurrAssetBundleInfo.AssetBundleName == assetbundlePath)
+                if (curr.Value.CurrVersionFile.AssetBundleName == assetbundlePath)
                 {
                     return curr.Value.CurrAssetBundleCreateRequest.assetBundle;
                 }

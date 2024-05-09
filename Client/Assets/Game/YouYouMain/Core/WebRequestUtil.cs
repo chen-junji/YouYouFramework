@@ -39,7 +39,7 @@ public class WebRequestUtil
     }
     public static async UniTask<byte[]> LoadStreamingBytesAsync(string assetFullPath)
     {
-        string uri = new System.Uri(Path.Combine(Application.streamingAssetsPath, assetFullPath)).AbsoluteUri;
+        string uri = new System.Uri(Path.Combine(Application.streamingAssetsPath, "AssetBundles", assetFullPath)).AbsoluteUri;
         var task = new UniTaskCompletionSource<byte[]>();
         MainEntry.Instance.StartCoroutine(LoadBytes(uri, (byte[] bytes) =>
         {
@@ -54,7 +54,7 @@ public class WebRequestUtil
         //因为它加载失败时无法触发return, 所以现在用了IEnumerator
         IEnumerator LoadAssetBundle(string assetFullPath, Action<AssetBundle> onComplete)
         {
-            string uri = new System.Uri(Path.Combine(Application.streamingAssetsPath, assetFullPath)).AbsoluteUri;
+            string uri = new System.Uri(Path.Combine(Application.streamingAssetsPath, "AssetBundles", assetFullPath)).AbsoluteUri;
             UnityWebRequest unityWebRequest = UnityWebRequestAssetBundle.GetAssetBundle(uri);
             yield return unityWebRequest.SendWebRequest();
             if (unityWebRequest.result == UnityWebRequest.Result.Success)
@@ -74,5 +74,12 @@ public class WebRequestUtil
             task.TrySetResult(assetBundle);
         }));
         return await task.Task;
+    }
+    public static AssetBundle LoadStreamingAssetBundle(string assetFullPath)
+    {
+        string uri = new System.Uri(Path.Combine(Application.streamingAssetsPath, "AssetBundles", assetFullPath)).AbsoluteUri;
+        UnityWebRequest unityWebRequest = UnityWebRequestAssetBundle.GetAssetBundle(uri);
+        AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(unityWebRequest);
+        return bundle;
     }
 }

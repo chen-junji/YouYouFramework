@@ -7,7 +7,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 using YouYouFramework;
-
+using YouYouMain;
 
 [CreateAssetMenu(menuName = "YouYouAsset/AssetBundleSettings")]
 public class AssetBundleSettings : ScriptableObject
@@ -47,6 +47,113 @@ public class AssetBundleSettings : ScriptableObject
     [VerticalGroup("Common/Left")]
     [LabelText("参数")]
     public BuildAssetBundleOptions Options;
+
+    #region AssetBundleCopyToStreamingAsstes 初始资源拷贝到StreamingAsstes
+    [VerticalGroup("Common/Right")]
+    [Button(ButtonSizes.Medium)]
+    [LabelText("初始资源拷贝到StreamingAsstes")]
+    public void AssetBundleCopyToStreamingAsstes()
+    {
+        string toPath = Application.streamingAssetsPath + "/AssetBundles/";
+
+        if (Directory.Exists(toPath))
+        {
+            Directory.Delete(toPath, true);
+        }
+        Directory.CreateDirectory(toPath);
+
+        IOUtil.CopyDirectory(OutPath, toPath);
+
+        //重新生成版本文件
+        //1.先读取OutPath里边的版本文件 这个版本文件里 存放了所有的资源包信息
+
+        byte[] buffer = IOUtil.GetFileBuffer(Path.Combine(OutPath, YFConstDefine.VersionFileName));
+        string version = "";
+        Dictionary<string, VersionFileEntity> dic = LoadUtil.LoadVersionFile(buffer, ref version);
+        Dictionary<string, VersionFileEntity> newDic = new Dictionary<string, VersionFileEntity>();
+
+        DirectoryInfo directory = new DirectoryInfo(toPath);
+
+        //拿到文件夹下所有文件
+        FileInfo[] arrFiles = directory.GetFiles("*", SearchOption.AllDirectories);
+
+        for (int i = 0; i < arrFiles.Length; i++)
+        {
+            FileInfo file = arrFiles[i];
+            string fullName = file.FullName.Replace("\\", "/"); //全名 包含路径扩展名
+            string name = fullName.Replace(toPath, "").Replace(".assetbundle", "").Replace(".unity3d", "");
+
+            if (name.Equals("AssetInfo.json", System.StringComparison.CurrentCultureIgnoreCase)
+                || name.Equals("Windows", System.StringComparison.CurrentCultureIgnoreCase)
+                || name.Equals("Windows.manifest", System.StringComparison.CurrentCultureIgnoreCase)
+
+                || name.Equals("Android", System.StringComparison.CurrentCultureIgnoreCase)
+                || name.Equals("Android.manifest", System.StringComparison.CurrentCultureIgnoreCase)
+
+                || name.Equals("iOS", System.StringComparison.CurrentCultureIgnoreCase)
+                || name.Equals("iOS.manifest", System.StringComparison.CurrentCultureIgnoreCase)
+                )
+            {
+                File.Delete(file.FullName);
+                continue;
+            }
+
+            VersionFileEntity entity = null;
+            dic.TryGetValue(name, out entity);
+
+
+            if (entity != null)
+            {
+                newDic[name] = entity;
+            }
+        }
+
+        StringBuilder sbContent = new StringBuilder();
+        sbContent.AppendLine(version);
+
+        foreach (var item in newDic)
+        {
+            VersionFileEntity entity = item.Value;
+            string strLine = string.Format("{0}|{1}|{2}|{3}|{4}", entity.AssetBundleName, entity.MD5, entity.Size, entity.IsFirstData ? 1 : 0, entity.IsEncrypt ? 1 : 0);
+            sbContent.AppendLine(strLine);
+        }
+
+        IOUtil.CreateTextFile(toPath + "VersionFile.txt", sbContent.ToString());
+
+        //=======================
+        MMO_MemoryStream ms = new MMO_MemoryStream();
+        string str = sbContent.ToString().Trim();
+        string[] arr = str.Split('\n');
+        int len = arr.Length;
+        ms.WriteInt(len);
+        for (int i = 0; i < len; i++)
+        {
+            if (i == 0)
+            {
+                ms.WriteUTF8String(arr[i]);
+            }
+            else
+            {
+                string[] arrInner = arr[i].Split('|');
+                ms.WriteUTF8String(arrInner[0]);
+                ms.WriteUTF8String(arrInner[1]);
+                ms.WriteInt(int.Parse(arrInner[2]));
+                ms.WriteByte(byte.Parse(arrInner[3]));
+                ms.WriteByte(byte.Parse(arrInner[4]));
+            }
+        }
+
+        string filePath = Path.Combine(toPath, YFConstDefine.VersionFileName); //版本文件路径
+        buffer = ms.ToArray();
+        buffer = ZlibHelper.CompressBytes(buffer);
+        FileStream fs = new FileStream(filePath, FileMode.Create);
+        fs.Write(buffer, 0, buffer.Length);
+        fs.Close();
+
+        AssetDatabase.Refresh();
+        Debug.Log("初始资源拷贝到StreamingAsstes完毕");
+    }
+    #endregion
 
     [VerticalGroup("Common/Right")]
     [Button(ButtonSizes.Medium)]

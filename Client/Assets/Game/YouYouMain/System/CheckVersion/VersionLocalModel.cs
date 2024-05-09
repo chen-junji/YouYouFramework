@@ -29,8 +29,14 @@ public class VersionLocalModel
     {
         get
         {
-            return string.Format("{0}/{1}", Application.persistentDataPath, YFConstDefine.VersionFileName);
+            return Path.Combine(Application.persistentDataPath, YFConstDefine.VersionFileName);
         }
+    }
+
+    public VersionFileEntity GetVersionFileEntity(string assetbundlePath)
+    {
+        VersionDic.TryGetValue(assetbundlePath, out VersionFileEntity entity);
+        return entity;
     }
 
     /// <summary>

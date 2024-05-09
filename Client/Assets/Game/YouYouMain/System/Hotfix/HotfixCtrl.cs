@@ -2,6 +2,7 @@ using HybridCLR;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using YouYouMain;
 
@@ -31,7 +32,16 @@ public class HotfixCtrl
     }
     public void LoadHotifx()
     {
-        hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, YFConstDefine.HotfixAssetBundlePath));
+        bool isExistsInLocal = File.Exists(string.Format("{0}/{1}", Application.persistentDataPath, YFConstDefine.HotfixAssetBundlePath));
+        if (isExistsInLocal)
+        {
+            hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, YFConstDefine.HotfixAssetBundlePath));
+        }
+        else
+        {
+            hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/AssetBundles/{1}", Application.streamingAssetsPath, YFConstDefine.HotfixAssetBundlePath));
+        }
+
 #if !UNITY_EDITOR
         LoadMetadataForAOTAssemblies();
 

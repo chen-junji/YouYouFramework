@@ -20,6 +20,53 @@ public class CheckVersionCtrl
         m_NeedDownloadList = new LinkedList<string>();
     }
 
+    public async void Init()
+    {
+        //加载可写区版本文件信息
+        if (VersionLocalModel.Instance.GetVersionFileExists())
+        {
+            string json = IOUtil.GetFileText(VersionLocalModel.Instance.VersionFilePath);
+            VersionLocalModel.Instance.VersionDic = json.ToObject<Dictionary<string, VersionFileEntity>>();
+            VersionLocalModel.Instance.AssetsVersion = PlayerPrefs.GetString(YFConstDefine.AssetVersion);
+            MainEntry.Log("从可写区初始化版本文件信息");
+        }
+        //可写区版本文件不存在
+        else
+        {
+            //加载只读区版本文件信息
+            byte[] streamingBuffer = await WebRequestUtil.LoadStreamingBytesAsync(YFConstDefine.VersionFileName);
+            if (streamingBuffer != null)
+            {
+                VersionStreamingModel.Instance.VersionDic = LoadUtil.LoadVersionFile(streamingBuffer, ref VersionStreamingModel.Instance.AssetsVersion);
+                MainEntry.Log("从只读区初始化版本文件信息, 并拷贝到可写区");
+
+                //将只读区版本文件拷贝到可写区
+                VersionLocalModel.Instance.VersionDic = new Dictionary<string, VersionFileEntity>();
+
+                var enumerator = VersionStreamingModel.Instance.VersionDic.GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    VersionFileEntity entity = enumerator.Current.Value;
+                    VersionLocalModel.Instance.VersionDic[enumerator.Current.Key] = new VersionFileEntity()
+                    {
+                        AssetBundleName = entity.AssetBundleName,
+                        MD5 = entity.MD5,
+                        Size = entity.Size,
+                        IsFirstData = entity.IsFirstData,
+                        IsEncrypt = entity.IsEncrypt
+                    };
+                }
+
+                //保存版本文件
+                VersionLocalModel.Instance.SaveVersion();
+
+                //保存版本号
+                VersionLocalModel.Instance.SetAssetVersion(VersionStreamingModel.Instance.AssetsVersion);
+            }
+
+        }
+    }
+
     #region 初始化CDN 可写区 只读区的版本文件信息
     /// <summary>
     /// 初始化CDN 可写区 只读区的版本文件信息
@@ -27,57 +74,13 @@ public class CheckVersionCtrl
     public async UniTask InitVersionFile()
     {
         //去资源站点请求CDN的版本文件信息
-        string cdnVersionFileUrl = string.Format("{0}{1}", ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, YFConstDefine.VersionFileName);
+        string cdnVersionFileUrl = Path.Combine(ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, YFConstDefine.VersionFileName);
         byte[] cdnVersionFileBytes = await WebRequestUtil.LoadCDNBytesAsync(cdnVersionFileUrl);
         if (cdnVersionFileBytes != null)
         {
             //加载CDN版本文件信息
-            VersionCDNModel.Instance.VersionDic = LoadVersionFile(cdnVersionFileBytes, ref VersionCDNModel.Instance.Version);
+            VersionCDNModel.Instance.VersionDic = LoadUtil.LoadVersionFile(cdnVersionFileBytes, ref VersionCDNModel.Instance.Version);
             MainEntry.Log("OnLoadCDNVersionFile");
-
-            //加载可写区版本文件信息
-            if (VersionLocalModel.Instance.GetVersionFileExists())
-            {
-                string json = IOUtil.GetFileText(VersionLocalModel.Instance.VersionFilePath);
-                VersionLocalModel.Instance.VersionDic = json.ToObject<Dictionary<string, VersionFileEntity>>();
-                VersionLocalModel.Instance.AssetsVersion = PlayerPrefs.GetString(YFConstDefine.AssetVersion);
-                MainEntry.Log("OnLoadLocalVersionFile");
-            }
-            //可写区版本文件不存在
-            else
-            {
-                //加载只读区版本文件信息
-                byte[] streamingBuffer = await WebRequestUtil.LoadStreamingBytesAsync(YFConstDefine.VersionFileName);
-                if (streamingBuffer != null)
-                {
-                    VersionStreamingModel.Instance.VersionDic = LoadVersionFile(streamingBuffer, ref VersionStreamingModel.Instance.AssetsVersion);
-                    MainEntry.Log("OnStreamingVersionFile");
-
-                    //将只读区版本文件初始化到可写区
-                    VersionLocalModel.Instance.VersionDic = new Dictionary<string, VersionFileEntity>();
-
-                    var enumerator = VersionStreamingModel.Instance.VersionDic.GetEnumerator();
-                    while (enumerator.MoveNext())
-                    {
-                        VersionFileEntity entity = enumerator.Current.Value;
-                        VersionLocalModel.Instance.VersionDic[enumerator.Current.Key] = new VersionFileEntity()
-                        {
-                            AssetBundleName = entity.AssetBundleName,
-                            MD5 = entity.MD5,
-                            Size = entity.Size,
-                            IsFirstData = entity.IsFirstData,
-                            IsEncrypt = entity.IsEncrypt
-                        };
-                    }
-
-                    //保存版本文件
-                    VersionLocalModel.Instance.SaveVersion();
-
-                    //保存版本号
-                    VersionLocalModel.Instance.SetAssetVersion(VersionStreamingModel.Instance.AssetsVersion);
-                }
-
-            }
         }
         else
         {
@@ -85,36 +88,6 @@ public class CheckVersionCtrl
         }
     }
 
-    public static Dictionary<string, VersionFileEntity> LoadVersionFile(byte[] buffer, ref string version)
-    {
-        buffer = ZlibHelper.DeCompressBytes(buffer);
-
-        Dictionary<string, VersionFileEntity> dic = new Dictionary<string, VersionFileEntity>();
-
-        MMO_MemoryStream ms = new MMO_MemoryStream(buffer);
-
-        int len = ms.ReadInt();
-
-        for (int i = 0; i < len; i++)
-        {
-            if (i == 0)
-            {
-                version = ms.ReadUTF8String().Trim();
-            }
-            else
-            {
-                VersionFileEntity entity = new VersionFileEntity();
-                entity.AssetBundleName = ms.ReadUTF8String();
-                entity.MD5 = ms.ReadUTF8String();
-                entity.Size = ms.ReadULong();
-                entity.IsFirstData = ms.ReadByte() == 1;
-                entity.IsEncrypt = ms.ReadByte() == 1;
-
-                dic[entity.AssetBundleName] = entity;
-            }
-        }
-        return dic;
-    }
     #endregion
 
     #region 检查更新相关逻辑
