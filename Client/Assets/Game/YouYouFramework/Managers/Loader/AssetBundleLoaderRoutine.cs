@@ -39,7 +39,7 @@ namespace YouYouFramework
         public Action<float> OnAssetBundleDownloadUpdate;
 
         #region LoadAssetBundle 加载资源包
-        public void LoadAssetBundleAsync(string assetBundlePath)
+        public async void LoadAssetBundleAsync(string assetBundlePath)
         {
             CurrAssetBundleInfo = VersionCDNModel.Instance.GetVersionFileEntity(assetBundlePath);
 
@@ -55,7 +55,6 @@ namespace YouYouFramework
                     {
                         buffer = SecurityUtil.Xor(buffer);
                         CurrAssetBundleCreateRequest = AssetBundle.LoadFromMemoryAsync(buffer);
-                        return;
                     }
                 }
                 else
@@ -63,20 +62,32 @@ namespace YouYouFramework
                     //可写区加载, 不用解密
                     CurrAssetBundleCreateRequest = AssetBundle.LoadFromFileAsync(string.Format("{0}/{1}", Application.persistentDataPath, assetBundlePath));
                 }
+                return;
             }
-            else
+
+            //如果可写区没有 那么就从只读区获取
+            byte[] buff = await WebRequestUtil.LoadStreamingBytesAsync(assetBundlePath);
+            if (buff != null)
             {
-                //如果可写区没有 那么就从CDN下载
-                MainEntry.Download.BeginDownloadSingle(assetBundlePath, (url, currSize, progress) =>
+                if (CurrAssetBundleInfo.IsEncrypt)
                 {
-                    //YouYou.GameEntry.LogError(progress);
-                    OnAssetBundleDownloadUpdate?.Invoke(progress);
-                }, (string fileUrl) =>
-                {
-                    //下载完毕，从可写区加载
-                    LoadAssetBundleAsync(assetBundlePath);
-                });
+                    //如果资源包是加密的,则解密
+                    buff = SecurityUtil.Xor(buff);
+                }
+                CurrAssetBundleCreateRequest = AssetBundle.LoadFromMemoryAsync(buff);
+                return;
             }
+
+            //如果只读区也没有,从CDN下载
+            MainEntry.Download.BeginDownloadSingle(assetBundlePath, (url, currSize, progress) =>
+            {
+                //YouYou.GameEntry.LogError(progress);
+                OnAssetBundleCreateUpdate?.Invoke(progress);
+            }, (string fileUrl) =>
+            {
+                //下载完毕，从可写区加载
+                LoadAssetBundleAsync(assetBundlePath);
+            });
 
         }
         public static AssetBundle LoadAssetBundle(string assetBundlePath)

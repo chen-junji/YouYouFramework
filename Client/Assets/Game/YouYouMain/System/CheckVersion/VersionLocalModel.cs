@@ -12,6 +12,15 @@ public class VersionLocalModel
 {
     public static VersionLocalModel Instance { get; private set; } = new VersionLocalModel();
 
+    /// <summary>
+    /// 可写区资源版本号
+    /// </summary>
+    public string AssetsVersion;
+
+    /// <summary>
+    /// 可写区资源包信息
+    /// </summary>
+    public Dictionary<string, VersionFileEntity> VersionDic = new Dictionary<string, VersionFileEntity>();
 
     /// <summary>
     /// 可写区 版本文件路径
@@ -25,22 +34,10 @@ public class VersionLocalModel
     }
 
     /// <summary>
-    /// 可写区资源版本号
-    /// </summary>
-    public string AssetsVersion;
-
-    /// <summary>
-    /// 可写区资源包信息
-    /// </summary>
-    public Dictionary<string, VersionFileEntity> VersionDic = new Dictionary<string, VersionFileEntity>();
-
-    /// <summary>
     /// 保存可写区版本信息
     /// </summary>
-    public void SaveVersion(VersionFileEntity entity)
+    public void SaveVersion()
     {
-        VersionDic[entity.AssetBundleName] = entity;
-
         //保存版本文件
         string json = VersionDic.ToJson();
         IOUtil.CreateTextFile(VersionFilePath, json);

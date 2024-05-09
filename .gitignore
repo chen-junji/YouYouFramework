@@ -11,4 +11,5 @@ obj/
 .vs/
 Client/HybridCLRData/
 Client/Assets/HybridCLRData/
+Client/Assets/StreamingAssets/AssetBundles/
 APK/

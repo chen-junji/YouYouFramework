@@ -16,7 +16,7 @@ namespace YouYouFramework
         /// <summary>
         /// 资源依赖信息 管理器
         /// </summary>
-        public AssetInfoManager AssetInfo { get; private set; }
+        public AssetInfoModel AssetInfo { get; private set; }
 
         /// <summary>
         /// 资源包池
@@ -39,7 +39,7 @@ namespace YouYouFramework
 
         public LoaderManager()
         {
-            AssetInfo = new AssetInfoManager();
+            AssetInfo = new AssetInfoModel();
             AssetBundlePool = new AssetBundlePool();
             MainAssetPool = new AssetPool();
             m_AssetBundleLoaderList = new LinkedList<AssetBundleLoaderRoutine>();

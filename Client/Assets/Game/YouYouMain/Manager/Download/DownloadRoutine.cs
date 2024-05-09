@@ -51,7 +51,7 @@ namespace YouYouMain
         /// <summary>
         /// 当前的资源包信息
         /// </summary>
-        private VersionFileEntity m_CurrAssetBundleInfo;
+        private VersionFileEntity m_CurrVersionFile;
 
         /// <summary>
         /// 当前重试次数
@@ -78,7 +78,7 @@ namespace YouYouMain
         public void BeginDownload(string url, VersionFileEntity assetBundleInfo, Action<string, ulong, float> onUpdate, Action<string, DownloadRoutine> onComplete)
         {
             m_CurrFileUrl = url;
-            m_CurrAssetBundleInfo = assetBundleInfo;
+            m_CurrVersionFile = assetBundleInfo;
             m_OnUpdate = onUpdate;
             m_OnComplete = onComplete;
             m_CurrRetry = 0;
@@ -101,7 +101,7 @@ namespace YouYouMain
             {
                 if (PlayerPrefs.HasKey(m_CurrFileUrl))
                 {
-                    if (!PlayerPrefs.GetString(m_CurrFileUrl).Equals(m_CurrAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase))
+                    if (!PlayerPrefs.GetString(m_CurrFileUrl).Equals(m_CurrVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase))
                     {
                         //根据MD5判断 跟CDN上的MD5不一致则删除原文件重新下载
                         File.Delete(m_DownloadLocalFilePath);
@@ -142,7 +142,7 @@ namespace YouYouMain
 
             m_FileStream = new FileStream(m_DownloadLocalFilePath, FileMode.Create, FileAccess.Write);
 
-            PlayerPrefs.SetString(m_CurrFileUrl, m_CurrAssetBundleInfo.MD5);
+            PlayerPrefs.SetString(m_CurrFileUrl, m_CurrVersionFile.MD5);
             Download(string.Format("{0}{1}", ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, m_CurrFileUrl));
         }
 
@@ -251,7 +251,8 @@ namespace YouYouMain
             if (PlayerPrefs.HasKey(m_CurrFileUrl)) PlayerPrefs.DeleteKey(m_CurrFileUrl);
 
             //更新可写区的版本信息
-            VersionLocalModel.Instance.SaveVersion(m_CurrAssetBundleInfo);
+            VersionLocalModel.Instance.VersionDic[m_CurrVersionFile.AssetBundleName] = m_CurrVersionFile;
+            VersionLocalModel.Instance.SaveVersion();
 
             //MainEntry.ClassObjectPool.Enqueue(this);
             m_OnComplete?.Invoke(m_CurrFileUrl, this);
