@@ -15,7 +15,7 @@ public class VersionCDNModel
     /// <summary>
     /// CDN资源版本号
     /// </summary>
-    public string Version;
+    public string AssetVersion;
 
     /// <summary>
     /// CDN资源包信息

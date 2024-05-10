@@ -15,7 +15,7 @@ public class VersionLocalModel
     /// <summary>
     /// 可写区资源版本号
     /// </summary>
-    public string AssetsVersion;
+    public string AssetVersion;
 
     /// <summary>
     /// 可写区资源包信息
@@ -43,7 +43,7 @@ public class VersionLocalModel
     /// </summary>
     public void SetAssetVersion(string version)
     {
-        AssetsVersion = version;
+        AssetVersion = version;
         PlayerPrefs.SetString(YFConstDefine.AssetVersion, version);
     }
 

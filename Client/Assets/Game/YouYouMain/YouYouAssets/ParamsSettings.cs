@@ -32,6 +32,13 @@ public class ParamsSettings : ScriptableObject
 
     #region 系统参数
     /// <summary>
+    /// 单机模式
+    /// </summary>
+    [BoxGroup("系统参数")]
+    [LabelText("单机模式 不检查热更新 资源从StreamingAssets加载")]
+    public bool Standalone = false;
+
+    /// <summary>
     /// Http请求的重试次数
     /// </summary>
     [BoxGroup("系统参数")]

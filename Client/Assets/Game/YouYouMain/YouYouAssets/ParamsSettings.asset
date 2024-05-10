@@ -17,6 +17,7 @@ MonoBehaviour:
   IsTest: 1
   PostIsEncrypt: 0
   PostContentType: 
+  Standalone: 0
   HttpRetry: 3
   HttpRetryInterval: 3
   DownloadRetry: 3

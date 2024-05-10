@@ -39,19 +39,18 @@ namespace YouYouMain
             IsAssetBundleMode = true;
 #endif
         }
-        private void Start()
+        private async void Start()
         {
             //初始化管理器
             Download = new DownloadManager();
 
             if (IsAssetBundleMode)
             {
-                //这里不比对总版本号, 而是直接遍历所有AB包的MD5进行比对, 如果要比对总版本号, 就把这句代码注释掉
-                VersionLocalModel.Instance.SetAssetVersion(null);
+                //初始化本地的版本信息文件
+                await CheckVersionCtrl.Instance.Init();
 
-                //检查更新, 下载初始资源
-                CheckVersionCtrl.Instance.Init();
-                CheckVersionCtrl.Instance.CheckVersionChange(() =>
+                //单机模式, 不检查热更新
+                if (MainEntry.ParamsSettings.Standalone)
                 {
                     //加载Hotfix代码(HybridCLR)
                     HotfixCtrl.Instance.LoadHotifx();
@@ -59,7 +58,25 @@ namespace YouYouMain
                     //启动YouYouFramework框架入口
                     GameObject gameEntry = HotfixCtrl.Instance.hotfixAb.LoadAsset<GameObject>("gameentry.prefab");
                     Instantiate(gameEntry);
-                });
+                }
+                else
+                {
+                    //这里不比对总版本号, 而是直接遍历所有AB包的MD5进行比对, 如果要比对总版本号, 就把这句代码注释掉
+                    VersionLocalModel.Instance.SetAssetVersion("");
+                    VersionStreamingModel.Instance.AssetVersion = "";
+
+                    //检查更新, 如果不需要热更新可以注释
+                    CheckVersionCtrl.Instance.CheckVersionChange(() =>
+                    {
+                        //加载Hotfix代码(HybridCLR)
+                        HotfixCtrl.Instance.LoadHotifx();
+
+                        //启动YouYouFramework框架入口
+                        GameObject gameEntry = HotfixCtrl.Instance.hotfixAb.LoadAsset<GameObject>("gameentry.prefab");
+                        Instantiate(gameEntry);
+                    });
+                }
+
             }
             else
             {

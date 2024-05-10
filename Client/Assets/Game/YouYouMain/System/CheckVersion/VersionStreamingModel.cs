@@ -18,7 +18,7 @@ public class VersionStreamingModel
     /// <summary>
     /// 只读区资源版本号
     /// </summary>
-    public string AssetsVersion;
+    public string AssetVersion;
 
     /// <summary>
     /// 只读区资源包信息

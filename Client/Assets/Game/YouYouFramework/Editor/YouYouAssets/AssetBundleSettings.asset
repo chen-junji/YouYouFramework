@@ -29,7 +29,7 @@ MonoBehaviour:
     IsBuild: 1
     Overall: 1
     IsFirstData: 1
-    IsEncrypt: 1
+    IsEncrypt: 0
     Path:
     - Game/Download/DataTable
   - Name: "\u9884\u5236\u4F53"
