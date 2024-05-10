@@ -31,7 +31,7 @@ public class CheckVersionCtrl
         }
 
         //加载可写区版本文件信息
-        if (VersionLocalModel.Instance.GetVersionFileExists())
+        if (File.Exists(VersionLocalModel.Instance.VersionFilePath))
         {
             string json = IOUtil.GetFileText(VersionLocalModel.Instance.VersionFilePath);
             VersionLocalModel.Instance.VersionDic = json.ToObject<Dictionary<string, VersionFileEntity>>();
@@ -117,7 +117,7 @@ public class CheckVersionCtrl
 
         MainEntry.Log("检查更新=>CheckVersionChange(), 版本号=>{0}", VersionLocalModel.Instance.AssetsVersion);
 
-        if (VersionLocalModel.Instance.GetVersionFileExists())
+        if (File.Exists(VersionLocalModel.Instance.VersionFilePath))
         {
             if (!string.IsNullOrEmpty(VersionLocalModel.Instance.AssetsVersion) && VersionLocalModel.Instance.AssetsVersion.Equals(VersionCDNModel.Instance.Version))
             {

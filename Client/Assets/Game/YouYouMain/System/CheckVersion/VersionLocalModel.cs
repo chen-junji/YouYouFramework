@@ -58,11 +58,4 @@ public class VersionLocalModel
         PlayerPrefs.SetString(YFConstDefine.AssetVersion, version);
     }
 
-    /// <summary>
-    /// 获取可写区版本文件是否存在
-    /// </summary>
-    public bool GetVersionFileExists()
-    {
-        return File.Exists(VersionFilePath);
-    }
 }
