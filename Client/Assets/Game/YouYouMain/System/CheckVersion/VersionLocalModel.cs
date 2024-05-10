@@ -29,7 +29,7 @@ public class VersionLocalModel
     {
         get
         {
-            return Path.Combine(Application.persistentDataPath, YFConstDefine.VersionFileName);
+            return Path.Combine(YFConstDefine.LocalAssetBundlePath, YFConstDefine.VersionFileName);
         }
     }
 

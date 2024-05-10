@@ -32,14 +32,25 @@ public class HotfixCtrl
     }
     public void LoadHotifx()
     {
-        bool isExistsInLocal = File.Exists(string.Format("{0}/{1}", Application.persistentDataPath, YFConstDefine.HotfixAssetBundlePath));
-        if (isExistsInLocal)
+        VersionFileEntity versionFileEntity = VersionLocalModel.Instance.GetVersionFileEntity(YFConstDefine.HotfixAssetBundlePath);
+        if (versionFileEntity != null)
         {
-            hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", Application.persistentDataPath, YFConstDefine.HotfixAssetBundlePath));
+            //从可写区加载程序集
+            hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", YFConstDefine.LocalAssetBundlePath, YFConstDefine.HotfixAssetBundlePath));
         }
         else
         {
-            hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/AssetBundles/{1}", Application.streamingAssetsPath, YFConstDefine.HotfixAssetBundlePath));
+            versionFileEntity = VersionStreamingModel.Instance.GetVersionFileEntity(YFConstDefine.HotfixAssetBundlePath);
+            if (versionFileEntity != null)
+            {
+                //从只读区加载程序集
+                hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", YFConstDefine.StreamingAssetBundlePath, YFConstDefine.HotfixAssetBundlePath));
+            }
+            else
+            {
+                MainEntry.LogError("Hotifx程序集不存在");
+                return;
+            }
         }
 
 #if !UNITY_EDITOR

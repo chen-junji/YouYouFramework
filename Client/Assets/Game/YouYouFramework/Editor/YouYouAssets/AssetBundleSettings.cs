@@ -54,7 +54,7 @@ public class AssetBundleSettings : ScriptableObject
     [LabelText("初始资源拷贝到StreamingAsstes")]
     public void AssetBundleCopyToStreamingAsstes()
     {
-        string toPath = Application.streamingAssetsPath + "/AssetBundles/";
+        string toPath = YFConstDefine.StreamingAssetBundlePath + "/";
 
         if (Directory.Exists(toPath))
         {

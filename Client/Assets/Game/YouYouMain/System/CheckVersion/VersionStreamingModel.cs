@@ -25,4 +25,10 @@ public class VersionStreamingModel
     /// </summary>
     public Dictionary<string, VersionFileEntity> VersionDic = new Dictionary<string, VersionFileEntity>();
 
+    public VersionFileEntity GetVersionFileEntity(string assetbundlePath)
+    {
+        VersionDic.TryGetValue(assetbundlePath, out VersionFileEntity entity);
+        return entity;
+    }
+
 }

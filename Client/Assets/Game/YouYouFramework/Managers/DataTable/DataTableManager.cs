@@ -67,7 +67,7 @@ namespace YouYouFramework
             }
             else
             {
-                return IOUtil.GetFileBuffer(string.Format("{0}/Game/Download/DataTable/{1}.bytes", Application.dataPath, dataTableName));
+                return IOUtil.GetFileBuffer(string.Format("{0}/Game/Download/DataTable/{1}.bytes", YFConstDefine.EditorAssetBundlePath, dataTableName));
             }
         }
     }

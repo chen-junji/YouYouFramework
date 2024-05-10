@@ -22,48 +22,47 @@ public class CheckVersionCtrl
 
     public async void Init()
     {
+        //加载只读区版本文件信息
+        byte[] streamingBuffer = await WebRequestUtil.LoadStreamingBytesAsync(YFConstDefine.VersionFileName);
+        if (streamingBuffer != null)
+        {
+            VersionStreamingModel.Instance.VersionDic = LoadUtil.LoadVersionFile(streamingBuffer, ref VersionStreamingModel.Instance.AssetsVersion);
+            MainEntry.Log("加载只读区版本文件信息");
+        }
+
         //加载可写区版本文件信息
         if (VersionLocalModel.Instance.GetVersionFileExists())
         {
             string json = IOUtil.GetFileText(VersionLocalModel.Instance.VersionFilePath);
             VersionLocalModel.Instance.VersionDic = json.ToObject<Dictionary<string, VersionFileEntity>>();
             VersionLocalModel.Instance.AssetsVersion = PlayerPrefs.GetString(YFConstDefine.AssetVersion);
-            MainEntry.Log("从可写区初始化版本文件信息");
+            MainEntry.Log("加载可写区版本文件信息");
         }
-        //可写区版本文件不存在
-        else
+        //可写区版本文件不存在, 看一下只读区是否存在
+        else if (streamingBuffer != null)
         {
-            //加载只读区版本文件信息
-            byte[] streamingBuffer = await WebRequestUtil.LoadStreamingBytesAsync(YFConstDefine.VersionFileName);
-            if (streamingBuffer != null)
-            {
-                VersionStreamingModel.Instance.VersionDic = LoadUtil.LoadVersionFile(streamingBuffer, ref VersionStreamingModel.Instance.AssetsVersion);
-                MainEntry.Log("从只读区初始化版本文件信息, 并拷贝到可写区");
+            ////将只读区版本文件拷贝到可写区
+            //VersionLocalModel.Instance.VersionDic = new Dictionary<string, VersionFileEntity>();
+            //var enumerator = VersionStreamingModel.Instance.VersionDic.GetEnumerator();
+            //while (enumerator.MoveNext())
+            //{
+            //    VersionFileEntity entity = enumerator.Current.Value;
+            //    VersionLocalModel.Instance.VersionDic[enumerator.Current.Key] = new VersionFileEntity()
+            //    {
+            //        AssetBundleName = entity.AssetBundleName,
+            //        MD5 = entity.MD5,
+            //        Size = entity.Size,
+            //        IsFirstData = entity.IsFirstData,
+            //        IsEncrypt = entity.IsEncrypt
+            //    };
+            //}
 
-                //将只读区版本文件拷贝到可写区
-                VersionLocalModel.Instance.VersionDic = new Dictionary<string, VersionFileEntity>();
+            ////保存版本文件
+            //VersionLocalModel.Instance.SaveVersion();
 
-                var enumerator = VersionStreamingModel.Instance.VersionDic.GetEnumerator();
-                while (enumerator.MoveNext())
-                {
-                    VersionFileEntity entity = enumerator.Current.Value;
-                    VersionLocalModel.Instance.VersionDic[enumerator.Current.Key] = new VersionFileEntity()
-                    {
-                        AssetBundleName = entity.AssetBundleName,
-                        MD5 = entity.MD5,
-                        Size = entity.Size,
-                        IsFirstData = entity.IsFirstData,
-                        IsEncrypt = entity.IsEncrypt
-                    };
-                }
-
-                //保存版本文件
-                VersionLocalModel.Instance.SaveVersion();
-
-                //保存版本号
-                VersionLocalModel.Instance.SetAssetVersion(VersionStreamingModel.Instance.AssetsVersion);
-            }
-
+            ////保存版本号
+            //VersionLocalModel.Instance.SetAssetVersion(VersionStreamingModel.Instance.AssetsVersion);
+            //MainEntry.Log("只读区版本文件拷贝到可写区");
         }
     }
 
@@ -80,7 +79,7 @@ public class CheckVersionCtrl
         {
             //加载CDN版本文件信息
             VersionCDNModel.Instance.VersionDic = LoadUtil.LoadVersionFile(cdnVersionFileBytes, ref VersionCDNModel.Instance.Version);
-            MainEntry.Log("OnLoadCDNVersionFile");
+            MainEntry.Log("加载CDN版本文件信息");
         }
         else
         {
@@ -148,15 +147,15 @@ public class CheckVersionCtrl
 
         m_NeedDownloadList.Clear();
 
-        var enumerator = VersionCDNModel.Instance.VersionDic.GetEnumerator();
-        while (enumerator.MoveNext())
-        {
-            VersionFileEntity entity = enumerator.Current.Value;
-            if (entity.IsFirstData)
-            {
-                m_NeedDownloadList.AddLast(entity.AssetBundleName);
-            }
-        }
+        //var enumerator = VersionCDNModel.Instance.VersionDic.GetEnumerator();
+        //while (enumerator.MoveNext())
+        //{
+        //    VersionFileEntity entity = enumerator.Current.Value;
+        //    if (entity.IsFirstData)
+        //    {
+        //        m_NeedDownloadList.AddLast(entity.AssetBundleName);
+        //    }
+        //}
 
         //如果没有初始资源 直接检查更新
         if (m_NeedDownloadList.Count == 0)
@@ -187,41 +186,24 @@ public class CheckVersionCtrl
         var enumerator = VersionLocalModel.Instance.VersionDic.GetEnumerator();
         while (enumerator.MoveNext())
         {
-            string assetBundleName = enumerator.Current.Key;
             VersionFileEntity localVersionFile = enumerator.Current.Value;
 
-            if (VersionCDNModel.Instance.VersionDic.TryGetValue(assetBundleName, out VersionFileEntity cdnVersionFile))
+            if (VersionCDNModel.Instance.VersionDic.TryGetValue(localVersionFile.AssetBundleName, out VersionFileEntity cdnVersionFile) &&
+                VersionStreamingModel.Instance.VersionDic.TryGetValue(localVersionFile.AssetBundleName, out VersionFileEntity streamingVersionFile) &&
+                cdnVersionFile.MD5.Equals(localVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase) == false &&
+                cdnVersionFile.MD5.Equals(streamingVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase))
             {
-                //可写区有 CDN也有
-                //判断可写区和CDN的MD5是否一致
-                if (!cdnVersionFile.MD5.Equals(localVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (VersionStreamingModel.Instance.VersionDic.TryGetValue(assetBundleName, out VersionFileEntity streamingVersionFile))
-                    {
-                        //判断只读区和CDN的MD5是否一致
-                        if (cdnVersionFile.MD5.Equals(streamingVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase))
-                        {
-                            //一致,则删除
-                            deleteList.AddLast(assetBundleName);
-                        }
-                        else
-                        {
-                            //如果MD5不一致 加入下载链表
-                            needDownloadList.AddLast(assetBundleName);
-                        }
-                    }
-                    else
-                    {
-                        //如果只读区没有,则重新下载
-                        needDownloadList.AddLast(assetBundleName);
-                    }
-                }
+                //可写区有 CDN有 只读区有
+                //CDN和可写区的MD5不一致
+                //只读区和CDN的MD5一致
+                //说明可写区的这个文件是旧的, 删除它
+                deleteList.AddLast(localVersionFile.AssetBundleName);
             }
             else
             {
                 //可写区有 CDN上没有
                 //加入删除链表
-                deleteList.AddLast(assetBundleName);
+                deleteList.AddLast(localVersionFile.AssetBundleName);
             }
         }
 
@@ -230,11 +212,11 @@ public class CheckVersionCtrl
         LinkedListNode<string> currDel = deleteList.First;
         while (currDel != null)
         {
-            StringBuilder sbr = StringHelper.PoolNew();
-            string filePath = sbr.AppendFormatNoGC("{0}/{1}", Application.persistentDataPath, currDel.Value).ToString();
-            StringHelper.PoolDel(ref sbr);
-
-            if (File.Exists(filePath)) File.Delete(filePath);
+            string filePath = string.Format("{0}/{1}", YFConstDefine.LocalAssetBundlePath, currDel.Value);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
             LinkedListNode<string> next = currDel.Next;
             deleteList.Remove(currDel);
             currDel = next;
@@ -245,24 +227,25 @@ public class CheckVersionCtrl
         while (enumerator.MoveNext())
         {
             VersionFileEntity cdnVersionFile = enumerator.Current.Value;
-            if (cdnVersionFile.IsFirstData)//检查初始资源
+
+            //当前文件为初始资源, 并且可写区没有
+            //则去只读区判断一次
+            if (cdnVersionFile.IsFirstData && VersionLocalModel.Instance.VersionDic.ContainsKey(cdnVersionFile.AssetBundleName) == false)
             {
-                if (!VersionLocalModel.Instance.VersionDic.ContainsKey(cdnVersionFile.AssetBundleName))
+                if (VersionStreamingModel.Instance.VersionDic.TryGetValue(cdnVersionFile.AssetBundleName, out VersionFileEntity streamingVersionFile))
                 {
-                    //如果可写区没有 则去只读区判断一次 
-                    if (VersionStreamingModel.Instance.VersionDic.TryGetValue(cdnVersionFile.AssetBundleName, out VersionFileEntity streamingVersionFile))
+                    //只读区有这个文件
+                    if (cdnVersionFile.MD5.Equals(streamingVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase) == false)
                     {
-                        //只读区存在 验证MD5
-                        if (!cdnVersionFile.MD5.Equals(streamingVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase))//MD5不一致
-                        {
-                            needDownloadList.AddLast(cdnVersionFile.AssetBundleName);
-                        }
-                    }
-                    else
-                    {
-                        //只读区不存在 加入下载链表
+                        //只读区和CDN的MD5不一致 加入下载链表
                         needDownloadList.AddLast(cdnVersionFile.AssetBundleName);
                     }
+                }
+                else
+                {
+                    //只读区不存在 加入下载链表
+                    needDownloadList.AddLast(cdnVersionFile.AssetBundleName);
+                    Debug.LogError(cdnVersionFile.AssetBundleName);
                 }
             }
         }

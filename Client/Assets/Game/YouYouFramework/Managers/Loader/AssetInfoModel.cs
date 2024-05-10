@@ -28,7 +28,7 @@ namespace YouYouFramework
         internal async UniTask<bool> InitAssetInfo()
         {
             //从可写区获取
-            byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/{1}", Application.persistentDataPath, YFConstDefine.AssetInfoName));
+            byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/{1}", YFConstDefine.LocalAssetBundlePath, YFConstDefine.AssetInfoName));
             if (buffer != null)
             {
                 GameEntry.Log(LogCategory.Loader, "从可写区初始化资源依赖信息");

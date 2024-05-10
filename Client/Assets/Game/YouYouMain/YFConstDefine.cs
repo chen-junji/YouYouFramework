@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace YouYouMain
@@ -10,14 +11,14 @@ namespace YouYouMain
     public class YFConstDefine
     {
         /// <summary>
-        /// 版本文件名称
-        /// </summary>
-        public const string VersionFileName = "VersionFile.bytes";
-
-        /// <summary>
         /// 资源版本号
         /// </summary>
         public const string AssetVersion = "AssetVersion";
+
+        /// <summary>
+        /// 版本文件名称
+        /// </summary>
+        public const string VersionFileName = "VersionFile.bytes";
 
         /// <summary>
         /// 资源信息文件名称
@@ -43,5 +44,21 @@ namespace YouYouMain
         /// 自定义Shader的AssetBundle的存储路径
         /// </summary>
         public const string CusShadersAssetBundlePath = "game/download/shader.assetbundle";
+
+
+        /// <summary>
+        /// 只读区加载AssetBundle的统一文件路径
+        /// </summary>
+        public static string StreamingAssetBundlePath = Path.Combine(Application.streamingAssetsPath, "AssetBundles");
+
+        /// <summary>
+        /// 可写区加载AssetBundle的统一文件路径
+        /// </summary>
+        public static string LocalAssetBundlePath = Application.persistentDataPath;
+
+        /// <summary>
+        /// 编辑器加载AssetBundle的统一文件路径
+        /// </summary>
+        public static string EditorAssetBundlePath = Application.dataPath;
     }
 }
