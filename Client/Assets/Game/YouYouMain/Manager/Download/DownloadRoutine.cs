@@ -83,7 +83,7 @@ namespace YouYouMain
             m_OnComplete = onComplete;
             m_CurrRetry = 0;
 
-            m_DownloadLocalFilePath = string.Format("{0}/{1}", YFConstDefine.LocalAssetBundlePath, m_CurrFileUrl);
+            m_DownloadLocalFilePath = Path.Combine(YFConstDefine.LocalAssetBundlePath, m_CurrFileUrl);
 
             //如果本地已有目标文件, 则删除
             if (File.Exists(m_DownloadLocalFilePath)) File.Delete(m_DownloadLocalFilePath);
@@ -113,7 +113,7 @@ namespace YouYouMain
                         m_FileStream = File.OpenWrite(m_DownloadLocalFilePath);
                         m_FileStream.Seek(0, SeekOrigin.End);
                         m_BeginPos = (uint)m_FileStream.Length;
-                        Download(string.Format("{0}{1}", ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, m_CurrFileUrl), m_BeginPos);
+                        Download(Path.Combine(ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, m_CurrFileUrl), m_BeginPos);
                     }
                 }
                 else
@@ -143,7 +143,7 @@ namespace YouYouMain
             m_FileStream = new FileStream(m_DownloadLocalFilePath, FileMode.Create, FileAccess.Write);
 
             PlayerPrefs.SetString(m_CurrFileUrl, m_CurrVersionFile.MD5);
-            Download(string.Format("{0}{1}", ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, m_CurrFileUrl));
+            Download(Path.Combine(ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, m_CurrFileUrl));
         }
 
         /// <summary>

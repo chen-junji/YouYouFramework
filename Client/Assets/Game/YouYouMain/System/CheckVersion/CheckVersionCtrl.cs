@@ -31,9 +31,9 @@ public class CheckVersionCtrl
         }
 
         //加载可写区版本文件信息
-        if (File.Exists(VersionLocalModel.Instance.VersionFilePath))
+        if (File.Exists(YFConstDefine.LocalVersionFilePath))
         {
-            string json = IOUtil.GetFileText(VersionLocalModel.Instance.VersionFilePath);
+            string json = IOUtil.GetFileText(YFConstDefine.LocalVersionFilePath);
             VersionLocalModel.Instance.VersionDic = json.ToObject<Dictionary<string, VersionFileEntity>>();
             VersionLocalModel.Instance.AssetsVersion = PlayerPrefs.GetString(YFConstDefine.AssetVersion);
             MainEntry.Log("加载可写区版本文件信息");
@@ -117,7 +117,7 @@ public class CheckVersionCtrl
 
         MainEntry.Log("检查更新=>CheckVersionChange(), 版本号=>{0}", VersionLocalModel.Instance.AssetsVersion);
 
-        if (File.Exists(VersionLocalModel.Instance.VersionFilePath))
+        if (File.Exists(YFConstDefine.LocalVersionFilePath))
         {
             if (!string.IsNullOrEmpty(VersionLocalModel.Instance.AssetsVersion) && VersionLocalModel.Instance.AssetsVersion.Equals(VersionCDNModel.Instance.Version))
             {
@@ -132,8 +132,11 @@ public class CheckVersionCtrl
         }
         else
         {
-            //下载初始资源
-            DownloadInitResources();
+            ////下载初始资源
+            //DownloadInitResources();
+
+            //直接检查更新
+            BeginCheckVersionChange();
         }
     }
 
@@ -142,20 +145,17 @@ public class CheckVersionCtrl
     /// </summary>
     private void DownloadInitResources()
     {
-        CheckVersionBeginDownload?.Invoke();
-        m_DownloadingParams = BaseParams.Create();
-
         m_NeedDownloadList.Clear();
 
-        //var enumerator = VersionCDNModel.Instance.VersionDic.GetEnumerator();
-        //while (enumerator.MoveNext())
-        //{
-        //    VersionFileEntity entity = enumerator.Current.Value;
-        //    if (entity.IsFirstData)
-        //    {
-        //        m_NeedDownloadList.AddLast(entity.AssetBundleName);
-        //    }
-        //}
+        var enumerator = VersionCDNModel.Instance.VersionDic.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            VersionFileEntity entity = enumerator.Current.Value;
+            if (entity.IsFirstData)
+            {
+                m_NeedDownloadList.AddLast(entity.AssetBundleName);
+            }
+        }
 
         //如果没有初始资源 直接检查更新
         if (m_NeedDownloadList.Count == 0)
@@ -164,8 +164,10 @@ public class CheckVersionCtrl
         }
         else
         {
-            MainEntry.Log("下载初始资源,文件数量==>>" + m_NeedDownloadList.Count);
+            CheckVersionBeginDownload?.Invoke();
+            m_DownloadingParams = BaseParams.Create();
             MainEntry.Download.BeginDownloadMulit(m_NeedDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
+            MainEntry.Log("下载初始资源,文件数量==>>" + m_NeedDownloadList.Count);
         }
     }
 
@@ -212,7 +214,7 @@ public class CheckVersionCtrl
         LinkedListNode<string> currDel = deleteList.First;
         while (currDel != null)
         {
-            string filePath = string.Format("{0}/{1}", YFConstDefine.LocalAssetBundlePath, currDel.Value);
+            string filePath = Path.Combine(YFConstDefine.LocalAssetBundlePath, currDel.Value);
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);

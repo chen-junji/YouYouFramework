@@ -36,11 +36,6 @@ namespace YouYouMain
         public const string HotfixAssetBundlePath = "game/download/hotfix.assetbundle";
 
         /// <summary>
-        /// GameEntry的Assetbundle的存储路径
-        /// </summary>
-        public const string GameEntryAssetBundlePath = "game/download/hotfix.assetbundle";
-
-        /// <summary>
         /// 自定义Shader的AssetBundle的存储路径
         /// </summary>
         public const string CusShadersAssetBundlePath = "game/download/shader.assetbundle";
@@ -60,5 +55,15 @@ namespace YouYouMain
         /// 编辑器加载AssetBundle的统一文件路径
         /// </summary>
         public static string EditorAssetBundlePath = Application.dataPath;
+
+
+        /// <summary>
+        /// 可写区版本文件路径
+        /// </summary>
+        public static string LocalVersionFilePath = Path.Combine(LocalAssetBundlePath, VersionFileName);
+        /// <summary>
+        /// 可写区资源依赖信息文件路径
+        /// </summary>
+        public static string LocalAssetInfoPath = Path.Combine(LocalAssetBundlePath, AssetInfoName);
     }
 }

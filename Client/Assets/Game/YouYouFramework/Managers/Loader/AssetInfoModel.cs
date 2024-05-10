@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-
+using System.IO;
 
 namespace YouYouFramework
 {
@@ -28,7 +28,7 @@ namespace YouYouFramework
         internal async UniTask<bool> InitAssetInfo()
         {
             //从可写区获取
-            byte[] buffer = IOUtil.GetFileBuffer(string.Format("{0}/{1}", YFConstDefine.LocalAssetBundlePath, YFConstDefine.AssetInfoName));
+            byte[] buffer = IOUtil.GetFileBuffer(YFConstDefine.LocalAssetInfoPath);
             if (buffer != null)
             {
                 GameEntry.Log(LogCategory.Loader, "从可写区初始化资源依赖信息");
@@ -46,7 +46,7 @@ namespace YouYouFramework
             }
 
             //如果只读区也没有,从CDN获取
-            string url = string.Format("{0}{1}", ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
+            string url = Path.Combine(ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, YFConstDefine.AssetInfoName);
             HttpCallBackArgs args = await GameEntry.Http.GetArgsAsync(url, false);
             if (!args.HasError)
             {

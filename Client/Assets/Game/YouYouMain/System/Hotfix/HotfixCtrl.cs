@@ -36,7 +36,7 @@ public class HotfixCtrl
         if (versionFileEntity != null)
         {
             //从可写区加载程序集
-            hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", YFConstDefine.LocalAssetBundlePath, YFConstDefine.HotfixAssetBundlePath));
+            hotfixAb = AssetBundle.LoadFromFile(Path.Combine(YFConstDefine.LocalAssetBundlePath, YFConstDefine.HotfixAssetBundlePath));
         }
         else
         {
@@ -44,7 +44,7 @@ public class HotfixCtrl
             if (versionFileEntity != null)
             {
                 //从只读区加载程序集
-                hotfixAb = AssetBundle.LoadFromFile(string.Format("{0}/{1}", YFConstDefine.StreamingAssetBundlePath, YFConstDefine.HotfixAssetBundlePath));
+                hotfixAb = AssetBundle.LoadFromFile(Path.Combine(YFConstDefine.StreamingAssetBundlePath, YFConstDefine.HotfixAssetBundlePath));
             }
             else
             {

@@ -22,17 +22,6 @@ public class VersionLocalModel
     /// </summary>
     public Dictionary<string, VersionFileEntity> VersionDic = new Dictionary<string, VersionFileEntity>();
 
-    /// <summary>
-    /// 可写区 版本文件路径
-    /// </summary>
-    public string VersionFilePath
-    {
-        get
-        {
-            return Path.Combine(YFConstDefine.LocalAssetBundlePath, YFConstDefine.VersionFileName);
-        }
-    }
-
     public VersionFileEntity GetVersionFileEntity(string assetbundlePath)
     {
         VersionDic.TryGetValue(assetbundlePath, out VersionFileEntity entity);
@@ -46,7 +35,7 @@ public class VersionLocalModel
     {
         //保存版本文件
         string json = VersionDic.ToJson();
-        IOUtil.CreateTextFile(VersionFilePath, json);
+        IOUtil.CreateTextFile(YFConstDefine.LocalVersionFilePath, json);
     }
 
     /// <summary>

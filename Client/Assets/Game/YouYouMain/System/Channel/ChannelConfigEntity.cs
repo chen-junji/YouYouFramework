@@ -47,7 +47,7 @@ public class ChannelConfigEntity
 #elif UNITY_IPHONE
                 buildTarget = "iOS";
 #endif
-                m_RealSourceUrl = string.Format("{0}/{1}/{2}/", SourceUrl, SourceVersion, buildTarget);
+                m_RealSourceUrl = string.Format("{0}/{1}/{2}", SourceUrl, SourceVersion, buildTarget);
             }
             return m_RealSourceUrl;
         }
