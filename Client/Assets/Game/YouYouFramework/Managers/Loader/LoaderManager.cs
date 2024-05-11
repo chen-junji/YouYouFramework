@@ -110,7 +110,9 @@ namespace YouYouFramework
             });
             AssetBundleTaskGroup.Run();
         }
-
+        /// <summary>
+        /// 加载资源包
+        /// </summary>
         public UniTask<AssetBundle> LoadAssetBundleAsync(string assetbundlePath, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null)
         {
             var task = new UniTaskCompletionSource<AssetBundle>();
@@ -120,6 +122,7 @@ namespace YouYouFramework
             }, onUpdate, onDownloadUpdate);
             return task.Task;
         }
+
         /// <summary>
         /// 加载主资源包和依赖资源包
         /// </summary>
@@ -144,7 +147,9 @@ namespace YouYouFramework
             }
             return m_MainAssetBundle;
         }
-
+        /// <summary>
+        /// 加载主资源包和依赖资源包
+        /// </summary>
         public AssetBundle LoadAssetBundleMainAndDepend(string assetFullName)
         {
             AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(assetFullName);
@@ -370,32 +375,36 @@ namespace YouYouFramework
             return referenceEntity;
         }
 
-        /// <summary>
-        /// 同步加载所有资源, 自动加载依赖
-        /// </summary>
-        public T[] LoadMainAssetAll<T>(string assetFullPath) where T : Object
-        {
-            if (MainEntry.IsAssetBundleMode)
-            {
-                AssetInfoEntity m_CurrAssetEnity = GameEntry.Loader.AssetInfo.GetAssetEntity(assetFullPath);
-                AssetBundle bundle = GameEntry.Loader.LoadAssetBundle(m_CurrAssetEnity.AssetBundleFullPath);
-                return bundle.LoadAllAssets<T>();
-            }
-            else
-            {
-                T[] clipArray = null;
-#if UNITY_EDITOR
-                Object[] objs = UnityEditor.AssetDatabase.LoadAllAssetsAtPath(assetFullPath);
-                List<T> clips = new List<T>();
-                foreach (var item in objs)
-                {
-                    if (item is T) clips.Add(item as T);
-                }
-                clipArray = clips.ToArray();
-#endif
-                return clipArray;
-            }
-        }
         #endregion
+
+        public T LoadResources<T>(string assetFullPath) where T : Object
+        {
+            T asset = Resources.Load<T>(assetFullPath);
+            if (asset == null)
+            {
+                GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetFullPath);
+            }
+            return asset;
+        }
+        public async UniTask<T> LoadResourcesAsync<T>(string assetFullPath) where T : Object
+        {
+            Object asset = await Resources.LoadAsync(assetFullPath);
+            if (asset == null)
+            {
+                GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetFullPath);
+            }
+            return asset as T;
+        }
+
+        public T[] LoadResourcesAll<T>(string assetFullPath) where T : Object
+        {
+            T[] asset = Resources.LoadAll<T>(assetFullPath);
+            if (asset == null)
+            {
+                GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetFullPath);
+            }
+            return asset;
+        }
+
     }
 }

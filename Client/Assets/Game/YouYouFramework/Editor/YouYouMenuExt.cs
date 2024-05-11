@@ -93,7 +93,7 @@ public class YouYouMenuExt
 
 
     #region GetAssetsPath 收集多个文件的路径到剪切板
-    [MenuItem("Assets/收集多个文件的路径到剪切板")]
+    [MenuItem("Assets/YouYouMenuExt/收集多个文件的路径到剪切板")]
     public static void GetAssetsPath()
     {
         Object[] objs = Selection.objects;
@@ -106,10 +106,26 @@ public class YouYouMenuExt
         GUIUtility.systemCopyBuffer = relatepath;
         AssetDatabase.Refresh();
     }
+    [MenuItem("Assets/YouYouMenuExt/收集多个文件的路径到剪切板(Resources)")]
+    public static void GetAssetsPathResources()
+    {
+        Object[] objs = Selection.objects;
+        string relatepath = string.Empty;
+        for (int i = 0; i < objs.Length; i++)
+        {
+            string assetPath = AssetDatabase.GetAssetPath(objs[i]);
+            assetPath = assetPath.Split("Resources/")[1];
+            assetPath = assetPath.Split('.')[0];
+            relatepath += assetPath;
+            if (i < objs.Length - 1) relatepath += "\n";
+        }
+        GUIUtility.systemCopyBuffer = relatepath;
+        AssetDatabase.Refresh();
+    }
     #endregion
 
     #region GetAssetsPath 收集多个文件的名字到剪切板
-    [MenuItem("Assets/收集多个文件的名字到剪切板")]
+    [MenuItem("Assets/YouYouMenuExt/收集多个文件的名字到剪切板")]
     public static void GetAssetsName()
     {
         Object[] objs = Selection.objects;

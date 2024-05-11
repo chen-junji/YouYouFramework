@@ -5,6 +5,7 @@ using System.IO;
 using System;
 using YouYouFramework;
 using Cysharp.Threading.Tasks;
+using YouYouMain;
 
 
 public class GameUtil
@@ -12,16 +13,33 @@ public class GameUtil
     /// <summary>
     /// 加载FBX嵌入的所有动画
     /// </summary>
-    public static AnimationClip[] LoadInitRoleAnimationsByFBX(string path)
+    public static AnimationClip[] LoadInitRoleAnimationsByFBX(string assetFullPath)
     {
-        return GameEntry.Loader.LoadMainAssetAll<AnimationClip>(path);
+        if (MainEntry.IsAssetBundleMode)
+        {
+            AssetInfoEntity m_CurrAssetEnity = GameEntry.Loader.AssetInfo.GetAssetEntity(assetFullPath);
+            AssetBundle bundle = GameEntry.Loader.LoadAssetBundle(m_CurrAssetEnity.AssetBundleFullPath);
+            return bundle.LoadAllAssets<AnimationClip>();
+        }
+        else
+        {
+            AnimationClip[] clipArray = null;
+#if UNITY_EDITOR
+            UnityEngine.Object[] objs = UnityEditor.AssetDatabase.LoadAllAssetsAtPath(assetFullPath);
+            List<AnimationClip> clips = new List<AnimationClip>();
+            foreach (var item in objs)
+            {
+                if (item is AnimationClip) clips.Add(item as T);
+            }
+            clipArray = clips.ToArray();
+#endif
+            return clipArray;
+        }
     }
 
     /// <summary>
     /// 获取路径的最后名称
     /// </summary>
-    /// <param name="path"></param>
-    /// <returns></returns>
     public static string GetLastPathName(string path)
     {
         if (path.IndexOf('/') == -1)
