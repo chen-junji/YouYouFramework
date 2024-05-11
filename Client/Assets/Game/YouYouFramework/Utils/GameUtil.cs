@@ -29,7 +29,10 @@ public class GameUtil
             List<AnimationClip> clips = new List<AnimationClip>();
             foreach (var item in objs)
             {
-                if (item is AnimationClip) clips.Add(item as T);
+                if (item is AnimationClip)
+                {
+                    clips.Add(item as AnimationClip);
+                }
             }
             clipArray = clips.ToArray();
 #endif
