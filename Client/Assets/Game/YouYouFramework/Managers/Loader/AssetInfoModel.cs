@@ -37,7 +37,7 @@ namespace YouYouFramework
             }
 
             //如果可写区没有 那么就从只读区获取
-            byte[] buff = await WebRequestUtil.LoadStreamingBytesAsync(YFConstDefine.AssetInfoName);
+            byte[] buff = await LoadUtil.LoadStreamingBytesAsync(YFConstDefine.AssetInfoName);
             if (buff != null)
             {
                 GameEntry.Log(LogCategory.Loader, "从只读区初始化资源依赖信息");

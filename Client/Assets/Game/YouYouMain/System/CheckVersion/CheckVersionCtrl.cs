@@ -23,7 +23,7 @@ public class CheckVersionCtrl
     public async UniTask Init()
     {
         //加载只读区版本文件信息
-        byte[] streamingBuffer = await WebRequestUtil.LoadStreamingBytesAsync(YFConstDefine.VersionFileName);
+        byte[] streamingBuffer = await LoadUtil.LoadStreamingBytesAsync(YFConstDefine.VersionFileName);
         if (streamingBuffer != null)
         {
             VersionStreamingModel.Instance.VersionDic = LoadUtil.LoadVersionFile(streamingBuffer, ref VersionStreamingModel.Instance.AssetVersion);
@@ -48,7 +48,7 @@ public class CheckVersionCtrl
     {
         //去资源站点请求CDN的版本文件信息
         string cdnVersionFileUrl = Path.Combine(ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, YFConstDefine.VersionFileName);
-        byte[] cdnVersionFileBytes = await WebRequestUtil.LoadCDNBytesAsync(cdnVersionFileUrl);
+        byte[] cdnVersionFileBytes = await LoadUtil.LoadCDNBytesAsync(cdnVersionFileUrl);
         if (cdnVersionFileBytes != null)
         {
             //加载CDN版本文件信息

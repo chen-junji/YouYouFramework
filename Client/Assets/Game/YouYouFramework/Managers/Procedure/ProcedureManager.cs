@@ -75,13 +75,5 @@ namespace YouYouFramework
             CurrFsm.ChangeState((sbyte)state);
         }
 
-        public void SetData<TData>(string key, TData value)
-        {
-            CurrFsm.SetData(key, value);
-        }
-        public TData GetDada<TData>(string key)
-        {
-            return CurrFsm.GetDada<TData>(key);
-        }
     }
 }

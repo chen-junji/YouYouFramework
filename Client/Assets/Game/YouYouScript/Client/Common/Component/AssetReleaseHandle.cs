@@ -8,7 +8,7 @@ using YouYouFramework;
 /// <summary>
 /// Asset池, 对象被销毁时, 自动让引用计数-1
 /// </summary>
-public class AutoReleaseHandle : MonoBehaviour
+public class AssetReleaseHandle : MonoBehaviour
 {
     private List<AssetReferenceEntity> releaseList = new List<AssetReferenceEntity>();
 
@@ -23,7 +23,7 @@ public class AutoReleaseHandle : MonoBehaviour
 
         if (target != null)
         {
-            AutoReleaseHandle handle = target.GetOrCreatComponent<AutoReleaseHandle>();
+            AssetReleaseHandle handle = target.GetOrCreatComponent<AssetReleaseHandle>();
             handle.releaseList.Add(referenceEntity);
             referenceEntity.ReferenceAdd();
         }

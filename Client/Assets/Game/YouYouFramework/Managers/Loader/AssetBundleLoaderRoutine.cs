@@ -71,7 +71,7 @@ namespace YouYouFramework
                 if (CurrVersionFile.IsEncrypt)
                 {
                     //需要解密
-                    byte[] buff = await WebRequestUtil.LoadStreamingBytesAsync(assetBundlePath);
+                    byte[] buff = await LoadUtil.LoadStreamingBytesAsync(assetBundlePath);
                     if (buff != null)
                     {
                         buff = SecurityUtil.Xor(buff);

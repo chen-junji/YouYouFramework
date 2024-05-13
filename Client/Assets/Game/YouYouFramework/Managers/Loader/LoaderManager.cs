@@ -205,9 +205,9 @@ namespace YouYouFramework
         /// </summary>
         private TaskGroup AssetTaskGroup = new TaskGroup();
         /// <summary>
-        /// 异步加载
+        /// 从资源包中加载资源
         /// </summary>
-        private void LoadAssetAction(string assetFullPath, AssetBundle assetBundle, Action<float> onUpdate = null, Action<AssetReferenceEntity> onComplete = null)
+        public void LoadAssetAction(string assetFullPath, AssetBundle assetBundle, Action<float> onUpdate = null, Action<AssetReferenceEntity> onComplete = null)
         {
             //使用TaskGroup, 加入异步加载队列, 防止高并发导致的重复加载
             AssetTaskGroup.AddTask((taskRoutine) =>
@@ -287,7 +287,7 @@ namespace YouYouFramework
                 return null;
             }
             AssetReferenceEntity referenceEntity = await LoadMainAssetAsync(assetFullPath, onUpdate, onDownloadUpdate);
-            AutoReleaseHandle.Add(referenceEntity, target);
+            AssetReleaseHandle.Add(referenceEntity, target);
             return referenceEntity.Target as T;
         }
         /// <summary>
@@ -337,7 +337,7 @@ namespace YouYouFramework
                 return null;
             }
             AssetReferenceEntity referenceEntity = LoadMainAsset(assetFullPath);
-            AutoReleaseHandle.Add(referenceEntity, target);
+            AssetReleaseHandle.Add(referenceEntity, target);
             return referenceEntity.Target as T;
         }
         /// <summary>
@@ -377,6 +377,7 @@ namespace YouYouFramework
 
         #endregion
 
+        #region Resource加载
         public T LoadResources<T>(string assetFullPath) where T : Object
         {
             T asset = Resources.Load<T>(assetFullPath);
@@ -405,6 +406,7 @@ namespace YouYouFramework
             }
             return asset;
         }
+        #endregion
 
     }
 }
