@@ -120,7 +120,6 @@ GameObject:
   - component: {fileID: 4678027408775713635}
   - component: {fileID: 152359813}
   - component: {fileID: 2801116230955207975}
-  - component: {fileID: 2331206541602688735}
   m_Layer: 5
   m_Name: LoadingForm
   m_TagString: Untagged
@@ -202,29 +201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 784b1713b53ef004da76dadc670a1a9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2331206541602688735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1559469137350312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57eb7c15612322c4b929a325ad4bc16a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BindDatas:
-  - Name: Sbar_Progress
-    BindCom: {fileID: 114920402508223366}
-  - Name: Txt_Tip
-    BindCom: {fileID: 114456746691187612}
-  m_ClassName: LoadingForm
-  m_Namespace: 
-  m_CodePath: Assets/Game/YouYouScript/MVC/Client/Common/Loading
-  m_BindComs:
-  - {fileID: 114920402508223366}
-  - {fileID: 114456746691187612}
+  m_Sbar_Progress: {fileID: 114920402508223366}
+  m_Txt_Tip: {fileID: 114456746691187612}
 --- !u!1 &1707778489967684
 GameObject:
   m_ObjectHideFlags: 0

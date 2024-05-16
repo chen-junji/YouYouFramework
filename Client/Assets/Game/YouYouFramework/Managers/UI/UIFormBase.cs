@@ -9,7 +9,7 @@ namespace YouYouFramework
 {
     [RequireComponent(typeof(Canvas))]//脚本依赖
     [RequireComponent(typeof(GraphicRaycaster))]//脚本依赖
-    public class UIFormBase : ComponentAutoBindBase
+    public class UIFormBase : MonoBehaviour
     {
         public Sys_UIFormEntity SysUIForm { get; private set; }
 
@@ -27,9 +27,8 @@ namespace YouYouFramework
         internal int sortingOrder = 0;
 
 
-        protected override void Awake()
+        protected virtual void Awake()
         {
-            base.Awake();
             if (GetComponent<GraphicRaycaster>() == null) gameObject.AddComponent<GraphicRaycaster>();
             CurrCanvas = GetComponent<Canvas>();
         }
