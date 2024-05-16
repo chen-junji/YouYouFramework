@@ -11,6 +11,9 @@ using YouYouFramework;
 /// </summary>
 public partial class LoadingForm : UIFormBase
 {
+    [SerializeField] private Scrollbar m_Sbar_Progress;
+    [SerializeField] private Text m_Txt_Tip;
+
     private void OnLoadingProgressChange(float varFloat)
     {
         m_Txt_Tip.text = string.Format("正在进入场景, 加载进度 {0}%", Math.Floor(varFloat * 100));

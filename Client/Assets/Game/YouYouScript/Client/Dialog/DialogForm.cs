@@ -26,6 +26,11 @@ public partial class DialogForm : UIFormBase
         AffirmAndCancel
     }
 
+    [SerializeField] private Text m_Txt_Title;
+    [SerializeField] private Text m_Txt_Message;
+    [SerializeField] private Button m_Btn_OK;
+    [SerializeField] private Button m_Btn_Cancel;
+
     private Action m_OkAction;
 
     private Action m_CancelAction;

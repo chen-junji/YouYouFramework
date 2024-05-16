@@ -7,6 +7,8 @@ using YouYouFramework;
 
 public partial class MainForm : UIFormBase
 {
+    [SerializeField] private RectTransform m_Trans_BtnGroup;
+
     protected override void Awake()
     {
         base.Awake();
