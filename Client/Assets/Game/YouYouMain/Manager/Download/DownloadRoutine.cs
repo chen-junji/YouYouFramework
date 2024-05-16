@@ -83,7 +83,7 @@ namespace YouYouMain
             m_OnComplete = onComplete;
             m_CurrRetry = 0;
 
-            m_DownloadLocalFilePath = Path.Combine(YFConstDefine.LocalAssetBundlePath, m_CurrFileUrl);
+            m_DownloadLocalFilePath = Path.Combine(MainConstDefine.LocalAssetBundlePath, m_CurrFileUrl);
 
             //如果本地已有目标文件, 则删除
             if (File.Exists(m_DownloadLocalFilePath)) File.Delete(m_DownloadLocalFilePath);

@@ -35,7 +35,7 @@ public class VersionLocalModel
     {
         //保存版本文件
         string json = VersionDic.ToJson();
-        IOUtil.CreateTextFile(YFConstDefine.LocalVersionFilePath, json);
+        IOUtil.CreateTextFile(MainConstDefine.LocalVersionFilePath, json);
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public class VersionLocalModel
     public void SetAssetVersion(string version)
     {
         AssetVersion = version;
-        PlayerPrefs.SetString(YFConstDefine.AssetVersion, version);
+        PlayerPrefs.SetString(MainConstDefine.AssetVersion, version);
     }
 
 }

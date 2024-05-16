@@ -54,7 +54,7 @@ public class AssetBundleSettings : ScriptableObject
     [LabelText("初始资源拷贝到StreamingAsstes")]
     public void AssetBundleCopyToStreamingAsstes()
     {
-        string toPath = YFConstDefine.StreamingAssetBundlePath + "/";
+        string toPath = MainConstDefine.StreamingAssetBundlePath + "/";
 
         if (Directory.Exists(toPath))
         {
@@ -67,7 +67,7 @@ public class AssetBundleSettings : ScriptableObject
         //重新生成版本文件
         //1.先读取OutPath里边的版本文件 这个版本文件里 存放了所有的资源包信息
 
-        byte[] buffer = IOUtil.GetFileBuffer(Path.Combine(OutPath, YFConstDefine.VersionFileName));
+        byte[] buffer = IOUtil.GetFileBuffer(Path.Combine(OutPath, MainConstDefine.VersionFileName));
         string version = "";
         Dictionary<string, VersionFileEntity> dic = LoadUtil.LoadVersionFile(buffer, ref version);
         Dictionary<string, VersionFileEntity> newDic = new Dictionary<string, VersionFileEntity>();
@@ -143,7 +143,7 @@ public class AssetBundleSettings : ScriptableObject
             }
         }
 
-        string filePath = Path.Combine(toPath, YFConstDefine.VersionFileName); //版本文件路径
+        string filePath = Path.Combine(toPath, MainConstDefine.VersionFileName); //版本文件路径
         buffer = ms.ToArray();
         buffer = ZlibHelper.CompressBytes(buffer);
         FileStream fs = new FileStream(filePath, FileMode.Create);

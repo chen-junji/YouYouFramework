@@ -49,7 +49,7 @@ namespace YouYouFramework
                 if (CurrVersionFile.IsEncrypt)
                 {
                     //需要解密
-                    byte[] buffer = IOUtil.GetFileBuffer(Path.Combine(YFConstDefine.LocalAssetBundlePath, assetBundlePath));
+                    byte[] buffer = IOUtil.GetFileBuffer(Path.Combine(MainConstDefine.LocalAssetBundlePath, assetBundlePath));
                     if (buffer != null)
                     {
                         buffer = SecurityUtil.Xor(buffer);
@@ -59,7 +59,7 @@ namespace YouYouFramework
                 else
                 {
                     //不用解密
-                    CurrAssetBundleCreateRequest = AssetBundle.LoadFromFileAsync(Path.Combine(YFConstDefine.LocalAssetBundlePath, assetBundlePath));
+                    CurrAssetBundleCreateRequest = AssetBundle.LoadFromFileAsync(Path.Combine(MainConstDefine.LocalAssetBundlePath, assetBundlePath));
                 }
                 return;
             }
@@ -81,7 +81,7 @@ namespace YouYouFramework
                 else
                 {
                     //不用解密
-                    CurrAssetBundleCreateRequest = AssetBundle.LoadFromFileAsync(Path.Combine(YFConstDefine.StreamingAssetBundlePath, assetBundlePath));
+                    CurrAssetBundleCreateRequest = AssetBundle.LoadFromFileAsync(Path.Combine(MainConstDefine.StreamingAssetBundlePath, assetBundlePath));
                 }
                 return;
             }
@@ -110,7 +110,7 @@ namespace YouYouFramework
                 if (versionFile.IsEncrypt)
                 {
                     //需要解密
-                    byte[] buffer = IOUtil.GetFileBuffer(Path.Combine(YFConstDefine.LocalAssetBundlePath, assetBundlePath));
+                    byte[] buffer = IOUtil.GetFileBuffer(Path.Combine(MainConstDefine.LocalAssetBundlePath, assetBundlePath));
                     if (buffer != null)
                     {
                         buffer = SecurityUtil.Xor(buffer);
@@ -120,7 +120,7 @@ namespace YouYouFramework
                 else
                 {
                     //不用解密
-                    assetBundle = AssetBundle.LoadFromFile(Path.Combine(YFConstDefine.LocalAssetBundlePath, assetBundlePath));
+                    assetBundle = AssetBundle.LoadFromFile(Path.Combine(MainConstDefine.LocalAssetBundlePath, assetBundlePath));
                 }
                 return assetBundle;
             }
@@ -137,7 +137,7 @@ namespace YouYouFramework
                 else
                 {
                     //只读区加载, 不用解密
-                    assetBundle = AssetBundle.LoadFromFile(Path.Combine(YFConstDefine.StreamingAssetBundlePath, assetBundlePath));
+                    assetBundle = AssetBundle.LoadFromFile(Path.Combine(MainConstDefine.StreamingAssetBundlePath, assetBundlePath));
                 }
                 return assetBundle;
             }

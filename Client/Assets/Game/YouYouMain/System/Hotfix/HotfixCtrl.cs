@@ -32,19 +32,19 @@ public class HotfixCtrl
     }
     public void LoadHotifx()
     {
-        VersionFileEntity versionFileEntity = VersionLocalModel.Instance.GetVersionFileEntity(YFConstDefine.HotfixAssetBundlePath);
+        VersionFileEntity versionFileEntity = VersionLocalModel.Instance.GetVersionFileEntity(MainConstDefine.HotfixAssetBundlePath);
         if (versionFileEntity != null)
         {
             //从可写区加载程序集
-            hotfixAb = AssetBundle.LoadFromFile(Path.Combine(YFConstDefine.LocalAssetBundlePath, YFConstDefine.HotfixAssetBundlePath));
+            hotfixAb = AssetBundle.LoadFromFile(Path.Combine(MainConstDefine.LocalAssetBundlePath, MainConstDefine.HotfixAssetBundlePath));
         }
         else
         {
-            versionFileEntity = VersionStreamingModel.Instance.GetVersionFileEntity(YFConstDefine.HotfixAssetBundlePath);
+            versionFileEntity = VersionStreamingModel.Instance.GetVersionFileEntity(MainConstDefine.HotfixAssetBundlePath);
             if (versionFileEntity != null)
             {
                 //从只读区加载程序集
-                hotfixAb = AssetBundle.LoadFromFile(Path.Combine(YFConstDefine.StreamingAssetBundlePath, YFConstDefine.HotfixAssetBundlePath));
+                hotfixAb = AssetBundle.LoadFromFile(Path.Combine(MainConstDefine.StreamingAssetBundlePath, MainConstDefine.HotfixAssetBundlePath));
             }
             else
             {

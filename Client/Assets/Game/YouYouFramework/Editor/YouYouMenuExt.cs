@@ -12,7 +12,7 @@ public class YouYouMenuExt
     [MenuItem("YouYouTools/打开persistentDataPath")]
     public static void AssetBundleOpenPersistentDataPath()
     {
-        string output = YFConstDefine.LocalAssetBundlePath;
+        string output = MainConstDefine.LocalAssetBundlePath;
         if (!Directory.Exists(output))
         {
             Directory.CreateDirectory(output);

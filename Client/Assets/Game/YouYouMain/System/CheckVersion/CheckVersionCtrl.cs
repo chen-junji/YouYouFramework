@@ -23,7 +23,7 @@ public class CheckVersionCtrl
     public async UniTask Init()
     {
         //加载只读区版本文件信息
-        byte[] streamingBuffer = await LoadUtil.LoadStreamingBytesAsync(YFConstDefine.VersionFileName);
+        byte[] streamingBuffer = await LoadUtil.LoadStreamingBytesAsync(MainConstDefine.VersionFileName);
         if (streamingBuffer != null)
         {
             VersionStreamingModel.Instance.VersionDic = LoadUtil.LoadVersionFile(streamingBuffer, ref VersionStreamingModel.Instance.AssetVersion);
@@ -31,11 +31,11 @@ public class CheckVersionCtrl
         }
 
         //加载可写区版本文件信息
-        if (File.Exists(YFConstDefine.LocalVersionFilePath))
+        if (File.Exists(MainConstDefine.LocalVersionFilePath))
         {
-            string json = IOUtil.GetFileText(YFConstDefine.LocalVersionFilePath);
+            string json = IOUtil.GetFileText(MainConstDefine.LocalVersionFilePath);
             VersionLocalModel.Instance.VersionDic = json.ToObject<Dictionary<string, VersionFileEntity>>();
-            VersionLocalModel.Instance.AssetVersion = PlayerPrefs.GetString(YFConstDefine.AssetVersion);
+            VersionLocalModel.Instance.AssetVersion = PlayerPrefs.GetString(MainConstDefine.AssetVersion);
             MainEntry.Log("加载可写区版本文件信息");
         }
     }
@@ -47,7 +47,7 @@ public class CheckVersionCtrl
     public async UniTask InitVersionFile()
     {
         //去资源站点请求CDN的版本文件信息
-        string cdnVersionFileUrl = Path.Combine(ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, YFConstDefine.VersionFileName);
+        string cdnVersionFileUrl = Path.Combine(ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, MainConstDefine.VersionFileName);
         byte[] cdnVersionFileBytes = await LoadUtil.LoadCDNBytesAsync(cdnVersionFileUrl);
         if (cdnVersionFileBytes != null)
         {
@@ -154,7 +154,7 @@ public class CheckVersionCtrl
         LinkedListNode<string> currDel = deleteList.First;
         while (currDel != null)
         {
-            string filePath = Path.Combine(YFConstDefine.LocalAssetBundlePath, currDel.Value);
+            string filePath = Path.Combine(MainConstDefine.LocalAssetBundlePath, currDel.Value);
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);

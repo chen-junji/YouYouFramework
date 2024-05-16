@@ -69,7 +69,7 @@ public class LoadUtil
     }
     public static async UniTask<byte[]> LoadStreamingBytesAsync(string assetFullPath)
     {
-        string uri = new System.Uri(Path.Combine(YFConstDefine.StreamingAssetBundlePath, assetFullPath)).AbsoluteUri;
+        string uri = new System.Uri(Path.Combine(MainConstDefine.StreamingAssetBundlePath, assetFullPath)).AbsoluteUri;
         var task = new UniTaskCompletionSource<byte[]>();
         MainEntry.Instance.StartCoroutine(LoadBytes(uri, (byte[] bytes) =>
         {
