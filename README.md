@@ -2,6 +2,8 @@ YouYou框架QQ交流群：185187673 <br>
 
 YouYou框架使用教程地址：https://www.bilibili.com/video/BV1Fu411s7MV/ <br>
 
+技术支持QQ(收费):2925856889 <br>
+
  **简介** 
 ------------
 - 这是一款适合开发商业级游戏的U3D代码框架，分别参考了多款主流代码框架 <br>
