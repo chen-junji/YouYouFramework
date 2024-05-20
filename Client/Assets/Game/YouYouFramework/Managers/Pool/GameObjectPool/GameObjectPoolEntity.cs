@@ -7,8 +7,8 @@ namespace YouYouFramework
 {
     public enum GameObjectPoolId
     {
-        Audio = 1,
-        Common = 2,
+        Audio = -1,
+        Common = 1,
     }
     /// <summary>
     /// 对象池实体

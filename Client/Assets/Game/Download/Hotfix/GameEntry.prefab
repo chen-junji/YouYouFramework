@@ -226,13 +226,13 @@ MonoBehaviour:
     BaseOrder: 1000
     Group: {fileID: 4719996668981915509}
   GameObjectPoolGroups:
+  - IsGlobal: 1
+    PoolId: -1
+    PoolName: Audio
+    Pool: {fileID: 0}
   - IsGlobal: 0
     PoolId: 1
     PoolName: Common
-    Pool: {fileID: 0}
-  - IsGlobal: 1
-    PoolId: 2
-    PoolName: Audio
     Pool: {fileID: 0}
   LockedAssetBundle:
   - game/download/shader.assetbundle

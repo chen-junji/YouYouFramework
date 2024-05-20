@@ -140,7 +140,7 @@ namespace YouYouFramework
         /// <summary>
         /// 从对象池中获取对象
         /// </summary>
-        public GameObject Spawn(GameObject prefab, GameObjectPoolId poolId)
+        public GameObject Spawn(GameObject prefab, GameObjectPoolId poolId = GameObjectPoolId.Common)
         {
             if (prefab == null)
             {
@@ -168,14 +168,14 @@ namespace YouYouFramework
             GameObject inst = prefabPool.SpawnInstance();
             return inst;
         }
-        public GameObject Spawn(string prefabFullPath, GameObjectPoolId poolId)
+        public GameObject Spawn(string prefabFullPath, GameObjectPoolId poolId = GameObjectPoolId.Common)
         {
             AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(prefabFullPath);
             GameObject prefab = referenceEntity.Target as GameObject;
             prefabAssetDic[prefab.GetInstanceID()] = referenceEntity;
             return Spawn(prefab, poolId);
         }
-        public async UniTask<GameObject> SpawnAsync(string prefabFullPath, GameObjectPoolId poolId)
+        public async UniTask<GameObject> SpawnAsync(string prefabFullPath, GameObjectPoolId poolId = GameObjectPoolId.Common)
         {
             AssetReferenceEntity referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(prefabFullPath);
             GameObject prefab = referenceEntity.Target as GameObject;
