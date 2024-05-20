@@ -16,7 +16,7 @@ namespace YouYouFramework
         /// <summary>
         /// 游戏物体对象池字典
         /// </summary>
-        public Dictionary<byte, GameObjectPoolEntity> spawnPoolDic = new Dictionary<byte, GameObjectPoolEntity>();
+        public Dictionary<GameObjectPoolId, GameObjectPoolEntity> spawnPoolDic = new Dictionary<GameObjectPoolId, GameObjectPoolEntity>();
 
         /// <summary>
         /// Key==GameObject的InstanceId
@@ -121,7 +121,7 @@ namespace YouYouFramework
         /// <summary>
         /// 预加载对象池
         /// </summary>
-        public void PreloadObj(GameObject prefab, byte poolId = 1, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
+        public void PreloadObj(GameObject prefab, GameObjectPoolId poolId, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
         {
             //拿到分类池
             spawnPoolDic.TryGetValue(poolId, out GameObjectPoolEntity gameObjectPoolEntity);
@@ -140,7 +140,7 @@ namespace YouYouFramework
         /// <summary>
         /// 从对象池中获取对象
         /// </summary>
-        public GameObject Spawn(GameObject prefab, byte poolId = 1)
+        public GameObject Spawn(GameObject prefab, GameObjectPoolId poolId)
         {
             if (prefab == null)
             {
@@ -168,14 +168,14 @@ namespace YouYouFramework
             GameObject inst = prefabPool.SpawnInstance();
             return inst;
         }
-        public GameObject Spawn(string prefabFullPath, byte poolId = 1)
+        public GameObject Spawn(string prefabFullPath, GameObjectPoolId poolId)
         {
             AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(prefabFullPath);
             GameObject prefab = referenceEntity.Target as GameObject;
             prefabAssetDic[prefab.GetInstanceID()] = referenceEntity;
             return Spawn(prefab, poolId);
         }
-        public async UniTask<GameObject> SpawnAsync(string prefabFullPath, byte poolId = 1)
+        public async UniTask<GameObject> SpawnAsync(string prefabFullPath, GameObjectPoolId poolId)
         {
             AssetReferenceEntity referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(prefabFullPath);
             GameObject prefab = referenceEntity.Target as GameObject;

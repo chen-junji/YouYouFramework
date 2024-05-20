@@ -103,7 +103,7 @@ public class RoleSkinComponent : MonoBehaviour
         UnLoadSkin();
 
         //加载皮肤
-        CurrSkin = GameEntry.Pool.GameObjectPool.Spawn(prefabFullPath);
+        CurrSkin = GameEntry.Pool.GameObjectPool.Spawn(prefabFullPath, GameObjectPoolId.Common);
         CurrSkin.transform.SetParent(transform, false);
 
         m_CurrSkinnedMeshRenderer = CurrSkin.GetComponentInChildren<SkinnedMeshRenderer>();
