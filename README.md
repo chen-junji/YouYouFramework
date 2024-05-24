@@ -106,5 +106,6 @@ YouYou框架使用教程地址：https://www.bilibili.com/video/BV1Fu411s7MV/ <b
 - UI无限滚动列表: https://gitee.com/chen_junji/UIScroller
 - 后端框架：https://gitee.com/leng_yue/GameDesigner?_from=gitee_search <br>
 - Playable自定义动画系统：https://gitee.com/chen_junji/playable-animator
+- 组件自动绑定工具：https://gitee.com/chen_junji/component-auto-bind-tool
 
 } 
