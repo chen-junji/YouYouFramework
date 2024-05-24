@@ -96,8 +96,6 @@ YouYou框架使用教程地址：https://www.bilibili.com/video/BV1Fu411s7MV/ <b
 {
 - 组件自动绑定工具, 根据物体命名前缀进行组件识别, 自动生成绑定组件的脚本与代码. 
 
-- Playable自定义动画系统：基于Unity官方Playable API定制的自定义动画系统。相比传统的Mecanim动画系统，去掉了在编辑器动画状态机连线的繁琐操作，而是直接用代码状态机来控制动画，可以大幅减少工作量。
-
 }
 <br>
 <br>
@@ -115,5 +113,6 @@ YouYou框架使用教程地址：https://www.bilibili.com/video/BV1Fu411s7MV/ <b
 - 新手引导系统：https://gitee.com/chen_junji/Guide
 - UI无限滚动列表: https://gitee.com/chen_junji/UIScroller
 - 后端框架：https://gitee.com/leng_yue/GameDesigner?_from=gitee_search <br>
+- Playable自定义动画系统：https://gitee.com/chen_junji/playable-animator
 
 } 
