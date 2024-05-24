@@ -389,7 +389,7 @@ namespace YouYouFramework
         }
         public async UniTask<T> LoadResourcesAsync<T>(string assetFullPath) where T : Object
         {
-            Object asset = await Resources.LoadAsync(assetFullPath);
+            Object asset = await Resources.LoadAsync<T>(assetFullPath);
             if (asset == null)
             {
                 GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetFullPath);
