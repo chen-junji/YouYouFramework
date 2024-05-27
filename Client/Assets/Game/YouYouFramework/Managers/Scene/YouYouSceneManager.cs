@@ -33,7 +33,7 @@ namespace YouYouFramework
         public List<Sys_SceneEntity> CurrSceneEntityGroup { get; private set; }
 
         /// <summary>
-        /// 当前已经加载或者卸载的明细数量
+        /// 当前已经卸载的数量
         /// </summary>
         private int m_CurrUnloadSceneDetailCount = 0;
 
@@ -102,7 +102,10 @@ namespace YouYouFramework
         public UniTask LoadSceneAsync(string sceneName, int sceneLoadCount = -1)
         {
             var task = new UniTaskCompletionSource();
-            LoadSceneAction(sceneName, sceneLoadCount, () => task.TrySetResult());
+            LoadSceneAction(sceneName, sceneLoadCount, () =>
+            {
+                task.TrySetResult();
+            });
             return task.Task;
         }
         public void LoadSceneAction(string sceneName, int sceneLoadCount = -1, Action onComplete = null)
@@ -155,10 +158,10 @@ namespace YouYouFramework
             {
                 SceneLoaderRoutine routine = new SceneLoaderRoutine();
                 m_SceneLoaderList.AddLast(routine);
-                routine.LoadScene(CurrSceneEntityGroup[i].AssetFullPath, (string sceneDetailId, float progress) =>
+                routine.LoadScene(CurrSceneEntityGroup[i].AssetFullPath, (string sceneFullPath, float progress) =>
                 {
                     //记录每个场景明细当前的进度
-                    m_TargetProgressDic[sceneDetailId] = progress;
+                    m_TargetProgressDic[sceneFullPath] = progress;
                 });
             }
         }

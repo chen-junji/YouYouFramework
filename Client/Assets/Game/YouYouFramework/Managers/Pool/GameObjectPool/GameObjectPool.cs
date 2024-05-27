@@ -134,6 +134,7 @@ namespace YouYouFramework
             //对象池配置
             PrefabPool prefabPool = new PrefabPool(prefab, cullDespawned, cullAbove, cullDelay, cullMaxPerPass);
             gameObjectPoolEntity.Pool.AddPrefabPool(prefabPool);
+            prefabPool.PreloadPool();
         }
 
         #region Spawn 从对象池中获取对象

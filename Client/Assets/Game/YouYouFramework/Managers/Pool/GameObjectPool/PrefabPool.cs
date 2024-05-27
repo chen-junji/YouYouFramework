@@ -77,7 +77,10 @@ namespace YouYouFramework
             this.cullAbove = cullAbove;
             this.cullDelay = cullDelay;
             this.cullMaxPerPass = cullMaxPerPass;
+        }
 
+        public void PreloadPool()
+        {
             if (cullAbove > 0)
             {
                 for (int i = 0; i < cullAbove; i++)
@@ -94,6 +97,7 @@ namespace YouYouFramework
                 }
             }
         }
+
         /// <summary>
         /// 销毁自身对象池
         /// </summary>
