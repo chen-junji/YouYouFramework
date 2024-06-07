@@ -4,139 +4,44 @@ using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
-using YouYouMain;
 
 public class YouYouMenuExt
 {
-    #region AssetBundleOpenPersistentDataPath 打开persistentDataPath
-    [MenuItem("YouYouTools/打开persistentDataPath")]
-    public static void AssetBundleOpenPersistentDataPath()
-    {
-        string output = MainConstDefine.LocalAssetBundlePath;
-        if (!Directory.Exists(output))
-        {
-            Directory.CreateDirectory(output);
-        }
-        output = output.Replace("/", "\\");
-        System.Diagnostics.Process.Start("explorer.exe", output);
-    }
-    #endregion
-
-    #region SetFBXAnimationMode 设置文件动画循环为true
-    [MenuItem("YouYouTools/设置文件动画循环为true")]
-    public static void SetFBXAnimationMode()
+    [MenuItem("Assets/Sprite导出png")]
+    public static void SpriteToPng()
     {
         Object[] objs = Selection.objects;
         for (int i = 0; i < objs.Length; i++)
         {
-            string relatepath = AssetDatabase.GetAssetPath(objs[i]);
-
-            if (relatepath.IsSuffix(".FBX", System.StringComparison.CurrentCultureIgnoreCase))
+            // 假设你已经在Unity Editor中选择了要导出的Sprite  
+            Sprite selectedSprite = objs[i] as Sprite;
+            if (selectedSprite == null)
             {
-                string path = Application.dataPath.Replace("Assets", "") + relatepath + ".meta";
-                path = path.Replace("\\", "/");
-                StreamReader fs = new StreamReader(path);
-                List<string> ret = new List<string>();
-                string line;
-                while ((line = fs.ReadLine()) != null)
-                {
-                    line = line.Replace("\n", "");
-                    if (line.IndexOf("loopTime: 0") != -1)
-                    {
-                        line = "      loopTime: 1";
-                    }
-                    ret.Add(line);
-                }
-                fs.Close();
-                File.Delete(path);
-                StreamWriter writer = new StreamWriter(path + ".tmp");
-                foreach (var each in ret)
-                {
-                    writer.WriteLine(each);
-                }
-                writer.Close();
-                File.Copy(path + ".tmp", path);
-                File.Delete(path + ".tmp");
+                Debug.LogError("No Sprite selected in the Editor!");
+                continue;
             }
 
-            if (relatepath.IsSuffix(".Anim", System.StringComparison.CurrentCultureIgnoreCase))
+            // 设置导出路径和文件名  
+            string exportPath = $"E:/{objs[0].name}/"; // 你可以根据需要修改这个路径  
+            string fileName = selectedSprite.name + ".png";
+            string fullPath = Path.Combine(exportPath, fileName);
+
+            // 确保导出目录存在  
+            if (!Directory.Exists(exportPath))
             {
-                string path = Application.dataPath.Replace("Assets", "") + relatepath;
-                path = path.Replace("\\", "/");
-                StreamReader fs = new StreamReader(path);
-                List<string> ret = new List<string>();
-                string line;
-                while ((line = fs.ReadLine()) != null)
-                {
-                    line = line.Replace("\n", "");
-                    if (line.IndexOf("m_LoopTime: 0") != -1)
-                    {
-                        line = "    m_LoopTime: 1";
-                    }
-                    ret.Add(line);
-                }
-                fs.Close();
-                File.Delete(path);
-                StreamWriter writer = new StreamWriter(path + ".tmp");
-                foreach (var each in ret)
-                {
-                    writer.WriteLine(each);
-                }
-                writer.Close();
-                File.Copy(path + ".tmp", path);
-                File.Delete(path + ".tmp");
+                Directory.CreateDirectory(exportPath);
             }
-        }
-        AssetDatabase.Refresh();
-    }
-    #endregion
 
+            // 从Sprite获取Texture2D  
+            Texture2D texture2D = new Texture2D((int)selectedSprite.rect.width, (int)selectedSprite.rect.height);
+            Color[] colors = selectedSprite.texture.GetPixels((int)selectedSprite.rect.x, (int)selectedSprite.rect.y, (int)selectedSprite.rect.width, (int)selectedSprite.rect.height);
+            texture2D.SetPixels(colors);
+            texture2D.Apply();
 
-    #region GetAssetsPath 收集多个文件的路径到剪切板
-    [MenuItem("Assets/YouYouMenuExt/收集多个文件的路径到剪切板")]
-    public static void GetAssetsPath()
-    {
-        Object[] objs = Selection.objects;
-        string relatepath = string.Empty;
-        for (int i = 0; i < objs.Length; i++)
-        {
-            relatepath += AssetDatabase.GetAssetPath(objs[i]);
-            if (i < objs.Length - 1) relatepath += "\n";
+            // 导出为PNG  
+            File.WriteAllBytes(fullPath, texture2D.EncodeToPNG());
+            Debug.Log("Sprite exported to: " + fullPath);
         }
-        GUIUtility.systemCopyBuffer = relatepath;
-        AssetDatabase.Refresh();
     }
-    [MenuItem("Assets/YouYouMenuExt/收集多个文件的路径到剪切板(Resources)")]
-    public static void GetAssetsPathResources()
-    {
-        Object[] objs = Selection.objects;
-        string relatepath = string.Empty;
-        for (int i = 0; i < objs.Length; i++)
-        {
-            string assetPath = AssetDatabase.GetAssetPath(objs[i]);
-            assetPath = assetPath.Split("Resources/")[1];
-            assetPath = assetPath.Split('.')[0];
-            relatepath += assetPath;
-            if (i < objs.Length - 1) relatepath += "\n";
-        }
-        GUIUtility.systemCopyBuffer = relatepath;
-        AssetDatabase.Refresh();
-    }
-    #endregion
 
-    #region GetAssetsPath 收集多个文件的名字到剪切板
-    [MenuItem("Assets/YouYouMenuExt/收集多个文件的名字到剪切板")]
-    public static void GetAssetsName()
-    {
-        Object[] objs = Selection.objects;
-        string relatepath = string.Empty;
-        for (int i = 0; i < objs.Length; i++)
-        {
-            relatepath += objs[i].name;
-            if (i < objs.Length - 1) relatepath += "\n";
-        }
-        GUIUtility.systemCopyBuffer = relatepath;
-        AssetDatabase.Refresh();
-    }
-    #endregion
 }

@@ -219,7 +219,7 @@ namespace YouYouFramework
 
         private AudioRoutine CreateAudioRoutine(AudioClip audioClip, float volume, int priority, AssetReferenceEntity referenceEntity = null)
         {
-            AudioRoutine routine = GameEntry.Pool.GameObjectPool.Spawn(audioRoutinePrefab.gameObject, GameObjectPoolId.Audio).GetComponent<AudioRoutine>();
+            AudioRoutine routine = GameEntry.Pool.GameObjectPool.Spawn(audioRoutinePrefab.gameObject, SpawnPoolId.Audio).GetComponent<AudioRoutine>();
             routine.AudioSource.clip = audioClip;
             routine.AudioSource.volume = volume;
             routine.AudioSource.priority = priority;

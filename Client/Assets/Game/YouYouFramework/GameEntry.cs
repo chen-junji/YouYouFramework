@@ -33,7 +33,7 @@ namespace YouYouFramework
         public UIGroup[] UIGroups;
 
         [Header("游戏物体对象池分组")]
-        public GameObjectPoolEntity[] GameObjectPoolGroups;
+        public SpawnPoolEntity[] GameObjectPoolGroups;
 
         [Header("对象池锁定的资源包")]
         public string[] LockedAssetBundle;

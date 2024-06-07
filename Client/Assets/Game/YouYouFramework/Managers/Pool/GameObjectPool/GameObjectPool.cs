@@ -16,7 +16,7 @@ namespace YouYouFramework
         /// <summary>
         /// 游戏物体对象池字典
         /// </summary>
-        public Dictionary<GameObjectPoolId, GameObjectPoolEntity> spawnPoolDic = new Dictionary<GameObjectPoolId, GameObjectPoolEntity>();
+        public Dictionary<SpawnPoolId, SpawnPoolEntity> spawnPoolDic = new Dictionary<SpawnPoolId, SpawnPoolEntity>();
 
         /// <summary>
         /// Key==GameObject的InstanceId
@@ -40,7 +40,7 @@ namespace YouYouFramework
             //初始化跨场景不销毁的对象池
             for (int i = 0; i < GameEntry.Instance.GameObjectPoolGroups.Length; i++)
             {
-                GameObjectPoolEntity entity = GameEntry.Instance.GameObjectPoolGroups[i];
+                SpawnPoolEntity entity = GameEntry.Instance.GameObjectPoolGroups[i];
 
                 if (entity.IsGlobal)
                 {
@@ -103,7 +103,7 @@ namespace YouYouFramework
 
             for (int i = 0; i < GameEntry.Instance.GameObjectPoolGroups.Length; i++)
             {
-                GameObjectPoolEntity entity = GameEntry.Instance.GameObjectPoolGroups[i];
+                SpawnPoolEntity entity = GameEntry.Instance.GameObjectPoolGroups[i];
 
                 if (!entity.IsGlobal)
                 {
@@ -121,10 +121,10 @@ namespace YouYouFramework
         /// <summary>
         /// 预加载对象池
         /// </summary>
-        public void PreloadObj(GameObject prefab, GameObjectPoolId poolId, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
+        public void PreloadObj(GameObject prefab, SpawnPoolId poolId, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
         {
             //拿到分类池
-            spawnPoolDic.TryGetValue(poolId, out GameObjectPoolEntity gameObjectPoolEntity);
+            spawnPoolDic.TryGetValue(poolId, out SpawnPoolEntity gameObjectPoolEntity);
             if (gameObjectPoolEntity == null)
             {
                 GameEntry.LogError(LogCategory.Pool, "gameObjectPoolEntity==null");
@@ -141,7 +141,7 @@ namespace YouYouFramework
         /// <summary>
         /// 从对象池中获取对象
         /// </summary>
-        public GameObject Spawn(GameObject prefab, GameObjectPoolId poolId = GameObjectPoolId.Common)
+        public GameObject Spawn(GameObject prefab, SpawnPoolId poolId = SpawnPoolId.Common)
         {
             if (prefab == null)
             {
@@ -150,7 +150,7 @@ namespace YouYouFramework
             }
 
             //拿到分类池
-            spawnPoolDic.TryGetValue(poolId, out GameObjectPoolEntity gameObjectPoolEntity);
+            spawnPoolDic.TryGetValue(poolId, out SpawnPoolEntity gameObjectPoolEntity);
             if (gameObjectPoolEntity == null)
             {
                 GameEntry.LogError(LogCategory.Pool, "gameObjectPoolEntity==null");
@@ -169,14 +169,14 @@ namespace YouYouFramework
             GameObject inst = prefabPool.SpawnInstance();
             return inst;
         }
-        public GameObject Spawn(string prefabFullPath, GameObjectPoolId poolId = GameObjectPoolId.Common)
+        public GameObject Spawn(string prefabFullPath, SpawnPoolId poolId = SpawnPoolId.Common)
         {
             AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(prefabFullPath);
             GameObject prefab = referenceEntity.Target as GameObject;
             prefabAssetDic[prefab.GetInstanceID()] = referenceEntity;
             return Spawn(prefab, poolId);
         }
-        public async UniTask<GameObject> SpawnAsync(string prefabFullPath, GameObjectPoolId poolId = GameObjectPoolId.Common)
+        public async UniTask<GameObject> SpawnAsync(string prefabFullPath, SpawnPoolId poolId = SpawnPoolId.Common)
         {
             AssetReferenceEntity referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(prefabFullPath);
             GameObject prefab = referenceEntity.Target as GameObject;
@@ -211,7 +211,7 @@ namespace YouYouFramework
         {
             for (int i = 0; i < GameEntry.Instance.GameObjectPoolGroups.Length; i++)
             {
-                GameObjectPoolEntity entity = GameEntry.Instance.GameObjectPoolGroups[i];
+                SpawnPoolEntity entity = GameEntry.Instance.GameObjectPoolGroups[i];
 
                 if (entity.Pool != null)
                 {
