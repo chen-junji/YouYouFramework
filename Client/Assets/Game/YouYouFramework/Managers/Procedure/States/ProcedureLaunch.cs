@@ -13,17 +13,17 @@ public class ProcedureLaunch : ProcedureBase
 {
     private string[] permissions = new string[]
     {
-            "android.permission.WRITE_EXTERNAL_STORAGE"
+        "android.permission.WRITE_EXTERNAL_STORAGE"
     };
-    internal override void OnEnter()
+    public override void OnEnter(int lastState)
     {
-        base.OnEnter();
+        base.OnEnter(lastState);
         //获取安卓权限
         permissions.ToList().ForEach(s =>
         {
             //if (!Permission.HasUserAuthorizedPermission(s)) Permission.RequestUserPermission(s);
         });
 
-        GameEntry.Procedure.ChangeState(ProcedureState.Preload);
+        GameEntry.Procedure.CurrFsm.SetTrigger(ProcedureManager.ParamConst.TriggerPreload);
     }
 }

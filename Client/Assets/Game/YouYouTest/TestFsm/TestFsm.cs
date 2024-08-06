@@ -10,7 +10,7 @@ public class TestFsm : MonoBehaviour
     private void OnDestroy()
     {
         //销毁状态机
-        fsmMgr.CurrFsm.ShutDown();
+        fsmMgr.CurrFsm.Destroy();
     }
     void Start()
     {
@@ -25,13 +25,13 @@ public class TestFsm : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.A))
         {
             //切换状态
-            fsmMgr.ChangeState(TestFsmMgr.TestFsmState.State1);
+            fsmMgr.CurrFsm.SetParam(TestFsmMgr.ParamConst.IntState2, 0);
         }
 
         if (Input.GetKeyUp(KeyCode.S))
         {
             //切换状态
-            fsmMgr.ChangeState(TestFsmMgr.TestFsmState.State2);
+            fsmMgr.CurrFsm.SetParam(TestFsmMgr.ParamConst.IntState2, 1);
         }
     }
 }

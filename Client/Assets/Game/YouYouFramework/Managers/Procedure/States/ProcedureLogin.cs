@@ -10,18 +10,10 @@ using YouYouFramework;
 /// </summary>
 public class ProcedureLogin : ProcedureBase
 {
-    internal override void OnEnter()
+    public override void OnEnter(int lastState)
     {
-        base.OnEnter();
-        GameEntry.Procedure.ChangeState(ProcedureState.Main);
-    }
-    internal override void OnUpdate()
-    {
-        base.OnUpdate();
-    }
-    internal override void OnLeave()
-    {
-        base.OnLeave();
+        base.OnEnter(lastState);
+        GameEntry.Procedure.CurrFsm.SetTrigger(ProcedureManager.ParamConst.TriggerMain);
     }
     internal override void OnDestroy()
     {

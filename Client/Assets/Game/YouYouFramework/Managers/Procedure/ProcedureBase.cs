@@ -10,24 +10,19 @@ namespace YouYouFramework
     /// </summary>
     public class ProcedureBase : FsmState<ProcedureManager>
     {
-		internal override void OnEnter()
+        public override void OnEnter(int lastState)
         {
-            base.OnEnter();
+            base.OnEnter(lastState);
             GameEntry.Log(LogCategory.Procedure, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>> OnEnter()");
         }
 
-		internal override void OnUpdate()
+        public override void OnLeave(int newState)
         {
-            base.OnUpdate();
-        }
-
-		internal override void OnLeave()
-        {
-            base.OnLeave();
+            base.OnLeave(newState);
             GameEntry.Log(LogCategory.Procedure, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>> OnLeave()");
         }
 
-		internal override void OnDestroy()
+        internal override void OnDestroy()
         {
             base.OnDestroy();
 

@@ -8,12 +8,19 @@ namespace YouYouFramework
 {
     public class InputManager
     {
-        public enum State
+        public enum EState
         {
             None,
             Touch,
-            KeyboardMouse,
+            Keyboard,
         }
+        public class ParamConst
+        {
+            public const string IntIsEnable = "IntIsEnable";
+            public const string TriggerTouch = "TriggerTouch";
+            public const string TriggerKeyboard = "TriggerKeyboard";
+        }
+
         public Fsm<InputManager> CurrFsm { get; private set; }
 
         private VirtualInput CurrInput;
@@ -21,59 +28,68 @@ namespace YouYouFramework
         public Action<InputKeyCode> ActionInput;
 
 
-        public InputManager()
+        public void Init()
         {
             //得到枚举的长度
-            int count = Enum.GetNames(typeof(State)).Length;
+            int count = Enum.GetNames(typeof(EState)).Length;
             FsmState<InputManager>[] states = new FsmState<InputManager>[count];
-            states[(byte)State.None] = new StateNone();
-            states[(byte)State.KeyboardMouse] = new StandaloneInput();
-            states[(byte)State.Touch] = new MobileInput();
+            states[(byte)EState.None] = new StateNone();
+            states[(byte)EState.Keyboard] = new StandaloneInput();
+            states[(byte)EState.Touch] = new MobileInput();
 
             CurrFsm = GameEntry.Fsm.Create(this, states);
+            CurrFsm.AnyStateTransitions = new()
+            {
+                new()
+                {
+                    TargetState = (int)EState.None,
+                    FsmConditions = new()
+                    {
+                        new(()=> !CurrFsm.GetParam<bool>(ParamConst.IntIsEnable)),
+                    },
+                    FsmConditionTriggers = new()
+                    {
+                    }
+                },
+                new()
+                {
+                    TargetState = (int)EState.Keyboard,
+                    FsmConditions = new()
+                    {
+                        new(()=> CurrFsm.GetParam<bool>(ParamConst.IntIsEnable)),
+                    },
+                    FsmConditionTriggers = new()
+                    {
+                        ParamConst.TriggerKeyboard,
+                    }
+                },
+                new()
+                {
+                    TargetState = (int)EState.Touch,
+                    FsmConditions = new()
+                    {
+                        new(()=> !CurrFsm.GetParam<bool>(ParamConst.IntIsEnable)),
+                    },
+                    FsmConditionTriggers = new()
+                    {
+                        ParamConst.TriggerTouch,
+                    }
+                },
+            };
+            CurrFsm.ActionStateChange = () =>
+            {
+                CurrInput = CurrFsm.CurrState as VirtualInput;
+            };
             SetEnable(false);
         }
         internal void OnUpdate()
         {
             CurrFsm.OnUpdate();
         }
-        /// <summary>
-        /// 切换状态
-        /// </summary>
-        public void ChangeState(State state)
-        {
-            CurrInput = CurrFsm.ChangeState((sbyte)state) as VirtualInput;
-        }
 
         public void SetEnable(bool enable)
         {
-            if (enable)
-            {
-                State state;
-#if UNITY_STANDALONE
-                state = State.KeyboardMouse;
-#elif UNITY_IOS || UNITY_ANDROID
-                state = State.Touch;
-#endif
-#if UNITY_EDITOR
-                state = MainEntry.ParamsSettings.MobileDebug ? State.Touch : State.KeyboardMouse;
-#endif
-                ChangeState(state);
-            }
-            else
-            {
-                ChangeState(State.None);
-            }
-        }
-
-        public void RegisterVirtualAxis(VirtualAxis axis)
-        {
-            CurrInput.RegisterVirtualAxis(axis);
-        }
-
-        public void RegisterVirtualButton(VirtualButton button)
-        {
-            CurrInput.RegisterVirtualButton(button);
+            CurrFsm.SetParam(ParamConst.IntIsEnable, enable);
         }
 
         public VirtualButton VirtualButtonReference(InputKeyCode name)
@@ -82,18 +98,9 @@ namespace YouYouFramework
         }
 
 
-        public float GetAxis(string name)
+        public void RegisterVirtualButton(VirtualButton button)
         {
-            return GetAxis(name, false);
-        }
-        public float GetAxisRaw(string name)
-        {
-            return GetAxis(name, true);
-        }
-
-        private float GetAxis(string name, bool raw)
-        {
-            return CurrInput.GetAxis(name, raw);
+            CurrInput.RegisterVirtualButton(button);
         }
 
         public bool GetButton(InputKeyCode name)
@@ -118,21 +125,29 @@ namespace YouYouFramework
             CurrInput.SetButtonUp(name);
         }
 
-        public void SetAxisPositive(string name)
+
+        public void RegisterVirtualAxis(VirtualAxis axis)
         {
-            CurrInput.SetAxisPositive(name);
+            CurrInput.RegisterVirtualAxis(axis);
         }
-        public void SetAxisNegative(string name)
+
+        public float GetAxis(string name)
         {
-            CurrInput.SetAxisNegative(name);
+            return GetAxis(name, false);
         }
-        public void SetAxisZero(string name)
+        public float GetAxisRaw(string name)
         {
-            CurrInput.SetAxisZero(name);
+            return GetAxis(name, true);
         }
+        private float GetAxis(string name, bool raw)
+        {
+            return CurrInput.GetAxis(name, raw);
+        }
+
         public void SetAxis(string name, float value)
         {
             CurrInput.SetAxis(name, value);
         }
+
     }
 }

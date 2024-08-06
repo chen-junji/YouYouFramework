@@ -52,7 +52,7 @@ namespace YouYouFramework
 			if (m_FsmDic.TryGetValue(fsmId, out fsm))
 			{
 				m_FsmDic.Remove(fsmId);
-				fsm.ShutDown();
+				fsm.Destroy();
 			}
 		}
 

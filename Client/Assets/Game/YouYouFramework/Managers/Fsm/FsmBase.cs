@@ -29,7 +29,7 @@ namespace YouYouFramework
         /// <summary>
         /// 关闭状态机
         /// </summary>
-        public abstract void ShutDown();
+        public abstract void Destroy();
 
     }
 }

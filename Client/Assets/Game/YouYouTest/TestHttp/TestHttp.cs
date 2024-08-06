@@ -20,6 +20,7 @@ public class TestHttp : MonoBehaviour
             {
                 GameEntry.Log(LogCategory.Normal, json);
             });
+
         }
         if (Input.GetKeyUp(KeyCode.S))
         {

@@ -8,9 +8,9 @@ using YouYouFramework;
 /// </summary>
 public class MobileInput : VirtualInput
 {
-    internal override void OnEnter()
+    public override void OnEnter(int lastState)
     {
-        base.OnEnter();
+        base.OnEnter(lastState);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -29,25 +29,10 @@ public class MobileInput : VirtualInput
         CheckAddAxes(name);
         return m_VirtualAxes[name].GetValue;
     }
-
-    public override void SetAxisPositive(string name)
-    {
-        CheckAddAxes(name);
-        m_VirtualAxes[name].Update(1f);
-    }
-    public override void SetAxisNegative(string name)
-    {
-        CheckAddAxes(name);
-        m_VirtualAxes[name].Update(-1f);
-    }
-    public override void SetAxisZero(string name)
-    {
-        CheckAddAxes(name);
-        m_VirtualAxes[name].Update(0f);
-    }
     public override void SetAxis(string name, float value)
     {
         CheckAddAxes(name);
         m_VirtualAxes[name].Update(value);
     }
+
 }

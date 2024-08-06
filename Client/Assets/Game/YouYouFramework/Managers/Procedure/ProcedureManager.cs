@@ -7,32 +7,39 @@ using UnityEngine;
 namespace YouYouFramework
 {
     /// <summary>
-    /// 流程状态
-    /// </summary>
-    public enum ProcedureState
-    {
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        Launch,
-        /// <summary>
-        /// 预加载
-        /// </summary>
-        Preload,
-        /// <summary>
-        /// 登录
-        /// </summary>
-        Login,
-        /// <summary>
-        /// 游戏主流程
-        /// </summary>
-        Main
-    }
-    /// <summary>
     /// 流程管理器, 本质上就是个状态机, 使用方法可以参考TestFsm脚本
     /// </summary>
-    public class ProcedureManager 
+    public class ProcedureManager
     {
+        /// <summary>
+        /// 流程状态
+        /// </summary>
+        public enum EState
+        {
+            /// <summary>
+            /// 初始化
+            /// </summary>
+            Launch,
+            /// <summary>
+            /// 预加载
+            /// </summary>
+            Preload,
+            /// <summary>
+            /// 登录
+            /// </summary>
+            Login,
+            /// <summary>
+            /// 游戏主流程
+            /// </summary>
+            Main
+        }
+        public class ParamConst
+        {
+            public const string TriggerPreload = "TriggerPreload";
+            public const string TriggerLogin = "TriggerLogin";
+            public const string TriggerMain = "TriggerMain";
+        }
+
         /// <summary>
         /// 当前流程状态机
         /// </summary>
@@ -41,23 +48,88 @@ namespace YouYouFramework
         /// <summary>
         /// 当前流程状态Type
         /// </summary>
-        public ProcedureState CurrProcedureState
+        public EState CurrProcedureState
         {
             get
             {
-                return (ProcedureState)CurrFsm.CurrStateType;
+                return (EState)CurrFsm.CurrStateType;
             }
         }
 
         internal void Init()
         {
             //得到枚举的长度
-            int count = Enum.GetNames(typeof(ProcedureState)).Length;
+            int count = Enum.GetNames(typeof(EState)).Length;
             FsmState<ProcedureManager>[] states = new FsmState<ProcedureManager>[count];
-            states[(byte)ProcedureState.Launch] = new ProcedureLaunch();
-            states[(byte)ProcedureState.Preload] = new ProcedurePreload();
-            states[(byte)ProcedureState.Login] = new ProcedureLogin();
-            states[(byte)ProcedureState.Main] = new ProcedureMain();
+
+            states[(byte)EState.Launch] = new ProcedureLaunch()
+            {
+                Transitions = new()
+                {
+                    new()
+                    {
+                        TargetState = (int)EState.Preload, 
+                        FsmConditions = new()
+                        {
+                        },
+                        FsmConditionTriggers = new()
+                        {
+                            ParamConst.TriggerPreload,
+                        }
+                    },
+                }
+            };
+            states[(byte)EState.Preload] = new ProcedurePreload()
+            {
+                Transitions = new()
+                {
+                    new()
+                    {
+                        TargetState = (int)EState.Login,
+                        FsmConditions = new()
+                        {
+                        },
+                        FsmConditionTriggers = new()
+                        {
+                            ParamConst.TriggerLogin,
+                        }
+                    },
+                }
+            };
+            states[(byte)EState.Login] = new ProcedureLogin()
+            {
+                Transitions = new()
+                {
+                    new()
+                    {
+                        TargetState = (int)EState.Main,
+                        FsmConditions = new()
+                        {
+                        },
+                        FsmConditionTriggers = new()
+                        {
+                            ParamConst.TriggerMain,
+                        }
+                    },
+                }
+            };
+            states[(byte)EState.Main] = new ProcedureMain()
+            {
+                Transitions = new()
+                {
+                    new()
+                    {
+                        TargetState = (int)EState.Login,
+                        FsmConditions = new()
+                        {
+                        },
+                        FsmConditionTriggers = new()
+                        {
+                            ParamConst.TriggerLogin,
+                        }
+                    },
+                }
+            };
 
             //创建流程的状态机
             CurrFsm = GameEntry.Fsm.Create(this, states);
@@ -67,12 +139,10 @@ namespace YouYouFramework
             CurrFsm.OnUpdate();
         }
 
-        /// <summary>
-        /// 切换状态
-        /// </summary>
-        public void ChangeState(ProcedureState state)
+        public void SetInfoList(EState state, List<object> infoList)
         {
-            CurrFsm.ChangeState((sbyte)state);
+            var fsmState = CurrFsm.GetState((sbyte)state);
+            fsmState?.SetInfoList(infoList);
         }
 
     }

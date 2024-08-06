@@ -21,31 +21,45 @@ namespace YouYouFramework
         protected T FsmMgr;
 
         /// <summary>
-        /// 当前状态的内部行为是否执行完毕
+        /// 状态过渡线列表
         /// </summary>
-        public bool ActionComplete { get; protected set; }
+        public List<FsmTransition> Transitions = new();
 
+        /// <summary>
+        /// 状态需要用到的信息列表
+        /// </summary>
+        protected List<object> InfoList = new();
+
+        public void SetInfoList(List<object> infoList)
+        {
+            InfoList = infoList;
+        }
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
         internal virtual void OnInit()
         {
             FsmMgr = CurrFsm.Owner;
         }
+
         /// <summary>
         /// 进入状态
         /// </summary>
-        internal virtual void OnEnter()
-        {
-            ActionComplete = false;
-        }
+        /// <param name="lastState">上一个状态</param>
+        public virtual void OnEnter(int lastState) { }
 
         /// <summary>
-        /// 执行状态
+        /// 进入当前状态后, 每帧调用
         /// </summary>
-        internal virtual void OnUpdate() { }
+        /// <param name="elapseSeconds">逻辑流逝时间, 以秒为单位</param>
+        public virtual void OnUpdate(float elapseSeconds) { }
 
         /// <summary>
-        /// 离开状态
+        /// 离开
         /// </summary>
-        internal virtual void OnLeave() { }
+        /// <param name="newState">将要切换到的状态</param>
+        public virtual void OnLeave(int newState) { }
 
         /// <summary>
         /// 状态机销毁时调用

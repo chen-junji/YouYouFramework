@@ -9,9 +9,9 @@ using YouYouFramework;
 /// </summary>
 public class StateNone : VirtualInput
 {
-    internal override void OnEnter()
+    public override void OnEnter(int lastState)
     {
-        base.OnEnter();
+        base.OnEnter(lastState);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -23,13 +23,5 @@ public class StateNone : VirtualInput
     public override void SetAxis(string name, float value)
     {
     }
-    public override void SetAxisNegative(string name)
-    {
-    }
-    public override void SetAxisPositive(string name)
-    {
-    }
-    public override void SetAxisZero(string name)
-    {
-    }
+
 }

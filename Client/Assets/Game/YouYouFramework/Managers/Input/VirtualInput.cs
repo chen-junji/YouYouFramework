@@ -15,9 +15,9 @@ namespace YouYouFramework
         protected List<string> m_AlwaysUseVirtual = new List<string>();
 
 
-        internal override void OnLeave()
+        public override void OnLeave(int newState)
         {
-            base.OnLeave();
+            base.OnLeave(newState);
             foreach (var item in m_VirtualButtons)
             {
                 if (item.Value.GetButton || item.Value.GetButtonDown)
@@ -131,10 +131,7 @@ namespace YouYouFramework
 
 
         public abstract float GetAxis(string name, bool raw);
-
-        public abstract void SetAxisPositive(string name);
-        public abstract void SetAxisNegative(string name);
-        public abstract void SetAxisZero(string name);
         public abstract void SetAxis(string name, float value);
+
     }
 }

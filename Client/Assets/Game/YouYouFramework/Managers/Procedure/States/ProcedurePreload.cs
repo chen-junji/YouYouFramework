@@ -20,19 +20,18 @@ public class ProcedurePreload : ProcedureBase
     /// </summary>
     private float m_CurrProgress;
 
-    internal override void OnEnter()
+    public override void OnEnter(int lastState)
     {
-        base.OnEnter();
-        MainEntry.Instance.ActionPreloadBegin();
+        base.OnEnter(lastState);
+        MainEntry.Instance.ActionPreloadBegin?.Invoke();
 
         m_CurrProgress = 0;
 
         BeginTask();
     }
-    internal override void OnUpdate()
+    public override void OnUpdate(float elapseSeconds)
     {
-        base.OnUpdate();
-
+        base.OnUpdate(elapseSeconds);
         //模拟加载进度条
         if (m_CurrProgress < m_TargetProgress)
         {
@@ -46,15 +45,15 @@ public class ProcedurePreload : ProcedureBase
                 m_CurrProgress += Time.deltaTime * 0.8f;
             }
             m_CurrProgress = Mathf.Min(m_CurrProgress, m_TargetProgress);//这里是为了防止进度超过100%， 比如完成了显示102%
-            MainEntry.Instance.ActionPreloadUpdate(m_CurrProgress);
+            MainEntry.Instance.ActionPreloadUpdate?.Invoke(m_CurrProgress);
         }
 
         if (m_CurrProgress == 1)
         {
-            MainEntry.Instance.ActionPreloadComplete();
+            MainEntry.Instance.ActionPreloadComplete?.Invoke();
 
             //进入到业务流程
-            GameEntry.Procedure.ChangeState(ProcedureState.Login);
+            GameEntry.Procedure.CurrFsm.SetTrigger(ProcedureManager.ParamConst.TriggerLogin);
         }
     }
 

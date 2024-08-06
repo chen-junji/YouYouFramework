@@ -101,10 +101,8 @@ namespace YouYouFramework
 
             //在Init中, 模块之间可互相调用
             Procedure.Init();
+            Input.Init();
             Audio.Init();
-
-            //进入第一个流程
-            Procedure.ChangeState(ProcedureState.Launch);
         }
 
         void Update()

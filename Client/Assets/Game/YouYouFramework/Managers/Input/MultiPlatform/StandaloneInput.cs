@@ -35,22 +35,17 @@ public class StandaloneInput : VirtualInput
 
         //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.T, ConstInput.Interact));
     }
-    internal override void OnEnter()
+    public override void OnEnter(int lastState)
     {
-        base.OnEnter();
+        base.OnEnter(lastState);
         //Cursor.lockState = CursorLockMode.Locked;
         //Cursor.visible = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
-    internal override void OnLeave()
+    public override void OnUpdate(float elapseSeconds)
     {
-        base.OnLeave();
-
-    }
-    internal override void OnUpdate()
-    {
-        base.OnUpdate();
+        base.OnUpdate(elapseSeconds);
         for (int i = 0; i < KeyCodeItemList.Count; i++)
         {
             KeyCodeItem keyCodeItem = KeyCodeItemList[i];
@@ -70,17 +65,8 @@ public class StandaloneInput : VirtualInput
     {
         return raw ? Input.GetAxisRaw(name.ToString()) : Input.GetAxis(name.ToString());
     }
-
-    public override void SetAxisPositive(string name)
-    {
-    }
-    public override void SetAxisNegative(string name)
-    {
-    }
-    public override void SetAxisZero(string name)
-    {
-    }
     public override void SetAxis(string name, float value)
     {
     }
+
 }
