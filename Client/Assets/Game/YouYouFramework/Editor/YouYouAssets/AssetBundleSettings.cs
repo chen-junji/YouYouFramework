@@ -81,7 +81,7 @@ public class AssetBundleSettings : ScriptableObject
         {
             FileInfo file = arrFiles[i];
             string fullName = file.FullName.Replace("\\", "/"); //全名 包含路径扩展名
-            string name = fullName.Replace(toPath, "").Replace(".assetbundle", "").Replace(".unity3d", "");
+            string name = fullName.Replace(toPath, "").Replace(".unity3d", "");
 
             if (name.Equals("AssetInfo.json", System.StringComparison.CurrentCultureIgnoreCase)
                 || name.Equals("Windows", System.StringComparison.CurrentCultureIgnoreCase)

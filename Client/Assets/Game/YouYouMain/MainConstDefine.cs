@@ -29,7 +29,7 @@ namespace YouYouMain
         /// <summary>
         /// 只读区加载AssetBundle的统一文件路径
         /// </summary>
-        public static string StreamingAssetBundlePath = Path.Combine(Application.streamingAssetsPath, "AssetBundles");
+        public static string StreamingAssetBundlePath = Application.streamingAssetsPath + "/AssetBundles";
 
         /// <summary>
         /// 可写区加载AssetBundle的统一文件路径
