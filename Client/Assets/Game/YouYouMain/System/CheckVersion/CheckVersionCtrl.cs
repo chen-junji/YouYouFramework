@@ -161,6 +161,7 @@ public class CheckVersionCtrl
             }
             LinkedListNode<string> next = currDel.Next;
             deleteList.Remove(currDel);
+            VersionLocalModel.Instance.VersionDic.Remove(currDel.Value);
             currDel = next;
         }
 
