@@ -137,7 +137,7 @@ namespace YouYouFramework
                     unityWeb.SetRequestHeader("Content-Type", MainEntry.ParamsSettings.PostContentType);
             }
 
-            GameEntry.Log(LogCategory.NetWork, string.Format("Post请求:{0}, {1}次重试==>>{2}", m_Url, m_CurrRetry), m_Json);
+            GameEntry.Log(LogCategory.NetWork, $"Post请求:{m_Url}, {m_CurrRetry}次重试==>>{m_Json}");
             GameEntry.Instance.StartCoroutine(Request(unityWeb));
         }
         #endregion

@@ -74,7 +74,7 @@ namespace YouYouFramework
                     Object obj = CurrAssetBundleRequest.asset;
                     if (obj != null)
                     {
-                        //GameEntry.Log(LogCategory.Loader, "资源=>{0} 加载完毕", m_CurrAssetName);
+                        //GameEntry.Log(LogCategory.Loader, $"资源=>{m_CurrAssetName} 加载完毕");
                     }
                     else
                     {

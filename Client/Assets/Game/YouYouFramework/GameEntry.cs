@@ -128,8 +128,7 @@ namespace YouYouFramework
             }
         }
 
-
-        public static void Log(LogCategory catetory, params object[] args)
+        public static void Log(LogCategory catetory, object message)
         {
 #if DEBUG_LOG_NORMAL
             //由于性能原因，如果在Build Settings中没有勾上“Development Build”
@@ -138,21 +137,20 @@ namespace YouYouFramework
             {
                 return;
             }
-            Debug.Log("GameEntryLog - " + catetory.ToString() + args.Aggregate("", (current, message) => current + (" - " + message)));
+
+            Debug.Log("GameEntryLog==>" + catetory.ToString() + message);
 #endif
         }
-
-        public static void LogWarning(LogCategory catetory, params object[] args)
+        public static void LogWarning(LogCategory catetory, object message)
         {
 #if DEBUG_LOG_WARNING
-            Debug.LogWarning("GameEntryLog - " + catetory.ToString() + args.Aggregate("", (current, message) => current + (" - " + message)));
+            Debug.LogWarning("GameEntryLog==>" + catetory.ToString() + message);
 #endif
         }
-
-        public static void LogError(LogCategory catetory, params object[] args)
+        public static void LogError(LogCategory catetory, object message)
         {
 #if DEBUG_LOG_ERROR
-            Debug.LogError("GameEntryLog - " + catetory.ToString() + args.Aggregate("", (current, message) => current + (" - " + message)));
+            Debug.LogError("GameEntryLog==>" + catetory.ToString() + message);
 #endif
         }
 

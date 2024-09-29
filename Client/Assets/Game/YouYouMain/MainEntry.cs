@@ -93,7 +93,7 @@ namespace YouYouMain
             Download.OnUpdate();
         }
 
-        internal static void Log(params object[] args)
+        internal static void Log(object message)
         {
 #if DEBUG_LOG_NORMAL
             //由于性能原因，如果在Build Settings中没有勾上“Development Build”
@@ -102,19 +102,19 @@ namespace YouYouMain
             {
                 return;
             }
-            Debug.Log("MainEntryLog" + args.Aggregate("", (current, message) => current + (" - " + message)));
+            Debug.Log("MainEntryLog==>" + message);
 #endif
         }
-        internal static void LogWarning(params object[] args)
+        internal static void LogWarning(object message)
         {
 #if DEBUG_LOG_WARNING
-            Debug.LogWarning("MainEntryLog" + args.Aggregate("", (current, message) => current + (" - " + message)));
+            Debug.LogWarning("MainEntryLog==>" + message);
 #endif
         }
-        internal static void LogError(params object[] args)
+        internal static void LogError(object message)
         {
 #if DEBUG_LOG_ERROR
-            Debug.LogError("MainEntryLog" + args.Aggregate("", (current, message) => current + (" - " + message)));
+            Debug.LogError("MainEntryLog==>" + message);
 #endif
         }
 

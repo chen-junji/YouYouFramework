@@ -225,12 +225,12 @@ namespace YouYouMain
                     m_CurrRetry++;
                     if (m_CurrRetry <= MainEntry.ParamsSettings.DownloadRetry)
                     {
-                        MainEntry.Log("下载文件URL {0} 出错, 正在进行重试, 当前重试次数{1}", m_UnityWebRequest.url, m_CurrRetry);
+                        MainEntry.Log($"下载文件URL {m_UnityWebRequest.url} 出错, 正在进行重试, 当前重试次数{m_CurrRetry}");
                         Reset();
                         DownloadInner();
                         return;
                     }
-                    MainEntry.LogError("下载失败, URL {0} Error= {1}", m_UnityWebRequest.url, m_UnityWebRequest.error);
+                    MainEntry.LogError($"下载失败, URL {m_UnityWebRequest.url} Error= {m_UnityWebRequest.error}");
                     Reset();
                     //MainEntry.ClassObjectPool.Enqueue(this);
                     return;

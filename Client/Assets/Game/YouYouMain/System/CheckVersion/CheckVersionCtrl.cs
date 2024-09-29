@@ -89,7 +89,7 @@ public class CheckVersionCtrl
 
         await InitVersionFile();
 
-        MainEntry.Log("检查更新=>CheckVersionChange(), 版本号=>{0}", VersionLocalModel.Instance.AssetVersion);
+        MainEntry.Log($"检查更新=>CheckVersionChange(), 版本号=>{VersionLocalModel.Instance.AssetVersion}");
 
         if (VersionLocalModel.Instance.AssetVersion.Equals(VersionCDNModel.Instance.AssetVersion))
         {
