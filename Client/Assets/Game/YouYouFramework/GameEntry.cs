@@ -138,19 +138,19 @@ namespace YouYouFramework
                 return;
             }
 
-            Debug.Log("GameEntryLog==>" + catetory.ToString() + message);
+            Debug.Log($"GameEntryLog==>{catetory}==>{message}");
 #endif
         }
         public static void LogWarning(LogCategory catetory, object message)
         {
 #if DEBUG_LOG_WARNING
-            Debug.LogWarning("GameEntryLog==>" + catetory.ToString() + message);
+            Debug.LogWarning($"GameEntryLog==>{catetory}==>{message}");
 #endif
         }
         public static void LogError(LogCategory catetory, object message)
         {
 #if DEBUG_LOG_ERROR
-            Debug.LogError("GameEntryLog==>" + catetory.ToString() + message);
+            Debug.LogError($"GameEntryLog==>{catetory}==>{message}");
 #endif
         }
 

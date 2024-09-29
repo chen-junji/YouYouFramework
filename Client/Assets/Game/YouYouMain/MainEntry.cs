@@ -102,19 +102,19 @@ namespace YouYouMain
             {
                 return;
             }
-            Debug.Log("MainEntryLog==>" + message);
+            Debug.Log($"MainEntryLog==>{message}");
 #endif
         }
         internal static void LogWarning(object message)
         {
 #if DEBUG_LOG_WARNING
-            Debug.LogWarning("MainEntryLog==>" + message);
+            Debug.LogWarning($"MainEntryLog==>{message}");
 #endif
         }
         internal static void LogError(object message)
         {
 #if DEBUG_LOG_ERROR
-            Debug.LogError("MainEntryLog==>" + message);
+            Debug.LogError($"MainEntryLog==>{message}");
 #endif
         }
 

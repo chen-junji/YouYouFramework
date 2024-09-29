@@ -13,13 +13,13 @@ namespace YouYouFramework
         public override void OnEnter(int lastState)
         {
             base.OnEnter(lastState);
-            GameEntry.Log(LogCategory.Procedure, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>> OnEnter()");
+            GameEntry.Log(LogCategory.Procedure, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>OnEnter()");
         }
 
         public override void OnLeave(int newState)
         {
             base.OnLeave(newState);
-            GameEntry.Log(LogCategory.Procedure, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>> OnLeave()");
+            GameEntry.Log(LogCategory.Procedure, CurrFsm.GetState(CurrFsm.CurrStateType).ToString() + "==>OnLeave()");
         }
 
         internal override void OnDestroy()
