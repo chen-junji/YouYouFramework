@@ -84,6 +84,8 @@ namespace YouYouFramework
                 {
                     //GameEntry.Log("资源包在资源池中存在 从资源池中加载AssetBundle");
                     onComplete?.Invoke(assetBundleEntity.Target);
+
+                    //TaskComplete要在最后, 否则MainAssetPool.Register有可能比下一个MainAssetPool.Spawn更晚执行, 导致出错
                     taskRoutine.TaskComplete();
                     return;
                 }
@@ -99,11 +101,12 @@ namespace YouYouFramework
                 {
                     //资源包注册到资源池
                     AssetBundleReferenceEntity.Create(assetbundlePath, assetbundle);
-
-                    taskRoutine.TaskComplete();
                     onComplete?.Invoke(assetbundle);
 
                     m_AssetBundleLoaderList.Remove(loadRoutine);
+
+                    //TaskComplete要在最后, 否则MainAssetPool.Register有可能比下一个MainAssetPool.Spawn更晚执行, 导致出错
+                    taskRoutine.TaskComplete();
                 };
                 //加载资源包
                 loadRoutine.LoadAssetBundleAsync(assetbundlePath);
@@ -218,6 +221,9 @@ namespace YouYouFramework
                 {
                     onComplete?.Invoke(referenceEntity);
                     //YouYou.GameEntry.LogError("从分类资源池加载" + assetEntity.ResourceName);
+
+                    //TaskComplete要在最后, 否则MainAssetPool.Register有可能比下一个MainAssetPool.Spawn更晚执行, 导致出错
+                    taskRoutine.TaskComplete();
                     return;
                 }
 
@@ -231,12 +237,14 @@ namespace YouYouFramework
                 //资源加载 结果 回调
                 routine.OnLoadAssetComplete = (Object obj) =>
                 {
-                    taskRoutine.TaskComplete();
                     referenceEntity = AssetReferenceEntity.Create(assetFullPath, obj);
                     onComplete?.Invoke(referenceEntity);
 
                     //结束循环 回池
                     m_AssetLoaderList.Remove(routine);
+
+                    //TaskComplete要在最后, 否则MainAssetPool.Register有可能比下一个MainAssetPool.Spawn更晚执行, 导致出错
+                    taskRoutine.TaskComplete();
                 };
                 //加载资源
                 routine.LoadAssetAsync(assetFullPath, assetBundle);
