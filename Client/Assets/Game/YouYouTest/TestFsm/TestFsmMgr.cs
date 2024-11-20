@@ -23,7 +23,7 @@ public class TestFsmMgr
     /// <summary>
     /// 当前状态机
     /// </summary>
-    public Fsm<TestFsmMgr> CurrFsm { get; private set; }
+    public GPFsm<TestFsmMgr> CurrFsm { get; private set; }
 
     /// <summary>
     /// 当前状态Type
@@ -40,7 +40,7 @@ public class TestFsmMgr
     {
         //得到枚举的长度
         int count = Enum.GetNames(typeof(EState)).Length;
-        FsmState<TestFsmMgr>[] states = new FsmState<TestFsmMgr>[count];
+        GPFsmState<TestFsmMgr>[] states = new GPFsmState<TestFsmMgr>[count];
 
         //这个状态机跟Unity的动画状态机的原理是一模一样的
         //如果当前状态的其中一条过渡线的全部条件满足, 就会切换到这条过渡线对应的状态
@@ -88,7 +88,7 @@ public class TestFsmMgr
             }
         };
 
-        CurrFsm = GameEntry.Fsm.Create(this, states);
+        CurrFsm = new GPFsm<TestFsmMgr>(this, states);
     }
     internal void OnUpdate()
     {
@@ -105,7 +105,7 @@ public class TestFsmMgr
     }
 }
 
-public class TestFsmState1 : FsmState<TestFsmMgr>
+public class TestFsmState1 : GPFsmState<TestFsmMgr>
 {
     public override void OnEnter(int lastState)
     {
@@ -129,7 +129,7 @@ public class TestFsmState1 : FsmState<TestFsmMgr>
     }
 
 }
-public class TestFsmState2 : FsmState<TestFsmMgr>
+public class TestFsmState2 : GPFsmState<TestFsmMgr>
 {
     public override void OnEnter(int lastState)
     {

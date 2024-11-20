@@ -9,16 +9,21 @@ namespace YouYouFramework
     /// 状态机的状态
     /// </summary>
     /// <typeparam name="T">状态机</typeparam>
-    public class FsmState<T> where T : class
+    public class GPFsmState<T> where T : class
     {
         /// <summary>
         /// 所属状态机
         /// </summary>
-        protected Fsm<T> CurrFsm;
+        protected GPFsm<T> CurrFsm;
         /// <summary>
         /// 所属状态机管理器
         /// </summary>
         protected T FsmMgr;
+
+        /// <summary>
+        /// 状态过渡线列表
+        /// </summary>
+        public List<GPFsmTransition> Transitions = new();
 
         /// <summary>
         /// 状态需要用到的信息列表
@@ -43,7 +48,7 @@ namespace YouYouFramework
         /// <summary>
         /// 初始化
         /// </summary>
-        internal virtual void OnInit(Fsm<T> currFsm, int myStateIndex)
+        internal virtual void OnInit(GPFsm<T> currFsm, int myStateIndex)
         {
             CurrFsm = currFsm;
             MyStateIndex = myStateIndex;

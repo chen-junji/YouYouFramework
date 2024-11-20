@@ -33,12 +33,6 @@ namespace YouYouFramework
             /// </summary>
             Main
         }
-        public class ParamConst
-        {
-            public const string TriggerPreload = "TriggerPreload";
-            public const string TriggerLogin = "TriggerLogin";
-            public const string TriggerMain = "TriggerMain";
-        }
 
         /// <summary>
         /// 当前流程状态机
@@ -62,74 +56,10 @@ namespace YouYouFramework
             int count = Enum.GetNames(typeof(EState)).Length;
             FsmState<ProcedureManager>[] states = new FsmState<ProcedureManager>[count];
 
-            states[(byte)EState.Launch] = new ProcedureLaunch()
-            {
-                Transitions = new()
-                {
-                    new()
-                    {
-                        TargetState = (int)EState.Preload, 
-                        FsmConditions = new()
-                        {
-                        },
-                        FsmConditionTriggers = new()
-                        {
-                            ParamConst.TriggerPreload,
-                        }
-                    },
-                }
-            };
-            states[(byte)EState.Preload] = new ProcedurePreload()
-            {
-                Transitions = new()
-                {
-                    new()
-                    {
-                        TargetState = (int)EState.Login,
-                        FsmConditions = new()
-                        {
-                        },
-                        FsmConditionTriggers = new()
-                        {
-                            ParamConst.TriggerLogin,
-                        }
-                    },
-                }
-            };
-            states[(byte)EState.Login] = new ProcedureLogin()
-            {
-                Transitions = new()
-                {
-                    new()
-                    {
-                        TargetState = (int)EState.Main,
-                        FsmConditions = new()
-                        {
-                        },
-                        FsmConditionTriggers = new()
-                        {
-                            ParamConst.TriggerMain,
-                        }
-                    },
-                }
-            };
-            states[(byte)EState.Main] = new ProcedureMain()
-            {
-                Transitions = new()
-                {
-                    new()
-                    {
-                        TargetState = (int)EState.Login,
-                        FsmConditions = new()
-                        {
-                        },
-                        FsmConditionTriggers = new()
-                        {
-                            ParamConst.TriggerLogin,
-                        }
-                    },
-                }
-            };
+            states[(byte)EState.Launch] = new ProcedureLaunch();
+            states[(byte)EState.Preload] = new ProcedurePreload();
+            states[(byte)EState.Login] = new ProcedureLogin();
+            states[(byte)EState.Main] = new ProcedureMain();
 
             //创建流程的状态机
             CurrFsm = GameEntry.Fsm.Create(this, states);
@@ -138,7 +68,10 @@ namespace YouYouFramework
         {
             CurrFsm.OnUpdate();
         }
-
+        public void ChangeState(EState state)
+        {
+            CurrFsm.ChangeState((sbyte)state);
+        }
         public void SetInfoList(EState state, List<object> infoList)
         {
             var fsmState = CurrFsm.GetState((sbyte)state);

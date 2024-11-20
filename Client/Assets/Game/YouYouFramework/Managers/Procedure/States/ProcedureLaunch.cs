@@ -24,6 +24,6 @@ public class ProcedureLaunch : ProcedureBase
             //if (!Permission.HasUserAuthorizedPermission(s)) Permission.RequestUserPermission(s);
         });
 
-        GameEntry.Procedure.CurrFsm.SetTrigger(ProcedureManager.ParamConst.TriggerPreload);
+        GameEntry.Procedure.ChangeState(ProcedureManager.EState.Preload);
     }
 }

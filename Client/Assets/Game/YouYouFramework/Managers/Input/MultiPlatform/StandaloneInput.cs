@@ -20,9 +20,10 @@ public class StandaloneInput : VirtualInput
         }
     }
     public List<KeyCodeItem> KeyCodeItemList = new List<KeyCodeItem>();
-    internal override void OnInit()
+
+    internal override void OnInit(Fsm<InputManager> currFsm, int myStateIndex)
     {
-        base.OnInit();
+        base.OnInit(currFsm, myStateIndex);
         //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.Mouse0, ConstInput.Fire));
         //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.Mouse1, ConstInput.Aim));
         //KeyCodeItemList.Add(new KeyCodeItem(KeyCode.Space, ConstInput.Jump));

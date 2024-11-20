@@ -17,11 +17,11 @@ public class ProcedureMain : ProcedureBase
 
         GameEntry.Input.SetEnable(true);
 #if UNITY_EDITOR
-        GameEntry.Input.CurrFsm.SetTrigger(MainEntry.ParamsSettings.MobileDebug ? InputManager.ParamConst.TriggerTouch : InputManager.ParamConst.TriggerKeyboard);
+        GameEntry.Input.ChangeState(MainEntry.ParamsSettings.MobileDebug ? InputManager.EState.Touch : InputManager.EState.Keyboard);
 #elif UNITY_STANDALONE
-        GameEntry.Input.CurrFsm.SetTrigger(InputManager.ParamConst.TriggerKeyboard);
+        GameEntry.Input.ChangeState(InputManager.EState.Keyboard);
 #elif UNITY_IOS || UNITY_ANDROID
-        GameEntry.Input.CurrFsm.SetTrigger(InputManager.ParamConst.TriggerTouch);
+        GameEntry.Input.ChangeState(InputManager.EState.Touch);
 #endif
 
     }

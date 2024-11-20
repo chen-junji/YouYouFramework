@@ -53,7 +53,7 @@ public class ProcedurePreload : ProcedureBase
             MainEntry.Instance.ActionPreloadComplete?.Invoke();
 
             //进入到业务流程
-            GameEntry.Procedure.CurrFsm.SetTrigger(ProcedureManager.ParamConst.TriggerLogin);
+            GameEntry.Procedure.ChangeState(ProcedureManager.EState.Login);
         }
     }
 

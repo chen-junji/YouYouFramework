@@ -13,7 +13,9 @@ public class ProcedureLogin : ProcedureBase
     public override void OnEnter(int lastState)
     {
         base.OnEnter(lastState);
-        GameEntry.Procedure.CurrFsm.SetTrigger(ProcedureManager.ParamConst.TriggerMain);
+        GameEntry.Procedure.ChangeState(ProcedureManager.EState.Main);
+
+
     }
     internal override void OnDestroy()
     {

@@ -385,36 +385,5 @@ namespace YouYouFramework
 
         #endregion
 
-        #region Resource加载
-        public T LoadResources<T>(string assetFullPath) where T : Object
-        {
-            T asset = Resources.Load<T>(assetFullPath);
-            if (asset == null)
-            {
-                GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetFullPath);
-            }
-            return asset;
-        }
-        public async UniTask<T> LoadResourcesAsync<T>(string assetFullPath) where T : Object
-        {
-            Object asset = await Resources.LoadAsync<T>(assetFullPath);
-            if (asset == null)
-            {
-                GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetFullPath);
-            }
-            return asset as T;
-        }
-
-        public T[] LoadResourcesAll<T>(string assetFullPath) where T : Object
-        {
-            T[] asset = Resources.LoadAll<T>(assetFullPath);
-            if (asset == null)
-            {
-                GameEntry.LogError(LogCategory.Loader, "资源加载失败==" + assetFullPath);
-            }
-            return asset;
-        }
-        #endregion
-
     }
 }

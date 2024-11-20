@@ -103,6 +103,9 @@ namespace YouYouFramework
             Procedure.Init();
             Input.Init();
             Audio.Init();
+
+            //进入第一个流程
+            Procedure.ChangeState(ProcedureManager.EState.Launch);
         }
 
         void Update()

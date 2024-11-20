@@ -3,7 +3,6 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-
 namespace YouYouFramework
 {
     public class InputManager
@@ -14,13 +13,6 @@ namespace YouYouFramework
             Touch,
             Keyboard,
         }
-        public class ParamConst
-        {
-            public const string IntIsEnable = "IntIsEnable";
-            public const string TriggerTouch = "TriggerTouch";
-            public const string TriggerKeyboard = "TriggerKeyboard";
-        }
-
         public Fsm<InputManager> CurrFsm { get; private set; }
 
         private VirtualInput CurrInput;
@@ -38,48 +30,6 @@ namespace YouYouFramework
             states[(byte)EState.Touch] = new MobileInput();
 
             CurrFsm = GameEntry.Fsm.Create(this, states);
-            CurrFsm.AnyStateTransitions = new()
-            {
-                new()
-                {
-                    TargetState = (int)EState.None,
-                    FsmConditions = new()
-                    {
-                        new(()=> !CurrFsm.GetParam<bool>(ParamConst.IntIsEnable)),
-                    },
-                    FsmConditionTriggers = new()
-                    {
-                    }
-                },
-                new()
-                {
-                    TargetState = (int)EState.Keyboard,
-                    FsmConditions = new()
-                    {
-                        new(()=> CurrFsm.GetParam<bool>(ParamConst.IntIsEnable)),
-                    },
-                    FsmConditionTriggers = new()
-                    {
-                        ParamConst.TriggerKeyboard,
-                    }
-                },
-                new()
-                {
-                    TargetState = (int)EState.Touch,
-                    FsmConditions = new()
-                    {
-                        new(()=> !CurrFsm.GetParam<bool>(ParamConst.IntIsEnable)),
-                    },
-                    FsmConditionTriggers = new()
-                    {
-                        ParamConst.TriggerTouch,
-                    }
-                },
-            };
-            CurrFsm.ActionStateChange = () =>
-            {
-                CurrInput = CurrFsm.CurrState as VirtualInput;
-            };
             SetEnable(false);
         }
         internal void OnUpdate()
@@ -87,9 +37,33 @@ namespace YouYouFramework
             CurrFsm.OnUpdate();
         }
 
+        /// <summary>
+        /// 切换状态
+        /// </summary>
+        public void ChangeState(EState state)
+        {
+            CurrInput = CurrFsm.ChangeState((sbyte)state) as VirtualInput;
+        }
+
         public void SetEnable(bool enable)
         {
-            CurrFsm.SetParam(ParamConst.IntIsEnable, enable);
+            if (enable)
+            {
+                EState state;
+#if UNITY_STANDALONE
+                state = EState.Keyboard;
+#elif UNITY_IOS || UNITY_ANDROID
+                state = EState.Touch;
+#endif
+#if UNITY_EDITOR
+                state = MainEntry.ParamsSettings.MobileDebug ? EState.Touch : EState.Keyboard;
+#endif
+                ChangeState(state);
+            }
+            else
+            {
+                ChangeState(EState.None);
+            }
         }
 
         public VirtualButton VirtualButtonReference(InputKeyCode name)
