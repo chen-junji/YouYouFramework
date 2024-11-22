@@ -96,7 +96,7 @@ namespace YouYouFramework
         public void Release()
         {
             AssetBundle bundle = Target;
-            bundle.Unload(true);
+            bundle.UnloadAsync(true);
 
             AssetBundlePath = null;
             Target = null;
