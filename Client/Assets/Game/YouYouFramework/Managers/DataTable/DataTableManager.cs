@@ -60,7 +60,7 @@ namespace YouYouFramework
         {
             if (MainEntry.IsAssetBundleMode)
             {
-                AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadAsset(GameUtil.GetLastPathName(dataTableName), m_DataTableBundle);
+                AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadAsset($"Assets/Game/Download/DataTable/{dataTableName}.bytes", m_DataTableBundle);
                 if (referenceEntity == null) return null;
                 TextAsset asset = referenceEntity.Target as TextAsset;
                 return asset.bytes;

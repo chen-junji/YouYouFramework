@@ -41,18 +41,6 @@ public class GameUtil
     }
 
     /// <summary>
-    /// 获取路径的最后名称
-    /// </summary>
-    public static string GetLastPathName(string path)
-    {
-        if (path.IndexOf('/') == -1)
-        {
-            return path;
-        }
-        return path.Substring(path.LastIndexOf('/') + 1);
-    }
-
-    /// <summary>
     /// 加载Prefab并克隆
     /// </summary>
     public static GameObject LoadPrefabClone(string prefabFullPath, Transform parent = null)

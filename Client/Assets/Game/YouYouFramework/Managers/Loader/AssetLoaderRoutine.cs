@@ -17,7 +17,7 @@ namespace YouYouFramework
         /// </summary>
         public AssetBundleRequest CurrAssetBundleRequest { get; private set; }
 
-        public string CurrAssetName { get; private set; }
+        public string AssetFullPath { get; private set; }
 
         /// <summary>
         /// 资源请求更新
@@ -30,10 +30,10 @@ namespace YouYouFramework
         public Action<Object> OnLoadAssetComplete;
 
 
-        internal void LoadAssetAsync(string assetName, AssetBundle assetBundle)
+        internal void LoadAssetAsync(string assetFullPath, AssetBundle assetBundle)
         {
-            CurrAssetName = assetName;
-            CurrAssetBundleRequest = assetBundle.LoadAssetAsync(assetName);
+            AssetFullPath = assetFullPath;
+            CurrAssetBundleRequest = assetBundle.LoadAssetAsync(assetFullPath);
         }
         internal Object LoadAsset(string assetName, AssetBundle assetBundle)
         {
@@ -78,7 +78,7 @@ namespace YouYouFramework
                     }
                     else
                     {
-                        GameEntry.LogError(LogCategory.Loader, string.Format("资源=>{0} 加载失败", CurrAssetName));
+                        GameEntry.LogError(LogCategory.Loader, string.Format("资源=>{0} 加载失败", AssetFullPath));
                     }
                     Reset();//一定要早点Reset
                     GameEntry.Pool.ClassObjectPool.Enqueue(this);

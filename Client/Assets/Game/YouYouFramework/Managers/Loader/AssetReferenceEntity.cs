@@ -47,20 +47,6 @@ namespace YouYouFramework
         {
             ReferenceCount++;
 
-            if (MainEntry.IsAssetBundleMode)
-            {
-                if (ReferenceCount == 1)
-                {
-                    AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(AssetFullPath);
-                    AssetBundleReferenceEntity assetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
-                    assetBundleEntity.ReferenceAdd();
-                    for (int i = 0; i < assetEntity.DependsAssetBundleList.Count; i++)
-                    {
-                        AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
-                        dependAssetBundleEntity.ReferenceAdd();
-                    }
-                }
-            }
         }
         /// <summary>
         /// 引用计数-1
@@ -69,21 +55,6 @@ namespace YouYouFramework
         {
             RefeshLastUseTime();
             ReferenceCount--;
-
-            if (MainEntry.IsAssetBundleMode)
-            {
-                if (ReferenceCount == 0)
-                {
-                    AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(AssetFullPath);
-                    AssetBundleReferenceEntity assetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
-                    assetBundleEntity.ReferenceRemove();
-                    for (int i = 0; i < assetEntity.DependsAssetBundleList.Count; i++)
-                    {
-                        AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
-                        dependAssetBundleEntity.ReferenceRemove();
-                    }
-                }
-            }
 
             if (ReferenceCount < 0)
             {
@@ -105,9 +76,21 @@ namespace YouYouFramework
         /// </summary>
         public void Release()
         {
+            //更新一下AssetBundle的引用计数
+            if (MainEntry.IsAssetBundleMode)
+            {
+                AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(AssetFullPath);
+                AssetBundleReferenceEntity assetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
+                assetBundleEntity.ReferenceRemove();
+                for (int i = 0; i < assetEntity.DependsAssetBundleList.Count; i++)
+                {
+                    AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
+                    dependAssetBundleEntity.ReferenceRemove();
+                }
+            }
+
             AssetFullPath = null;
             Target = null;
-
             GameEntry.Pool.ClassObjectPool.Enqueue(this); //把这个资源实体回池
         }
 
@@ -122,6 +105,20 @@ namespace YouYouFramework
             referenceEntity.AssetFullPath = assetFullPath;
             referenceEntity.Target = obj;
             GameEntry.Loader.MainAssetPool.Register(referenceEntity);
+
+            //更新一下AssetBundle的引用计数
+            if (MainEntry.IsAssetBundleMode)
+            {
+                AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(assetFullPath);
+                AssetBundleReferenceEntity assetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
+                assetBundleEntity.ReferenceAdd();
+                for (int i = 0; i < assetEntity.DependsAssetBundleList.Count; i++)
+                {
+                    AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
+                    dependAssetBundleEntity.ReferenceAdd();
+                }
+            }
+
             return referenceEntity;
         }
     }

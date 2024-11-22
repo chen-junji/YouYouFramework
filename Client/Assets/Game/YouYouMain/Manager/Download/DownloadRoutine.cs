@@ -237,7 +237,7 @@ namespace YouYouMain
             }
 
             //下载完毕
-            MainEntry.Log("下载完毕=>" + m_UnityWebRequest.url);
+            //MainEntry.Log("下载完毕=>" + m_UnityWebRequest.url);
             m_CurrDownloaderSize = m_UnityWebRequest.downloadedBytes;
             Sava(m_UnityWebRequest.downloadHandler.data, true);
 

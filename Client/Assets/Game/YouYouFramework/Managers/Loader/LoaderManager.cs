@@ -273,7 +273,7 @@ namespace YouYouFramework
             //如果这个Asset在异步加载中，则直接堵塞主线程，返回Request.asset
             for (LinkedListNode<AssetLoaderRoutine> curr = m_AssetLoaderList.First; curr != null; curr = curr.Next)
             {
-                if (curr.Value.CurrAssetName == assetFullPath)
+                if (curr.Value.AssetFullPath == assetFullPath)
                 {
                     return AssetReferenceEntity.Create(assetFullPath, curr.Value.CurrAssetBundleRequest.asset);
                 }
