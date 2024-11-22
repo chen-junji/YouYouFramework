@@ -210,7 +210,7 @@ namespace YouYouFramework
         /// <summary>
         /// 从资源包中加载资源
         /// </summary>
-        public void LoadAssetAction(string assetFullPath, AssetBundle assetBundle, Action<float> onUpdate = null, Action<AssetReferenceEntity> onComplete = null)
+        private void LoadAssetAction(string assetFullPath, AssetBundle assetBundle, Action<float> onUpdate = null, Action<AssetReferenceEntity> onComplete = null)
         {
             //使用TaskGroup, 加入异步加载队列, 防止高并发导致的重复加载
             AssetTaskGroup.AddTask((taskRoutine) =>
@@ -251,7 +251,7 @@ namespace YouYouFramework
             });
             AssetTaskGroup.Run();
         }
-        public UniTask<AssetReferenceEntity> LoadAssetAsync(string assetFullPath, AssetBundle assetBundle, Action<float> onUpdate = null)
+        private UniTask<AssetReferenceEntity> LoadAssetAsync(string assetFullPath, AssetBundle assetBundle, Action<float> onUpdate = null)
         {
             var task = new UniTaskCompletionSource<AssetReferenceEntity>();
             LoadAssetAction(assetFullPath, assetBundle, onUpdate, (AssetReferenceEntity assetReferenceEntity) =>
@@ -261,7 +261,7 @@ namespace YouYouFramework
             return task.Task;
         }
 
-        public AssetReferenceEntity LoadAsset(string assetFullPath, AssetBundle assetBundle)
+        private AssetReferenceEntity LoadAsset(string assetFullPath, AssetBundle assetBundle)
         {
             //从分类资源池(AssetPool)中查找资源
             AssetReferenceEntity referenceEntity = GameEntry.Loader.MainAssetPool.Spawn(assetFullPath);
