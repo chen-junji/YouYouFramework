@@ -18,7 +18,7 @@ namespace YouYouFramework
         /// <summary>
         /// 加载表格
         /// </summary>
-        private void LoadDataTable()
+        internal void LoadDataAllTable()
         {
             //LocalizationDBModel不需要在这里LoadData, 而是在LocalizationManager里面LoadData
             LocalizationDBModel = new LocalizationDBModel();
@@ -37,30 +37,13 @@ namespace YouYouFramework
         }
 
         /// <summary>
-        /// 表格资源包
-        /// </summary>
-        private AssetBundle m_DataTableBundle;
-
-        /// <summary>
-        /// 加载表格
-        /// </summary>
-        internal void LoadDataAllTable()
-        {
-            if (MainEntry.IsAssetBundleMode)
-            {
-                m_DataTableBundle = GameEntry.Loader.LoadAssetBundle(YFConstDefine.DataTableAssetBundlePath);
-            }
-            LoadDataTable();
-        }
-
-        /// <summary>
         /// 获取表格的字节数组
         /// </summary>
         public byte[] GetDataTableBuffer(string dataTableName)
         {
             if (MainEntry.IsAssetBundleMode)
             {
-                AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadAsset($"Assets/Game/Download/DataTable/{dataTableName}.bytes", m_DataTableBundle);
+                AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset($"Assets/Game/Download/DataTable/{dataTableName}.bytes");
                 if (referenceEntity == null) return null;
                 TextAsset asset = referenceEntity.Target as TextAsset;
                 return asset.bytes;
