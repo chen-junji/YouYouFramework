@@ -40,29 +40,6 @@ public class CheckVersionCtrl
         }
     }
 
-    #region 初始化CDN的版本文件信息
-    /// <summary>
-    /// 初始化CDN的版本文件信息
-    /// </summary>
-    public async UniTask InitVersionFile()
-    {
-        //去资源站点请求CDN的版本文件信息
-        string cdnVersionFileUrl = Path.Combine(ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, MainConstDefine.VersionFileName);
-        byte[] cdnVersionFileBytes = await LoadUtil.LoadCDNBytesAsync(cdnVersionFileUrl);
-        if (cdnVersionFileBytes != null)
-        {
-            //加载CDN版本文件信息
-            VersionCDNModel.Instance.VersionDic = LoadUtil.LoadVersionFile(cdnVersionFileBytes, ref VersionCDNModel.Instance.AssetVersion);
-            MainEntry.Log("加载CDN版本文件信息");
-        }
-        else
-        {
-            MainEntry.Log("初始化CDN资源包信息失败，cdnVersionFileUrl==" + cdnVersionFileUrl);
-        }
-    }
-
-    #endregion
-
     #region 检查更新相关逻辑
     /// <summary>
     /// 需要下载的资源包列表
@@ -87,7 +64,19 @@ public class CheckVersionCtrl
     {
         CheckVersionComplete = onComplete;
 
-        await InitVersionFile();
+        //去资源站点请求CDN的版本文件信息
+        string cdnVersionFileUrl = Path.Combine(ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, MainConstDefine.VersionFileName);
+        byte[] cdnVersionFileBytes = await LoadUtil.LoadCDNBytesAsync(cdnVersionFileUrl);
+        if (cdnVersionFileBytes != null)
+        {
+            VersionCDNModel.Instance.VersionDic = LoadUtil.LoadVersionFile(cdnVersionFileBytes, ref VersionCDNModel.Instance.AssetVersion);
+            MainEntry.Log("加载CDN版本文件成功，cdnVersionFileUrl==" + cdnVersionFileUrl);
+        }
+        else
+        {
+            MainEntry.Log("加载CDN版本文件失败，cdnVersionFileUrl==" + cdnVersionFileUrl);
+            return;
+        }
 
         MainEntry.Log($"检查更新=>CheckVersionChange(), 版本号=>{VersionLocalModel.Instance.AssetVersion}");
 
@@ -171,24 +160,31 @@ public class CheckVersionCtrl
         {
             VersionFileEntity cdnVersionFile = enumerator.Current.Value;
 
-            //当前文件为初始资源, 并且可写区没有
-            //则去只读区判断一次
-            if (cdnVersionFile.IsFirstData && VersionLocalModel.Instance.VersionDic.ContainsKey(cdnVersionFile.AssetBundleName) == false)
+            //当前文件不是初始资源 忽略
+            if (!cdnVersionFile.IsFirstData) continue;
+
+            if (VersionLocalModel.Instance.VersionDic.TryGetValue(cdnVersionFile.AssetBundleName, out VersionFileEntity localVersionFile))
             {
-                if (VersionStreamingModel.Instance.VersionDic.TryGetValue(cdnVersionFile.AssetBundleName, out VersionFileEntity streamingVersionFile))
+                //可写区有这个文件
+                if (cdnVersionFile.MD5.Equals(localVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase) == false)
                 {
-                    //只读区有这个文件
-                    if (cdnVersionFile.MD5.Equals(streamingVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase) == false)
-                    {
-                        //只读区和CDN的MD5不一致 加入下载链表
-                        needDownloadList.AddLast(cdnVersionFile.AssetBundleName);
-                    }
-                }
-                else
-                {
-                    //只读区不存在 加入下载链表
+                    //可写区和CDN的MD5不一致 加入下载链表
                     needDownloadList.AddLast(cdnVersionFile.AssetBundleName);
                 }
+            }
+            else if (VersionStreamingModel.Instance.VersionDic.TryGetValue(cdnVersionFile.AssetBundleName, out VersionFileEntity streamingVersionFile))
+            {
+                //只读区有这个文件
+                if (cdnVersionFile.MD5.Equals(streamingVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase) == false)
+                {
+                    //只读区和CDN的MD5不一致 加入下载链表
+                    needDownloadList.AddLast(cdnVersionFile.AssetBundleName);
+                }
+            }
+            else
+            {
+                //可写区和只读区都不存在 加入下载链表
+                needDownloadList.AddLast(cdnVersionFile.AssetBundleName);
             }
         }
 

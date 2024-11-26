@@ -178,6 +178,7 @@ public class AssetBundleSettings : ScriptableObject
     public void BuildAssetBundle()
     {
         CopyHofixDll();
+        Debug.Log("热更dll和补充元数据dll, 复制到Game/Download/Hotfix完成");
 
         builds.Clear();
         int len = Datas.Length;
@@ -437,6 +438,8 @@ public class AssetBundleSettings : ScriptableObject
         using (FileStream fs = new FileStream(filePath, FileMode.Create))
         {
             fs.Write(buffer, 0, buffer.Length);
+            fs.Close();
+            fs.Dispose();
         }
     }
     /// <summary>
@@ -568,10 +571,12 @@ public class AssetBundleSettings : ScriptableObject
         string filePath = path + "/VersionFile.bytes"; //版本文件路径
         byte[] buffer = ms.ToArray();
         buffer = ZlibHelper.CompressBytes(buffer);
-        FileStream fs = new FileStream(filePath, FileMode.Create);
-        fs.Write(buffer, 0, buffer.Length);
-        fs.Close();
-        fs.Dispose();
+        using (FileStream fs = new FileStream(filePath, FileMode.Create))
+        {
+            fs.Write(buffer, 0, buffer.Length);
+            fs.Close();
+            fs.Dispose();
+        }
     }
 
     #endregion
@@ -615,7 +620,7 @@ public class AssetBundleSettings : ScriptableObject
     /// <summary>
     /// 热更Dll复制到Hotfix目录
     /// </summary>
-    public void CopyHofixDll()
+    private void CopyHofixDll()
     {
         HybridCLR.Editor.Commands.CompileDllCommand.CompileDll(GetBuildTarget());
 
@@ -629,9 +634,6 @@ public class AssetBundleSettings : ScriptableObject
         {
             File.Copy(aotMetaAssemblyDir + aotDllName + ".dll", Path.Combine(CodeDir, aotDllName + ".dll.bytes"), true);
         }
-
-        AssetDatabase.Refresh();
-        Debug.Log("热更dll和补充元数据dll, 复制到Game/Download/Hotfix完成");
     }
     #endregion
 
