@@ -6,10 +6,10 @@ Client/AssetBundles/
 Client/*.sln
 Client/*.csproj
 Client/.vsconfig
-bin/
-obj/
-.vs/
+Client/Build/
 Client/HybridCLRData/
 Client/Assets/HybridCLRData/
 Client/Assets/StreamingAssets/AssetBundles/
-APK/
+bin/
+obj/
+.vs/
