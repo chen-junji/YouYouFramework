@@ -78,7 +78,7 @@ public class CheckVersionCtrl
             return;
         }
 
-        MainEntry.Log($"检查更新=>CheckVersionChange(), 版本号=>{VersionLocalModel.Instance.AssetVersion}");
+        MainEntry.Log($"检查更新=>CheckVersionChange(), 本地版本号=>{VersionLocalModel.Instance.AssetVersion}");
 
         if (VersionLocalModel.Instance.AssetVersion.Equals(VersionCDNModel.Instance.AssetVersion))
         {
@@ -92,7 +92,7 @@ public class CheckVersionCtrl
         }
         else
         {
-            MainEntry.Log("CDN版本号和可写区 只读区版本号都不一致 开始检查更新");
+            MainEntry.Log($"CDN版本号=={VersionCDNModel.Instance.AssetVersion}, 和可写区 只读区版本号都不一致 开始检查更新");
             BeginCheckVersionChange();
         }
 

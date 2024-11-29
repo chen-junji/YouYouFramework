@@ -92,6 +92,9 @@ public class AssetBundleSettings : ScriptableObject
 
                 || name.Equals("iOS", System.StringComparison.CurrentCultureIgnoreCase)
                 || name.Equals("iOS.manifest", System.StringComparison.CurrentCultureIgnoreCase)
+
+                //不是初始资源 删除掉这个文件
+                || (dic.ContainsKey(name) && dic[name].IsFirstData == false)
                 )
             {
                 File.Delete(file.FullName);
@@ -137,7 +140,7 @@ public class AssetBundleSettings : ScriptableObject
                 string[] arrInner = arr[i].Split('|');
                 ms.WriteUTF8String(arrInner[0]);
                 ms.WriteUTF8String(arrInner[1]);
-                ms.WriteInt(int.Parse(arrInner[2]));
+                ms.WriteULong(ulong.Parse(arrInner[2]));
                 ms.WriteByte(byte.Parse(arrInner[3]));
                 ms.WriteByte(byte.Parse(arrInner[4]));
             }
