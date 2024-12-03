@@ -96,16 +96,16 @@ YouYou框架使用教程地址：https://www.bilibili.com/video/BV1Fu411s7MV/ <b
  **可选工具包** 
 ------------------------------------
 {
-- 行为树框架：https://gitee.com/chen_junji/BehaviourTree
 - 技能编辑器：https://gitee.com/chen_junji/SkillEditor
-- Camera控制（跟随 旋转 缩放）: https://gitee.com/chen_junji/CameraFollow
+- Camera跟随 旋转 缩放: https://gitee.com/chen_junji/CameraFollow
 - 摇杆: https://gitee.com/chen_junji/UIScroller
-- ECS框架: https://gitee.com/chen_junji/EntitasExample
-- 红点系统：https://gitee.com/chen_junji/ReddotTree
 - 新手引导系统：https://gitee.com/chen_junji/Guide
 - UI无限滚动列表: https://gitee.com/chen_junji/UIScroller
-- 后端框架：https://gitee.com/leng_yue/GameDesigner?_from=gitee_search <br>
 - Playable自定义动画系统：https://gitee.com/chen_junji/playable-animator
-- 组件自动绑定工具：https://gitee.com/chen_junji/component-auto-bind-tool
+- 后端框架(冷月提供)：https://gitee.com/leng_yue/GameDesigner?_from=gitee_search <br>
+- ECS框架(Youwant提供): https://gitee.com/chen_junji/EntitasExample
+- 行为树框架(猫仙人提供)：https://gitee.com/chen_junji/BehaviourTree
+- 红点系统(猫仙人提供)：https://gitee.com/chen_junji/ReddotTree
+- 组件自动绑定工具(猫仙人提供)：https://gitee.com/chen_junji/component-auto-bind-tool
 
 } 
