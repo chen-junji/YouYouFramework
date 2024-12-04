@@ -65,10 +65,10 @@ namespace YouYouMain
                     VersionLocalModel.Instance.SetAssetVersion("");
                     VersionStreamingModel.Instance.AssetVersion = "";
 
-                    //检查更新, 如果不需要热更新可以注释
+                    //检查更新
                     CheckVersionCtrl.Instance.CheckVersionChange(() =>
                     {
-                        //加载Hotfix代码(HybridCLR)
+                        //检查更新完成, 加载Hotfix代码(HybridCLR)
                         HotfixCtrl.Instance.LoadHotifx();
 
                         //启动YouYouFramework框架入口
