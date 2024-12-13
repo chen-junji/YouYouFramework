@@ -56,18 +56,17 @@ namespace YouYouFramework
         }
         private GameObject InstantiateDelegate(PrefabPool prefabPool)
         {
-            GameObject prefab = prefabPool.prefab;
-            GameObject inst = Object.Instantiate(prefab);
+            GameObject inst = Object.Instantiate(prefabPool.prefab);
             inst.transform.SetParent(prefabPool.spawnPool.transform, false);
 
             //从实例字典上 映射实例
             int instanceID = inst.GetInstanceID();
             instanceIdPoolIdDic[instanceID] = prefabPool;
 
-            //让资源的引用计数+1
-            if (prefabPool.TotalCount == 1)
+            //先执行的InstantiateDelegates 后执行的TotalCount+1, 所以TotalCount == 0说明是第一次克隆, 让资源的引用计数+1
+            if (prefabPool.TotalCount == 0)
             {
-                if (prefabAssetDic.TryGetValue(prefab.GetInstanceID(), out AssetReferenceEntity referenceEntity))
+                if (prefabAssetDic.TryGetValue(prefabPool.prefab.GetInstanceID(), out AssetReferenceEntity referenceEntity))
                 {
                     referenceEntity.ReferenceAdd();
                 }
@@ -82,10 +81,10 @@ namespace YouYouFramework
             //从实例字典上 移除实例
             instanceIdPoolIdDic.Remove(instanceID);
 
-            //让资源的引用计数-1
+            //先执行的TotalCount-1 后执行的DestroyDelegates, 所以TotalCount == 0说明是最后一次销毁, 让资源的引用计数-1
             if (prefabPool.TotalCount == 0)
             {
-                if (prefabAssetDic.TryGetValue(instanceID, out AssetReferenceEntity referenceEntity))
+                if (prefabAssetDic.TryGetValue(prefabPool.prefab.GetInstanceID(), out AssetReferenceEntity referenceEntity))
                 {
                     referenceEntity.ReferenceRemove();
                 }
