@@ -287,7 +287,7 @@ namespace YouYouFramework
         /// 异步加载主资源，自动加载依赖
         /// </summary>
         /// <param name="target">依赖的游戏物体， 它销毁时会触发引用计数减少</param>
-        public async UniTask<T> LoadMainAssetAsync<T>(string assetFullPath, GameObject target, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null) where T : Object
+        public async UniTask<T> LoadMainAssetAsync<T>(string assetFullPath, GameObject target, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null) where T : class, Object
         {
             if (target == null)
             {
@@ -295,8 +295,12 @@ namespace YouYouFramework
                 return null;
             }
             AssetReferenceEntity referenceEntity = await LoadMainAssetAsync(assetFullPath, onUpdate, onDownloadUpdate);
-            AssetReleaseHandle.Add(referenceEntity, target);
-            return referenceEntity.Target as T;
+            if (referenceEntity != null)
+            {
+                AssetReleaseHandle.Add(referenceEntity, target);
+                return referenceEntity.Target as T;
+            }
+            return null;
         }
         /// <summary>
         /// 异步加载主资源，自动加载依赖， 注意：这个方法需要自己调用AssetReferenceEntity.ReferenceAdd去管理引用计数
