@@ -287,7 +287,7 @@ namespace YouYouFramework
         /// 异步加载主资源，自动加载依赖
         /// </summary>
         /// <param name="target">依赖的游戏物体， 它销毁时会触发引用计数减少</param>
-        public async UniTask<T> LoadMainAssetAsync<T>(string assetFullPath, GameObject target, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null) where T : class, Object
+        public async UniTask<T> LoadMainAssetAsync<T>(string assetFullPath, GameObject target, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null) where T : Object
         {
             if (target == null)
             {
