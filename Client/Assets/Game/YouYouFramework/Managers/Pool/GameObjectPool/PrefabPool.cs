@@ -103,26 +103,17 @@ namespace YouYouFramework
         /// </summary>
         internal void SelfDestruct()
         {
-            List<GameObject> destroyList = new List<GameObject>();
-            foreach (GameObject inst in despawnedList)
+            while (despawnedList.First != null)
             {
-                destroyList.Add(inst);
+                despawnedList.RemoveFirst();
+                InstanceHandler.DestroyInstance(despawnedList.First.Value, this);
             }
-            foreach (GameObject inst in spawnedList)
+            while (spawnedList.First != null)
             {
-                destroyList.Add(inst);
+                spawnedList.RemoveFirst();
+                InstanceHandler.DestroyInstance(spawnedList.First.Value, this);
             }
-            despawnedList.Clear();
-            spawnedList.Clear();
 
-            //先用destroyList装起来, 然后再销毁, 防止DestroyInstance内触发委托拿到的despawnedList.Count有问题
-            foreach (GameObject inst in destroyList)
-            {
-                if (inst != null)
-                {
-                    InstanceHandler.DestroyInstance(inst, this);
-                }
-            }
             prefab = null;
             spawnPool = null;
         }
