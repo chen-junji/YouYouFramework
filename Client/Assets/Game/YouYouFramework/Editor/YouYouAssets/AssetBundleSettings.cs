@@ -599,7 +599,7 @@ public class AssetBundleSettings : ScriptableObject
             AssetBundleData assetBundleData = Datas[i];
             for (int j = 0; j < assetBundleData.Path.Length; j++)
             {
-                if (assetFullPath.IndexOf(assetBundleData.Path[j], StringComparison.CurrentCultureIgnoreCase) > -1)
+                if (assetFullPath.IndexOf(assetBundleData.Path[j] + "/", StringComparison.CurrentCultureIgnoreCase) > -1)
                 {
                     if (assetBundleData.Overall)
                     {
