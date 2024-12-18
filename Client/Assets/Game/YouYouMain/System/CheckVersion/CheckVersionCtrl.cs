@@ -117,9 +117,9 @@ public class CheckVersionCtrl
         {
             VersionFileEntity localVersionFile = enumerator.Current.Value;
 
-            if (VersionCDNModel.Instance.VersionDic.TryGetValue(localVersionFile.AssetBundleName, out VersionFileEntity cdnVersionFile))
+            if (VersionCDNModel.Instance.VersionDic.TryGetValue(localVersionFile.AssetBundleFullPath, out VersionFileEntity cdnVersionFile))
             {
-                if (VersionStreamingModel.Instance.VersionDic.TryGetValue(localVersionFile.AssetBundleName, out VersionFileEntity streamingVersionFile) &&
+                if (VersionStreamingModel.Instance.VersionDic.TryGetValue(localVersionFile.AssetBundleFullPath, out VersionFileEntity streamingVersionFile) &&
                 cdnVersionFile.MD5.Equals(localVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase) == false &&
                 cdnVersionFile.MD5.Equals(streamingVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -127,14 +127,14 @@ public class CheckVersionCtrl
                     //CDN和可写区的MD5不一致
                     //只读区和CDN的MD5一致
                     //说明可写区的这个文件是旧的, 删除它
-                    deleteList.AddLast(localVersionFile.AssetBundleName);
+                    deleteList.AddLast(localVersionFile.AssetBundleFullPath);
                 }
             }
             else
             {
                 //可写区有 CDN上没有
                 //加入删除链表
-                deleteList.AddLast(localVersionFile.AssetBundleName);
+                deleteList.AddLast(localVersionFile.AssetBundleFullPath);
             }
         }
 
@@ -163,28 +163,28 @@ public class CheckVersionCtrl
             //当前文件不是初始资源 忽略
             if (!cdnVersionFile.IsFirstData) continue;
 
-            if (VersionLocalModel.Instance.VersionDic.TryGetValue(cdnVersionFile.AssetBundleName, out VersionFileEntity localVersionFile))
+            if (VersionLocalModel.Instance.VersionDic.TryGetValue(cdnVersionFile.AssetBundleFullPath, out VersionFileEntity localVersionFile))
             {
                 //可写区有这个文件
                 if (cdnVersionFile.MD5.Equals(localVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase) == false)
                 {
                     //可写区和CDN的MD5不一致 加入下载链表
-                    needDownloadList.AddLast(cdnVersionFile.AssetBundleName);
+                    needDownloadList.AddLast(cdnVersionFile.AssetBundleFullPath);
                 }
             }
-            else if (VersionStreamingModel.Instance.VersionDic.TryGetValue(cdnVersionFile.AssetBundleName, out VersionFileEntity streamingVersionFile))
+            else if (VersionStreamingModel.Instance.VersionDic.TryGetValue(cdnVersionFile.AssetBundleFullPath, out VersionFileEntity streamingVersionFile))
             {
                 //只读区有这个文件
                 if (cdnVersionFile.MD5.Equals(streamingVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase) == false)
                 {
                     //只读区和CDN的MD5不一致 加入下载链表
-                    needDownloadList.AddLast(cdnVersionFile.AssetBundleName);
+                    needDownloadList.AddLast(cdnVersionFile.AssetBundleFullPath);
                 }
             }
             else
             {
                 //可写区和只读区都不存在 加入下载链表
-                needDownloadList.AddLast(cdnVersionFile.AssetBundleName);
+                needDownloadList.AddLast(cdnVersionFile.AssetBundleFullPath);
             }
         }
 

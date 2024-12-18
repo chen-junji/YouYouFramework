@@ -39,7 +39,7 @@ public class VersionCDNModel
     {
         if (VersionDic.TryGetValue(assetBundleName, out VersionFileEntity cdnAssetBundleInfo))
         {
-            if (VersionLocalModel.Instance.VersionDic.TryGetValue(cdnAssetBundleInfo.AssetBundleName, out VersionFileEntity LocalAssetsAssetBundleInfo))
+            if (VersionLocalModel.Instance.VersionDic.TryGetValue(cdnAssetBundleInfo.AssetBundleFullPath, out VersionFileEntity LocalAssetsAssetBundleInfo))
             {
                 //可写区有 CDN也有 验证MD5
                 return cdnAssetBundleInfo.MD5.Equals(LocalAssetsAssetBundleInfo.MD5, StringComparison.CurrentCultureIgnoreCase);

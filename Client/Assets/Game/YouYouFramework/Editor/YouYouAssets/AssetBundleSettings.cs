@@ -117,7 +117,7 @@ public class AssetBundleSettings : ScriptableObject
         foreach (var item in newDic)
         {
             VersionFileEntity entity = item.Value;
-            string strLine = string.Format("{0}|{1}|{2}|{3}|{4}", entity.AssetBundleName, entity.MD5, entity.Size, entity.IsFirstData ? 1 : 0, entity.IsEncrypt ? 1 : 0);
+            string strLine = string.Format("{0}|{1}|{2}|{3}|{4}", entity.AssetBundleFullPath, entity.MD5, entity.Size, entity.IsFirstData ? 1 : 0, entity.IsEncrypt ? 1 : 0);
             sbContent.AppendLine(strLine);
         }
 
@@ -469,9 +469,9 @@ public class AssetBundleSettings : ScriptableObject
             AssetInfoEntity entity = new AssetInfoEntity();
             //相对路径
             entity.AssetFullPath = filePath.Substring(filePath.IndexOf("Assets\\")).Replace("\\", "/");
-            //Debug.LogError("AssetFullName==" + entity.AssetFullName);
+            //Debug.LogError("AssetFullPath==" + entity.AssetFullPath);
 
-            entity.AssetBundleFullPath = (GetAssetBundleName(entity.AssetFullPath) + ".assetbundle").ToLower();
+            entity.AssetBundleFullPath = GetAssetBundleFullPath(entity.AssetFullPath);
             tempLst.Add(entity);
             tempDic.Add(entity.AssetFullPath, entity);
         }
@@ -584,13 +584,13 @@ public class AssetBundleSettings : ScriptableObject
 
     #endregion
 
-    #region GetAssetBundleName 获取资源包的名称
+    #region GetAssetBundleFullPath
     /// <summary>
-    /// 获取资源包的名称
+    /// 获取资源包的全路径
     /// </summary>
-    /// <param name="assetFullName"></param>
+    /// <param name="assetFullPath"></param>
     /// <returns></returns>
-    private string GetAssetBundleName(string assetFullName)
+    private string GetAssetBundleFullPath(string assetFullPath)
     {
         int len = Datas.Length;
         //循环设置文件夹包括子文件里边的项
@@ -599,18 +599,17 @@ public class AssetBundleSettings : ScriptableObject
             AssetBundleData assetBundleData = Datas[i];
             for (int j = 0; j < assetBundleData.Path.Length; j++)
             {
-                if (assetFullName.IndexOf(assetBundleData.Path[j], StringComparison.CurrentCultureIgnoreCase) > -1)
+                if (assetFullPath.IndexOf(assetBundleData.Path[j], StringComparison.CurrentCultureIgnoreCase) > -1)
                 {
                     if (assetBundleData.Overall)
                     {
                         //文件夹是个整包 则返回这个特文件夹名字
-                        return assetBundleData.Path[j].ToLower();
+                        return assetBundleData.Path[j].ToLower() + ".assetbundle";
                     }
                     else
                     {
                         //零散资源
-                        //return assetFullName.Substring(0, assetFullName.LastIndexOf('.')).ToLower().Replace("assets/", "");
-                        return assetFullName.ToLower().Replace("assets/", "");
+                        return assetFullPath.ToLower().Replace("assets/", "") + ".assetbundle";
                     }
                 }
             }

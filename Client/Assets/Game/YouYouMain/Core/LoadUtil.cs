@@ -28,13 +28,13 @@ public class LoadUtil
             else
             {
                 VersionFileEntity entity = new VersionFileEntity();
-                entity.AssetBundleName = ms.ReadUTF8String();
+                entity.AssetBundleFullPath = ms.ReadUTF8String();
                 entity.MD5 = ms.ReadUTF8String();
                 entity.Size = ms.ReadULong();
                 entity.IsFirstData = ms.ReadByte() == 1;
                 entity.IsEncrypt = ms.ReadByte() == 1;
 
-                dic[entity.AssetBundleName] = entity;
+                dic[entity.AssetBundleFullPath] = entity;
             }
         }
         return dic;

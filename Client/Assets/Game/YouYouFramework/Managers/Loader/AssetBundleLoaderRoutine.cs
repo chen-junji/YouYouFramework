@@ -186,7 +186,7 @@ namespace YouYouFramework
                 }
                 else
                 {
-                    GameEntry.LogError(LogCategory.Loader, string.Format("资源包=>{0} 加载失败", CurrVersionFile.AssetBundleName));
+                    GameEntry.LogError(LogCategory.Loader, string.Format("资源包=>{0} 加载失败", CurrVersionFile.AssetBundleFullPath));
                 }
                 Reset();//一定要早点Reset
                 GameEntry.Pool.ClassObjectPool.Enqueue(this);

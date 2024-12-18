@@ -10,9 +10,9 @@ namespace YouYouMain
     public class VersionFileEntity
     {
         /// <summary>
-        /// 资源包名称
+        /// 资源包的全路径
         /// </summary>
-        public string AssetBundleName;
+        public string AssetBundleFullPath;
 
         /// <summary>
         /// MD5码

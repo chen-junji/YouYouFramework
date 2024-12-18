@@ -251,7 +251,7 @@ namespace YouYouMain
             if (PlayerPrefs.HasKey(m_CurrFileUrl)) PlayerPrefs.DeleteKey(m_CurrFileUrl);
 
             //更新可写区的版本信息
-            VersionLocalModel.Instance.VersionDic[m_CurrVersionFile.AssetBundleName] = m_CurrVersionFile;
+            VersionLocalModel.Instance.VersionDic[m_CurrVersionFile.AssetBundleFullPath] = m_CurrVersionFile;
             VersionLocalModel.Instance.SaveVersion();
 
             //MainEntry.ClassObjectPool.Enqueue(this);
