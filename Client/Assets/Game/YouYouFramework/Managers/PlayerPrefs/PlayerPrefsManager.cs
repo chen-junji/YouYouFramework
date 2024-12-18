@@ -48,7 +48,7 @@ namespace YouYouFramework
         }
         public void SetIntHas(string key, int value)
         {
-            if (PlayerPrefs.HasKey(key.ToString())) return;
+            if (dicInt.ContainsKey(key)) return;
             SetInt(key, value);
         }
         public bool GetBool(string key, bool defaultValue)
@@ -65,7 +65,7 @@ namespace YouYouFramework
         }
         public void SetBoolHas(string key, bool value)
         {
-            if (PlayerPrefs.HasKey(key.ToString())) return;
+            if (dicInt.ContainsKey(key)) return;
             SetBool(key, value);
         }
 
@@ -88,7 +88,7 @@ namespace YouYouFramework
         }
         public void SetFloatHas(string key, float value)
         {
-            if (PlayerPrefs.HasKey(key.ToString())) return;
+            if (dicFloat.ContainsKey(key)) return;
             SetFloat(key, value);
         }
 
