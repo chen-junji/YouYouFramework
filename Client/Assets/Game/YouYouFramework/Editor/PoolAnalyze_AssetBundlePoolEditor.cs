@@ -22,7 +22,7 @@ public class PoolAnalyze_AssetBundlePoolEditor : Editor
 		if (GameEntry.Pool != null)
 		{
 			GUILayout.BeginHorizontal("box");
-			GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (GameEntry.Loader.AssetBundlePool.ReleaseNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetBundleInterval)), titleStyle);
+			GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (GameEntry.Loader.AssetBundlePool.ReleaseNextRunTime + GameEntry.ParamsSettings.PoolReleaseAssetBundleInterval)), titleStyle);
 			GUILayout.EndHorizontal();
 		}
 		//===================资源池变量计数==================

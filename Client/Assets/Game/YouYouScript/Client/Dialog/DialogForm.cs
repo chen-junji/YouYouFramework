@@ -26,57 +26,72 @@ public partial class DialogForm : UIFormBase
         AffirmAndCancel
     }
 
-    [SerializeField] private Text m_Txt_Title;
-    [SerializeField] private Text m_Txt_Message;
-    [SerializeField] private Button m_Btn_OK;
-    [SerializeField] private Button m_Btn_Cancel;
+    [SerializeField] Text textTitle;
+    [SerializeField] Text textContent;
+    [SerializeField] Button btnOK;
+    [SerializeField] Button btnCancel;
+    [SerializeField] Text textOK;
+    [SerializeField] Text textCancel;
 
-    private Action m_OkAction;
+    private Action actionOK;
 
-    private Action m_CancelAction;
+    private Action actionCancel;
 
 
     protected override void Awake()
     {
         base.Awake();
-        m_Btn_OK.onClick.AddListener(() =>
+        btnOK.onClick.AddListener(() =>
         {
-            m_OkAction?.Invoke();
-            Close();
+            actionOK?.Invoke();
+            this.Close();
         });
-        m_Btn_Cancel.onClick.AddListener(() =>
+        btnCancel.onClick.AddListener(() =>
         {
-            m_CancelAction?.Invoke();
-            Close();
+            actionCancel?.Invoke();
+            this.Close();
         });
     }
 
-    public static void ShowForm(string message = "", string title = "提示", DialogFormType type = DialogFormType.Affirm, Action okAction = null, Action cancelAction = null)
+    public static void ShowFormByKey(string key, DialogFormType type = DialogFormType.Affirm, Action okAction = null, Action cancelAction = null)
+    {
+        if (GameEntry.DataTable.Sys_DialogDBModel.keyDic.TryGetValue(key, out var entity))
+        {
+            ShowForm(entity.Content, entity.Title, entity.BtnText1, entity.BtnText2, type, okAction, cancelAction);
+        }
+        else
+        {
+            GameEntry.LogError("当前Key找不到对应的表格配置, Key==" + key);
+        }
+    }
+    public static void ShowForm(string contenct = "", string title = "提示", string textBtn1 = "确定", string textBtn2 = "取消", DialogFormType type = DialogFormType.AffirmAndCancel, Action okAction = null, Action cancelAction = null)
     {
         DialogForm formDialog = GameEntry.UI.OpenUIForm<DialogForm>();
-        formDialog.SetUI(message, title, type, okAction, cancelAction);
+        formDialog.SetUI(contenct, title, textBtn1, textBtn2, type, okAction, cancelAction);
     }
 
-    private void SetUI(string message = "", string title = "提示", DialogFormType type = DialogFormType.Affirm, Action okAction = null, Action cancelAction = null)
+    private void SetUI(string contenct = "", string title = "提示", string textBtn1 = "确定", string textBtn2 = "取消", DialogFormType type = DialogFormType.AffirmAndCancel, Action okAction = null, Action cancelAction = null)
     {
         //窗口内容
-        m_Txt_Title.text = title;
-        m_Txt_Message.text = message;
+        textTitle.text = title;
+        textContent.text = contenct;
+        textOK.text = textBtn1;
+        textCancel.text = textBtn2;
 
         //点击按钮的类型
         switch (type)
         {
             case DialogFormType.Affirm:
-                m_Btn_OK.gameObject.SetActive(true);
-                m_Btn_Cancel.gameObject.SetActive(false);
+                btnOK.gameObject.SetActive(true);
+                btnCancel.gameObject.SetActive(false);
                 break;
             case DialogFormType.AffirmAndCancel:
-                m_Btn_Cancel.gameObject.SetActive(true);
-                m_Btn_OK.gameObject.SetActive(true);
+                btnCancel.gameObject.SetActive(true);
+                btnOK.gameObject.SetActive(true);
                 break;
         }
 
-        m_OkAction = okAction;
-        m_CancelAction = cancelAction;
+        actionOK = okAction;
+        actionCancel = cancelAction;
     }
 }

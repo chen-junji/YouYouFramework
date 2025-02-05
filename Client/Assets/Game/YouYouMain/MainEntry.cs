@@ -2,6 +2,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -9,10 +10,25 @@ namespace YouYouMain
 {
     public class MainEntry : MonoBehaviour
     {
-        //全局参数设置
-        [SerializeField]
-        private ParamsSettings m_ParamsSettings;
-        public static ParamsSettings ParamsSettings { get; private set; }
+        [BoxGroup("系统参数")]
+        [LabelText("单机模式 不检查热更新 资源从StreamingAssets加载")]
+        public bool Standalone = false;
+
+        [BoxGroup("系统参数")]
+        [LabelText("下载请求的重试次数")]
+        public int DownloadRetry = 3;
+
+        [BoxGroup("系统参数")]
+        [LabelText("下载器的数量")]
+        public int DownloadRoutineCount = 3;
+
+        [BoxGroup("系统参数")]
+        [LabelText("断点续传的存储间隔缓存")]
+        public int DownloadFlushSize = 2048;
+
+        [BoxGroup("系统参数")]
+        [LabelText("是否启用断点续传? (部分CDN不兼容,可能会导致闪退)")]
+        public bool IsDownloadFlush = false;
 
         //预加载相关事件
         public Action ActionPreloadBegin;
@@ -33,7 +49,6 @@ namespace YouYouMain
         private void Awake()
         {
             Instance = this;
-            ParamsSettings = m_ParamsSettings;
 
 #if ASSETBUNDLE
             IsAssetBundleMode = true;
@@ -49,17 +64,7 @@ namespace YouYouMain
                 //初始化本地的版本信息文件
                 await CheckVersionCtrl.Instance.Init();
 
-                //单机模式, 不检查热更新
-                if (MainEntry.ParamsSettings.Standalone)
-                {
-                    //加载Hotfix代码(HybridCLR)
-                    HotfixCtrl.Instance.LoadHotifx();
-
-                    //启动YouYouFramework框架入口
-                    GameObject gameEntry = HotfixCtrl.Instance.hotfixAb.LoadAsset<GameObject>("gameentry.prefab");
-                    Instantiate(gameEntry);
-                }
-                else
+                if (MainEntry.Instance.Standalone == false)
                 {
                     //这里不比对总版本号, 而是直接遍历所有AB包的MD5进行比对, 如果要比对总版本号, 就把这句代码注释掉
                     VersionLocalModel.Instance.SetAssetVersion("");
@@ -72,9 +77,17 @@ namespace YouYouMain
                         HotfixCtrl.Instance.LoadHotifx();
 
                         //启动YouYouFramework框架入口
-                        GameObject gameEntry = HotfixCtrl.Instance.hotfixAb.LoadAsset<GameObject>("gameentry.prefab");
-                        Instantiate(gameEntry);
+                        LoadGameEntryAB();
                     });
+                }
+                else
+                {
+                    //单机模式, 不检查热更新
+                    //加载Hotfix代码(HybridCLR)
+                    HotfixCtrl.Instance.LoadHotifx();
+
+                    //启动YouYouFramework框架入口
+                    LoadGameEntryAB();
                 }
 
             }
@@ -82,7 +95,7 @@ namespace YouYouMain
             {
 #if UNITY_EDITOR
                 //启动YouYouFramework框架入口
-                GameObject gameEntry = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/Download/Hotfix/GameEntry.prefab");
+                GameObject gameEntry = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/Download/Prefab/GameEntry.prefab");
                 Instantiate(gameEntry);
 #endif
             }
@@ -91,6 +104,32 @@ namespace YouYouMain
         private void Update()
         {
             Download.OnUpdate();
+        }
+
+        private AssetBundle LoadGameEntryAB()
+        {
+            VersionFileEntity versionFileEntity = VersionLocalModel.Instance.GetVersionFileEntity(MainConstDefine.GameEntryAssetBundlePath);
+            if (versionFileEntity != null)
+            {
+                //从可写区加载程序集
+                AssetBundle gameEntryAb = AssetBundle.LoadFromFile(Path.Combine(MainConstDefine.LocalAssetBundlePath, MainConstDefine.GameEntryAssetBundlePath));
+                UnityEngine.Object gameEntryAsset = gameEntryAb.LoadAsset<GameObject>("gameentry.prefab");
+                Instantiate(gameEntryAsset);
+                return gameEntryAb;
+            }
+
+            versionFileEntity = VersionStreamingModel.Instance.GetVersionFileEntity(MainConstDefine.GameEntryAssetBundlePath);
+            if (versionFileEntity != null)
+            {
+                //从只读区加载程序集
+                AssetBundle gameEntryAb = AssetBundle.LoadFromFile(Path.Combine(MainConstDefine.StreamingAssetBundlePath, MainConstDefine.GameEntryAssetBundlePath));
+                UnityEngine.Object gameEntryAsset = gameEntryAb.LoadAsset<GameObject>("gameentry.prefab");
+                Instantiate(gameEntryAsset);
+                return gameEntryAb;
+            }
+
+            MainEntry.LogError("gameEntryAb不存在");
+            return null;
         }
 
         internal static void Log(object message)

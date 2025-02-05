@@ -8,52 +8,53 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scene_Launch.unity
     guid: 99f943fe995b4bd43b5a05bd982a0bc7
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Main.unity
     guid: a4a374b603c60ba49ae260e9f63f4a80
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Test/TestAudio.unity
     guid: b0409604e1d498e40a07f9753db0e682
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Test/TestDataTable.unity
     guid: 5aaff0baa791fa04082a7af226bd5727
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Test/TestDownload.unity
     guid: 86bb1fa54afdc484a87f096c036e7efa
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Test/TestEvent.unity
     guid: fd71c9e0a772bda4eadcb7ab73e6eee7
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Test/TestFsm.unity
     guid: 029dc0924a5d8ee4a91176c8898c881c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Test/TestHttp.unity
     guid: 7704dcc15446f774b9197d9bb52b2787
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Test/TestInput.unity
     guid: 55d37134327212345b20698da6b0e807
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Test/TestLoader.unity
     guid: ada3bb0ba7447a0488d8beebe6632cf3
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Test/TestLocalization.unity
     guid: 2c04772fcddea0146a136de55053935e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Test/TestPlayerPrefs.unity
     guid: c48c0f464b427c446a7fc726dd3fd885
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Test/TestPool.unity
     guid: da1b5bc52bda2d94293f63e303334f93
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Test/TestScene.unity
     guid: 33e5f418d505757479fb37b1b2348d34
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Test/TestTask.unity
     guid: 8aa190b187193e34ba5a2df116d26356
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Test/TestTime.unity
     guid: 4b74d7c6a5ec0a343af36aeccdeb4690
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/Download/Scenes/Test/TestUI.unity
     guid: cd4676ea540072c40a5a2b2f5d84e3e2
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0

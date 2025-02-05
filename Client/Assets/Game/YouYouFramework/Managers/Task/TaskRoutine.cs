@@ -12,9 +12,9 @@ namespace YouYouFramework
     public class TaskRoutine
     {
         /// <summary>
-        /// 编号
+        /// 任务在任务组的索引
         /// </summary>
-        public int TaskRoutineId;
+        public int TaskIndex;
 
         /// <summary>
         /// 具体的任务
@@ -59,7 +59,10 @@ namespace YouYouFramework
 
         public void OnUpdate()
         {
-            if (CurrTask != null && CurrTask.Target == null) TaskComplete();
+            if (CurrTask != null && (CurrTask.Target == null || string.IsNullOrEmpty(CurrTask.Target.ToString()) || CurrTask.Target.ToString() == "null"))
+            {
+                TaskComplete();
+            }
         }
     }
 }

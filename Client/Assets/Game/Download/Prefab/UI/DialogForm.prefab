@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 222429828257713556}
   - component: {fileID: 114860583820385344}
   m_Layer: 5
-  m_Name: Txt_Message
+  m_Name: textContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 114722432435062292}
   - component: {fileID: 7219367504164690206}
   m_Layer: 5
-  m_Name: Btn_Cancel
+  m_Name: btnCancel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -645,10 +645,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c45d63e9daba27e4f8e373c922e5b577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Txt_Title: {fileID: 1801307825571201382}
-  m_Txt_Message: {fileID: 114860583820385344}
-  m_Btn_OK: {fileID: 114928851235647378}
-  m_Btn_Cancel: {fileID: 114722432435062292}
+  textTitle: {fileID: 1801307825571201382}
+  textContent: {fileID: 114860583820385344}
+  btnOK: {fileID: 114928851235647378}
+  btnCancel: {fileID: 114722432435062292}
+  textOK: {fileID: 114878570981545028}
+  textCancel: {fileID: 114849426260773570}
 --- !u!1 &1889557595891920
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,7 +665,7 @@ GameObject:
   - component: {fileID: 114928851235647378}
   - component: {fileID: 392963648442489215}
   m_Layer: 5
-  m_Name: Btn_OK
+  m_Name: btnOK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -798,7 +800,7 @@ GameObject:
   - component: {fileID: 1801307825571201382}
   - component: {fileID: 3182780860766444090}
   m_Layer: 5
-  m_Name: Txt_Title
+  m_Name: textTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

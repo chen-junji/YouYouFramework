@@ -14,7 +14,6 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 	{
 		base.OnInspectorGUI();
 
-		#region 类对象池
 		GUILayout.Space(10);
 
 		GUIStyle titleStyle = new GUIStyle();
@@ -23,7 +22,7 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 		if (GameEntry.Pool != null)
 		{
 			GUILayout.BeginHorizontal("box");
-			GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (GameEntry.Pool.ClassObjectPool.ReleaseNextRunTime + MainEntry.ParamsSettings.PoolReleaseClassObjectInterval)), titleStyle);
+			GUILayout.Label("下次释放剩余时间: " + Mathf.Abs(Time.time - (GameEntry.Pool.ClassObjectPool.ReleaseNextRunTime + GameEntry.ParamsSettings.PoolReleaseClassObjectInterval)), titleStyle);
 			GUILayout.EndHorizontal();
 		}
 		GUILayout.Space(10);
@@ -54,29 +53,9 @@ public class PoolAnalyze_ClassObjectPoolEditor : Editor
 			}
 		}
 		GUILayout.EndVertical();
-		//================类对象池变量计数===============
-		GUILayout.BeginVertical("box");
-		GUILayout.BeginHorizontal("box");
-		GUILayout.Label("变量名");
-		GUILayout.Label("计数", GUILayout.Width(50));
-		GUILayout.EndHorizontal();
-
-		if (GameEntry.Pool != null)
-		{
-			foreach (var item in GameEntry.Pool.VarObjectPool.VarObjectInspectorDic)
-			{
-				GUILayout.BeginHorizontal("box");
-				GUILayout.Label(item.Key.Name);
-				GUILayout.Label(item.Value.ToString(), GUILayout.Width(50));
-				GUILayout.EndHorizontal();
-			}
-		}
-		GUILayout.EndVertical();
-		//=================================变量计数结束==========================
 
 		serializedObject.ApplyModifiedProperties();
 		//重绘
 		Repaint();
-		#endregion
 	}
 }

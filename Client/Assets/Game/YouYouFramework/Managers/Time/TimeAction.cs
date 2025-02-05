@@ -120,18 +120,18 @@ namespace YouYouFramework
         public void TillTimeEnd()
         {
             //以下代码 间隔m_Interval 时间 执行一次
-            if (Target == null)
+            if (Target == null || string.IsNullOrEmpty(Target.ToString()) || Target.ToString() == "null")
             {
-                GameEntry.LogWarning(LogCategory.Framework, "TimeAction.OnUpdateAction.Target==null");
+                GameEntry.Log(LogCategory.Framework, "TimeAction.OnUpdateAction.Target==null");
                 return;
             }
             m_CurrLoop++;
             OnUpdateAction?.Invoke(m_Loop - m_CurrLoop);
             if (m_CurrLoop >= m_Loop && m_Loop != -1)//-1表示无限次循环, 那么永远不会执行OnCompleteAction
             {
-                if (Target == null)
+                if (Target == null || string.IsNullOrEmpty(Target.ToString()) || Target.ToString() == "null")
                 {
-                    GameEntry.LogWarning(LogCategory.Framework, "TimeAction.OnCompleteAction.Target==null");
+                    GameEntry.Log(LogCategory.Framework, "TimeAction.OnCompleteAction.Target==null");
                     return;
                 }
                 //完成了，执行OnCompleteAction，结束循环

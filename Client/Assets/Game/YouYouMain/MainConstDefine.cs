@@ -21,10 +21,14 @@ namespace YouYouMain
         public const string VersionFileName = "VersionFile.bytes";
 
         /// <summary>
-        /// 热更程序集的Assetbundle的存储路径
+        /// 热更程序集的AB包路径
         /// </summary>
         public const string HotfixAssetBundlePath = "game/download/hotfix.assetbundle";
 
+        /// <summary>
+        /// GameEntry的AB包路径
+        /// </summary>
+        public const string GameEntryAssetBundlePath = "game/download/prefab/gameentry.prefab.assetbundle";
 
         /// <summary>
         /// 只读区加载AssetBundle的统一文件路径

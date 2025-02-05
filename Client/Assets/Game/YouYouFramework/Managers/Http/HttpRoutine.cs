@@ -119,7 +119,7 @@ namespace YouYouFramework
             unityWeb.downloadHandler = new DownloadHandlerBuffer();
             if (!string.IsNullOrWhiteSpace(m_Json))
             {
-                if (MainEntry.ParamsSettings.PostIsEncrypt && m_CurrRetry == 0)
+                if (GameEntry.ParamsSettings.PostIsEncrypt && m_CurrRetry == 0)
                 {
                     m_Dic["value"] = m_Json;
                     //web加密
@@ -133,8 +133,8 @@ namespace YouYouFramework
                 }
                 unityWeb.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(m_Json));
 
-                if (!string.IsNullOrWhiteSpace(MainEntry.ParamsSettings.PostContentType))
-                    unityWeb.SetRequestHeader("Content-Type", MainEntry.ParamsSettings.PostContentType);
+                if (!string.IsNullOrWhiteSpace(GameEntry.ParamsSettings.PostContentType))
+                    unityWeb.SetRequestHeader("Content-Type", GameEntry.ParamsSettings.PostContentType);
             }
 
             GameEntry.Log(LogCategory.NetWork, $"Post请求:{m_Url}, {m_CurrRetry}次重试==>>{m_Json}");
@@ -162,9 +162,9 @@ namespace YouYouFramework
             else
             {
                 //报错了 进行重试
-                if (m_CurrRetry > 0) yield return new WaitForSeconds(MainEntry.ParamsSettings.HttpRetryInterval);
+                if (m_CurrRetry > 0) yield return new WaitForSeconds(GameEntry.ParamsSettings.HttpRetryInterval);
                 m_CurrRetry++;
-                if (m_CurrRetry <= MainEntry.ParamsSettings.HttpRetry)
+                if (m_CurrRetry <= GameEntry.ParamsSettings.HttpRetry)
                 {
                     switch (data.method)
                     {

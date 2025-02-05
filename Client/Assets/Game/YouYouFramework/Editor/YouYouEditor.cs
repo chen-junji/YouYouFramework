@@ -21,7 +21,7 @@ public class YouYouEditor : OdinMenuEditorWindow
         var tree = new OdinMenuTree(true);
 
         //参数设置
-        tree.AddAssetAtPath("ParamsSettings", "Game/YouYouMain/YouYouAssets/ParamsSettings.asset");
+        tree.AddAssetAtPath("ParamsSettings", "Game/YouYouFramework/YouYouAssets/ParamsSettings.asset");
 
         //宏设置
         tree.AddAssetAtPath("MacroSettings", "Game/YouYouFramework/Editor/YouYouAssets/MacroSettings.asset");

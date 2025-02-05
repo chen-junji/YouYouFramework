@@ -106,12 +106,14 @@ namespace YouYouFramework
             while (despawnedList.First != null)
             {
                 despawnedList.RemoveFirst();
-                InstanceHandler.DestroyInstance(despawnedList.First.Value, this);
+                if(despawnedList.Count>0 && despawnedList.First.List!=null && despawnedList.First.Value!=null)
+                    InstanceHandler.DestroyInstance(despawnedList.First.Value, this);
             }
             while (spawnedList.First != null)
             {
                 spawnedList.RemoveFirst();
-                InstanceHandler.DestroyInstance(spawnedList.First.Value, this);
+                if(spawnedList.Count>0 && spawnedList.First.List!=null && spawnedList.First.Value!=null)
+                    InstanceHandler.DestroyInstance(spawnedList.First.Value, this);
             }
 
             prefab = null;

@@ -43,9 +43,9 @@ public class ChannelConfigEntity
 #if UNITY_STANDALONE_WIN
                 buildTarget = "Windows";
 #elif UNITY_ANDROID
-				buildTarget = "Android";
+                buildTarget = "Android";
 #elif UNITY_IPHONE
-                buildTarget = "iOS";
+                buildTarget = "IOS";
 #endif
                 m_RealSourceUrl = string.Format("{0}/{1}/{2}", SourceUrl, SourceVersion, buildTarget);
             }

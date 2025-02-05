@@ -14,22 +14,11 @@ public class ProcedureMain : ProcedureBase
         base.OnEnter(lastState);
         GameEntry.UI.OpenUIForm<LoadingForm>();
         GameEntry.Scene.LoadSceneAction(SceneGroupName.Main);
-
-        GameEntry.Input.SetEnable(true);
-#if UNITY_EDITOR
-        GameEntry.Input.ChangeState(MainEntry.ParamsSettings.MobileDebug ? InputManager.EState.Touch : InputManager.EState.Keyboard);
-#elif UNITY_STANDALONE
-        GameEntry.Input.ChangeState(InputManager.EState.Keyboard);
-#elif UNITY_IOS || UNITY_ANDROID
-        GameEntry.Input.ChangeState(InputManager.EState.Touch);
-#endif
-
     }
     public override void OnLeave(int newState)
     {
         base.OnLeave(newState);
         //退出登录时, 清空业务数据
         GameEntry.Model.Clear();
-        GameEntry.Input.SetEnable(false);
     }
 }

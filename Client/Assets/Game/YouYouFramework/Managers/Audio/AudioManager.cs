@@ -266,9 +266,20 @@ namespace YouYouFramework
         }
         private void SetMixerVolume(string key, float volume)
         {
-            //因为Mixer内我们要修改的音量是db， 而存档里的音量是0-1形式的百分比， 所以这里要做转换
-            volume = (float)(20 * Math.Log10(volume / 1));
-            GameEntry.Instance.MonsterMixer.SetFloat(key, volume);
+            //如果传进来的值就是0 那么直接转成-80
+            if (volume < 0.01f)
+            {
+                volume = -80;
+                //Debug.LogError($"key=={key}, volume=={volume}");
+                GameEntry.Instance.MonsterMixer.SetFloat(key, volume);
+            }
+            else
+            {
+                //因为Mixer内我们要修改的音量是db， 而存档里的音量是0-1形式的百分比， 所以这里要做转换
+                volume = (float)(20 * Math.Log10(volume / 1));
+                //Debug.LogError($"key=={key}, volume=={volume}");
+                GameEntry.Instance.MonsterMixer.SetFloat(key, volume);
+            }
         }
 
         /// <summary>

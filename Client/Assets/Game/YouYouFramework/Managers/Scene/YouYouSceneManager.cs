@@ -191,11 +191,11 @@ namespace YouYouFramework
                     {
                         m_CurrProgress += Time.deltaTime * 0.8f;
                     }
-                    m_CurrProgress = Mathf.Min(m_CurrProgress, targetProgress);//这里是为了防止进度超过100%， 比如完成了显示102%
+                    m_CurrProgress = Mathf.Min(m_CurrProgress, targetProgress);
                     LoadingUpdateAction?.Invoke(m_CurrProgress);
                 }
 
-                if (m_CurrProgress == 1)
+                if (m_CurrProgress >= 1)
                 {
                     GameEntry.Log(LogCategory.Scene, string.Format("场景加载完毕=={0}", CurrSceneEntityGroup.ToJson()));
                     m_CurrSceneIsLoading = false;

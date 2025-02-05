@@ -10,35 +10,11 @@ namespace YouYouMain
     /// </summary>
     public class DownloadMulitRoutine
     {
-        public DownloadMulitRoutine()
-        {
-            m_DownloadMulitCurrSizeDic = new Dictionary<string, ulong>();
-            m_DownloadRoutineList = new LinkedList<DownloadRoutine>();
-            m_NeedDownloadList = new LinkedList<string>();
-        }
         public static DownloadMulitRoutine Create()
         {
             return new DownloadMulitRoutine();
             //return MainEntry.ClassObjectPool.Dequeue<DownloadMulitRoutine>();
         }
-        internal void OnUpdate()
-        {
-            var curr = m_DownloadRoutineList.First;
-            while (curr != null)
-            {
-                curr.Value.OnUpdate();
-                curr = curr.Next;
-            }
-        }
-
-        /// <summary>
-        /// 下载器链表
-        /// </summary>
-        private LinkedList<DownloadRoutine> m_DownloadRoutineList;
-        /// <summary>
-        /// 需要下载的文件链表
-        /// </summary>
-        private LinkedList<string> m_NeedDownloadList;
 
         #region 下载多个文件
         /// <summary>
@@ -48,16 +24,20 @@ namespace YouYouMain
         /// <summary>
         /// 多个文件下载完毕委托
         /// </summary>
-        private Action<DownloadMulitRoutine> m_OnDownloadMulitComplete;
+        private Action<bool> m_OnDownloadMulitComplete;
 
         /// <summary>
         /// 多个文件下载_需要下载的数量
         /// </summary>
-        private int m_DownloadMulitNeedCount = 0;
+        private int m_DownloadMulitTotalCount = 0;
         /// <summary>
         /// 多个文件下载_当前下载的数量
         /// </summary>
         private int m_DownloadMulitCurrCount = 0;
+        /// <summary>
+        /// 当前下载成功数量
+        /// </summary>
+        private int downloadMulitSuccessCount = 0;
         /// <summary>
         /// 多个文件下载总大小(字节)
         /// </summary>
@@ -69,19 +49,13 @@ namespace YouYouMain
         /// <summary>
         /// 多个文件下载 当前大小
         /// </summary>
-        private Dictionary<string, ulong> m_DownloadMulitCurrSizeDic;
+        private Dictionary<string, ulong> m_DownloadMulitCurrSizeDic = new();
 
         /// <summary>
         /// 下载多个文件
         /// </summary>
-        internal void BeginDownloadMulit(LinkedList<string> lstUrl, Action<int, int, ulong, ulong> onDownloadMulitUpdate, Action<DownloadMulitRoutine> onDownloadMulitComplete)
+        internal void BeginDownloadMulit(LinkedList<string> lstUrl, Action<int, int, ulong, ulong> onDownloadMulitUpdate, Action<bool> onDownloadMulitComplete)
         {
-            if (lstUrl.Count < 1)
-            {
-                //MainEntry.ClassObjectPool.Enqueue(this);
-                onDownloadMulitComplete?.Invoke(this);
-                return;
-            }
             m_OnDownloadMulitUpdate = onDownloadMulitUpdate;
             m_OnDownloadMulitComplete = onDownloadMulitComplete;
 
@@ -93,28 +67,15 @@ namespace YouYouMain
                 if (entity != null)
                 {
                     m_DownloadMulitTotalSize += entity.Size;
-                    m_DownloadMulitNeedCount++;
-                    m_NeedDownloadList.AddLast(url);
+                    m_DownloadMulitTotalCount++;
                     m_DownloadMulitCurrSizeDic[url] = 0;
+
+                    MainEntry.Download.BeginDownloadSingle(url, OnDownloadUpdateOne, OnDownloadCompleteOne);
                 }
                 else
                 {
                     MainEntry.LogError("无效资源包=>" + url);
                 }
-            }
-
-            //下载器数量
-            int routineCount = Mathf.Min(MainEntry.ParamsSettings.DownloadRoutineCount, m_DownloadMulitNeedCount);
-            for (int i = 0; i < routineCount; i++)
-            {
-                DownloadRoutine routine = DownloadRoutine.Create();
-                m_DownloadRoutineList.AddLast(routine);
-
-                string url = m_NeedDownloadList.First.Value;
-                VersionFileEntity entity = VersionCDNModel.Instance.GetVersionFileEntity(url);
-                routine.BeginDownload(url, entity, OnDownloadUpdateOne, OnDownloadCompleteOne);
-
-                m_NeedDownloadList.RemoveFirst();
             }
         }
         /// <summary>
@@ -132,38 +93,25 @@ namespace YouYouMain
             }
 
             m_DownloadMulitCurrSize = currSize;
-
             if (m_DownloadMulitCurrSize > m_DownloadMulitTotalSize) m_DownloadMulitCurrSize = m_DownloadMulitTotalSize;
 
-            m_OnDownloadMulitUpdate?.Invoke(m_DownloadMulitCurrCount, m_DownloadMulitNeedCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
+            m_OnDownloadMulitUpdate?.Invoke(m_DownloadMulitCurrCount, m_DownloadMulitTotalCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
         }
         /// <summary>
         /// 单个文件下载完毕
         /// </summary>
-        private void OnDownloadCompleteOne(string fileUrl, DownloadRoutine routine)
+        private void OnDownloadCompleteOne(bool success)
         {
-            //检查队列中是否有要下载的数量
-            if (m_NeedDownloadList.Count > 0)
+            if (success)
             {
-                //复用原有的下载器，下载新文件
-                string url = m_NeedDownloadList.First.Value;
-                VersionFileEntity entity = VersionCDNModel.Instance.GetVersionFileEntity(url);
-                routine.BeginDownload(url, entity, OnDownloadUpdateOne, OnDownloadCompleteOne);
-
-                m_NeedDownloadList.RemoveFirst();
+                downloadMulitSuccessCount++;
             }
-
             m_DownloadMulitCurrCount++;
 
-            m_OnDownloadMulitUpdate?.Invoke(m_DownloadMulitCurrCount, m_DownloadMulitNeedCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
-
-            if (m_DownloadMulitCurrCount == m_DownloadMulitNeedCount)
+            if (m_DownloadMulitCurrCount == m_DownloadMulitTotalCount)
             {
-                m_DownloadMulitCurrSize = m_DownloadMulitTotalSize;
-                m_OnDownloadMulitUpdate?.Invoke(m_DownloadMulitCurrCount, m_DownloadMulitNeedCount, m_DownloadMulitCurrSize, m_DownloadMulitTotalSize);
-
                 //MainEntry.ClassObjectPool.Enqueue(this);
-                m_OnDownloadMulitComplete?.Invoke(this);
+                m_OnDownloadMulitComplete?.Invoke(downloadMulitSuccessCount == m_DownloadMulitTotalCount);
                 //Debug.LogError("所有资源下载完毕!!!");
             }
         }

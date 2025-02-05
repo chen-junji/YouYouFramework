@@ -68,7 +68,7 @@ namespace YouYouFramework
         /// <returns></returns>
         public bool GetCanRelease()
         {
-            return ReferenceCount == 0 && Time.time - LastUseTime > MainEntry.ParamsSettings.PoolReleaseAssetInterval;
+            return ReferenceCount == 0 && Time.time - LastUseTime > GameEntry.ParamsSettings.PoolReleaseAssetInterval;
         }
 
         /// <summary>

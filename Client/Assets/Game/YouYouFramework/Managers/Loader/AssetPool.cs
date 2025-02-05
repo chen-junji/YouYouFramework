@@ -46,7 +46,7 @@ namespace YouYouFramework
         }
         internal void OnUpdate()
         {
-            if (Time.time > ReleaseNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetInterval)
+            if (Time.time > ReleaseNextRunTime + GameEntry.ParamsSettings.PoolReleaseAssetInterval)
             {
                 ReleaseNextRunTime = Time.time;
                 Release();

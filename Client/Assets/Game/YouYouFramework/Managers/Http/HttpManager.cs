@@ -31,9 +31,9 @@ namespace YouYouFramework
 
         public HttpManager()
         {
-            m_WebAccountUrl = MainEntry.ParamsSettings.WebAccountUrl;
-            m_TestWebAccountUrl = MainEntry.ParamsSettings.TestWebAccountUrl;
-            m_IsTest = MainEntry.ParamsSettings.IsTest;
+            m_WebAccountUrl = GameEntry.ParamsSettings.WebAccountUrl;
+            m_TestWebAccountUrl = GameEntry.ParamsSettings.TestWebAccountUrl;
+            m_IsTest = GameEntry.ParamsSettings.IsTest;
         }
 
         #region Get
@@ -53,7 +53,11 @@ namespace YouYouFramework
 
                 if (ret.HasError)
                 {
-                    DialogForm.ShowForm(ret.Value, "网络请求错误");
+                    //DialogForm.ShowForm(ret.Value, "网络请求错误");
+                    if (GameEntry.DataTable.Sys_DialogDBModel.keyDic.TryGetValue("Error404", out var entity))
+                    {
+                        DialogForm.ShowFormByKey("Error404");
+                    }
                 }
                 else
                 {
@@ -99,7 +103,11 @@ namespace YouYouFramework
 
                 if (ret.HasError)
                 {
-                    DialogForm.ShowForm(ret.Value, "网络请求错误");
+                    //DialogForm.ShowForm(ret.Value, "网络请求错误");
+                    if (GameEntry.DataTable.Sys_DialogDBModel.keyDic.TryGetValue("Error404", out var entity))
+                    {
+                        DialogForm.ShowFormByKey("Error404");
+                    }
                 }
                 else
                 {

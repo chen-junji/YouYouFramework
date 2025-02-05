@@ -44,11 +44,11 @@ public class ProcedurePreload : ProcedureBase
             {
                 m_CurrProgress += Time.deltaTime * 0.8f;
             }
-            m_CurrProgress = Mathf.Min(m_CurrProgress, m_TargetProgress);//这里是为了防止进度超过100%， 比如完成了显示102%
+            m_CurrProgress = Mathf.Min(m_CurrProgress, m_TargetProgress);
             MainEntry.Instance.ActionPreloadUpdate?.Invoke(m_CurrProgress);
         }
 
-        if (m_CurrProgress == 1)
+        if (m_CurrProgress >= 1)
         {
             MainEntry.Instance.ActionPreloadComplete?.Invoke();
 

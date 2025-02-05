@@ -48,7 +48,7 @@ namespace YouYouFramework
         {
             if (MainEntry.IsAssetBundleMode)
             {
-                if (Time.time > ReleaseNextRunTime + MainEntry.ParamsSettings.PoolReleaseAssetBundleInterval)
+                if (Time.time > ReleaseNextRunTime + GameEntry.ParamsSettings.PoolReleaseAssetBundleInterval)
                 {
                     ReleaseNextRunTime = Time.time;
                     Release();

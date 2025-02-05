@@ -9,23 +9,23 @@ using UnityEngine.UI;
 /// </summary>
 public class ButtonPressed : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-	private float delay = 1f;
-	private float lastIsDownTime;
-	public Action<bool> OnBtnUp;
-	public Action OnBtnDown;
+    private float delay = 1f;
+    private float lastIsDownTime;
+    public Action<bool> OnBtnUp;
+    public Action OnBtnDown;
 
-	public void OnPointerDown(PointerEventData eventData)
-	{
-		lastIsDownTime = Time.time;
-		OnBtnDown?.Invoke();
-	}
-	public void OnPointerUp(PointerEventData eventData)
-	{
-		OnBtnUp?.Invoke(Time.time - lastIsDownTime > delay);
-	}
-	public void SetRaycastTarget(bool raycastTarget)
-	{
-		GetComponent<Image>().raycastTarget = raycastTarget;
-		GetComponent<Button>().interactable = raycastTarget;
-	}
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        lastIsDownTime = Time.time;
+        OnBtnDown?.Invoke();
+    }
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        OnBtnUp?.Invoke(Time.time - lastIsDownTime > delay);
+    }
+    public void SetRaycastTarget(bool raycastTarget)
+    {
+        GetComponent<Image>().raycastTarget = raycastTarget;
+        GetComponent<Button>().interactable = raycastTarget;
+    }
 }

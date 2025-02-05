@@ -35,37 +35,13 @@ namespace YouYouFramework
             AssetFullPath = assetFullPath;
             CurrAssetBundleRequest = assetBundle.LoadAssetAsync(assetFullPath);
         }
-        internal Object LoadAsset(string assetName, AssetBundle assetBundle)
-        {
-            return assetBundle.LoadAsset(assetName);
-        }
 
         public static AssetLoaderRoutine Create()
         {
             AssetLoaderRoutine assetLoaderRoutine = GameEntry.Pool.ClassObjectPool.Dequeue<AssetLoaderRoutine>();
             return assetLoaderRoutine;
         }
-
-        /// <summary>
-        /// 重置
-        /// </summary>
-        public void Reset()
-        {
-            CurrAssetBundleRequest = null;
-        }
-
-        /// <summary>
-        /// 更新
-        /// </summary>
         internal void OnUpdate()
-        {
-            UpdateAssetBundleRequest();
-        }
-
-        /// <summary>
-        /// 更新 资源加载 请求
-        /// </summary>
-        private void UpdateAssetBundleRequest()
         {
             if (CurrAssetBundleRequest != null)
             {
@@ -80,9 +56,8 @@ namespace YouYouFramework
                     {
                         GameEntry.LogError(LogCategory.Loader, string.Format("资源=>{0} 加载失败", AssetFullPath));
                     }
-                    Reset();//一定要早点Reset
-                    GameEntry.Pool.ClassObjectPool.Enqueue(this);
                     OnLoadAssetComplete?.Invoke(obj);
+                    Reset();//一定要早点Reset
                 }
                 else
                 {
@@ -91,5 +66,14 @@ namespace YouYouFramework
                 }
             }
         }
+        public void Reset()
+        {
+            CurrAssetBundleRequest = null;
+            AssetFullPath = null;
+            OnAssetUpdate = null;
+            OnLoadAssetComplete = null;
+            GameEntry.Pool.ClassObjectPool.Enqueue(this);
+        }
+
     }
 }

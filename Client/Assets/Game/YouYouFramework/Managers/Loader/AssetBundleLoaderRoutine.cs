@@ -92,10 +92,13 @@ namespace YouYouFramework
             {
                 //YouYou.GameEntry.LogError(progress);
                 OnAssetBundleCreateUpdate?.Invoke(progress);
-            }, (string fileUrl) =>
+            }, (success) =>
             {
-                //下载完毕，从可写区加载
-                LoadAssetBundleAsync(assetBundlePath);
+                if (success)
+                {
+                    //下载完毕，从可写区加载
+                    LoadAssetBundleAsync(assetBundlePath);
+                }
             });
 
         }
@@ -154,27 +157,17 @@ namespace YouYouFramework
             return assetBundleLoaderRoutine;
         }
 
-        /// <summary>
-        /// 重置
-        /// </summary>
         public void Reset()
         {
+            CurrVersionFile = null;
             CurrAssetBundleCreateRequest = null;
+            OnLoadAssetBundleComplete = null;
+            OnAssetBundleCreateUpdate = null;
+            OnAssetBundleDownloadUpdate = null;
+            GameEntry.Pool.ClassObjectPool.Enqueue(this);
         }
 
-        /// <summary>
-        /// 更新
-        /// </summary>
         internal void OnUpdate()
-        {
-            UpdateAssetBundleCreateRequest();
-        }
-
-        #region UpdateAssetBundleCreateRequest 更新资源包请求
-        /// <summary>
-        /// 更新资源包请求
-        /// </summary>
-        private void UpdateAssetBundleCreateRequest()
         {
             if (CurrAssetBundleCreateRequest == null) return;
             if (CurrAssetBundleCreateRequest.isDone)
@@ -188,9 +181,8 @@ namespace YouYouFramework
                 {
                     GameEntry.LogError(LogCategory.Loader, string.Format("资源包=>{0} 加载失败", CurrVersionFile.AssetBundleFullPath));
                 }
-                Reset();//一定要早点Reset
-                GameEntry.Pool.ClassObjectPool.Enqueue(this);
                 OnLoadAssetBundleComplete?.Invoke(assetBundle);
+                Reset();//一定要早点Reset
             }
             else
             {
@@ -198,6 +190,6 @@ namespace YouYouFramework
                 OnAssetBundleCreateUpdate?.Invoke(CurrAssetBundleCreateRequest.progress);
             }
         }
-        #endregion
+
     }
 }

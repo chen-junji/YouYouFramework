@@ -7,21 +7,21 @@ using UnityEngine;
 
 namespace YouYouFramework
 {
-	/// <summary>
-	/// 状态机
-	/// </summary>
-	/// <typeparam name="T">FSMManager</typeparam>
-	public class Fsm<T> : FsmBase where T : class
-	{
-		/// <summary>
-		/// 状态机拥有者
-		/// </summary>
-		public T Owner { get; private set; }
+    /// <summary>
+    /// 状态机
+    /// </summary>
+    /// <typeparam name="T">FSMManager</typeparam>
+    public class Fsm<T> : FsmBase where T : class
+    {
+        /// <summary>
+        /// 状态机拥有者
+        /// </summary>
+        public T Owner { get; private set; }
 
-		/// <summary>
-		/// 当前状态
-		/// </summary>
-		public FsmState<T> CurrState { get; private set; }
+        /// <summary>
+        /// 当前状态
+        /// </summary>
+        public FsmState<T> CurrState { get; private set; }
 
         /// <summary>
         /// 状态字典
@@ -36,15 +36,15 @@ namespace YouYouFramework
         /// <param name="states">状态数组</param>
 
         public Fsm(int fsmId, T owner, FsmState<T>[] states) : base(fsmId)
-		{
-			m_StateDic = new Dictionary<sbyte, FsmState<T>>();
-			Owner = owner;
+        {
+            m_StateDic = new Dictionary<sbyte, FsmState<T>>();
+            Owner = owner;
 
-			//把状态加入字典
-			int len = states.Length;
-			for (int i = 0; i < len; i++)
-			{
-				FsmState<T> state = states[i];
+            //把状态加入字典
+            int len = states.Length;
+            for (int i = 0; i < len; i++)
+            {
+                FsmState<T> state = states[i];
                 if (state != null)
                 {
                     state.OnInit(this, i);
@@ -72,11 +72,11 @@ namespace YouYouFramework
         /// <param name="stateType">状态Type</param>
         /// <returns>状态</returns>
         public FsmState<T> GetState(sbyte stateType)
-		{
-			FsmState<T> state = null;
-			m_StateDic.TryGetValue(stateType, out state);
-			return state;
-		}
+        {
+            FsmState<T> state = null;
+            m_StateDic.TryGetValue(stateType, out state);
+            return state;
+        }
 
         /// <summary>
         /// 根据Transitions来进行状态切换
@@ -115,20 +115,20 @@ namespace YouYouFramework
         /// 关闭状态机
         /// </summary>
         public override void Destroy()
-		{
-			if (CurrState != null)
-			{
-				CurrState.OnLeave(0);
+        {
+            if (CurrState != null)
+            {
+                CurrState.OnLeave(0);
             }
             CurrState = null;
 
             foreach (KeyValuePair<sbyte, FsmState<T>> state in m_StateDic)
-			{
-				if (state.Value == null) continue;
-				state.Value.OnDestroy();
-			}
-			m_StateDic.Clear();
-		}
+            {
+                if (state.Value == null) continue;
+                state.Value.OnDestroy();
+            }
+            m_StateDic.Clear();
+        }
 
     }
 }

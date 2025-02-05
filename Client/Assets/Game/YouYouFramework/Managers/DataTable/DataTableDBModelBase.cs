@@ -79,16 +79,19 @@ namespace YouYouFramework
         /// </summary>
         public P GetDic(int id)
         {
-            P p;
-            if (m_Dic.TryGetValue(id, out p))
+            if (m_Dic.TryGetValue(id, out P p))
             {
                 return p;
             }
             else
             {
-                //Debug.Log("该ID对应的数据实体不存在");
+                GameEntry.LogError(LogCategory.Normal, "该ID对应的数据实体不存在");
                 return null;
             }
+        }
+        public bool TryGetValue(int id, out P value)
+        {
+            return m_Dic.TryGetValue(id, out value);
         }
         #endregion
 

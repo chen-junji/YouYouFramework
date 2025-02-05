@@ -25,7 +25,7 @@ namespace YouYouFramework
         }
         internal void OnUpdate()
         {
-            if (Time.time > m_NextRunTime + MainEntry.ParamsSettings.UIClearInterval)
+            if (Time.time > m_NextRunTime + GameEntry.ParamsSettings.UIClearInterval)
             {
                 m_NextRunTime = Time.time;
 
@@ -70,7 +70,7 @@ namespace YouYouFramework
         {
             for (LinkedListNode<UIFormBase> curr = m_UIFormList.First; curr != null;)
             {
-                if (curr.Value.SysUIForm.IsLock != 1 && Time.time > curr.Value.CloseTime + MainEntry.ParamsSettings.UIExpire)
+                if (curr.Value.SysUIForm.IsLock != 1 && Time.time > curr.Value.CloseTime + GameEntry.ParamsSettings.UIExpire)
                 {
                     LinkedListNode<UIFormBase> next = curr.Next;
 

@@ -8,11 +8,13 @@ namespace YouYouFramework
 {
     public class DataTableManager
     {
-        public LocalizationDBModel LocalizationDBModel { get; private set; }
-        public Sys_UIFormDBModel Sys_UIFormDBModel { get; private set; }
-        public Sys_BGMDBModel Sys_BGMDBModel { get; private set; }
-        public Sys_AudioDBModel Sys_AudioDBModel { get; private set; }
-        public Sys_SceneDBModel Sys_SceneDBModel { get; private set; }
+        public LocalizationDBModel LocalizationDBModel { get; private set; } = new();
+        public Sys_UIFormDBModel Sys_UIFormDBModel { get; private set; } = new();
+        public Sys_BGMDBModel Sys_BGMDBModel { get; private set; } = new();
+        public Sys_AudioDBModel Sys_AudioDBModel { get; private set; } = new();
+        public Sys_SceneDBModel Sys_SceneDBModel { get; private set; } = new();
+        public Sys_DialogDBModel Sys_DialogDBModel { get; private set; } = new();
+        public Sys_TipDBModel Sys_TipDBModel { get; private set; } = new();
 
 
         /// <summary>
@@ -20,20 +22,12 @@ namespace YouYouFramework
         /// </summary>
         internal void LoadDataAllTable()
         {
-            //LocalizationDBModel不需要在这里LoadData, 而是在LocalizationManager里面LoadData
-            LocalizationDBModel = new LocalizationDBModel();
-
-            Sys_UIFormDBModel = new Sys_UIFormDBModel();
             Sys_UIFormDBModel.LoadData();
-
-            Sys_AudioDBModel = new Sys_AudioDBModel();
             Sys_AudioDBModel.LoadData();
-
-            Sys_BGMDBModel = new Sys_BGMDBModel();
             Sys_BGMDBModel.LoadData();
-
-            Sys_SceneDBModel = new Sys_SceneDBModel();
             Sys_SceneDBModel.LoadData();
+            Sys_DialogDBModel.LoadData();
+            Sys_TipDBModel.LoadData();
         }
 
         /// <summary>

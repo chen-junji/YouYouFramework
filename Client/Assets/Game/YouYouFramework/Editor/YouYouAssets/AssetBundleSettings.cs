@@ -180,8 +180,15 @@ public class AssetBundleSettings : ScriptableObject
     [LabelText("打包到本地CDN")]
     public void BuildAssetBundle()
     {
-        CopyHofixDll();
-        Debug.Log("热更dll和补充元数据dll, 复制到Game/Download/Hotfix完成");
+        if (HybridCLR.Editor.SettingsUtil.Enable)
+        {
+            CopyHofixDll();
+            Debug.Log("热更dll和补充元数据dll, 拷贝到Game/Download/Hotfix完成");
+        }
+        else
+        {
+            Debug.Log("HybridCLR没有开启，不需要生成和拷贝");
+        }
 
         builds.Clear();
         int len = Datas.Length;
@@ -469,7 +476,7 @@ public class AssetBundleSettings : ScriptableObject
             AssetInfoEntity entity = new AssetInfoEntity();
             //相对路径
             entity.AssetFullPath = filePath.Substring(filePath.IndexOf("Assets\\")).Replace("\\", "/");
-            //Debug.LogError("AssetFullPath==" + entity.AssetFullPath);
+            //Debug.LogError("AssetFullName==" + entity.AssetFullName);
 
             entity.AssetBundleFullPath = GetAssetBundleFullPath(entity.AssetFullPath);
             tempLst.Add(entity);
@@ -584,17 +591,14 @@ public class AssetBundleSettings : ScriptableObject
 
     #endregion
 
-    #region GetAssetBundleFullPath
+    #region GetAssetBundleFullPath 获取资源包的全路径
     /// <summary>
     /// 获取资源包的全路径
     /// </summary>
-    /// <param name="assetFullPath"></param>
-    /// <returns></returns>
     private string GetAssetBundleFullPath(string assetFullPath)
     {
-        int len = Datas.Length;
         //循环设置文件夹包括子文件里边的项
-        for (int i = 0; i < len; i++)
+        for (int i = 0; i < Datas.Length; i++)
         {
             AssetBundleData assetBundleData = Datas[i];
             for (int j = 0; j < assetBundleData.Path.Length; j++)
@@ -642,7 +646,6 @@ public class AssetBundleSettings : ScriptableObject
     /// <summary>
     /// 根据路径打包资源
     /// </summary>
-    /// <param name="path"></param>
     /// <param name="overall">打成一个资源包</param>
     private void BuildAssetBundleForPath(string path, bool overall)
     {
@@ -670,7 +673,6 @@ public class AssetBundleSettings : ScriptableObject
             for (int i = 0; i < arr.Length; i++)
             {
                 AssetBundleBuild build = new AssetBundleBuild();
-                //build.assetBundleName = arr[i].Substring(0, arr[i].LastIndexOf('.')).Replace("Assets/", "") + ".ab";
                 build.assetBundleName = arr[i].Replace("Assets/", "") + ".ab";
                 build.assetBundleVariant = "y";
                 build.assetNames = new string[] { arr[i] };

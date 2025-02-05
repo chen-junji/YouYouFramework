@@ -22,17 +22,8 @@ public class TestTask : MonoBehaviour
             CreateTaskGroup();
             if (!taskGroup.InTask)
             {
-                //并行执行
-                taskGroup.Run(true);
-            }
-        }
-        if (Input.GetKeyUp(KeyCode.A))
-        {
-            CreateTaskGroup();
-            if (!taskGroup.InTask)
-            {
                 //顺序执行
-                taskGroup.Run(false);
+                taskGroup.Run();
             }
         }
     }

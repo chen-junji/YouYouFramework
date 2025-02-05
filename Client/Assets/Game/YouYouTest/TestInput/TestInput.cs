@@ -10,6 +10,8 @@ public class TestInput : MonoBehaviour
 
     private void Awake()
     {
+        GameEntry.Input.SetEnable(true);
+
         button.onClick.AddListener(() =>
         {
             //手机端, 点击按钮触发Input

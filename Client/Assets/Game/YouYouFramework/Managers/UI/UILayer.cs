@@ -27,32 +27,36 @@ namespace YouYouFramework
         /// <summary>
         /// 设置层级
         /// </summary>
-        /// <param name="formBase">窗口</param>
+        /// <param name="Sys_UIFormEntity">窗口</param>
         /// <param name="isAdd">true:增加  false:减少</param>
-        internal void SetSortingOrder(UIFormBase formBase, bool isAdd)
+        internal void SetSortingOrder(Sys_UIFormEntity sys_UIForm, bool isAdd)
         {
-            if (formBase.SysUIForm.DisableUILayer == 1)
+            if (sys_UIForm.DisableUILayer == 1)
             {
                 return;
             }
-            if (m_UILayerDic.ContainsKey(formBase.SysUIForm.UIGroupId) == false)
+            if (m_UILayerDic.ContainsKey(sys_UIForm.UIGroupId) == false)
             {
                 return;
             }
 
             if (isAdd)
             {
-                m_UILayerDic[formBase.SysUIForm.UIGroupId] += 10;
+                m_UILayerDic[sys_UIForm.UIGroupId] += 10;
             }
             else
             {
-                m_UILayerDic[formBase.SysUIForm.UIGroupId] -= 10;
+                m_UILayerDic[sys_UIForm.UIGroupId] -= 10;
             }
         }
 
-        internal int GetCurrSortingOrder(UIFormBase formBase)
+        internal int GetCurrSortingOrder(Sys_UIFormEntity sys_UIForm)
         {
-            return m_UILayerDic[formBase.SysUIForm.UIGroupId];
+            if (sys_UIForm.DisableUILayer == 1)
+            {
+                return 0;
+            }
+            return m_UILayerDic[sys_UIForm.UIGroupId];
         }
     }
 }

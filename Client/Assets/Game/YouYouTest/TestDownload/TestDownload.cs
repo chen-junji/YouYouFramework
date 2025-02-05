@@ -35,7 +35,7 @@ public class TestDownload : MonoBehaviour
             MainEntry.Download.BeginDownloadMulit(lst, OnDownloadMulitUpdate, OnDownloadMulitComplete);
         }
     }
-    private void OnDownloadMulitComplete()
+    private void OnDownloadMulitComplete(bool success)
     {
         GameEntry.Log(LogCategory.Normal, "下载完毕");
     }

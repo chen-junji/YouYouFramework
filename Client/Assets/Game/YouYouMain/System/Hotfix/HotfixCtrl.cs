@@ -14,7 +14,7 @@ public class HotfixCtrl
 {
     public static HotfixCtrl Instance { get; private set; } = new();
 
-    public AssetBundle hotfixAb;
+    private AssetBundle hotfixAb;
     public static List<string> aotMetaAssemblyFiles = new List<string>()
         {
             "mscorlib",
@@ -32,6 +32,9 @@ public class HotfixCtrl
     }
     public void LoadHotifx()
     {
+#if UNITY_EDITOR
+        return;
+#endif
         VersionFileEntity versionFileEntity = VersionLocalModel.Instance.GetVersionFileEntity(MainConstDefine.HotfixAssetBundlePath);
         if (versionFileEntity != null)
         {
@@ -53,14 +56,12 @@ public class HotfixCtrl
             }
         }
 
-#if !UNITY_EDITOR
         LoadMetadataForAOTAssemblies();
 
         //加载热更Dll
         TextAsset hotfixAsset = hotfixAb.LoadAsset<TextAsset>("Assembly-CSharp.dll.bytes");
         System.Reflection.Assembly.Load(hotfixAsset.bytes);
         MainEntry.Log("Assembly-CSharp.dll加载完毕");
-#endif
     }
 
     /// <summary>

@@ -15,7 +15,11 @@ public class TestUI : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.S))
         {
             //方式2, 带初始化
-            DialogForm.ShowForm("框架内部流程全部加载完毕, 已经进入登录流程", "登录流程");
+            //DialogForm.ShowForm("框架内部流程全部加载完毕, 已经进入登录流程", "登录流程");
+            if (GameEntry.DataTable.Sys_DialogDBModel.keyDic.TryGetValue("LoadingOK", out var entity1))
+            {
+                DialogForm.ShowFormByKey("LoadingOK");
+            }
         }
     }
 }

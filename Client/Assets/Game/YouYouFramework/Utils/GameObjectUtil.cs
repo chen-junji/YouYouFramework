@@ -15,7 +15,7 @@ public static class GameObjectUtil
     /// <summary>
     /// 获取或创建组件
     /// </summary>
-    public static T GetOrCreatComponent<T>(this GameObject obj) where T : MonoBehaviour
+    public static T GetOrCreatComponent<T>(this GameObject obj) where T : Component
     {
         T t = obj.GetComponent<T>();
         if (t == null)
@@ -42,6 +42,8 @@ public static class GameObjectUtil
     public static async void AutoLoadTexture(this Image img, string imgPath, bool isSetNativeSize = false)
     {
         Object asset = await GameEntry.Loader.LoadMainAssetAsync<Object>(imgPath, img.gameObject);
+        if (asset == null) return;
+
         Sprite obj = null;
         if (asset is Sprite)
         {
@@ -52,7 +54,7 @@ public static class GameObjectUtil
             Texture2D texture = (Texture2D)asset;
             obj = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
         }
-        img.sprite = obj;
+        img.overrideSprite = obj;
         if (isSetNativeSize) img.SetNativeSize();
     }
     /// <summary>
@@ -61,6 +63,8 @@ public static class GameObjectUtil
     public static async void AutoLoadTexture(this RawImage img, string imgPath, bool isSetNativeSize = false)
     {
         Texture2D asset = await GameEntry.Loader.LoadMainAssetAsync<Texture2D>(imgPath, img.gameObject);
+        if (asset == null) return;
+
         img.texture = asset;
         if (isSetNativeSize) img.SetNativeSize();
     }

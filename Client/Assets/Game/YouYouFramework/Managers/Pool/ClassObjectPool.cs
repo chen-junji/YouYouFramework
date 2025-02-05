@@ -10,7 +10,7 @@ namespace YouYouFramework
     /// <summary>
     /// 类对象池
     /// </summary>
-	public class ClassObjectPool
+    public class ClassObjectPool
     {
 #if UNITY_EDITOR
         /// <summary>
@@ -56,7 +56,7 @@ namespace YouYouFramework
         }
         internal void OnUpdate()
         {
-            if (Time.time > ReleaseNextRunTime + MainEntry.ParamsSettings.PoolReleaseClassObjectInterval)
+            if (Time.time > ReleaseNextRunTime + GameEntry.ParamsSettings.PoolReleaseClassObjectInterval)
             {
                 ReleaseNextRunTime = Time.time;
                 Release();

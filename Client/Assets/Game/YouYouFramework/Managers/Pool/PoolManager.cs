@@ -21,16 +21,10 @@ namespace YouYouFramework
         /// </summary>
         public ClassObjectPool ClassObjectPool { get; private set; }
 
-        /// <summary>
-        /// 变量对象池
-        /// </summary>
-        public VarObjectPool VarObjectPool {  get; private set; }
-
         internal PoolManager()
         {
             GameObjectPool = new GameObjectPool();
             ClassObjectPool = new ClassObjectPool();
-            VarObjectPool = new VarObjectPool();
         }
         internal void OnUpdate()
         {

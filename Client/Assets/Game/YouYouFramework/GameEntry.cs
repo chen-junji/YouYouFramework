@@ -15,6 +15,11 @@ namespace YouYouFramework
     /// </summary>
     public class GameEntry : MonoBehaviour
     {
+        //全局参数设置
+        [SerializeField]
+        private ParamsSettings m_ParamsSettings;
+        public static ParamsSettings ParamsSettings { get; private set; }
+
         [FoldoutGroup("UI框架相关")]
         [Header("UI摄像机")]
         public Camera UICamera;
@@ -48,7 +53,6 @@ namespace YouYouFramework
 
 
         //管理器属性
-        public static EventManager Event { get; private set; }
         public static TimeManager Time { get; private set; }
         public static FsmManager Fsm { get; private set; }
         public static ProcedureManager Procedure { get; private set; }
@@ -71,6 +75,7 @@ namespace YouYouFramework
         {
             Log(LogCategory.Procedure, "GameEntry.OnAwake()");
             Instance = this;
+            ParamsSettings = m_ParamsSettings;
             CurrLanguage = m_CurrLanguage;
             UIRootRectTransform = UIRootCanvasScaler.GetComponent<RectTransform>();
 
@@ -82,7 +87,6 @@ namespace YouYouFramework
             Log(LogCategory.Procedure, "GameEntry.OnStart()");
 
             //在new的构造函数中, 构造自身, 模块之间不可互相调用, 因为其他模块可能是null
-            Event = new EventManager();
             Time = new TimeManager();
             Fsm = new FsmManager();
             Procedure = new ProcedureManager();
@@ -101,7 +105,6 @@ namespace YouYouFramework
 
             //在Init中, 模块之间可互相调用
             Procedure.Init();
-            Input.Init();
             Audio.Init();
 
             //进入第一个流程
@@ -117,7 +120,7 @@ namespace YouYouFramework
             Loader.OnUpdate();
             UI.OnUpdate();
             Audio.OnUpdate();
-            Input.OnUpdate();
+            Task.OnUpdate();
         }
         private void OnApplicationQuit()
         {
@@ -131,6 +134,10 @@ namespace YouYouFramework
             }
         }
 
+        public static void Log(object message)
+        {
+            Log(LogCategory.Normal, message);
+        }
         public static void Log(LogCategory catetory, object message)
         {
 #if DEBUG_LOG_NORMAL
@@ -144,11 +151,17 @@ namespace YouYouFramework
             Debug.Log($"GameEntryLog==>{catetory}==>{message}");
 #endif
         }
+
         public static void LogWarning(LogCategory catetory, object message)
         {
 #if DEBUG_LOG_WARNING
             Debug.LogWarning($"GameEntryLog==>{catetory}==>{message}");
 #endif
+        }
+
+        public static void LogError(object message)
+        {
+            LogError(LogCategory.Normal, message);
         }
         public static void LogError(LogCategory catetory, object message)
         {

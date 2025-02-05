@@ -18,46 +18,30 @@ MonoBehaviour:
   AssetBundleSavePath: AssetBundles
   IsCanEditor: 1
   Datas:
-  - Name: "Hotfix\u7A0B\u5E8F\u96C6"
-    IsBuild: 1
-    Overall: 1
-    IsFirstData: 1
-    IsEncrypt: 0
-    Path:
-    - Game/Download/Hotfix
-  - Name: "\u6570\u636E\u8868"
+  - Name: "\u901A\u7528\u7D20\u6750_\u6574\u5305"
     IsBuild: 1
     Overall: 1
     IsFirstData: 1
     IsEncrypt: 0
     Path:
     - Game/Download/DataTable
-  - Name: "\u9884\u5236\u4F53"
+    - Game/Download/Font
+    - Game/Download/Hotfix
+    - Game/Download/Shader
+  - Name: "\u901A\u7528\u7D20\u6750_\u6563\u5305"
     IsBuild: 1
     Overall: 0
     IsFirstData: 1
     IsEncrypt: 0
     Path:
     - Game/Download/Prefab
-  - Name: "\u901A\u7528\u7D20\u6750"
+    - Game/Download/Scenes
+    - Game/Download/Sound
+  - Name: "UI\u7D20\u6750"
     IsBuild: 1
     Overall: 1
     IsFirstData: 1
     IsEncrypt: 0
     Path:
-    - Game/Download/Shader
-    - Game/Download/Font
-  - Name: "\u573A\u666F"
-    IsBuild: 1
-    Overall: 0
-    IsFirstData: 1
-    IsEncrypt: 0
-    Path:
-    - Game/Download/Scenes
-  - Name: "\u97F3\u4E50"
-    IsBuild: 1
-    Overall: 0
-    IsFirstData: 1
-    IsEncrypt: 0
-    Path:
-    - Game/Download/Sound
+    - Game/Download/UITexture/Common
+    - Game/Download/UITexture/Item

@@ -25,11 +25,6 @@ namespace YouYouFramework
         public Action OnCompleteOne;
 
         /// <summary>
-        /// 是否并发执行
-        /// </summary>
-        private bool m_IsConcurrency = false;
-
-        /// <summary>
         /// 是否正在执行
         /// </summary>
         public bool InTask { get; private set; }
@@ -41,7 +36,15 @@ namespace YouYouFramework
         {
             m_TaskRoutineList = new LinkedList<TaskRoutine>();
         }
-
+        public void OnUpdate()
+        {
+            LinkedListNode<TaskRoutine> taskRotine = m_TaskRoutineList.First;
+            while (taskRotine != null)
+            {
+                taskRotine.Value.OnUpdate();
+                taskRotine = taskRotine.Next;
+            }
+        }
         public void Dispose()
         {
             InTask = false;
@@ -52,20 +55,15 @@ namespace YouYouFramework
             GameEntry.Task.RemoveTaskGroup(this);
         }
 
-        public virtual void AddTask(Action<TaskRoutine> task, bool isAddGroup = true)
+        public virtual void AddTask(Action<TaskRoutine> task)
         {
             if (task == null) return;
-            TaskRoutine taskRoutine = new TaskRoutine();
+            TaskRoutine taskRoutine = new();
             taskRoutine.CurrTask = task;
-            if (isAddGroup)
-            {
-                m_TaskRoutineList.AddLast(taskRoutine);
-                TotalCount++;
-            }
-            else
-            {
-                taskRoutine.TaskBegin();
-            }
+            taskRoutine.TaskIndex = TotalCount;
+
+            m_TaskRoutineList.AddLast(taskRoutine);
+            TotalCount++;
         }
 
         public void LeaveCurrTask()
@@ -95,9 +93,7 @@ namespace YouYouFramework
         /// <summary>
         /// 执行任务
         /// </summary>
-        /// <param name="isConcurrency">是否并行</param>
-        /// <param name="onStart"></param>
-        public void Run(bool isConcurrency = false, Action onStart = null)
+        public void Run(Action onStart = null)
         {
             if (m_TaskRoutineList.Count == 0) return;
 
@@ -107,27 +103,9 @@ namespace YouYouFramework
             GameEntry.Task.RegisterTaskGroup(this);
             onStart?.Invoke();
 
-            //是否并行
-            m_IsConcurrency = isConcurrency;
-            if (m_IsConcurrency)
-            {
-                ConcurrencyTask();
-            }
-            else
-            {
-                CheckTask();
-            }
+            CheckTask();
         }
 
-        public void OnUpdate()
-        {
-            LinkedListNode<TaskRoutine> taskRotine = m_TaskRoutineList.First;
-            while (taskRotine != null)
-            {
-                taskRotine.Value.OnUpdate();
-                taskRotine = taskRotine.Next;
-            }
-        }
         /// <summary>
         /// 按照AddTask顺序执行任务
         /// </summary>
@@ -148,26 +126,6 @@ namespace YouYouFramework
             else
             {
                 Dispose();
-            }
-        }
-
-        /// <summary>
-        /// 并发执行任务
-        /// </summary>
-        private void ConcurrencyTask()
-        {
-            LinkedListNode<TaskRoutine> routine = m_TaskRoutineList.First;
-            while (routine != null)
-            {
-                LinkedListNode<TaskRoutine> next = routine.Next;
-                routine.Value.OnComplete += () =>
-                {
-                    CurrCount++;
-                    OnCompleteOne?.Invoke();
-                    if (CurrCount == TotalCount) Dispose();
-                };
-                routine.Value.TaskBegin();
-                routine = next;
             }
         }
 

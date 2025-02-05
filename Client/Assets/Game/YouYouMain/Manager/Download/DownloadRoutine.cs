@@ -70,12 +70,12 @@ namespace YouYouMain
         /// <summary>
         /// 下载完毕委托
         /// </summary>
-        private Action<string, DownloadRoutine> m_OnComplete;
+        private Action<bool> m_OnComplete;
 
         /// <summary>
         /// 开始下载
         /// </summary>
-        public void BeginDownload(string url, VersionFileEntity assetBundleInfo, Action<string, ulong, float> onUpdate, Action<string, DownloadRoutine> onComplete)
+        public void BeginDownload(string url, VersionFileEntity assetBundleInfo, Action<string, ulong, float> onUpdate, Action<bool> onComplete)
         {
             m_CurrFileUrl = url;
             m_CurrVersionFile = assetBundleInfo;
@@ -211,9 +211,12 @@ namespace YouYouMain
                     m_CurrDownloaderSize = m_UnityWebRequest.downloadedBytes;
                     //YouYou.GameEntry.LogError(string.Format("下载进度{0}%", (int)(m_CurrDownloaderSize / (float)m_TotalSize) * 100));
 
-                    Sava(m_UnityWebRequest.downloadHandler.data);
+                    if (MainEntry.Instance.IsDownloadFlush)
+                    {
+                        Sava(m_UnityWebRequest.downloadHandler.data);
+                    }
 
-                    if (m_OnUpdate != null) m_OnUpdate(m_CurrFileUrl, m_CurrDownloaderSize, m_CurrDownloaderSize / (float)m_TotalSize);
+                    m_OnUpdate?.Invoke(m_CurrFileUrl, m_CurrDownloaderSize, m_CurrDownloaderSize / (float)m_TotalSize);
                 }
                 return;
             }
@@ -223,7 +226,7 @@ namespace YouYouMain
                 case UnityWebRequest.Result.ProtocolError:
                 case UnityWebRequest.Result.DataProcessingError:
                     m_CurrRetry++;
-                    if (m_CurrRetry <= MainEntry.ParamsSettings.DownloadRetry)
+                    if (m_CurrRetry <= MainEntry.Instance.DownloadRetry)
                     {
                         MainEntry.Log($"下载文件URL {m_UnityWebRequest.url} 出错, 正在进行重试, 当前重试次数{m_CurrRetry}");
                         Reset();
@@ -232,6 +235,7 @@ namespace YouYouMain
                     }
                     MainEntry.LogError($"下载失败, URL {m_UnityWebRequest.url} Error= {m_UnityWebRequest.error}");
                     Reset();
+                    m_OnComplete?.Invoke(false);
                     //MainEntry.ClassObjectPool.Enqueue(this);
                     return;
             }
@@ -241,7 +245,7 @@ namespace YouYouMain
             m_CurrDownloaderSize = m_UnityWebRequest.downloadedBytes;
             Sava(m_UnityWebRequest.downloadHandler.data, true);
 
-            if (m_OnUpdate != null) m_OnUpdate(m_CurrFileUrl, m_CurrDownloaderSize, m_CurrDownloaderSize / (float)m_TotalSize);
+            m_OnUpdate?.Invoke(m_CurrFileUrl, m_CurrDownloaderSize, m_CurrDownloaderSize / (float)m_TotalSize);
 
             Reset();
 
@@ -255,7 +259,7 @@ namespace YouYouMain
             VersionLocalModel.Instance.SaveVersion();
 
             //MainEntry.ClassObjectPool.Enqueue(this);
-            m_OnComplete?.Invoke(m_CurrFileUrl, this);
+            m_OnComplete?.Invoke(true);
         }
 
         /// <summary>
@@ -272,7 +276,7 @@ namespace YouYouMain
             m_PrevWriteSize = len;
 
             m_CurrWaitFlushSize += count;
-            if (m_CurrWaitFlushSize >= MainEntry.ParamsSettings.DownloadFlushSize || downloadComplete)
+            if (m_CurrWaitFlushSize >= MainEntry.Instance.DownloadFlushSize || downloadComplete)
             {
                 //YouYou.GameEntry.LogError("写入磁盘" + m_CurrFileUrl);
                 m_CurrWaitFlushSize = 0;

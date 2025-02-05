@@ -66,6 +66,7 @@ public class CheckVersionCtrl
 
         //去资源站点请求CDN的版本文件信息
         string cdnVersionFileUrl = Path.Combine(ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, MainConstDefine.VersionFileName);
+        MainEntry.Log("请求CDN版本文件，cdnVersionFileUrl==" + cdnVersionFileUrl);
         byte[] cdnVersionFileBytes = await LoadUtil.LoadCDNBytesAsync(cdnVersionFileUrl);
         if (cdnVersionFileBytes != null)
         {
@@ -74,7 +75,11 @@ public class CheckVersionCtrl
         }
         else
         {
-            MainEntry.Log("加载CDN版本文件失败，cdnVersionFileUrl==" + cdnVersionFileUrl);
+            MainEntry.LogError("请求CDN版本文件失败，请点击重试, cdnVersionFileUrl==" + cdnVersionFileUrl);
+            MainDialogForm.ShowForm("There was an error with the network request. Please click to retry.", "Error", "Retry", "", MainDialogForm.DialogFormType.Affirm, () =>
+            {
+                CheckVersionChange(onComplete);
+            });
             return;
         }
 
@@ -116,7 +121,6 @@ public class CheckVersionCtrl
         while (enumerator.MoveNext())
         {
             VersionFileEntity localVersionFile = enumerator.Current.Value;
-
             if (VersionCDNModel.Instance.VersionDic.TryGetValue(localVersionFile.AssetBundleFullPath, out VersionFileEntity cdnVersionFile))
             {
                 if (VersionStreamingModel.Instance.VersionDic.TryGetValue(localVersionFile.AssetBundleFullPath, out VersionFileEntity streamingVersionFile) &&
@@ -192,7 +196,14 @@ public class CheckVersionCtrl
 
         //进行下载
         MainEntry.Log("下载更新资源,文件数量==>" + needDownloadList.Count + "==>" + needDownloadList.ToJson());
-        MainEntry.Download.BeginDownloadMulit(needDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
+        if (needDownloadList.Count > 0)
+        {
+            MainEntry.Download.BeginDownloadMulit(needDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
+        }
+        else
+        {
+            OnDownloadMulitComplete(true);
+        }
     }
     /// <summary>
     /// 下载进行中
@@ -210,8 +221,18 @@ public class CheckVersionCtrl
     /// <summary>
     /// 下载完毕
     /// </summary>
-    private void OnDownloadMulitComplete()
+    private void OnDownloadMulitComplete(bool success)
     {
+        if (!success)
+        {
+            MainEntry.LogError("检查更新失败, 下载文件缺失, 请点击重试");
+            MainDialogForm.ShowForm("There was an error with the network request. Please click to retry.", "Error", "Retry", "", MainDialogForm.DialogFormType.Affirm, () =>
+            {
+                CheckVersionChange(CheckVersionComplete);
+            });
+            return;
+        }
+
         VersionLocalModel.Instance.SetAssetVersion(VersionCDNModel.Instance.AssetVersion);
 
         CheckVersionDownloadComplete?.Invoke();
