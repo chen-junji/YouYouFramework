@@ -25,25 +25,13 @@ public class MacroSettings : ScriptableObject
         /// </summary>
         public string Macro;
     }
-    /// <summary>
-    /// 资源加载方式
-    /// </summary>
-    public enum AssetLoadTarget
-    {
-        ASSETBUNDLE,
-        EDITORLOAD
-    }
-    private string m_Macor;
-
-    [LabelText("资源加载方式")]
-    public AssetLoadTarget CurrAssetLoadTarget;
-
     [PropertySpace(10)]
     [BoxGroup("MacroSettings")]
     [TableList(ShowIndexLabels = true, AlwaysExpanded = true)]
     [HideLabel]
     public MacroData[] Settings;
 
+    private string m_Macor;
 
     [Button(ButtonSizes.Medium), ResponsiveButtonGroup("DefaultButtonSize"), PropertyOrder(1)]
     public void SaveMacro()
@@ -57,25 +45,12 @@ public class MacroSettings : ScriptableObject
                 macor += string.Format("{0};", item.Macro);
             }
         }
-        macor += string.Format("{0};", CurrAssetLoadTarget.ToString());
 
-        //设置BuildSetting中的场景启用和禁用
-        EditorBuildSettingsScene[] arrScene = EditorBuildSettings.scenes;
-        for (int i = 0; i < arrScene.Length; i++)
-        {
-            if (arrScene[i].path.IndexOf("Game/Download/") > -1)
-            {
-                arrScene[i].enabled = !CurrAssetLoadTarget.ToString().Equals("ASSETBUNDLE");
-            }
-        }
-        EditorBuildSettings.scenes = arrScene;
 
-        List<string> definesL = new List<string>();
+        List<string> definesL = new();
         PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, out string[] defines);
         for (int i = 0; i < defines.Length; i++) definesL.Add(defines[i]);
         foreach (var item in Settings) definesL.Remove(item.Macro);
-        AssetLoadTarget[] AssetLoadTargets = (AssetLoadTarget[])Enum.GetValues(typeof(AssetLoadTarget));
-        foreach (var item in AssetLoadTargets) definesL.Remove(item.ToString());
         for (int i = 0; i < definesL.Count; i++) macor += string.Format("{0};", definesL[i]);
 
         PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, macor);
@@ -95,16 +70,6 @@ public class MacroSettings : ScriptableObject
 
         if (!string.IsNullOrEmpty(m_Macor))
         {
-            //该字符串包含AssetLoadTargets[i]
-            AssetLoadTarget[] AssetLoadTargets = (AssetLoadTarget[])Enum.GetValues(typeof(AssetLoadTarget));
-            for (int i = 0; i < AssetLoadTargets.Length; i++)
-            {
-                if (m_Macor.IndexOf(AssetLoadTargets[i].ToString()) != -1)
-                {
-                    CurrAssetLoadTarget = AssetLoadTargets[i];
-                }
-            }
-
             //该字符串包含Settings[i].Macro
             for (int i = 0; i < Settings.Length; i++)
             {

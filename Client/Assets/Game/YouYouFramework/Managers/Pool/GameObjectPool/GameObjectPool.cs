@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Cysharp.Threading.Tasks;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 
 namespace YouYouFramework
@@ -26,7 +27,7 @@ namespace YouYouFramework
         /// <summary>
         /// Key==Prefab的InstanceId
         /// </summary>
-        private Dictionary<int, AssetReferenceEntity> prefabAssetDic = new Dictionary<int, AssetReferenceEntity>();
+        private Dictionary<int, AsyncOperationHandle> prefabAssetDic = new ();
 
         public GameObject YouYouObjPool { get; private set; }
 
@@ -63,15 +64,6 @@ namespace YouYouFramework
             int instanceID = inst.GetInstanceID();
             instanceIdPoolIdDic[instanceID] = prefabPool;
 
-            //先执行的InstantiateDelegates 后执行的TotalCount+1, 所以TotalCount == 0说明是第一次克隆, 让资源的引用计数+1
-            if (prefabPool.TotalCount == 0)
-            {
-                if (prefabAssetDic.TryGetValue(prefabPool.prefab.GetInstanceID(), out AssetReferenceEntity referenceEntity))
-                {
-                    referenceEntity.ReferenceAdd();
-                }
-            }
-
             return inst;
         }
         private void DestroyDelegate(GameObject inst, PrefabPool prefabPool)
@@ -84,9 +76,9 @@ namespace YouYouFramework
             //先执行的TotalCount-1 后执行的DestroyDelegates, 所以TotalCount == 0说明是最后一次销毁, 让资源的引用计数-1
             if (prefabPool.TotalCount == 0)
             {
-                if (prefabAssetDic.TryGetValue(prefabPool.prefab.GetInstanceID(), out AssetReferenceEntity referenceEntity))
+                if (prefabAssetDic.TryGetValue(prefabPool.prefab.GetInstanceID(), out var referenceEntity))
                 {
-                    referenceEntity.ReferenceRemove();
+                    referenceEntity.Release();
                 }
             }
 
@@ -170,15 +162,15 @@ namespace YouYouFramework
         }
         public GameObject Spawn(string prefabFullPath, SpawnPoolId poolId = SpawnPoolId.Common)
         {
-            AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset(prefabFullPath);
-            GameObject prefab = referenceEntity.Target as GameObject;
+            var referenceEntity = GameEntry.Loader.LoadMainAsset(prefabFullPath);
+            GameObject prefab = referenceEntity.Result as GameObject;
             prefabAssetDic[prefab.GetInstanceID()] = referenceEntity;
             return Spawn(prefab, poolId);
         }
         public async UniTask<GameObject> SpawnAsync(string prefabFullPath, SpawnPoolId poolId = SpawnPoolId.Common)
         {
-            AssetReferenceEntity referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(prefabFullPath);
-            GameObject prefab = referenceEntity.Target as GameObject;
+            var referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(prefabFullPath);
+            GameObject prefab = referenceEntity.Result as GameObject;
             prefabAssetDic[prefab.GetInstanceID()] = referenceEntity;
             return Spawn(prefab, poolId);
         }

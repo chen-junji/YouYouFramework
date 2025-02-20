@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 using YouYouMain;
 
@@ -50,16 +51,37 @@ public class CheckVersionForm : MonoBehaviour
 
         //txtVersion.text = string.Format("最新版本 {0}", GameEntry.Loader.ResourceManager.CDNVersion);
     }
-    private void OnCheckVersionDownloadUpdate(BaseParams baseParams)
+    private void OnCheckVersionDownloadUpdate(DownloadStatus status)
     {
-        txtTip.text = string.Format("正在下载{0}/{1}", baseParams.IntParam1, baseParams.IntParam2);
-        //if (txtSize != null) txtSize.text = string.Format("{0:f2}M/{1:f2}M", (float)baseParams.ULongParam1 / (1024 * 1024), (float)baseParams.ULongParam2 / (1024 * 1024));
+        //status.Percent; // 进度（0~1）
+        //status.DownloadedBytes 当前下载字节
+        //status.TotalBytes 最大下载字节
 
-        progressImg.fillAmount = (float)baseParams.IntParam1 / baseParams.IntParam2;
+        // 计算下载速度(每秒下载多少)
+        //long speedBytesPerSec = (long)(status.DownloadedBytes / Time.deltaTime);
+        //string speed = FormatBytes(speedBytesPerSec);
+        //_statusText.text = $"{speed}/s";
+
+        txtTip.text = string.Format("{0:f2}M/{1:f2}M", (float)status.DownloadedBytes / (1024 * 1024), status.TotalBytes / (1024 * 1024));
+        progressImg.fillAmount = status.Percent;
     }
     private void OnCheckVersionDownloadComplete()
     {
         //Debug.Log("检查更新下载完毕!!!");
+    }
+
+    // 字节量格式化（如 B、KB、MB）
+    private string FormatBytes(long bytes)
+    {
+        string[] suffixes = { "B", "KB", "MB", "GB" };
+        int i = 0;
+        double size = bytes;
+        while (size >= 1024 && i < suffixes.Length - 1)
+        {
+            size /= 1024;
+            i++;
+        }
+        return $"{size:F2} {suffixes[i]}";
     }
     #endregion
 

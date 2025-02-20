@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 36ee65fa56ce3854088a021d094c39c9
+  m_SerializeEntries:
+  - m_GUID: 0714826b5e4593c46afa24ba3caf05f3
+    m_Address: Assets/Game/Download/DataTable
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 203e78ea531a50d49b96197daec59497
+    m_Address: Assets/Game/Download/Scenes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 24e028eac10f7164c883f883a891b942
+    m_Address: Assets/Game/Download/Prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7317b89b6e4bd0140b233797054e2bfd
+    m_Address: Assets/Game/Download/Font
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 91b3678865fa7c247839e3f2ed8824fa
+    m_Address: Assets/Game/Download/Shader
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 997ac9a7f23e18e4b815762ad36c234d
+    m_Address: Assets/Game/Download/UITexture
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d2cd5153af4e859439d68f9e46834d28
+    m_Address: Assets/Game/Download/Hotfix
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f5d160c48260ef5449b699b8cfeec4d3
+    m_Address: Assets/Game/Download/Sound
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 8a1c5cb019782a34bad47e2e5d7fc230, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 095837a8410814c4787b29cdbc95e772, type: 2}
+    - {fileID: 11400000, guid: d895721d6c3e8084cb42918ead8242a5, type: 2}

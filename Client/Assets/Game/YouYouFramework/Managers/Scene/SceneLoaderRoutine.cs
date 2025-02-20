@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using YouYouMain;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 
 
 namespace YouYouFramework
@@ -15,7 +18,9 @@ namespace YouYouFramework
     {
         private AsyncOperation m_CurrAsync = null;
 
-        private string SceneFullPath;
+        public string SceneFullPath;
+
+        private AsyncOperationHandle<SceneInstance> asyncOperation;
 
         /// <summary>
         /// 进度更新
@@ -31,42 +36,17 @@ namespace YouYouFramework
 
             OnProgressUpdate = onProgressUpdate;
 
-            if (MainEntry.IsAssetBundleMode)
-            {
-                //加载场景的资源包
-                await GameEntry.Loader.LoadAssetBundleMainAndDependAsync(sceneFullPath);
-
-                //场景只需要给AssetBundle做引用计数， 不需要给Asset做引用计数
-                AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(sceneFullPath);
-                AssetBundleReferenceEntity assetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
-                assetBundleEntity.ReferenceAdd();
-                for (int i = 0; i < assetEntity.DependsAssetBundleList.Count; i++)
-                {
-                    AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
-                    dependAssetBundleEntity.ReferenceAdd();
-                }
-            }
-            m_CurrAsync = SceneManager.LoadSceneAsync(sceneFullPath, LoadSceneMode.Additive);
+            asyncOperation = Addressables.LoadSceneAsync(sceneFullPath, LoadSceneMode.Additive);
+            await asyncOperation.Task;
         }
 
         /// <summary>
         /// 卸载场景
         /// </summary>
-        public void UnLoadScene(string sceneFullPath)
+        public async void UnLoadScene()
         {
-            if (MainEntry.IsAssetBundleMode)
-            {
-                //场景只需要给AssetBundle做引用计数， 不需要给Asset做引用计数
-                AssetInfoEntity assetEntity = GameEntry.Loader.AssetInfo.GetAssetEntity(sceneFullPath);
-                AssetBundleReferenceEntity assetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.AssetBundleFullPath);
-                assetBundleEntity.ReferenceRemove();
-                for (int i = 0; i < assetEntity.DependsAssetBundleList.Count; i++)
-                {
-                    AssetBundleReferenceEntity dependAssetBundleEntity = GameEntry.Loader.AssetBundlePool.Spawn(assetEntity.DependsAssetBundleList[i]);
-                    dependAssetBundleEntity.ReferenceRemove();
-                }
-            }
-            m_CurrAsync = SceneManager.UnloadSceneAsync(sceneFullPath);
+            AsyncOperationHandle<SceneInstance> handle = Addressables.UnloadSceneAsync(asyncOperation);
+            await handle.Task;
         }
 
         /// <summary>

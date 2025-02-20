@@ -26,15 +26,8 @@ public class YouYouEditor : OdinMenuEditorWindow
         //宏设置
         tree.AddAssetAtPath("MacroSettings", "Game/YouYouFramework/Editor/YouYouAssets/MacroSettings.asset");
 
-        //AssetBundle打包管理
-        tree.AddAssetAtPath("AssetBundleSettings", "Game/YouYouFramework/Editor/YouYouAssets/AssetBundleSettings.asset");
-
         //类对象池
         tree.AddAssetAtPath("ClassObjectPool", "Game/YouYouFramework/Editor/YouYouAssets/PoolAnalyze_ClassObjectPool.asset");
-        //AssetBundele池
-        tree.AddAssetAtPath("AssetBundlePool", "Game/YouYouFramework/Editor/YouYouAssets/PoolAnalyze_AssetBundlePool.asset");
-        //Asset池
-        tree.AddAssetAtPath("AssetPool", "Game/YouYouFramework/Editor/YouYouAssets/PoolAnalyze_AssetPool.asset");
 
         return tree;
     }

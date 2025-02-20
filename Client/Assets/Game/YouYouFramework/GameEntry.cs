@@ -117,7 +117,6 @@ namespace YouYouFramework
             Procedure.OnUpdate();
             Pool.OnUpdate();
             Scene.OnUpdate();
-            Loader.OnUpdate();
             UI.OnUpdate();
             Audio.OnUpdate();
             Task.OnUpdate();

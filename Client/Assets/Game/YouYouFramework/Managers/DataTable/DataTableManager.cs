@@ -2,6 +2,7 @@ using YouYouMain;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 
 namespace YouYouFramework
@@ -35,17 +36,9 @@ namespace YouYouFramework
         /// </summary>
         public byte[] GetDataTableBuffer(string dataTableName)
         {
-            if (MainEntry.IsAssetBundleMode)
-            {
-                AssetReferenceEntity referenceEntity = GameEntry.Loader.LoadMainAsset($"Assets/Game/Download/DataTable/{dataTableName}.bytes");
-                if (referenceEntity == null) return null;
-                TextAsset asset = referenceEntity.Target as TextAsset;
-                return asset.bytes;
-            }
-            else
-            {
-                return IOUtil.GetFileBuffer(string.Format("{0}/Game/Download/DataTable/{1}.bytes", MainConstDefine.EditorAssetBundlePath, dataTableName));
-            }
+            var referenceEntity = GameEntry.Loader.LoadMainAsset($"Assets/Game/Download/DataTable/{dataTableName}.bytes");
+            TextAsset asset = referenceEntity.Result as TextAsset;
+            return asset.bytes;
         }
     }
 }

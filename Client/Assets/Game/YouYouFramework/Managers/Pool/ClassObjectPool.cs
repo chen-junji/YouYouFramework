@@ -49,10 +49,6 @@ namespace YouYouFramework
             //初始化常用类常驻数量
             SetResideCount<HttpRoutine>(3);
             SetResideCount<Dictionary<string, object>>(3);
-            SetResideCount<AssetBundleLoaderRoutine>(10);
-            SetResideCount<AssetLoaderRoutine>(10);
-            SetResideCount<AssetReferenceEntity>(10);
-            SetResideCount<AssetBundleReferenceEntity>(10);
         }
         internal void OnUpdate()
         {

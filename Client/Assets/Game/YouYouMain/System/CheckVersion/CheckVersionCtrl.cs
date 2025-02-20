@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using YouYouMain;
 
 
@@ -18,26 +20,6 @@ public class CheckVersionCtrl
     public CheckVersionCtrl()
     {
         m_NeedDownloadList = new LinkedList<string>();
-    }
-
-    public async UniTask Init()
-    {
-        //加载只读区版本文件信息
-        byte[] streamingBuffer = await LoadUtil.LoadStreamingBytesAsync(MainConstDefine.VersionFileName);
-        if (streamingBuffer != null)
-        {
-            VersionStreamingModel.Instance.VersionDic = LoadUtil.LoadVersionFile(streamingBuffer, ref VersionStreamingModel.Instance.AssetVersion);
-            MainEntry.Log("加载只读区版本文件信息");
-        }
-
-        //加载可写区版本文件信息
-        if (File.Exists(MainConstDefine.LocalVersionFilePath))
-        {
-            string json = IOUtil.GetFileText(MainConstDefine.LocalVersionFilePath);
-            VersionLocalModel.Instance.VersionDic = json.ToObject<Dictionary<string, VersionFileEntity>>();
-            VersionLocalModel.Instance.AssetVersion = PlayerPrefs.GetString(MainConstDefine.AssetVersion);
-            MainEntry.Log("加载可写区版本文件信息");
-        }
     }
 
     #region 检查更新相关逻辑
@@ -52,7 +34,7 @@ public class CheckVersionCtrl
     private BaseParams m_DownloadingParams;
 
     public event Action CheckVersionBeginDownload;
-    internal event Action<BaseParams> CheckVersionDownloadUpdate;
+    internal event Action<DownloadStatus> CheckVersionDownloadUpdate;
     public event Action CheckVersionDownloadComplete;
 
     private Action CheckVersionComplete;
@@ -64,183 +46,68 @@ public class CheckVersionCtrl
     {
         CheckVersionComplete = onComplete;
 
-        //去资源站点请求CDN的版本文件信息
-        string cdnVersionFileUrl = Path.Combine(ChannelModel.Instance.CurrChannelConfig.RealSourceUrl, MainConstDefine.VersionFileName);
-        MainEntry.Log("请求CDN版本文件，cdnVersionFileUrl==" + cdnVersionFileUrl);
-        byte[] cdnVersionFileBytes = await LoadUtil.LoadCDNBytesAsync(cdnVersionFileUrl);
-        if (cdnVersionFileBytes != null)
+        var updateHandle = Addressables.CheckForCatalogUpdates();
+        await updateHandle.Task;
+        if (updateHandle.Status == AsyncOperationStatus.Failed)
         {
-            VersionCDNModel.Instance.VersionDic = LoadUtil.LoadVersionFile(cdnVersionFileBytes, ref VersionCDNModel.Instance.AssetVersion);
-            MainEntry.Log("加载CDN版本文件成功，cdnVersionFileUrl==" + cdnVersionFileUrl);
-        }
-        else
-        {
-            MainEntry.LogError("请求CDN版本文件失败，请点击重试, cdnVersionFileUrl==" + cdnVersionFileUrl);
-            MainDialogForm.ShowForm("There was an error with the network request. Please click to retry.", "Error", "Retry", "", MainDialogForm.DialogFormType.Affirm, () =>
-            {
-                CheckVersionChange(onComplete);
-            });
+            //资源清单请求失败
             return;
         }
 
-        MainEntry.Log($"检查更新=>CheckVersionChange(), 本地版本号=>{VersionLocalModel.Instance.AssetVersion}");
+        if (updateHandle.Result.Count == 0)
+        {
+            MainEntry.Log("资源清单没变化 不需要检查更新");
+            CheckVersionComplete?.Invoke();
+            return;
+        }
+        MainEntry.Log("旧的资源清单==" + updateHandle.Result.ToJson());
+        MainEntry.Log("开始更新资源清单");
 
-        if (VersionLocalModel.Instance.AssetVersion.Equals(VersionCDNModel.Instance.AssetVersion))
-        {
-            MainEntry.Log("可写区版本号和CDN版本号一致 不需要检查更新");
-            CheckVersionComplete?.Invoke();
-        }
-        else if (VersionStreamingModel.Instance.AssetVersion.Equals(VersionCDNModel.Instance.AssetVersion))
-        {
-            MainEntry.Log("只读区版本号和CDN版本号一致 不需要检查更新");
-            CheckVersionComplete?.Invoke();
-        }
-        else
-        {
-            MainEntry.Log($"CDN版本号=={VersionCDNModel.Instance.AssetVersion}, 和可写区 只读区版本号都不一致 开始检查更新");
-            BeginCheckVersionChange();
-        }
+        // 下载新版本 Catalog 和资源
+        var updateOp = Addressables.UpdateCatalogs(updateHandle.Result, false);
+        await updateOp.Task;
+        MainEntry.Log("资源清单更新完毕==" + updateOp.Result.ToJson());
+        updateOp.Release();
+
+        //开始检查更新
+        MainEntry.Instance.StartCoroutine(DownloadCoroutine());
 
     }
 
-    /// <summary>
-    /// 开始检查更新
-    /// </summary>
-    private void BeginCheckVersionChange()
+    IEnumerator DownloadCoroutine()
     {
-        m_DownloadingParams = BaseParams.Create();
-
-        //需要删除的文件
-        LinkedList<string> deleteList = new LinkedList<string>();
-
-        //需要下载的文件
-        LinkedList<string> needDownloadList = new LinkedList<string>();
-
-        //找出需要删除的文件
-        var enumerator = VersionLocalModel.Instance.VersionDic.GetEnumerator();
-        while (enumerator.MoveNext())
-        {
-            VersionFileEntity localVersionFile = enumerator.Current.Value;
-            if (VersionCDNModel.Instance.VersionDic.TryGetValue(localVersionFile.AssetBundleFullPath, out VersionFileEntity cdnVersionFile))
-            {
-                if (VersionStreamingModel.Instance.VersionDic.TryGetValue(localVersionFile.AssetBundleFullPath, out VersionFileEntity streamingVersionFile) &&
-                cdnVersionFile.MD5.Equals(localVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase) == false &&
-                cdnVersionFile.MD5.Equals(streamingVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    //可写区有 CDN有 只读区有
-                    //CDN和可写区的MD5不一致
-                    //只读区和CDN的MD5一致
-                    //说明可写区的这个文件是旧的, 删除它
-                    deleteList.AddLast(localVersionFile.AssetBundleFullPath);
-                }
-            }
-            else
-            {
-                //可写区有 CDN上没有
-                //加入删除链表
-                deleteList.AddLast(localVersionFile.AssetBundleFullPath);
-            }
-        }
-
-        //删除需要删除的
-        MainEntry.Log("删除旧资源,文件数量==>" + deleteList.Count + "==>" + deleteList.ToJson());
-        LinkedListNode<string> currDel = deleteList.First;
-        while (currDel != null)
-        {
-            string filePath = Path.Combine(MainConstDefine.LocalAssetBundlePath, currDel.Value);
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-            LinkedListNode<string> next = currDel.Next;
-            deleteList.Remove(currDel);
-            VersionLocalModel.Instance.VersionDic.Remove(currDel.Value);
-            currDel = next;
-        }
-
-        //检查需要下载的
-        enumerator = VersionCDNModel.Instance.VersionDic.GetEnumerator();
-        while (enumerator.MoveNext())
-        {
-            VersionFileEntity cdnVersionFile = enumerator.Current.Value;
-
-            //当前文件不是初始资源 忽略
-            if (!cdnVersionFile.IsFirstData) continue;
-
-            if (VersionLocalModel.Instance.VersionDic.TryGetValue(cdnVersionFile.AssetBundleFullPath, out VersionFileEntity localVersionFile))
-            {
-                //可写区有这个文件
-                if (cdnVersionFile.MD5.Equals(localVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase) == false)
-                {
-                    //可写区和CDN的MD5不一致 加入下载链表
-                    needDownloadList.AddLast(cdnVersionFile.AssetBundleFullPath);
-                }
-            }
-            else if (VersionStreamingModel.Instance.VersionDic.TryGetValue(cdnVersionFile.AssetBundleFullPath, out VersionFileEntity streamingVersionFile))
-            {
-                //只读区有这个文件
-                if (cdnVersionFile.MD5.Equals(streamingVersionFile.MD5, StringComparison.CurrentCultureIgnoreCase) == false)
-                {
-                    //只读区和CDN的MD5不一致 加入下载链表
-                    needDownloadList.AddLast(cdnVersionFile.AssetBundleFullPath);
-                }
-            }
-            else
-            {
-                //可写区和只读区都不存在 加入下载链表
-                needDownloadList.AddLast(cdnVersionFile.AssetBundleFullPath);
-            }
-        }
-
         CheckVersionBeginDownload?.Invoke();
 
-        //进行下载
-        MainEntry.Log("下载更新资源,文件数量==>" + needDownloadList.Count + "==>" + needDownloadList.ToJson());
-        if (needDownloadList.Count > 0)
+        // 开始下载资源及其依赖项
+        AsyncOperationHandle _downloadHandle = Addressables.DownloadDependenciesAsync("default");
+
+        // 轮询更新进度
+        while (!_downloadHandle.IsDone)
         {
-            MainEntry.Download.BeginDownloadMulit(needDownloadList, OnDownloadMulitUpdate, OnDownloadMulitComplete);
+            CheckVersionDownloadUpdate?.Invoke(_downloadHandle.GetDownloadStatus());
+            yield return null; // 每帧更新
+        }
+
+        // 处理完成状态
+        if (_downloadHandle.Status == AsyncOperationStatus.Succeeded)
+        {
+            Addressables.Release(_downloadHandle); // 释放资源句柄
+
+            MainEntry.Log("检查更新下载完毕, 进入预加载流程");
+            CheckVersionDownloadComplete?.Invoke();
+            CheckVersionComplete?.Invoke();
         }
         else
         {
-            OnDownloadMulitComplete(true);
-        }
-    }
-    /// <summary>
-    /// 下载进行中
-    /// </summary>
-    private void OnDownloadMulitUpdate(int t1, int t2, ulong t3, ulong t4)
-    {
-        m_DownloadingParams.IntParam1 = t1;
-        m_DownloadingParams.IntParam2 = t2;
-
-        m_DownloadingParams.ULongParam1 = t3;
-        m_DownloadingParams.ULongParam2 = t4;
-
-        CheckVersionDownloadUpdate?.Invoke(m_DownloadingParams);
-    }
-    /// <summary>
-    /// 下载完毕
-    /// </summary>
-    private void OnDownloadMulitComplete(bool success)
-    {
-        if (!success)
-        {
-            MainEntry.LogError("检查更新失败, 下载文件缺失, 请点击重试");
-            MainDialogForm.ShowForm("There was an error with the network request. Please click to retry.", "Error", "Retry", "", MainDialogForm.DialogFormType.Affirm, () =>
+            MainEntry.LogError("检查更新失败, 请点击重试");
+            MainDialogForm.ShowForm("检查更新失败, 请点击重试", "Error", "重试", "", MainDialogForm.DialogFormType.Affirm, () =>
             {
                 CheckVersionChange(CheckVersionComplete);
             });
-            return;
+            Debug.Log($"下载失败：{_downloadHandle.OperationException}");
         }
-
-        VersionLocalModel.Instance.SetAssetVersion(VersionCDNModel.Instance.AssetVersion);
-
-        CheckVersionDownloadComplete?.Invoke();
-        //MainEntry.ClassObjectPool.Enqueue(m_DownloadingParams);
-
-        MainEntry.Log("检查更新下载完毕, 进入预加载流程");
-        CheckVersionComplete?.Invoke();
     }
+
     #endregion
 
 }
