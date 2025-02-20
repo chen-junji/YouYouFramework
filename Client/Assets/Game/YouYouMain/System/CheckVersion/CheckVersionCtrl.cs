@@ -6,6 +6,9 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using YouYouMain;
 
+#if UNITY_EDITOR
+using UnityEditor.AddressableAssets;
+#endif
 
 public class CheckVersionCtrl
 {
@@ -23,6 +26,17 @@ public class CheckVersionCtrl
     public async void CheckVersionChange(Action onComplete)
     {
         CheckVersionComplete = onComplete;
+
+#if UNITY_EDITOR
+        // 获取 Addressables 配置
+        var settings = AddressableAssetSettingsDefaultObject.Settings;
+        if (settings.ActivePlayModeDataBuilderIndex == 0)
+        {
+            MainEntry.Log("编辑器加载模式 不需要检查更新");
+            CheckVersionComplete.Invoke();
+            return;
+        }
+#endif
 
         var updateHandle = Addressables.CheckForCatalogUpdates();
         await updateHandle.Task;

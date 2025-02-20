@@ -35,6 +35,7 @@ public class HotfixCtrl
     public async UniTask LoadHotifx()
     {
 #if UNITY_EDITOR
+        MainEntry.Log("编辑器模式 不需要加载HybridCLR");
         return;
 #endif
         await LoadMetadataForAOTAssemblies();
