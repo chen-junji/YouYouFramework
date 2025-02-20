@@ -9,7 +9,6 @@ using YouYouMain;
 [CustomEditor(typeof(PoolAnalyze_ClassObjectPool))]
 public class PoolAnalyze_ClassObjectPoolEditor : Editor
 {
-
 	public override void OnInspectorGUI()
 	{
 		base.OnInspectorGUI();

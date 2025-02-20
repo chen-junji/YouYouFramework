@@ -1,4 +1,3 @@
-using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,20 +19,16 @@ namespace YouYouFramework
         private ParamsSettings m_ParamsSettings;
         public static ParamsSettings ParamsSettings { get; private set; }
 
-        [FoldoutGroup("UI框架相关")]
         [Header("UI摄像机")]
         public Camera UICamera;
 
-        [FoldoutGroup("UI框架相关")]
         [Header("根画布")]
         public Canvas UIRootCanvas;
 
-        [FoldoutGroup("UI框架相关")]
         [Header("根画布的缩放")]
         public CanvasScaler UIRootCanvasScaler;
         public RectTransform UIRootRectTransform { get; private set; }
 
-        [FoldoutGroup("UI框架相关")]
         [Header("UI分组")]
         public UIGroup[] UIGroups;
 

@@ -1,4 +1,3 @@
-using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +11,6 @@ public class MacroSettings : ScriptableObject
     [Serializable]
     public class MacroData
     {
-        [TableColumnWidth(80, Resizable = false)]
         public bool Enabled;
 
         /// <summary>
@@ -25,15 +23,10 @@ public class MacroSettings : ScriptableObject
         /// </summary>
         public string Macro;
     }
-    [PropertySpace(10)]
-    [BoxGroup("MacroSettings")]
-    [TableList(ShowIndexLabels = true, AlwaysExpanded = true)]
-    [HideLabel]
     public MacroData[] Settings;
 
     private string m_Macor;
 
-    [Button(ButtonSizes.Medium), ResponsiveButtonGroup("DefaultButtonSize"), PropertyOrder(1)]
     public void SaveMacro()
     {
 #if UNITY_EDITOR
