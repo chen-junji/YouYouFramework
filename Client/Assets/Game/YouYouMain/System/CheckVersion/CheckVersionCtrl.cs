@@ -1,12 +1,8 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using YouYouMain;
 
@@ -14,22 +10,6 @@ using YouYouMain;
 public class CheckVersionCtrl
 {
     public static CheckVersionCtrl Instance { get; private set; } = new CheckVersionCtrl();
-
-    public CheckVersionCtrl()
-    {
-        m_NeedDownloadList = new LinkedList<string>();
-    }
-
-    #region 检查更新相关逻辑
-    /// <summary>
-    /// 需要下载的资源包列表
-    /// </summary>
-    private LinkedList<string> m_NeedDownloadList;
-
-    /// <summary>
-    /// 检查版本更新下载时候的参数
-    /// </summary>
-    private BaseParams m_DownloadingParams;
 
     public event Action CheckVersionBeginDownload;
     internal event Action<DownloadStatus> CheckVersionDownloadUpdate;
@@ -105,7 +85,4 @@ public class CheckVersionCtrl
             Debug.Log($"下载失败：{_downloadHandle.OperationException}");
         }
     }
-
-    #endregion
-
 }
