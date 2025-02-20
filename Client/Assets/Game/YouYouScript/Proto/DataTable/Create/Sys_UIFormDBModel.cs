@@ -28,8 +28,7 @@ namespace YouYouFramework
                 Sys_UIFormEntity entity = new Sys_UIFormEntity();
                 entity.Id = ms.ReadInt();
                 entity.UIGroupId = (byte)ms.ReadByte();
-                entity.AssetPath_Chinese = ms.ReadUTF8String();
-                entity.AssetPath_English = ms.ReadUTF8String();
+                entity.AssetFullPath = ms.ReadUTF8String();
                 entity.DisableUILayer = ms.ReadInt();
                 entity.IsLock = ms.ReadInt();
                 entity.CanMulit = ms.ReadInt();

@@ -16,15 +16,6 @@ namespace YouYouFramework
             {
                 Sys_UIFormEntity entity = m_List[i];
 
-                switch (GameEntry.CurrLanguage)
-                {
-                    case YouYouLanguage.Chinese:
-                        entity.AssetFullPath = entity.AssetPath_Chinese;
-                        break;
-                    case YouYouLanguage.English:
-                        entity.AssetFullPath = string.IsNullOrWhiteSpace(entity.AssetPath_English) ? entity.AssetPath_Chinese : entity.AssetPath_English;
-                        break;
-                }
                 string[] strs = entity.AssetFullPath.Split('.')[0].Split('/');
                 if (strs.Length >= 1)
                 {

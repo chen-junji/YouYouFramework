@@ -1,15 +1,14 @@
-Sys_UIFormEntity = { Id = 0, UIGroupId = 0, AssetPath_Chinese = "", AssetPath_English = "", DisableUILayer = 0, IsLock = 0, CanMulit = 0, ShowMode = 0 }
+Sys_UIFormEntity = { Id = 0, UIGroupId = 0, AssetFullPath = "", DisableUILayer = 0, IsLock = 0, CanMulit = 0, ShowMode = 0 }
 
 Sys_UIFormEntity.__index = Sys_UIFormEntity;
 
-function Sys_UIFormEntity.New(Id, UIGroupId, AssetPath_Chinese, AssetPath_English, DisableUILayer, IsLock, CanMulit, ShowMode)
+function Sys_UIFormEntity.New(Id, UIGroupId, AssetFullPath, DisableUILayer, IsLock, CanMulit, ShowMode)
     local self = { };
     setmetatable(self, Sys_UIFormEntity);
 
     self.Id = Id;
     self.UIGroupId = UIGroupId;
-    self.AssetPath_Chinese = AssetPath_Chinese;
-    self.AssetPath_English = AssetPath_English;
+    self.AssetFullPath = AssetFullPath;
     self.DisableUILayer = DisableUILayer;
     self.IsLock = IsLock;
     self.CanMulit = CanMulit;

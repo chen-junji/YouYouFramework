@@ -632,7 +632,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 32567
+    m_Bits: 4294967295
 --- !u!114 &711330128305053106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -798,7 +798,6 @@ GameObject:
   - component: {fileID: 2156362668836695231}
   - component: {fileID: 8897988762676389759}
   - component: {fileID: 1801307825571201382}
-  - component: {fileID: 3182780860766444090}
   m_Layer: 5
   m_Name: textTitle
   m_TagString: Untagged
@@ -867,18 +866,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u6807\u9898"
---- !u!114 &3182780860766444090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1929898132902684340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fde74851f2d07d145975eb29463ae595, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2311401262096283853
 GameObject:
   m_ObjectHideFlags: 0

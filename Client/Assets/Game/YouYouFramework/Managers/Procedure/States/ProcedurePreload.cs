@@ -80,13 +80,6 @@ public class ProcedurePreload : ProcedureBase
             taskRoutine.TaskComplete();
         });
 
-        //设置多语言(因为多语言是读表的，所以得先加载Excel再设置多语言)
-        taskGroup.AddTask((taskRoutine) =>
-        {
-            GameEntry.Localization.ChangeLanguageToSystem();
-            taskRoutine.TaskComplete();
-        });
-
         taskGroup.OnCompleteOne = () =>
         {
             m_TargetProgress = taskGroup.CurrCount / (float)taskGroup.TotalCount;

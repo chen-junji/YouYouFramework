@@ -41,11 +41,6 @@ namespace YouYouFramework
         [Header("声音主混合器")]
         public AudioMixer MonsterMixer;
 
-        [Header("当前语言（要和本地化表的语言字段 一致）")]
-        [SerializeField]
-        private YouYouLanguage m_CurrLanguage;
-        public static YouYouLanguage CurrLanguage;
-
 
         //管理器属性
         public static TimeManager Time { get; private set; }
@@ -54,7 +49,6 @@ namespace YouYouFramework
         public static DataTableManager DataTable { get; private set; }
         public static ModelManager Model { get; private set; }
         public static HttpManager Http { get; private set; }
-        public static LocalizationManager Localization { get; private set; }
         public static PoolManager Pool { get; private set; }
         public static YouYouSceneManager Scene { get; private set; }
         public static LoaderManager Loader { get; private set; }
@@ -71,7 +65,6 @@ namespace YouYouFramework
             Log(LogCategory.Procedure, "GameEntry.OnAwake()");
             Instance = this;
             ParamsSettings = m_ParamsSettings;
-            CurrLanguage = m_CurrLanguage;
             UIRootRectTransform = UIRootCanvasScaler.GetComponent<RectTransform>();
 
             //屏幕常亮
@@ -88,7 +81,6 @@ namespace YouYouFramework
             DataTable = new DataTableManager();
             Model = new ModelManager();
             Http = new HttpManager();
-            Localization = new LocalizationManager();
             Pool = new PoolManager();
             Scene = new YouYouSceneManager();
             Loader = new LoaderManager();

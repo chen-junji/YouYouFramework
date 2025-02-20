@@ -15,12 +15,7 @@ namespace YouYouFramework
         /// <summary>
         /// 路径
         /// </summary>
-        public string AssetPath_Chinese;
-
-        /// <summary>
-        /// 路径
-        /// </summary>
-        public string AssetPath_English;
+        public string AssetFullPath;
 
         /// <summary>
         /// 禁用层级管理

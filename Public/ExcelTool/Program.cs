@@ -125,15 +125,8 @@ namespace ExcelTool
 
             File.Delete(newPath);
 
-            if (fileName.Equals("Sys_Localization", StringComparison.CurrentCultureIgnoreCase))
-            {
-                //多语言表 单独处理
-                CreateLocalization(fileName, dt);
-            }
-            else
-            {
-                CreateData(fileName, dt);
-            }
+            //创建普通表
+            CreateData(fileName, dt);
         }
 
         #region 创建普通表
@@ -741,96 +734,5 @@ namespace ExcelTool
         }
         #endregion
 
-        #region 创建多语言表
-        private static void CreateLocalization(string fileName, DataTable dt)
-        {
-            try
-            {
-                if (!Directory.Exists(OutBytesFilePath + "Localization/")) Directory.CreateDirectory(OutBytesFilePath + "Localization/");
-
-                int rows = dt.Rows.Count;
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    //防止空行
-                    if (string.IsNullOrWhiteSpace(dt.Rows[i][0].ToString()))
-                    {
-                        rows = i;
-                        break;
-                    }
-                }
-
-                int columns = dt.Columns.Count;
-                for (int i = 0; i < dt.Columns.Count; i++)
-                {
-                    //防止空列
-                    if (string.IsNullOrWhiteSpace(dt.Rows[0][i].ToString()))
-                    {
-                        columns = i;
-                        break;
-                    }
-                }
-
-                int newcolumns = columns - 3; //减去前三列 后面表示有多少种语言
-
-                int currKeyColumn = 2; //当前的Key列
-                int currValueColumn = 3; //当前的值列
-
-                tableHeadArr = new string[columns, 3];
-
-                while (newcolumns > 0)
-                {
-                    newcolumns--;
-
-                    #region 写入文件
-                    byte[] buffer = null;
-
-                    using (MMO_MemoryStream ms = new MMO_MemoryStream())
-                    {
-                        ms.WriteInt(rows - 3); //减去表头的三行
-                        ms.WriteInt(2); //多语言表 只有2列 Key Value
-
-                        for (int i = 0; i < rows; i++)
-                        {
-                            for (int j = 0; j < columns; j++)
-                            {
-                                if (i < 3)
-                                {
-                                    tableHeadArr[j, i] = dt.Rows[i][j].ToString().Trim();
-                                }
-                                else
-                                {
-                                    if (j == currKeyColumn)
-                                    {
-                                        //写入key
-                                        string value = dt.Rows[i][j].ToString().Trim();
-                                        ms.WriteUTF8String(value);
-                                    }
-                                    else if (j == currValueColumn)
-                                    {
-                                        //写入value
-                                        string value = dt.Rows[i][j].ToString().Trim();
-                                        ms.WriteUTF8String(value);
-                                    }
-                                }
-                            }
-                        }
-                        buffer = ms.ToArray();
-                    }
-
-                    //写入文件
-                    FileStream fs = new FileStream(string.Format("{0}/Localization/{1}", OutBytesFilePath, tableHeadArr[currValueColumn, 0] + ".bytes"), FileMode.Create);
-                    fs.Write(buffer, 0, buffer.Length);
-                    fs.Close();
-
-                    currValueColumn++;
-                    #endregion
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("表格=>" + fileName + " 处理失败:" + ex.Message);
-            }
-        }
-        #endregion
     }
 }
