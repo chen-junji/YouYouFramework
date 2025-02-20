@@ -4,7 +4,7 @@
 Client:
 Unity工程文件夹
 
-Client/AssetBundles:
+Client/ServerData:
 AssetBundle打包成功后, 存放的文件夹
 
 Client/Assets/Plugins:
@@ -35,6 +35,6 @@ Client/Assets/Game/YouYouTest:
 
 三：YouYouMain文件夹, 配置了asmdef, 区分了AssemblyDefinitionAsset出来, 所以这个文件夹不支持代码热更新
 
-五: YouYouTest文件夹内的提供的Scene场景, 不支持直接运行, 因为它们依赖YouYouFramework, 必须先运行Scene_Launch场景, 再跳转过来
+四: YouYouTest文件夹内的提供的Scene场景, 不支持直接运行, 因为它们依赖YouYouFramework, 必须先运行Scene_Launch场景, 再跳转过来
 
-七：Git上打了标签的，比如3.0就是稳定版，直接拉Master不是稳定版 可能会有各种小BUG，但可以去官方Q群反馈给我，我这边可以修复
+五：Git上打了标签的，比如3.0，或者Release分支的都是相对稳定版本, 直接拉Master不是稳定版本 可能会有各种小BUG，但可以去官方Q群反馈给我，我这边可以修复

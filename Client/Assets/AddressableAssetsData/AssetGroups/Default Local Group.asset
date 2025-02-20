@@ -15,7 +15,7 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_Data:
     m_SerializedData: []
-  m_GUID: 36ee65fa56ce3854088a021d094c39c9
+  m_GUID: aa8d10999982dab4d84799a92950144f
   m_SerializeEntries:
   - m_GUID: 0714826b5e4593c46afa24ba3caf05f3
     m_Address: Assets/Game/Download/DataTable

@@ -2,7 +2,6 @@ Client/Temp/
 Client/Library/
 Client/Logs/
 Client/UserSettings/
-Client/AssetBundles/
 Client/ServerData/
 Client/*.sln
 Client/*.csproj

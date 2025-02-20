@@ -29,7 +29,7 @@ namespace YouYouMain
             CheckVersionCtrl.Instance.CheckVersionChange(async () =>
             {
                 //检查更新完成, 加载Hotfix代码(HybridCLR)
-                HotfixCtrl.Instance.LoadHotifx();
+                await HotfixCtrl.Instance.LoadHotifx();
 
                 //启动YouYouFramework框架入口
                 GameObject gameEntryAsset = await Addressables.LoadAssetAsync<GameObject>("Assets/Game/Download/Prefab/GameEntry.prefab");

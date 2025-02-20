@@ -139,4 +139,23 @@ public class YouYouMenuExt
         AssetDatabase.Refresh();
     }
     #endregion
+
+    #region CompiltHotifxDll 生成并拷贝热更新程序集到Download文件夹
+    [MenuItem("YouYouTools/生成并拷贝热更新程序集到Download文件夹")]
+    public static void CompiltHotifxDll()
+    {
+        HybridCLR.Editor.Commands.CompileDllCommand.CompileDll(EditorUserBuildSettings.activeBuildTarget);
+
+        string CodeDir = "Assets/Game/Download/Hotfix/";
+
+        string ScriptAssembliesDir = Application.dataPath + "/../" + "HybridCLRData/HotUpdateDlls/" + EditorUserBuildSettings.activeBuildTarget.ToString() + "/Assembly-CSharp.dll";
+        File.Copy(ScriptAssembliesDir, Path.Combine(CodeDir, "Assembly-CSharp.dll.bytes"), true);
+
+        string aotMetaAssemblyDir = Application.dataPath + "/../" + "HybridCLRData/AssembliesPostIl2CppStrip/" + EditorUserBuildSettings.activeBuildTarget + "/";
+        foreach (var aotDllName in HotfixCtrl.aotMetaAssemblyFiles)
+        {
+            File.Copy(aotMetaAssemblyDir + aotDllName + ".dll", Path.Combine(CodeDir, aotDllName + ".dll.bytes"), true);
+        }
+    }
+    #endregion
 }

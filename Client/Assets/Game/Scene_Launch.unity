@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 10
+  serializedVersion: 9
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -42,8 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 13
-  m_BakeOnSceneLoad: 0
+  serializedVersion: 12
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -66,6 +66,9 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
+    m_FinalGather: 0
+    m_FinalGatherFiltering: 1
+    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 1
@@ -363,7 +366,6 @@ GameObject:
   - component: {fileID: 556300401}
   - component: {fileID: 556300400}
   - component: {fileID: 556300399}
-  - component: {fileID: 556300398}
   m_Layer: 5
   m_Name: btnOK
   m_TagString: Untagged
@@ -391,20 +393,6 @@ RectTransform:
   m_AnchoredPosition: {x: 95, y: 0}
   m_SizeDelta: {x: 100, y: 40}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &556300398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556300396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e634aadd0312c9747ac7e06092dfcf68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioClips:
-  - {fileID: 8300000, guid: 34afa23951f18cf4290a6baf785341e1, type: 3}
 --- !u!114 &556300399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -797,11 +785,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ab6b17911687964282f3d1694bac14d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Standalone: 0
-  DownloadRetry: 3
-  DownloadRoutineCount: 3
-  DownloadFlushSize: 2048
-  IsDownloadFlush: 0
 --- !u!81 &856664109
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1399,7 +1382,6 @@ GameObject:
   - component: {fileID: 1713207268}
   - component: {fileID: 1713207267}
   - component: {fileID: 1713207266}
-  - component: {fileID: 1713207265}
   m_Layer: 5
   m_Name: btnCancel
   m_TagString: Untagged
@@ -1427,20 +1409,6 @@ RectTransform:
   m_AnchoredPosition: {x: 285, y: 0}
   m_SizeDelta: {x: 100, y: 40}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &1713207265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1713207263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e634aadd0312c9747ac7e06092dfcf68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioClips:
-  - {fileID: 8300000, guid: 34afa23951f18cf4290a6baf785341e1, type: 3}
 --- !u!114 &1713207266
 MonoBehaviour:
   m_ObjectHideFlags: 0

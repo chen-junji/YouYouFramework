@@ -32,7 +32,7 @@ public class HotfixCtrl
         System.Data.AcceptRejectRule acceptRejectRule = System.Data.AcceptRejectRule.None;
         System.Net.WebSockets.WebSocketReceiveResult webSocketReceiveResult = null;
     }
-    public async void LoadHotifx()
+    public async UniTask LoadHotifx()
     {
 #if UNITY_EDITOR
         return;
