@@ -7,7 +7,7 @@ public class CircleCtrl
 
     private int showCount = 0;
 
-    public void CircleOpen(string dialogKey = null)
+    public async void CircleOpen(string dialogKey = null)
     {
         if (showCount < 0)
         {
@@ -17,7 +17,7 @@ public class CircleCtrl
         showCount++;
         if (showCount == 1)
         {
-            var circleForm = GameEntry.UI.OpenUIForm<CircleForm>();
+            var circleForm = await GameEntry.UI.OpenUIForm<CircleForm>();
             circleForm.SetText(string.Empty); //如果不设置要设为空
 
             if (!string.IsNullOrEmpty(dialogKey) && GameEntry.DataTable.Sys_DialogDBModel.keyDic.TryGetValue(dialogKey, out var entity))

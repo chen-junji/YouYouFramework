@@ -17,17 +17,7 @@ public class TestLoader : MonoBehaviour
                 Destroy(testGameobject);
             }
 
-            testGameobject = GameUtil.LoadPrefabClone("Assets/Game/Download/Prefab/Role/cike/zhujiao_cike_animation.prefab");
-            Debug.Log(testGameobject);
-        }
-        if (Input.GetKeyUp(KeyCode.D))
-        {
-            if (testGameobject != null)
-            {
-                Destroy(testGameobject);
-            }
-
-            testGameobject = await GameUtil.LoadPrefabCloneAsync("Assets/Game/Download/Prefab/Role/cike/zhujiao_cike_animation.prefab");
+            testGameobject = await GameUtil.LoadPrefabClone("Assets/Game/Download/Prefab/Role/cike/zhujiao_cike_animation.prefab");
             Debug.Log(testGameobject);
         }
     }

@@ -74,9 +74,9 @@ public class ProcedurePreload : ProcedureBase
         //});
 
         //加载Excel
-        taskGroup.AddTask((taskRoutine) =>
+        taskGroup.AddTask(async (taskRoutine) =>
         {
-            GameEntry.DataTable.LoadDataAllTable();
+            await GameEntry.DataTable.LoadDataAllTable();
             taskRoutine.TaskComplete();
         });
 

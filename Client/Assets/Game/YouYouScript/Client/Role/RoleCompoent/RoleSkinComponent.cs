@@ -97,13 +97,13 @@ public class RoleSkinComponent : MonoBehaviour
     /// <summary>
     /// 加载皮肤预设
     /// </summary>
-    public void LoadSkin(string prefabFullPath)
+    public async void LoadSkin(string prefabFullPath)
     {
         //先把当前皮肤卸载
         UnLoadSkin();
 
         //加载皮肤
-        CurrSkin = GameEntry.Pool.GameObjectPool.Spawn(prefabFullPath);
+        CurrSkin = await GameEntry.Pool.GameObjectPool.Spawn(prefabFullPath);
         CurrSkin.transform.SetParent(transform, false);
 
         m_CurrSkinnedMeshRenderer = CurrSkin.GetComponentInChildren<SkinnedMeshRenderer>();
@@ -112,14 +112,10 @@ public class RoleSkinComponent : MonoBehaviour
     /// <summary>
     /// 加载皮肤材质
     /// </summary>
-    public void LoadSkinMaterial(string materialPath)
+    public async void LoadSkinMaterial(string materialPath)
     {
         if (m_CurrSkinnedMeshRenderer == null) return;
-#if UNITY_EDITOR
-        m_CurrSkinnedMeshRenderer.material = GameEntry.Loader.LoadMainAsset<Material>(materialPath, m_CurrSkinnedMeshRenderer.gameObject);
-#else
-        m_CurrSkinnedMeshRenderer.sharedMaterial = GameEntry.Loader.LoadMainAsset<Material>(materialPath, m_CurrSkinnedMeshRenderer.gameObject);
-#endif
+        m_CurrSkinnedMeshRenderer.material = await GameEntry.Loader.LoadMainAssetAsync<Material>(materialPath, m_CurrSkinnedMeshRenderer.gameObject);
     }
 
     /// <summary>

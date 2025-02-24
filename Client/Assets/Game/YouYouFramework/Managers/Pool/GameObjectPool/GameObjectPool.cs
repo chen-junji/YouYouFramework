@@ -160,14 +160,7 @@ namespace YouYouFramework
             GameObject inst = prefabPool.SpawnInstance();
             return inst;
         }
-        public GameObject Spawn(string prefabFullPath, SpawnPoolId poolId = SpawnPoolId.Common)
-        {
-            var referenceEntity = GameEntry.Loader.LoadMainAsset(prefabFullPath);
-            GameObject prefab = referenceEntity.Result as GameObject;
-            prefabAssetDic[prefab.GetInstanceID()] = referenceEntity;
-            return Spawn(prefab, poolId);
-        }
-        public async UniTask<GameObject> SpawnAsync(string prefabFullPath, SpawnPoolId poolId = SpawnPoolId.Common)
+        public async UniTask<GameObject> Spawn(string prefabFullPath, SpawnPoolId poolId = SpawnPoolId.Common)
         {
             var referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(prefabFullPath);
             GameObject prefab = referenceEntity.Result as GameObject;

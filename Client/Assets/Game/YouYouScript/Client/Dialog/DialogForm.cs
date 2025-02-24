@@ -64,9 +64,9 @@ public partial class DialogForm : UIFormBase
             GameEntry.LogError("当前Key找不到对应的表格配置, Key==" + key);
         }
     }
-    public static void ShowForm(string contenct = "", string title = "提示", string textBtn1 = "确定", string textBtn2 = "取消", DialogFormType type = DialogFormType.AffirmAndCancel, Action okAction = null, Action cancelAction = null)
+    public static async void ShowForm(string contenct = "", string title = "提示", string textBtn1 = "确定", string textBtn2 = "取消", DialogFormType type = DialogFormType.AffirmAndCancel, Action okAction = null, Action cancelAction = null)
     {
-        DialogForm formDialog = GameEntry.UI.OpenUIForm<DialogForm>();
+        DialogForm formDialog = await GameEntry.UI.OpenUIForm<DialogForm>();
         formDialog.SetUI(contenct, title, textBtn1, textBtn2, type, okAction, cancelAction);
     }
 

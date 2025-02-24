@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Cysharp.Threading.Tasks;
 
 
 namespace YouYouFramework
@@ -20,22 +21,22 @@ namespace YouYouFramework
         /// <summary>
         /// 加载表格
         /// </summary>
-        internal void LoadDataAllTable()
+        internal async UniTask LoadDataAllTable()
         {
-            Sys_UIFormDBModel.LoadData();
-            Sys_AudioDBModel.LoadData();
-            Sys_BGMDBModel.LoadData();
-            Sys_SceneDBModel.LoadData();
-            Sys_DialogDBModel.LoadData();
-            Sys_TipDBModel.LoadData();
+            await Sys_UIFormDBModel.LoadData();
+            await Sys_AudioDBModel.LoadData();
+            await Sys_BGMDBModel.LoadData();
+            await Sys_SceneDBModel.LoadData();
+            await Sys_DialogDBModel.LoadData();
+            await Sys_TipDBModel.LoadData();
         }
 
         /// <summary>
         /// 获取表格的字节数组
         /// </summary>
-        public byte[] GetDataTableBuffer(string dataTableName)
+        public async UniTask<byte[]> GetDataTableBuffer(string dataTableName)
         {
-            var referenceEntity = GameEntry.Loader.LoadMainAsset($"Assets/Game/Download/DataTable/{dataTableName}.bytes");
+            var referenceEntity = await GameEntry.Loader.LoadMainAssetAsync($"Assets/Game/Download/DataTable/{dataTableName}.bytes");
             TextAsset asset = referenceEntity.Result as TextAsset;
             return asset.bytes;
         }

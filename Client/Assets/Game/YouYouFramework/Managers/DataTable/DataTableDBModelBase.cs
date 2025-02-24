@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,10 +49,10 @@ namespace YouYouFramework
         /// <summary>
         /// 加载数据表数据
         /// </summary>
-        internal void LoadData()
+        internal async UniTask LoadData()
         {
             //1.拿到这个表格的buffer
-            byte[] buffer = GameEntry.DataTable.GetDataTableBuffer(DataTableName);
+            byte[] buffer = await GameEntry.DataTable.GetDataTableBuffer(DataTableName);
 
             using (MMO_MemoryStream ms = new MMO_MemoryStream(buffer))
             {

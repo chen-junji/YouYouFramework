@@ -23,7 +23,7 @@ namespace YouYouFramework
 
         /// <summary>
         /// 异步加载主资源，自动加载依赖
-        /// 要注意这个资源有没有打AB包, 它不能被依赖打包, 否则无法加载
+        /// 注意: 如果这个资源没有打AB包, 则无法加载
         /// </summary>
         /// <param name="target">依赖的游戏物体， 它销毁时会触发引用计数减少</param>
         public async UniTask<T> LoadMainAssetAsync<T>(string assetFullPath, GameObject target, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null) where T : Object
@@ -38,8 +38,9 @@ namespace YouYouFramework
             return referenceEntity.Result as T;
         }
         /// <summary>
-        /// 异步加载主资源，自动加载依赖， 注意：这个方法需要自己调用AssetReferenceEntity.ReferenceAdd去管理引用计数
-        /// 要注意这个资源有没有打AB包, 它不能被依赖打包, 否则无法加载
+        /// 异步加载主资源，自动加载依赖
+        /// 注意: 如果这个资源没有打AB包, 则无法加载
+        /// 注意：这个方法需要自己调用AsyncOperationHandle.Relese()去管理引用计数
         /// </summary>
         public async UniTask<AsyncOperationHandle> LoadMainAssetAsync(string assetFullPath, Action<float> onUpdate = null, Action<float> onDownloadUpdate = null)
         {
@@ -50,7 +51,8 @@ namespace YouYouFramework
 
         /// <summary>
         /// 同步加载主资源, 自动加载依赖
-        /// 要注意这个资源有没有打AB包, 它不能被依赖打包, 否则无法加载
+        /// 注意: 如果这个资源没有打AB包, 则无法加载
+        /// 注意: 微信小游戏不支持同步加载
         /// </summary>
         /// <param name="target">依赖的游戏物体， 它销毁时会触发引用计数减少</param>
         public T LoadMainAsset<T>(string assetFullPath, GameObject target) where T : Object
@@ -65,8 +67,10 @@ namespace YouYouFramework
             return op.WaitForCompletion();
         }
         /// <summary>
-        /// 同步加载主资源, 自动加载依赖， 注意：这个方法需要自己调用AssetReferenceEntity.ReferenceAdd去管理引用计数
-        /// 要注意这个资源有没有打AB包, 它不能被依赖打包, 否则无法加载
+        /// 同步加载主资源, 自动加载依赖
+        /// 注意: 如果这个资源没有打AB包, 则无法加载
+        /// 注意：这个方法需要自己调用AsyncOperationHandle.Relese()去管理引用计数
+        /// 注意: 微信小游戏不支持同步加载
         /// </summary>
         public AsyncOperationHandle LoadMainAsset(string assetFullPath)
         {

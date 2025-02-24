@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using Object = UnityEngine.Object;
+using Cysharp.Threading.Tasks;
 
 
 namespace YouYouFramework
@@ -94,15 +95,15 @@ namespace YouYouFramework
         #endregion
 
         #region OpenUIForm 打开UI窗口
-        public T OpenUIForm<T>() where T : UIFormBase
+        public async UniTask<T> OpenUIForm<T>() where T : UIFormBase
         {
-            return OpenUIForm(typeof(T).Name) as T;
+            return await OpenUIForm(typeof(T).Name) as T;
         }
-        private UIFormBase OpenUIForm(string uiFormName)
+        private async UniTask<UIFormBase> OpenUIForm(string uiFormName)
         {
-            return ShowUIForm(uiFormName, true);
+            return await ShowUIForm(uiFormName, true);
         }
-        private UIFormBase ShowUIForm(string uiFormName, bool checkReverseChange)
+        private async UniTask<UIFormBase> ShowUIForm(string uiFormName, bool checkReverseChange)
         {
             Sys_UIFormEntity sys_UIForm = GameEntry.DataTable.Sys_UIFormDBModel.GetEntity(uiFormName);
             if (sys_UIForm == null)
@@ -112,7 +113,7 @@ namespace YouYouFramework
             if (sys_UIForm.CanMulit == 0 && IsExists(sys_UIForm.Id))
             {
                 CloseUIForm(uiFormName);
-                OpenUIForm(uiFormName);
+                await OpenUIForm(uiFormName);
                 GameEntry.Log(LogCategory.Framework, "重复打开同一个UI窗口==" + sys_UIForm.Id + "  " + sys_UIForm.AssetFullPath);
                 return null;
             }
@@ -149,7 +150,7 @@ namespace YouYouFramework
             if (formBase == null)
             {
                 //对象池没有, 克隆新的
-                GameObject uiObj = GameUtil.LoadPrefabClone(sys_UIForm.AssetFullPath, GameEntry.UI.GetUIGroup(sys_UIForm.UIGroupId).Group);
+                GameObject uiObj = await GameUtil.LoadPrefabClone(sys_UIForm.AssetFullPath, GameEntry.UI.GetUIGroup(sys_UIForm.UIGroupId).Group);
 
                 //初始化UI
                 formBase = uiObj.GetComponent<UIFormBase>();
@@ -191,7 +192,7 @@ namespace YouYouFramework
             HideUIForm(formBase, true);
         }
 
-        private void HideUIForm(UIFormBase formBase, bool checkReverseChange)
+        private async void HideUIForm(UIFormBase formBase, bool checkReverseChange)
         {
             if (!formBase.IsActive)
             {
@@ -216,7 +217,7 @@ namespace YouYouFramework
                 if ((UIFormShowMode)formBase.SysUIForm.ShowMode == UIFormShowMode.ReverseChange && m_ReverseChangeUIList.Count > 0)
                 {
                     //在关闭当前界面后，打开上一个界面
-                    UIFormBase topForms = ShowUIForm(m_ReverseChangeUIList.Last.Value.Name, false);
+                    UIFormBase topForms = await ShowUIForm(m_ReverseChangeUIList.Last.Value.Name, false);
                     topForms.SetSortingOrder(m_ReverseChangeUIList.Last.Value.Order);
                     if (topForms.OnBack != null)
                     {

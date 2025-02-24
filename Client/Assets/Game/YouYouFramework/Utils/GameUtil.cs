@@ -44,14 +44,7 @@ public class GameUtil
     /// <summary>
     /// 加载Prefab并克隆
     /// </summary>
-    public static GameObject LoadPrefabClone(string prefabFullPath, Transform parent = null)
-    {
-        var referenceEntity = GameEntry.Loader.LoadMainAsset(prefabFullPath);
-        GameObject obj = UnityEngine.Object.Instantiate(referenceEntity.Result as GameObject, parent);
-        AssetReleaseHandle.Add(referenceEntity, obj);
-        return obj;
-    }
-    public static async UniTask<GameObject> LoadPrefabCloneAsync(string prefabFullPath, Transform parent = null)
+    public static async UniTask<GameObject> LoadPrefabClone(string prefabFullPath, Transform parent = null)
     {
         var referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(prefabFullPath);
         GameObject obj = UnityEngine.Object.Instantiate(referenceEntity.Result as GameObject, parent);

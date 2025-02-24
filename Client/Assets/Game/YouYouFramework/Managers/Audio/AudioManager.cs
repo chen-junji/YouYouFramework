@@ -70,7 +70,7 @@ namespace YouYouFramework
 
         private AsyncOperationHandle currBGMReferenceEntity;
 
-        public void PlayBGM(string audioName)
+        public async void PlayBGM(string audioName)
         {
             Sys_BGMEntity entity = GameEntry.DataTable.Sys_BGMDBModel.GetEntity(audioName);
             if (entity == null)
@@ -79,7 +79,7 @@ namespace YouYouFramework
                 return;
             }
 
-            var referenceEntity = GameEntry.Loader.LoadMainAsset(entity.AssetFullPath);
+            var referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(entity.AssetFullPath);
             PlayBGM(referenceEntity.Result as AudioClip, entity.IsLoop == 1, entity.Volume, entity.IsFadeIn == 1, entity.IsFadeOut == 1, referenceEntity);
         }
         public void PlayBGM(AudioClip audioClip, bool isLoop, float volume, bool isFadeIn, bool isFadeOut, AsyncOperationHandle referenceEntity)
@@ -181,10 +181,10 @@ namespace YouYouFramework
         #region 音效
         private AudioRoutine audioRoutinePrefab;
 
-        public void PlayAudio(string audioName, Vector3 point)
+        public async void PlayAudio(string audioName, Vector3 point)
         {
             Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName);
-            var referenceEntity = GameEntry.Loader.LoadMainAsset(sys_Audio.AssetFullPath);
+            var referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(sys_Audio.AssetFullPath);
 
             AudioRoutine routine = CreateAudioRoutine(referenceEntity.Result as AudioClip, sys_Audio.Volume, sys_Audio.Priority);
             routine.AudioSource.spatialBlend = 1;
@@ -196,10 +196,10 @@ namespace YouYouFramework
                 referenceEntity.Release();
             };
         }
-        public void PlayAudio(string audioName)
+        public async void PlayAudio(string audioName)
         {
             Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName);
-            var referenceEntity = GameEntry.Loader.LoadMainAsset(sys_Audio.AssetFullPath);
+            var referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(sys_Audio.AssetFullPath);
 
             AudioRoutine routine = CreateAudioRoutine(referenceEntity.Result as AudioClip, sys_Audio.Volume, sys_Audio.Priority);
             routine.AudioSource.spatialBlend = 0;
