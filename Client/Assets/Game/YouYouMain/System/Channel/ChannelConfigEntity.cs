@@ -23,9 +23,9 @@ public class ChannelConfigEntity
     public string SourceVersion = "1.0.0";
 
     /// <summary>
-    /// 资源地址
+    /// 资源站点地址
     /// </summary>
-    public string SourceUrl = "http://127.0.0.1:8083/AssetBundles";
+    public string SourceUrl = "http://127.0.0.1:8083/ServerData";
 
     #region RealSourceUrl 真正的资源地址
     private string m_RealSourceUrl;
@@ -38,16 +38,7 @@ public class ChannelConfigEntity
         {
             if (string.IsNullOrEmpty(m_RealSourceUrl))
             {
-                string buildTarget = string.Empty;
-
-#if UNITY_STANDALONE_WIN
-                buildTarget = "Windows";
-#elif UNITY_ANDROID
-                buildTarget = "Android";
-#elif UNITY_IPHONE
-                buildTarget = "IOS";
-#endif
-                m_RealSourceUrl = string.Format("{0}/{1}/{2}", SourceUrl, SourceVersion, buildTarget);
+                m_RealSourceUrl = string.Format("{0}/{1}", SourceUrl, SourceVersion);
             }
             return m_RealSourceUrl;
         }

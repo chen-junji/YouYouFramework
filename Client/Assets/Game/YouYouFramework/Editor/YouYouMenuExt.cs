@@ -144,6 +144,7 @@ public class YouYouMenuExt
     [MenuItem("YouYouTools/生成并拷贝热更新程序集到Download文件夹")]
     public static void CompiltHotifxDll()
     {
+        Debug.Log("生成并拷贝热更新程序集到Download文件夹");
         HybridCLR.Editor.Commands.CompileDllCommand.CompileDll(EditorUserBuildSettings.activeBuildTarget);
 
         string CodeDir = "Assets/Game/Download/Hotfix/";

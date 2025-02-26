@@ -38,11 +38,26 @@ public class CheckVersionCtrl
         }
 #endif
 
+        //自定义新地址
+        Addressables.InternalIdTransformFunc = (location) =>
+        {
+            //Debug.Log($"默认地址=={location.InternalId}");
+            if (location.InternalId.StartsWith("http", System.StringComparison.Ordinal))
+            {
+                string new_location = location.InternalId.Replace("http://test", ChannelModel.Instance.CurrChannelConfig.RealSourceUrl);
+                //Debug.Log($"默认地址=={location.InternalId}, 自定义的新地址=={new_location}");
+                return new_location;
+            }
+
+            return location.InternalId;
+        };
+
         var updateHandle = Addressables.CheckForCatalogUpdates();
         await updateHandle.Task;
         if (updateHandle.Status == AsyncOperationStatus.Failed)
         {
             //资源清单请求失败
+            MainEntry.LogError("资源清单请求失败, 请检查ChannelConfigEntity脚本的路径配置");
             return;
         }
 
@@ -53,17 +68,16 @@ public class CheckVersionCtrl
             return;
         }
         MainEntry.Log("旧的资源清单==" + updateHandle.Result.ToJson());
-        MainEntry.Log("开始更新资源清单");
 
-        // 下载新版本 Catalog 和资源
+        // 下载新版本 Catalog
         var updateOp = Addressables.UpdateCatalogs(updateHandle.Result, false);
+        MainEntry.Log("开始更新资源清单");
         await updateOp.Task;
         MainEntry.Log("资源清单更新完毕==" + updateOp.Result.ToJson());
         updateOp.Release();
 
         //开始检查更新
         MainEntry.Instance.StartCoroutine(DownloadCoroutine());
-
     }
 
     IEnumerator DownloadCoroutine()

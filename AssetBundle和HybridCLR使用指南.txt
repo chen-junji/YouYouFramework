@@ -3,6 +3,7 @@
 然后点击HybridCLR/Generate/All, 生成Generate
 
 第二步，打包AssetBundle：
+点击Unity菜单栏/YouYouTools/生成并拷贝热更新程序集到DownLoad文件夹
 打开AddressbleGroup界面，点击Build，文件会打包到Client/ServerData文件夹, 不会的自己百度查教程
 
 第三步，部署AssetBundle资源下载站点：
@@ -10,10 +11,11 @@
 HFS官网: https://www.rejetto.com/hfs/?f=dl
 
 第四步，绑定资源站点地址：
-打开AddressbleProfiles界面， 在Remote.LoadPath指定你的资源站点地址, 不会的自己百度查教程
+打开ChannelConfigEntity脚本, 配置你的资源站点地址和版本号(版本号可以不改,资源站点地址一定要改到对应上)
+打开AddressbleProfiles界面， 在Remote.BuildPath可以修改资源版本号(也可以不改 维持默认)
 
 第五步，在编辑器测试, 下载并加载AssetBundle：
-打开AddressbleGroup界面, 修改PlayModeScript选项为Use Existing Build
+打开AddressbleGroup界面, 修改PlayModeScript选项(加载模式, 有编辑器加载, 测试AB加载等)为Use Existing Build(测试AB加载)
 
 第六步, 打真机包测试:
 直接打包Window的exe运行即可
