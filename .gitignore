@@ -9,7 +9,7 @@ Client/.vsconfig
 Client/Build/
 Client/HybridCLRData/
 Client/Assets/HybridCLRData/
-Client/Assets/StreamingAssets/AssetBundles/
+Client/Assets/Game/Download/Hotfix
 bin/
 obj/
 .vs/
