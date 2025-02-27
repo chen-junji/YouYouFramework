@@ -20,7 +20,7 @@ public class MobileInput : VirtualInput
         if (!m_VirtualAxes.ContainsKey(name))
         {
             //我们还没有注册这个按钮，所以添加它，发生在构造函数中
-            GameEntry.Input.RegisterVirtualAxis(new VirtualAxis(name));
+            InputManager.Instance.RegisterVirtualAxis(new VirtualAxis(name));
         }
     }
 

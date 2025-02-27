@@ -33,7 +33,7 @@ public abstract class VirtualInput : FsmState<InputManager>
             return m_VirtualButtons[name].GetButton;
         }
 
-        GameEntry.Input.RegisterVirtualButton(new VirtualButton(name));
+        InputManager.Instance.RegisterVirtualButton(new VirtualButton(name));
         return m_VirtualButtons[name].GetButton;
     }
     public bool GetButtonDown(InputKeyCode name)
@@ -43,7 +43,7 @@ public abstract class VirtualInput : FsmState<InputManager>
             return m_VirtualButtons[name].GetButtonDown;
         }
 
-        GameEntry.Input.RegisterVirtualButton(new VirtualButton(name));
+        InputManager.Instance.RegisterVirtualButton(new VirtualButton(name));
         return m_VirtualButtons[name].GetButtonDown;
     }
     public bool GetButtonUp(InputKeyCode name)
@@ -53,7 +53,7 @@ public abstract class VirtualInput : FsmState<InputManager>
             return m_VirtualButtons[name].GetButtonUp;
         }
 
-        GameEntry.Input.RegisterVirtualButton(new VirtualButton(name));
+        InputManager.Instance.RegisterVirtualButton(new VirtualButton(name));
         return m_VirtualButtons[name].GetButtonUp;
     }
 
@@ -61,7 +61,7 @@ public abstract class VirtualInput : FsmState<InputManager>
     {
         if (!m_VirtualButtons.ContainsKey(name))
         {
-            GameEntry.Input.RegisterVirtualButton(new VirtualButton(name));
+            InputManager.Instance.RegisterVirtualButton(new VirtualButton(name));
         }
         m_VirtualButtons[name].Pressed();
     }
@@ -69,7 +69,7 @@ public abstract class VirtualInput : FsmState<InputManager>
     {
         if (!m_VirtualButtons.ContainsKey(name))
         {
-            GameEntry.Input.RegisterVirtualButton(new VirtualButton(name));
+            InputManager.Instance.RegisterVirtualButton(new VirtualButton(name));
         }
         m_VirtualButtons[name].Released();
     }
@@ -114,7 +114,7 @@ public abstract class VirtualInput : FsmState<InputManager>
         if (!m_VirtualAxes.TryGetValue(name, out VirtualAxis axis))
         {
             axis = new VirtualAxis(name);
-            GameEntry.Input.RegisterVirtualAxis(axis);
+            InputManager.Instance.RegisterVirtualAxis(axis);
         }
         return axis;
     }
@@ -123,7 +123,7 @@ public abstract class VirtualInput : FsmState<InputManager>
         if (!m_VirtualButtons.TryGetValue(name, out VirtualButton button))
         {
             button = new VirtualButton(name);
-            GameEntry.Input.RegisterVirtualButton(button);
+            InputManager.Instance.RegisterVirtualButton(button);
         }
         return button;
     }

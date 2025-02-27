@@ -52,11 +52,11 @@ public class StandaloneInput : VirtualInput
             KeyCodeItem keyCodeItem = KeyCodeItemList[i];
             if (Input.GetKeyDown(keyCodeItem.KeyCode))
             {
-                GameEntry.Input.SetButtonDown(keyCodeItem.Name);
+                InputManager.Instance.SetButtonDown(keyCodeItem.Name);
             }
             if (Input.GetKeyUp(keyCodeItem.KeyCode))
             {
-                GameEntry.Input.SetButtonUp(keyCodeItem.Name);
+                InputManager.Instance.SetButtonUp(keyCodeItem.Name);
             }
         }
     }

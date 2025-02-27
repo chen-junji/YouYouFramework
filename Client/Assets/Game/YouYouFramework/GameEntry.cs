@@ -35,9 +35,6 @@ namespace YouYouFramework
         [Header("游戏物体对象池分组")]
         public SpawnPoolEntity[] GameObjectPoolGroups;
 
-        [Header("对象池锁定的资源包")]
-        public string[] LockedAssetBundle;
-
         [Header("声音主混合器")]
         public AudioMixer MonsterMixer;
 
@@ -54,7 +51,6 @@ namespace YouYouFramework
         public static LoaderManager Loader { get; private set; }
         public static UIManager UI { get; private set; }
         public static AudioManager Audio { get; private set; }
-        public static InputManager Input { get; private set; }
         public static PlayerPrefsManager PlayerPrefs { get; private set; }
         public static TaskManager Task { get; private set; }
 
@@ -86,7 +82,6 @@ namespace YouYouFramework
             Loader = new LoaderManager();
             UI = new UIManager();
             Audio = new AudioManager();
-            Input = new InputManager();
             PlayerPrefs = new PlayerPrefsManager();
             Task = new TaskManager();
 

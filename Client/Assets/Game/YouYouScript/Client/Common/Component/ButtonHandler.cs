@@ -10,12 +10,12 @@ namespace YouYouFramework
         [SerializeField] InputKeyCode Name;
         public void OnPointerDown(PointerEventData eventData)
         {
-            GameEntry.Input.SetButtonDown(Name);
-            GameEntry.Input.ActionInput?.Invoke(Name);
+            InputManager.Instance.SetButtonDown(Name);
+            InputManager.Instance.ActionInput?.Invoke(Name);
         }
         public void OnPointerUp(PointerEventData eventData)
         {
-            GameEntry.Input.SetButtonUp(Name);
+            InputManager.Instance.SetButtonUp(Name);
         }
     }
 }

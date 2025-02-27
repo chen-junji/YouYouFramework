@@ -19,12 +19,12 @@ public class ToggleHandler : MonoBehaviour
         {
             if (isOn)
             {
-                GameEntry.Input.SetButtonDown(Name);
-                GameEntry.Input.ActionInput?.Invoke(Name);
+                InputManager.Instance.SetButtonDown(Name);
+                InputManager.Instance.ActionInput?.Invoke(Name);
             }
             else
             {
-                GameEntry.Input.SetButtonUp(Name);
+                InputManager.Instance.SetButtonUp(Name);
             }
         });
     }
