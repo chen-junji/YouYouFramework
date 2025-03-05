@@ -70,7 +70,7 @@ public class CheckVersionCtrl
         MainEntry.Log("旧的资源清单==" + updateHandle.Result.ToJson());
 
         // 下载新版本 Catalog
-        var updateOp = Addressables.UpdateCatalogs(updateHandle.Result, false);
+        var updateOp = Addressables.UpdateCatalogs(true, updateHandle.Result, false);
         MainEntry.Log("开始更新资源清单");
         await updateOp.Task;
         MainEntry.Log("资源清单更新完毕==" + updateOp.Result.ToJson());
