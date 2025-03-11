@@ -28,11 +28,11 @@ namespace YouYouFramework
             audioRoutinePrefab.transform.SetParent(GameEntry.Instance.transform);
             audioRoutinePrefab.AudioSource.playOnAwake = false;
             audioRoutinePrefab.AudioSource.maxDistance = 20;
-            audioRoutinePrefab.AudioSource.outputAudioMixerGroup = GameEntry.Instance.MonsterMixer.FindMatchingGroups("Audio")[0];
+            audioRoutinePrefab.AudioSource.outputAudioMixerGroup = GameEntry.Instance.MasterMixer.FindMatchingGroups("Audio")[0];
 
             BGMSource = new GameObject("BGMSource", typeof(AudioSource)).GetComponent<AudioSource>();
             BGMSource.transform.SetParent(GameEntry.Instance.transform);
-            BGMSource.outputAudioMixerGroup = GameEntry.Instance.MonsterMixer.FindMatchingGroups("BGM")[0];
+            BGMSource.outputAudioMixerGroup = GameEntry.Instance.MasterMixer.FindMatchingGroups("BGM")[0];
         }
         public void Init()
         {
@@ -266,14 +266,14 @@ namespace YouYouFramework
             {
                 volume = -80;
                 //Debug.LogError($"key=={key}, volume=={volume}");
-                GameEntry.Instance.MonsterMixer.SetFloat(key, volume);
+                GameEntry.Instance.MasterMixer.SetFloat(key, volume);
             }
             else
             {
                 //因为Mixer内我们要修改的音量是db， 而存档里的音量是0-1形式的百分比， 所以这里要做转换
                 volume = (float)(20 * Math.Log10(volume / 1));
                 //Debug.LogError($"key=={key}, volume=={volume}");
-                GameEntry.Instance.MonsterMixer.SetFloat(key, volume);
+                GameEntry.Instance.MasterMixer.SetFloat(key, volume);
             }
         }
 

@@ -41,12 +41,4 @@ public class ParamsSettings : ScriptableObject
     public int UIClearInterval = 30;
     #endregion
 
-    #region 业务系统测试
-    [Header("是否测试手机端Input系统")]
-    public bool MobileDebug;
-
-    [Header("是否激活新手引导")]
-    public bool ActiveGuide;
-    #endregion
-
 }

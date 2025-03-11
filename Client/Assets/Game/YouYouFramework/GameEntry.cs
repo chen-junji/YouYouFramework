@@ -36,7 +36,7 @@ namespace YouYouFramework
         public SpawnPoolEntity[] GameObjectPoolGroups;
 
         [Header("声音主混合器")]
-        public AudioMixer MonsterMixer;
+        public AudioMixer MasterMixer;
 
 
         //管理器属性

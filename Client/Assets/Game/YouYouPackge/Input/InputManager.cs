@@ -5,8 +5,11 @@ using UnityEngine.Events;
 using YouYouFramework;
 
 
-public class InputManager : SingletonMonoInstansce<InputManager>
+public class InputManager : SingletonMono<InputManager>
 {
+    [Header("是否测试手机端Input系统")]
+    public bool MobileDebug;
+
     public enum EState
     {
         None,
@@ -20,8 +23,9 @@ public class InputManager : SingletonMonoInstansce<InputManager>
     public Action<InputKeyCode> ActionInput;
 
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         //得到枚举的长度
         int count = Enum.GetNames(typeof(EState)).Length;
         FsmState<InputManager>[] states = new FsmState<InputManager>[count];
@@ -51,12 +55,12 @@ public class InputManager : SingletonMonoInstansce<InputManager>
         {
             EState state;
 #if UNITY_STANDALONE
-                state = EState.Keyboard;
+            state = EState.Keyboard;
 #elif UNITY_IOS || UNITY_ANDROID
             state = EState.Touch;
 #endif
 #if UNITY_EDITOR
-            state = GameEntry.ParamsSettings.MobileDebug ? EState.Touch : EState.Keyboard;
+            state = MobileDebug ? EState.Touch : EState.Keyboard;
 #endif
             ChangeState(state);
         }

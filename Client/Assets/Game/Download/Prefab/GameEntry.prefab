@@ -235,11 +235,7 @@ MonoBehaviour:
     PoolId: 1
     PoolName: Common
     Pool: {fileID: 0}
-  LockedAssetBundle:
-  - game/download/shader.assetbundle
-  - game/download/font.assetbundle
-  MonsterMixer: {fileID: 24100000, guid: b2cf29e1378929c43b3632019690086b, type: 2}
-  m_CurrLanguage: 0
+  MasterMixer: {fileID: 24100000, guid: b2cf29e1378929c43b3632019690086b, type: 2}
 --- !u!1 &4719996667742643965
 GameObject:
   m_ObjectHideFlags: 0

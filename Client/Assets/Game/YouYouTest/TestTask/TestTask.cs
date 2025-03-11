@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,14 +42,14 @@ public class TestTask : MonoBehaviour
         taskGroup.AddTask(async (TaskRoutine taskRoutine) =>
         {
             Debug.Log(1111);
-            await GameEntry.Time.Delay(this, 1);
+            await UniTask.Delay(1);
             Debug.Log(2222);
             taskRoutine.TaskComplete();
         });
         taskGroup.AddTask(async (TaskRoutine taskRoutine) =>
         {
             Debug.Log(3333);
-            await GameEntry.Time.Delay(this, 1);
+            await UniTask.Delay(1);
             Debug.Log(4444);
             taskRoutine.TaskComplete();
         });
