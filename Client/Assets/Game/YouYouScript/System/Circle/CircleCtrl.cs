@@ -1,4 +1,7 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using YouYouFramework;
 
 public class CircleCtrl
@@ -40,32 +43,34 @@ public class CircleCtrl
         }
     }
 
-    private Dictionary<string, TimeAction> dicTimeOut = new();
-    public void CircleOpen(string timeoutKey, float timeout, string dialogKey = null)
+    #region 扩展的高级用法, 使用定时器 n秒后自动调用CircleClose, 每个delayTimeKey在定时周期内只能调用一次
+    private Dictionary<string, CancellationTokenSource> dicTimeToken = new();
+    public async void CircleOpen(string delayTimeKey, float delayTime, string dialogKey = null)
     {
-        if (dicTimeOut.ContainsKey(timeoutKey))
+        if (dicTimeToken.ContainsKey(delayTimeKey))
         {
             GameEntry.LogError("不允许同一个Key同时Open");
             return;
         }
 
-        if (timeout > 0)
+        if (delayTime > 0)
         {
-            var timer = GameEntry.Time.CreateTimer(this, timeout, () =>
-            {
-                CircleClose(timeoutKey);
-            }, true);
-            dicTimeOut.Add(timeoutKey, timer);
+            CancellationTokenSource token = new();
+            dicTimeToken.Add(delayTimeKey, token);
+
             CircleOpen(dialogKey);
+            await UniTask.Delay(TimeSpan.FromSeconds(delayTime), true, cancellationToken: token.Token);
+            CircleClose(delayTimeKey);
         }
     }
-    public void CircleClose(string timeoutKey)
+    public void CircleClose(string delayTimeKey)
     {
-        if (dicTimeOut.TryGetValue(timeoutKey, out var timer))
+        if (dicTimeToken.TryGetValue(delayTimeKey, out var token))
         {
             CircleClose();
-            dicTimeOut.Remove(timeoutKey);
-            timer.Stop();
+            dicTimeToken.Remove(delayTimeKey);
+            token.Cancel();
         }
     }
+    #endregion
 }

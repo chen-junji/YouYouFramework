@@ -40,7 +40,6 @@ namespace YouYouFramework
 
 
         //管理器属性
-        public static TimeManager Time { get; private set; }
         public static FsmManager Fsm { get; private set; }
         public static ProcedureManager Procedure { get; private set; }
         public static DataTableManager DataTable { get; private set; }
@@ -71,7 +70,6 @@ namespace YouYouFramework
             Log(LogCategory.Procedure, "GameEntry.OnStart()");
 
             //在new的构造函数中, 构造自身, 模块之间不可互相调用, 因为其他模块可能是null
-            Time = new TimeManager();
             Fsm = new FsmManager();
             Procedure = new ProcedureManager();
             DataTable = new DataTableManager();
@@ -95,7 +93,6 @@ namespace YouYouFramework
 
         void Update()
         {
-            Time.OnUpdate();
             Procedure.OnUpdate();
             Pool.OnUpdate();
             Scene.OnUpdate();

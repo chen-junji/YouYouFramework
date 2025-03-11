@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,19 +33,18 @@ namespace YouYouFramework
             if (GetComponent<GraphicRaycaster>() == null) gameObject.AddComponent<GraphicRaycaster>();
             CurrCanvas = GetComponent<Canvas>();
         }
-        protected virtual void Start()
+        protected async virtual void Start()
         {
-            GameEntry.Time.Yield(() =>
+            await UniTask.Yield();
+
+            //这里是禁用所有按钮的导航功能，因为用不上, 还可能有意外BUG
+            Button[] buttons = GetComponentsInChildren<Button>(true);
+            for (int i = 0; i < buttons.Length; i++)
             {
-                //这里是禁用所有按钮的导航功能，因为用不上, 还可能有意外BUG
-                Button[] buttons = GetComponentsInChildren<Button>(true);
-                for (int i = 0; i < buttons.Length; i++)
-                {
-                    Navigation navigation = buttons[i].navigation;
-                    navigation.mode = Navigation.Mode.None;
-                    buttons[i].navigation = navigation;
-                }
-            });
+                Navigation navigation = buttons[i].navigation;
+                navigation.mode = Navigation.Mode.None;
+                buttons[i].navigation = navigation;
+            }
         }
         protected virtual void OnEnable()
         {

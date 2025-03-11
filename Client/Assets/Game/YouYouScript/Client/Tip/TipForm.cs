@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,15 +28,13 @@ public class TipForm : UIFormBase
         form.SetUI(contenct, duration);
     }
 
-    private void SetUI(string contenct = "", float duration = 3f)
+    private async void SetUI(string contenct = "", float duration = 3f)
     {
         //窗口内容
         textContent.text = contenct;
 
-        GameEntry.Time.CreateTimer(this, duration, () =>
-        {
-            Close();
-        },true);
+        await UniTask.Delay(TimeSpan.FromSeconds(duration), true, cancellationToken: this.GetCancellationTokenOnDestroy());
+        Close();
     }
 
 }
