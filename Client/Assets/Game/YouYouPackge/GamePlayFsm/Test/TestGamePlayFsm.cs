@@ -1,10 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using YouYouFramework;
 
-public class TestFsm : MonoBehaviour
+public class TestGamePlayFsm : MonoBehaviour
 {
-    private TestFsmMgr fsmMgr;
+    private TestGamePlayFsmMgr fsmMgr;
     private void OnDestroy()
     {
         //销毁状态机
@@ -13,7 +15,7 @@ public class TestFsm : MonoBehaviour
     void Start()
     {
         //初始化状态机
-        fsmMgr = new();
+        fsmMgr = new TestGamePlayFsmMgr();
         fsmMgr.Init();
     }
     void Update()
@@ -23,13 +25,13 @@ public class TestFsm : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.A))
         {
             //切换状态
-            fsmMgr.ChangeState(TestFsmMgr.EState.State1);
+            fsmMgr.CurrFsm.SetParam(TestGamePlayFsmMgr.ParamConst.IntState2, 0);
         }
 
         if (Input.GetKeyUp(KeyCode.S))
         {
             //切换状态
-            fsmMgr.ChangeState(TestFsmMgr.EState.State2);
+            fsmMgr.CurrFsm.SetParam(TestGamePlayFsmMgr.ParamConst.IntState2, 1);
         }
     }
 }

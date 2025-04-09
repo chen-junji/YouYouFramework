@@ -35,6 +35,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b5da6075ee6f5843a09ae58798b9266
+    m_Address: Assets/Game/YouYouTest/Scenes
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7317b89b6e4bd0140b233797054e2bfd
     m_Address: Assets/Game/Download/Font
     m_ReadOnly: 0
