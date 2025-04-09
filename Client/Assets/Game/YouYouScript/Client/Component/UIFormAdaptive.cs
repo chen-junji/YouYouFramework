@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using YouYouFramework;
 
+
+/// <summary>
+/// 对于全面屏的挖空适配
+/// </summary>
 public class UIFormAdaptive : MonoBehaviour
 {
     private float Offset = 30;
