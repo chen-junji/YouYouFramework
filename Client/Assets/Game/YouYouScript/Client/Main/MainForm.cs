@@ -4,11 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using YouYouFramework;
+using System;
 
 public partial class MainForm : UIFormBase
 {
     [SerializeField] private RectTransform m_Trans_BtnGroup;
 
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        GameEntry.Model.GetModel<MainModel>().TestAction -= OnTest;
+    }
     protected override void Awake()
     {
         base.Awake();
@@ -25,5 +31,16 @@ public partial class MainForm : UIFormBase
                 });
             }
         }
+
+        //演示MVC 代码范例
+        GameEntry.Model.GetModel<MainModel>().TestAction += OnTest;
+        MainCtrl.Instance.SendTest();
     }
+
+    private void OnTest(int obj)
+    {
+        //假装这是后端给的数据 可以贴到UI上
+        Debug.LogError(obj);
+    }
+
 }

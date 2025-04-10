@@ -5,6 +5,10 @@ using UnityEngine;
 
 namespace YouYouFramework
 {
+    /// <summary>
+    /// 可以把所有Model都装到modelMap里面, 在退出登录时调用Clear清除所有缓存.
+    /// 避免重新登录的第二个账号带着第一个账号的脏数据
+    /// </summary>
     public class ModelManager
     {
         private Dictionary<string, object> modelMap = new Dictionary<string, object>();
