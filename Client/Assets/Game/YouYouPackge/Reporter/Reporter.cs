@@ -283,7 +283,7 @@ public class Reporter : MonoBehaviour
         for (int i = 0; i < images.Length; i++)
         {
             string name = images[i];
-            m_TextureDic[name] = Resources.Load<Texture2D>("Reporter/ReporterRes/" + name);
+            m_TextureDic[name] = Resources.Load<Texture2D>("ReporterRes/" + name);
         }
 
         clearContent = new GUIContent("", getImage("clear", size.x, size.y), "Clear logs");
@@ -417,7 +417,7 @@ public class Reporter : MonoBehaviour
         #endregion
 
         #region LoadSkin
-        GUISkin skin = Resources.Load<GUISkin>("Reporter/ReporterRes/reporterScrollerSkin");
+        GUISkin skin = Resources.Load<GUISkin>("ReporterRes/reporterScrollerSkin");
         toolbarScrollerSkin = Instantiate(skin);
         toolbarScrollerSkin.verticalScrollbar.fixedWidth = 0f;
         toolbarScrollerSkin.horizontalScrollbar.fixedHeight = 0f;
@@ -1755,13 +1755,17 @@ public class Reporter : MonoBehaviour
         fps = 1f / elapsed;
         lastUpdate = Time.realtimeSinceStartup;
         calculateStartIndex();
+
         if (!show && isGestureDone() && Debug.isDebugBuild)
         {
 #if !UNITY_EDITOR
-            doShow();
+                    doShow();
 #endif
         }
-
+        //if (!show && isGestureDone())
+        //{
+        //    doShow();
+        //}
 
         float elapsed2 = Time.realtimeSinceStartup - lastUpdate2;
         if (elapsed2 > 1)
