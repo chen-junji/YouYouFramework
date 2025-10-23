@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using YouYouMain;
+using System.Collections.Generic;
+
 
 #if UNITY_EDITOR
 using UnityEditor.AddressableAssets;
@@ -44,7 +46,7 @@ public class CheckVersionCtrl
             //Debug.Log($"默认地址=={location.InternalId}");
             if (location.InternalId.StartsWith("http", System.StringComparison.Ordinal))
             {
-                string new_location = location.InternalId.Replace("http://test", ChannelModel.Instance.CurrChannelConfig.RealSourceUrl);
+                string new_location = location.InternalId.Replace("http://ChannelConfig", ChannelModel.Instance.CurrChannelConfig.RealSourceUrl);
                 //Debug.Log($"默认地址=={location.InternalId}, 自定义的新地址=={new_location}");
                 return new_location;
             }
@@ -52,7 +54,7 @@ public class CheckVersionCtrl
             return location.InternalId;
         };
 
-        var updateHandle = Addressables.CheckForCatalogUpdates();
+        var updateHandle = Addressables.CheckForCatalogUpdates(false);
         await updateHandle.Task;
         if (updateHandle.Status == AsyncOperationStatus.Failed)
         {
@@ -60,17 +62,19 @@ public class CheckVersionCtrl
             MainEntry.LogError("资源清单请求失败, 请检查ChannelConfigEntity脚本的路径配置");
             return;
         }
+        List<string> catalogsToUpdate = updateHandle.Result;
+        updateHandle.Release();
 
-        if (updateHandle.Result.Count == 0)
+        if (catalogsToUpdate.Count == 0)
         {
             MainEntry.Log("资源清单没变化 不需要检查更新");
             CheckVersionComplete?.Invoke();
             return;
         }
-        MainEntry.Log("旧的资源清单==" + updateHandle.Result.ToJson());
+        MainEntry.Log("旧的资源清单==" + catalogsToUpdate.ToJson());
 
         // 下载新版本 Catalog
-        var updateOp = Addressables.UpdateCatalogs(true, updateHandle.Result, false);
+        var updateOp = Addressables.UpdateCatalogs(true, catalogsToUpdate, false);
         MainEntry.Log("开始更新资源清单");
         await updateOp.Task;
         MainEntry.Log("资源清单更新完毕==" + updateOp.Result.ToJson());
@@ -97,9 +101,9 @@ public class CheckVersionCtrl
         // 处理完成状态
         if (_downloadHandle.Status == AsyncOperationStatus.Succeeded)
         {
+            MainEntry.Log("检查更新下载完毕, 进入预加载流程" + _downloadHandle.Result.ToJson());
             Addressables.Release(_downloadHandle); // 释放资源句柄
 
-            MainEntry.Log("检查更新下载完毕, 进入预加载流程");
             CheckVersionDownloadComplete?.Invoke();
             CheckVersionComplete?.Invoke();
         }

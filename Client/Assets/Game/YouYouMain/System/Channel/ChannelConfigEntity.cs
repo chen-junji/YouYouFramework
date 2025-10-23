@@ -25,7 +25,7 @@ public class ChannelConfigEntity
     /// <summary>
     /// 资源站点地址
     /// </summary>
-    public string SourceUrl = "http://127.0.0.1:8083/ServerData";
+    public string SourceUrl = "http://127.0.0.1:9090/ServerData";
 
     #region RealSourceUrl 真正的资源地址
     private string m_RealSourceUrl;

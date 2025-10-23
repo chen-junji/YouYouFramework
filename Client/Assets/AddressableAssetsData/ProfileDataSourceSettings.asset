@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e3976da977cb49238499ea3b4c237ae, type: 3}
   m_Name: ProfileDataSourceSettings
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.ProfileDataSourceSettings
   profileGroupTypes:
   - m_GroupTypePrefix: Built-In
     m_Variables:
@@ -19,12 +19,6 @@ MonoBehaviour:
       m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
     - m_Suffix: LoadPath
       m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
-  - m_GroupTypePrefix: Editor Hosted
-    m_Variables:
-    - m_Suffix: BuildPath
-      m_Value: ServerData/[BuildTarget]
-    - m_Suffix: LoadPath
-      m_Value: http://[PrivateIpAddress]:[HostingServicePort]
   environments: []
   currentEnvironment:
     id: 

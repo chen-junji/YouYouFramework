@@ -11,11 +11,9 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: Default Local Group
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Default Local Group
-  m_Data:
-    m_SerializedData: []
-  m_GUID: aa8d10999982dab4d84799a92950144f
+  m_GUID: 711acfc4a601a0443b5161a1fe86a7aa
   m_SerializeEntries:
   - m_GUID: 0714826b5e4593c46afa24ba3caf05f3
     m_Address: Assets/Game/Download/DataTable
@@ -34,11 +32,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3b5da6075ee6f5843a09ae58798b9266
-    m_Address: Assets/Game/YouYouTest/Scenes
-    m_ReadOnly: 0
-    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7317b89b6e4bd0140b233797054e2bfd
     m_Address: Assets/Game/Download/Font

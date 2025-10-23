@@ -33,5 +33,3 @@ MonoBehaviour:
   outputAOTGenericReferenceFile: HybridCLRData/Generated/AOTGenericReferences.cs
   maxGenericReferenceIteration: 4
   maxMethodBridgeGenericIteration: 4
-  enableProfilerInReleaseBuild: 0
-  enableStraceTraceInWebGLReleaseBuild: 0

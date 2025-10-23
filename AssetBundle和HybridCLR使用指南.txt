@@ -20,10 +20,15 @@ HFS官网: https://www.rejetto.com/hfs/?f=dl
 第六步, 打真机包测试:
 直接打包Window的exe运行即可
 
+第六步, 热更新是否成功验证:
+eve运行跑通以后,  再回到Unity修改一些业务代码 比如:MainCtrl.SendTest.onTest?.Invoke(2); 改成1, 再重复第二步更新dll和打包, 再运行exe测试热更新是否成功. (不用重新打包exe)
+
 
 温馨提示：
-一：框架目前自带的HybridCLR支持Unity2020.3.x-2022.3.x,  只支持长期支持版（正式版 Beta版都不行）， 如果你要切换到其他版本，请去HybridCLR官网了解详情
+一：框架目前自带的HybridCLR支持Unity2019.3.x-6000.2.x,  只支持长期支持版（正式版 Beta版都不行）， 如果你要切换到其他版本，请去HybridCLR官网了解详情
 
 二：因为HybridCLR依赖于IL2CPP，所以安装的Unity需要有WindowsBuildSupport（IL2CPP）模块， 否则点击HybridCLR/Generate/All的时候会报错
+
+三: 如果中途切换了开发构建模式(Development Build), 需要重新点击HybridCLR/Generate/All, 生成Generate
 
 四: 如果下载失败, 首先在浏览器测试一下能不能下载, 然后对比一下浏览器的下载路径和框架错误日志提示的下载路径是否一致
