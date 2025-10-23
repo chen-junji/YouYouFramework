@@ -65,44 +65,66 @@ public class CheckVersionCtrl
         List<string> catalogsToUpdate = updateHandle.Result;
         updateHandle.Release();
 
+        // 获取所有 keys
+        var downloadKeys = new List<object>();
         if (catalogsToUpdate.Count == 0)
         {
-            MainEntry.Log("资源清单没变化 不需要检查更新");
+            MainEntry.Log("资源清单没变化 不需要更新资源清单");
+            // 没有新 Catalog，用当前的 ResourceLocators
+            foreach (var locator in Addressables.ResourceLocators)
+            {
+                downloadKeys.AddRange(locator.Keys);
+            }
+            //Debug.Log(Addressables.ResourceLocators.ToJson());
+        }
+        else
+        {
+            // 下载新版本 Catalog
+            var updateOp = Addressables.UpdateCatalogs(true, catalogsToUpdate, false);
+            MainEntry.Log("开始更新资源清单");
+            await updateOp.Task;
+            MainEntry.Log("资源清单更新完毕==" + updateOp.Result.ToJson());
+
+            foreach (var locator in updateOp.Result)
+            {
+                downloadKeys.AddRange(locator.Keys);
+            }
+            updateOp.Release();
+        }
+
+        if (downloadKeys.Count == 0)
+        {
+            MainEntry.Log("没有需要下载的资源1");
             CheckVersionComplete?.Invoke();
             return;
         }
-        MainEntry.Log("旧的资源清单==" + catalogsToUpdate.ToJson());
 
-        // 下载新版本 Catalog
-        var updateOp = Addressables.UpdateCatalogs(true, catalogsToUpdate, false);
-        MainEntry.Log("开始更新资源清单");
-        await updateOp.Task;
-        MainEntry.Log("资源清单更新完毕==" + updateOp.Result.ToJson());
-        updateOp.Release();
+        var size = await Addressables.GetDownloadSizeAsync(downloadKeys);
+        if (size == 0)
+        {
+            MainEntry.Log("没有需要下载的资源2");
+            CheckVersionComplete?.Invoke();
+            return;
+        }
 
-        //开始检查更新
-        MainEntry.Instance.StartCoroutine(DownloadCoroutine());
-    }
-
-    IEnumerator DownloadCoroutine()
-    {
+        //=========================开始下载更新文件=============================
         CheckVersionBeginDownload?.Invoke();
 
         // 开始下载资源及其依赖项
-        AsyncOperationHandle _downloadHandle = Addressables.DownloadDependenciesAsync("default");
+        var _downloadHandle = Addressables.DownloadDependenciesAsync(downloadKeys, Addressables.MergeMode.Union);
 
         // 轮询更新进度
         while (!_downloadHandle.IsDone)
         {
             CheckVersionDownloadUpdate?.Invoke(_downloadHandle.GetDownloadStatus());
-            yield return null; // 每帧更新
+            await UniTask.Yield(PlayerLoopTiming.Update); // 每帧更新
         }
 
         // 处理完成状态
         if (_downloadHandle.Status == AsyncOperationStatus.Succeeded)
         {
             MainEntry.Log("检查更新下载完毕, 进入预加载流程" + _downloadHandle.Result.ToJson());
-            Addressables.Release(_downloadHandle); // 释放资源句柄
+            _downloadHandle.Release(); // 释放资源句柄
 
             CheckVersionDownloadComplete?.Invoke();
             CheckVersionComplete?.Invoke();

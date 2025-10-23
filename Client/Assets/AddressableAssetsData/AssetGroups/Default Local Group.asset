@@ -18,50 +18,42 @@ MonoBehaviour:
   - m_GUID: 0714826b5e4593c46afa24ba3caf05f3
     m_Address: Assets/Game/Download/DataTable
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 203e78ea531a50d49b96197daec59497
     m_Address: Assets/Game/Download/Scenes
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 24e028eac10f7164c883f883a891b942
     m_Address: Assets/Game/Download/Prefab
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7317b89b6e4bd0140b233797054e2bfd
     m_Address: Assets/Game/Download/Font
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 91b3678865fa7c247839e3f2ed8824fa
     m_Address: Assets/Game/Download/Shader
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 997ac9a7f23e18e4b815762ad36c234d
     m_Address: Assets/Game/Download/UITexture
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d2cd5153af4e859439d68f9e46834d28
     m_Address: Assets/Game/Download/Hotfix
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f5d160c48260ef5449b699b8cfeec4d3
     m_Address: Assets/Game/Download/Sound
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - default
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8a1c5cb019782a34bad47e2e5d7fc230, type: 2}
