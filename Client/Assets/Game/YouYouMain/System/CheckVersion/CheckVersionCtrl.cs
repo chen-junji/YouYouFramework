@@ -6,11 +6,9 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using YouYouMain;
 using System.Collections.Generic;
+using UnityEngine.ResourceManagement.ResourceProviders;
+using UnityEngine.AddressableAssets.ResourceLocators;
 
-
-#if UNITY_EDITOR
-using UnityEditor.AddressableAssets;
-#endif
 
 public class CheckVersionCtrl
 {
@@ -31,7 +29,7 @@ public class CheckVersionCtrl
 
 #if UNITY_EDITOR
         // 获取 Addressables 配置
-        var settings = AddressableAssetSettingsDefaultObject.Settings;
+        var settings = UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject.Settings;
         if (settings.ActivePlayModeDataBuilderIndex == 0)
         {
             MainEntry.Log("编辑器加载模式 不需要检查更新");
@@ -65,47 +63,39 @@ public class CheckVersionCtrl
         List<string> catalogsToUpdate = updateHandle.Result;
         updateHandle.Release();
 
+        List<BundleInfo> bundleList = new();
         // 获取所有 keys
         var downloadKeys = new List<object>();
         if (catalogsToUpdate.Count == 0)
         {
             MainEntry.Log("资源清单没变化 不需要更新资源清单");
-            // 没有新 Catalog，用当前的 ResourceLocators
             foreach (var locator in Addressables.ResourceLocators)
             {
                 downloadKeys.AddRange(locator.Keys);
             }
-            //Debug.Log(Addressables.ResourceLocators.ToJson());
+            bundleList = GetAllBundlesAsync(Addressables.ResourceLocators);
         }
         else
         {
-            // 下载新版本 Catalog
-            var updateOp = Addressables.UpdateCatalogs(true, catalogsToUpdate, false);
             MainEntry.Log("开始更新资源清单");
+            var updateOp = Addressables.UpdateCatalogs(true, catalogsToUpdate, false);
             await updateOp.Task;
-            MainEntry.Log("资源清单更新完毕==" + updateOp.Result.ToJson());
 
             foreach (var locator in updateOp.Result)
             {
                 downloadKeys.AddRange(locator.Keys);
             }
+            bundleList = GetAllBundlesAsync(updateOp.Result);
             updateOp.Release();
         }
 
-        if (downloadKeys.Count == 0)
+        if (bundleList.Count == 0)
         {
-            MainEntry.Log("没有需要下载的资源1");
+            MainEntry.Log("没有需要下载的资源");
             CheckVersionComplete?.Invoke();
             return;
         }
-
-        var size = await Addressables.GetDownloadSizeAsync(downloadKeys);
-        if (size == 0)
-        {
-            MainEntry.Log("没有需要下载的资源2");
-            CheckVersionComplete?.Invoke();
-            return;
-        }
+        MainEntry.Log("需要下载的资源列表==" + bundleList.ToJson());
 
         //=========================开始下载更新文件=============================
         CheckVersionBeginDownload?.Invoke();
@@ -123,7 +113,7 @@ public class CheckVersionCtrl
         // 处理完成状态
         if (_downloadHandle.Status == AsyncOperationStatus.Succeeded)
         {
-            MainEntry.Log("检查更新下载完毕, 进入预加载流程" + _downloadHandle.Result.ToJson());
+            MainEntry.Log("检查更新下载完毕, 进入预加载流程");
             _downloadHandle.Release(); // 释放资源句柄
 
             CheckVersionDownloadComplete?.Invoke();
@@ -139,4 +129,45 @@ public class CheckVersionCtrl
             Debug.Log($"下载失败：{_downloadHandle.OperationException}");
         }
     }
+
+    /// <summary>
+    /// 从 Locator 扫描全部 bundle, 判断是否在缓存内
+    /// </summary>
+    public static List<BundleInfo> GetAllBundlesAsync(IEnumerable<IResourceLocator> resourceLocators)
+    {
+        var result = new List<BundleInfo>();
+        var checkedBundles = new HashSet<string>();
+
+        foreach (var locator in resourceLocators)
+        {
+            foreach (var kvp in locator.Keys)
+            {
+                if (!locator.Locate(kvp, typeof(object), out var locations)) continue;
+
+                foreach (var loc in locations)
+                {
+                    if (loc.Data is AssetBundleRequestOptions options)
+                    {
+                        string name = options.BundleName;
+                        string hash = options.Hash;
+                        if (checkedBundles.Contains(name)) continue;
+
+                        bool cached = Caching.IsVersionCached(name, Hash128.Parse(hash));
+                        if (!cached) result.Add(new BundleInfo() { BundleName = name, BundleSize = options.BundleSize, BundleHash = options.Hash });
+                        checkedBundles.Add(name);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public class BundleInfo
+    {
+        public string BundleName { get; set; }
+        public long BundleSize { get; set; }
+        public string BundleHash { get; set; }
+    }
+
 }
