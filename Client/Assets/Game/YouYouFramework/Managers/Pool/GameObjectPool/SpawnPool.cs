@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 
 namespace YouYouFramework
@@ -10,7 +11,7 @@ namespace YouYouFramework
     /// </summary>
     public sealed class SpawnPool : MonoBehaviour
     {
-        private Dictionary<int, PrefabPool> prefabPoolDic = new Dictionary<int, PrefabPool>();
+        private Dictionary<int, PrefabPool> prefabPoolDic = new();
 
 
         private void OnDestroy()
@@ -36,7 +37,7 @@ namespace YouYouFramework
                 return;
             }
 
-            prefabPool.spawnPool = this;
+            prefabPool.Root = this;
             prefabPoolDic.Add(instanceID, prefabPool);
         }
         /// <summary>

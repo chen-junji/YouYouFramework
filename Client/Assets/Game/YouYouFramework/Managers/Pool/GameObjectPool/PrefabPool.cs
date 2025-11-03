@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,10 +38,9 @@ namespace YouYouFramework
         public int cullMaxPerPass;
 
         /// <summary>
-        /// 总池的引用
+        /// 主要用于SetParent
         /// </summary>
-        public SpawnPool spawnPool;
-
+        public MonoBehaviour Root;
 
         /// <summary>
         /// 定时清理协程是否正在运行中？
@@ -70,7 +70,10 @@ namespace YouYouFramework
             }
         }
 
-        public PrefabPool(GameObject prefab, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 60, int cullMaxPerPass = 30)
+        public Func<GameObject> CreateFunc;
+        public Action<GameObject> ActionOnDestroy;
+
+        public PrefabPool(GameObject prefab, bool cullDespawned = true, int cullAbove = 10, int cullDelay = 60, int cullMaxPerPass = 30)
         {
             this.prefab = prefab;
             this.cullDespawned = cullDespawned;
@@ -85,8 +88,8 @@ namespace YouYouFramework
             {
                 for (int i = 0; i < cullAbove; i++)
                 {
-                    //使用InstanceHandler，预加载克隆对象
-                    GameObject inst = InstanceHandler.InstantiatePrefab(this);
+                    //预加载克隆对象
+                    GameObject inst = CreateFunc?.Invoke();
                     inst.SetActive(false);
                     despawnedList.AddLast(inst);
 
@@ -106,18 +109,22 @@ namespace YouYouFramework
             while (despawnedList.First != null)
             {
                 despawnedList.RemoveFirst();
-                if(despawnedList.Count>0 && despawnedList.First.List!=null && despawnedList.First.Value!=null)
-                    InstanceHandler.DestroyInstance(despawnedList.First.Value, this);
+                if (despawnedList.Count > 0 && despawnedList.First.List != null && despawnedList.First.Value != null)
+                {
+                    ActionOnDestroy?.Invoke(despawnedList.First.Value);
+                }
             }
             while (spawnedList.First != null)
             {
                 spawnedList.RemoveFirst();
-                if(spawnedList.Count>0 && spawnedList.First.List!=null && spawnedList.First.Value!=null)
-                    InstanceHandler.DestroyInstance(spawnedList.First.Value, this);
+                if (spawnedList.Count > 0 && spawnedList.First.List != null && spawnedList.First.Value != null)
+                {
+                    ActionOnDestroy?.Invoke(spawnedList.First.Value);
+                }
             }
 
             prefab = null;
-            spawnPool = null;
+            Root = null;
         }
 
         /// <summary>
@@ -154,8 +161,8 @@ namespace YouYouFramework
         /// </summary>
         private GameObject SpawnNew()
         {
-            //使用InstanceHandler，克隆对象
-            GameObject inst = InstanceHandler.InstantiatePrefab(this);
+            //克隆对象
+            GameObject inst = CreateFunc?.Invoke();
             spawnedList.AddLast(inst);
 
 #if UNITY_EDITOR
@@ -175,10 +182,10 @@ namespace YouYouFramework
 
             inst.SetActive(false);
 
-            if (!cullingActive && cullDespawned && TotalCount > cullAbove)
+            if (!cullingActive && cullDespawned && despawnedList.Count > cullAbove)
             {
                 cullingActive = true;
-                spawnPool.StartCoroutine(CullDespawned());
+                Root.StartCoroutine(CullDespawned());
             }
             return true;
         }
@@ -188,7 +195,7 @@ namespace YouYouFramework
         /// </summary>
         internal IEnumerator CullDespawned()
         {
-            while (TotalCount > cullAbove)
+            while (despawnedList.Count > cullAbove)
             {
                 yield return new WaitForSeconds(cullDelay);
 
@@ -196,12 +203,12 @@ namespace YouYouFramework
                 for (int i = 0; i < cullMaxPerPass; i++)
                 {
                     //保留几个对象
-                    if (TotalCount <= cullAbove) break;
+                    if (despawnedList.Count <= cullAbove) break;
                     if (despawnedList.Count == 0) break;
 
                     GameObject inst = despawnedList.Last.Value;
                     despawnedList.RemoveLast();
-                    InstanceHandler.DestroyInstance(inst, this);
+                    ActionOnDestroy?.Invoke(inst);
                 }
             }
             cullingActive = false;
@@ -218,7 +225,7 @@ namespace YouYouFramework
             {
                 GameEntry.LogError(LogCategory.Pool, "该对象不在池内, inst==" + inst);
             }
-            InstanceHandler.DestroyInstance(inst, this);
+            ActionOnDestroy?.Invoke(inst);
         }
 
     }

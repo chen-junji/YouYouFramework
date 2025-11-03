@@ -17,27 +17,23 @@ namespace YouYouFramework
         /// <summary>
         /// 游戏物体对象池字典
         /// </summary>
-        public Dictionary<SpawnPoolId, SpawnPoolEntity> spawnPoolDic = new Dictionary<SpawnPoolId, SpawnPoolEntity>();
+        public Dictionary<SpawnPoolId, SpawnPoolEntity> spawnPoolDic = new();
 
         /// <summary>
         /// Key==GameObject的InstanceId
         /// </summary>
-        private Dictionary<int, PrefabPool> instanceIdPoolIdDic = new Dictionary<int, PrefabPool>();
+        private Dictionary<int, PrefabPool> instanceIdPoolIdDic = new();
 
         /// <summary>
         /// Key==Prefab的InstanceId
         /// </summary>
-        private Dictionary<int, AsyncOperationHandle> prefabAssetDic = new ();
+        private Dictionary<int, AsyncOperationHandle> prefabAssetDic = new();
 
         public GameObject YouYouObjPool { get; private set; }
 
 
         public GameObjectPool()
         {
-            //对象池物体克隆请求
-            InstanceHandler.InstantiateDelegates += InstantiateDelegate;
-            InstanceHandler.DestroyDelegates += DestroyDelegate;
-
             //初始化跨场景不销毁的对象池
             for (int i = 0; i < GameEntry.Instance.GameObjectPoolGroups.Length; i++)
             {
@@ -57,8 +53,7 @@ namespace YouYouFramework
         }
         private GameObject InstantiateDelegate(PrefabPool prefabPool)
         {
-            GameObject inst = Object.Instantiate(prefabPool.prefab);
-            inst.transform.SetParent(prefabPool.spawnPool.transform, false);
+            GameObject inst = Object.Instantiate(prefabPool.prefab, prefabPool.Root.transform, false);
 
             //从实例字典上 映射实例
             int instanceID = inst.GetInstanceID();
@@ -112,7 +107,7 @@ namespace YouYouFramework
         /// <summary>
         /// 预加载对象池
         /// </summary>
-        public void PreloadObj(GameObject prefab, SpawnPoolId poolId, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 10, int cullMaxPerPass = 0)
+        public void PreloadObj(GameObject prefab, SpawnPoolId poolId, bool cullDespawned = true, int cullAbove = 10, int cullDelay = 60, int cullMaxPerPass = 30)
         {
             //拿到分类池
             spawnPoolDic.TryGetValue(poolId, out SpawnPoolEntity gameObjectPoolEntity);
@@ -123,9 +118,11 @@ namespace YouYouFramework
             }
 
             //对象池配置
-            PrefabPool prefabPool = new PrefabPool(prefab, cullDespawned, cullAbove, cullDelay, cullMaxPerPass);
+            PrefabPool prefabPool = new(prefab, cullDespawned, cullAbove, cullDelay, cullMaxPerPass);
             gameObjectPoolEntity.Pool.AddPrefabPool(prefabPool);
             prefabPool.PreloadPool();
+            prefabPool.CreateFunc = () => InstantiateDelegate(prefabPool);
+            prefabPool.ActionOnDestroy = (inst) => DestroyDelegate(inst, prefabPool);
         }
 
         #region Spawn 从对象池中获取对象
@@ -152,8 +149,10 @@ namespace YouYouFramework
             if (prefabPool == null)
             {
                 //对象池配置
-                prefabPool = new PrefabPool(prefab);
+                prefabPool = new(prefab);
                 gameObjectPoolEntity.Pool.AddPrefabPool(prefabPool);
+                prefabPool.CreateFunc = () => InstantiateDelegate(prefabPool);
+                prefabPool.ActionOnDestroy = (inst) => DestroyDelegate(inst, prefabPool);
             }
 
             //拿到一个实例
@@ -180,9 +179,9 @@ namespace YouYouFramework
             int instanceID = inst.GetInstanceID();
             if (instanceIdPoolIdDic.TryGetValue(instanceID, out PrefabPool prefabPool))
             {
-                if (prefabPool.spawnPool == null) return;
+                if (prefabPool.Root == null) return;
 
-                inst.transform.SetParent(prefabPool.spawnPool.transform, false);
+                inst.transform.SetParent(prefabPool.Root.transform, false);
                 inst.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                 prefabPool.DespawnInstance(inst);
             }

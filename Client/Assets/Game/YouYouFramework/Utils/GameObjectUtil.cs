@@ -15,7 +15,7 @@ public static class GameObjectUtil
     /// <summary>
     /// 获取或创建组件
     /// </summary>
-    public static T GetOrCreatComponent<T>(this GameObject obj) where T : Component
+    public static T GetOrAddComponent<T>(this GameObject obj) where T : Component
     {
         T t = obj.GetComponent<T>();
         if (t == null)
