@@ -56,28 +56,23 @@ namespace YouYouFramework
             GameObject inst = Object.Instantiate(prefabPool.prefab, prefabPool.Root.transform, false);
 
             //从实例字典上 映射实例
-            int instanceID = inst.GetInstanceID();
-            instanceIdPoolIdDic[instanceID] = prefabPool;
+            instanceIdPoolIdDic[inst.GetInstanceID()] = prefabPool;
 
             return inst;
         }
         private void DestroyDelegate(GameObject inst, PrefabPool prefabPool)
         {
-            int instanceID = inst.GetInstanceID();
-
             //从实例字典上 移除实例
-            instanceIdPoolIdDic.Remove(instanceID);
-
-            //先执行的TotalCount-1 后执行的DestroyDelegates, 所以TotalCount == 0说明是最后一次销毁, 让资源的引用计数-1
-            if (prefabPool.TotalCount == 0)
-            {
-                if (prefabAssetDic.TryGetValue(prefabPool.prefab.GetInstanceID(), out var referenceEntity))
-                {
-                    referenceEntity.Release();
-                }
-            }
+            instanceIdPoolIdDic.Remove(inst.GetInstanceID());
 
             Object.Destroy(inst);
+        }
+        private void DestructDelegate(PrefabPool prefabPool)
+        {
+            if (prefabAssetDic.TryGetValue(prefabPool.prefab.GetInstanceID(), out var referenceEntity))
+            {
+                referenceEntity.Release();
+            }
         }
 
         /// <summary>
@@ -107,7 +102,7 @@ namespace YouYouFramework
         /// <summary>
         /// 预加载对象池
         /// </summary>
-        public void PreloadObj(GameObject prefab, SpawnPoolId poolId, bool cullDespawned = true, int cullAbove = 10, int cullDelay = 60, int cullMaxPerPass = 30)
+        public void PreloadObj(GameObject prefab, SpawnPoolId poolId, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 60, int cullMaxPerPass = 30)
         {
             //拿到分类池
             spawnPoolDic.TryGetValue(poolId, out SpawnPoolEntity gameObjectPoolEntity);
@@ -123,6 +118,7 @@ namespace YouYouFramework
             prefabPool.PreloadPool();
             prefabPool.CreateFunc = () => InstantiateDelegate(prefabPool);
             prefabPool.ActionOnDestroy = (inst) => DestroyDelegate(inst, prefabPool);
+            prefabPool.ActionOnDestruct = () => DestructDelegate(prefabPool);
         }
 
         #region Spawn 从对象池中获取对象
@@ -153,6 +149,7 @@ namespace YouYouFramework
                 gameObjectPoolEntity.Pool.AddPrefabPool(prefabPool);
                 prefabPool.CreateFunc = () => InstantiateDelegate(prefabPool);
                 prefabPool.ActionOnDestroy = (inst) => DestroyDelegate(inst, prefabPool);
+                prefabPool.ActionOnDestruct = () => DestructDelegate(prefabPool);
             }
 
             //拿到一个实例
@@ -163,7 +160,15 @@ namespace YouYouFramework
         {
             var referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(prefabFullPath);
             GameObject prefab = referenceEntity.Result as GameObject;
-            prefabAssetDic[prefab.GetInstanceID()] = referenceEntity;
+
+            if (prefabAssetDic.ContainsKey(prefab.GetInstanceID()))
+            {
+                referenceEntity.Release();
+            }
+            else
+            {
+                prefabAssetDic[prefab.GetInstanceID()] = referenceEntity;
+            }
             return Spawn(prefab, poolId);
         }
         #endregion

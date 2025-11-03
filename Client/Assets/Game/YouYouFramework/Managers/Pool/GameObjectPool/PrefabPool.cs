@@ -72,8 +72,9 @@ namespace YouYouFramework
 
         public Func<GameObject> CreateFunc;
         public Action<GameObject> ActionOnDestroy;
+        public Action ActionOnDestruct;
 
-        public PrefabPool(GameObject prefab, bool cullDespawned = true, int cullAbove = 10, int cullDelay = 60, int cullMaxPerPass = 30)
+        public PrefabPool(GameObject prefab, bool cullDespawned = true, int cullAbove = 0, int cullDelay = 60, int cullMaxPerPass = 30)
         {
             this.prefab = prefab;
             this.cullDespawned = cullDespawned;
@@ -122,7 +123,8 @@ namespace YouYouFramework
                     ActionOnDestroy?.Invoke(spawnedList.First.Value);
                 }
             }
-
+            
+            ActionOnDestruct?.Invoke();
             prefab = null;
             Root = null;
         }
