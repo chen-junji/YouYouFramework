@@ -5,6 +5,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using Cysharp.Threading.Tasks;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.AddressableAssets;
 
 
 namespace YouYouFramework
@@ -158,8 +159,8 @@ namespace YouYouFramework
         }
         public async UniTask<GameObject> Spawn(string prefabFullPath, SpawnPoolId poolId = SpawnPoolId.Common)
         {
-            var referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(prefabFullPath);
-            GameObject prefab = referenceEntity.Result as GameObject;
+            var referenceEntity = Addressables.LoadAssetAsync<GameObject>(prefabFullPath);
+            GameObject prefab = await referenceEntity.Task;
 
             if (prefabAssetDic.ContainsKey(prefab.GetInstanceID()))
             {

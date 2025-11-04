@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Cysharp.Threading.Tasks;
+using UnityEngine.AddressableAssets;
 
 
 namespace YouYouFramework
@@ -36,8 +37,8 @@ namespace YouYouFramework
         /// </summary>
         public async UniTask<byte[]> GetDataTableBuffer(string dataTableName)
         {
-            var referenceEntity = await GameEntry.Loader.LoadMainAssetAsync($"Assets/Game/Download/DataTable/{dataTableName}.bytes");
-            TextAsset asset = referenceEntity.Result as TextAsset;
+            var referenceEntity = Addressables.LoadAssetAsync<TextAsset>($"Assets/Game/Download/DataTable/{dataTableName}.bytes");
+            TextAsset asset = await referenceEntity.Task;
             return asset.bytes;
         }
     }

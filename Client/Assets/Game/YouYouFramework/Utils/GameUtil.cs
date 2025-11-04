@@ -7,6 +7,7 @@ using YouYouFramework;
 using Cysharp.Threading.Tasks;
 using YouYouMain;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.AddressableAssets;
 
 
 public class GameUtil
@@ -46,8 +47,9 @@ public class GameUtil
     /// </summary>
     public static async UniTask<GameObject> LoadPrefabClone(string prefabFullPath, Transform parent = null)
     {
-        var referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(prefabFullPath);
-        GameObject obj = UnityEngine.Object.Instantiate(referenceEntity.Result as GameObject, parent);
+        var referenceEntity = Addressables.LoadAssetAsync<GameObject>(prefabFullPath);
+        await referenceEntity.Task;
+        GameObject obj = UnityEngine.Object.Instantiate(referenceEntity.Result, parent);
         AssetReleaseHandle.Add(referenceEntity, obj);
         return obj;
     }

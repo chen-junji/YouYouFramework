@@ -8,6 +8,7 @@ using System.Threading;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.AddressableAssets;
 
 namespace YouYouFramework
 {
@@ -68,7 +69,7 @@ namespace YouYouFramework
         private bool isFadeIn;
         private bool isFadeOut;
 
-        private AsyncOperationHandle currBGMReferenceEntity;
+        private AsyncOperationHandle currBGMHandle;
 
         public async void PlayBGM(string audioName)
         {
@@ -79,8 +80,9 @@ namespace YouYouFramework
                 return;
             }
 
-            var referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(entity.AssetFullPath);
-            PlayBGM(referenceEntity.Result as AudioClip, entity.IsLoop == 1, entity.Volume, entity.IsFadeIn == 1, entity.IsFadeOut == 1, referenceEntity);
+            var referenceEntity = Addressables.LoadAssetAsync<AudioClip>(entity.AssetFullPath);
+            await referenceEntity.Task;
+            PlayBGM(referenceEntity.Result, entity.IsLoop == 1, entity.Volume, entity.IsFadeIn == 1, entity.IsFadeOut == 1, referenceEntity);
         }
         public void PlayBGM(AudioClip audioClip, bool isLoop, float volume, bool isFadeIn, bool isFadeOut, AsyncOperationHandle referenceEntity)
         {
@@ -96,8 +98,8 @@ namespace YouYouFramework
             this.isFadeOut = isFadeOut;
 
             //这里要保证BGM过渡时间小于Asset池释放时间, 否则会在过渡到一半的时候AudioClip就变成null了, 但一般情况下是不会出问题的
-            currBGMReferenceEntity.Release();
-            currBGMReferenceEntity = referenceEntity;
+           if (currBGMHandle.IsValid()) currBGMHandle.Release();
+            currBGMHandle = referenceEntity;
 
             GameEntry.Log(LogCategory.Audio, string.Format("PlayBGM, audioClip=={0}, volume=={1}", audioClip, volume));
         }
@@ -109,7 +111,7 @@ namespace YouYouFramework
             this.isFadeOut = isFadeOut;
 
             //这里要保证BGM过渡时间小于Asset池释放时间, 否则会在过渡到一半的时候AudioClip就变成null了, 但一般情况下是不会出问题的
-            currBGMReferenceEntity.Release();
+            if (currBGMHandle.IsValid()) currBGMHandle.Release();
 
             GameEntry.Log(LogCategory.Audio, "StopBGM");
         }
@@ -184,9 +186,10 @@ namespace YouYouFramework
         public async void PlayAudio(string audioName, Vector3 point)
         {
             Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName);
-            var referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(sys_Audio.AssetFullPath);
+            var referenceEntity = Addressables.LoadAssetAsync<AudioClip>(sys_Audio.AssetFullPath);
+            await referenceEntity.Task;
 
-            AudioRoutine routine = CreateAudioRoutine(referenceEntity.Result as AudioClip, sys_Audio.Volume, sys_Audio.Priority);
+            AudioRoutine routine = CreateAudioRoutine(referenceEntity.Result, sys_Audio.Volume, sys_Audio.Priority);
             routine.AudioSource.spatialBlend = 1;
             routine.transform.position = point;
 
@@ -199,9 +202,10 @@ namespace YouYouFramework
         public async void PlayAudio(string audioName)
         {
             Sys_AudioEntity sys_Audio = GameEntry.DataTable.Sys_AudioDBModel.GetEntity(audioName);
-            var referenceEntity = await GameEntry.Loader.LoadMainAssetAsync(sys_Audio.AssetFullPath);
+            var referenceEntity = Addressables.LoadAssetAsync<AudioClip>(sys_Audio.AssetFullPath);
+            await referenceEntity.Task;
 
-            AudioRoutine routine = CreateAudioRoutine(referenceEntity.Result as AudioClip, sys_Audio.Volume, sys_Audio.Priority);
+            AudioRoutine routine = CreateAudioRoutine(referenceEntity.Result, sys_Audio.Volume, sys_Audio.Priority);
             routine.AudioSource.spatialBlend = 0;
 
             //音效资源做引用计数
