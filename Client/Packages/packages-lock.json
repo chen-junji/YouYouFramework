@@ -5,7 +5,19 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "01754c8fb47bd49697b3428993109e7a972a7968"
+      "hash": "fcef6dfe8ed715cc60a7618a1d2ad62bcace3a80"
+    },
+    "com.tuyoogame.yooasset": {
+      "version": "2.3.17",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.scriptablebuildpipeline": "1.21.25",
+        "com.unity.modules.assetbundle": "1.0.0",
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
+      },
+      "url": "https://package.openupm.com"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
@@ -13,27 +25,12 @@
       "source": "builtin",
       "dependencies": {}
     },
-    "com.unity.addressables": {
-      "version": "2.7.4",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.profiling.core": "1.0.2",
-        "com.unity.test-framework": "1.4.5",
-        "com.unity.modules.assetbundle": "1.0.0",
-        "com.unity.modules.jsonserialize": "1.0.0",
-        "com.unity.modules.imageconversion": "1.0.0",
-        "com.unity.modules.unitywebrequest": "1.0.0",
-        "com.unity.scriptablebuildpipeline": "2.4.3",
-        "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
     "com.unity.ext.nunit": {
-      "version": "2.0.5",
+      "version": "1.0.6",
       "depth": 2,
-      "source": "builtin",
-      "dependencies": {}
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.cn"
     },
     "com.unity.ide.visualstudio": {
       "version": "2.0.25",
@@ -42,41 +39,46 @@
       "dependencies": {
         "com.unity.test-framework": "1.1.31"
       },
-      "url": "https://packages.unity.com"
+      "url": "https://packages.unity.cn"
     },
-    "com.unity.nuget.newtonsoft-json": {
-      "version": "3.2.1",
+    "com.unity.ide.vscode": {
+      "version": "1.2.5",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
-      "url": "https://packages.unity.com"
+      "url": "https://packages.unity.cn"
+    },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.cn"
     },
     "com.unity.profiling.core": {
       "version": "1.0.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
-      "url": "https://packages.unity.com"
+      "url": "https://packages.unity.cn"
     },
     "com.unity.scriptablebuildpipeline": {
-      "version": "2.4.3",
+      "version": "1.21.25",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.cn"
+    },
+    "com.unity.test-framework": {
+      "version": "1.1.33",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.test-framework": "1.4.5",
-        "com.unity.modules.assetbundle": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.test-framework": {
-      "version": "1.6.0",
-      "depth": 1,
-      "source": "builtin",
-      "dependencies": {
-        "com.unity.ext.nunit": "2.0.3",
+        "com.unity.ext.nunit": "1.0.6",
         "com.unity.modules.imgui": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0"
-      }
+      },
+      "url": "https://packages.unity.cn"
     },
     "com.unity.ugui": {
       "version": "2.0.0",
@@ -133,12 +135,6 @@
         "com.unity.modules.audio": "1.0.0",
         "com.unity.modules.animation": "1.0.0"
       }
-    },
-    "com.unity.modules.hierarchycore": {
-      "version": "1.0.0",
-      "depth": 1,
-      "source": "builtin",
-      "dependencies": {}
     },
     "com.unity.modules.imageconversion": {
       "version": "1.0.0",
@@ -228,9 +224,7 @@
       "dependencies": {
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0",
-        "com.unity.modules.jsonserialize": "1.0.0",
-        "com.unity.modules.hierarchycore": "1.0.0",
-        "com.unity.modules.physics": "1.0.0"
+        "com.unity.modules.jsonserialize": "1.0.0"
       }
     },
     "com.unity.modules.umbra": {

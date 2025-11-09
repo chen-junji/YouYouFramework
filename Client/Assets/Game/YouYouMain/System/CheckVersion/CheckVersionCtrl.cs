@@ -1,36 +1,115 @@
-using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using YouYouMain;
 using System.Collections.Generic;
-using UnityEngine.ResourceManagement.ResourceProviders;
-using UnityEngine.AddressableAssets.ResourceLocators;
-
+using Cysharp.Threading.Tasks;
+using UnityEngine;
+using YooAsset;
+using YouYouMain;
 
 public class CheckVersionCtrl
 {
-    public static CheckVersionCtrl Instance { get; private set; } = new CheckVersionCtrl();
+    public static CheckVersionCtrl Instance = new();
 
     public event Action CheckVersionBeginDownload;
-    internal event Action<DownloadStatus> CheckVersionDownloadUpdate;
+    public event Action<DownloadStatus> CheckVersionDownloadUpdate;
     public event Action CheckVersionDownloadComplete;
 
-    private Action CheckVersionComplete;
+    public string DefaultPackageName { get; private set; } = "DefaultPackage";
+    public ResourcePackage DefaultPackage { get; private set; }
 
-    /// <summary>
-    /// 检查更新
-    /// </summary>
-    public async void CheckVersionChange(Action onComplete)
+    private Action CheckVersionComplete;
+    public async void CheckVersionChange(EPlayMode playMode, Action onComplete)
     {
         CheckVersionComplete = onComplete;
 
+        // 初始化资源系统
+        YooAssets.Initialize();
+
+        // 创建默认的资源包
+        DefaultPackage = YooAssets.CreatePackage(DefaultPackageName);
+
+        // 设置该资源包为默认的资源包，可以使用YooAssets相关加载接口加载该资源包内容。
+        YooAssets.SetDefaultPackage(DefaultPackage);
+
+        // 编辑器下的模拟模式
+        InitializationOperation initializationOperation = null;
+        if (playMode == EPlayMode.EditorSimulateMode)
+        {
+            var buildResult = EditorSimulateModeHelper.SimulateBuild(DefaultPackageName);
+            var packageRoot = buildResult.PackageRootDirectory;
+            var createParameters = new EditorSimulateModeParameters();
+            createParameters.EditorFileSystemParameters = FileSystemParameters.CreateDefaultEditorFileSystemParameters(packageRoot);
+            initializationOperation = DefaultPackage.InitializeAsync(createParameters);
+        }
+
+        // 单机运行模式
+        if (playMode == EPlayMode.OfflinePlayMode)
+        {
+            var createParameters = new OfflinePlayModeParameters();
+            createParameters.BuildinFileSystemParameters = FileSystemParameters.CreateDefaultBuildinFileSystemParameters();
+            initializationOperation = DefaultPackage.InitializeAsync(createParameters);
+        }
+
+        // 联机运行模式
+        if (playMode == EPlayMode.HostPlayMode)
+        {
+            string defaultHostServer = GetHostServerURL();
+            string fallbackHostServer = GetHostServerURL();
+            IRemoteServices remoteServices = new RemoteServices(defaultHostServer, fallbackHostServer);
+            var createParameters = new HostPlayModeParameters();
+            createParameters.BuildinFileSystemParameters = FileSystemParameters.CreateDefaultBuildinFileSystemParameters();
+            createParameters.CacheFileSystemParameters = FileSystemParameters.CreateDefaultCacheFileSystemParameters(remoteServices);
+            initializationOperation = DefaultPackage.InitializeAsync(createParameters);
+        }
+
+        // WebGL运行模式
+        if (playMode == EPlayMode.WebPlayMode)
+        {
+#if UNITY_WEBGL && WEIXINMINIGAME && !UNITY_EDITOR
+            var createParameters = new WebPlayModeParameters();
+			string defaultHostServer = GetHostServerURL();
+            string fallbackHostServer = GetHostServerURL();
+            string packageRoot = $"{WeChatWASM.WX.env.USER_DATA_PATH}/__GAME_FILE_CACHE"; //注意：如果有子目录，请修改此处！
+            IRemoteServices remoteServices = new RemoteServices(defaultHostServer, fallbackHostServer);
+            createParameters.WebServerFileSystemParameters = WechatFileSystemCreater.CreateFileSystemParameters(packageRoot, remoteServices);
+            initializationOperation = DefaultPackage.InitializeAsync(createParameters);
+#else
+            var createParameters = new WebPlayModeParameters();
+            createParameters.WebServerFileSystemParameters = FileSystemParameters.CreateDefaultWebServerFileSystemParameters();
+            initializationOperation = DefaultPackage.InitializeAsync(createParameters);
+#endif
+        }
+
+        await initializationOperation;
+        if (initializationOperation.Status != EOperationStatus.Succeed)
+        {
+            MainEntry.LogWarning($"资源包初始化失败：{initializationOperation.Error}");
+            return;
+        }
+        MainEntry.Log("资源包初始化成功！");
+
+        //获取资源版本
+        var operationVersion = DefaultPackage.RequestPackageVersionAsync();
+        await operationVersion;
+        if (operationVersion.Status != EOperationStatus.Succeed)
+        {
+            MainEntry.LogWarning($"获取资源版本失败：{operationVersion.Error}");
+            return;
+        }
+        MainEntry.Log($"获取资源版本成功 : {operationVersion.PackageVersion}");
+
+        //更新资源清单
+        var operationManifest = DefaultPackage.UpdatePackageManifestAsync(operationVersion.PackageVersion);
+        await operationManifest;
+        if (operationManifest.Status != EOperationStatus.Succeed)
+        {
+            MainEntry.LogWarning($"更新资源清单失败：{operationManifest.Error}");
+            return;
+        }
+        MainEntry.Log("更新资源清单成功");
+
 #if UNITY_EDITOR
-        // 获取 Addressables 配置
-        var settings = UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject.Settings;
-        if (settings.ActivePlayModeDataBuilderIndex == 0)
+        if (playMode == EPlayMode.EditorSimulateMode)
         {
             MainEntry.Log("编辑器加载模式 不需要检查更新");
             CheckVersionComplete.Invoke();
@@ -38,83 +117,37 @@ public class CheckVersionCtrl
         }
 #endif
 
-        //自定义新地址
-        Addressables.InternalIdTransformFunc = (location) =>
-        {
-            //Debug.Log($"默认地址=={location.InternalId}");
-            if (location.InternalId.StartsWith("http", System.StringComparison.Ordinal))
-            {
-                string new_location = location.InternalId.Replace("http://ChannelConfig", ChannelModel.Instance.CurrChannelConfig.RealSourceUrl);
-                //Debug.Log($"默认地址=={location.InternalId}, 自定义的新地址=={new_location}");
-                return new_location;
-            }
+        //资源包下载
+        int downloadingMaxNum = 10;
+        int failedTryAgain = 3;
+        var downloader = DefaultPackage.CreateResourceDownloader(downloadingMaxNum, failedTryAgain);
 
-            return location.InternalId;
-        };
-
-        var updateHandle = Addressables.CheckForCatalogUpdates(false);
-        await updateHandle.Task;
-        if (updateHandle.Status == AsyncOperationStatus.Failed)
-        {
-            //资源清单请求失败
-            MainEntry.LogError("资源清单请求失败, 请检查ChannelConfigEntity脚本的路径配置");
-            return;
-        }
-        List<string> catalogsToUpdate = updateHandle.Result;
-        updateHandle.Release();
-
-        List<BundleInfo> bundleList = new();
-        // 获取所有 keys
-        var downloadKeys = new List<object>();
-        if (catalogsToUpdate.Count == 0)
-        {
-            MainEntry.Log("资源清单没变化 不需要更新资源清单");
-            foreach (var locator in Addressables.ResourceLocators)
-            {
-                downloadKeys.AddRange(locator.Keys);
-            }
-            bundleList = GetAllBundlesAsync(Addressables.ResourceLocators);
-        }
-        else
-        {
-            MainEntry.Log("开始更新资源清单");
-            var updateOp = Addressables.UpdateCatalogs(true, catalogsToUpdate, false);
-            await updateOp.Task;
-
-            foreach (var locator in updateOp.Result)
-            {
-                downloadKeys.AddRange(locator.Keys);
-            }
-            bundleList = GetAllBundlesAsync(updateOp.Result);
-            updateOp.Release();
-        }
-
-        if (bundleList.Count == 0)
+        if (downloader.TotalDownloadCount == 0)
         {
             MainEntry.Log("没有需要下载的资源");
             CheckVersionComplete?.Invoke();
             return;
         }
-        MainEntry.Log("需要下载的资源列表==" + bundleList.ToJson());
 
-        //=========================开始下载更新文件=============================
-        CheckVersionBeginDownload?.Invoke();
+        // TODO: 注意：开发者需要在下载前检测磁盘空间不足
+        // 需要下载的文件总数和总大小
+        int totalDownloadCount = downloader.TotalDownloadCount;
+        long totalDownloadBytes = downloader.TotalDownloadBytes;
 
-        // 开始下载资源及其依赖项
-        var _downloadHandle = Addressables.DownloadDependenciesAsync(downloadKeys, Addressables.MergeMode.Union);
+        //注册回调方法
+        // downloader.DownloadFinishCallback = OnDownloadFinishFunction; //当下载器结束（无论成功或失败）
+        // downloader.DownloadErrorCallback = OnDownloadErrorFunction; //当下载器发生错误
+        // downloader.DownloadUpdateCallback = OnDownloadUpdateFunction; //当下载进度发生变化
+        // downloader.DownloadFileBeginCallback = OnDownloadFileBeginFunction; //当开始下载某个文件
 
-        // 轮询更新进度
-        while (!_downloadHandle.IsDone)
-        {
-            CheckVersionDownloadUpdate?.Invoke(_downloadHandle.GetDownloadStatus());
-            await UniTask.Yield(PlayerLoopTiming.Update); // 每帧更新
-        }
+        //开启下载
+        downloader.BeginDownload();
+        await downloader;
 
-        // 处理完成状态
-        if (_downloadHandle.Status == AsyncOperationStatus.Succeeded)
+        //检测下载结果
+        if (downloader.Status == EOperationStatus.Succeed)
         {
             MainEntry.Log("检查更新下载完毕, 进入预加载流程");
-            _downloadHandle.Release(); // 释放资源句柄
 
             CheckVersionDownloadComplete?.Invoke();
             CheckVersionComplete?.Invoke();
@@ -124,50 +157,62 @@ public class CheckVersionCtrl
             MainEntry.LogError("检查更新失败, 请点击重试");
             MainDialogForm.ShowForm("检查更新失败, 请点击重试", "Error", "重试", "", MainDialogForm.DialogFormType.Affirm, () =>
             {
-                CheckVersionChange(CheckVersionComplete);
+                CheckVersionChange(playMode, CheckVersionComplete);
             });
-            Debug.Log($"下载失败：{_downloadHandle.OperationException}");
         }
     }
 
     /// <summary>
-    /// 从 Locator 扫描全部 bundle, 判断是否在缓存内
+    /// 获取资源服务器地址
     /// </summary>
-    public static List<BundleInfo> GetAllBundlesAsync(IEnumerable<IResourceLocator> resourceLocators)
+    private string GetHostServerURL()
     {
-        var result = new List<BundleInfo>();
-        var checkedBundles = new HashSet<string>();
+        //string hostServerIP = "http://10.0.2.2"; //安卓模拟器地址
+        string hostServerIP = "http://127.0.0.1:8083";
+        string appVersion = "v1.0";
 
-        foreach (var locator in resourceLocators)
-        {
-            foreach (var kvp in locator.Keys)
-            {
-                if (!locator.Locate(kvp, typeof(object), out var locations)) continue;
-
-                foreach (var loc in locations)
-                {
-                    if (loc.Data is AssetBundleRequestOptions options)
-                    {
-                        string name = options.BundleName;
-                        string hash = options.Hash;
-                        if (checkedBundles.Contains(name)) continue;
-
-                        bool cached = Caching.IsVersionCached(name, Hash128.Parse(hash));
-                        if (!cached) result.Add(new BundleInfo() { BundleName = name, BundleSize = options.BundleSize, BundleHash = options.Hash });
-                        checkedBundles.Add(name);
-                    }
-                }
-            }
-        }
-
-        return result;
+#if UNITY_EDITOR
+        if (UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.Android)
+            return $"{hostServerIP}/CDN/Android/{appVersion}";
+        else if (UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.iOS)
+            return $"{hostServerIP}/CDN/IPhone/{appVersion}";
+        else if (UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.WebGL)
+            return $"{hostServerIP}/CDN/WebGL/{appVersion}";
+        else
+            return $"{hostServerIP}/CDN/PC/{appVersion}";
+#else
+        if (Application.platform == RuntimePlatform.Android)
+            return $"{hostServerIP}/CDN/Android/{appVersion}";
+        else if (Application.platform == RuntimePlatform.IPhonePlayer)
+            return $"{hostServerIP}/CDN/IPhone/{appVersion}";
+        else if (Application.platform == RuntimePlatform.WebGLPlayer)
+            return $"{hostServerIP}/CDN/WebGL/{appVersion}";
+        else
+            return $"{hostServerIP}/CDN/PC/{appVersion}";
+#endif
     }
 
-    public class BundleInfo
+    /// <summary>
+    /// 远端资源地址查询服务类
+    /// </summary>
+    private class RemoteServices : IRemoteServices
     {
-        public string BundleName { get; set; }
-        public long BundleSize { get; set; }
-        public string BundleHash { get; set; }
+        private readonly string _defaultHostServer;
+        private readonly string _fallbackHostServer;
+
+        public RemoteServices(string defaultHostServer, string fallbackHostServer)
+        {
+            _defaultHostServer = defaultHostServer;
+            _fallbackHostServer = fallbackHostServer;
+        }
+        string IRemoteServices.GetRemoteMainURL(string fileName)
+        {
+            return $"{_defaultHostServer}/{fileName}";
+        }
+        string IRemoteServices.GetRemoteFallbackURL(string fileName)
+        {
+            return $"{_fallbackHostServer}/{fileName}";
+        }
     }
 
 }

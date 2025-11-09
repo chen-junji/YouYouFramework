@@ -6,8 +6,6 @@ using System;
 using YouYouFramework;
 using Cysharp.Threading.Tasks;
 using YouYouMain;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.AddressableAssets;
 
 
 public class GameUtil
@@ -15,42 +13,42 @@ public class GameUtil
     /// <summary>
     /// 加载FBX嵌入的所有动画
     /// </summary>
-//    public static AnimationClip[] LoadInitRoleAnimationsByFBX(string assetFullPath)
-//    {
-//        if (MainEntry.IsAssetBundleMode)
-//        {
-//            AssetInfoEntity m_CurrAssetEnity = GameEntry.Loader.AssetInfo.GetAssetEntity(assetFullPath);
-//            AssetBundle bundle = GameEntry.Loader.LoadAssetBundle(m_CurrAssetEnity.AssetBundleFullPath);
-//            return bundle.LoadAllAssets<AnimationClip>();
-//        }
-//        else
-//        {
-//            AnimationClip[] clipArray = null;
-//#if UNITY_EDITOR
-//            UnityEngine.Object[] objs = UnityEditor.AssetDatabase.LoadAllAssetsAtPath(assetFullPath);
-//            List<AnimationClip> clips = new List<AnimationClip>();
-//            foreach (var item in objs)
-//            {
-//                if (item is AnimationClip)
-//                {
-//                    clips.Add(item as AnimationClip);
-//                }
-//            }
-//            clipArray = clips.ToArray();
-//#endif
-//            return clipArray;
-//        }
-//    }
+    //    public static AnimationClip[] LoadInitRoleAnimationsByFBX(string assetFullPath)
+    //    {
+    //        if (MainEntry.IsAssetBundleMode)
+    //        {
+    //            AssetInfoEntity m_CurrAssetEnity = GameEntry.Loader.AssetInfo.GetAssetEntity(assetFullPath);
+    //            AssetBundle bundle = GameEntry.Loader.LoadAssetBundle(m_CurrAssetEnity.AssetBundleFullPath);
+    //            return bundle.LoadAllAssets<AnimationClip>();
+    //        }
+    //        else
+    //        {
+    //            AnimationClip[] clipArray = null;
+    //#if UNITY_EDITOR
+    //            UnityEngine.Object[] objs = UnityEditor.AssetDatabase.LoadAllAssetsAtPath(assetFullPath);
+    //            List<AnimationClip> clips = new List<AnimationClip>();
+    //            foreach (var item in objs)
+    //            {
+    //                if (item is AnimationClip)
+    //                {
+    //                    clips.Add(item as AnimationClip);
+    //                }
+    //            }
+    //            clipArray = clips.ToArray();
+    //#endif
+    //            return clipArray;
+    //        }
+    //    }
 
     /// <summary>
     /// 加载Prefab并克隆
     /// </summary>
     public static async UniTask<GameObject> LoadPrefabClone(string prefabFullPath, Transform parent = null)
     {
-        var referenceEntity = Addressables.LoadAssetAsync<GameObject>(prefabFullPath);
-        await referenceEntity.Task;
-        GameObject obj = UnityEngine.Object.Instantiate(referenceEntity.Result, parent);
-        AssetReleaseHandle.Add(referenceEntity, obj);
+        var operation = GameEntry.Loader.DefaultPackage.LoadAssetAsync(prefabFullPath);
+        await operation.Task;
+        GameObject obj = UnityEngine.Object.Instantiate(operation.AssetObject as GameObject, parent);
+        AssetReleaseHandle.Add(operation, obj);
         return obj;
     }
 }

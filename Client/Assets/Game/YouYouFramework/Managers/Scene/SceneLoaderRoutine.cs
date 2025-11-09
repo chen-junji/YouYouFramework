@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using YouYouMain;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.ResourceManagement.ResourceProviders;
+using YooAsset;
 
 
 namespace YouYouFramework
@@ -20,7 +18,7 @@ namespace YouYouFramework
 
         public string SceneFullPath;
 
-        private AsyncOperationHandle<SceneInstance> asyncOperation;
+        private SceneHandle asyncOperation;
 
         /// <summary>
         /// 进度更新
@@ -36,7 +34,7 @@ namespace YouYouFramework
 
             OnProgressUpdate = onProgressUpdate;
 
-            asyncOperation = Addressables.LoadSceneAsync(sceneFullPath, LoadSceneMode.Additive);
+            asyncOperation = GameEntry.Loader.DefaultPackage.LoadSceneAsync(sceneFullPath, LoadSceneMode.Additive);
             await asyncOperation.Task;
         }
 
@@ -45,8 +43,8 @@ namespace YouYouFramework
         /// </summary>
         public async void UnLoadScene()
         {
-            AsyncOperationHandle<SceneInstance> handle = Addressables.UnloadSceneAsync(asyncOperation);
-            await handle.Task;
+            var operation = asyncOperation.UnloadAsync();
+            await operation.Task;
         }
 
         /// <summary>

@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Cysharp.Threading.Tasks;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
+using YooAsset;
 
 
 namespace YouYouFramework
@@ -15,8 +14,12 @@ namespace YouYouFramework
     /// </summary>
     public class LoaderManager
     {
+        public ResourcePackage DefaultPackage { get; private set; }
+
         public LoaderManager()
         {
+            DefaultPackage = YooAssets.GetPackage("DefaultPackage");
+
             //加载时间最短, 但加载时帧率下降最严重
             Application.backgroundLoadingPriority = ThreadPriority.High;
         }
@@ -33,10 +36,11 @@ namespace YouYouFramework
                 GameEntry.LogError(LogCategory.Loader, "依赖的游戏物体不可为空");
                 return null;
             }
-            var referenceEntity = Addressables.LoadAssetAsync<T>(assetFullPath);
-            await referenceEntity.Task;
-            AssetReleaseHandle.Add(referenceEntity, target);
-            return referenceEntity.Result;
+
+            var op = DefaultPackage.LoadAssetAsync(assetFullPath);
+            await op;
+            AssetReleaseHandle.Add(op, target);
+            return op.AssetObject as T;
         }
 
         /// <summary>
@@ -52,9 +56,10 @@ namespace YouYouFramework
                 GameEntry.LogError(LogCategory.Loader, "依赖的游戏物体不可为空");
                 return null;
             }
-            var op = Addressables.LoadAssetAsync<T>(assetFullPath);
+            
+            var op = DefaultPackage.LoadAssetSync(assetFullPath);
             AssetReleaseHandle.Add(op, target);
-            return op.WaitForCompletion();
+            return op.AssetObject as T;
         }
 
     }

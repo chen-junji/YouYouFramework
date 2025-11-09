@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Cysharp.Threading.Tasks;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.AddressableAssets;
+using YooAsset;
 
 
 namespace YouYouFramework
@@ -28,7 +27,7 @@ namespace YouYouFramework
         /// <summary>
         /// Key==Prefab的InstanceId
         /// </summary>
-        private Dictionary<int, AsyncOperationHandle> prefabAssetDic = new();
+        private Dictionary<int, AssetHandle> prefabAssetDic = new();
 
         public GameObject YouYouObjPool { get; private set; }
 
@@ -70,9 +69,9 @@ namespace YouYouFramework
         }
         private void DestructDelegate(PrefabPool prefabPool)
         {
-            if (prefabAssetDic.TryGetValue(prefabPool.prefab.GetInstanceID(), out var referenceEntity))
+            if (prefabAssetDic.TryGetValue(prefabPool.prefab.GetInstanceID(), out var assetHandle))
             {
-                referenceEntity.Release();
+                assetHandle.Release();
             }
         }
 
@@ -159,16 +158,17 @@ namespace YouYouFramework
         }
         public async UniTask<GameObject> Spawn(string prefabFullPath, SpawnPoolId poolId = SpawnPoolId.Common)
         {
-            var referenceEntity = Addressables.LoadAssetAsync<GameObject>(prefabFullPath);
-            GameObject prefab = await referenceEntity.Task;
+            var operation = GameEntry.Loader.DefaultPackage.LoadAssetAsync(prefabFullPath);
+            await operation.Task;
+            GameObject prefab = operation.AssetObject as GameObject;
 
             if (prefabAssetDic.ContainsKey(prefab.GetInstanceID()))
             {
-                referenceEntity.Release();
+                operation.Release();
             }
             else
             {
-                prefabAssetDic[prefab.GetInstanceID()] = referenceEntity;
+                prefabAssetDic[prefab.GetInstanceID()] = operation;
             }
             return Spawn(prefab, poolId);
         }

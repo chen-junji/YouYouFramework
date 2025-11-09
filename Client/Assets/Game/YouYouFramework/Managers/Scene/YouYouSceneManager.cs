@@ -129,6 +129,10 @@ namespace YouYouFramework
         /// </summary>
         private void LoadNewScene()
         {
+            var operation = GameEntry.Loader.DefaultPackage.UnloadUnusedAssetsAsync();
+            operation.WaitForAsyncComplete(); //支持同步操作
+            // await operation;
+
             List<Sys_SceneEntity> currSceneEntityGroup = GameEntry.DataTable.Sys_SceneDBModel.GetListByGroupName(m_CurrSceneGroupName.ToString(), SceneLoadMaxCount);
 
             for (int i = 0; i < currSceneEntityGroup.Count; i++)

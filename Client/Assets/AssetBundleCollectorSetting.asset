@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 185f6993d5150494d98da50e26cb1c25, type: 3}
+  m_Name: AssetBundleCollectorSetting
+  m_EditorClassIdentifier: YooAsset.Editor::YooAsset.Editor.AssetBundleCollectorSetting
+  ShowPackageView: 1
+  ShowEditorAlias: 0
+  UniqueBundleName: 0
+  Packages:
+  - PackageName: DefaultPackage
+    PackageDesc: 
+    EnableAddressable: 0
+    SupportExtensionless: 1
+    LocationToLower: 0
+    IncludeAssetGUID: 0
+    AutoCollectShaders: 1
+    IgnoreRuleName: NormalIgnoreRule
+    Groups:
+    - GroupName: Launch Group
+      GroupDesc: 
+      AssetTags: Launch
+      ActiveRuleName: EnableGroup
+      Collectors:
+      - CollectPath: Assets/Game/Scene_Launch.unity
+        CollectorGUID: 99f943fe995b4bd43b5a05bd982a0bc7
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackSeparately
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+    - GroupName: Default Group
+      GroupDesc: 
+      AssetTags: 
+      ActiveRuleName: EnableGroup
+      Collectors:
+      - CollectPath: Assets/Game/Download/DataTable
+        CollectorGUID: 0714826b5e4593c46afa24ba3caf05f3
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Game/Download/Font
+        CollectorGUID: 7317b89b6e4bd0140b233797054e2bfd
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Game/Download/Hotfix
+        CollectorGUID: d2cd5153af4e859439d68f9e46834d28
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Game/Download/Prefab
+        CollectorGUID: 24e028eac10f7164c883f883a891b942
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Game/Download/Scenes
+        CollectorGUID: 203e78ea531a50d49b96197daec59497
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Game/Download/Shader
+        CollectorGUID: 91b3678865fa7c247839e3f2ed8824fa
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackShader
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Game/Download/Sound
+        CollectorGUID: f5d160c48260ef5449b699b8cfeec4d3
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Game/Download/UITexture
+        CollectorGUID: 997ac9a7f23e18e4b815762ad36c234d
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Game/YouYouTest/Scenes
+        CollectorGUID: 3b5da6075ee6f5843a09ae58798b9266
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 

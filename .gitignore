@@ -7,9 +7,12 @@ Client/*.sln
 Client/*.csproj
 Client/.vsconfig
 Client/Build/
+Client/Bundles/
+Client/yoo/
+Client/Assets/StreamingAssets/yoo/
 Client/HybridCLRData/
 Client/Assets/HybridCLRData/
-Client/Assets/Game/Download/Hotfix
+Client/Assets/Game/Download/Hotfix/
 bin/
 obj/
 .vs/

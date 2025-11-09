@@ -119,18 +119,18 @@ namespace YouYouFramework
             unityWeb.downloadHandler = new DownloadHandlerBuffer();
             if (!string.IsNullOrWhiteSpace(m_Json))
             {
-                if (GameEntry.ParamsSettings.PostIsEncrypt && m_CurrRetry == 0)
-                {
-                    m_Dic["value"] = m_Json;
-                    //web加密
-                    m_Dic["deviceIdentifier"] = DeviceUtil.DeviceIdentifier;
-                    m_Dic["deviceModel"] = DeviceUtil.DeviceModel;
-                    long t = ChannelModel.Instance.CurrServerTime;
-                    m_Dic["sign"] = EncryptUtil.Md5(string.Format("{0}:{1}", t, DeviceUtil.DeviceIdentifier));
-                    m_Dic["t"] = t;
+                //web加密, 暂时不需要了
+                // if (GameEntry.ParamsSettings.PostIsEncrypt && m_CurrRetry == 0)
+                // {
+                //     m_Dic["value"] = m_Json;
+                //     m_Dic["deviceIdentifier"] = DeviceUtil.DeviceIdentifier;
+                //     m_Dic["deviceModel"] = DeviceUtil.DeviceModel;
+                //     long t = ChannelModel.Instance.CurrServerTime;
+                //     m_Dic["sign"] = EncryptUtil.Md5(string.Format("{0}:{1}", t, DeviceUtil.DeviceIdentifier));
+                //     m_Dic["t"] = t;
 
-                    m_Json = m_Dic.ToJson();
-                }
+                //     m_Json = m_Dic.ToJson();
+                // }
                 unityWeb.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(m_Json));
 
                 if (!string.IsNullOrWhiteSpace(GameEntry.ParamsSettings.PostContentType))

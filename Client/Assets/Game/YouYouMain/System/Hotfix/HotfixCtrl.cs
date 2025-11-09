@@ -5,12 +5,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using YouYouMain;
 
 
 /// <summary>
-/// 代码热更新控制器
+/// 代码热更新控制器s
 /// </summary>
 public class HotfixCtrl
 {
@@ -41,7 +40,9 @@ public class HotfixCtrl
         await LoadMetadataForAOTAssemblies();
 
         //加载热更Dll
-        TextAsset hotfixAsset = await Addressables.LoadAssetAsync<TextAsset>("Assets/Game/Download/Hotfix/Assembly-CSharp.dll.bytes");
+        var operation = CheckVersionCtrl.Instance.DefaultPackage.LoadAssetAsync("Assets/Game/Download/Hotfix/Assembly-CSharp.dll.bytes");
+        await operation.Task;
+        var hotfixAsset = operation.AssetObject as TextAsset;
         System.Reflection.Assembly.Load(hotfixAsset.bytes);
         MainEntry.Log("Assembly-CSharp.dll加载完毕");
     }
@@ -58,7 +59,9 @@ public class HotfixCtrl
         HomologousImageMode mode = HomologousImageMode.SuperSet;
         foreach (var aotDllName in aotMetaAssemblyFiles)
         {
-            var asset = await Addressables.LoadAssetAsync<TextAsset>($"Assets/Game/Download/Hotfix/{aotDllName}.dll.bytes");
+            var operation = CheckVersionCtrl.Instance.DefaultPackage.LoadAssetAsync($"Assets/Game/Download/Hotfix/{aotDllName}.dll.bytes");
+            await operation.Task;
+            var asset = operation.AssetObject as TextAsset;
             // 加载assembly对应的dll，会自动为它hook。一旦aot泛型函数的native函数不存在，用解释器版本代码
             LoadImageErrorCode err = RuntimeApi.LoadMetadataForAOTAssembly(asset.bytes, mode);
         }

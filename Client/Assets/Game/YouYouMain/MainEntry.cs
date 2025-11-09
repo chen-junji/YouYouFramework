@@ -4,15 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.AddressableAssets.ResourceLocators;
-using UnityEngine.ResourceManagement.AsyncOperations;
+using YooAsset;
 
 namespace YouYouMain
 {
     public class MainEntry : MonoBehaviour
     {
+        [SerializeField] EPlayMode ePlayMode;
+
         //预加载相关事件
         public Action ActionPreloadBegin;
         public Action<float> ActionPreloadUpdate;
@@ -23,16 +24,18 @@ namespace YouYouMain
         {
             Instance = this;
         }
-        private void Start()
+        private async void Start()
         {
             //开始检查更新
-            CheckVersionCtrl.Instance.CheckVersionChange(async () =>
+            CheckVersionCtrl.Instance.CheckVersionChange(ePlayMode, async () =>
             {
                 //检查更新完成, 加载Hotfix代码(HybridCLR)
                 await HotfixCtrl.Instance.LoadHotifx();
 
                 //启动YouYouFramework框架入口
-                GameObject gameEntryAsset = await Addressables.LoadAssetAsync<GameObject>("Assets/Game/Download/Prefab/GameEntry.prefab");
+                var operation = CheckVersionCtrl.Instance.DefaultPackage.LoadAssetAsync("Assets/Game/Download/Prefab/GameEntry.prefab");
+                await operation.Task;
+                GameObject gameEntryAsset = operation.AssetObject as GameObject;
                 Instantiate(gameEntryAsset);
             });
 

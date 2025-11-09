@@ -40,7 +40,7 @@ public partial class MainForm : UIFormBase
     private void OnTest(int obj)
     {
         //假装这是后端给的数据 可以贴到UI上
-        Debug.LogError(obj);
+        Debug.Log("这个Log文本可以随便修改 测试热更新222");
     }
 
 }

@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
+using YooAsset;
 using YouYouMain;
 
 /// <summary>
@@ -63,7 +63,7 @@ public class CheckVersionForm : MonoBehaviour
         //_statusText.text = $"{speed}/s";
 
         txtTip.text = string.Format("{0:f2}M/{1:f2}M", (float)status.DownloadedBytes / (1024 * 1024), status.TotalBytes / (1024 * 1024));
-        progressImg.fillAmount = status.Percent;
+        progressImg.fillAmount = status.Progress;
     }
     private void OnCheckVersionDownloadComplete()
     {
