@@ -1,34 +1,46 @@
-��һ������װHybridCLR��
-���Unity�˵���/HybridCLR/Installer, ���Install���а�װ
-Ȼ����HybridCLR/Generate/All, ����Generate
+第一步，安装HybridCLR：
+点击Unity菜单栏/HybridCLR/Installer, 点击Install进行安装, 然后点击HybridCLR/Generate/All, 生成Generate
 
-�ڶ��������AssetBundle��
-���Unity�˵���/YouYouTools/���ɲ������ȸ��³��򼯵�DownLoad�ļ���
-��AddressbleGroup���棬���Build���ļ�������Client/ServerData�ļ���, ������Լ��ٶȲ�̳�
+第二步，打包AssetBundle：
+点击Unity菜单栏/YouYouTools/生成并拷贝热更新程序集到DownLoad文件夹
 
-������������AssetBundle��Դ����վ�㣺
-����ʹ��HFS�� ��Դվ�� ָ���� Client/ServerData �ļ��У� ������Լ��ٶȲ�̳�
-HFS����: https://www.rejetto.com/hfs/?f=dl
+打开YooAsset.AssetBundleBuilder界面 进行打包. 可参考文档:
+https://www.yooasset.com/docs/guide-editor/AssetBundleBuilder
 
-���Ĳ�������Դվ���ַ��
-��ChannelConfigEntity�ű�, ���������Դվ���ַ�Ͱ汾��(�汾�ſ��Բ���,��Դվ���ַһ��Ҫ�ĵ���Ӧ��)
-��AddressbleProfiles���棬 ��Remote.BuildPath�����޸���Դ�汾��(Ҳ���Բ��� ά��Ĭ��)
+CopyBuildinFileOption要选择ClearAndCopyByTags, 参数是Launch
 
-���岽���ڱ༭������, ���ز�����AssetBundle��
-��AddressbleGroup����, �޸�PlayModeScriptѡ��(����ģʽ, �б༭������, ����AB���ص�)ΪUse Existing Build(����AB����)
+第三步，部署AssetBundle资源下载站点：
+可以使用HFS, 不会的自己百度查教程
+HFS官网: https://www.rejetto.com/hfs/?f=dl
 
-������, �����������:
-ֱ�Ӵ��Window��exe���м���
+部署文件夹规范 可参考文档:
+https://www.yooasset.com/docs/guide-editor/AssetBundleDeployer
 
-������, �ȸ����Ƿ�ɹ���֤:
-eve������ͨ�Ժ�,  �ٻص�Unity�޸�һЩҵ����� ����:MainCtrl.SendTest.onTest?.Invoke(2); �ĳ�1, ���ظ��ڶ�������dll�ʹ��, ������exe�����ȸ����Ƿ�ɹ�. (�������´��exe)
+第四步，绑定资源站点地址：
+打开CheckVersionCtrl脚本, 找到GetHostServerURL方法. 配置你的资源站点地址和版本号(版本号可以不改,资源站点地址一定要改到对应上)
+
+第五步，在编辑器测试AssetBundle加载：
+在Scene_Launch场景, MainEntry物体, EPlayMode枚举 选择HostPlayMode模式
+然后运行Scene_Launch场景, 即可测试
+
+第六步, 打真机包测试:
+如果编辑器测试了HostPlayMode模式是成功加载的, 那么直接打包Window的exe运行即可
+
+第七步, 热更新是否成功验证:
+eve运行跑通以后,  再回到Unity修改一些业务代码 比如:MainCtrl.SendTest.onTest?.Invoke(2); 改成1, 再重复第二步更新dll和打包, 再运行exe测试热更新是否成功. (不用重新打包exe)
 
 
-��ܰ��ʾ��
-һ�����Ŀǰ�Դ���HybridCLR֧��Unity2019.3.x-6000.2.x,  ֻ֧�ֳ���֧�ְ棨��ʽ�� Beta�涼���У��� �����Ҫ�л��������汾����ȥHybridCLR�����˽�����
+温馨提示：
+一：框架目前自带的HybridCLR通常只支持Unity长期支持版（正式版 Beta版都不行）， 如果你要切换到其他版本，请去HybridCLR官网了解详情
 
-������ΪHybridCLR������IL2CPP�����԰�װ��Unity��Ҫ��WindowsBuildSupport��IL2CPP��ģ�飬 ������HybridCLR/Generate/All��ʱ��ᱨ��
+二：因为HybridCLR依赖于IL2CPP，所以安装的Unity需要有WindowsBuildSupport（IL2CPP）模块， 否则点击HybridCLR/Generate/All的时候会报错
 
-��: �����;�л��˿�������ģʽ(Development Build), ��Ҫ���µ��HybridCLR/Generate/All, ����Generate
+三: 如果中途切换了开发构建模式(Development Build), 需要重新点击HybridCLR/Generate/All, 生成Generate
 
-��: �������ʧ��, ���������������һ���ܲ�������, Ȼ��Ա�һ�������������·���Ϳ�ܴ�����־��ʾ������·���Ƿ�һ��
+四: 如果下载失败, 首先在浏览器测试一下能不能下载, 然后对比一下浏览器的下载路径和框架错误日志提示的下载路径是否一致
+
+五: 测试安卓 IOS 微信小游戏 也都是一样的做法 只不过平台不同而已, 需要各位自己去看YooAsset官方文档 这里就不多赘述了
+
+六: 微信小游戏已正常跑通 但为了框架不臃肿 需要各位自己导入相关插件包 可参考文档:
+https://www.yooasset.com/docs/MiniGame
+https://gitee.com/wechat-minigame/minigame-unity-webgl-transform/blob/main/Design/SDKInstaller.md

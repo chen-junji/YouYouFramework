@@ -66,11 +66,15 @@ public class CheckVersionCtrl
         if (playMode == EPlayMode.WebPlayMode)
         {
 #if UNITY_WEBGL && WEIXINMINIGAME && !UNITY_EDITOR
-            var createParameters = new WebPlayModeParameters();
 			string defaultHostServer = GetHostServerURL();
             string fallbackHostServer = GetHostServerURL();
-            string packageRoot = $"{WeChatWASM.WX.env.USER_DATA_PATH}/__GAME_FILE_CACHE"; //注意：如果有子目录，请修改此处！
             IRemoteServices remoteServices = new RemoteServices(defaultHostServer, fallbackHostServer);
+
+            // 微信小游戏缓存根目录
+            // 注意：此处代码根据微信插件配置来填写！
+            string packageRoot = $"{WeChatWASM.WX.env.USER_DATA_PATH}/__GAME_FILE_CACHE/yoo";
+            
+            var createParameters = new WebPlayModeParameters();
             createParameters.WebServerFileSystemParameters = WechatFileSystemCreater.CreateFileSystemParameters(packageRoot, remoteServices);
             initializationOperation = DefaultPackage.InitializeAsync(createParameters);
 #else
@@ -167,8 +171,8 @@ public class CheckVersionCtrl
     /// </summary>
     private string GetHostServerURL()
     {
-        //string hostServerIP = "http://10.0.2.2"; //安卓模拟器地址
-        string hostServerIP = "http://127.0.0.1:8083";
+        //string hostServerIP = "http://10.0.0.127"; //安卓模拟器地址
+        string hostServerIP = "http://127.0.0.1";
         string appVersion = "v1.0";
 
 #if UNITY_EDITOR

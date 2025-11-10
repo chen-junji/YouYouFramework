@@ -22,7 +22,7 @@ public class InputManager : MonoBehaviour
 
     public Action<InputKeyCode> ActionInput;
 
-    public static InputManager Instance {  get; private set; }
+    public static InputManager Instance { get; private set; }
     public void Awake()
     {
         Instance = this;
@@ -56,7 +56,7 @@ public class InputManager : MonoBehaviour
             EState state;
 #if UNITY_STANDALONE
             state = EState.Keyboard;
-#elif UNITY_IOS || UNITY_ANDROID
+#elif UNITY_IOS || UNITY_ANDROID || UNITY_WEBGL
             state = EState.Touch;
 #endif
 #if UNITY_EDITOR
