@@ -107,6 +107,7 @@ public class YouYouMenuExt
             {
                 File.Copy(aotMetaAssemblyDir + aotDllName + ".dll", Path.Combine(CodeDir, aotDllName + ".dll.bytes"), true);
             }
+            AssetDatabase.Refresh();
         }
     }
 
