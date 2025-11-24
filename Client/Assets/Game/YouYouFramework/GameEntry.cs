@@ -130,6 +130,10 @@ namespace YouYouFramework
 #endif
         }
 
+        public static void LogWarning(object message)
+        {
+            LogWarning(LogCategory.Normal, message);
+        }
         public static void LogWarning(LogCategory catetory, object message)
         {
 #if DEBUG_LOG_WARNING

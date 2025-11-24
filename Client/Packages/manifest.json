@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.boxqkrtm.ide.cursor": "https://github.com/boxqkrtm/com.unity.ide.cursor.git",
     "com.code-philosophy.hybridclr": "https://gitee.com/focus-creative-games/hybridclr_unity.git",
     "com.tuyoogame.yooasset": "2.3.17",
     "com.unity.2d.sprite": "1.0.0",
