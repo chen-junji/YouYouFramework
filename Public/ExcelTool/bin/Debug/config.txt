@@ -1,7 +1,3 @@
 ﻿..\..\..\Tables
 ..\..\..\..\Client\Assets\Game\Download\DataTable\
 ..\..\..\..\Client\Assets\Game\YouYouScript\Proto\DataTable\Create\
-OutLua\
-OutServer\
-OutServerScript\
-OutHotfix\
