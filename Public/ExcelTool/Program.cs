@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.OleDb;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using NPOI.SS.UserModel;
+using NPOI.HSSF.UserModel; // xls
+using NPOI.XSSF.UserModel; // xlsx
 
-
-//如果要支持xlsx格式表格，请在本机电脑安装这个
-//http://download.microsoft.com/download/7/0/3/703ffbcb-dc0c-4e19-b0da-1463960fdcdb/AccessDatabaseEngine.exe
 
 namespace ExcelTool
 {
@@ -18,7 +15,6 @@ namespace ExcelTool
         private static string SourceExcelPath; //源excel路径
         private static string OutBytesFilePath; //bytes文件路径
         private static string OutCSharpFilePath; //c#脚本路径
-
 
         static void Main(string[] args)
         {
@@ -55,14 +51,11 @@ namespace ExcelTool
             }
         }
 
-        public static List<string> ReadFiles(string path)
+        public static void ReadFiles(string path)
         {
             string[] arr = Directory.GetFiles(path);
 
-            List<string> lst = new List<string>();
-
-            int len = arr.Length;
-            for (int i = 0; i < len; i++)
+            for (int i = 0; i < arr.Length; i++)
             {
                 string filePath = arr[i];
                 FileInfo file = new FileInfo(filePath);
@@ -72,52 +65,156 @@ namespace ExcelTool
                 }
                 if (file.Extension.Equals(".xls") || file.Extension.Equals(".xlsx"))
                 {
-                    ReadData(file.Extension.Equals(".xls"), file.FullName, file.Name.Substring(0, file.Name.LastIndexOf('.')));
+                    string fileName = file.Name.Substring(0, file.Name.LastIndexOf('.'));
+
+                    string tempExcel = null;
+                    try
+                    {
+                        tempExcel = CopyExcelToTemp(file.FullName);
+                        DataTable table = LoadExcel(tempExcel);
+                        //创建普通表
+                        CreateData(fileName, table);
+                    }
+                    finally
+                    {
+                        if (!string.IsNullOrEmpty(tempExcel) && File.Exists(tempExcel))
+                        {
+                            File.Delete(tempExcel);
+                        }
+                    }
                 }
             }
-
-            return lst;
         }
 
-
-        private static void ReadData(bool isXls, string filePath, string fileName)
+        //复制临时文件 防止资源占用导致生成错误
+        public static string CopyExcelToTemp(string sourcePath)
         {
+            string tempDir = Path.Combine(Path.GetTempPath(), "ExcelTemp");
+            if (!Directory.Exists(tempDir))
+                Directory.CreateDirectory(tempDir);
 
-            if (string.IsNullOrWhiteSpace(filePath)) return;
+            string tempPath = Path.Combine(
+                tempDir,
+                Guid.NewGuid().ToString("N") + Path.GetExtension(sourcePath));
 
-            //把表格复制一下
-            string newPath = filePath + ".temp";
-
-            File.Copy(filePath, newPath, true);
-
-            string tableName = "Sheet1";
-            string strConn = "";
-            if (isXls)
+            // 关键点：FileShare.ReadWrite
+            using (var sourceStream = new FileStream(
+                sourcePath,
+                FileMode.Open,
+                FileAccess.Read,
+                FileShare.ReadWrite))
+            using (var targetStream = new FileStream(
+                tempPath,
+                FileMode.Create,
+                FileAccess.Write,
+                FileShare.None))
             {
-                strConn = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + newPath + ";" + "Extended Properties='Excel 8.0;HDR=NO;IMEX=1';";
-            }
-            else
-            {
-                strConn = "Provider = Microsoft.ACE.OLEDB.12.0; Data Source =" + newPath + ";Extended Properties='Excel 12.0;HDR=NO;IMEX=1'";
+                sourceStream.CopyTo(targetStream);
             }
 
-            DataTable dt = null;
-
-            string strExcel = "";
-            OleDbDataAdapter myCommand = null;
-            DataSet ds = null;
-            strExcel = string.Format("select * from [{0}$]", tableName);
-            myCommand = new OleDbDataAdapter(strExcel, strConn);
-            ds = new DataSet();
-            myCommand.Fill(ds, "table1");
-            dt = ds.Tables[0];
-            myCommand.Dispose();
-
-            File.Delete(newPath);
-
-            //创建普通表
-            CreateData(fileName, dt);
+            return tempPath;
         }
+
+        public static DataTable LoadExcel(string filePath, string sheetName = null)
+        {
+            IWorkbook workbook;
+            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                if (filePath.EndsWith(".xls", StringComparison.OrdinalIgnoreCase))
+                    workbook = new HSSFWorkbook(fs);
+                else if (filePath.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase))
+                    workbook = new XSSFWorkbook(fs);
+                else
+                    throw new Exception("Unsupported excel format");
+            }
+
+            // 👉 关键：创建公式计算器
+            IFormulaEvaluator evaluator =
+                workbook.GetCreationHelper().CreateFormulaEvaluator();
+
+            ISheet sheet = string.IsNullOrEmpty(sheetName)
+                ? workbook.GetSheetAt(0)
+                : workbook.GetSheet(sheetName);
+
+            if (sheet == null)
+                throw new Exception("Sheet not found");
+
+            DataTable table = new DataTable(sheet.SheetName);
+
+            // 表头
+            IRow headerRow = sheet.GetRow(sheet.FirstRowNum);
+            int cellCount = headerRow.LastCellNum;
+
+            for (int i = 0; i < cellCount; i++)
+            {
+                table.Columns.Add(headerRow.GetCell(i)?.ToString() ?? $"Column{i}");
+            }
+
+            // 数据行
+            for (int i = sheet.FirstRowNum; i <= sheet.LastRowNum; i++)
+            {
+                IRow row = sheet.GetRow(i);
+                if (row == null) continue;
+
+                DataRow dataRow = table.NewRow();
+
+                for (int j = 0; j < cellCount; j++)
+                {
+                    ICell cell = row.GetCell(j);
+                    dataRow[j] = GetCellValue(cell, evaluator);
+                }
+
+                table.Rows.Add(dataRow);
+            }
+
+            return table;
+        }
+        private static object GetCellValue(ICell cell, IFormulaEvaluator evaluator)
+        {
+            if (cell == null) return string.Empty;
+
+            switch (cell.CellType)
+            {
+                case CellType.String:
+                    return cell.StringCellValue;
+
+                case CellType.Numeric:
+                    if (DateUtil.IsCellDateFormatted(cell))
+                        return cell.DateCellValue;
+                    else
+                        return cell.NumericCellValue;
+
+                case CellType.Boolean:
+                    return cell.BooleanCellValue;
+
+                case CellType.Formula:
+                    return GetFormulaValue(cell, evaluator);
+
+                default:
+                    return cell.ToString();
+            }
+        }
+        private static object GetFormulaValue(ICell cell, IFormulaEvaluator evaluator)
+        {
+            var eval = evaluator.Evaluate(cell);
+            if (eval == null) return string.Empty;
+
+            switch (eval.CellType)
+            {
+                case CellType.String:
+                    return eval.StringValue;
+
+                case CellType.Numeric:
+                    return eval.NumberValue;
+
+                case CellType.Boolean:
+                    return eval.BooleanValue;
+
+                default:
+                    return eval.FormatAsString();
+            }
+        }
+
 
         #region 创建普通表
         //表头

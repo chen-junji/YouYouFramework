@@ -1,0 +1,5023 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NPOI.OpenXmlFormats</name>
+    </assembly>
+    <members>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.alpha">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.alphaMod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.alphaOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.blue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.blueMod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.blueOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.comp">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.gamma">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.gray">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.green">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.greenMod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.greenOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.hue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.hueMod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.hueOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.inv">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.invGamma">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.lum">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.lumMod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.lumOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.red">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.redMod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.redOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.sat">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.satMod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.satOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.shade">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.EG_ColorTransform.tint">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.scrollBar">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.background">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.activeCaption">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.inactiveCaption">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.menu">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.window">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.windowFrame">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.menuText">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.windowText">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.captionText">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.activeBorder">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.inactiveBorder">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.appWorkspace">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.highlight">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.highlightText">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.btnFace">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.btnShadow">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.grayText">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.btnText">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.inactiveCaptionText">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.btnHighlight">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.Item3dDkShadow">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.Item3dLight">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.infoText">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.infoBk">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.hotLight">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.gradientActiveCaption">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.gradientInactiveCaption">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.menuHighlight">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SystemColorVal.menuBar">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.bg1">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.tx1">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.bg2">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.tx2">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.accent1">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.accent2">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.accent3">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.accent4">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.accent5">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.accent6">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.hlink">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.folHlink">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.phClr">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.dk1">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.lt1">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.dk2">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_SchemeColorVal.lt2">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.aliceBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.antiqueWhite">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.aqua">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.aquamarine">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.azure">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.beige">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.bisque">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.black">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.blanchedAlmond">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.blue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.blueViolet">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.brown">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.burlyWood">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.cadetBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.chartreuse">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.chocolate">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.coral">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.cornflowerBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.cornsilk">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.crimson">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.cyan">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkCyan">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkGoldenrod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkGray">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkGreen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkKhaki">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkMagenta">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkOliveGreen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkOrange">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkOrchid">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkRed">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkSalmon">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkSeaGreen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkSlateBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkSlateGray">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkTurquoise">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dkViolet">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.deepPink">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.deepSkyBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dimGray">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.dodgerBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.firebrick">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.floralWhite">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.forestGreen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.fuchsia">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.gainsboro">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.ghostWhite">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.gold">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.goldenrod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.gray">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.green">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.greenYellow">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.honeydew">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.hotPink">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.indianRed">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.indigo">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.ivory">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.khaki">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.lavender">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.lavenderBlush">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.lawnGreen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.lemonChiffon">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.ltBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.ltCoral">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.ltCyan">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.ltGoldenrodYellow">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.ltGray">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.ltGreen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.ltPink">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.ltSalmon">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.ltSeaGreen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.ltSkyBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.ltSlateGray">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.ltSteelBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.ltYellow">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.lime">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.limeGreen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.linen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.magenta">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.maroon">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.medAquamarine">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.medBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.medOrchid">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.medPurple">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.medSeaGreen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.medSlateBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.medSpringGreen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.medTurquoise">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.medVioletRed">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.midnightBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.mintCream">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.mistyRose">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.moccasin">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.navajoWhite">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.navy">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.oldLace">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.olive">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.oliveDrab">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.orange">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.orangeRed">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.orchid">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.paleGoldenrod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.paleGreen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.paleTurquoise">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.paleVioletRed">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.papayaWhip">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.peachPuff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.peru">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.pink">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.plum">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.powderBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.purple">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.red">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.rosyBrown">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.royalBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.saddleBrown">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.salmon">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.sandyBrown">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.seaGreen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.seaShell">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.sienna">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.silver">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.skyBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.slateBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.slateGray">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.snow">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.springGreen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.steelBlue">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.tan">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.teal">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.thistle">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.tomato">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.turquoise">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.violet">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.wheat">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.white">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.whiteSmoke">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.yellow">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetColorVal.yellowGreen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_RectAlignment.tl">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_RectAlignment.t">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_RectAlignment.tr">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_RectAlignment.l">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_RectAlignment.ctr">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_RectAlignment.r">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_RectAlignment.bl">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_RectAlignment.b">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_RectAlignment.br">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_BarDir.bar">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_BarDir.col">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_BarGrouping.percentStacked">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_BarGrouping.clustered">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_BarGrouping.standard">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_BarGrouping.stacked">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_SizeRepresents.area">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_SizeRepresents.w">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_PageSetupOrientation.default">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_PageSetupOrientation.portrait">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_PageSetupOrientation.landscape">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_DispBlanksAs.span">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_DispBlanksAs.gap">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_DispBlanksAs.zero">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_LegendPos.b">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_LegendPos.tr">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_LegendPos.l">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_LegendPos.r">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_LegendPos.t">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_LayoutTarget.inner">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_LayoutTarget.outer">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_LayoutMode.edge">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_LayoutMode.factor">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_Orientation.maxMin">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_Orientation.minMax">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_AxPos.b">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_AxPos.l">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_AxPos.r">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_AxPos.t">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TickMark.cross">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TickMark.in">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TickMark.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TickMark.out">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TickLblPos.high">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TickLblPos.low">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TickLblPos.nextTo">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TickLblPos.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_Crosses.autoZero">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_Crosses.max">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_Crosses.min">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TimeUnit.days">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TimeUnit.months">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TimeUnit.years">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_LblAlgn.ctr">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_LblAlgn.l">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_LblAlgn.r">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_BuiltInUnit.hundreds">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_BuiltInUnit.thousands">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_BuiltInUnit.tenThousands">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_BuiltInUnit.hundredThousands">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_BuiltInUnit.millions">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_BuiltInUnit.tenMillions">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_BuiltInUnit.hundredMillions">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_BuiltInUnit.billions">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_BuiltInUnit.trillions">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_CrossBetween.between">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_CrossBetween.midCat">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_MarkerStyle.circle">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_MarkerStyle.dash">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_MarkerStyle.diamond">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_MarkerStyle.dot">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_MarkerStyle.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_MarkerStyle.picture">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_MarkerStyle.plus">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_MarkerStyle.square">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_MarkerStyle.star">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_MarkerStyle.triangle">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_MarkerStyle.x">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_PictureFormat.stretch">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_PictureFormat.stack">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_PictureFormat.stackScale">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_DLblPos.bestFit">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_DLblPos.b">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_DLblPos.ctr">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_DLblPos.inBase">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_DLblPos.inEnd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_DLblPos.l">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_DLblPos.outEnd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_DLblPos.r">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_DLblPos.t">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TrendlineType.exp">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TrendlineType.linear">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TrendlineType.log">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TrendlineType.movingAvg">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TrendlineType.poly">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_TrendlineType.power">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ErrDir.x">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ErrDir.y">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ErrBarType.both">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ErrBarType.minus">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ErrBarType.plus">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ErrValType.cust">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ErrValType.fixedVal">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ErrValType.percentage">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ErrValType.stdDev">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ErrValType.stdErr">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_SplitType.auto">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_SplitType.cust">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_SplitType.percent">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_SplitType.pos">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_SplitType.val">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_Shape.cone">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_Shape.coneToMax">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_Shape.box">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_Shape.cylinder">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_Shape.pyramid">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_Shape.pyramidToMax">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_Grouping.percentStacked">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_Grouping.standard">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_Grouping.stacked">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_OfPieType.pie">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_OfPieType.bar">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_RadarStyle.standard">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_RadarStyle.marker">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_RadarStyle.filled">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ScatterStyle.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ScatterStyle.line">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ScatterStyle.lineMarker">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ScatterStyle.marker">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ScatterStyle.smooth">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Chart.ST_ScatterStyle.smoothMarker">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ClrAppMethod.span">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ClrAppMethod.cycle">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ClrAppMethod.repeat">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_HueDir.cw">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_HueDir.ccw">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_CxnType.parOf">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_CxnType.presOf">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_CxnType.presParOf">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_CxnType.unknownRelationship">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_PtType.node">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_PtType.asst">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_PtType.doc">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_PtType.pres">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_PtType.parTrans">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_PtType.sibTrans">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.horzAlign">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.vertAlign">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.chDir">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.chAlign">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.secChAlign">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.linDir">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.secLinDir">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.stElem">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.bendPt">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.connRout">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.begSty">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.endSty">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.dim">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.rotPath">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.ctrShpMap">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.nodeHorzAlign">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.nodeVertAlign">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.fallback">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.txDir">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.pyraAcctPos">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.pyraAcctTxMar">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.txBlDir">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.txAnchorHorz">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.txAnchorVert">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.txAnchorHorzCh">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.txAnchorVertCh">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.parTxLTRAlign">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.parTxRTLAlign">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.shpTxLTRAlignCh">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.shpTxRTLAlignCh">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.autoTxRot">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.grDir">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.flowDir">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.contDir">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.bkpt">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.off">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.hierAlign">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.bkPtFixedVal">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.stBulletLvl">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.stAng">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.spanAng">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.ar">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.lnSpPar">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.lnSpAfParP">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.lnSpCh">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.lnSpAfChP">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.rtShortDist">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.alignTx">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.pyraLvlNode">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.pyraAcctBkgdNode">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.pyraAcctTxNode">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.srcNode">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.dstNode">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.begPts">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ParameterId.endPts">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AlgorithmType.composite">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AlgorithmType.conn">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AlgorithmType.cycle">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AlgorithmType.hierChild">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AlgorithmType.hierRoot">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AlgorithmType.pyra">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AlgorithmType.lin">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AlgorithmType.sp">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AlgorithmType.tx">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AlgorithmType.snake">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.alignOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.begMarg">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.bendDist">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.begPad">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.b">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.bMarg">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.bOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.ctrX">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.ctrXOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.ctrY">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.ctrYOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.connDist">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.diam">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.endMarg">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.endPad">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.h">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.hArH">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.hOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.l">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.lMarg">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.lOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.r">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.rMarg">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.rOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.primFontSz">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.pyraAcctRatio">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.secFontSz">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.sibSp">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.secSibSp">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.sp">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.stemThick">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.t">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.tMarg">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.tOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userA">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userB">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userC">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userD">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userE">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userF">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userG">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userH">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userI">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userJ">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userK">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userL">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userM">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userN">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userO">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userP">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userQ">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userR">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userS">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userT">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userU">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userV">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userW">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userX">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userY">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.userZ">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.w">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.wArH">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintType.wOff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintRelationship.self">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintRelationship.ch">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ConstraintRelationship.des">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ElementType.all">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ElementType.doc">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ElementType.node">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ElementType.norm">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ElementType.nonNorm">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ElementType.asst">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ElementType.nonAsst">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ElementType.parTrans">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ElementType.pres">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ElementType.sibTrans">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_BoolOperator.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_BoolOperator.equ">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_BoolOperator.gte">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_BoolOperator.lte">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AxisType.self">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AxisType.ch">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AxisType.des">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AxisType.desOrSelf">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AxisType.par">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AxisType.ancst">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AxisType.ancstOrSelf">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AxisType.followSib">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AxisType.precedSib">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AxisType.follow">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AxisType.preced">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AxisType.root">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AxisType.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_FunctionType.cnt">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_FunctionType.pos">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_FunctionType.revPos">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_FunctionType.posEven">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_FunctionType.posOdd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_FunctionType.var">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_FunctionType.depth">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_FunctionType.maxDepth">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_FunctionOperator.equ">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_FunctionOperator.neq">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_FunctionOperator.gt">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_FunctionOperator.lt">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_FunctionOperator.gte">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_FunctionOperator.lte">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ChildOrderType.b">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ChildOrderType.t">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_Direction.norm">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_Direction.rev">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_HierBranchStyle.l">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_HierBranchStyle.r">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_HierBranchStyle.hang">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_HierBranchStyle.std">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_HierBranchStyle.init">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AnimOneStr.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AnimOneStr.one">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AnimOneStr.branch">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AnimLvlStr.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AnimLvlStr.lvl">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_AnimLvlStr.ctr">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ResizeHandlesStr.exact">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.Diagram.ST_ResizeHandlesStr.rel">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyObliqueTopLeft">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyObliqueTop">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyObliqueTopRight">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyObliqueLeft">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyObliqueFront">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyObliqueRight">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyObliqueBottomLeft">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyObliqueBottom">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyObliqueBottomRight">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyPerspectiveTopLeft">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyPerspectiveTop">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyPerspectiveTopRight">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyPerspectiveLeft">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyPerspectiveFront">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyPerspectiveRight">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyPerspectiveBottomLeft">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyPerspectiveBottom">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.legacyPerspectiveBottomRight">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.orthographicFront">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricTopUp">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricTopDown">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricBottomUp">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricBottomDown">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricLeftUp">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricLeftDown">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricRightUp">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricRightDown">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricOffAxis1Left">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricOffAxis1Right">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricOffAxis1Top">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricOffAxis2Left">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricOffAxis2Right">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricOffAxis2Top">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricOffAxis3Left">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricOffAxis3Right">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricOffAxis3Bottom">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricOffAxis4Left">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricOffAxis4Right">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.isometricOffAxis4Bottom">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.obliqueTopLeft">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.obliqueTop">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.obliqueTopRight">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.obliqueLeft">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.obliqueRight">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.obliqueBottomLeft">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.obliqueBottom">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.obliqueBottomRight">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.perspectiveFront">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.perspectiveLeft">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.perspectiveRight">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.perspectiveAbove">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.perspectiveBelow">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.perspectiveAboveLeftFacing">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.perspectiveAboveRightFacing">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.perspectiveContrastingLeftFacing">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.perspectiveContrastingRightFacing">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.perspectiveHeroicLeftFacing">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.perspectiveHeroicRightFacing">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.perspectiveHeroicExtremeLeftFacing">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.perspectiveHeroicExtremeRightFacing">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.perspectiveRelaxed">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetCameraType.perspectiveRelaxedModerately">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.legacyFlat1">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.legacyFlat2">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.legacyFlat3">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.legacyFlat4">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.legacyNormal1">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.legacyNormal2">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.legacyNormal3">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.legacyNormal4">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.legacyHarsh1">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.legacyHarsh2">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.legacyHarsh3">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.legacyHarsh4">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.threePt">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.balanced">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.soft">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.harsh">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.flood">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.contrasting">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.morning">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.sunrise">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.sunset">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.chilly">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.freezing">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.flat">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.twoPt">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.glow">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigType.brightRoom">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigDirection.tl">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigDirection.t">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigDirection.tr">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigDirection.l">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigDirection.r">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigDirection.bl">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigDirection.b">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LightRigDirection.br">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BevelPresetType.relaxedInset">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BevelPresetType.circle">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BevelPresetType.slope">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BevelPresetType.cross">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BevelPresetType.angle">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BevelPresetType.softRound">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BevelPresetType.convex">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BevelPresetType.coolSlant">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BevelPresetType.divot">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BevelPresetType.riblet">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BevelPresetType.hardEdge">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BevelPresetType.artDeco">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetMaterialType.legacyMatte">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetMaterialType.legacyPlastic">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetMaterialType.legacyMetal">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetMaterialType.legacyWireframe">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetMaterialType.matte">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetMaterialType.plastic">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetMaterialType.metal">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetMaterialType.warmMatte">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetMaterialType.translucentPowder">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetMaterialType.powder">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetMaterialType.dkEdge">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetMaterialType.softEdge">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetMaterialType.clear">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetMaterialType.flat">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetMaterialType.softmetal">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw1">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw2">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw3">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw4">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw5">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw6">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw7">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw8">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw9">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw10">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw11">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw12">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw13">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw14">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw15">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw16">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw17">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw18">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw19">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetShadowVal.shdw20">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PathShadeType.shape">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PathShadeType.circle">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PathShadeType.rect">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TileFlipMode.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TileFlipMode.x">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TileFlipMode.y">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TileFlipMode.xy">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.pct5">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.pct10">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.pct20">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.pct25">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.pct30">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.pct40">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.pct50">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.pct60">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.pct70">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.pct75">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.pct80">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.pct90">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.horz">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.vert">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.ltHorz">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.ltVert">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.dkHorz">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.dkVert">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.narHorz">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.narVert">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.dashHorz">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.dashVert">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.cross">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.dnDiag">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.upDiag">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.ltDnDiag">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.ltUpDiag">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.dkDnDiag">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.dkUpDiag">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.wdDnDiag">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.wdUpDiag">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.dashDnDiag">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.dashUpDiag">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.diagCross">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.smCheck">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.lgCheck">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.smGrid">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.lgGrid">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.dotGrid">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.smConfetti">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.lgConfetti">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.horzBrick">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.diagBrick">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.solidDmnd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.openDmnd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.dotDmnd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.plaid">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.sphere">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.weave">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.divot">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.shingle">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.wave">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.trellis">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetPatternVal.zigZag">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BlendMode.over">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BlendMode.mult">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BlendMode.screen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BlendMode.darken">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BlendMode.lighten">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_EffectContainerType.sib">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_EffectContainerType.tree">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BlipCompression.email">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BlipCompression.screen">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BlipCompression.print">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BlipCompression.hqprint">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_BlipCompression.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LineEndType.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LineEndType.triangle">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LineEndType.stealth">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LineEndType.diamond">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LineEndType.oval">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LineEndType.arrow">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LineEndWidth.sm">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LineEndWidth.med">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LineEndWidth.lg">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LineEndLength.sm">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LineEndLength.med">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LineEndLength.lg">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetLineDashVal.solid">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetLineDashVal.dot">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetLineDashVal.dash">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetLineDashVal.lgDash">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetLineDashVal.dashDot">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetLineDashVal.lgDashDot">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetLineDashVal.lgDashDotDot">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetLineDashVal.sysDash">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetLineDashVal.sysDot">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetLineDashVal.sysDashDot">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PresetLineDashVal.sysDashDotDot">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LineCap.rnd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LineCap.sq">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_LineCap.flat">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_CompoundLine.sng">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_CompoundLine.dbl">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_CompoundLine.thickThin">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_CompoundLine.thinThick">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_CompoundLine.tri">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PenAlignment.ctr">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_PenAlignment.in">
+            <remarks/>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Dml.Spreadsheet.XmlObject">
+            <summary>
+            Hold xml data
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_OnOffStyleType.on">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_OnOffStyleType.off">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_OnOffStyleType.def">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.alphaLcParenBoth">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.alphaUcParenBoth">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.alphaLcParenR">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.alphaUcParenR">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.alphaLcPeriod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.alphaUcPeriod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.arabicParenBoth">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.arabicParenR">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.arabicPeriod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.arabicPlain">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.romanLcParenBoth">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.romanUcParenBoth">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.romanLcParenR">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.romanUcParenR">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.romanLcPeriod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.romanUcPeriod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.circleNumDbPlain">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.circleNumWdBlackPlain">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.circleNumWdWhitePlain">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.arabicDbPeriod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.arabicDbPlain">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.ea1ChsPeriod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.ea1ChsPlain">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.ea1ChtPeriod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.ea1ChtPlain">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.ea1JpnChsDbPeriod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.ea1JpnKorPlain">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.ea1JpnKorPeriod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.arabic1Minus">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.arabic2Minus">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.hebrew2Minus">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.thaiAlphaPeriod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.thaiAlphaParenR">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.thaiAlphaParenBoth">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.thaiNumPeriod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.thaiNumParenR">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.thaiNumParenBoth">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.hindiAlphaPeriod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.hindiNumPeriod">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.hindiNumParenR">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAutonumberScheme.hindiAlpha1Period">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.words">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.sng">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.dbl">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.heavy">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.dotted">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.dottedHeavy">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.dash">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.dashHeavy">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.dashLong">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.dashLongHeavy">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.dotDash">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.dotDashHeavy">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.dotDotDash">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.dotDotDashHeavy">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.wavy">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.wavyHeavy">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextUnderlineType.wavyDbl">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextStrikeType.noStrike">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextStrikeType.sngStrike">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextStrikeType.dblStrike">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextCapsType.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextCapsType.small">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextCapsType.all">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextTabAlignType.l">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextTabAlignType.ctr">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextTabAlignType.r">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextTabAlignType.dec">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAlignType.l">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAlignType.ctr">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAlignType.r">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAlignType.just">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAlignType.justLow">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAlignType.dist">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextAlignType.thaiDist">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextFontAlignType.auto">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextFontAlignType.t">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextFontAlignType.ctr">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextFontAlignType.base">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Dml.ST_TextFontAlignType.b">
+            <remarks/>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Dml.WordProcessing.CT_Inline.#ctor">
+            <summary>
+            CT_Inline class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Dml.WordProcessing.CT_Anchor.#ctor">
+            <summary>
+            CT_Anchor class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Dml.WordProcessing.CT_WrapSquare.#ctor">
+            <summary>
+            CT_WrapSquare class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Dml.WordProcessing.CT_WrapThrough.#ctor">
+            <summary>
+            CT_WrapThrough class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Dml.WordProcessing.CT_WrapPath.#ctor">
+            <summary>
+            CT_WrapPath class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Dml.WordProcessing.CT_WrapTight.#ctor">
+            <summary>
+            CT_WrapTight class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Dml.WordProcessing.CT_WrapTopBottom.#ctor">
+            <summary>
+            CT_WrapTopBottom class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Encryption.CT_Encryption.#ctor">
+            <summary>
+            CT_Encryption class constructor
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_CipherAlgorithm.AES">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_CipherAlgorithm.RC2">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_CipherAlgorithm.RC4">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_CipherAlgorithm.DES">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_CipherAlgorithm.DESX">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_CipherAlgorithm.Item3DES">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_CipherAlgorithm.Item3DES_112">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_CipherChaining.ChainingModeCBC">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_CipherChaining.ChainingModeCFB">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_HashAlgorithm.SHA1">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_HashAlgorithm.SHA256">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_HashAlgorithm.SHA384">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_HashAlgorithm.SHA512">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_HashAlgorithm.MD5">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_HashAlgorithm.MD4">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_HashAlgorithm.MD2">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_HashAlgorithm.RIPEMD128">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_HashAlgorithm.RIPEMD160">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.ST_HashAlgorithm.WHIRLPOOL">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.CT_KeyEncryptorUri.httpschemasmicrosoftcomoffice2006keyEncryptorpassword">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Encryption.CT_KeyEncryptorUri.httpschemasmicrosoftcomoffice2006keyEncryptorcertificate">
+            <remarks/>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Encryption.CT_KeyEncryptors.#ctor">
+            <summary>
+            CT_KeyEncryptors class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.IOMathContainer.AddNewR">
+            <summary>
+            Add new Run
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.IOMathContainer.AddNewAcc">
+            <summary>
+            Add new Accent
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.IOMathContainer.AddNewNary">
+            <summary>
+            Add new n-ary Operator
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.IOMathContainer.AddNewSSub">
+            <summary>
+            Add new Subscript
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.IOMathContainer.AddNewSSup">
+            <summary>
+            Add new Superscript
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.IOMathContainer.AddNewF">
+            <summary>
+            Add new Fraction
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.IOMathContainer.AddNewRad">
+            <summary>
+            Add new Radical
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_MathPr.#ctor">
+            <summary>
+            CT_MathPr class constructor
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Shared.ST_OnOff.Value0">
+            <summary>
+            False
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Shared.ST_OnOff.Value1">
+            <summary>
+            True
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_RPR.#ctor">
+            <summary>
+            CT_RPR class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_R.#ctor">
+            <summary>
+            CT_R class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_AccPr.#ctor">
+            <summary>
+            CT_AccPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_Acc.#ctor">
+            <summary>
+            CT_Acc class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_OMathArg.#ctor">
+            <summary>
+            CT_OMathArg class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_OMathArgPr.#ctor">
+            <summary>
+            CT_OMathArgPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_BarPr.#ctor">
+            <summary>
+            CT_BarPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_Bar.#ctor">
+            <summary>
+            CT_Bar class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_BoxPr.#ctor">
+            <summary>
+            CT_BoxPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_Box.#ctor">
+            <summary>
+            CT_Box class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_BorderBoxPr.#ctor">
+            <summary>
+            CT_BorderBoxPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_BorderBox.#ctor">
+            <summary>
+            CT_BorderBox class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_DPr.#ctor">
+            <summary>
+            CT_DPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_D.#ctor">
+            <summary>
+            CT_D class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_EqArrPr.#ctor">
+            <summary>
+            CT_EqArrPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_EqArr.#ctor">
+            <summary>
+            CT_EqArr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_FPr.#ctor">
+            <summary>
+            CT_FPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_F.#ctor">
+            <summary>
+            CT_F class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_FuncPr.#ctor">
+            <summary>
+            CT_FuncPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_Func.#ctor">
+            <summary>
+            CT_Func class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_GroupChrPr.#ctor">
+            <summary>
+            CT_GroupChrPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_GroupChr.#ctor">
+            <summary>
+            CT_GroupChr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_LimLowPr.#ctor">
+            <summary>
+            CT_LimLowPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_LimLow.#ctor">
+            <summary>
+            CT_LimLow class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_LimUppPr.#ctor">
+            <summary>
+            CT_LimUppPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_LimUpp.#ctor">
+            <summary>
+            CT_LimUpp class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_MCPr.#ctor">
+            <summary>
+            CT_MCPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_MC.#ctor">
+            <summary>
+            CT_MC class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_MCS.#ctor">
+            <summary>
+            CT_MCS class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_MPr.#ctor">
+            <summary>
+            CT_MPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_MR.#ctor">
+            <summary>
+            CT_MR class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_M.#ctor">
+            <summary>
+            CT_M class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_NaryPr.#ctor">
+            <summary>
+            CT_NaryPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_Nary.#ctor">
+            <summary>
+            CT_Nary class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_PhantPr.#ctor">
+            <summary>
+            CT_PhantPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_Phant.#ctor">
+            <summary>
+            CT_Phant class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_RadPr.#ctor">
+            <summary>
+            CT_RadPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_Rad.#ctor">
+            <summary>
+            CT_Rad class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_SPrePr.#ctor">
+            <summary>
+            CT_SPrePr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_SPre.#ctor">
+            <summary>
+            CT_SPre class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_SSubPr.#ctor">
+            <summary>
+            CT_SSubPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_SSub.#ctor">
+            <summary>
+            CT_SSub class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_SSubSupPr.#ctor">
+            <summary>
+            CT_SSubSupPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_SSubSup.#ctor">
+            <summary>
+            CT_SSubSup class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_SSupPr.#ctor">
+            <summary>
+            CT_SSupPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_SSup.#ctor">
+            <summary>
+            CT_SSup class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_OMathParaPr.#ctor">
+            <summary>
+            CT_OMathParaPr class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_OMathPara.#ctor">
+            <summary>
+            CT_OMathPara class constructor
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Shared.CT_OMath.#ctor">
+            <summary>
+            CT_OMath class constructor
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_SourceType.worksheet">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_SourceType.external">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_SourceType.consolidation">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_SourceType.scenario">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_GroupBy.range">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_GroupBy.seconds">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_GroupBy.minutes">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_GroupBy.hours">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_GroupBy.days">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_GroupBy.months">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_GroupBy.quarters">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_GroupBy.years">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_SortType.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_SortType.ascending">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_SortType.descending">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_SortType.ascendingAlpha">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_SortType.descendingAlpha">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_SortType.ascendingNatural">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_SortType.descendingNatural">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ItemType.data">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ItemType.default">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ItemType.sum">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ItemType.countA">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ItemType.avg">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ItemType.max">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ItemType.min">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ItemType.product">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ItemType.count">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ItemType.stdDev">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ItemType.stdDevP">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ItemType.var">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ItemType.varP">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ItemType.grand">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ItemType.blank">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_FieldSortType.manual">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_FieldSortType.ascending">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_FieldSortType.descending">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ShowDataAs.normal">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ShowDataAs.difference">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ShowDataAs.percent">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ShowDataAs.percentDiff">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ShowDataAs.runTotal">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ShowDataAs.percentOfRow">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ShowDataAs.percentOfCol">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ShowDataAs.percentOfTotal">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_ShowDataAs.index">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_FormatAction.blank">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_FormatAction.formatting">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_FormatAction.drill">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_FormatAction.formula">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_Scope.selection">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_Scope.data">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_Scope.field">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_Type.none">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_Type.all">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_Type.row">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_Type.column">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.unknown">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.count">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.percent">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.sum">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.captionEqual">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.captionNotEqual">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.captionBeginsWith">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.captionNotBeginsWith">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.captionEndsWith">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.captionNotEndsWith">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.captionContains">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.captionNotContains">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.captionGreaterThan">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.captionGreaterThanOrEqual">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.captionLessThan">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.captionLessThanOrEqual">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.captionBetween">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.captionNotBetween">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.valueEqual">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.valueNotEqual">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.valueGreaterThan">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.valueGreaterThanOrEqual">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.valueLessThan">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.valueLessThanOrEqual">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.valueBetween">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.valueNotBetween">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.dateEqual">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.dateNotEqual">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.dateOlderThan">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.dateOlderThanOrEqual">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.dateNewerThan">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.dateNewerThanOrEqual">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.dateBetween">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.dateNotBetween">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.tomorrow">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.today">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.yesterday">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.nextWeek">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.thisWeek">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.lastWeek">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.nextMonth">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.thisMonth">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.lastMonth">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.nextQuarter">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.thisQuarter">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.lastQuarter">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.nextYear">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.thisYear">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.lastYear">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.yearToDate">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.Q1">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.Q2">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.Q3">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.Q4">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.M1">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.M2">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.M3">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.M4">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.M5">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.M6">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.M7">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.M8">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.M9">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.M10">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.M11">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Spreadsheet.ST_PivotFilterType.M12">
+            <remarks/>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Spreadsheet.CT_RElt">
+            <summary>
+            Rich Text Run container.
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Spreadsheet.CT_RElt.rPr">
+            <summary>
+            Run Properties
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Spreadsheet.CT_RElt.t">
+            <summary>
+            Text
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Spreadsheet.CT_RPrElt">
+            <summary>
+            Properties of Rich Text Run.
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Spreadsheet.CT_Rst.r">
+            <summary>
+            Rich Text Run
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Spreadsheet.CT_Rst.rPh">
+            <summary>
+            Phonetic Run
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Spreadsheet.CT_Rst.phoneticPr">
+            <summary>
+            Phonetic Properties
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Spreadsheet.CT_PhoneticRun">
+            <summary>
+            Rich Text Phonetic Run
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Spreadsheet.CT_PhoneticPr">
+            <summary>
+            Properties of the Rich Text Phonetic Run
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Spreadsheet.CT_ObjectPr.Clone">
+            <summary>
+            Create a clone of this CT_ObjectPr object
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Spreadsheet.CT_ObjectAnchor.Clone">
+            <summary>
+            Create a clone of this CT_ObjectAnchor object
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Spreadsheet.CT_Col">
+            <summary>
+            Holds the Column Width and its Formatting
+            </summary>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Spreadsheet.CT_Col.CombineWith(NPOI.OpenXmlFormats.Spreadsheet.CT_Col)">
+            <summary>
+            Checks if <paramref name="col"/> is adjacent or intersecting with
+            current column and can be combined with it. If that is the case -
+            will modify current <see cref="T:NPOI.OpenXmlFormats.Spreadsheet.CT_Col"/> to have <see cref="P:NPOI.OpenXmlFormats.Spreadsheet.CT_Col.min"/>
+            and <see cref="P:NPOI.OpenXmlFormats.Spreadsheet.CT_Col.max"/> of both columns.
+            </summary>
+            <param name="col"><see cref="T:NPOI.OpenXmlFormats.Spreadsheet.CT_Col"/> to combine with</param>
+            <exception cref="T:System.InvalidOperationException">Thrown if
+            <paramref name="col"/> cannot be combined with current
+            <see cref="T:NPOI.OpenXmlFormats.Spreadsheet.CT_Col"/></exception>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Spreadsheet.CT_Col.IsAdjacentAndCanBeCombined(NPOI.OpenXmlFormats.Spreadsheet.CT_Col)">
+            <summary>
+            Checks if <paramref name="col"/> is adjacent or intersecting with
+            current column and can be combined with it.
+            </summary>
+            <param name="col"> <see cref="T:NPOI.OpenXmlFormats.Spreadsheet.CT_Col"/> to check</param>
+            <returns><c>true</c> if <paramref name="col"/> is adjacent or
+            intersecting and have equal properties with current
+            <see cref="T:NPOI.OpenXmlFormats.Spreadsheet.CT_Col"/>; <c>false</c> otherwise</returns>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Spreadsheet.CT_Cols.BreakUpCtCol(NPOI.OpenXmlFormats.Spreadsheet.CT_Cols,NPOI.OpenXmlFormats.Spreadsheet.CT_Col,System.Int32)">
+            <summary>
+            For ease of use of columns in NPOI break up <see cref="T:NPOI.OpenXmlFormats.Spreadsheet.CT_Col"/>s
+            that span over multiple physical columns into individual
+            <see cref="T:NPOI.OpenXmlFormats.Spreadsheet.CT_Col"/>s for each physical column.
+            </summary>
+            <param name="ctObj"></param>
+            <param name="ctCol"></param>
+        </member>
+        <member name="M:NPOI.OpenXmlFormats.Spreadsheet.CT_Cols.CombineCols(System.Collections.Generic.List{NPOI.OpenXmlFormats.Spreadsheet.CT_Col})">
+            <summary>
+            Broken up by the <see cref="!:BreakUpCtCol(CT_Cols, CT_Col)"/> method
+            <see cref="T:NPOI.OpenXmlFormats.Spreadsheet.CT_Col"/>s are combined into <see cref="T:NPOI.OpenXmlFormats.Spreadsheet.CT_Col"/> spans
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Spreadsheet.CT_Row.lastCell">
+            <summary>
+            An index of the last non-empty cell in the row
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_OnOff">
+            <summary>
+            On/Off Value
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.ST_OnOff">
+            <summary>
+            On/Off Value
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_OnOff.off">
+            <summary>
+            False
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_OnOff.on">
+            <summary>
+            True
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_OnOff.True">
+            <summary>
+            True
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_OnOff.False">
+            <summary>
+            False
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_LongHexNumber">
+            <summary>
+            Long Hexadecimal Number
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_LongHexNumber.val">
+            <summary>
+            Four Digit Hexadecimal Number Value
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_ShortHexNumber">
+            <summary>
+            Two Digit Hexadecimal Number
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_ShortHexNumber.val">
+            <summary>
+            Two Digit Hexadecimal Number Value
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_UcharHexNumber">
+            <summary>
+            Two Digit Hexadecimal Number
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_UcharHexNumber.val">
+            <summary>
+            Two Digit Hexadecimal Number Value
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_DecimalNumber">
+            <summary>
+            Decimal Number Value
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_DecimalNumber.val">
+            <summary>
+            Decimal Number
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_TwipsMeasure">
+            <summary>
+            Measurement in Twentieths of a Point
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_TwipsMeasure.val">
+            <summary>
+            Measurement in Twentieths of a Point
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_SignedTwipsMeasure">
+            <summary>
+            Signed Measurement in Twentieths of a Point
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_SignedTwipsMeasure.val">
+            <summary>
+            Signed Measurement in Twentieths of a Point
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_PixelsMeasure">
+            <summary>
+            Measurement in Pixels
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_PixelsMeasure.val">
+            <summary>
+            Measurement in Pixels
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_HpsMeasure">
+            <summary>
+            Half Point Measurement
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_HpsMeasure.val">
+            <summary>
+            Half Point Measurement
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_SignedHpsMeasure">
+            <summary>
+            Signed Measurement in Half-Points
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_SignedHpsMeasure.val">
+            <summary>
+            Signed Measurement in Half-Points
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_MacroName">
+            <summary>
+            Name of Script Function
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_MacroName.val">
+            <summary>
+            Script Subroutine Name Value
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_String">
+            <summary>
+            String
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_String.val">
+            <summary>
+            String Value
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_Lang">
+            <summary>
+            Language Reference
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Lang.val">
+            <summary>
+            Language Code
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_Guid">
+            <summary>
+            128-Bit GUID
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Guid.val">
+            <summary>
+            GUID Value
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.DocumentBodyItemChoiceType.p">
+            <summary>
+            Paragraph
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.oMath">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.oMathPara">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.altChunk">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.bookmarkEnd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.bookmarkStart">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.commentRangeEnd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.commentRangeStart">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.customXml">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.customXmlDelRangeEnd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.customXmlDelRangeStart">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.customXmlInsRangeEnd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.customXmlInsRangeStart">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.customXmlMoveFromRangeEnd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.customXmlMoveFromRangeStart">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.customXmlMoveToRangeEnd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.customXmlMoveToRangeStart">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.del">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.ins">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.moveFrom">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.moveFromRangeEnd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.moveFromRangeStart">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.moveTo">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.moveToRangeEnd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.moveToRangeStart">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.p">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.permEnd">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.permStart">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.proofErr">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.sdt">
+            <remarks/>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ItemsChoiceType50.tbl">
+            <remarks/>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_TextScale">
+            <summary>
+            Text Expansion/Compression Percentage
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_TextScale.val">
+            <summary>
+            Text Expansion/Compression Value
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_Highlight">
+            <summary>
+            Text Highlight Colors
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Highlight.val">
+            <summary>
+            Highlighting Color
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_Color">
+            <summary>
+            Color Value
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Color.val">
+            <summary>
+            Run Content Color
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Color.themeColor">
+            <summary>
+            Run Content Theme Color
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Color.themeTint">
+            <summary>
+            Run Content Theme Color Tint
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Color.themeShade">
+            <summary>
+            Run Content Theme Color Shade
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_Underline">
+            <summary>
+            Underline Style
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Underline.val">
+            <summary>
+            Underline Style value
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Underline.color">
+            <summary>
+            Underline Color
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Underline.themeColor">
+            <summary>
+            Underline Theme Color
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Underline.themeTint">
+            <summary>
+            Underline Theme Color Tint
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Underline.themeShade">
+            <summary>
+            Underline Theme Color Shade
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline">
+            <summary>
+            Underline Patterns
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.single">
+            <summary>
+            Single Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.words">
+            <summary>
+            Underline Non-Space Characters Only
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.double">
+            <summary>
+            Double Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.thick">
+            <summary>
+            Thick Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.dotted">
+            <summary>
+            Dotted Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.dottedHeavy">
+            <summary>
+            Thick Dotted Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.dash">
+            <summary>
+            Dashed Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.dashedHeavy">
+            <summary>
+            Thick Dashed Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.dashLong">
+            <summary>
+            Long Dashed Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.dashLongHeavy">
+            <summary>
+            Thick Long Dashed Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.dotDash">
+            <summary>
+            Dash-Dot Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.dashDotHeavy">
+            <summary>
+            Thick Dash-Dot Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.dotDotDash">
+            <summary>
+            Dash-Dot-Dot Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.dashDotDotHeavy">
+            <summary>
+            Thick Dash-Dot-Dot Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.wave">
+            <summary>
+            Wave Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.wavyHeavy">
+            <summary>
+            Heavy Wave Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.wavyDouble">
+            <summary>
+            Double Wave Underline
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Underline.none">
+            <summary>
+            No Underline
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_TextEffect">
+            <summary>
+            Animated Text Effects
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_TextEffect.val">
+            <summary>
+            Animated Text Effect Type
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_TextEffect.blinkBackground">
+            <summary>
+            Blinking Background Animation
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_TextEffect.lights">
+            <summary>
+            Colored Lights Animation
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_TextEffect.antsBlack">
+            <summary>
+            Black Dashed Line Animation
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_TextEffect.antsRed">
+            <summary>
+            Marching Red Ants
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_TextEffect.shimmer">
+            <summary>
+            Shimmer Animation
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_TextEffect.sparkle">
+            <summary>
+            Sparkling Lights Animation
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_TextEffect.none">
+            <summary>
+            No Animation
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.CT_Border">
+            <summary>
+            Border Style
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Border.val">
+            <summary>
+            Border Style
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Border.color">
+            <summary>
+            Border Color
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Border.themeColor">
+            <summary>
+            Border Theme Color
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Border.themeTint">
+            <summary>
+            Border Theme Color Tint
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Border.themeShade">
+            <summary>
+            Border Theme Color Shade
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Border.sz">
+            <summary>
+            Border Width
+            </summary>
+            ST_EighthPointMeasure
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Border.space">
+            <summary>
+            Border Spacing Measurement
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Border.shadow">
+            <summary>
+            Border Shadow
+            </summary>
+        </member>
+        <member name="P:NPOI.OpenXmlFormats.Wordprocessing.CT_Border.frame">
+            <summary>
+            Create Frame Effect
+            </summary>
+        </member>
+        <member name="T:NPOI.OpenXmlFormats.Wordprocessing.ST_Border">
+            <summary>
+            Border Styles
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.nil">
+            <summary>
+            No Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.none">
+            <summary>
+            No Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.single">
+            <summary>
+            Single Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.thick">
+            <summary>
+            Single Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.double">
+            <summary>
+            Double Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.dotted">
+            <summary>
+            Dotted Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.dashed">
+            <summary>
+            Dashed Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.dotDash">
+            <summary>
+            Dot Dash Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.dotDotDash">
+            <summary>
+            Dot Dot Dash Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.triple">
+            <summary>
+            Triple Line Border
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.thinThickSmallGap" -->
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.thickThinSmallGap">
+            <summary>
+            Thick, Thin Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.thinThickThinSmallGap">
+            <summary>
+            Thin, Thick, Thin Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.thinThickMediumGap">
+            <summary>
+            Thin, Thick Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.thickThinMediumGap">
+            <summary>
+            Thick, Thin Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.thinThickThinMediumGap">
+            <summary>
+            Thin, Thick, Thin Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.thinThickLargeGap">
+            <summary>
+            Thin, Thick Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.thickThinLargeGap">
+            <summary>
+            Thick, Thin Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.thinThickThinLargeGap">
+            <summary>
+            Thin, Thick, Thin Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.wave">
+            <summary>
+            Wavy Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.doubleWave">
+            <summary>
+            Double Wave Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.dashSmallGap">
+            <summary>
+            Dashed Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.dashDotStroked">
+            <summary>
+            Dash Dot Strokes Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.threeDEmboss">
+            <summary>
+            3D Embossed Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.threeDEngrave">
+            <summary>
+            3D Engraved Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.outset">
+            <summary>
+            Outset Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.inset">
+            <summary>
+            Inset Line Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.apples">
+            <summary>
+            Apples Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.archedScallops">
+            <summary>
+            Arched Scallops Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.babyPacifier">
+            <summary>
+            Baby Pacifier Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.babyRattle">
+            <summary>
+            Baby Rattle Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.balloons3Colors">
+            <summary>
+            Three Color Balloons Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.balloonsHotAir">
+            <summary>
+            Hot Air Balloons Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.basicBlackDashes">
+            <summary>
+            Black Dash Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.basicBlackDots">
+            <summary>
+            Black Dot Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.basicBlackSquares">
+            <summary>
+            Black Square Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.basicThinLines">
+            <summary>
+            Thin Line Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.basicWhiteDashes">
+            <summary>
+            White Dash Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.basicWhiteDots">
+            <summary>
+            White Dot Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.basicWhiteSquares">
+            <summary>
+            White Square Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.basicWideInline">
+            <summary>
+            Wide Inline Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.basicWideMidline">
+            <summary>
+            Wide Midline Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.basicWideOutline">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.bats">
+            <summary>
+            Wide Outline Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.birds">
+            <summary>
+            Bats Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.birdsFlight">
+            <summary>
+            Birds Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.cabins">
+            <summary>
+            Cabin Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.cakeSlice">
+            <summary>
+            Cake Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.candyCorn">
+            <summary>
+            Candy Corn Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.celticKnotwork">
+            <summary>
+            Knot Work Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.certificateBanner">
+            <summary>
+            Certificate Banner Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.chainLink">
+            <summary>
+            Chain Link Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.champagneBottle">
+            <summary>
+            Champagne Bottle Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.checkedBarBlack">
+            <summary>
+            Black and White Bar Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.checkedBarColor">
+            <summary>
+            Color Checked Bar Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.checkered">
+            <summary>
+            Checkerboard Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.christmasTree">
+            <summary>
+            Christmas Tree Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.circlesLines">
+            <summary>
+            Circles And Lines Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.circlesRectangles">
+            <summary>
+            Circles and Rectangles Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.classicalWave">
+            <summary>
+            Wave Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.clocks">
+            <summary>
+            Clocks Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.compass">
+            <summary>
+            Compass Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.confetti">
+            <summary>
+            Confetti Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.confettiGrays">
+            <summary>
+            Confetti Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.confettiOutline">
+            <summary>
+            Confetti Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.confettiStreamers">
+            <summary>
+            Confetti Streamers Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.confettiWhite">
+            <summary>
+            Confetti Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.cornerTriangles">
+            <summary>
+            Corner Triangle Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.couponCutoutDashes">
+            <summary>
+            Dashed Line Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.couponCutoutDots">
+            <summary>
+            Dotted Line Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.crazyMaze">
+            <summary>
+            Maze Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.creaturesButterfly">
+            <summary>
+            Butterfly Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.creaturesFish">
+            <summary>
+            Fish Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.creaturesInsects">
+            <summary>
+            Insects Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.creaturesLadyBug">
+            <summary>
+            Ladybug Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.crossStitch">
+            <summary>
+            Cross-stitch Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.cup">
+            <summary>
+            Cupid Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.decoArch">
+            <summary>
+            Archway Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.decoArchColor">
+            <summary>
+            Color Archway Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.decoBlocks">
+            <summary>
+            Blocks Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.diamondsGray">
+            <summary>
+            Gray Diamond Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.doubleD">
+            <summary>
+            Double D Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.doubleDiamonds">
+            <summary>
+            Diamond Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.earth1">
+            <summary>
+            Earth Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.earth2">
+            <summary>
+            Earth Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.eclipsingSquares1">
+            <summary>
+            Shadowed Square Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.eclipsingSquares2">
+            <summary>
+            Shadowed Square Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.eggsBlack">
+            <summary>
+            Painted Egg Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.fans">
+            <summary>
+            Fans Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.film">
+            <summary>
+            Film Reel Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.firecrackers">
+            <summary>
+            Firecracker Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.flowersBlockPrint">
+            <summary>
+            Flowers Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.flowersDaisies">
+            <summary>
+            Daisy Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.flowersModern1">
+            <summary>
+            Flowers Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.flowersModern2">
+            <summary>
+            Flowers Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.flowersPansy">
+            <summary>
+            Pansy Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.flowersRedRose">
+            <summary>
+            Red Rose Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.flowersRoses">
+            <summary>
+            Roses Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.flowersTeacup">
+            <summary>
+            Flowers in a Teacup Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.flowersTiny">
+            <summary>
+            Small Flower Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.gems">
+            <summary>
+            Gems Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.gingerbreadMan">
+            <summary>
+            Gingerbread Man Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.gradient">
+            <summary>
+            Triangle Gradient Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.handmade1">
+            <summary>
+            Handmade Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.handmade2">
+            <summary>
+            Handmade Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.heartBalloon">
+            <summary>
+            Heart-Shaped Balloon Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.heartGray">
+            <summary>
+            Gray Heart Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.hearts">
+            <summary>
+            Hearts Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.heebieJeebies">
+            <summary>
+            Pattern Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.holly">
+            <summary>
+            Holly Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.houseFunky">
+            <summary>
+            House Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.hypnotic">
+            <summary>
+            Circular Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.iceCreamCones">
+            <summary>
+            Ice Cream Cone Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.lightBulb">
+            <summary>
+            Light Bulb Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.lightning1">
+            <summary>
+            Light Bulb Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.lightning2">
+            <summary>
+            Light Bulb Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.mapPins">
+            <summary>
+            Map Pins Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.mapleLeaf">
+            <summary>
+            Maple Leaf Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.mapleMuffins">
+            <summary>
+            Muffin Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.marquee">
+            <summary>
+            Marquee Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.marqueeToothed">
+            <summary>
+            Marquee Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.moons">
+            <summary>
+            Moon Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.mosaic">
+            <summary>
+            Mosaic Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.musicNotes">
+            <summary>
+            Musical Note Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.northwest">
+            <summary>
+            Patterned Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.ovals">
+            <summary>
+            Oval Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.packages">
+            <summary>
+            Package Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.palmsBlack">
+            <summary>
+            Black Palm Tree Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.palmsColor">
+            <summary>
+            Color Palm Tree Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.paperClips">
+            <summary>
+            Paper Clip Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.papyrus">
+            <summary>
+            Papyrus Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.partyFavor">
+            <summary>
+            Party Favor Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.partyGlass">
+            <summary>
+            Party Glass Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.pencils">
+            <summary>
+            Pencils Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.people">
+            <summary>
+            Character Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.peopleWaving">
+            <summary>
+            Waving Character Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.peopleHats">
+            <summary>
+            Character With Hat Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.poinsettias">
+            <summary>
+            Poinsettia Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.postageStamp">
+            <summary>
+            Postage Stamp Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.pumpkin1">
+            <summary>
+            Pumpkin Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.pushPinNote2">
+            <summary>
+            Push Pin Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.pushPinNote1">
+            <summary>
+            Push Pin Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.pyramids">
+            <summary>
+            Pyramid Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.pyramidsAbove">
+            <summary>
+            Pyramid Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.quadrants">
+            <summary>
+            Quadrants Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.rings">
+            <summary>
+            Rings Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.safari">
+            <summary>
+            Safari Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.sawtooth">
+            <summary>
+            Saw tooth Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.sawtoothGray">
+            <summary>
+            Gray Saw tooth Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.scaredCat">
+            <summary>
+            Scared Cat Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.seattle">
+            <summary>
+            Umbrella Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.shadowedSquares">
+            <summary>
+            Shadowed Squares Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.sharksTeeth">
+            <summary>
+            Shark Tooth Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.shorebirdTracks">
+            <summary>
+            Bird Tracks Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.skyrocket">
+            <summary>
+            Rocket Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.snowflakeFancy">
+            <summary>
+            Snowflake Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.snowflakes">
+            <summary>
+            Snowflake Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.sombrero">
+            <summary>
+            Sombrero Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.southwest">
+            <summary>
+            Southwest-themed Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.stars">
+            <summary>
+            Stars Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.starsTop">
+            <summary>
+            Stars On Top Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.stars3d">
+            <summary>
+            3-D Stars Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.starsBlack">
+            <summary>
+            Stars Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.starsShadowed">
+            <summary>
+            Stars With Shadows Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.sun">
+            <summary>
+            Sun Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.swirligig">
+            <summary>
+            Whirligig Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.tornPaper">
+            <summary>
+            Torn Paper Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.tornPaperBlack">
+            <summary>
+            Black Torn Paper Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.trees">
+            <summary>
+            Tree Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.triangleParty">
+            <summary>
+            Triangle Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.triangles">
+            <summary>
+            Triangles Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.tribal1">
+            <summary>
+            Tribal Art Border One
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.tribal2">
+            <summary>
+            Tribal Art Border Two
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.tribal3">
+            <summary>
+            Tribal Art Border Three
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.tribal4">
+            <summary>
+            Tribal Art Border Four
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.tribal5">
+            <summary>
+            Tribal Art Border Five
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.tribal6">
+            <summary>
+            Tribal Art Border Six
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.twistedLines1">
+            <summary>
+            Twisted Lines Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.twistedLines2">
+            <summary>
+            Twisted Lines Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.vine">
+            <summary>
+            Vine Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.waveline">
+            <summary>
+            Wavy Line Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.weavingAngles">
+            <summary>
+            Weaving Angles Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.weavingBraid">
+            <summary>
+            Weaving Braid Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.weavingRibbon">
+            <summary>
+            Weaving Ribbon Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.weavingStrips">
+            <summary>
+            Weaving Strips Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.whiteFlowers">
+            <summary>
+            White Flowers Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.woodwork">
+            <summary>
+            Woodwork Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.xIllusions">
+            <summary>
+            Crisscross Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.zanyTriangles">
+            <summary>
+            Triangle Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.zigZag">
+            <summary>
+            Zigzag Art Border
+            </summary>
+        </member>
+        <member name="F:NPOI.OpenXmlFormats.Wordprocessing.ST_Border.zigZagStitch">
+            <summary>
+            Zigzag stitch
+            </summary>
+        </member>
+    </members>
+</doc>

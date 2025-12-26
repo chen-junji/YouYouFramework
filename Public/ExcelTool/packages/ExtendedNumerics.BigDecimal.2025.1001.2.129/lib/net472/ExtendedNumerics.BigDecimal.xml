@@ -1,0 +1,769 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ExtendedNumerics.BigDecimal</name>
+    </assembly>
+    <members>
+        <member name="T:ExtendedNumerics.BigDecimal">
+            <summary>
+            <para>Arbitrary precision decimal. All operations are exact, except for division.</para>
+            <para>Division never determines more digits than the given precision.</para>
+            <para>Based on code by Jan Christoph Bernack (http://stackoverflow.com/a/4524254 or jc.bernack at gmail.com)</para>
+            <para>Modified and extended by Adam White (https://csharpcodewhisperer.blogspot.com/)</para>
+            <para>Further modified by Rick Harker, Rick.Rick.Harker@gmail.com</para>
+            </summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.#ctor(System.Tuple{System.Numerics.BigInteger,System.Int32})">
+            <summary>
+            Private Constructor. This one bypasses <see cref="P:ExtendedNumerics.BigDecimal.AlwaysTruncate"/> and <see cref="P:ExtendedNumerics.BigDecimal.AlwaysNormalize"/> check and behavior.
+            </summary>
+            <param name="tuple"></param>
+        </member>
+        <member name="P:ExtendedNumerics.BigDecimal.Ten">
+            <summary>Gets a value that represents the number 0 (zero).</summary>
+        </member>
+        <member name="P:ExtendedNumerics.BigDecimal.One">
+            <summary>Gets a value that represents the number 1 ().</summary>
+        </member>
+        <member name="P:ExtendedNumerics.BigDecimal.Zero">
+            <summary>Gets a value that represents the number 0 (zero).</summary>
+        </member>
+        <member name="P:ExtendedNumerics.BigDecimal.OneHalf">
+            <summary>Gets a value that represents the number 0.5.</summary>
+        </member>
+        <member name="P:ExtendedNumerics.BigDecimal.MinusOne">
+            <summary>Gets a value that represents the number -1 .</summary>
+        </member>
+        <member name="P:ExtendedNumerics.BigDecimal.E">
+            <summary>Gets a value that represents the number e, also called Euler's number.</summary>
+        </member>
+        <member name="P:ExtendedNumerics.BigDecimal.Pi">
+            <summary>Gets a value that represents the number Pi.</summary>
+        </member>
+        <member name="P:ExtendedNumerics.BigDecimal.π">
+            <summary>Gets a value that represents the number Pi.</summary>
+        </member>
+        <member name="P:ExtendedNumerics.BigDecimal.Precision">
+            <summary>
+            Sets the desired precision of all BigDecimal instances, in terms of the number of .
+            
+            
+            If AlwaysTruncate is set to true all operations are affected.</summary>
+        </member>
+        <member name="P:ExtendedNumerics.BigDecimal.AlwaysTruncate">
+            <summary>
+            Specifies whether the significant digits should be truncated to the given precision after each operation.	
+            Setting this to true will tend to accumulate errors at the precision boundary after several arithmetic operations.
+            Therefore, you should prefer using <see cref="M:ExtendedNumerics.BigDecimal.Round(ExtendedNumerics.BigDecimal,System.Int32)"/> explicitly when you need it instead, 
+            such st at the end of a series of operations, especially if you are expecting the result to be truncated at the precision length.
+            This should generally be left disabled by default.
+            This setting may be useful if you are running into memory or performance issues, as could conceivably be brought on by many operations on irrational numbers.
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.BigDecimal.AlwaysNormalize">
+            <summary>Specifies whether a call to Normalize is made after every operation and during constructor invocation. The default value is true.</summary>
+        </member>
+        <member name="F:ExtendedNumerics.BigDecimal.Mantissa">
+            <summary>The mantissa of the internal floating point number representation of this BigDecimal.</summary>
+        </member>
+        <member name="F:ExtendedNumerics.BigDecimal.Exponent">
+            <summary>The exponent of the internal floating point number representation of this BigDecimal.</summary>
+        </member>
+        <member name="P:ExtendedNumerics.BigDecimal.Sign">
+            <summary>Gets a number that indicates the sign (negative, positive, or zero) of the current <see cref="T:ExtendedNumerics.BigDecimal" /> object. </summary>
+            <returns>-1 if the value of this object is negative, 0 if the value of this object is zero or 1 if the value of this object is positive.</returns>
+        </member>
+        <member name="P:ExtendedNumerics.BigDecimal.SignifigantDigits">
+             <summary>Gets the number of significant digits in <see cref="T:ExtendedNumerics.BigDecimal"/>.
+            Essentially tells you the number of digits in the mantissa.</summary>
+        </member>
+        <member name="P:ExtendedNumerics.BigDecimal.Length">
+            <summary>The length of the BigDecimal value (Equivalent to SignifigantDigits).</summary>
+        </member>
+        <member name="P:ExtendedNumerics.BigDecimal.WholeValue">
+            <summary>
+            Gets the whole-number integer (positive or negative) value of this BigDecimal, so everything to the left of the decimal place.
+            Equivalent to the Truncate function for a float.
+            </summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.IsZero">
+            <summary>This method returns true if the BigDecimal is equal to zero, false otherwise.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.IsPositve">
+            <summary>This method returns true if the BigDecimal is greater than zero, false otherwise.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.IsNegative">
+            <summary>This method returns true if the BigDecimal is less than zero, false otherwise.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.System#IComparable#CompareTo(System.Object)">
+            <summary>
+            Compares the current instance with another object of the same type and returns
+            an integer that indicates whether the current instance precedes, follows, or
+            occurs in the same position in the sort order as the other object.
+            </summary>
+            <param name="obj"> An object to compare with this instance.</param>	
+            <returns>
+            A return value of less than zero means this instance precedes obj in the sort order.
+            A return value of zero means  this instance occurs in the same position in the sort order as obj.
+            A return value of greater than zero means this instance follows obj in the sort order.
+            </returns>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Equals(System.Nullable{ExtendedNumerics.BigDecimal},System.Nullable{ExtendedNumerics.BigDecimal})">
+            <summary>Static equality test.</summary>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Parse(System.Double)">
+            <summary>Converts the string representation of a decimal to the BigDecimal equivalent.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Parse(System.String)">
+            <summary>Converts the string representation of a decimal to the BigDecimal equivalent.</summary>
+            <param name="input">A string that contains a number to convert.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Parse(System.String,System.IFormatProvider)">
+            <summary>
+            Converts the string representation of a decimal in a specified culture-specific format to its BigDecimal equivalent.
+            </summary>
+            <param name="input">A string that contains a number to convert.</param>
+            <param name="provider">An object that provides culture-specific formatting information about value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.TryParse(System.String,ExtendedNumerics.BigDecimal@)">
+            <summary>
+            Tries to convert the string representation of a number to its BigDecimal equivalent, and returns a value that indicates whether the conversion succeeded.
+            </summary>
+            <param name="input">The string representation of a number.</param>
+            <param name="result">When this method returns, this out parameter contains the BigDecimal equivalent
+            to the number that is contained in value, or default(BigDecimal) if the conversion fails.
+            The conversion fails if the value parameter is null or is not of the correct format.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.TryParse(System.String,System.IFormatProvider,ExtendedNumerics.BigDecimal@)">
+            <summary>
+            Tries to convert the string representation of a number in a specified style and culture-specific format
+            to its BigDecimal equivalent, and returns a value that indicates whether the conversion succeeded.
+            </summary>
+            <param name="input">The string representation of a number.</param>
+            <param name="provider">An object that supplies culture-specific formatting information about value.</param>
+            <param name="result">When this method returns, this out parameter contains the BigDecimal equivalent
+            to the number that is contained in value, or default(BigDecimal) if the conversion fails.
+            The conversion fails if the value parameter is null or is not of the correct format.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Normalize(ExtendedNumerics.BigDecimal)">
+            <summary>Removes any trailing zeros on the mantissa, adjusts the exponent, and returns a new <see cref="T:ExtendedNumerics.BigDecimal" />.</summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.GetDecimalIndex">
+            <summary>Returns the zero-based index of the decimal point, if the BigDecimal were rendered as a string.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.GetWholePart">
+            <summary>
+            Returns the whole number integer part of the BigDecimal, dropping anything right of the decimal point. Essentially behaves like Math.Truncate(). For
+            example, GetWholePart() would return 3 for Math.PI.
+            </summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.GetFractionalPart">
+            <summary>Gets the fractional part of the BigDecimal, setting everything left of the decimal point to zero.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.op_Explicit(ExtendedNumerics.BigDecimal)~System.Double">
+            <summary>Converts <paramref name="value" /> to an <see cref="T:System.Double" /> if possible, otherwise throws <see cref="T:System.OverflowException" /> .</summary>
+            <param name="value"></param>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.op_Explicit(ExtendedNumerics.BigDecimal)~System.Single">
+            <summary>Converts <paramref name="value" /> to an <see cref="T:System.Single" /> if possible, otherwise throws <see cref="T:System.OverflowException" /> .</summary>
+            <param name="value"></param>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.op_Explicit(ExtendedNumerics.BigDecimal)~System.Decimal">
+            <summary>Converts <paramref name="value" /> to an <see cref="T:System.Decimal" /> if possible, otherwise throws <see cref="T:System.OverflowException" /> .</summary>
+            <param name="value"></param>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.op_Explicit(ExtendedNumerics.BigDecimal)~System.Int32">
+            <summary>Converts <paramref name="value" /> to an <see cref="T:System.Int32" /> if possible, otherwise throws <see cref="T:System.OverflowException" /> .</summary>
+            <param name="value"></param>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.op_Explicit(ExtendedNumerics.BigDecimal)~System.UInt32">
+            <summary>Converts <paramref name="value" /> to an <see cref="T:System.UInt32" /> if possible, otherwise throws <see cref="T:System.OverflowException" /> .</summary>
+            <param name="value"></param>
+            <exception cref="T:System.OverflowException"></exception>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Min(ExtendedNumerics.BigDecimal,ExtendedNumerics.BigDecimal)">
+            <summary>Returns the smaller of two BigDecimal values.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Max(ExtendedNumerics.BigDecimal,ExtendedNumerics.BigDecimal)">
+            <summary>Returns the larger of two BigDecimal values.</summary>	
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Negate(ExtendedNumerics.BigDecimal)">
+            <summary>Returns the result of multiplying a BigDecimal by negative one.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Add(ExtendedNumerics.BigDecimal,ExtendedNumerics.BigDecimal)">
+            <summary>Adds two BigDecimal values.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Subtract(ExtendedNumerics.BigDecimal,ExtendedNumerics.BigDecimal)">
+            <summary>Subtracts two BigDecimal values.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Multiply(ExtendedNumerics.BigDecimal,ExtendedNumerics.BigDecimal)">
+            <summary>Multiplies two BigDecimal values.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Mod(ExtendedNumerics.BigDecimal,ExtendedNumerics.BigDecimal)">
+            <summary>Divides two BigDecimal values, returning the remainder and discarding the quotient.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Divide(ExtendedNumerics.BigDecimal,ExtendedNumerics.BigDecimal)">
+            <summary>Divides two BigDecimal values.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Pow(ExtendedNumerics.BigDecimal,System.Numerics.BigInteger)">
+            <summary>Returns a specified number raised to the specified power.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Pow_Fast(ExtendedNumerics.BigDecimal,System.Numerics.BigInteger)">
+            <summary>
+            Returns a specified number raised to the specified power.
+            </summary>
+            <remarks>
+            This version uses exponentiation by squaring.
+            This method should take fewer steps than <see cref="M:ExtendedNumerics.BigDecimal.Pow_Precision(ExtendedNumerics.BigDecimal,System.Numerics.BigInteger)"/>, and so is used by default
+            unless <see cref="P:ExtendedNumerics.BigDecimal.AlwaysTruncate"/> is <see langword="true"/>, 
+            in which case <see cref="M:ExtendedNumerics.BigDecimal.Pow_Precision(ExtendedNumerics.BigDecimal,System.Numerics.BigInteger)"/> is used as it loses precision slower.
+            </remarks>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Pow_Precision(ExtendedNumerics.BigDecimal,System.Numerics.BigInteger)">
+            <summary>
+            Returns a specified number raised to the specified power.
+            </summary>
+            <remarks>
+            This version loses precision slower, and so is used when <see cref="P:ExtendedNumerics.BigDecimal.AlwaysTruncate"/> is set to <see langword="true"/>. 
+            Otherwise <see cref="M:ExtendedNumerics.BigDecimal.Pow_Fast(ExtendedNumerics.BigDecimal,System.Numerics.BigInteger)"/> is used because it is more performant.
+            </remarks>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Pow(System.Double,System.Double)">
+            <summary>Returns a specified number raised to the specified power.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.NthRoot(ExtendedNumerics.BigDecimal,System.Int32,System.Int32)">
+            <summary> Returns the Nth root of the supplied input decimal to the given number of places. </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.PlacesLeftOfDecimal(ExtendedNumerics.BigDecimal)">
+            <summary> Returns the number of digits or place values to the left of the decimal point. </summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.PlacesRightOfDecimal(ExtendedNumerics.BigDecimal)">
+            <summary> Returns the number of digits or place values to the right of the decimal point. </summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.AlignExponent(ExtendedNumerics.BigDecimal,ExtendedNumerics.BigDecimal)">
+            <summary>Returns the mantissa of value, aligned to the exponent of reference. Assumes the exponent of value is larger than of reference.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Abs(ExtendedNumerics.BigDecimal)">
+            <summary>Returns the absolute value of the BigDecimal</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Truncate(ExtendedNumerics.BigDecimal)">
+            <summary>Truncates the BigDecimal at the decimal point. Equivalent to using Floor.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Round(ExtendedNumerics.BigDecimal)">
+            <summary>Rounds a BigDecimal value to the nearest integral value.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Round(ExtendedNumerics.BigDecimal,System.MidpointRounding)">
+            <summary>Rounds a BigDecimal value to the nearest integral value. A parameter specifies how to round the value if it is midway between two numbers.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Round(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>
+            Rounds a BigDecimal to the given number of digits to the right of the decimal point.
+            Pass a negative precision value to round (zero) digits to the left of the decimal point in a manner that mimics Excel's ROUNDDOWN function.
+            </summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Ceiling(ExtendedNumerics.BigDecimal)">
+            <summary>Rounds a BigDecimal up to the next largest integer value, even if the fractional part is less than one half. Equivalent to obtaining the floor and then adding one.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Floor(ExtendedNumerics.BigDecimal)">
+            <summary>Rounds a BigDecimal down to the next smallest integer value, even if the fractional part is greater than one half. Equivalent to discarding everything right of the decimal point.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Sin(ExtendedNumerics.BigDecimal)">
+            <summary>
+            Arbitrary precision sine function. 
+            The input should be the angle in radians.
+            The input must be restricted to the range of -π/2 &lt;= θ &lt;= π/2.
+            If your input is negative, just flip the sign.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Sin(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>
+            Arbitrary precision sine function. 
+            The input should be the angle in radians.
+            The input must be restricted to the range of -π/2 &lt;= θ &lt;= π/2.
+            If your input is negative, just flip the sign.
+            </summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Cos(ExtendedNumerics.BigDecimal)">
+            <summary>
+            Arbitrary precision cosine function.
+            </summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Cos(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>
+            Arbitrary precision cosine function.
+            </summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Tan(ExtendedNumerics.BigDecimal)">
+            <summary>
+            Arbitrary precision tangent function. 
+            The input must not be π/2 or 3π/2, as the tangent is undefined at that value.
+            </summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Tan(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>
+            Arbitrary precision tangent function. 
+            The input must not be π/2 or 3π/2, as the tangent is undefined at that value.
+            </summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Cot(ExtendedNumerics.BigDecimal)">
+            <summary>
+            Arbitrary precision cotangent function. 
+            The input must not be zero, as the cotangent is undefined at that value.
+            </summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Cot(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>
+            Arbitrary precision cotangent function. 
+            The input must not be zero, as the cotangent is undefined at that value.
+            </summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Sec(ExtendedNumerics.BigDecimal)">
+            <summary>
+            Arbitrary precision secant function. 
+            The input must not be (2*n + 1)*π/2 (an odd multiple of π/2), as the secant is undefined at that value.
+            </summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Sec(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>
+            Arbitrary precision secant function. 
+            The input must not be (2*n + 1)*π/2 (an odd multiple of π/2), as the secant is undefined at that value.
+            </summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Csc(ExtendedNumerics.BigDecimal)">
+            <summary>
+            Arbitrary precision cosecant function. 
+            The input must not be zero or π, as the cosecant is undefined at that value.
+            </summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Csc(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>
+            Arbitrary precision cosecant function. 
+            The input must not be zero or π, as the cosecant is undefined at that value.
+            </summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Sinh(ExtendedNumerics.BigDecimal)">
+            <summary>Arbitrary precision hyperbolic sine function.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Sinh(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>
+            Arbitrary precision hyperbolic sine function.
+            </summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Cosh(ExtendedNumerics.BigDecimal)">
+            <summary>Arbitrary precision Hyperbolic cosine function.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Cosh(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>
+            Arbitrary precision Hyperbolic cosine function.
+            </summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Tanh(ExtendedNumerics.BigDecimal)">
+            <summary>Arbitrary precision hyperbolic tangent function.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Tanh(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>Arbitrary precision hyperbolic tangent function.</summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Coth(ExtendedNumerics.BigDecimal)">
+            <summary>Arbitrary precision hyperbolic cotangent function.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Coth(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>Arbitrary precision hyperbolic cotangent function.</summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Sech(ExtendedNumerics.BigDecimal)">
+            <summary>Arbitrary precision hyperbolic secant function.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Sech(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>Arbitrary precision hyperbolic secant function.</summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Csch(ExtendedNumerics.BigDecimal)">
+            <summary>
+            Arbitrary precision hyperbolic cosecant function.
+            The input must not be zero.
+            </summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Csch(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>
+            Arbitrary precision hyperbolic cosecant function.
+            The input must not be zero.
+            </summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Arcsin(ExtendedNumerics.BigDecimal)">
+            <summary>Arbitrary precision inverse sine function.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Arcsin(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>Arbitrary precision inverse sine function.</summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Arccos(ExtendedNumerics.BigDecimal)">
+            <summary>Arbitrary precision inverse cosine function.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Arccos(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>Arbitrary precision inverse cosine function.</summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Arctan(ExtendedNumerics.BigDecimal)">
+            <summary>Arbitrary precision inverse tangent function.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Arctan(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>Arbitrary precision inverse tangent function.</summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Arccot(ExtendedNumerics.BigDecimal)">
+            <summary>Arbitrary precision inverse cotangent function.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Arccot(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>Arbitrary precision inverse cotangent function.</summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Arccsc(ExtendedNumerics.BigDecimal)">
+            <summary>Arbitrary precision inverse cosecant function.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Arccsc(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>Arbitrary precision inverse cosecant function.</summary>
+            <param name="radians">The argument radians.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Exp(ExtendedNumerics.BigDecimal)">
+            <summary>Calculates e^x to arbitrary precision.</summary>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Exp(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>Calculates e^x to arbitrary precision.</summary>
+            <param name="x">The exponent to raise e to the power of.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Ln(ExtendedNumerics.BigDecimal)">
+            <summary>
+            Returns the natural logarithm of the input.
+            </summary>
+            <param name="argument">The argument to take the natural logarithm of.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Ln(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>
+            Returns the natural logarithm of the input to a specified precision.
+            </summary>
+            <param name="argument">The argument to take the natural logarithm of.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>	
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.LogNatural(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>
+            Internal implementation of the natural log function to arbitrary precision.
+            </summary>	
+            <param name="argument">The argument to take the natural logarithm of.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.LogN(System.Int32,ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>
+            Returns the logarithm of an argument in an arbitrary base.
+            </summary>
+            <param name="base">The base of the logarithm.</param>
+            <param name="argument">The argument to take the logarithm of.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Log2(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>
+            Returns the base-2 logarithm of an argument.
+            </summary>
+            <param name="argument">The argument to take the base-2 logarithm of.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.Log10(ExtendedNumerics.BigDecimal,System.Int32)">
+            <summary>
+            Returns the base-10 logarithm of an argument.
+            </summary>
+            <param name="argument">The argument to take the base-10 logarithm of.</param>
+            <param name="precision">The desired precision in terms of the number of digits to the right of the decimal.</param>
+        </member>
+        <member name="M:ExtendedNumerics.BigDecimal.ToScientificENotation(ExtendedNumerics.BigDecimal)">
+            <summary>Allow the BigDecimal to be formatted with the E notation.</summary>
+            <param name="bigDecimal"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtendedNumerics.Helpers.BigIntegerHelper.NthRoot(System.Numerics.BigInteger,System.Int32,System.Numerics.BigInteger@)">
+             <summary>
+            <para>Returns the NTHs root of a <see cref="T:System.Numerics.BigInteger"/> with <paramref name="remainder"/>.</para>
+             <para>The root must be greater than or equal to 1 or value must be a positive integer.</para>
+             </summary>
+             <param name="value"></param>
+             <param name="root"></param>
+             <param name="remainder"></param>
+             <returns></returns>
+             <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:ExtendedNumerics.Helpers.BigIntegerHelper.TryParseFraction(System.String,System.Nullable{ExtendedNumerics.BigDecimal}@)">
+            <summary>
+            ttempt to parse a fraction from a String.
+            </summary>
+            <example>" 1234.45 / 346.456 "</example>
+            <param name="numberString"></param>
+            <param name="result"></param>
+            <exception cref="T:System.OverflowException">Uncomment this if you want an exception instead of a Boolean.</exception>
+        </member>
+        <member name="T:ExtendedNumerics.Helpers.BigIntegerHelper.FastFactorial">
+            <summary>
+            <para>
+            Calculates a factorial by the divide and conquer method.
+            This is faster than repeatedly multiplying the next value by a running product
+            by not repeatedly multiplying by large values.
+            Essentially, this multiplies every number in the array with its neighbor,
+            returning an array half as long of products of two numbers.
+            We then take that array and multiply each pair of values in the array
+            with its neighbor, resulting in another array half the length of the previous one, and so on...
+            This results in many multiplications of small, equally sized operands 
+            and only a few multiplications of larger operands.
+            In the limit, this is more efficient.
+            </para>
+            <para>
+            The factorial function is used during the calculation of trigonometric functions to arbitrary precision.
+            </para>
+            </summary>
+        </member>
+        <member name="M:ExtendedNumerics.Helpers.BigIntegerHelper.FastFactorial.MultiplyRange(System.Numerics.BigInteger,System.Numerics.BigInteger)">
+            <summary>Divide the range of numbers to multiply in half recursively.</summary>
+            <param name="from"></param>
+            <param name="to"></param>
+        </member>
+        <member name="F:ExtendedNumerics.Helpers.SortingOrder.After">
+            <summary>1</summary>
+        </member>
+        <member name="F:ExtendedNumerics.Helpers.SortingOrder.Before">
+            <summary>-1</summary>
+        </member>
+        <member name="F:ExtendedNumerics.Helpers.SortingOrder.NullsDefault">
+            <summary>Default to <see cref="F:ExtendedNumerics.Helpers.SortingOrder.NullsFirst" /> in a sort operation.</summary>
+        </member>
+        <member name="F:ExtendedNumerics.Helpers.SortingOrder.NullsFirst">
+            <summary>Return nulls first in a sort operation.</summary>
+        </member>
+        <member name="F:ExtendedNumerics.Helpers.SortingOrder.NullsLast">
+            <summary>Return nulls last in a sort operation.</summary>
+        </member>
+        <member name="F:ExtendedNumerics.Helpers.SortingOrder.Same">
+            <summary>0</summary>
+        </member>
+        <member name="M:ExtendedNumerics.Helpers.TrigonometricHelper.GetPrecisionTarget(System.Int32)">
+            <summary>
+            Common function to generate the target value to compare against to see if
+            an operation has reached sufficient precision.
+            The point of this method instead of having it inline is that we have only
+            one place to change if we need to increase the value we are adding to
+            precision to get adjustedPrecision.
+            </summary>
+        </member>
+        <member name="M:ExtendedNumerics.Helpers.TrigonometricHelper.ModOddHalfPi(ExtendedNumerics.BigDecimal)">
+            <summary>
+            Return 1 if radians is an odd multiple of π/2, 0 otherwise.
+            </summary>
+        </member>
+        <member name="M:ExtendedNumerics.Helpers.TrigonometricHelper.TaylorSeriesSum(ExtendedNumerics.BigDecimal,ExtendedNumerics.BigDecimal,System.Numerics.BigInteger,System.Numerics.BigInteger,System.Numerics.BigInteger,System.Boolean,System.Int32)">
+            <summary>
+            Calculates a Taylor Series Sum until the specified precision is met.
+            Based on its parameters, this can approximate several different functions
+            including the sin, cos, sinh, cosh, and exp trigonometric functions.
+            </summary>
+            <param name="radians">
+            The indeterminate value in the Taylor Series that gets multiplied by each term, raised to some
+            power.
+            </param>
+            <param name="sumStart">The value to initialize the running total to. Typically, this is either zero or one.</param>
+            <param name="counterStart">The term number to start the series at. Typically, this is either zero or one.</param>
+            <param name="jump">
+            How much to increment the term index each iteration.
+            If you want to sum only the even terms, set the counterStart to an even number and this parameter to two.
+            </param>
+            <param name="multiplier">
+            Each term is multiplied by a variable called sign. By default, sign is equal to 1.
+            Each iteration, sign is set to sign multiplied by this value.
+            The point of this is to allow every other term to be negative (so subtracted from the sum) by setting this to
+            parameter to -1.
+            Setting this to parameter to -1 will flip the sign of the sign variable every iteration.
+            Since this gets multiplied by the term, the effect is to flip the sign of every other term.
+            Set this parameter to 1 if all the terms should remain positive.
+            </param>
+            <param name="factorialDenominator">
+            A boolean indicating if the denominator of the term should be passed to the factorial function.
+            Typically, this is true, but sometimes the factorial in the denominator cancels out,
+            and so we need a way to turn this off.
+            </param>
+            <param name="precision">
+            The required precision to achieve before returning, in terms of the number of correct digits to the right of the
+            decimal point.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:ExtendedNumerics.Helpers.TrigonometricHelper.WrapInput(ExtendedNumerics.BigDecimal)">
+            <summary>
+            Wraps the input into the range:
+            -π/2 &lt;= θ &lt;= π/2
+            </summary>
+        </member>
+        <member name="T:ExtendedNumerics.Properties.LanguageResources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Arg_MustBeAPositiveInteger">
+            <summary>
+              Looks up a localized string similar to Must be a positive integer..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Arg_MustBeGreaterThanOrEqualToOne">
+            <summary>
+              Looks up a localized string similar to Must be greater than or equal to 1.
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Arg_MustBeOfType">
+            <summary>
+              Looks up a localized string similar to Argument must be of type {0}.
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Arg_MustNotEqualZero">
+            <summary>
+              Looks up a localized string similar to {0} must not equal zero..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Arg_NegativePrecision">
+            <summary>
+              Looks up a localized string similar to Negative precision cannot round left of the decimal point more place values than there are whole number digits..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Arithmetic_Trig_Undefined_Cot_Pi">
+            <summary>
+              Looks up a localized string similar to The cotangent of π is undefined..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Arithmetic_Trig_Undefined_Cot_Zero">
+            <summary>
+              Looks up a localized string similar to The cotangent of zero is undefined..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Arithmetic_Trig_Undefined_Csc_Pi">
+            <summary>
+              Looks up a localized string similar to The cosecant of π is undefined..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Arithmetic_Trig_Undefined_Csc_Zero">
+            <summary>
+              Looks up a localized string similar to The cosecant of zero is undefined..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Arithmetic_Trig_Undefined_Csch_Zero">
+            <summary>
+              Looks up a localized string similar to The hyperbolic cosecant of zero is undefined..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Arithmetic_Trig_Undefined_Sec_OddPiOver2">
+            <summary>
+              Looks up a localized string similar to The secant of (2*n + 1)*π/2 (an odd multiple of π/2) is undefined..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Arithmetic_Trig_Undefined_Tan_3PiOver2">
+            <summary>
+              Looks up a localized string similar to The tangent of 3π/2 is undefined..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Arithmetic_Trig_Undefined_Tan_PiOver2">
+            <summary>
+              Looks up a localized string similar to The tangent of π/2 is undefined..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.NotFinite_NaN">
+            <summary>
+              Looks up a localized string similar to value is not a number (NaN)..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.NotSupported_NegativePower">
+            <summary>
+              Looks up a localized string similar to Cannot raise zero to a negative power..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Overflow_BigDecimal_Infinity">
+            <summary>
+              Looks up a localized string similar to BigDecimal cannot represent infinity..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Overflow_Decimal">
+            <summary>
+              Looks up a localized string similar to BigDecimal is too large for a Decimal..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Overflow_Double">
+            <summary>
+              Looks up a localized string similar to BigDecimal is too large for a Double..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Overflow_Fraction">
+            <summary>
+              Looks up a localized string similar to Couldn&apos;t parse numerator or denominator..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Overflow_Int32">
+            <summary>
+              Looks up a localized string similar to BigDecimal is too large for a Int32..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Overflow_Single">
+            <summary>
+              Looks up a localized string similar to BigDecimal is too large for a Single..
+            </summary>
+        </member>
+        <member name="P:ExtendedNumerics.Properties.LanguageResources.Overflow_UInt32">
+            <summary>
+              Looks up a localized string similar to BigDecimal is too large for a UInt32..
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,1428 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ZString</name>
+    </assembly>
+    <members>
+        <member name="T:Cysharp.Text.ReadOnlyListAdaptor`1">
+            <summary>
+            Most IList interface-implementing classes implement the IReadOnlyList interface.
+            This is for the rare class that does not implement the IList interface.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Cysharp.Text.Int32.IsNumber(System.Char)">
+            <summary>0 ~ 9</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendJoin``1(System.Char,``0[])">
+            <summary>
+            Concatenates the string representations of the elements in the provided array of objects, using the specified char separator between each member, then appends the result to the current instance of the string builder.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="separator"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendJoin``1(System.Char,System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Concatenates and appends the members of a collection, using the specified char separator between each member.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="separator"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendJoin``1(System.String,``0[])">
+            <summary>
+            Concatenates the string representations of the elements in the provided array of objects, using the specified separator between each member, then appends the result to the current instance of the string builder.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="separator"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendJoin``1(System.String,System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Concatenates and appends the members of a collection, using the specified separator between each member.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="separator"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``1(System.String,``0)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``1(System.ReadOnlySpan{System.Char},``0)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``2(System.String,``0,``1)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``2(System.ReadOnlySpan{System.Char},``0,``1)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``3(System.String,``0,``1,``2)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``3(System.ReadOnlySpan{System.Char},``0,``1,``2)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``4(System.String,``0,``1,``2,``3)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``4(System.ReadOnlySpan{System.Char},``0,``1,``2,``3)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``5(System.String,``0,``1,``2,``3,``4)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``5(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``6(System.String,``0,``1,``2,``3,``4,``5)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``6(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``7(System.String,``0,``1,``2,``3,``4,``5,``6)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``7(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``8(System.String,``0,``1,``2,``3,``4,``5,``6,``7)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``8(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``9(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``9(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``10(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``10(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``11(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``11(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``12(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``12(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``13(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``13(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``14(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``14(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``15(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``15(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``16(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendFormat``16(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Byte)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Byte,System.String)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Byte)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Byte,System.String)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.DateTime)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.DateTime,System.String)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.DateTime)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.DateTime,System.String)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.DateTimeOffset)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.DateTimeOffset,System.String)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.DateTimeOffset)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.DateTimeOffset,System.String)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Decimal)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Decimal,System.String)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Decimal)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Decimal,System.String)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Double)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Double,System.String)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Double)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Double,System.String)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Int16)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Int16,System.String)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Int16)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Int16,System.String)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Int32)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Int32,System.String)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Int32)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Int32,System.String)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Int64)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Int64,System.String)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Int64)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Int64,System.String)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.SByte)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.SByte,System.String)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.SByte)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.SByte,System.String)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Single)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Single,System.String)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Single)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Single,System.String)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.TimeSpan)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.TimeSpan,System.String)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.TimeSpan)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.TimeSpan,System.String)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.UInt16)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.UInt16,System.String)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.UInt16)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.UInt16,System.String)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.UInt32)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.UInt32,System.String)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.UInt32)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.UInt32,System.String)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.UInt64)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.UInt64,System.String)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.UInt64)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.UInt64,System.String)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Guid)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Guid,System.String)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Guid)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Guid,System.String)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="P:Cysharp.Text.Utf16ValueStringBuilder.Length">
+            <summary>Length of written buffer.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AsSpan">
+            <summary>Get the written buffer data.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AsMemory">
+            <summary>Get the written buffer data.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AsArraySegment">
+            <summary>Get the written buffer data.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance
+            </summary>
+            <param name="disposeImmediately">
+            If true uses thread-static buffer that is faster but must return immediately.
+            </param>
+            <exception cref="T:System.InvalidOperationException">
+            This exception is thrown when <c>new StringBuilder(disposeImmediately: true)</c> or <c>ZString.CreateStringBuilder(notNested: true)</c> is nested.
+            See the README.md
+            </exception>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Dispose">
+            <summary>
+            Return the inner buffer to pool.
+            </summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine">
+            <summary>Appends the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.Char)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.Char)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.String)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine(System.String)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append(System.ReadOnlySpan{System.Char})">
+            <summary>Appends a contiguous region of arbitrary memory to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Append``1(``0)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.AppendLine``1(``0)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Insert(System.Int32,System.String,System.Int32)">
+            <summary>
+            Inserts a string 0 or more times into this builder at the specified position.
+            </summary>
+            <param name="index">The index to insert in this builder.</param>
+            <param name="value">The string to insert.</param>
+            <param name="count">The number of times to insert the string.</param>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Replace(System.Char,System.Char)">
+            <summary>
+            Replaces all instances of one character with another in this builder.
+            </summary>
+            <param name="oldChar">The character to replace.</param>
+            <param name="newChar">The character to replace <paramref name="oldChar"/> with.</param>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Replace(System.Char,System.Char,System.Int32,System.Int32)">
+            <summary>
+            Replaces all instances of one character with another in this builder.
+            </summary>
+            <param name="oldChar">The character to replace.</param>
+            <param name="newChar">The character to replace <paramref name="oldChar"/> with.</param>
+            <param name="startIndex">The index to start in this builder.</param>
+            <param name="count">The number of characters to read in this builder.</param>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Replace(System.String,System.String)">
+            <summary>
+            Replaces all instances of one string with another in this builder.
+            </summary>
+            <param name="oldValue">The string to replace.</param>
+            <param name="newValue">The string to replace <paramref name="oldValue"/> with.</param>
+            <remarks>
+            If <paramref name="newValue"/> is <c>null</c>, instances of <paramref name="oldValue"/>
+            are removed from this builder.
+            </remarks>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Replace(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Replaces all instances of one string with another in part of this builder.
+            </summary>
+            <param name="oldValue">The string to replace.</param>
+            <param name="newValue">The string to replace <paramref name="oldValue"/> with.</param>
+            <param name="startIndex">The index to start in this builder.</param>
+            <param name="count">The number of characters to read in this builder.</param>
+            <remarks>
+            If <paramref name="newValue"/> is <c>null</c>, instances of <paramref name="oldValue"/>
+            are removed from this builder.
+            </remarks>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.ReplaceAt(System.Char,System.Int32)">
+            <summary>
+            Replaces the contents of a single position within the builder.
+            </summary>
+            <param name="newChar">The character to use at the position.</param>
+            <param name="replaceIndex">The index to replace.</param>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Remove(System.Int32,System.Int32)">
+            <summary>
+            Removes a range of characters from this builder.
+            </summary>
+            <remarks>
+            This method does not reduce the capacity of this builder.
+            </remarks>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.TryCopyTo(System.Span{System.Char},System.Int32@)">
+            <summary>Copy inner buffer to the destination span.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.ToString">
+            <summary>Converts the value of this instance to a System.String.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.GetMemory(System.Int32)">
+            <summary>IBufferWriter.GetMemory.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.GetSpan(System.Int32)">
+            <summary>IBufferWriter.GetSpan.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.Advance(System.Int32)">
+            <summary>IBufferWriter.Advance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.RegisterTryFormat``1(Cysharp.Text.Utf16ValueStringBuilder.TryFormat{``0})">
+            <summary>
+            Register custom formatter
+            </summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf16ValueStringBuilder.EnableNullableFormat``1">
+            <summary>
+            Supports the Nullable type for a given struct type.
+            </summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendJoin``1(System.Char,``0[])">
+            <summary>
+            Concatenates the string representations of the elements in the provided array of objects, using the specified char separator between each member, then appends the result to the current instance of the string builder.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="separator"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendJoin``1(System.Char,System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Concatenates and appends the members of a collection, using the specified char separator between each member.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="separator"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendJoin``1(System.String,``0[])">
+            <summary>
+            Concatenates the string representations of the elements in the provided array of objects, using the specified separator between each member, then appends the result to the current instance of the string builder.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="separator"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendJoin``1(System.String,System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Concatenates and appends the members of a collection, using the specified separator between each member.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="separator"></param>
+            <param name="values"></param>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``1(System.String,``0)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``2(System.String,``0,``1)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``3(System.String,``0,``1,``2)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``4(System.String,``0,``1,``2,``3)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``5(System.String,``0,``1,``2,``3,``4)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``6(System.String,``0,``1,``2,``3,``4,``5)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``7(System.String,``0,``1,``2,``3,``4,``5,``6)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``8(System.String,``0,``1,``2,``3,``4,``5,``6,``7)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``9(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``10(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``11(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``12(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``13(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``14(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``15(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendFormat``16(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15)">
+            <summary>Appends the string returned by processing a composite format string, each format item is replaced by the string representation of arguments.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Byte)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Byte,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Byte)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Byte,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.DateTime)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.DateTime,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.DateTime)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.DateTime,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.DateTimeOffset)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.DateTimeOffset,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.DateTimeOffset)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.DateTimeOffset,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Decimal)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Decimal,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Decimal)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Decimal,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Double)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Double,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Double)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Double,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Int16)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Int16,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Int16)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Int16,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Int32)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Int32,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Int32)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Int32,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Int64)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Int64,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Int64)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Int64,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.SByte)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.SByte,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.SByte)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.SByte,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Single)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Single,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Single)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Single,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.TimeSpan)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.TimeSpan,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.TimeSpan)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.TimeSpan,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.UInt16)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.UInt16,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.UInt16)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.UInt16,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.UInt32)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.UInt32,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.UInt32)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.UInt32,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.UInt64)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.UInt64,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.UInt64)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.UInt64,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Guid)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Guid,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Guid)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Guid,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Boolean)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Boolean,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value to this instance with numeric format strings.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Boolean)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Boolean,System.Buffers.StandardFormat)">
+            <summary>Appends the string representation of a specified value with numeric format strings followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="P:Cysharp.Text.Utf8ValueStringBuilder.Length">
+            <summary>Length of written buffer.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AsSpan">
+            <summary>Get the written buffer data.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AsMemory">
+            <summary>Get the written buffer data.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AsArraySegment">
+            <summary>Get the written buffer data.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance
+            </summary>
+            <param name="disposeImmediately">
+            If true uses thread-static buffer that is faster but must return immediately.
+            </param>
+            <exception cref="T:System.InvalidOperationException">
+            This exception is thrown when <c>new StringBuilder(disposeImmediately: true)</c> or <c>ZString.CreateUtf8StringBuilder(notNested: true)</c> is nested.
+            See the README.md
+            </exception>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Dispose">
+            <summary>
+            Return the inner buffer to pool.
+            </summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine">
+            <summary>Appends the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.Char)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.Char)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.String)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine(System.String)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append(System.ReadOnlySpan{System.Char})">
+            <summary>Appends a contiguous region of arbitrary memory to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Append``1(``0)">
+            <summary>Appends the string representation of a specified value to this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.AppendLine``1(``0)">
+            <summary>Appends the string representation of a specified value followed by the default line terminator to the end of this instance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.CopyTo(System.Buffers.IBufferWriter{System.Byte})">
+            <summary>Copy inner buffer to the bufferWriter.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.TryCopyTo(System.Span{System.Byte},System.Int32@)">
+            <summary>Copy inner buffer to the destination span.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.WriteToAsync(System.IO.Stream)">
+            <summary>Write inner buffer to stream.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.WriteToAsync(System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>Write inner buffer to stream.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.ToString">
+            <summary>Encode the innner utf8 buffer to a System.String.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.GetMemory(System.Int32)">
+            <summary>IBufferWriter.GetMemory.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.GetSpan(System.Int32)">
+            <summary>IBufferWriter.GetSpan.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.Advance(System.Int32)">
+            <summary>IBufferWriter.Advance.</summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.RegisterTryFormat``1(Cysharp.Text.Utf8ValueStringBuilder.TryFormat{``0})">
+            <summary>
+            Register custom formatter
+            </summary>
+        </member>
+        <member name="M:Cysharp.Text.Utf8ValueStringBuilder.EnableNullableFormat``1">
+            <summary>
+            Supports the Nullable type for a given struct type.
+            </summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``1(``0)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``2(``0,``1)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``3(``0,``1,``2)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``4(``0,``1,``2,``3)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``5(``0,``1,``2,``3,``4)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``6(``0,``1,``2,``3,``4,``5)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``7(``0,``1,``2,``3,``4,``5,``6)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``8(``0,``1,``2,``3,``4,``5,``6,``7)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``9(``0,``1,``2,``3,``4,``5,``6,``7,``8)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``10(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``11(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``12(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``13(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``14(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``15(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``16(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15)">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.CreateStringBuilder">
+            <summary>Create the Utf16 string StringBuilder.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.CreateUtf8StringBuilder">
+            <summary>Create the Utf16 string StringBuilder, when true uses thread-static buffer that is faster but must return immediately.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.CreateStringBuilder(System.Boolean)">
+            <summary>Create the Utf8(`Span[byte]`) StringBuilder.</summary>
+            <param name="notNested">
+            If true uses thread-static buffer that is faster but must return immediately.
+            </param>
+            <exception cref="T:System.InvalidOperationException">
+            This exception is thrown when <c>new StringBuilder(disposeImmediately: true)</c> or <c>ZString.CreateUtf8StringBuilder(notNested: true)</c> is nested.
+            See the README.md
+            </exception>
+        </member>
+        <member name="M:Cysharp.Text.ZString.CreateUtf8StringBuilder(System.Boolean)">
+            <summary>Create the Utf8(`Span[byte]`) StringBuilder, when true uses thread-static buffer that is faster but must return immediately.</summary>
+            <param name="notNested">
+            If true uses thread-static buffer that is faster but must return immediately.
+            </param>
+            <exception cref="T:System.InvalidOperationException">
+            This exception is thrown when <c>new StringBuilder(disposeImmediately: true)</c> or <c>ZString.CreateUtf8StringBuilder(notNested: true)</c> is nested.
+            See the README.md
+            </exception>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Join``1(System.Char,``0[])">
+            <summary>Concatenates the elements of an array, using the specified separator between each element.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Join``1(System.Char,System.Collections.Generic.List{``0})">
+            <summary>Concatenates the elements of an array, using the specified separator between each element.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Join``1(System.Char,System.ReadOnlySpan{``0})">
+            <summary>Concatenates the elements of an array, using the specified separator between each element.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Join``1(System.Char,System.Collections.Generic.IEnumerable{``0})">
+            <summary>Concatenates the elements of an array, using the specified separator between each element.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Join``1(System.String,``0[])">
+            <summary>Concatenates the elements of an array, using the specified separator between each element.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Join``1(System.String,System.Collections.Generic.List{``0})">
+            <summary>Concatenates the elements of an array, using the specified separator between each element.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Join``1(System.String,System.ReadOnlySpan{``0})">
+            <summary>Concatenates the elements of an array, using the specified separator between each element.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Join``1(System.String,System.Collections.Generic.IEnumerable{``0})">
+            <summary>Concatenates the elements of an array, using the specified separator between each element.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Join(System.Char,System.ReadOnlySpan{System.String})">
+            <summary>Concatenates the elements of an array, using the specified separator between each element.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Join(System.Char,System.String[])">
+            <summary>Concatenates the elements of an array, using the specified separator between each element.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Join(System.String,System.String[])">
+            <summary>Concatenates the elements of an array, using the specified separator between each element.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``1(``0[])">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``1(System.Collections.Generic.List{``0})">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``1(System.ReadOnlySpan{``0})">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``1(System.Collections.Generic.ICollection{``0})">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``1(System.Collections.Generic.IList{``0})">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``1(System.Collections.Generic.IReadOnlyList{``0})">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``1(System.Collections.Generic.IReadOnlyCollection{``0})">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Concat``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>Concatenates the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``1(System.String,``0)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``1(System.ReadOnlySpan{System.Char},``0)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``2(System.String,``0,``1)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``2(System.ReadOnlySpan{System.Char},``0,``1)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``3(System.String,``0,``1,``2)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``3(System.ReadOnlySpan{System.Char},``0,``1,``2)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``4(System.String,``0,``1,``2,``3)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``4(System.ReadOnlySpan{System.Char},``0,``1,``2,``3)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``5(System.String,``0,``1,``2,``3,``4)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``5(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``6(System.String,``0,``1,``2,``3,``4,``5)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``6(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``7(System.String,``0,``1,``2,``3,``4,``5,``6)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``7(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``8(System.String,``0,``1,``2,``3,``4,``5,``6,``7)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``8(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``9(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``9(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``10(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``10(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``11(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``11(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``12(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``12(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``13(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``13(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``14(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``14(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``15(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``15(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``16(System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Format``16(System.ReadOnlySpan{System.Char},``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified objects.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``1(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``1(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``2(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``2(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``3(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``3(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``4(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``4(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``5(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``5(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``6(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``6(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``7(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``7(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``8(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``8(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``9(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``9(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``10(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``10(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``11(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``11(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``12(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``12(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``13(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``13(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``14(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``14(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``15(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``15(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf16``16(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.PrepareUtf8``16(System.String)">
+            <summary>Prepare string format to avoid parse template in each operation.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``1(System.Buffers.IBufferWriter{System.Byte},System.String,``0)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``2(System.Buffers.IBufferWriter{System.Byte},System.String,``0,``1)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``3(System.Buffers.IBufferWriter{System.Byte},System.String,``0,``1,``2)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``4(System.Buffers.IBufferWriter{System.Byte},System.String,``0,``1,``2,``3)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``5(System.Buffers.IBufferWriter{System.Byte},System.String,``0,``1,``2,``3,``4)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``6(System.Buffers.IBufferWriter{System.Byte},System.String,``0,``1,``2,``3,``4,``5)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``7(System.Buffers.IBufferWriter{System.Byte},System.String,``0,``1,``2,``3,``4,``5,``6)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``8(System.Buffers.IBufferWriter{System.Byte},System.String,``0,``1,``2,``3,``4,``5,``6,``7)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``9(System.Buffers.IBufferWriter{System.Byte},System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``10(System.Buffers.IBufferWriter{System.Byte},System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``11(System.Buffers.IBufferWriter{System.Byte},System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``12(System.Buffers.IBufferWriter{System.Byte},System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``13(System.Buffers.IBufferWriter{System.Byte},System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``14(System.Buffers.IBufferWriter{System.Byte},System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``15(System.Buffers.IBufferWriter{System.Byte},System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="M:Cysharp.Text.ZString.Utf8Format``16(System.Buffers.IBufferWriter{System.Byte},System.String,``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15)">
+            <summary>Replaces one or more format items in a string with the string representation of some specified values.</summary>
+        </member>
+        <member name="T:Cysharp.Text.ZStringWriter">
+            <summary>
+            A <see cref="T:System.IO.TextWriter"/> implementation that is backed with <see cref="T:Cysharp.Text.Utf16ValueStringBuilder"/>.
+            </summary>
+            <remarks>
+            It's important to make sure the writer is always properly disposed.
+            </remarks>
+        </member>
+        <member name="M:Cysharp.Text.ZStringWriter.#ctor">
+            <summary>
+            Creates a new instance using <see cref="P:System.Globalization.CultureInfo.CurrentCulture"/> as format provider.
+            </summary>
+        </member>
+        <member name="M:Cysharp.Text.ZStringWriter.#ctor(System.IFormatProvider)">
+            <summary>
+            Creates a new instance with given format provider.
+            </summary>
+        </member>
+        <member name="M:Cysharp.Text.ZStringWriter.Close">
+            <summary>
+            Disposes this instance, operations are no longer allowed.
+            </summary>
+        </member>
+        <member name="M:Cysharp.Text.ZStringWriter.FlushAsync">
+            <summary>
+            No-op.
+            </summary>
+        </member>
+        <member name="M:Cysharp.Text.ZStringWriter.ToString">
+            <summary>
+            Materializes the current state from underlying string builder.
+            </summary>
+        </member>
+        <member name="T:System.Numerics.BitOperations">
+            <summary>
+            Utility methods for intrinsic bit-twiddling operations.
+            The methods use hardware intrinsics when available on the underlying platform,
+            otherwise they use optimized software fallbacks.
+            </summary>
+        </member>
+        <member name="M:System.Numerics.BitOperations.LeadingZeroCount(System.UInt32)">
+            <summary>
+            Count the number of leading zero bits in a mask.
+            Similar in behavior to the x86 instruction LZCNT.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:System.Numerics.BitOperations.LeadingZeroCount(System.UInt64)">
+            <summary>
+            Count the number of leading zero bits in a mask.
+            Similar in behavior to the x86 instruction LZCNT.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:System.Numerics.BitOperations.Log2(System.UInt32)">
+            <summary>
+            Returns the integer (floor) log of the specified value, base 2.
+            Note that by convention, input value 0 returns 0 since Log(0) is undefined.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:System.Numerics.BitOperations.Log2(System.UInt64)">
+            <summary>
+            Returns the integer (floor) log of the specified value, base 2.
+            Note that by convention, input value 0 returns 0 since Log(0) is undefined.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:System.Numerics.BitOperations.Log2SoftwareFallback(System.UInt32)">
+            <summary>
+            Returns the integer (floor) log of the specified value, base 2.
+            Note that by convention, input value 0 returns 0 since Log(0) is undefined.
+            Does not directly use any hardware intrinsics, nor does it incur branching.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:System.Numerics.BitOperations.PopCount(System.UInt32)">
+            <summary>
+            Returns the population count (number of bits set) of a mask.
+            Similar in behavior to the x86 instruction POPCNT.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:System.Numerics.BitOperations.PopCount(System.UInt64)">
+            <summary>
+            Returns the population count (number of bits set) of a mask.
+            Similar in behavior to the x86 instruction POPCNT.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:System.Numerics.BitOperations.TrailingZeroCount(System.Int32)">
+            <summary>
+            Count the number of trailing zero bits in an integer value.
+            Similar in behavior to the x86 instruction TZCNT.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:System.Numerics.BitOperations.TrailingZeroCount(System.UInt32)">
+            <summary>
+            Count the number of trailing zero bits in an integer value.
+            Similar in behavior to the x86 instruction TZCNT.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:System.Numerics.BitOperations.TrailingZeroCount(System.Int64)">
+            <summary>
+            Count the number of trailing zero bits in a mask.
+            Similar in behavior to the x86 instruction TZCNT.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:System.Numerics.BitOperations.TrailingZeroCount(System.UInt64)">
+            <summary>
+            Count the number of trailing zero bits in a mask.
+            Similar in behavior to the x86 instruction TZCNT.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:System.Numerics.BitOperations.RotateLeft(System.UInt32,System.Int32)">
+            <summary>
+            Rotates the specified value left by the specified number of bits.
+            Similar in behavior to the x86 instruction ROL.
+            </summary>
+            <param name="value">The value to rotate.</param>
+            <param name="offset">The number of bits to rotate by.
+            Any value outside the range [0..31] is treated as congruent mod 32.</param>
+            <returns>The rotated value.</returns>
+        </member>
+        <member name="M:System.Numerics.BitOperations.RotateLeft(System.UInt64,System.Int32)">
+            <summary>
+            Rotates the specified value left by the specified number of bits.
+            Similar in behavior to the x86 instruction ROL.
+            </summary>
+            <param name="value">The value to rotate.</param>
+            <param name="offset">The number of bits to rotate by.
+            Any value outside the range [0..63] is treated as congruent mod 64.</param>
+            <returns>The rotated value.</returns>
+        </member>
+        <member name="M:System.Numerics.BitOperations.RotateRight(System.UInt32,System.Int32)">
+            <summary>
+            Rotates the specified value right by the specified number of bits.
+            Similar in behavior to the x86 instruction ROR.
+            </summary>
+            <param name="value">The value to rotate.</param>
+            <param name="offset">The number of bits to rotate by.
+            Any value outside the range [0..31] is treated as congruent mod 32.</param>
+            <returns>The rotated value.</returns>
+        </member>
+        <member name="M:System.Numerics.BitOperations.RotateRight(System.UInt64,System.Int32)">
+            <summary>
+            Rotates the specified value right by the specified number of bits.
+            Similar in behavior to the x86 instruction ROR.
+            </summary>
+            <param name="value">The value to rotate.</param>
+            <param name="offset">The number of bits to rotate by.
+            Any value outside the range [0..63] is treated as congruent mod 64.</param>
+            <returns>The rotated value.</returns>
+        </member>
+        <member name="F:System.DecimalEx.DecCalc.ulomidLE">
+            <summary>
+            The low and mid fields combined in little-endian order
+            </summary>
+        </member>
+        <member name="M:System.Number.FormatDouble(System.Text.ValueStringBuilder@,System.Double,System.ReadOnlySpan{System.Char},System.Globalization.NumberFormatInfo)">
+            <summary>Formats the specified value according to the specified format and info.</summary>
+            <returns>
+            Non-null if an existing string can be returned, in which case the builder will be unmodified.
+            Null if no existing string was returned, in which case the formatted output is in the builder.
+            </returns>
+        </member>
+        <member name="M:System.Number.FormatSingle(System.Text.ValueStringBuilder@,System.Single,System.ReadOnlySpan{System.Char},System.Globalization.NumberFormatInfo)">
+            <summary>Formats the specified value according to the specified format and info.</summary>
+            <returns>
+            Non-null if an existing string can be returned, in which case the builder will be unmodified.
+            Null if no existing string was returned, in which case the formatted output is in the builder.
+            </returns>
+        </member>
+        <member name="P:System.Number.CharToHexLookup">
+            <summary>Map from an ASCII char to its hex value, e.g. arr['b'] == 11. 0xFF means it's not a hex digit.</summary>
+        </member>
+        <member name="M:System.Number.TryParseInt32IntegerStyle(System.ReadOnlySpan{System.Char},System.Globalization.NumberStyles,System.Globalization.NumberFormatInfo,System.Int32@)">
+            <summary>Parses int limited to styles that make up NumberStyles.Integer.</summary>
+        </member>
+        <member name="M:System.Number.TryParseInt64IntegerStyle(System.ReadOnlySpan{System.Char},System.Globalization.NumberStyles,System.Globalization.NumberFormatInfo,System.Int64@)">
+            <summary>Parses long inputs limited to styles that make up NumberStyles.Integer.</summary>
+        </member>
+        <member name="M:System.Number.TryParseUInt32IntegerStyle(System.ReadOnlySpan{System.Char},System.Globalization.NumberStyles,System.Globalization.NumberFormatInfo,System.UInt32@)">
+            <summary>Parses uint limited to styles that make up NumberStyles.Integer.</summary>
+        </member>
+        <member name="M:System.Number.TryParseUInt32HexNumberStyle(System.ReadOnlySpan{System.Char},System.Globalization.NumberStyles,System.UInt32@)">
+            <summary>Parses uint limited to styles that make up NumberStyles.HexNumber.</summary>
+        </member>
+        <member name="M:System.Number.TryParseUInt64IntegerStyle(System.ReadOnlySpan{System.Char},System.Globalization.NumberStyles,System.Globalization.NumberFormatInfo,System.UInt64@)">
+            <summary>Parses ulong limited to styles that make up NumberStyles.Integer.</summary>
+        </member>
+        <member name="M:System.Number.TryParseUInt64HexNumberStyle(System.ReadOnlySpan{System.Char},System.Globalization.NumberStyles,System.UInt64@)">
+            <summary>Parses ulong limited to styles that make up NumberStyles.HexNumber.</summary>
+        </member>
+        <member name="M:System.Text.ValueStringBuilder.GetPinnableReference">
+            <summary>
+            Get a pinnable reference to the builder.
+            Does not ensure there is a null char after <see cref="P:System.Text.ValueStringBuilder.Length"/>
+            This overload is pattern matched in the C# 7.3+ compiler so you can omit
+            the explicit method call, and write eg "fixed (char* c = builder)"
+            </summary>
+        </member>
+        <member name="M:System.Text.ValueStringBuilder.GetPinnableReference(System.Boolean)">
+            <summary>
+            Get a pinnable reference to the builder.
+            </summary>
+            <param name="terminate">Ensures that the builder has a null char after <see cref="P:System.Text.ValueStringBuilder.Length"/></param>
+        </member>
+        <member name="P:System.Text.ValueStringBuilder.RawChars">
+            <summary>Returns the underlying storage of the builder.</summary>
+        </member>
+        <member name="M:System.Text.ValueStringBuilder.AsSpan(System.Boolean)">
+            <summary>
+            Returns a span around the contents of the builder.
+            </summary>
+            <param name="terminate">Ensures that the builder has a null char after <see cref="P:System.Text.ValueStringBuilder.Length"/></param>
+        </member>
+        <member name="M:System.Text.ValueStringBuilder.Grow(System.Int32)">
+            <summary>
+            Resize the internal buffer either by doubling current buffer size or
+            by adding <paramref name="additionalCapacityBeyondPos"/> to
+            <see cref="F:System.Text.ValueStringBuilder._pos"/> whichever is greater.
+            </summary>
+            <param name="additionalCapacityBeyondPos">
+            Number of chars requested beyond current position.
+            </param>
+        </member>
+    </members>
+</doc>
