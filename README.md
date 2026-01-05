@@ -4,6 +4,10 @@ YouYou框架使用教程地址：https://www.bilibili.com/video/BV1Fu411s7MV/ <b
 
 技术支持QQ(收费):2925856889 <br>
 
+
+本框架不包含联机通讯和后端框架, 如果需要做联机游戏 可额外接入后端框架 推荐使用GameDesigner框架 本人使用此框架上线过多个游戏 几乎可以完美适配 不需要改任何代码 <br>
+后端框架地址：https://gitee.com/leng_yue/GameDesigner?_from=gitee_search <br>
+
  **简介** 
 ------------
 - 这是一款适合开发商业游戏的U3D代码框架，分别参考了多款主流代码框架 <br>
@@ -92,7 +96,6 @@ YouYou框架使用教程地址：https://www.bilibili.com/video/BV1Fu411s7MV/ <b
 - 新手引导系统：https://gitee.com/chen_junji/Guide
 - UI无限滚动列表: https://gitee.com/chen_junji/UIScroller
 - Playable自定义动画系统：https://gitee.com/chen_junji/playable-animator
-- 后端框架(冷月提供)：https://gitee.com/leng_yue/GameDesigner?_from=gitee_search <br>
 - ECS框架(Youwant提供): https://gitee.com/chen_junji/EntitasExample
 - 行为树框架(猫仙人提供)：https://gitee.com/chen_junji/BehaviourTree
 - 红点系统(猫仙人提供)：https://gitee.com/chen_junji/ReddotTree
