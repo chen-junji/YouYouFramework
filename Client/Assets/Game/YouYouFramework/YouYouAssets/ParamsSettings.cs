@@ -16,9 +16,6 @@ public class ParamsSettings : ScriptableObject
     [Header("当前是否测试服")]
     public bool IsTest;
 
-    [Header("是否加密")]
-    public bool PostIsEncrypt;
-
     [Header("设置Post的ContentType")]
     public string PostContentType;
     #endregion

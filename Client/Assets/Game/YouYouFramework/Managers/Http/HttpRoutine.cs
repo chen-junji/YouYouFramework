@@ -4,34 +4,15 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
-using YouYouMain;
 
 
 namespace YouYouFramework
 {
     /// <summary>
-    /// Http发送数据的回调委托
-    /// </summary>
-    /// <param name="args"></param>
-    public delegate void HttpSendDataCallBack(HttpCallBackArgs args);
-
-    /// <summary>
     /// Http访问器
     /// </summary>
     public class HttpRoutine
     {
-        #region 属性
-
-        /// <summary>
-        /// Http请求回调
-        /// </summary>
-        private HttpSendDataCallBack m_CallBack;
-
-        /// <summary>
-        /// Http请求回调数据
-        /// </summary>
-        private HttpCallBackArgs m_CallBackArgs;
-
         /// <summary>
         /// 是否繁忙
         /// </summary>
@@ -40,114 +21,85 @@ namespace YouYouFramework
         /// <summary>
         /// 当前重试次数
         /// </summary>
-        private int m_CurrRetry = 0;
-
-        private string m_Url;
-        private string m_Json;
+        private int currRetry = 0;
 
         /// <summary>
-        /// 发送的数据
+        /// 请求的url
         /// </summary>
-        private Dictionary<string, object> m_Dic;
-        #endregion
+        private string url;
+        /// <summary>
+        /// Post请求的json参数
+        /// </summary>
+        private string json;
 
-        public HttpRoutine()
-        {
-            m_CallBackArgs = new HttpCallBackArgs();
-            m_Dic = new Dictionary<string, object>();
-        }
+        /// <summary>
+        /// 请求回调
+        /// </summary>
+        private Action<UnityWebRequest> callBack;
+        
         public static HttpRoutine Create()
         {
             return GameEntry.Pool.ClassObjectPool.Dequeue<HttpRoutine>();
         }
 
-        #region SendData 发送web数据
         /// <summary>
         /// 发送web数据
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="callBack"></param>
-        /// <param name="isPost"></param>
-        /// <param name="isGetData">是否获取字节数据</param>
-        /// <param name="dic"></param>
-        public void Get(string url, HttpSendDataCallBack callBack = null)
+        public void Get(string url, Action<UnityWebRequest> callBack = null)
         {
             if (IsBusy) return;
             IsBusy = true;
 
-            m_Url = url;
-            m_CallBack = callBack;
+            this.url = url;
+            this.callBack = callBack;
 
-            GetUrl(m_Url);
+            GetUrl(this.url);
         }
 
-        public void Post(string url, string json = null, HttpSendDataCallBack callBack = null)
+        public void Post(string url, string json = null, Action<UnityWebRequest> callBack = null)
         {
             if (IsBusy) return;
             IsBusy = true;
 
-            m_Url = url;
-            m_CallBack = callBack;
-            m_Json = json;
+            this.url = url;
+            this.callBack = callBack;
+            this.json = json;
 
-            PostUrl(m_Url);
+            PostUrl(this.url);
         }
-        #endregion
 
-        #region GetUrl Get请求
         /// <summary>
         /// Get请求
         /// </summary>
-        /// <param name="url"></param>
         private void GetUrl(string url)
         {
-            GameEntry.Log(LogCategory.NetWork, string.Format("Get请求:{0}, {1}次重试", m_Url, m_CurrRetry));
+            GameEntry.Log(LogCategory.NetWork, string.Format("Get请求:{0}, {1}次重试", this.url, currRetry));
             UnityWebRequest data = UnityWebRequest.Get(url);
             GameEntry.Instance.StartCoroutine(Request(data));
         }
-        #endregion
 
-        #region PostUrl Post请求
         /// <summary>
         /// Post请求
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="json"></param>
         private void PostUrl(string url)
         {
             UnityWebRequest unityWeb = new UnityWebRequest(url, UnityWebRequest.kHttpVerbPOST);
             unityWeb.downloadHandler = new DownloadHandlerBuffer();
-            if (!string.IsNullOrWhiteSpace(m_Json))
+            if (!string.IsNullOrWhiteSpace(json))
             {
-                //web加密, 暂时不需要了
-                // if (GameEntry.ParamsSettings.PostIsEncrypt && m_CurrRetry == 0)
-                // {
-                //     m_Dic["value"] = m_Json;
-                //     m_Dic["deviceIdentifier"] = DeviceUtil.DeviceIdentifier;
-                //     m_Dic["deviceModel"] = DeviceUtil.DeviceModel;
-                //     long t = ChannelModel.Instance.CurrServerTime;
-                //     m_Dic["sign"] = EncryptUtil.Md5(string.Format("{0}:{1}", t, DeviceUtil.DeviceIdentifier));
-                //     m_Dic["t"] = t;
-
-                //     m_Json = m_Dic.ToJson();
-                // }
-                unityWeb.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(m_Json));
+                unityWeb.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(json));
 
                 if (!string.IsNullOrWhiteSpace(GameEntry.ParamsSettings.PostContentType))
                     unityWeb.SetRequestHeader("Content-Type", GameEntry.ParamsSettings.PostContentType);
             }
 
-            GameEntry.Log(LogCategory.NetWork, $"Post请求:{m_Url}, {m_CurrRetry}次重试==>>{m_Json}");
+            GameEntry.Log(LogCategory.NetWork, $"Post请求:{this.url}, {currRetry}次重试==>>{json}");
             GameEntry.Instance.StartCoroutine(Request(unityWeb));
         }
-        #endregion
 
-        #region Request 请求服务器
         /// <summary>
         /// 请求服务器
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         private IEnumerator Request(UnityWebRequest data)
         {
             data.timeout = 5;
@@ -155,54 +107,42 @@ namespace YouYouFramework
             if (data.result == UnityWebRequest.Result.Success)
             {
                 IsBusy = false;
-                m_CallBackArgs.HasError = false;
-                m_CallBackArgs.Value = data.downloadHandler.text;
-                m_CallBackArgs.Data = data.downloadHandler.data;
             }
             else
             {
                 //报错了 进行重试
-                if (m_CurrRetry > 0) yield return new WaitForSeconds(GameEntry.ParamsSettings.HttpRetryInterval);
-                m_CurrRetry++;
-                if (m_CurrRetry <= GameEntry.ParamsSettings.HttpRetry)
+                if (currRetry > 0) yield return new WaitForSeconds(GameEntry.ParamsSettings.HttpRetryInterval);
+                currRetry++;
+                if (currRetry <= GameEntry.ParamsSettings.HttpRetry)
                 {
                     switch (data.method)
                     {
                         case UnityWebRequest.kHttpVerbGET:
-                            GetUrl(m_Url);
+                            GetUrl(url);
                             break;
                         case UnityWebRequest.kHttpVerbPOST:
-                            PostUrl(m_Url);
+                            PostUrl(url);
                             break;
                     }
                     yield break;
                 }
 
                 IsBusy = false;
-                m_CallBackArgs.HasError = true;
-                m_CallBackArgs.Value = data.error;
             }
 
-            if (!string.IsNullOrWhiteSpace(m_CallBackArgs.Value))
+            if (!string.IsNullOrWhiteSpace(data.downloadHandler.text))
             {
-                GameEntry.Log(LogCategory.NetWork, string.Format("WebAPI回调:{0}, ==>>{1}", m_Url, m_CallBackArgs.ToJson()));
+                GameEntry.Log(LogCategory.NetWork, string.Format("WebAPI回调:{0}, ==>>{1}", url, data.downloadHandler.text));
             }
-            m_CallBack?.Invoke(m_CallBackArgs);
+            callBack?.Invoke(data);
 
-            m_CurrRetry = 0;
-            m_Url = null;
-            if (m_Dic != null)
-            {
-                m_Dic.Clear();
-                GameEntry.Pool.ClassObjectPool.Enqueue(m_Dic);
-            }
-            m_CallBackArgs.Data = null;
+            currRetry = 0;
+            url = null;
             data.Dispose();
-            data = null;
 
             //Debug.Log("把http访问器回池");
             GameEntry.Pool.ClassObjectPool.Enqueue(this);
         }
-        #endregion
+
     }
 }

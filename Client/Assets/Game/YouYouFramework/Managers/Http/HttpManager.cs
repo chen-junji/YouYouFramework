@@ -1,9 +1,9 @@
 using Cysharp.Threading.Tasks;
-using YouYouMain;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 
 namespace YouYouFramework
@@ -13,45 +13,44 @@ namespace YouYouFramework
         /// <summary>
         /// 正式账号服务器Url
         /// </summary>
-        private string m_WebAccountUrl;
+        private string webAccountUrl;
         /// <summary>
         /// 测试账号服务器Url
         /// </summary>
-        private string m_TestWebAccountUrl;
+        private string testWebAccountUrl;
         /// <summary>
         /// 是否测试环境
         /// </summary>
-        private bool m_IsTest;
+        private bool isTest;
         /// <summary>
         /// 真实账号服务器Url
         /// </summary>
         public string RealWebAccountUrl { get { return "http://" + RealIpAndPort + "/"; } }
-        public string RealIpAndPort { get { return m_IsTest ? m_TestWebAccountUrl : m_WebAccountUrl; } }
+        public string RealIpAndPort { get { return isTest ? testWebAccountUrl : webAccountUrl; } }
 
 
         public HttpManager()
         {
-            m_WebAccountUrl = GameEntry.ParamsSettings.WebAccountUrl;
-            m_TestWebAccountUrl = GameEntry.ParamsSettings.TestWebAccountUrl;
-            m_IsTest = GameEntry.ParamsSettings.IsTest;
+            webAccountUrl = GameEntry.ParamsSettings.WebAccountUrl;
+            testWebAccountUrl = GameEntry.ParamsSettings.TestWebAccountUrl;
+            isTest = GameEntry.ParamsSettings.IsTest;
         }
 
-        #region Get
-        public void GetArgs(string url, bool loadingCircle = false, HttpSendDataCallBack callBack = null)
+        public void GetArgs(string url, bool loadingCircle = false, Action<UnityWebRequest> callBack = null)
         {
             if (loadingCircle)
             {
                 CircleCtrl.Instance.CircleOpen();
             }
 
-            HttpRoutine.Create().Get(url, (HttpCallBackArgs ret) =>
+            HttpRoutine.Create().Get(url, (ret) =>
             {
                 if (loadingCircle)
                 {
                     CircleCtrl.Instance.CircleClose();
                 }
 
-                if (ret.HasError)
+                if (ret.result != UnityWebRequest.Result.Success)
                 {
                     //DialogForm.ShowForm(ret.Value, "网络请求错误");
                     if (GameEntry.DataTable.Sys_DialogDBModel.keyDic.TryGetValue("Error404", out var entity))
@@ -69,12 +68,12 @@ namespace YouYouFramework
         {
             GetArgs(url, loadingCircle, (args) =>
             {
-                if (args.Value.JsonCutApart("Status").ToInt() == 1) callBack?.Invoke(args.Value.JsonCutApart("Content"));
+                callBack?.Invoke(args.downloadHandler.text);
             });
         }
-        public UniTask<HttpCallBackArgs> GetArgsAsync(string url, bool loadingCircle = false)
+        public UniTask<UnityWebRequest> GetArgsAsync(string url, bool loadingCircle = false)
         {
-            var task = new UniTaskCompletionSource<HttpCallBackArgs>();
+            var task = new UniTaskCompletionSource<UnityWebRequest>();
             GetArgs(url, loadingCircle, x => task.TrySetResult(x));
             return task.Task;
         }
@@ -84,24 +83,22 @@ namespace YouYouFramework
             Get(url, loadingCircle, x => task.TrySetResult(x));
             return task.Task;
         }
-        #endregion
 
-        #region Post
-        public void PostArgs(string url, string json = null, bool loadingCircle = false, HttpSendDataCallBack callBack = null)
+        public void PostArgs(string url, string json = null, bool loadingCircle = false, Action<UnityWebRequest> callBack = null)
         {
             if (loadingCircle)
             {
                 CircleCtrl.Instance.CircleOpen();
             }
 
-            HttpRoutine.Create().Post(url, json, (HttpCallBackArgs ret) =>
+            HttpRoutine.Create().Post(url, json, (ret) =>
             {
                 if (loadingCircle)
                 {
                     CircleCtrl.Instance.CircleClose();
                 }
 
-                if (ret.HasError)
+                if (ret.result != UnityWebRequest.Result.Success)
                 {
                     //DialogForm.ShowForm(ret.Value, "网络请求错误");
                     if (GameEntry.DataTable.Sys_DialogDBModel.keyDic.TryGetValue("Error404", out var entity))
@@ -119,12 +116,12 @@ namespace YouYouFramework
         {
             PostArgs(url, json, loadingCircle, (args) =>
             {
-                if (args.Value.JsonCutApart("Status").ToInt() == 1) callBack?.Invoke(args.Value.JsonCutApart("Content"));
+                callBack?.Invoke(args.downloadHandler.text);
             });
         }
-        public UniTask<HttpCallBackArgs> PostArgsAsync(string url, string json = null, bool loadingCircle = false)
+        public UniTask<UnityWebRequest> PostArgsAsync(string url, string json = null, bool loadingCircle = false)
         {
-            var task = new UniTaskCompletionSource<HttpCallBackArgs>();
+            var task = new UniTaskCompletionSource<UnityWebRequest>();
             PostArgs(url, json, loadingCircle, x => task.TrySetResult(x));
             return task.Task;
         }
@@ -134,6 +131,6 @@ namespace YouYouFramework
             Post(url, json, loadingCircle, x => task.TrySetResult(x));
             return task.Task;
         }
-        #endregion
+
     }
 }

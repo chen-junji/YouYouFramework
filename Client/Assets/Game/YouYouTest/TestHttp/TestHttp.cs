@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using YouYouFramework;
+using UnityEngine.Networking;
 
 
 /// <summary>
@@ -25,11 +26,11 @@ public class TestHttp : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.S))
         {
             //Get请求
-            GameEntry.Http.GetArgs("Test/AAA", callBack: (HttpCallBackArgs callBackArgs) =>
+            GameEntry.Http.GetArgs("Test/AAA", callBack: (callBackArgs) =>
             {
-                if (!callBackArgs.HasError)
+                if (callBackArgs.result == UnityWebRequest.Result.Success)
                 {
-                    GameEntry.Log(LogCategory.Normal, callBackArgs.Value);
+                    GameEntry.Log(LogCategory.Normal, callBackArgs.downloadHandler.text);
                 }
             });
         }
